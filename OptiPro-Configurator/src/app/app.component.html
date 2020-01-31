@@ -1,0 +1,9 @@
+<app-sidebar id="sidebar-wrapper" *ngIf="showSidebar" fxLayout="column" fxFlex="0 1 240px"></app-sidebar>
+<div fxLayout="column" fxFlex="0 1 100" id="content-area" class="content-area">
+  <app-header *ngIf="showHeader" fxLayout="column"></app-header>  
+  <div class="content" fxLayout="column" fxFlex="0 1 100">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<!-- <app-footer *ngIf="showFooter" fxLayout="column"></app-footer> -->
+

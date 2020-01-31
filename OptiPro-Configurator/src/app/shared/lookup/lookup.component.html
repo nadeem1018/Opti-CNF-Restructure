@@ -1,0 +1,249 @@
+<div class="k-overlay" *ngIf="dialogOpened"></div>
+<div class="custom-window-wrapper" *ngIf="dialogOpened">
+    <div class="custom-window-innner">
+        <kendo-window [draggable]="isDraggable" class="border-0 bg-transparent" (close)="close_kendo_dialog()"
+            [minWidth]="320" [width]="750">
+            <kendo-window-titlebar>
+                <div class='k-window-title'>{{popup_title}}</div>
+                <button kendoWindowMaximizeAction></button>
+                <button kendoWindowRestoreAction></button>
+                <button kendoWindowCloseAction></button>
+            </kendo-window-titlebar>
+            <div class="">
+                <kendo-grid [kendoGridBinding]="serviceData" [filterable]="isColumnFilter" [selectable]="true"
+                    [pageable]="true" [pageSize]="50" [resizable]="true" [skip]="skip"
+                    (selectionChange)="on_item_select($event)" style="max-height:400px;"
+                    [sortable]="{  allowUnsort: allowUnsort,  mode: 'single'  }" [sort]="sort"
+                    (sortChange)="sortChange($event)">
+                    <!-- [pageSize]="10" -->
+                    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="1">
+                        <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                        <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                        <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                        <kendo-pager-info></kendo-pager-info>
+                    </ng-template>
+                    <ng-template kendoGridToolbarTemplate>
+                        <label class="custom-checkbox mb-0">
+                            <input type="checkbox" value="" #chkFilter name="columnfilter" id="columnFilter"
+                                [(ngModel)]="isColumnFilter">
+                            <span class="checkbox"></span>
+                            <span class="text-inverse">{{language.enable_filter}}</span>
+                        </label>
+                    </ng-template>
+                    <kendo-grid-column *ngFor="let column of table_head" field="{{column.field}}"
+                        title="{{column.title}}" filter="{{column.type}}" format="{{column.format}}"
+                        width="{{column.width}}" minResizableWidth="{{column.width}}"></kendo-grid-column>
+                </kendo-grid>
+            </div>
+        </kendo-window>
+    </div>
+</div>
+<div class="k-overlay" *ngIf="show_associate_bom_popup"></div>
+<div class="custom-window-wrapper" *ngIf="show_associate_bom_popup">
+    <div class="custom-window-innner">
+        <kendo-window [draggable]="isDraggable" class="border-0 bg-transparent" (close)="close_kendo_dialog()"
+            [minWidth]="320" [width]="750">
+            <kendo-window-titlebar>
+                <div class='k-window-title'>{{popup_title}}</div>
+                <button kendoWindowCloseAction></button>
+            </kendo-window-titlebar>
+            <div>
+                <kendo-grid [kendoGridBinding]="serviceData" [filterable]="isColumnFilter" [selectable]="true"
+                    [pageSize]="10" [pageable]="true" [resizable]="true">
+                    <ng-template kendoGridToolbarTemplate>
+                        <form class="k-form opti_show-hide-grid-column-filter float-left opti_hide-in-mobile p-0">
+                            <div class="custom-control custom-checkbox float-left">
+                                <input #chkFilter type="checkbox" id="columnFilter" [(ngModel)]="isColumnFilter"
+                                    class="custom-control-input" name="columnfilter" />
+                                <label class="custom-control-label" for="columnFilter"> &nbsp;{{language.enable_filter}}</label>
+                            </div>
+                        </form>
+                    </ng-template>
+                    <kendo-grid-column *ngFor="let column of table_head" field="{{column.field}}"
+                        title="{{column.title}}" filter="{{column.type}}" format="{{column.format}}"
+                        width="{{column.width}}" minResizableWidth="{{column.width}}"></kendo-grid-column>
+                </kendo-grid>
+            </div>
+        </kendo-window>
+
+    </div>
+</div>
+
+<div class="k-overlay" *ngIf="rule_selection_show"></div>
+<div class="custom-window-wrapper" *ngIf="rule_selection_show">
+    <div class="custom-window-innner">
+        <kendo-window [draggable]="isDraggable" class="border-0 bg-transparent" (close)="close_kendo_dialog()"
+            [minWidth]="320" [width]="750">
+            <kendo-window-titlebar>
+                <div class='k-window-title'>{{popup_title}}</div>
+                <button kendoWindowCloseAction></button>
+            </kendo-window-titlebar>
+            <div class="rule-selection-contents">
+                <div class="slim-scroll" [ngStyle]="{'height': 'calc(100vh - 136px)','overflow': 'auto'}">
+                    <div *ngFor="let rule_data of serviceData; let i = index;">
+                        <kendo-panelbar [selectable]="false" id="rule_engine{{rule_data.OPTM_RULEID}}">
+                            <kendo-panelbar-item title="">
+                                <ng-template kendoPanelBarItemTitle>
+                                    <div class="d-flex align-items-start">
+                                        <label class="custom-checkbox mb-0 wihtout-label w-100 curser-pointer">
+                                            <input type="checkbox" id="rule_check_{{rule_data.OPTM_RULEID}}" name="child_checkbox" #checkedvalue (change)="on_checkbox_checked(checkedvalue.checked,rule_data)" [checked]="rule_data['Selected']">
+                                            <span class="checkbox"></span>
+                                            <span>{{rule_data.OPTM_RULECODE}}</span>
+                                        </label>
+                                    </div>
+                                </ng-template>
+                                <ng-template kendoPanelBarContent>                                
+                                    <table id="rule_panel{{rule_data.OPTM_RULEID}}" class="inner-table table table-bordered table-strip table-sm mb-0">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th style="width:10%">{{language.seq}}</th>
+                                                <th>{{language.expression}}</th>
+                                                <th style="width:15%">{{language.action}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody
+                                            *ngIf="rule_data.Expression !== undefined && rule_data.Expression !== '' && rule_data.Expression.length > 0 ">
+                                            <tr *ngFor="let rule_sequence_data of (rule_data.Expression).split('**'); ">
+                                                <td> {{rule_sequence_data.split('::__::')[0].split(':')[1]}} </td>
+                                                <td> {{rule_sequence_data.split('::__::')[1].split(':')[1]}}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-primary btn-icon" (click)="get_rule_output(rule_data.OPTM_RULEID, rule_sequence_data.split(',')[0].split(':')[1])" title="{{language.view_output}}"><svg viewBox="0 0 357.18 357.18" class="icon"><use xlink:href="#expand"></use></svg>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </ng-template>
+                            </kendo-panelbar-item>
+                        </kendo-panelbar>
+                    </div>
+                </div>
+                <div class="kendo-window-footer pt-2 border-top mt-3 d-flex align-items-center justify-content-end">
+                    <button class="btn btn-sm btn-primary mr-2 with-icon" type="button" (click)="rule_select_ok()">
+                        <svg viewBox="0 0 490 490" class="icon"><use xlink:href="#confirm"></use></svg>{{this.language.ok}}
+                    </button>
+                    <button class="btn btn-sm btn-secondary with-icon" type="button" data-dismiss="modal" (click)="close_kendo_dialog()">
+                        <svg viewBox="0 0 475 475" class="icon"><use xlink:href="#close"></use></svg> {{this.language.close}}
+                    </button>
+                </div>
+            </div>
+        </kendo-window>
+    </div>
+</div>
+
+<div class="k-overlay" *ngIf="rule_output_data_loaded" [ngStyle]="{'z-index':'100000' }"></div>
+<div class="custom-window-wrapper" *ngIf="rule_output_data_loaded">
+    <div class="custom-window-innner">
+        <kendo-window [draggable]="isDraggable" class="border-0 bg-transparent" (close)="close_rule_window()"
+            [minWidth]="300" [ngStyle]="{'max-width':'1380px' }">
+            <kendo-window-titlebar>
+                <div class='k-window-title'>{{rule_output_title}}</div>
+                <button kendoWindowCloseAction></button>
+            </kendo-window-titlebar>
+            <div>
+                    <div class="lookup_data" *ngIf="RuleOutputLookupDataLoaded">
+                            <kendo-grid [kendoGridBinding]="outputServiceData" [resizable]="true" [sortable]="false"
+                                [groupable]="false" [filterable]="false">
+                                <kendo-grid-column field="included" title="" template="" [width]="120" [minResizableWidth]="120">
+                                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                        {{language.included}}
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-row>
+                                        {{row.OPTM_ISINCLUDED}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="feature" title="" template="" [width]="120" [minResizableWidth]="120">
+                                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                        {{language.feature}}
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-row>
+                                        {{row.OPTM_FEATURECODE}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="item" title="" template="" [width]="120" [minResizableWidth]="120">
+                                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                        {{language.item}}
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-row>
+                                        {{row.OPTM_ITEMKEY}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="value" title="" template="" [width]="120" [minResizableWidth]="120">
+                                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                        {{language.value}}
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-row>
+                                        {{row.OPTM_VALUE}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="uom" title="" template="" [width]="120" [minResizableWidth]="120">
+                                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                        {{language.uom}}
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-row>
+                                        {{row.OPTM_UOM}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="quantity" title="" template="" [width]="120" [minResizableWidth]="120">
+                                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                        {{language.quantity}}
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-row>
+                                        <div style="text-align:right">{{row.OPTM_QUANTITY}}</div>
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="edit_quantity" title="" template="" [width]="120"
+                                    [minResizableWidth]="120">
+                                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                        {{language.edit_quantity}}
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-row>
+                                        {{(row.OPTM_ISQTYEDIT== 'n') ? language.NO : language.YES}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="}" title="" template="" [width]="120" [minResizableWidth]="120">
+                                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                        {{language.price}} ({{defaultCurrency}})
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-row>
+                                        <ng-container *ngIf="row.OPTM_PRICESOURCE!='' && row.OPTM_PRICESOURCE != null">
+                                             <div style="text-align:right">{{row.OPTM_PRICESOURCE | toFixed:'3' }}</div>
+                                        </ng-container>
+                                        <ng-container *ngIf="row.OPTM_PRICESOURCE==''">
+                                             <div style="text-align:right">{{language.n_a}}</div>
+                                        </ng-container>
+                                       
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="edit_price" title="" template="" [width]="120"
+                                    [minResizableWidth]="120">
+                                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                        {{language.edit_price}}
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-row>
+                                        {{(row.OPTM_ISPRICEEDIT== 'n') ? language.NO : language.YES}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="default" title="" template="" [width]="120" [minResizableWidth]="120">
+                                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                        {{language.default}}
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-row>
+                                        {{(row.OPTM_DEFAULT== "False") ? language.NO : language.YES}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="rule_excluded" title="" template="" [width]="120"
+                                    [minResizableWidth]="120">
+                                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                        {{language.rule_excluded}}
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-row>
+                                        {{(row.OPTM_EXCLUDED == "False") ? language.NO : language.YES}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                            </kendo-grid>
+                        </div>
+            </div>
+        </kendo-window>
+    </div>
+</div>

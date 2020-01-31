@@ -1,0 +1,73 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary-gradient" fxLayout="row" fxFlex="0 0 100">
+  <div class="navbar-inner" fxLayout="row" fxFlex="0 0 100" fxLayoutAlign="center center">
+    <!-- <a class="navbar-brand" href="/"><img src="./../../../assets/images/logo/OptiProERP-white.png" title="OptiPro-ERP" /></a> -->
+    <button class="navbar-toggle-btn" type="button" (click)="sidebarToggle()" aria-controls="navbarNavDropdown"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <svg viewBox="0 -96 512 512" class="icon menu-icon">
+        <use xlink:href="#menu"></use>
+      </svg>
+      <svg viewBox="0 0 475 475" class="icon menu-icon-mobile">
+        <use xlink:href="#close"></use>
+      </svg>
+    </button>
+    <kendo-menu [openOnClick]="{ toggle: 'click' }" class="navbar-nav ml-auto navbar-right">
+      <kendo-menu-item cssClass="custom">
+        <ng-template kendoMenuItemTemplate>
+          <a class="nav-link dropdown-toggle">
+            <span class="user-avtar">
+              <svg viewBox="0 0 128 128" class="icon icon-user" title="Rkmanager">
+                <use xlink:href="#user-avatar"></use>
+              </svg>
+            </span>
+            <!-- <span class="user-name">Log Out</span> 
+            <svg viewBox="0 0 451.847 451.847" class="icon icon-caret">
+              <use xlink:href="#caret"></use>
+            </svg>-->
+          </a>
+        </ng-template>
+        <ng-template kendoMenuItemContentTemplate class="demoPopup">
+          <button type="button" class="dropdown-item" routerLink="/preferences">{{this.preferences}}</button>
+          <button type="button" class="dropdown-item" (click)="openDialog()">{{this.about}}</button>
+          <a class="dropdown-item" href="{{user_guide_link}}" target="_blank">{{this.help}}</a>
+          <button type="button" class="dropdown-item" (click)="logout()">{{this.signout}}</button>
+        </ng-template>
+      </kendo-menu-item>
+    </kendo-menu>
+  </div>
+</nav>
+
+<kendo-dialog *ngIf="dialogOpened" (close)="closeDialog()" [minWidth]="250" [width]="450">
+  <kendo-dialog-titlebar>{{about}}</kendo-dialog-titlebar>
+  <div class="px-lg-4 pb-3">
+    <div class="row">
+      <div class="col-12 d-flex align-items-center">
+        <svg viewBox="0 0 5875 3042" class="logo-svg mx-auto mb-3" width="130">
+          <use xlink:href="#logo"></use>
+        </svg>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="row">
+          <div class="col-12">
+            <h5 class="text-center mb-2 pb-2">{{language.system}}</h5>
+          </div>
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center py-2"><b>{{language.app_name}}</b><span>{{this.project_name | blankhandler}}</span></li>
+          <li class="list-group-item d-flex justify-content-between align-items-center py-2"><b>{{language.version}}</b><span>{{ this.version | blankhandler}}</span></li>
+        </ul>
+        <div class="row">
+          <div class="col-12">
+            <h5 class="text-center mt-3 mb-3">{{language.user}}</h5>
+          </div>
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center py-2"><b>{{language.username}}</b><span>{{ this.username | blankhandler}}</span></li>
+          <li class="list-group-item d-flex justify-content-between align-items-center py-2"><b>{{language.company}}</b><span>{{ this.company | blankhandler}}</span></li>
+          <li class="list-group-item d-flex justify-content-between align-items-center py-2"><b>{{language.language}}</b><span>{{ this.language_current | blankhandler}}</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</kendo-dialog>

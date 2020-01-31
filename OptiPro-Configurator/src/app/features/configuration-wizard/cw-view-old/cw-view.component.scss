@@ -1,0 +1,167 @@
+@import "./../../../../assets/scss/variables";
+
+:host{
+    flex:0 0 100%;
+    display: flex;
+    overflow: auto;
+    flex-direction: column;
+    position: relative;
+}
+
+.layout-mode{
+    padding: 15px;
+    @media screen and (max-width:767px){
+        padding: 0;
+        ::ng-deep{
+            & .card{
+                border-radius: 0;
+            }
+        }
+    }
+    & > .card .card-body{
+        padding: 15px;
+    }
+}
+.one_step_block{
+    max-height:calc(100vh - 195px) !important;
+    height: calc(100vh - 195px) !important;
+}
+.main-portion{
+    max-height: calc(100vh - 232px) !important;
+    height: calc(100vh - 232px) !important;
+    overflow: hidden;
+    overflow-y: auto;
+    flex: 0 1 100%;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.height-restricted{
+    max-height: calc(100vh - 145px);
+    height: calc(100vh - 145px) !important;
+}
+
+.form-step{
+    border-bottom: 1px solid #f2f2f2;
+    margin-bottom: 15px;
+    ::ng-deep{
+        & ul{
+            & li{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                position: relative;
+                flex: 0 1 100%;
+                & span.icon{
+                    width: 40px;                                        
+                    height: 40px;                    
+                    border-radius: 100px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #ddd;
+                    margin: 0 auto 10px;
+                    position: relative;
+                    z-index: 2;
+                    & svg{
+                        fill: #000;
+                        width: 20px;
+                        height: auto;
+                    }
+                }
+                & .step-name{
+                    position: relative;
+                    z-index: 3;
+                }
+                &:before{
+                    content: "";
+                    position: absolute;
+                    width: 50%;
+                    height:2px;
+                    left:0;
+                    top:20px;
+                    background-color: #f2f2f2;
+                }
+                &:after{
+                    content: "";
+                    width: 50%;
+                    height:2px;
+                    position: absolute;
+                    right:0;
+                    top:20px;
+                    background-color: #f2f2f2;
+                }
+                &:first-of-type{
+                    &:before{
+                        display: none;
+                    }
+                }
+                &:last-of-type{
+                    &:after{
+                        display: none;
+                    }
+                }
+                &.active{
+                    & .icon{
+                        background-color: $primary;
+                        & svg{
+                            fill: #fff;
+                        }
+                    }
+                    & .step-name{
+                        color: $primary;
+                    }
+                }
+                &.completed{
+                    & .icon{
+                        background-color: $success;
+                        & svg{
+                            display: none;
+                        }
+                        &:after{
+                            content:'';
+                            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 78.369 78.369' xml:space='preserve'%3E%3Cpath fill='%23fff' d='M78.049,19.015L29.458,67.606c-0.428,0.428-1.121,0.428-1.548,0L0.32,40.015c-0.427-0.426-0.427-1.119,0-1.547l6.704-6.704 c0.428-0.427,1.121-0.427,1.548,0l20.113,20.112l41.113-41.113c0.429-0.427,1.12-0.427,1.548,0l6.703,6.704 C78.477,17.894,78.477,18.586,78.049,19.015z'/%3E%3C/svg%3E");
+                            background-size: 22px;
+                            width: 100%;
+                            height: 100%;
+                            display: inline-flex;
+                            background-repeat: no-repeat;
+                            background-position: center;
+                        }
+                    }
+                    &:after, &::before{
+                        background-color: $success;
+                    }
+                    & .step-name{
+                        color: $success;
+                    }
+                    & + li{
+                        &::before{
+                            background-color: $success;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.opti_configur-wizard-third-step{
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 100%;
+    max-height: calc(100% - 60px);
+    & .third-step-left-part{
+        display: flex;
+        flex-direction: column;
+        flex: 0 1 100%;
+        height: 100%;
+    }
+    & .third-step-right-part{
+        display: flex;
+        flex-direction: column;
+        flex: 0 1 100%;
+        height: 100%;
+    }
+}

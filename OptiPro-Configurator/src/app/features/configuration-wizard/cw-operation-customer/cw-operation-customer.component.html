@@ -1,0 +1,279 @@
+<fieldset class="one_step_block" data-block_id="choose_operation" style="display:block">
+    <div class="wizard_heading_section">
+        <div class="container-fluid">
+            <div class="row bg-primary pb-1 pt-1 wizard_font">
+                <div class="col-md-10 pull-left">
+                    <i class="fa fa-user fa-fw"></i> {{language.choose_one_action}} </div>
+                <div class="col-md-2 pull-right text-right"> {{language.step_1_5}} </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="form_section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 offset-md-4">
+                    <div class="form-group row clearfix">
+                        <label class="col-sm-5 col-form-label" for="customer_doc">{{language.operation}}</label>
+                        <div class="col-sm-5">
+                            <select class="form-control  form-control-sm mt3" name="main_operation_type"
+                                id="main_operation_type" [(ngModel)]="step1_data.main_operation_type"
+                                (change)="onOperationChange(main_operation_type.value)" #main_operation_type>
+                                <option value=""></option>
+                                <option value="1">{{language.new}}</option>
+                                <option value="2">{{language.modify_existing}}</option>
+                                <option value="3">{{language.duplicate}}</option>
+                                <option value="4">{{language.view}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modify_duplicate_option_block" *ngIf="modify_duplicate_selected">
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label"
+                                for="modify_duplicate_lookup">{{language.configuration_id}}</label>
+                            <div class="col-sm-5 input-group">
+                                <input type="text" ngValue="" class="form-control form-control-sm"
+                                    (change)="on_configuration_id_change(modify_duplicate_lookup.value)"
+                                    name="modify_duplicate_lookup" #modify_duplicate_lookup id="modify_duplicate_lookup"
+                                    placeholder="{{language.configuration_id}}"
+                                    [(ngModel)]="step1_data.selected_configuration_key" #selected_configuration_key
+                                    readonly>
+                                <div class="input-group-append">
+                                    <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="open_config_lookup()">
+                                        <svg class="icon m-0" viewBox="0 -96 512 512"><use xlink:href="#menu"></use></svg>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row clearfix new_output_config" *ngIf="new_output_config">
+                        <label class="col-sm-5 col-form-label" for="description">{{language.description}}</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control  form-control-sm mt3" id="description"
+                                name="description" value="" placeholder="{{language.description}}"
+                                [(ngModel)]="step1_data.description" #description />
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="f1-buttons py-2 border-top" *ngIf="step0_isNextButtonVisible">
+        <button style="display:none;" id="step0_next_click_id" type="button"
+            class="btn btn-sm btn-primary  mr-10 btn-next" data-next-block="customer_details">
+            <i class="fa fa-arrow-right fa-fw"></i> {{language.next}}</button>
+
+        <button *ngIf="step0_isNextButtonVisible" type="button" class="btn btn-sm btn-primary  mr-10"
+            (click)="onStep0NextPress()">
+            <i class="fa fa-arrow-right fa-fw"></i> {{language.next}}</button>
+    </div>
+</fieldset>
+<fieldset class="one_step_block" data-block_id="customer_details" style="display:none">
+    <div class="wizard_heading_section">
+        <div class="container-fluid">
+            <div class="row bg-primary pb-1 pt-1 wizard_font">
+                <div class="col-md-10 pull-left">
+                    <i class="fa fa-user fa-fw"></i> {{language.customer_doc_detail}} </div>
+                <div class="col-md-2 pull-right text-right"> {{language.step_2_5}} </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+    <!-- Customer and Document Details start -->
+    <div class="form_section" id="opti_configur-wizard-second-step">
+        <div class="container-fluid">
+            <!-- document and date section start -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4 pl-0 float-left">
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="customer_doc">{{language.document}}</label>
+                            <div class="col-sm-7">
+                                <select class="form-control  form-control-sm mt3" name="document" id="document"
+                                    [(ngModel)]="step1_data.document" (change)="onDocumentChange(document.value)"
+                                    #document>
+                                    <option *ngFor="let v of doctype" [value]="v.value"
+                                        [selected]="document.value==v.value">
+                                        {{v.Name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 float-left">
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="posting_date">{{language.posting_date}}</label>
+
+                            <div class="col-sm-7">
+                                <input class="form-control  form-control-sm mt3" name='posting_date' type="text"
+                                    value="" id="posting_date" name="posting_date" readonly
+                                    placeholder="{{language.posting_date}}" [(ngModel)]="step1_data.posting_date">
+
+                                <!-- <owl-date-time #dt12 [pickerType]="'calendar'"></owl-date-time> -->
+                                <kendo-datepicker #dt12 ></kendo-datepicker>
+                            </div>
+                        </div>
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="delivery_until">{{document_date}}</label>
+                            <div class="col-sm-7 ">
+                                <div class=" input-group">
+                                    <!-- <input [owlDateTimeTrigger]="dt13" [owlDateTime]="dt13" [selectMode]="" [min]="min"
+                                        class="form-control  form-control-sm" name='delivery_until' type="text" value=""
+                                        id="delivery_until" name="delivery_until" readonly
+                                        placeholder="{{document_date}}" [(ngModel)]="step1_data.delivery_until"> -->
+                                    <kendo-datepicker #dt13 ></kendo-datepicker>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text cursor_icon"id="delivery_until_icon">
+                                            date
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- <owl-date-time #dt13 [pickerType]="'calendar'"></owl-date-time> -->
+                                <kendo-datepicker #dt13 ></kendo-datepicker>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- document and date section end -->
+            <hr>
+
+            <!-- Address and customer detail start -->
+            <div class="row">
+                <div class="col-md-12">
+
+                    <!-- customer info start -->
+                    <div class="col-md-4 pl-0 float-left">
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="customer_doc">{{language.customer}}</label>
+                            <div class="col-sm-7 input-group">
+                                <input type="text" ngValue="" class="form-control form-control-sm" (change)="onCustomerChange('')" name="customer" id="customer" placeholder="{{language.customer}}" [(ngModel)]="step1_data.customer" #customer>
+                                <div class="input-group-append">
+                                    <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="openCustomerLookUp()">
+                                        <svg class="icon m-0" viewBox="0 -96 512 512"><use xlink:href="#menu"></use></svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="customer_doc">{{language.Name}}</label>
+                            <div class="col-sm-7">
+                                <input type="text" ngValue="" readonly class="form-control  form-control-sm mt3" name="customer_name" id="customer_name" placeholder="{{language.name}}"
+                                    [(ngModel)]="step1_data.customer_name" #customername>
+                            </div>
+                        </div>
+
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label"
+                                for="contact_persons">{{language.contact_person}}</label>
+                            <div class="col-sm-7">
+                                <select class="form-control  form-control-sm mt3" #person name="contact_persons" [(ngModel)]="step1_data.person_name" id="contact_persons"
+                                    (change)="onContactPersonChange(person.value)">
+                                    <option [selected]="person.value == v.Name" *ngFor="let v of contact_persons" [value]="v.Name">{{v.Name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- customer info end -->
+
+
+                    <!-- shipment code start -->
+                    <div class="col-md-4 float-left">
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="ship_to">{{language.ship_to}}</label>
+                            <div class="col-sm-7">
+                                <select class="form-control  form-control-sm mt3" #customerShipTo name="ship_to" id="ship_to" (change)="onShipToChange(customerShipTo.value)">
+                                    <option [selected]="step1_data.ship_to == v.ShipToDef" *ngFor="let v of ship_to" [value]="v.ShipToDef">{{v.ShipToDef}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="ship_to_address">{{language.address}}</label>
+                            <div class="col-sm-7">
+                                <textarea type="text" ngValue="" readonly class="form-control  form-control-sm mt3" name="ship_to_address" id="ship_to_address" placeholder="{{language.ship_to_address}}" [(ngModel)]="step1_data.ship_to_address"
+                                    #shipto></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- shipment code end -->
+
+                    <!-- bill code start -->
+                    <div class="col-md-4 float-left">
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="bill_to">{{language.bill_to}}</label>
+                            <div class="col-sm-7">
+                                <select class="form-control  form-control-sm mt3" #customerBillTo name="bill_to"
+                                    id="bill_to" (change)="onBillToChange(customerBillTo.value)">
+                                    <option [selected]="step1_data.bill_to == v.BillToDef" *ngFor="let v of bill_to" [value]="v.BillToDef">{{v.BillToDef}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="bill_to_address">{{language.address}}</label>
+                            <div class="col-sm-7">
+                                <textarea type="text" rows="3" readonly ngValue="" class="form-control  form-control-sm mt3" name="bill_to_address" id="bill_to_address" placeholder="{{language.bill_to_address}}" [(ngModel)]="step1_data.bill_to_address" #shipto></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- bill code end -->
+
+                </div>
+
+            </div>
+            <!-- Address and customer detail end -->
+
+            <hr>
+            <!-- employee section , owner and remark section end -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4 pl-0">
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="sales_employee">{{language.sales_employee}}</label>
+                            <div class="col-sm-7">
+                                <select class="form-control form-control-sm mt3" #salesemployee name="sales_employee" id="sales_employee" (change)="onSalesPersonChange(salesemployee.value)">
+                                    <option [selected]="v.SlpName == step1_data.sales_employee" *ngFor="let v of sales_employee" [value]="v.SlpName">{{v.SlpName}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="owner_list">{{language.owner}}</label>
+                            <div class="col-sm-7">
+                                <select class="form-control  form-control-sm mt3" #owner name="owner_list" id="owner_list" [value]='step1_data.owner' (change)="on_onwer_change(owner.value)">
+                                    <option *ngFor="let v of owner_list" [value]="v.lastName" [selected]="step1_data.owner == v.lastName">{{v.lastName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="remark">{{language.remark}}</label>
+                            <div class="col-sm-7">
+                                <textarea type="text" rows="4" ngValue="" class="form-control  form-control-sm mt3" name="remark" id="remark" placeholder="{{language.remark}}" [(ngModel)]="step1_data.remark" #remark> </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- employee section , owner and remark section end -->
+        </div>
+    </div>
+    <!-- Customer and Document Details end -->
+
+    <div class="f1-buttons py-2 border-top" *ngIf="isNextButtonVisible">
+        <button (click)="onSavePress()" *ngIf="isNextButtonVisible" type="button" class="btn btn-sm btn-success with-icon mr-2 "><svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.save}}</button>
+        <button type="button" class="btn btn-sm btn-dark  mr-10 btn-previous" (click)="previousButtonPress()" data-previous-block="choose_operation">{{language.previous}}</button>
+        <button type="button" *ngIf="isNextButtonVisible" class="btn btn-sm btn-primary  mr-10 btn-sm" (click)="step2_next_click_validation()">{{language.next}}</button>
+        <button type="button" style="display:none" *ngIf="isNextButtonVisible" class="btn btn-sm btn-primary  mr-10 btn-next btn-sm step_2_redirect" data-next-block="model_bom_config"> {{language.next}}</button>
+    </div>
+</fieldset>

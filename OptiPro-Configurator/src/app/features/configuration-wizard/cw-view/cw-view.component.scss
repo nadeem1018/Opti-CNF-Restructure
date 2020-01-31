@@ -1,0 +1,128 @@
+@import "./../../../../assets/scss/variables";
+
+:host{
+    flex:0 0 100%;
+    display: flex;
+    overflow: auto;
+    flex-direction: column;
+}
+
+.layout-mode{
+    padding: 15px;
+    @media screen and (max-width:767px){
+        padding: 0;
+        ::ng-deep{
+            & .card{
+                border-radius: 0;
+            }
+        }
+    }
+    & > .card .card-body{
+        padding: 15px;
+    }
+}
+
+
+.form-step{
+    border-bottom: 1px solid #f2f2f2;
+    margin-bottom: 15px;
+    ::ng-deep{
+        & ul{
+            & li{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                position: relative;
+                flex: 0 1 100%;
+                & span.icon{
+                    width: 40px;                                        
+                    height: 40px;                    
+                    border-radius: 100px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #ddd;
+                    margin: 0 auto 10px;
+                    position: relative;
+                    z-index: 2;
+                    & svg{
+                        fill: #000;
+                        width: 20px;
+                        height: auto;
+                    }
+                }
+                & .step-name{
+                    position: relative;
+                    z-index: 3;
+                }
+                &:before{
+                    content: "";
+                    position: absolute;
+                    width: 50%;
+                    height:2px;
+                    left:0;
+                    top:20px;
+                    background-color: #f2f2f2;
+                }
+                &:after{
+                    content: "";
+                    width: 50%;
+                    height:2px;
+                    position: absolute;
+                    right:0;
+                    top:20px;
+                    background-color: #f2f2f2;
+                }
+                &:first-of-type{
+                    &:before{
+                        display: none;
+                    }
+                }
+                &:last-of-type{
+                    &:after{
+                        display: none;
+                    }
+                }
+                &.active{
+                    & .icon{
+                        background-color: $primary;
+                        & svg{
+                            fill: #fff;
+                        }
+                    }
+                    // &:after, &::before{
+                    //     background-color: $primary;
+                    // }
+                    & .step-name{
+                        color: $primary;
+                    }
+                    & + li{
+                        &::before{
+                            //background-color: $primary;
+                        }
+                    }
+                }
+                &.completed{
+                    & .icon{
+                        background-color: $success;
+                        & svg{
+                            fill: #fff;
+                        }
+                    }
+                    &:after, &::before{
+                        background-color: $success;
+                    }
+                    & .step-name{
+                        color: $success;
+                    }
+                    & + li{
+                        &::before{
+                            background-color: $success;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

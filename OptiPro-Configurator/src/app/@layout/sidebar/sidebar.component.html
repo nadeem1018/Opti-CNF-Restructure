@@ -1,0 +1,31 @@
+<div class="sidebar-inner" id="sidebar-inner" fxLayout="column" fxFlex="0 0 100%">
+    <a class="navbar-brand ml-auto mr-auto my-3 px-2 py-0" routerLink="/" title="OptiPro - Configurator" >
+        <!-- <img src="./../../../assets/images/logo/OptiProERP.png" /> -->
+        <svg viewBox="0 0 1944 3042" class="logo-svg-mini">
+            <use xlink:href="#logoIcon"></use>
+        </svg>
+        <svg viewBox="0 0 5875 3042" class="logo-svg">
+            <use xlink:href="#logo"></use>
+        </svg>
+    </a>
+    <nav class="main-nav">
+        <ul class="colored-scrollbar">
+            <ng-container *ngFor="let item of navList">
+                <li *ngIf="item.permission" routerLinkActive="active">
+                    <a *ngIf="item.itemNav && !item.refresh" [attr.title]="item.itemName" [routerLink]="item.itemNav" routerLinkActive="active" class="sidebar-link" (click)="sidebarCloseMobile()">
+                        <svg [attr.viewBox]="item.itemIconSize" class="sidebar-link-icon">
+                            <use [attr.xlink:href]="item.itemIcon"></use>
+                        </svg>
+                        <span>{{item.itemName}}</span>
+                    </a>
+                    <a *ngIf="item.itemNav && item.refresh" [attr.title]="item.itemName" [routerLink]="item.itemNav" routerLinkActive="active" class="sidebar-link" (click)="sidebarCloseMobileWithRefresh()">
+                        <svg [attr.viewBox]="item.itemIconSize" class="sidebar-link-icon">
+                            <use [attr.xlink:href]="item.itemIcon"></use>
+                        </svg>
+                        <span>{{item.itemName}}</span>
+                    </a>
+                </li>
+            </ng-container>
+        </ul>
+    </nav>
+</div>

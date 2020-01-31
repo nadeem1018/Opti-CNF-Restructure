@@ -1,0 +1,38 @@
+<div class="layout-mode" fxFlex fxLayout="column">
+    <div class="page-header">
+        <h4>{{language.config_wizard}}</h4>
+    </div>
+    <div class="card" fxFlex>
+        <div class="card-body" fxFlex fxLayout="column">
+            <div class="form-step">
+                <ul class="d-flex list-unstyled justify-content-between">
+                    <li class="completed">
+                        <span class="icon"><svg viewBox="0 0 474.565 474.565" class="icon"><use xlink:href="#userOperation"></use></svg></span>
+                        <span class="step-name">{{language.operation}}</span>
+                    </li>
+                    <li class="completed">
+                        <span class="icon"><svg viewBox="0 0 31.939 31.939" class="icon"><use xlink:href="#userDetail"></use></svg></span>
+                        <span class="step-name">{{language.select_customer_document}}</span>
+                    </li>
+                    <li class="active">
+                        <span class="icon"><svg viewBox="0 0 512 512" class="icon"><use xlink:href="#hierarchy"></use></svg></span>
+                        <span class="step-name">{{language.select_model_bom_config_short}}</span>
+                    </li>
+                    <li class="">
+                        <span class="icon"><svg viewBox="0 0 496.121 496.121" class="icon"><use xlink:href="#verifiedDocument"></use></svg></span>
+                        <span class="step-name">{{language.verify_select_accept}}</span>
+                    </li>
+                    <li class="">
+                        <span class="icon"><svg viewBox="-24 0 480 480" class="icon"><use xlink:href="#finalDocument"></use></svg></span>
+                        <span class="step-name">{{language.fianl_document_creat}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-content-area">
+                <app-cw-operation-customer></app-cw-operation-customer>
+                <app-cw-mbom-configure-product></app-cw-mbom-configure-product>
+                <app-cw-verify-accept-final></app-cw-verify-accept-final>
+            </div>
+        </div>
+    </div>
+</div>

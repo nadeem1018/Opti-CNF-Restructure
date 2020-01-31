@@ -1,0 +1,185 @@
+<!-- loader start -->
+<div class="loader-sm" *ngIf="showLoader">
+    <svg viewBox="0 0 218.2 218.8" class="loader2">
+        <use xlink:href="#loader2"></use>
+    </svg>
+</div>
+    <!-- loader end -->
+    
+<!-- loader start for lookup -->
+<div class="loader-sm" *ngIf="showLookupLoader">
+    <svg viewBox="0 0 218.2 218.8" class="loader2">
+        <use xlink:href="#loader2"></use>
+    </svg>
+</div>
+<!-- loader end for lookup -->
+
+<div class="layout-mode" fxFlex fxLayout="column">
+    <div class="page-header">
+        <h4>{{page_main_title}}</h4>
+    </div>
+    <div class="card" fxFlex>
+        <div class="card-body pb-2" fxFlex="0 1 100%" fxLayout="column">  
+          <form class="form-horizontal" fxFlex="0 1 100%" fxLayout="column">
+            <div class="main-portion">             
+              <div class="row h-100">
+                <div class="col-sm-12 h-100">
+                  <div class="row mb-1">
+                    <div class="col-md-4">
+                      <div class="form-group row clearfic mb-2">
+                        <label class="col-sm-4 col-form-label" for="date_range">{{language.date_range}}</label>
+                        <div class="col-sm-8">
+                          <kendo-daterange class="d-flex align-items-center">
+                            <kendo-dateinput class="mr-2 w-100" kendoDateRangeStartInput [format]="'MM/dd/yyyy'" [(value)]="this.filter_section_data.from_date"></kendo-dateinput>
+                            <kendo-dateinput class="w-100" kendoDateRangeEndInput [format]="'MM/dd/yyyy'" [(value)]="this.filter_section_data.to_date"></kendo-dateinput>                          
+                          </kendo-daterange>
+                        </div>
+                      </div>
+                      <div class="form-group row clearfic mb-2">
+                        <label class="col-sm-4 col-form-label" for="date_range">{{language.document_type}}</label>
+                        <div class="col-sm-8">
+                          <select class="form-control  form-control-sm mt3" name="doc_type" id="doc_type" [(ngModel)]="filter_section_data.doc_type"
+                            (change)="ondoc_type_change(doc_type.value)" #doc_type>
+                            <option *ngFor="let v of doctype" [value]="v.value" [selected]="doc_type.value==v.value">
+                              {{v.Name}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group row clearfic mb-2">
+                        <label class="col-sm-4 col-form-label" for="order_status">{{language.order_status}}</label>
+                        <div class="col-sm-8">
+                          <select class="form-control  form-control-sm mt3" name="order_status" id="order_status" [(ngModel)]="filter_section_data.order_status" #order_status_value>
+                            <option *ngFor="let v of order_status_types" [value]="v.value" [selected]="filter_section_data.order_status == v.value">{{v.name}}</option>
+                          </select>
+                        </div>
+                      </div>                  
+                      <div class="form-group row clearfic mb-2">
+                        <label class="col-sm-4 col-form-label" for="config_desc">{{language.config_desc}}</label>
+                        <div class="col-sm-8">
+                          <input type="text" name="config_desc" maxlength="50" class="form-control  form-control-sm mt3" id="config_desc" placeholder="{{language.config_desc}}" [(ngModel)]="filter_section_data.config_desc" title="{{filter_section_data.config_desc}}" tabindex="2">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group row clearfic mb-2">
+                        <label class="col-sm-4 col-form-label" for="date_range">{{language.model}}</label>
+                        <div class="col-sm-8">
+                          <kendo-multiselect [data]="filter_section_data.model_list" name="selected_model" id="selected_model" [(ngModel)]="filter_section_data.selected_models"></kendo-multiselect>
+                        </div>
+                      </div>
+                      <div class="form-group row clearfic mb-2">
+                        <button type="button" (click)="filter_results()" class="btn btn-sm btn-primary btn-icon">
+                          <svg viewBox="0 0 410.23 410.23" class="icon"><use xlink:href="#search"></use></svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div> 
+                  <div class="d-flex w-100" [ngStyle]="{'height':'calc(100vh - 230px)', 'flex':'0 1 100%'}" *ngIf="grid_section_data.length > 0">
+                    <kendo-grid [ngStyle]="{'height':'100%'}" class="w-100" [kendoGridBinding]="grid_section_data" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings" [kendoGridSelectBy]="'rowindex'" [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)" [pageSize]="getPageValue()" [pageable]="true">
+                      <ng-template kendoGridToolbarTemplate *ngIf="grid_section_data.length > 0">
+                        <div class="d-flex align-items-center">
+                            <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" class="btn btn-info btn-sm mr-2 with-icon" *ngIf="selectButtonIcon =='1'" title="{{language.select_all}}" (click)="select_all_data()">
+                              <svg viewBox="0 0 490 490" class="icon"><use xlink:href="#confirm"></use></svg> {{selectbuttonText}}
+                            </button>  
+                            <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" class="btn btn-info btn-sm mr-2 with-icon" *ngIf="selectButtonIcon == '2'" title="{{language.select_all}}" (click)="select_all_data()">
+                              <svg viewBox="0 0 475 475" [ngStyle]="{'width':'10px'}" class="icon"><use xlink:href="#close"></use></svg> {{selectbuttonText}}
+                            </button>      
+                            <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" class="btn btn-warning btn-sm with-icon" title="{{language.clear_selection}}" (click)="this.clear_filter_results(0)">
+                              <svg viewBox="0 0 129 129" class="icon icon-dark"><use xlink:href="#zoomOut"></use></svg> {{this.language.clear_selection}}
+                            </button>
+                        </div>
+                      </ng-template>
+                      <kendo-grid-column field="rowindex" title="{{language.hash}}" filter="text" [width]="40"[minResizableWidth]="40">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          {{dataItem.rowindex}}
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="config_id" title="{{language.log_id}}" filter="text" [width]="140" [minResizableWidth]="140">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          {{dataItem.config_id}}
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="config_desc" title="{{language.description}}" filter="text" [width]="140" [minResizableWidth]="140">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          {{dataItem.config_desc}}
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="doc_type" title="{{language.document_type}}" filter="text" [width]="140" [minResizableWidth]="140">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <span *ngIf="dataItem.doc_type == 17">{{this.language.SalesQuote}}</span>
+                          <span *ngIf="dataItem.doc_type == 23">{{this.language.SalesOrder}}</span>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="ref_doc_entry" title="{{language.ref_doc_entry}}" filter="text" [width]="140" [minResizableWidth]="140">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          {{dataItem.ref_doc_entry}}
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="models" title="{{language.model}}" filter="text" [width]="140" [minResizableWidth]="140">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <span *ngIf="dataItem.models != null && dataItem.models!= undefined">                          
+                            <ng-container *ngIf="dataItem.models.indexOf(',') !== -1">
+                              <div *ngFor="let model_item of dataItem.models.split(',')"> {{model_item}}</div>
+                            </ng-container>
+                            <ng-container *ngIf="dataItem.models.indexOf(',') == -1">
+                              {{dataItem.models}}
+                            </ng-container>
+                          </span> 
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="fg_item" title="{{language.fg_item}}" filter="text" [width]="140" [minResizableWidth]="140">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <span *ngIf="dataItem.fg_item != null && dataItem.fg_item!= undefined">
+                            <ng-container *ngIf="dataItem.fg_item.indexOf(',') !== -1">
+                                <div *ngFor="let fg_data_item of dataItem.fg_item.split(',')"> {{fg_data_item}}</div>
+                            </ng-container>
+                            <ng-container *ngIf="dataItem.fg_item.indexOf(',') == -1">
+                              {{dataItem.fg_item}}
+                            </ng-container>
+                          </span>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="doc_date" title="{{language.posting_date}}" filter="text" [width]="140" [minResizableWidth]="140">
+                        <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.doc_date}}</ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="gross_total" title="{{language.total}}" filter="text" [width]="140" [minResizableWidth]="140">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <span class="text-right pull-right">{{dataItem.gross_total}}</span>
+                        </ng-template>
+                      </kendo-grid-column>
+                    </kendo-grid>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sticky-bottom-toolbar d-flex justify-content-end border-top pt-2">
+              <div class="mr-auto d-flex align-items-center flex-wrap">
+                <button type="button" (click)="onSave()" *ngIf="isSaveButtonVisible" class="btn btn-sm btn-success with-icon mr-2 ">
+                  <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg>  {{language.save}}
+                </button>
+                <button type="button" *ngIf="isUpdateButtonVisible" (click)="onSave()" class="btn btn-sm btn-primary with-icon mr-2">
+                  <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.update}}
+                </button>
+                <button type="button" class="btn btn-primary btn-sm with-icon mr-2" title="{{language.archive}}" (click)="archive_data('')" *ngIf="this.current_selected_row.length > 0 && (filter_section_data.order_status != 'draft' && filter_section_data.order_status != 'pending'  && filter_section_data.order_status != 'error')">
+                  <svg viewBox="0 0 489.4 489.4" class="icon"><use xlink:href="#cloudUpload" ></use></svg> {{this.language.archive}}
+                 </button>
+                <button type="button" class="btn btn-primary btn-sm with-icon" title="{{language.archive_all}}" (click)="archive_data('all')" *ngIf="this.grid_section_data.length > 0  && (filter_section_data.order_status != 'draft' && filter_section_data.order_status != 'pending'  && filter_section_data.order_status != 'error')">
+                  <svg viewBox="0 0 489.4 489.4" class="icon"><use xlink:href="#cloudUpload" ></use></svg> {{this.language.archive_all}}
+                 </button>
+              </div>
+              <div class="ml-auto d-flex align-items-center flex-wrap">                
+                <button type="button" class="btn btn-danger btn-sm with-icon mr-2" title="{{language.delete}}" (click)="delete_data('')" *ngIf="filter_section_data.order_status != 'processed'">
+                  <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg> {{this.language.delete}} 
+                 </button>
+                 <button type="button" class="btn btn-danger btn-sm with-icon" title="{{language.delete_all}}" (click)="delete_data('all')" *ngIf="filter_section_data.order_status != 'processed'">
+                  <b><svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg> {{this.language.delete_all}} </b>
+                 </button>    
+              </div>
+            </div>
+          </form>
+        </div>
+    </div>
+</div>
+        

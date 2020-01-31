@@ -1,0 +1,120 @@
+@import "./../../../assets/scss/themes/default";
+
+:host {
+  background: #fff;  
+  min-width: 240px;
+  width:240px;
+  ::ng-deep{
+    .main-nav{    
+      & > ul{
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        max-height: calc(100vh - 100px);
+        overflow: auto;
+        & > li{
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          & > a {
+            padding:15px 20px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            color:$primary-text-color;
+            width: 100%;
+            & > svg.sidebar-link-icon{
+              width: 25px;
+              height:auto;
+              @media screen and (min-width:992px){
+                margin-right: 15px;
+              }
+            }
+            &:hover, &:active, &:focus{
+              text-decoration: none;
+              background-color: lighten($color: $siderbar-link-active-bg, $amount: 2);
+            }
+          }
+          &.active{
+            & > a{
+              background-color: $siderbar-link-active-bg;
+            }
+          }
+        }
+      }
+    }
+    & svg.logo-svg {
+      width: 100%;
+      height: auto;
+      max-width: 130px;
+    }
+    & svg.logo-svg-mini {
+      width: 100%;
+      height: auto;
+      max-width: 43px;
+      display: none;
+    }
+  } 
+  &.toggle{
+    flex: 0 1 65px !important;
+    max-width: 65px !important;
+    min-width: 65px !important;
+    ::ng-deep{
+      & svg.logo-svg-mini {
+        display: flex;
+      }
+      & svg.logo-svg {
+        display: none;
+      }
+      & .main-nav{
+        & > ul > li > a {
+          padding: 15px 20px;
+          & > span{
+            display: none;
+          }
+          & > svg.sidebar-link-icon{
+            margin-right: 0;
+            @media screen and (max-width:991px){
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+    }
+    & ~ .content-area{
+      max-width: calc(100% - 65px);
+    }
+  }   
+  @media screen and (max-width:1199px){
+    flex: 1 1 200px !important;
+    max-width: 200px !important;
+    min-width: 200px !important;
+    & ~ .content-area{
+      max-width: calc(100% - 200px);
+    }
+  }
+  @media screen and (max-width:991px){
+    display: none !important;
+    & svg.logo-svg-mini {
+      display: none;
+    }
+    & svg.logo-svg {
+      display: flex;
+    }
+    &.toggle{
+      display: flex !important;
+      flex: 1 1 240px !important;
+      max-width: 240px !important;
+      min-width: 240px !important;
+      ::ng-deep{
+        & .main-nav{
+          & > ul > li > a {
+            & > span{
+              display: flex;
+            }
+          }
+        }
+      }
+    }
+  }  
+}

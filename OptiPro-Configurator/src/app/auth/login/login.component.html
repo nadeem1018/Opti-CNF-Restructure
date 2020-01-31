@@ -1,0 +1,69 @@
+<section class="login-block">
+  <div class="loader" *ngIf="showLoginLoader">
+    <div class="loader-box">
+      <div class="loader-inner">
+          <svg viewBox="0 0 5875 3042" class="loader1">
+            <use xlink:href="#loader1"></use>
+          </svg>
+          <div class="cog">
+            <svg viewBox="0 0 218.2 218.8" class="loader2">
+              <use xlink:href="#loader2"></use>
+            </svg>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="login-logo mx-auto text-center">
+          <svg viewBox="0 0 5875 3042" class="logo-svg">
+            <use xlink:href="#logoColorless"></use>
+          </svg>
+        </div>
+        <div class="auth-box card">
+          <div class="card-block">
+            <div class="card-header">
+              <div class="row m-b-20">
+                <div class="col-md-12">
+                  <h3 class="text-left mb-1">Login</h3>
+                  <p class="m-0">Enter username and password</p>
+                </div>
+              </div>
+            </div>
+            <form role="form" action="" method="post" class="login-form" (keydown)="enter_to_sublit($event)">
+              <div class="card-body">
+                <div class="form-group mb-2">
+                  <label for="form-username" class="mb-0"> {{username}} <span class="text-danger">*</span></label>
+                  <input type="text" name="form-username" class="form-control form-control-lg" id="form-username" #usernameref [disabled]="onConnectSuccess" autofocus="autofocus" [(ngModel)]="loginCredentials.userName" placeholder="{{isUsernameBlank}}" autocomplete="off">
+                </div>
+                <div class="form-group mb-4">
+                  <label for="form-password" class="mb-0">{{password}}<span class="text-danger">*</span></label>
+                  <input type="password" name="form-password" placeholder="{{isPasswordBlank}}" class="form-password form-control form-control-lg" id="form-password" [disabled]="onConnectSuccess" [(ngModel)]="loginCredentials.password"> 
+                </div>
+                <button type="button" class="btn btn-primary btn-block btn-lg" [disabled]="onConnectSuccess" (click)="onConnectBtnPress()">{{connectBtnText}}</button>
+
+                <hr *ngIf="showCompDropDown"/>
+                <div class="form-group mb-4" *ngIf="showCompDropDown">
+                  <label class="sr-only" for="company">{{language.company}}</label>
+                  <select type="company" name="company" class="form-username form-control form-control-lg" id="company" [(ngModel)]="selecetedComp">
+                    <option value="" [selected]="selecetedComp==''">{{language.select_company}}</option>
+                    <option *ngFor="let cmp of assignedCompanies" [ngValue]="cmp">{{cmp.OPTM_COMPID}} ({{cmp.cmpName}})</option>
+                  </select>
+                </div>                
+                <div class="row">
+                  <div class="col-md-12 text-center d-flex align-items-center">
+                    <button type="button" class="btn btn-success btn-block mr-3 btn-lg" (click)="getLisenceData()" *ngIf="showLoginBtn">{{login_btn}}</button>
+                    <button type="button" class="btn btn-secondary btn-block btn-lg mt-0" (click)="onResetClick()" *ngIf="showLoginBtn" >{{reset_button_text}}</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
