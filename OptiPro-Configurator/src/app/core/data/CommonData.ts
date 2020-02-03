@@ -12,11 +12,15 @@ export interface ColumnSetting {
 
 // Example of Data as model, can be used for non updating data (exaple - names, task type and etc)
 export class CommonData {
+    public imgPath = 'assets/images';
     public project_name: string = "Optipro Configurator";
     public adminDBName: string = "OPTIPROADMIN";
     public href: any = window.location.href;
     public application_path = this.get_current_url();
     public unauthorizedMessage = "The remote server returned an error: (401) Unauthorized.";
+    public static sessionExpire: boolean = true;
+
+    /* constructor(private router:Router,private toastr: ToastrService,private commonservice: CommonService) { } */
 
     public get_current_url() {
         let temp: any = this.href.substring(0, this.href.lastIndexOf('/'));

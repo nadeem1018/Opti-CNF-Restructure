@@ -73,7 +73,7 @@ export class ItemCgAddEditComponent implements OnInit {
   public made_changes:boolean = false;
 
   canDeactivate() {
-    if(this.made_changes == true){
+    if(this.made_changes == true && CommonData.sessionExpire == true ){
       return this.DialogService.confirm('');
     } else {
       return true;
@@ -156,14 +156,14 @@ export class ItemCgAddEditComponent implements OnInit {
       /* this.isUpdateButtonVisible = true;
       this.isSaveButtonVisible = false;
       this.isDeleteButtonVisible = true; */
-      if(this.router.snapshot.url[1].path == "edit") {
+      if(this.router.snapshot.url[0].path == "edit") {
         this.isCodeDisabled = false;
         this.button = "update"
         this.isUpdateButtonVisible = true;
         this.isSaveButtonVisible = false;
         this.isDuplicateMode = false;
         this.isDeleteButtonVisible = true;
-      } else if(this.router.snapshot.url[1].path == "add"){
+      } else if(this.router.snapshot.url[0].path == "add"){
         this.isCodeDisabled = true;
         this.button = "save"
         this.isUpdateButtonVisible = false;

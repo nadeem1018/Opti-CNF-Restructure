@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'view', component: ItemCgViewComponent },
   { path: 'add', component: ItemCgAddEditComponent },
   { path: 'edit/:id', component: ItemCgAddEditComponent },
+  { path: 'add/:id', component: ItemCgAddEditComponent },
 ];
 
 @NgModule({
