@@ -27,7 +27,7 @@ export class FeatureBomViewComponent implements OnInit {
 
     language = JSON.parse(sessionStorage.getItem('current_lang'));
     page_main_title = this.language.Bom_title;
-    add_route_link = '/feature-bom/add-edit';
+    add_route_link = '/feature-bom/add';
     public commonData = new CommonData();
     table_title = this.page_main_title;
     // generate table default constants
@@ -209,7 +209,7 @@ export class FeatureBomViewComponent implements OnInit {
                 this.loadServerData(this.dataArray);
                 this.CheckedData = [];
                 this.selectall = false;
-                this.clearChildCheckbox();
+                this.commonData.clearChildCheckbox();
              
                 
             },error=>{
@@ -224,16 +224,7 @@ export class FeatureBomViewComponent implements OnInit {
       public sortChange(sort: SortDescriptor[]): void {
         this.sort = sort;
         this.loadServerData(this.dataArray);
-    }
-
-    public clearChildCheckbox(){
-        let child_checkbox_selector = document.getElementsByClassName("child_checkbox") as HTMLCollectionOf<HTMLInputElement>;
-        if(child_checkbox_selector.length > 0){
-          for(let i = 0; i < child_checkbox_selector.length; i++){
-            child_checkbox_selector[i].checked = false;
-          }
-        }
-    }
+    }    
 
    private loadServerData(dataset): void {
       if(this.sort !== undefined && this.sort !== null){
@@ -250,7 +241,7 @@ export class FeatureBomViewComponent implements OnInit {
   }
 
     button_click1(data) {
-        this.router.navigateByUrl('feature-bom/add-edit/' + data.OPTM_FEATUREID);
+        this.router.navigateByUrl('feature-bom/edit/' + data.OPTM_FEATUREID);
     }
 
     button_click2(data) {
@@ -260,7 +251,7 @@ export class FeatureBomViewComponent implements OnInit {
     }
 
     duplicate_record(data){
-        this.router.navigateByUrl('feature-bom/add-edit/' + data.Code.trim());
+        this.router.navigateByUrl('feature-bom/add/' + data.OPTM_FEATUREID);
       }
 
     show_association(row_data){
@@ -356,7 +347,7 @@ export class FeatureBomViewComponent implements OnInit {
 
                 this.CheckedData = [];
                 this.selectall = false;
-                this.clearChildCheckbox();
+                this.commonData.clearChildCheckbox();
             },error => {
                 this.showLookupLoader = false;
                 if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
@@ -403,7 +394,11 @@ export class FeatureBomViewComponent implements OnInit {
                 UsernameForLic: sessionStorage.getItem("loggedInUser")
             })
         }
-
+        if (this.dataArray.length == this.CheckedData.length) {
+            this.commonData.checkedparentCheckbox();
+            }else{
+             this.commonData.clearparentCheckbox();
+           }
 
     }
 
@@ -417,7 +412,7 @@ export class FeatureBomViewComponent implements OnInit {
             this.selectall = true
             if (this.dataArray.length > 0) {
                 for (let i = 0; i < this.dataArray.length; ++i) {
-
+                    this.commonData.checkedChildCheckbox();
                     this.CheckedData.push({
                         FeatureId: this.dataArray[i].OPTM_FEATUREID,
                         CompanyDBId: this.companyName,
@@ -483,7 +478,7 @@ export class FeatureBomViewComponent implements OnInit {
                     }
                     this.CheckedData = [];
                     this.selectall = false;
-                    this.clearChildCheckbox();
+                    this.commonData.clearChildCheckbox();
                 },error => {
                     this.showLookupLoader = false;
                     if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){

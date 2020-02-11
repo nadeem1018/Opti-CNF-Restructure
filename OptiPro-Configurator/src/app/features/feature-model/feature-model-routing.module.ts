@@ -12,7 +12,8 @@ const routes: Routes = [
   }, 
   { path: 'view', component: FeatureModelViewComponent },
   { path: 'add', component: FeatureModelAddEditComponent },
-  { path: 'edit/:id', component: FeatureModelAddEditComponent }
+  { path: 'edit/:id', component: FeatureModelAddEditComponent },
+  { path: 'add/:id', component: FeatureModelAddEditComponent }
 ];
 
 

@@ -161,7 +161,7 @@ export class FeatureModelAddEditComponent implements OnInit {
         this.isSaveButtonVisible = false;
         this.isDuplicateMode = false;
         this.isDeleteButtonVisible = true;
-      } else if(this.ActivatedRouter.snapshot.url[2].path == "add"){
+      } else if(this.ActivatedRouter.snapshot.url[0].path == "add"){
         this.code_disabled = "false";
         this.button = "save"
         this.isUpdateButtonVisible = false;

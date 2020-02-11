@@ -34,7 +34,7 @@
                         [minResizableWidth]="38" class="text-center" headerClass="text-center" [filterable]="false">
                         <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
                             <label class="custom-checkbox mb-0 wihtout-label">
-                                <input type="checkbox" name="parent_checkbox" #Selectallcheckedvalue
+                                <input type="checkbox" name="parent_checkbox" class="parent_checkbox" #Selectallcheckedvalue
                                 (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)"
                                 id="parent_checkbox_{{rowIndex}}" [checked]=selectall>
                                 <span class="checkbox"></span>

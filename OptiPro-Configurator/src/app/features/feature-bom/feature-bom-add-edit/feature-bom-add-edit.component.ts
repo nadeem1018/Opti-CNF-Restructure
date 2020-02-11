@@ -74,6 +74,8 @@ export class FeatureBomAddEditComponent implements OnInit {
   isPerfectSCrollBar: boolean = false;
   public menu_auth_index: string = "202";
   public made_changes: boolean = false;
+  public isDuplicateMode:boolean = false;
+  public NewFeatureId = "";
 
   getSelectedRowDetail(event) {
     this.made_changes = true;
@@ -164,6 +166,29 @@ export class FeatureBomAddEditComponent implements OnInit {
       this.isDeleteButtonVisible = true;
       this.isFeatureIdEnable = true;
       this.FeatureLookupBtnhide = true;
+
+      if(this.ActivatedRouter.snapshot.url[0].path == "edit") {
+        this.isUpdateButtonVisible = true;
+        this.isSaveButtonVisible = false;
+        this.isDeleteButtonVisible = true;
+        this.isFeatureIdEnable = true;
+        this.FeatureLookupBtnhide = true;
+        this.isDuplicateMode = false;
+      } else if(this.ActivatedRouter.snapshot.url[0].path == "add"){ 
+        this.isUpdateButtonVisible = false;
+        this.isSaveButtonVisible = true;
+        this.isDeleteButtonVisible = false; 
+        this.isDuplicateMode = true;
+        this.isFeatureIdEnable = false;
+        this.FeatureLookupBtnhide = false;
+      } else {
+        this.isUpdateButtonVisible = true;
+        this.isSaveButtonVisible = false;
+        this.isDeleteButtonVisible = false;
+        this.isFeatureIdEnable = true;
+        this.FeatureLookupBtnhide = true;
+        this.isDuplicateMode = false;
+      }
       this.getFeatureBomDetail(this.update_id)
     }
 
@@ -171,6 +196,10 @@ export class FeatureBomAddEditComponent implements OnInit {
 
   getFeatureBomDetail(id) {
     this.showLoader = true;
+    if(this.isDuplicateMode)
+    {
+      this.NewFeatureId = this.update_id;
+    }
     this.fbom.GetDataByFeatureId(id).subscribe(
       data => {
         if (data != undefined && data.LICDATA != undefined) {
@@ -343,6 +372,12 @@ export class FeatureBomAddEditComponent implements OnInit {
           this.onExplodeClick('auto');
         }
         this.showLoader = false;
+        if(this.isDuplicateMode) {
+          this.feature_bom_data.feature_code = ""; 
+          this.feature_bom_data.feature_name = "";
+          this.feature_bom_data.feature_desc = "";
+          this.feature_bom_data.feature_id = "";
+          }
       },
       error => {
         this.showLoader = false;
@@ -603,7 +638,15 @@ export class FeatureBomAddEditComponent implements OnInit {
     }
 
     if (this.feature_bom_table.length > 0) {
-      this.feature_bom_table[0].id = this.update_id;
+      if(this.isDuplicateMode)
+      {
+        this.feature_bom_table[0].id =  0; 
+
+      }
+      else
+      {
+        this.feature_bom_table[0].id = this.update_id;
+      }      
       for (let i = 0; i < this.feature_bom_table.length; ++i) {
         if (this.feature_bom_table[i].display_name == "" || this.feature_bom_table[i].display_name == " ") {
           let currentrow = i + 1;
@@ -615,6 +658,11 @@ export class FeatureBomAddEditComponent implements OnInit {
       }
 
       for (let i = 0; i < this.feature_bom_table.length; ++i) {
+        if(this.isDuplicateMode)
+        {
+          this.NewFeatureId =  this.feature_bom_data.feature_id;
+          this.feature_bom_table[i].FeatureId = this.NewFeatureId;
+        }
 
         if (this.feature_bom_data.multi_select == 'false') {
           this.feature_bom_table[i].multi_select = "N"
@@ -1183,7 +1231,10 @@ export class FeatureBomAddEditComponent implements OnInit {
                 }
               }
               if (this.feature_bom_table.length > 0) {
-                this.feature_bom_table = [];
+                if(!this.isDuplicateMode)
+                {
+                  this.feature_bom_table = [];
+                }               
               }
             }
             else {

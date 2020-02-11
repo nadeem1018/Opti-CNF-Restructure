@@ -222,4 +222,41 @@ export class CommonData {
             return result;
     }
     public excludeSpecialCharRegex = /[{}*!^=<>?|/(\\)&#@%]/;
+
+
+    public clearChildCheckbox(){
+        let child_checkbox_selector = document.getElementsByClassName("child_checkbox") as HTMLCollectionOf<HTMLInputElement>;
+        if(child_checkbox_selector.length > 0){
+          for(let i = 0; i < child_checkbox_selector.length; i++){
+            child_checkbox_selector[i].checked = false;
+          }
+        }
+      }
+      public checkedChildCheckbox(){
+        let child_checkbox_selector = document.getElementsByClassName("child_checkbox") as HTMLCollectionOf<HTMLInputElement>;
+        if(child_checkbox_selector.length > 0){
+          for(let i = 0; i < child_checkbox_selector.length; i++){
+            child_checkbox_selector[i].checked = true;
+          }
+        }
+      }
+    
+      
+      
+      public clearparentCheckbox(){
+        let child_checkbox_selector = document.getElementsByClassName("parent_checkbox") as HTMLCollectionOf<HTMLInputElement>;
+        if(child_checkbox_selector.length > 0){
+          for(let i = 0; i < child_checkbox_selector.length; i++){
+            child_checkbox_selector[i].checked = false;
+          }
+        }
+      }    
+      public checkedparentCheckbox(){
+        let child_checkbox_selector = document.getElementsByClassName("parent_checkbox") as HTMLCollectionOf<HTMLInputElement>;
+        if(child_checkbox_selector.length > 0){
+          for(let i = 0; i < child_checkbox_selector.length; i++){
+            child_checkbox_selector[i].checked = true;
+          }
+        }
+      }
 }

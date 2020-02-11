@@ -143,42 +143,7 @@ export class ItemCgViewComponent implements OnInit {
       });
     this.service_call(this.current_page, this.search_string);
   }
-  public clearChildCheckbox(){
-    let child_checkbox_selector = document.getElementsByClassName("child_checkbox") as HTMLCollectionOf<HTMLInputElement>;
-    if(child_checkbox_selector.length > 0){
-      for(let i = 0; i < child_checkbox_selector.length; i++){
-        child_checkbox_selector[i].checked = false;
-      }
-    }
-  }
-  public checkedChildCheckbox(){
-    let child_checkbox_selector = document.getElementsByClassName("child_checkbox") as HTMLCollectionOf<HTMLInputElement>;
-    if(child_checkbox_selector.length > 0){
-      for(let i = 0; i < child_checkbox_selector.length; i++){
-        child_checkbox_selector[i].checked = true;
-      }
-    }
-  }
-
-  
-  
-  public clearparentCheckbox(){
-    let child_checkbox_selector = document.getElementsByClassName("parent_checkbox") as HTMLCollectionOf<HTMLInputElement>;
-    if(child_checkbox_selector.length > 0){
-      for(let i = 0; i < child_checkbox_selector.length; i++){
-        child_checkbox_selector[i].checked = false;
-      }
-    }
-  }
-
-  public checkedparentCheckbox(){
-    let child_checkbox_selector = document.getElementsByClassName("parent_checkbox") as HTMLCollectionOf<HTMLInputElement>;
-    if(child_checkbox_selector.length > 0){
-      for(let i = 0; i < child_checkbox_selector.length; i++){
-        child_checkbox_selector[i].checked = true;
-      }
-    }
-  }
+ 
 
   dataStateChanged(event){
     event.filter = [];
@@ -241,7 +206,7 @@ export class ItemCgViewComponent implements OnInit {
 
         this.CheckedData = [];
         this.selectall = false;
-        this.clearChildCheckbox();
+        this.commonData.clearChildCheckbox();
       },error => {
         this.showLookupLoader = false;
         if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
@@ -345,7 +310,7 @@ export class ItemCgViewComponent implements OnInit {
 
         this.CheckedData = [];
         this.selectall = false;
-        this.clearChildCheckbox();
+        this.commonData.clearChildCheckbox();
       },error => {
         this.showLookupLoader = false;
         if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
@@ -393,9 +358,9 @@ export class ItemCgViewComponent implements OnInit {
       })
     }
     if (this.dataArray.length == this.CheckedData.length) {
-      this.checkedparentCheckbox();
+      this.commonData.checkedparentCheckbox();
       }else{
-        this.clearparentCheckbox();
+       this.commonData.clearparentCheckbox();
      }
 
   }
@@ -408,7 +373,7 @@ export class ItemCgViewComponent implements OnInit {
       if (this.dataArray.length > 0) {
         this.selectall = true
         for (let i = 0; i < this.dataArray.length; ++i) {
-           this.checkedChildCheckbox();
+          this.commonData.checkedChildCheckbox();
           this.CheckedData.push({
             ItemCode: this.dataArray[i].Code,
             CompanyDBId: this.companyName,
@@ -469,7 +434,7 @@ export class ItemCgViewComponent implements OnInit {
         }
         this.CheckedData = [];
         this.selectall = false;
-        this.clearChildCheckbox();
+        this.commonData.clearChildCheckbox();
       },error => {
         this.showLookupLoader = false;
         if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
