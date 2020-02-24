@@ -114,7 +114,7 @@ export class OpRoutingViewComponent implements OnInit {
                     }
                     this.CheckedData = [];
                     this.selectall = false;
-                    this.clearChildCheckbox();
+                    this.commonData.clearChildCheckbox();
                 }, error => {
                     this.showLoader = false;
                     if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
@@ -239,14 +239,7 @@ export class OpRoutingViewComponent implements OnInit {
         this.service_call(this.current_page, this.search_string);
 
     }
-    public clearChildCheckbox() {
-        let child_checkbox_selector = document.getElementsByClassName("child_checkbox") as HTMLCollectionOf<HTMLInputElement>;
-        if (child_checkbox_selector.length > 0) {
-            for (let i = 0; i < child_checkbox_selector.length; i++) {
-                child_checkbox_selector[i].checked = false;
-            }
-        }
-    }
+    
     service_call(page_number, search) {
         var dataset = this.rs.get_all_routing_data().subscribe(
             data => {
@@ -266,7 +259,7 @@ export class OpRoutingViewComponent implements OnInit {
                 this.showLoader = false;
                 this.CheckedData = [];
                 this.selectall = false;
-                this.clearChildCheckbox();
+                this.commonData.clearChildCheckbox();
             },
             error => {
                 this.showLoader = false;
@@ -316,6 +309,7 @@ export class OpRoutingViewComponent implements OnInit {
             if (this.dataArray.length > 0) {
                 this.selectall = true
                 for (let i = 0; i < this.dataArray.length; ++i) {
+                    this.commonData.checkedChildCheckbox();
                     this.CheckedData.push({
                         RoutingId: this.dataArray[i].OPTM_MODELFEATUREID,
                         CompanyDBId: this.companyName,
@@ -366,5 +360,11 @@ export class OpRoutingViewComponent implements OnInit {
                 UsernameForLic: sessionStorage.getItem("loggedInUser")
             })
         }
+
+        if (this.dataArray.length == this.CheckedData.length) {
+            this.commonData.checkedparentCheckbox();
+            }else{
+             this.commonData.clearparentCheckbox();
+           }
     }
 }

@@ -54,10 +54,20 @@ export class LookupComponent implements OnInit {
   public gridView: GridDataResult;
   public checked_rules = [];
   public rule_selection_show: boolean = false;
+  public routing_resource_show: boolean = false;
   public rule_output_table_head = [];
   public rule_output_table_head_hidden_elements = [];
   public rule_output_data_loaded:boolean = false;
   public rule_output_title: any;
+  public resource_popup_title = '';
+  public resource_basisdd: any[];
+  public resourceServiceOper: any = "";
+  public resourceServiceOperCM: any = "";
+  public resourceServiceWc: any = "";
+  public windowTop: number = 50;
+  public windowLeft: number = 50;
+  
+  
 
   constructor(
     private rs: RoutingService,
@@ -90,6 +100,7 @@ export class LookupComponent implements OnInit {
     this.about_info = [];
     this.rule_selection_show = false;
     this.rule_output_data_loaded = false;
+    this.routing_resource_show = false
 
     this.current_popup_row = "";
     //this.test_model();
@@ -188,26 +199,26 @@ export class LookupComponent implements OnInit {
     //   return;
     // }
 
-    // if (this.popup_lookupfor == 'routing_resource_lookup') {
-    //     this.routing_resource_lookup();
-    //     return;
-    //   }
+    if (this.popup_lookupfor == 'routing_resource_lookup') {
+        this.routing_resource_lookup();
+        return;
+      }
 
       if (this.popup_lookupfor == "warehouse_lookup") {
         this.warehouse_lookup_list();
       }
 
-    //   if (this.popup_lookupfor == 'operation_lookup') {
-    //     this.operation_lookup_list();
-    //   }
+      if (this.popup_lookupfor == 'operation_lookup') {
+        this.operation_lookup_list();
+      }
 
     //   if (this.popup_lookupfor == 'workcenter_lookup') {
     //     this.workcenter_lookup_list();
     //   }
 
-    //   if (this.popup_lookupfor == "template_routing_lookup") {
-    //     this.template_routing_list();
-    //   }
+      if (this.popup_lookupfor == "template_routing_lookup") {
+        this.template_routing_list();
+      }
 
     //   if(this.popup_lookupfor == "help_popup"){
 
@@ -215,6 +226,110 @@ export class LookupComponent implements OnInit {
     //   }
 
      }
+  }
+
+  operation_lookup_list() {
+    this.popup_title = this.language.operation;
+    this.LookupDataLoaded = false;
+    this.showLoader = true;
+    this.fill_input_id = 'OperationCode';
+    this.table_head = [this.language.code, this.language.Name];
+
+    this.table_head = [
+    {
+      field: 'OPRCode',
+      title: this.language.operation_no,
+      type: 'text',
+      width: '100',
+      attrType: 'text'
+    },
+    {
+      field: 'OperationCode',
+      title: this.language.operation_code,
+      type: 'text',
+      width: '100',
+      attrType: 'text'
+    },
+    {
+      field: 'OPRDesc',
+      title: this.language.description,
+      type: 'text',
+      width: '100',
+      attrType: 'text'
+    },
+    {
+      field: 'operTypeStr',
+      title: this.language.operation_type,
+      type: 'text',
+      width: '100',
+      attrType: 'text'
+    },
+    {
+      field: 'WCCode',
+      title: this.language.workcenter_code,
+      type: 'text',
+      width: '100',
+      attrType: 'text'
+    },
+    {
+      field: 'Description',
+      title: this.language.workcenter_desc,
+      type: 'text',
+      width: '100',
+      attrType: 'text'
+    },
+    ];
+
+    this.table_head_hidden_elements = [false, false];
+    this.lookup_key = 'Name';
+    this.width_value = ((100 / this.table_head.length) + '%');
+    this.showLoader = false;
+    this.LookupDataLoaded = true;
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+        this.loadServerData(this.serviceData);
+      }
+    }
+  }
+
+  template_routing_list() {
+    this.popup_title = this.language.template_routing;
+    this.LookupDataLoaded = false;
+    this.showLoader = true;
+    this.fill_input_id = 'template_routing';
+    this.table_head = [this.language.code, this.language.Name];
+
+    this.table_head = [
+    {
+      field: 'ITEMCODE',
+      title: this.language.item_code,
+      type: 'text',
+      width: '100',
+      attrType: 'text'
+    },
+    {
+      field: 'ItemName',
+      title: this.language.description,
+      type: 'text',
+      width: '100',
+      attrType: 'text'
+    },
+    ];
+
+    this.table_head_hidden_elements = [false, false];
+    this.lookup_key = 'Name';
+    this.width_value = ((100 / this.table_head.length) + '%');
+    this.showLoader = false;
+    this.LookupDataLoaded = true;
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+        this.loadServerData(this.serviceData);
+        // $("#lookup_modal").modal('show');
+      }
+    }
+
   }
 
   private loadServerData(dataset): void {
@@ -855,6 +970,517 @@ export class LookupComponent implements OnInit {
     }, 10);
   }
 
+  routing_resource_lookup() {
+    this.resource_popup_title = this.language.routing_resource;
+    this.LookupDataLoaded = false;
+    this.is_operation_popup_lookup_open = true;
+    this.showLoader = true;
+    this.resourceServiceData = [];
+    this.resource_basisdd = this.commonData.resource_basic();
+    if (this.serviceData !== undefined && this.serviceData !== "") {
+      if (this.serviceData.wc_code != "" && this.serviceData.oper_code != "" && this.serviceData.wc_code != undefined && this.serviceData.oper_code != undefined) {
+        for (var inx = 0; inx < this.serviceData.oper_res.length; inx++) {
+          console.log("this.serviceData.oper_res[inx] - ", this.serviceData.oper_res[inx]);
+          this.resource_counter = 0;
+          if (this.resourceServiceData.length > 0) {
+            this.resource_counter = this.resourceServiceData.length
+          }
+
+          let basis = '1';
+          let is_basis_disabled = false;
+          if (this.serviceData.oper_res[inx].oper_consumption_method == '1' || this.serviceData.oper_res[inx].oper_consumption_method == 1) { // setup 
+            is_basis_disabled = true;
+            basis = '4';
+            this.resource_basisdd = [
+            { "value": '4', "Name": "Setup" }
+            ]
+          }
+
+          if (this.serviceData.oper_res[inx].oper_consumption_method == '2' || this.serviceData.oper_res[inx].oper_consumption_method == 2) { // variable
+            is_basis_disabled = false;
+            basis = '1';
+            this.resource_basisdd = [
+            { "value": '1', "Name": "Item" },
+            { "value": '4', "Name": "Setup" }
+            ]
+          }
+
+          if (this.serviceData.oper_res[inx].oper_consumption_method == '3' || this.serviceData.oper_res[inx].oper_consumption_method == 3) { // Fixed
+            is_basis_disabled = false;
+            basis = '1';
+            this.resource_basisdd = [
+            { "value": '1', "Name": "Item" },
+            { "value": '2', "Name": "Batch" },
+            { "value": '4', "Name": "Setup" }
+            ]
+          }
+
+          if(this.serviceData.oper_res[inx].basis != undefined && this.serviceData.oper_res[inx].basis !="" && this.serviceData.oper_res[inx].basis != null){
+            basis = this.serviceData.oper_res[inx].basis;
+          }
+
+
+          this.resource_counter++;
+          var res_consum_type = 1;
+          if (this.serviceData.oper_res[inx].resource_consumption_type != undefined && this.serviceData.oper_res[inx].resource_consumption_type != "") {
+            res_consum_type = this.serviceData.oper_res[inx].resource_consumption_type;
+          } else {
+            res_consum_type  = this.serviceData.oper_res[inx].oper_consumption_method;
+          }
+          if (this.serviceData.oper_res[inx].OPRCode != undefined) {
+            this.resourceServiceData.push({
+              lineno: this.resource_counter,
+              rowindex: this.resource_counter,
+              ChrgBasis: this.serviceData.oper_res[inx].ChrgBasis,
+              DCNum: this.serviceData.oper_res[inx].DCNum,
+              LineID: this.serviceData.oper_res[inx].LineID,
+              operation_no: this.serviceData.oper_res[inx].OPRCode,
+              oper_type: this.serviceData.oper_res[inx].oper_type,
+              oper_consumption_type: this.serviceData.oper_res[inx].oper_consumption_method,
+              oper_consumption_method: this.serviceData.oper_res[inx].oper_consumption_method,
+              resource_code: this.serviceData.oper_res[inx].ResCode,
+              resource_name: this.serviceData.oper_res[inx].ResName,
+              resource_type: this.serviceData.oper_res[inx].ResType,
+              resource_uom: this.serviceData.oper_res[inx].ResUOM,
+              resource_consumption: parseFloat(this.serviceData.oper_res[inx].ResCons).toFixed(3),
+              resource_inverse: parseFloat(this.serviceData.oper_res[inx].ResInv).toFixed(3),
+              no_resource_used: this.serviceData.oper_res[inx].ResUsed,
+              time_uom: this.serviceData.oper_res[inx].TimeUOM,
+              time_consumption: parseFloat(this.serviceData.oper_res[inx].TimeCons).toFixed(3),
+              time_inverse: parseFloat(this.serviceData.oper_res[inx].TimeInv).toFixed(3),
+              resource_consumption_type: res_consum_type,
+              basis: basis,
+              is_basis_disabled: is_basis_disabled,
+              schedule: this.serviceData.oper_res[inx].schedule,
+              is_resource_disabled: true,
+              unique_key: this.serviceData.unique_key
+            });
+          }
+
+          this.resourceServiceOperCM = this.serviceData.oper_res[inx].oper_consumption_method;
+        }
+
+        if (this.serviceData.oper_code != "" && this.serviceData.oper_code != null && this.serviceData.oper_code != undefined) {
+          this.resourceServiceOper = this.serviceData.oper_code;
+        }
+
+        if (this.serviceData.wc_code != "" && this.serviceData.wc_code != null && this.serviceData.wc_code != undefined) {
+          this.resourceServiceWc = this.serviceData.wc_code;
+        }
+
+        this.showLoader = false;
+        this.LookupDataLoaded = true;
+        this.routing_resource_show = true;
+       // console.log("routing_resource_modal show ");
+      //  $("#routing_resource_modal").modal('show');
+
+      }
+    }
+  }
+
+  operation_resource_update() {
+    this.is_operation_popup_lookup_open == false;
+    if (this.resourceServiceData.length == 0) {
+      this.CommonService.show_notification(this.language.cannot_submit_empty_resource, 'error');     
+      return;
+    } else {
+      for (let ia = 0; ia < this.resourceServiceData.length; ia++) {
+        let res_row = this.resourceServiceData[ia];
+        if (res_row.resource_code == "") {
+          this.CommonService.show_notification(this.language.resource_code_cannot_beblack + ' ' + (ia + 1), 'error'); 
+             return
+        }
+      }
+    }
+    this.lookupvalue.emit(this.resourceServiceData);
+   this.close_kendo_dialog();
+  }
+
+  // close_lookup(lookup_id) {
+  //   console.log("lookup id - " + lookup_id);
+  //   $("#" + lookup_id).modal('hide');
+
+  //   //clear arrays after close button clicked on print model 
+  //   if (this.popup_lookupfor == 'output_invoice_print') {
+  //     this.cleanup_print_arrays();
+
+  //     // popup_lookupfor  = "";
+  //     setTimeout(() => {
+  //       this.popup_lookupfor = "";
+  //     });
+  //     this.current_popup_row = "";
+  //   }
+
+  //   if (lookup_id == "routing_resource_modal" || this.popup_lookupfor == 'routing_resource_lookup') {
+  //     console.log('in array cleaner');
+  //     this.is_operation_popup_lookup_open = false;
+  //     this.resourceServiceOper = "";
+  //     this.resourceServiceOperCM = "";
+  //     this.resourceServiceWc = "";
+  //     this.lookupvalue.emit('');
+  //     this.resourceServiceData = [];
+  //     $("#routing_resource_modal").modal('hide');
+  //   }
+
+  // }
+
+  insert_new_resource() {
+    console.log("this.resourceServiceData - ", this.resourceServiceData);
+    if (this.resourceServiceData == undefined || this.resourceServiceData == null || this.resourceServiceData == "") {
+      this.resourceServiceData = [];
+    }
+    this.resource_counter = 0;
+    if (this.resourceServiceData.length > 0) {
+      this.resource_counter = this.resourceServiceData.length
+    }
+    let  unqiue_key = '';
+    if(this.serviceData.unique_key == undefined || this.serviceData.unique_key == "" || this.serviceData.unique_key == null ){
+      if(this.resourceServiceData[0].unique_key !== undefined){
+        unqiue_key  = this.resourceServiceData[0].unique_key;
+      }
+
+    } else {
+      unqiue_key = this.serviceData.unique_key ;
+    }
+
+    let basis = '1';
+    let is_basis_disabled = false;
+    if (this.resourceServiceOperCM == '1' || this.resourceServiceOperCM == 1) { // setup 
+      is_basis_disabled = true;
+      basis = '4';
+      this.resource_basisdd = [
+      { "value": '4', "Name": "Setup" }
+      ]
+    }
+
+    if (this.resourceServiceOperCM == '2' || this.resourceServiceOperCM == 2) { // variable
+      is_basis_disabled = false;
+      basis = '1';
+      this.resource_basisdd = [
+      { "value": '1', "Name": "Item" },
+      { "value": '4', "Name": "Setup" }
+      ]
+    }
+
+    if (this.resourceServiceOperCM == '3' || this.resourceServiceOperCM == 3) { // Fixed
+      is_basis_disabled = false;
+      basis = '1';
+      this.resource_basisdd = [
+      { "value": '1', "Name": "Item" },
+      { "value": '2', "Name": "Batch" },
+      { "value": '4', "Name": "Setup" }
+      ]
+    }
+
+    this.resource_counter++;
+    console.log("this.serviceData.unique_key ", this.serviceData.unique_key, "unqiue_key ", unqiue_key);
+    this.resourceServiceData.push({
+      lineno: this.resource_counter,
+      rowindex: this.resource_counter,
+      operation_no: this.resourceServiceOper,
+      resource_code: '',
+      resource_name: '',
+      resource_uom: '',
+      resource_type: '',
+      resource_consumption: parseFloat("1").toFixed(3),
+      resource_inverse: parseFloat("0").toFixed(3),
+      no_resource_used: parseInt("1"),
+      time_uom: '',
+      time_consumption: parseFloat("0").toFixed(3),
+      time_inverse: parseFloat("0").toFixed(3),
+      resource_consumption_type: this.resourceServiceOperCM,
+      oper_consumption_method: this.resourceServiceOperCM,
+      oper_consumption_type: this.resourceServiceOperCM,
+      basis: basis,
+      is_basis_disabled: is_basis_disabled,
+      schedule: false,
+      is_resource_disabled: true,
+      unique_key: unqiue_key
+    });
+  }
+
+  onDeleteRow(rowindex) {
+    if (this.resourceServiceData.length > 0) {
+      for (let i = 0; i < this.resourceServiceData.length; ++i) {
+        if (this.resourceServiceData[i].rowindex === rowindex) {
+          this.resourceServiceData.splice(i, 1);
+          i = i - 1;
+        }
+        else {
+          this.resourceServiceData[i].rowindex = i + 1;
+        }
+      }
+    }
+  }
+
+  open_resource_lookup(type, rowindex) {
+    this.showLookupLoader = true;
+    this.serviceData = []
+    this.rs.getResourceList(this.resourceServiceWc).subscribe(
+      data => {
+        if (data != null && data != undefined) {
+          if (data.length > 0) {
+            if (data[0].ErrorMsg == "7001") {
+              this.CommonService.RemoveLoggedInUser().subscribe();
+              this.CommonService.signOut(this.router, 'Sessionout');             
+              this.showLookupLoader = false;
+              return;
+            }
+
+            this.current_popup_row = rowindex;
+            this.table_head = [
+            {
+              field: 'ResCode',
+              title: this.language.resource_code,
+              type: 'text',
+              width: '100',
+              attrType: 'text'
+            },
+            {
+              field: 'Name',
+              title: this.language.resource_name,
+              type: 'text',
+              width: '100',
+              attrType: 'text'
+            },
+            {
+              field: 'NumberOfRes',
+              title: this.language.numberofres,
+              type: 'text',
+              width: '100',
+              attrType: 'text'
+            },
+            {
+              field: 'WCCode',
+              title: this.language.workcenter_code,
+              type: 'text',
+              width: '100',
+              attrType: 'text'
+            }];
+            this.serviceData = data;
+            this.popup_title = this.language.resources;
+            this.dialogOpened = true;
+            this.popup_resource = true;
+            this.routing_resource_show = true;
+          }
+          else {
+            this.dialogOpened = false;
+            this.CommonService.show_notification(this.language.NoDataAvailable, 'error');           
+            return;
+          }
+        } else {
+          this.dialogOpened = false;
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');         
+          return;
+        }
+      },
+      error => {
+        this.dialogOpened = false;
+        this.showLookupLoader = false;
+        if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
+          this.CommonService.isUnauthorized();
+        } else {
+          this.CommonService.show_notification(this.language.server_error, 'error');
+          
+        }
+      }
+      )
+  }
+
+  on_input_change(value, rowindex, grid_element) {
+    var currentrow = 0;
+    for (let i = 0; i < this.resourceServiceData.length; ++i) {
+      if (this.resourceServiceData[i].rowindex === rowindex) {
+        currentrow = i;
+      } else {
+        if (grid_element == 'schedule') {
+          this.resourceServiceData[i].schedule = false;
+        }
+      }
+    }
+    console.log(currentrow);
+    if (grid_element == 'operation_no') {
+
+    }
+
+    if (grid_element == 'resource_code') {
+      this.showLookupLoader = true;
+      this.rs.getResourceDetail(value).subscribe(
+        data => {
+          console.log(data);
+          if (data != null && data != undefined) {
+            if (data.length > 0) {
+              if (data[0].ErrorMsg == "7001") {
+                this.CommonService.RemoveLoggedInUser().subscribe();
+                this.CommonService.signOut(this.router, 'Sessionout');
+                this.showLookupLoader = false;
+                return;
+              }
+              this.resourceServiceData[currentrow].resource_code = data[0].ResCode;
+              this.resourceServiceData[currentrow].resource_name = data[0].Name;
+              this.resourceServiceData[currentrow].resource_uom = data[0].UnitOfMsr;
+              this.resourceServiceData[currentrow].resource_type = data[0].ResType;
+              this.get_consumption_inverse_value('consumption', 1, this.resourceServiceData[currentrow].resource_code, currentrow);
+              this.showLookupLoader = false;
+            } else {
+              this.CommonService.show_notification(this.language.invalidrescodeRow + ' ' + rowindex, 'error');
+              this.clearInvalidRes(currentrow);
+              this.showLookupLoader = false;
+              return;
+            }
+          } else {
+            this.CommonService.show_notification(this.language.invalidrescodeRow + ' ' + rowindex, 'error');            
+            this.clearInvalidRes(currentrow);
+            this.showLookupLoader = false;
+            return;
+          }
+        }, error => {
+          this.showLookupLoader = false;
+          if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
+            this.CommonService.isUnauthorized();
+          } else {
+            this.CommonService.show_notification(this.language.invalidrescodeRow + ' ' + rowindex, 'error');
+            this.clearInvalidRes(currentrow);
+
+          }
+          return;
+        }
+        );
+    }
+
+    if (grid_element == 'resource_name') {
+
+    }
+
+    if (grid_element == 'resource_uom') {
+
+    }
+
+    if (grid_element == 'resource_consumption') {
+
+      if (value == 0 && value != '') {
+        value = 1;
+        this.CommonService.show_notification(this.language.consumption_type_valid + ' ' + this.language.at_row + ' ' + (currentrow + 1), 'error'); 
+         }
+      else {
+        if (isNaN(value) == true) {
+          value = 1;
+          this.CommonService.show_notification(this.language.ValidNumber, 'error'); 
+        } else if (value == 0 || value == '' || value == null || value == undefined) {
+          value = 1;
+          this.CommonService.show_notification(this.language.blank_or_zero_ct_not_allowed + ' ' + this.language.at_row + ' ' + (currentrow + 1), 'error');  
+       } else if (value < 0) {
+          value = 1;
+          this.CommonService.show_notification(this.language.negative_ct_valid + ' ' + this.language.at_row + ' ' + (currentrow + 1), 'error'); 
+         
+        }
+      }
+
+      this.resourceServiceData[currentrow].resource_consumption = parseFloat(value).toFixed(3);     
+      (<HTMLInputElement>document.getElementsByClassName("row_resource_consumption")[currentrow]).value = parseFloat(value).toFixed(3);  
+      if (this.resourceServiceData[currentrow].resource_code != "" && this.resourceServiceData[currentrow].resource_code != undefined && this.resourceServiceData[currentrow].resource_code != null) {
+        this.get_consumption_inverse_value('consumption', value, this.resourceServiceData[currentrow].resource_code, currentrow);
+      } else {
+        this.resourceServiceData[currentrow].time_consumption = parseFloat('0').toFixed(3);
+        this.resourceServiceData[currentrow].time_inverse = parseFloat('0').toFixed(3);
+      }
+
+    }
+
+    if (grid_element == 'resource_inverse') {
+      if (value == 0 && value != '') {
+        value = 1;
+        this.CommonService.show_notification(this.language.inverse_valid + ' ' + this.language.at_row + ' ' + (currentrow + 1), 'error'); 
+         }
+      else {
+        if (isNaN(value) == true) {
+          value = 1;
+          this.CommonService.show_notification(this.language.ValidNumber, 'error');         
+        } else if (value == 0 || value == '' || value == null || value == undefined) {
+          value = 1;
+          this.CommonService.show_notification(this.language.blank_or_zero_inverse_not_allowed + ' ' + this.language.at_row + ' ' + (currentrow + 1), 'error');          
+        } else if (value < 0) {
+          value = 1;
+          this.CommonService.show_notification(this.language.negative_inverse_valid  + ' ' + this.language.at_row + ' ' + (currentrow + 1), 'error');          
+        }
+      }
+      this.resourceServiceData[currentrow].resource_inverse = parseFloat(value).toFixed(3);     
+      (<HTMLInputElement>document.getElementsByClassName("row_resource_inverse")[currentrow]).value = parseFloat(value).toFixed(3);  
+      if (this.resourceServiceData[currentrow].resource_code != "" && this.resourceServiceData[currentrow].resource_code != undefined && this.resourceServiceData[currentrow].resource_code != null) {
+        this.get_consumption_inverse_value('inverse', value, this.resourceServiceData[currentrow].resource_code, currentrow);
+      } else {
+        this.resourceServiceData[currentrow].time_consumption = parseFloat('0').toFixed(3);
+        this.resourceServiceData[currentrow].time_inverse = parseFloat('0').toFixed(3);
+      }
+
+
+    }
+
+    if (grid_element == 'no_resource_used') {
+      if (value == 0 && value != '') {
+        value = 1;
+        this.resourceServiceData[currentrow].no_resource_used = value;
+        this.CommonService.show_notification(this.language.no_of_resource_valid + ' ' + this.language.at_row + ' ' + (currentrow + 1), 'error');
+       
+      }
+      else {
+        let rgexp = /^\d+$/;
+        if (isNaN(value) == true) {
+          value = 1;
+          this.CommonService.show_notification(this.language.ValidNumber, 'error');         
+        } else if (value == 0 || value == '' || value == null || value == undefined) {
+          value = 1;
+          this.CommonService.show_notification(this.language.blank_or_zero_noresused_not_allowed + ' ' + this.language.at_row + ' ' + (currentrow + 1), 'error');          
+        } else if (value < 0) {
+          value = 1;
+          this.CommonService.show_notification(this.language.negative_resource_valid + ' ' + this.language.at_row + ' ' + (currentrow + 1), 'error'); 
+          
+        } else if (rgexp.test(value) == false) {
+          value = 1;
+          this.CommonService.show_notification(this.language.decimal_noresused_valid + ' ' + this.language.at_row + ' ' + (currentrow + 1), 'error'); 
+        }
+        this.resourceServiceData[currentrow].no_resource_used = (value);
+
+      }
+      (<HTMLInputElement>document.getElementsByClassName("row_no_resource_used")[currentrow]).value = value;     
+    }
+
+    if (grid_element == 'time_uom') {
+      this.resourceServiceData[currentrow].time_uom = (value);
+    }
+
+    if (grid_element == 'time_consumption') {
+      this.resourceServiceData[currentrow].time_consumption = parseFloat(value).toFixed(3);
+    }
+
+    if (grid_element == 'time_inverse') {
+      this.resourceServiceData[currentrow].time_inverse = parseFloat(value).toFixed(3);
+    }
+
+    if (grid_element == 'resource_consumption_type') {
+      this.resourceServiceData[currentrow].resource_consumption_type = (value);
+    }
+
+    if (grid_element == 'resource_basic') {
+      this.resourceServiceData[currentrow].resource_basic = (value);
+    }
+
+    if (grid_element == 'schedule') {
+      this.resourceServiceData[currentrow].schedule = (value);
+    }
+  }
+
+  clearInvalidRes(currentrow) {
+    this.resourceServiceData[currentrow].resource_code = "";
+    this.resourceServiceData[currentrow].resource_name = "";
+    this.resourceServiceData[currentrow].resource_uom = "";
+    this.resourceServiceData[currentrow].resource_type = "";
+
+    (<HTMLInputElement>document.getElementsByClassName("row_resource_code")[currentrow]).value = "";
+    (<HTMLInputElement>document.getElementsByClassName("row_resource_name")[currentrow]).value = "";
+    (<HTMLInputElement>document.getElementsByClassName("row_resource_uom")[currentrow]).value = "";   
+  }
+
   get_consumption_inverse_value(type, value, resource_code, currentrow) {
     this.rs.getResConversionInverse(type, value, resource_code).subscribe(
       data => {
@@ -907,6 +1533,11 @@ export class LookupComponent implements OnInit {
     this.current_popup_row = "";
     this.show_associate_bom_popup = false;
     this.rule_selection_show = false;
+    this.routing_resource_show = false;
+  }
+
+  public close_inner_kenod_dialog(){
+    this.dialogOpened = false;
   }
   public sortChange(sort: SortDescriptor[]): void {
     this.sort = sort;

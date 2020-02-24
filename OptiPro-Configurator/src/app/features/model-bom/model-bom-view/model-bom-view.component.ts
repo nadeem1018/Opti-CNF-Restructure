@@ -25,7 +25,7 @@ export class ModelBomViewComponent implements OnInit {
 
   public companyName: string = "";
   public username: string = "";
-  add_route_link = '/model-bom/add-edit';
+  add_route_link = '/model-bom/add';
   record_per_page_list: any = [10, 25, 50, 100]
   record_per_page: any;
   search_string: any = "";
@@ -177,14 +177,7 @@ export class ModelBomViewComponent implements OnInit {
     this.current_page = 1;
     this.service_call(this.current_page, this.search_string);
   }
-  public clearChildCheckbox() {
-    let child_checkbox_selector = document.getElementsByClassName("child_checkbox") as HTMLCollectionOf<HTMLInputElement>;
-    if (child_checkbox_selector.length > 0) {
-      for (let i = 0; i < child_checkbox_selector.length; i++) {
-        child_checkbox_selector[i].checked = false;
-      }
-    }
-  }
+
   service_call(page_number, search) {
     if (this.record_per_page !== undefined && sessionStorage.getItem('defaultRecords')) {
       if (this.record_per_page !== sessionStorage.getItem('defaultRecords')) {
@@ -213,7 +206,7 @@ export class ModelBomViewComponent implements OnInit {
         this.loadServerData(this.dataArray);
         this.CheckedData = [];
         this.selectall = false;
-        this.clearChildCheckbox();
+        this.commonData.clearChildCheckbox();
       }, error => {
         this.showLoader = false;
         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
@@ -244,7 +237,7 @@ export class ModelBomViewComponent implements OnInit {
 
   button_click1(data) {
 
-    this.router.navigateByUrl('model-bom/add-edit/' + data.OPTM_MODELID);
+    this.router.navigateByUrl('model-bom/edit/' + data.OPTM_MODELID);
   }
   button_click2(data) {
     this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.DeleteConfimation });
@@ -253,7 +246,7 @@ export class ModelBomViewComponent implements OnInit {
   }
 
   duplicate_record(data) {
-    this.router.navigateByUrl('model-bom/add-edit/' + data.OPTM_MODELID);
+    this.router.navigateByUrl('model-bom/add/' + data.OPTM_MODELID);
   }
 
   show_association(data) {
@@ -298,7 +291,7 @@ export class ModelBomViewComponent implements OnInit {
           this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[0].ModelCode, 'error');
           this.CheckedData = [];
           this.selectall = false;
-          this.clearChildCheckbox();
+          this.commonData.clearChildCheckbox();
         }
         else if (data[0].IsDeleted == "1") {
           this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[0].ModelCode, 'error');
@@ -306,14 +299,14 @@ export class ModelBomViewComponent implements OnInit {
           this.router.navigateByUrl('model-bom/view');
           this.CheckedData = [];
           this.selectall = false;
-          this.clearChildCheckbox();
+          this.commonData.clearChildCheckbox();
         }
         else {
           this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[0].ModelCode, 'error');
         }
         this.CheckedData = [];
         this.selectall = false;
-        this.clearChildCheckbox();
+        this.commonData.clearChildCheckbox();
       }, error => {
         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
           this.commonservice.isUnauthorized();
@@ -359,6 +352,11 @@ export class ModelBomViewComponent implements OnInit {
       })
     }
 
+    if (this.dataArray.length == this.CheckedData.length) {
+      this.commonData.checkedparentCheckbox();
+      }else{
+       this.commonData.clearparentCheckbox();
+     }
 
   }
 
@@ -371,7 +369,7 @@ export class ModelBomViewComponent implements OnInit {
       if (this.dataArray.length > 0) {
         this.selectall = true
         for (let i = 0; i < this.dataArray.length; ++i) {
-
+          this.commonData.checkedChildCheckbox();
           this.CheckedData.push({
             ModelId: this.dataArray[i].OPTM_MODELID,
             CompanyDBId: this.companyName,
@@ -431,7 +429,7 @@ export class ModelBomViewComponent implements OnInit {
 
           this.CheckedData = [];
           this.selectall = false;
-          this.clearChildCheckbox();
+          this.commonData.clearChildCheckbox();
         }, error => {
           this.showLoader = false
           if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {

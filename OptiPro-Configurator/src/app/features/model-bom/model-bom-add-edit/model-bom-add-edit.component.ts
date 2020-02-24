@@ -74,6 +74,8 @@ export class ModelBomAddEditComponent implements OnInit {
   isIpad: boolean = false;
   isDesktop: boolean = true;
   isPerfectSCrollBar: boolean = false;
+  public isDuplicateMode:boolean = false;
+  public NewModel = "";
 
   getSelectedRowDetail(event) {
     if (event.selectedRows.length > 0) {
@@ -93,9 +95,9 @@ export class ModelBomAddEditComponent implements OnInit {
 
   navigateToFeatureOrModelBom(type_value, type ) {
     if(type == '1'){
-      this.route.navigateByUrl("feature-bom/add-edit/"+type_value);
+      this.route.navigateByUrl("feature-bom/edit/"+type_value);
     } else if(type == '3'){
-      this.route.navigateByUrl("model-bom/add-edit/"+type_value);
+      this.route.navigateByUrl("model-bom/edit/"+type_value);
       this.modelbom_data= [];
       this.tree_data_json = [];
       this.get_modelbom_details(type_value, true);
@@ -103,7 +105,7 @@ export class ModelBomAddEditComponent implements OnInit {
   }
 
   navigateToMasterHeader(modal_id) {
-    this.route.navigateByUrl("feature/add-edit/"+modal_id);
+    this.route.navigateByUrl("feature/edit/"+modal_id);
   }
 
   ngOnInit() {
@@ -160,6 +162,24 @@ export class ModelBomAddEditComponent implements OnInit {
       this.isDeleteButtonVisible = true;
       this.isModelIdEnable = true;
       this.ModelLookupBtnhide = true;
+      if(this.ActivatedRouter.snapshot.url[0].path == "edit") {
+        this.isUpdateButtonVisible = true;
+        this.isSaveButtonVisible = false;
+        this.isDeleteButtonVisible = true; 
+        this.isDuplicateMode = false;
+      } else if(this.ActivatedRouter.snapshot.url[0].path == "add"){ 
+        this.isUpdateButtonVisible = false;
+        this.isSaveButtonVisible = true;
+        this.isDeleteButtonVisible = false; 
+        this.isDuplicateMode = true; 
+        this.isModelIdEnable = false;
+        this.ModelLookupBtnhide = false;
+      } else {
+        this.isUpdateButtonVisible = true;
+        this.isSaveButtonVisible = false;
+        this.isDeleteButtonVisible = false; 
+        this.isDuplicateMode = false;
+      }
       this.get_modelbom_details(this.update_id, false);
     }
   }
@@ -199,7 +219,7 @@ export class ModelBomAddEditComponent implements OnInit {
 
         } else {
           if(navigat_to_header == true){
-            this.route.navigateByUrl('feature/add-edit/' + id);
+            this.route.navigateByUrl('feature/edit/' + id);
           } else {
             this.route.navigateByUrl('model-bom/view');
           }
@@ -334,6 +354,14 @@ export class ModelBomAddEditComponent implements OnInit {
           }
           this.onExplodeClick('auto');
           this.showLoader = false;
+          if(this.isDuplicateMode)
+          { 
+            this.modelbom_data.modal_code = "";
+            this.modelbom_data.feature_name = "";
+            this.modelbom_data.feature_desc = ""; 
+            this.modelbom_data.modal_id = ""; 
+            this.modelbom_data.is_ready_to_use=false; 
+          }
         },error => {
           this.showLoader = false;
           if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
@@ -1831,8 +1859,15 @@ onExplodeClick(type) {
       let objDataset: any = {};
       objDataset.ModelData =[];
       objDataset.RuleData = [];
-      var temp_model_data = new Array();
-      this.modelbom_data[0].id = this.update_id;
+      var temp_model_data = new Array();      
+      if(this.isDuplicateMode)
+      {
+       this.modelbom_data[0].id =  0; 
+      }
+      else
+      {
+       this.modelbom_data[0].id = this.update_id;
+      }
 
       for (let i = 0; i < this.modelbom_data.length; ++i) {
         if (this.modelbom_data[i].display_name == "" || this.modelbom_data[i].display_name == " ") {
@@ -1850,6 +1885,11 @@ onExplodeClick(type) {
       temp_model_data = this.modelbom_data;
       console.log("modelbom data ", this.modelbom_data);
       for (let i = 0; i < temp_model_data.length; ++i) {
+        if(this.isDuplicateMode)
+        {
+          this.NewModel = this.modelbom_data.modal_id;
+          this.modelbom_data[i].ModelId = this.NewModel;
+        }
         if (temp_model_data[i].unique_identifer == false) {
           temp_model_data[i].unique_identifer = "N"
         }

@@ -2354,20 +2354,25 @@ open_operation_resources(flag) {
     var type_value = type.trim();
     if (type_value == 'feature') {
       this.tree_data_json = [];
-      this.route.navigateByUrl('feature-bom/add-edit/' + this.routing_header_data.feature_id);
+      this.route.navigateByUrl('feature-bom/edit/' + this.routing_header_data.feature_id);
     } else if (type_value == 'model') {
-      this.route.navigateByUrl('model-bom/add-edit/' + this.routing_header_data.modal_id);
+      this.route.navigateByUrl('model-bom/edit/' + this.routing_header_data.modal_id);
     }
   }
-
+  on_template_change(){
+    if(this.routing_header_data.use_template_routing == false){
+      this.routing_header_data.template_routing_id = "";
+      this.routing_header_data.template_routing_code = "";
+     }
+  }
 
   navigateToFeatureOrModelBom(type_value, type) {
     if (type == '1') {
       this.tree_data_json = [];
-      this.route.navigateByUrl("feature/bom/edit/" + type_value);
+      this.route.navigateByUrl("feature-bom/edit/" + type_value);
     } else if (type == '3') {
       this.tree_data_json = [];
-      this.route.navigateByUrl("modelbom/edit/" + type_value);
+      this.route.navigateByUrl("model-bom/edit/" + type_value);
     }
   }
 
