@@ -181,14 +181,7 @@ export class RuleWbViewComponent implements OnInit {
 
         this.service_call(this.current_page, this.search_string);
     }
-    public clearChildCheckbox(){
-      let child_checkbox_selector = document.getElementsByClassName("child_checkbox") as HTMLCollectionOf<HTMLInputElement>;
-      if(child_checkbox_selector.length > 0){
-        for(let i = 0; i < child_checkbox_selector.length; i++){
-          child_checkbox_selector[i].checked = false;
-        }
-      }
-    }
+   
     on_page_limit_change() {
         this.current_page = 1;
         this.service_call(this.current_page, this.search_string);
@@ -329,7 +322,7 @@ export class RuleWbViewComponent implements OnInit {
                 }
                 this.CheckedData = [];
                 this.selectall = false;
-                this.clearChildCheckbox();
+                this.commonData.clearChildCheckbox();
             },error => {
                 if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
                   this.commonservice.isUnauthorized();
@@ -374,6 +367,11 @@ export class RuleWbViewComponent implements OnInit {
                 UsernameForLic: sessionStorage.getItem("loggedInUser")
             })
         }
+        if (this.dataArray.length == this.CheckedData.length) {
+            this.commonData.checkedparentCheckbox();
+            }else{
+             this.commonData.clearparentCheckbox();
+           }
     }
 
     on_Selectall_checkbox_checked(checkedvalue) {
@@ -385,7 +383,7 @@ export class RuleWbViewComponent implements OnInit {
             if (this.dataArray.length > 0) {
                 this.selectall = true
                 for (let i = 0; i < this.dataArray.length; ++i) {
-
+                    this.commonData.checkedChildCheckbox();
                     this.CheckedData.push({
                         RuleId: this.dataArray[i].OPTM_RULEID,
                         CompanyDBId: this.companyName,
@@ -446,7 +444,7 @@ export class RuleWbViewComponent implements OnInit {
                 
                 this.CheckedData = [];
                 this.selectall = false;
-                this.clearChildCheckbox();
+                this.commonData.clearChildCheckbox();
             },error => {
                 this.showLoader = false;
                 if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){

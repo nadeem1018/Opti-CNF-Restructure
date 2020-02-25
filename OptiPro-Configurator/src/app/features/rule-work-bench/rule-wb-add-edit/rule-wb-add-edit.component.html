@@ -42,11 +42,11 @@
                 <div class="form-group row clearfix mb-2">
                   <label class="col-sm-3 col-form-label" for="featureDisplay">{{language.discontinued}}</label>
                   <div class="col-sm-5 mt-3px">
-                    <div class="custom-control custom-checkbox custom-control-inline">
+                    <label class="custom-checkbox mb-0 wihtout-label">
                       <input type="checkbox" id="yes" name="discontinued" [(ngModel)]="rule_wb_data.discontinued"
                         class="custom-control-input" value="1" title="{{rule_wb_data.discontinued}}" tabindex="5">
-                      <label class="custom-control-label" for="yes" style="padding-top: 14px;"></label>
-                    </div>
+                        <span class="checkbox"></span>
+                      </label>
                   </div>
                 </div>
       
@@ -253,21 +253,21 @@
                           <kendo-grid-column field="checkboxoutput" title="{{language.checkbox_output}}" filter="text"
                             [width]="50" [minResizableWidth]="50">
                             <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-                              <div class="custom-control custom-checkbox">
+                              <label class="custom-checkbox without-label mb-0 mx-auto d-table">
                                 <input type="checkbox" id="check_all" name="check_all" #outputcheckbox
                                   (click)="check_all(outputcheckbox.checked)" class="custom-control-input"
                                   [disabled]=isExcluded [(checked)]=selectall value="1">
-                                <label class="custom-control-label" for="check_all"></label>
-                              </div>
+                                  <span class="checkbox"></span>
+                              </label>
                             </ng-template>
                             <ng-template kendoGridCellTemplate let-dataItem>
-                              <div class="custom-control custom-checkbox">
+                              <label class="custom-checkbox without-label mb-0 mx-auto d-table">
                                 <input type="checkbox" class="custom-control-input" id="child_check_{{dataItem.rowindex}}"
                                   name="check_child" #checkboxvalue [disabled]=isExcluded
                                   (change)="output_change_event('check_child',checkboxvalue.checked,dataItem.rowindex)"
-                                  value={{dataItem.check_child}} [(checked)]=dataItem.check_child>
-                                <label class="custom-control-label" for="child_check_{{dataItem.rowindex}}"></label>
-                              </div>
+                                  value={{dataItem.check_child}} [(checked)]=dataItem.check_child>                                
+                                <span class="checkbox"></span>
+                              </label>
                             </ng-template>
                           </kendo-grid-column>
                           <kendo-grid-column field="feature" title="{{language.feature}}" filter="text" [width]="115"
@@ -366,10 +366,10 @@
                                 </div>
                               </ng-container>
                               <ng-container *ngIf="this.feature_bom_header_details.OPTM_ISMULTISELECT == 'Y'">
-                                <div class="custom-control custom-checkbox">
+                                <label class="custom-checkbox without-label mb-0 mx-auto d-table">
                                   <input type="checkbox" #default class="custom-control-input" id="is_default_{{dataItem.rowindex}}" name="is_default" value={{dataItem.is_default}} title={{dataItem.is_default}} (change)="output_change_event('default',default.checked,dataItem.rowindex)" [(checked)]=dataItem.is_default [disabled]="(!dataItem.check_child)">
-                                  <label class="custom-control-label" for="is_default_{{dataItem.rowindex}}"></label>
-                                </div>
+                                  <span class="checkbox"></span>
+                                </label>
                               </ng-container>
                             </ng-template>
                           </kendo-grid-column>
