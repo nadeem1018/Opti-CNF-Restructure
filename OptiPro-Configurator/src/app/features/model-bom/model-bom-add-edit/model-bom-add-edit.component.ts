@@ -56,7 +56,6 @@ export class ModelBomAddEditComponent implements OnInit {
   public model_bom_type:any = '';
   // public mandatory_disabled: boolean = false;
   public menu_auth_index = '203'; 
-  public made_changes:boolean = false;
   // modalRef: BsModalRef;
 
   constructor(private ActivatedRouter: ActivatedRoute, private route: Router, private service: ModelbomService, private CommonService: CommonService, private DialogService: DialogService) { }
@@ -86,7 +85,7 @@ export class ModelBomAddEditComponent implements OnInit {
   }
 
   canDeactivate() {
-    if(this.made_changes == true){
+    if(CommonData.made_changes == true){
       return this.DialogService.confirm('');
     } else {
       return true;
@@ -111,6 +110,7 @@ export class ModelBomAddEditComponent implements OnInit {
   ngOnInit() {
 
     const element = document.getElementsByTagName('body')[0];
+    CommonData.made_changes = false;
     this.commonData.checkSession();
     this.username = sessionStorage.getItem('loggedInUser');
     this.companyName = sessionStorage.getItem('selectedComp');
@@ -147,7 +147,7 @@ export class ModelBomAddEditComponent implements OnInit {
     // check screen authorisation - end
 
     if (this.update_id === "" || this.update_id === null) {
-      this.made_changes = true;
+     // CommonData.made_changes = true;
       this.isUpdateButtonVisible = false;
       this.isDeleteButtonVisible = false;
       this.isModelIdEnable = false;
@@ -156,7 +156,7 @@ export class ModelBomAddEditComponent implements OnInit {
       this.showLoader = false;
     }
     else {
-      this.made_changes = false;
+      CommonData.made_changes = false;
       this.isUpdateButtonVisible = true;
       this.isSaveButtonVisible = false;
       this.isDeleteButtonVisible = true;
@@ -186,11 +186,15 @@ export class ModelBomAddEditComponent implements OnInit {
 
   get_modelbom_details(id, navigat_to_header) {
     this.showLoader = true;
+    if(this.isDuplicateMode)
+    {
+      this.NewModel = this.update_id;
+    }
     this.service.GetDataByModelId(id).subscribe(
       data => {
         if(data != undefined && data.LICDATA != undefined){
           if (data.LICDATA[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
@@ -431,11 +435,11 @@ onAddRow() {
     print_on_report : print_on_report_flag,
     print_on_report_disabled : print_on_report_disabled_flag
   });
-  this.made_changes = true;
+  CommonData.made_changes = true;
 };
 
 onDeleteRow(rowindex) {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   if (this.modelbom_data.length > 0) {
     for (let i = 0; i < this.modelbom_data.length; ++i) {
       if (this.modelbom_data[i].rowindex === rowindex) {
@@ -493,7 +497,7 @@ on_bom_type_change(selectedvalue, rowindex) {
   }
   this.serviceData = [];
   this.currentrowindex = rowindex;
-  this.made_changes = true;
+  CommonData.made_changes = true;
   for (let i = 0; i < this.modelbom_data.length; ++i) {
     if (this.modelbom_data[i].rowindex === this.currentrowindex) {
       this.clearData(i);
@@ -568,7 +572,7 @@ on_type_click(selectedvalue, rowindex) {
     this.CommonService.show_notification(this.language.ModelCodeBlank, 'error');
     return false;
   }
-  this.made_changes = true;
+  CommonData.made_changes = true;
   this.currentrowindex = rowindex;
   if (selectedvalue == 3) {
     this.getModelDetails(this.modelbom_data.modal_id, "Detail", selectedvalue)
@@ -592,7 +596,7 @@ getModelFeatureDetails(feature_code, press_location, index) {
       if (data.length > 0) {
         this.showLookupLoader = false;
         if (data[0].ErrorMsg == "7001") {
-          this.made_changes = false;
+          CommonData.made_changes = false;
           this.CommonService.RemoveLoggedInUser().subscribe();
           this.CommonService.signOut(this.route, 'Sessionout');
           return;
@@ -663,7 +667,7 @@ getModelFeatureDetails(feature_code, press_location, index) {
 }
 
 openFeatureLookUp() {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   this.showLookupLoader = true;
   this.serviceData = []
   this.service.GetModelList().subscribe(
@@ -671,7 +675,7 @@ openFeatureLookUp() {
       if(data != undefined && data != null){
         if(data.length > 0){
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
@@ -712,7 +716,7 @@ openPriceLookUp(ItemKey, rowindex) {
     data => {
       if(data != undefined && data.length > 0){
         if (data[0].ErrorMsg == "7001") {
-          this.made_changes = false;
+          CommonData.made_changes = false;
           this.showLookupLoader = false;
           this.CommonService.RemoveLoggedInUser().subscribe();
           this.CommonService.signOut(this.route, 'Sessionout');
@@ -744,6 +748,9 @@ openPriceLookUp(ItemKey, rowindex) {
 }
 
 getLookupValue($event) {
+  if($event[0] == undefined || $event[0] == "" ){
+    return;    
+ }
   if (this.lookupfor == "feature_Detail_lookup" || this.lookupfor == "ModelBom_Detail_lookup" || this.lookupfor == "Item_Detail_lookup") {
     console.log("in here - selection ");
     for (let j = 0; j < this.modelbom_data.length; j++) {
@@ -775,33 +782,33 @@ getLookupValue($event) {
 
   if (this.lookupfor == 'ModelBom_lookup') {
     //alert($event);
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.modelbom_data.modal_id = $event[0];
     this.modelbom_data.modal_code = $event[1];
 
     this.getModelDetails($event[0], "Header", 0);
   }
   else if (this.lookupfor == 'feature_Detail_lookup') {
-    this.made_changes = true;
+    CommonData.made_changes = true;    
     this.getModelFeatureDetails($event[0], "Header", 0);
   }
   else if (this.lookupfor == 'ModelBom_Detail_lookup') {
     //On choosing value from lookup we will chk its cyclic dependency
     //First we will check the conflicts
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.checkModelAlreadyAddedinParent($event[0], this.modelbom_data.modal_id, this.currentrowindex - 1, "lookup");
 
   }
   else if (this.lookupfor == 'Price_lookup') {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.getPriceDetails($event[1], $event[0], this.currentrowindex);
   }
   else if (this.lookupfor == 'rule_section_lookup') {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.rule_data = $event;
   }
   else if (this.lookupfor == 'Item_Detail_lookup') {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.serviceData = []
     this.getItemDetails($event[0]);
   }
@@ -825,7 +832,7 @@ getModelDetails(Model_code, press_location, index) {
       if (data.length > 0) {
         this.showLookupLoader = false;  
         if (data[0].ErrorMsg == "7001") {
-          this.made_changes = false;
+          CommonData.made_changes = false;
           this.CommonService.RemoveLoggedInUser().subscribe();
           this.CommonService.signOut(this.route, 'Sessionout');
           return;
@@ -886,7 +893,7 @@ getItemDetailsOnChange(ItemKey){
       if (data != null) {
         if (data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
@@ -956,7 +963,7 @@ on_typevalue_change(value, rowindex, code, type_value_code) {
       }
     }
   }
-  this.made_changes = true;
+  CommonData.made_changes = true;
   for (let i = 0; i < this.modelbom_data.length; ++i) {
     if (this.modelbom_data[i].rowindex === this.currentrowindex) {
       this.modelbom_data[i].type_value = value.toString()
@@ -967,7 +974,7 @@ on_typevalue_change(value, rowindex, code, type_value_code) {
 
             if(data != undefined && data.length > 0){
               if (data[0].ErrorMsg == "7001") {
-                this.made_changes = false;
+                CommonData.made_changes = false;
                 this.CommonService.RemoveLoggedInUser().subscribe();
                 this.CommonService.signOut(this.route, 'Sessionout');
                 return;
@@ -1005,7 +1012,7 @@ on_typevalue_change(value, rowindex, code, type_value_code) {
             console.log(data);
             if(data != undefined && data.length > 0){
               if (data[0].ErrorMsg == "7001") {
-                this.made_changes = false;
+                CommonData.made_changes = false;
                 this.CommonService.RemoveLoggedInUser().subscribe();
                 this.CommonService.signOut(this.route, 'Sessionout');
                 return;
@@ -1045,7 +1052,7 @@ on_typevalue_change(value, rowindex, code, type_value_code) {
 on_display_name_change(value, rowindex) {
 
   this.currentrowindex = rowindex
-  this.made_changes = true;
+  CommonData.made_changes = true;
   for (let i = 0; i < this.modelbom_data.length; ++i) {
     if (this.modelbom_data[i].rowindex === this.currentrowindex) {
       if (this.modelbom_data.feature_name == value) {
@@ -1062,7 +1069,7 @@ on_display_name_change(value, rowindex) {
 
 on_quantity_change(value, rowindex) {
   this.currentrowindex = rowindex;
-  this.made_changes = true;
+  CommonData.made_changes = true;
   for (let i = 0; i < this.modelbom_data.length; ++i) {
     if (this.modelbom_data[i].rowindex === this.currentrowindex) {
       if (value == 0) {
@@ -1100,7 +1107,7 @@ on_quantity_change(value, rowindex) {
 }
 
 print_on_report_change(value, rowindex){
-  this.made_changes = true;
+  CommonData.made_changes = true;
   this.currentrowindex = rowindex
   for (let i = 0; i < this.modelbom_data.length; ++i) {
     if (this.modelbom_data[i].rowindex === this.currentrowindex) {
@@ -1117,7 +1124,7 @@ print_on_report_change(value, rowindex){
 
 on_uom_change(value, rowindex) {
   this.currentrowindex = rowindex;
-  this.made_changes = true;
+  CommonData.made_changes = true;
   for (let i = 0; i < this.modelbom_data.length; ++i) {
     if (this.modelbom_data[i].rowindex === this.currentrowindex) {
       this.modelbom_data[i].uom = value
@@ -1127,7 +1134,7 @@ on_uom_change(value, rowindex) {
 
 on_min_selected_change(value, rowindex, actualvalue) {
   this.currentrowindex = rowindex;
-  this.made_changes = true;
+  CommonData.made_changes = true;
   for (let i = 0; i < this.modelbom_data.length; ++i) {
     if (this.modelbom_data[i].rowindex === this.currentrowindex) {
       var rgexp = /^\d+$/;
@@ -1174,7 +1181,7 @@ on_min_selected_change(value, rowindex, actualvalue) {
 
 on_max_selected_change(value, rowindex, actualvalue) {
   this.currentrowindex = rowindex
-  this.made_changes = true;
+  CommonData.made_changes = true;
   for (let i = 0; i < this.modelbom_data.length; ++i) {
     if (this.modelbom_data[i].rowindex === this.currentrowindex) {
       var rgexp = /^\d+$/;
@@ -1222,7 +1229,7 @@ on_max_selected_change(value, rowindex, actualvalue) {
             console.log(data);
             if(data != undefined && data != null && data.length > 0){
               if (data[0].ErrorMsg == "7001") {
-                this.made_changes = false;
+                CommonData.made_changes = false;
                 this.CommonService.RemoveLoggedInUser().subscribe();
                 this.CommonService.signOut(this.route, 'Sessionout');
                 return;
@@ -1281,7 +1288,7 @@ on_max_selected_change(value, rowindex, actualvalue) {
 }
 
 on_propagate_qty_change(value, rowindex) {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   this.currentrowindex = rowindex
   for (let i = 0; i < this.modelbom_data.length; ++i) {
     if (this.modelbom_data[i].rowindex === this.currentrowindex) {
@@ -1296,7 +1303,7 @@ on_propagate_qty_change(value, rowindex) {
 }
 
 on_price_source_change(id, value, rowindex, actualValue) {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   this.currentrowindex = rowindex;
   for (let i = 0; i < this.modelbom_data.length; ++i) {
     if (this.modelbom_data[i].rowindex === this.currentrowindex) {
@@ -1304,7 +1311,7 @@ on_price_source_change(id, value, rowindex, actualValue) {
         data => {
           if(data != undefined && data.length > 0){
             if (data[0].ErrorMsg == "7001") {
-              this.made_changes = false;
+              CommonData.made_changes = false;
               this.CommonService.RemoveLoggedInUser().subscribe();
               this.CommonService.signOut(this.route, 'Sessionout');
               return;
@@ -1332,7 +1339,7 @@ on_price_source_change(id, value, rowindex, actualValue) {
 }
 
 on_mandatory_change(value, rowindex) {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   this.currentrowindex = rowindex;
   for (let i = 0; i < this.modelbom_data.length; ++i) {
     if (this.modelbom_data[i].rowindex === this.currentrowindex) {
@@ -1347,7 +1354,7 @@ on_mandatory_change(value, rowindex) {
 }
 
 on_unique_identifer_change(value, rowindex) {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   this.currentrowindex = rowindex
   for (let i = 0; i < this.modelbom_data.length; ++i) {
     if (this.modelbom_data[i].rowindex === this.currentrowindex) {
@@ -1362,7 +1369,7 @@ on_unique_identifer_change(value, rowindex) {
 }
 
 on_isready_change(value) {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   for (let i = 0; i < this.modelbom_data.length; ++i) {
     if (value.checked == true) {
       this.modelbom_data[i].ReadyToUse = true
@@ -1407,7 +1414,7 @@ validation(btnpress) {
   }
 
   if (btnpress == "Save") {
-    this.made_changes = false;
+    CommonData.made_changes = false;
     if (this.modelbom_data.length == 0) {
       
        this.CommonService.show_notification(this.language.Addrow, 'error');
@@ -1463,7 +1470,7 @@ delete_record() {
     data => {
       if(data != undefined && data.length > 0){
         if (data[0].ErrorMsg == "7001") {
-          this.made_changes = false;
+          CommonData.made_changes = false;
           this.showLookupLoader = false;
           this.CommonService.RemoveLoggedInUser().subscribe();
           this.CommonService.signOut(this.route, 'Sessionout');
@@ -1478,7 +1485,7 @@ delete_record() {
       else if(data[0].IsDeleted == "1"){
         
          this.CommonService.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[0].ModelCode, 'success');
-        this.made_changes = false;
+        CommonData.made_changes = false;
         this.route.navigateByUrl('model-bom/view');
       }
       else{
@@ -1518,7 +1525,7 @@ onExplodeClick(type) {
           if (data != null && data != undefined) {
             if(data.length > 0){
               if (data[0].ErrorMsg == "7001") {
-                this.made_changes = false;
+                CommonData.made_changes = false;
                 this.CommonService.RemoveLoggedInUser().subscribe();
                 this.CommonService.signOut(this.route, 'Sessionout');
                 return;
@@ -1634,7 +1641,7 @@ onExplodeClick(type) {
         if (data !== undefined && data != "" && data != null) {
           if(data.length > 0){
             if (data[0].ErrorMsg == "7001") {
-              this.made_changes = false;
+              CommonData.made_changes = false;
               this.CommonService.RemoveLoggedInUser().subscribe();
               this.CommonService.signOut(this.route, 'Sessionout');
               return;
@@ -1669,7 +1676,7 @@ onExplodeClick(type) {
   }
 
   onModelIdChange() {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.service.onModelIdChange(this.modelbom_data.modal_code).subscribe(
       data => {
         if (data === "False") {
@@ -1707,7 +1714,7 @@ onExplodeClick(type) {
         console.log(data);
         if(data != undefined && data.length > 0){
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
@@ -1737,7 +1744,7 @@ onExplodeClick(type) {
 
         if(data != undefined && data.length > 0){
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
@@ -1773,7 +1780,7 @@ onExplodeClick(type) {
       data => {
         if (data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
@@ -1934,7 +1941,7 @@ onExplodeClick(type) {
         data => {
           this.showLookupLoader = false;
           if (data == "7001") {
-            this.made_changes = false;
+                 CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;

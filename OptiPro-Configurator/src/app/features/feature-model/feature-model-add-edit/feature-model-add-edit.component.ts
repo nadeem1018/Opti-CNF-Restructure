@@ -73,10 +73,10 @@ export class FeatureModelAddEditComponent implements OnInit {
   public isUsedAccesoriesDisabled = false;
   public header_image_data: any;
   public menu_auth_index = '201';
-  public made_changes:boolean = false;
+  
 
   canDeactivate() {
-    if(this.made_changes == true){
+    if(CommonData.made_changes == true){
       return this.DialogService.confirm('');
     } else {
       return true;
@@ -89,7 +89,7 @@ export class FeatureModelAddEditComponent implements OnInit {
     // // element.className = '';
     // element.classList.add('sidebar-toggled');
     // document.getElementById("opti_sidebar").classList.add('toggled');
-     
+    CommonData.made_changes = false;
     this.commonData.checkSession();
     this.companyName = sessionStorage.getItem('selectedComp');
     this.username = sessionStorage.getItem('loggedInUser');
@@ -124,7 +124,7 @@ export class FeatureModelAddEditComponent implements OnInit {
 
     if (this.codekey === "" || this.codekey === null) {
       this.button = "save";
-      this.made_changes = true; 
+    //  CommonData.made_changes = true; 
       this.isUpdateButtonVisible = false;
       this.isDeleteButtonVisible = false;
       this.section_title = this.language.add;
@@ -147,7 +147,7 @@ export class FeatureModelAddEditComponent implements OnInit {
     }
     else {
       this.button = "update";
-      this.made_changes = false; 
+      CommonData.made_changes = false; 
       /* this.isUpdateButtonVisible = true;
       this.isSaveButtonVisible = false; */
       /* this.isDeleteButtonVisible = true; */
@@ -183,7 +183,7 @@ export class FeatureModelAddEditComponent implements OnInit {
 
           if(data != undefined && data.length > 0){
             if (data[0].ErrorMsg == "7001") {
-              this.made_changes = false;
+              CommonData.made_changes = false;
                 this.showLoader = false;
                 this.commanService.RemoveLoggedInUser().subscribe();
                 this.commanService.signOut(this.router, 'Sessionout');
@@ -267,14 +267,23 @@ export class FeatureModelAddEditComponent implements OnInit {
 
   validate_special_char(code){
     if(code !== "" && this.commonData.excludeSpecialCharRegex.test(code) === true) {
-      this.made_changes = true;
+      CommonData.made_changes = true;
       this.featureBom.Code = "";     
       this.commanService.show_notification(this.language.ValidString, 'error');
     }
   }
 
+  onInputeCode(value) {    
+    if(value.trim().length > 0){
+      CommonData.made_changes = true;
+     }else{
+      CommonData.made_changes = false;
+    }
+  
+  }
+
   onTypeLookupChange() {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     if (this.featureBom.type == "Feature") {
       this.model_code_label = this.language.model_FeatureCode;
       this.model_name_label = this.language.Model_FeatureName;
@@ -309,7 +318,7 @@ export class FeatureModelAddEditComponent implements OnInit {
     if (validateStatus == true) {
       this.featureModel.push({
         CompanyDBId: this.companyName,
-        FeatureCode: this.featureBom.Code,
+        FeatureCode: this.featureBom.Code.trim(),
         DisplayName: this.featureBom.Name,
         FeatureDesc: this.featureBom.Desc,
         EffectiveDate: (EffectiveDate).getFullYear() + '/' + ((EffectiveDate).getMonth() + 1) + '/' + (EffectiveDate).getDate(),
@@ -326,14 +335,14 @@ export class FeatureModelAddEditComponent implements OnInit {
         data => {
           this.showLookupLoader = false;
           if (data == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.commanService.RemoveLoggedInUser().subscribe();
             this.commanService.signOut(this.router, 'Sessionout');
             return;
           }
 
           if (data == "True") {
-            this.made_changes = false; 
+            CommonData.made_changes = false; 
             this.commanService.show_notification(this.language.DataSaved, 'success');          
             this.router.navigateByUrl(this.view_route_link);
             return;
@@ -364,7 +373,7 @@ export class FeatureModelAddEditComponent implements OnInit {
   onTemplateItemPress(status) {
     this.lookupfor = 'model_template';
     this.showLookupLoader = true;
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.getAllTemplateItems();
 
   }
@@ -376,7 +385,7 @@ export class FeatureModelAddEditComponent implements OnInit {
 
         if(data != undefined && data.length > 0){
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
               this.showLoader = false;
               this.commanService.RemoveLoggedInUser().subscribe();
               this.commanService.signOut(this.router, 'Sessionout');
@@ -404,7 +413,7 @@ export class FeatureModelAddEditComponent implements OnInit {
     for (let file of files) {
       formData.append(file.name, file);
     }
-    this.made_changes = true; 
+    CommonData.made_changes = true; 
     this.fms.UploadFeature(formData).subscribe(data => {
       if (data !== undefined && data != "") {
         if (data.body === "False") {
@@ -436,23 +445,23 @@ export class FeatureModelAddEditComponent implements OnInit {
   }
 
   call_change_event(){
-    this.made_changes = true;
+    CommonData.made_changes = true;
   }
 
   onItemGenerationPress(status) {
     this.showLookupLoader = true;
     this.lookupfor = 'model_item_generation';
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.getAllItemGenerated();
   }
   getAllItemGenerated() {
-     this.made_changes = true; 
+     CommonData.made_changes = true; 
     this.fms.getGeneratedItems(this.companyName).subscribe(
       data => {
         this.showLookupLoader = false;
         if(data != undefined && data.length > 0){
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
               this.commanService.RemoveLoggedInUser().subscribe();
               this.commanService.signOut(this.router, 'Sessionout');
               return;
@@ -505,12 +514,13 @@ export class FeatureModelAddEditComponent implements OnInit {
   onUpdateClick() {
     this.showLookupLoader = true;
     this.featureModel = [];
+    CommonData.made_changes = false;
     var validateStatus = this.Validation();
     if (validateStatus == true) {
       this.featureModel.push({
         CompanyDBId: this.companyName,
         FeatureId: this.codekey,
-        FeatureCode: this.featureBom.Code,
+        FeatureCode: this.featureBom.Code.trim(),
         DisplayName: this.featureBom.Name,
         FeatureDesc: this.featureBom.Desc,
         EffectiveDate: this.featureBom.Date,
@@ -528,7 +538,7 @@ export class FeatureModelAddEditComponent implements OnInit {
           this.showLookupLoader = false;
           console.log(data);
           if (data == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.commanService.RemoveLoggedInUser().subscribe();
             this.commanService.signOut(this.router, 'Sessionout');
             return;
@@ -577,7 +587,7 @@ export class FeatureModelAddEditComponent implements OnInit {
           if (data != null && data != undefined) {
             if (data.length > 0) {
                if (data[0].ErrorMsg == "7001") {
-                 this.made_changes = false;
+                 CommonData.made_changes = false;
                 this.commanService.RemoveLoggedInUser().subscribe();
                 this.commanService.signOut(this.router, 'Sessionout');
                 this.showLookupLoader = false;
@@ -638,7 +648,7 @@ export class FeatureModelAddEditComponent implements OnInit {
 
         if(data != undefined && data.length > 0){
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
               this.commanService.RemoveLoggedInUser().subscribe();
               this.commanService.signOut(this.router, 'Sessionout');
               return;
@@ -650,7 +660,7 @@ export class FeatureModelAddEditComponent implements OnInit {
           }
         else if(data[0].IsDeleted == "1"){
             this.commanService.show_notification(this.language.DataDeleteSuccesfully  + ' : ' + data[0].FeatureCode, 'error');
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.router.navigateByUrl(this.view_route_link);
         }
         else {
@@ -692,13 +702,13 @@ export class FeatureModelAddEditComponent implements OnInit {
     }
   }
   onItemCodeChange() {
-    this.made_changes =true;
+    CommonData.made_changes =true;
     this.fms.onItemCodeChange(this.companyName, this.featureBom.ItemName).subscribe(
       data => {
 
         if(data != undefined && data.length > 0 ){
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
               this.commanService.RemoveLoggedInUser().subscribe();
               this.commanService.signOut(this.router, 'Sessionout');
               return;
@@ -726,7 +736,7 @@ export class FeatureModelAddEditComponent implements OnInit {
 
         if(data != undefined && data.length > 0){
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
               this.commanService.RemoveLoggedInUser().subscribe();
               this.commanService.signOut(this.router, 'Sessionout');
               return;

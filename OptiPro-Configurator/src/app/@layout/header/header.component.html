@@ -27,7 +27,7 @@
         </ng-template>
         <ng-template kendoMenuItemContentTemplate class="demoPopup">
           <button type="button" class="dropdown-item" routerLink="/preferences">{{this.preferences}}</button>
-          <button type="button" class="dropdown-item" (click)="openDialog()">{{this.about}}</button>
+          <button type="button" class="dropdown-item" (click)="open_info_popup()">{{this.about}}</button>
           <a class="dropdown-item" href="{{user_guide_link}}" target="_blank">{{this.help}}</a>
           <button type="button" class="dropdown-item" (click)="logout()">{{this.signout}}</button>
         </ng-template>

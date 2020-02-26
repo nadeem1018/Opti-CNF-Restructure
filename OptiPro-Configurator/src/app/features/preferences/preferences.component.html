@@ -1,1 +1,49 @@
-<p>preferences works!</p>
+<!-- loader start -->
+<div class="loader-sm" *ngIf="showLoader">
+    <svg viewBox="0 0 218.2 218.8" class="loader2">
+      <use xlink:href="#loader2"></use>
+    </svg>
+  </div>
+  <!-- loader end -->
+  
+  <!-- loader start for lookup -->
+  <div class="loader-sm" *ngIf="showLookupLoader">
+    <svg viewBox="0 0 218.2 218.8" class="loader2">
+      <use xlink:href="#loader2"></use>
+    </svg>
+  </div>
+  <!-- loader end for lookup -->
+
+
+<div class="layout-mode" fxFlex fxLayout="column">
+    <div class="page-header">
+      <h4>{{page_main_title}}</h4>
+    </div>
+    <div class="card" fxFlex>
+      <div class="card-body pb-2" fxFlex fxLayout="column">
+        <div class="main-portion">                
+                <div class="form-group row clearfix">
+                    <label class="col-sm-4 col-form-label" for="feature"> {{language.hidden_item_text_on_report}}</label>
+                    <div class="col-sm-5">
+                        <input type="text" id="codeID" name="codeName" maxlength="50" class="form-control  form-control-sm mt3" placeholder="{{language.hidden_item_text_on_report}}"
+                        [(ngModel)]="settings_data.report_hidden_item_text" title="{{settings_data.report_hidden_item_text}}" #inputBox >
+                    </div>
+                </div>          
+        </div>
+        <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
+          
+          <button type="button" (click)="onUpdateClick()" class="btn btn-sm btn-primary with-icon mr-2">
+            <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.update}}
+          </button>
+
+          <!-- only view when edit mode -->
+          <button type="button"  (click)= "onCancel()"  class="btn btn-sm btn-secondary with-icon">
+            <svg viewBox="0 0 489 489" class="icon"><use xlink:href="#cancel"></use></svg><span>{{language.cancel}}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+	
+
+

@@ -78,7 +78,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   public NewFeatureId = "";
 
   getSelectedRowDetail(event) {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     if (event.selectedRows.length > 0) {
       this.current_selected_row = event.selectedRows[0].dataItem;
     } else {
@@ -87,13 +87,14 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   canDeactivate() {
-    if (this.made_changes == true) {
+    if(CommonData.made_changes == true){
       return this.DialogService.confirm('');
     } else {
       return true;
     }
   }
 
+ 
   navigateToFeatureOrModelBom(id) {
     this.route.navigateByUrl("feature-bom/add-edit/" + id);
     this.feature_bom_data = [];
@@ -107,12 +108,12 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    CommonData.made_changes = false;
     const element = document.getElementsByTagName('body')[0];
     this.selectableSettings = {
       mode: 'single'
     };
-
+  
     element.classList.add('add-feature-bom');
 
     this.commonData.checkSession();
@@ -147,7 +148,7 @@ export class FeatureBomAddEditComponent implements OnInit {
     this.update_id = "";
     this.update_id = this.ActivatedRouter.snapshot.paramMap.get('id');
     if (this.update_id === "" || this.update_id === null) {
-      this.made_changes = true;
+      //CommonData.made_changes = true;
       this.isUpdateButtonVisible = false;
       this.isDeleteButtonVisible = false;
       this.isFeatureIdEnable = false;
@@ -160,7 +161,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       this.feature_bom_data.feature_max_selectable = 1;
     }
     else {
-      this.made_changes = false;
+      CommonData.made_changes = false;
       this.isUpdateButtonVisible = true;
       this.isSaveButtonVisible = false;
       this.isDeleteButtonVisible = true;
@@ -204,7 +205,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       data => {
         if (data != undefined && data.LICDATA != undefined) {
           if (data.LICDATA[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
@@ -391,7 +392,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   on_multiple_model_change() {
-    this.made_changes = true;
+     CommonData.made_changes = true;
     if (this.feature_bom_data.multi_select == 'false') {
       this.feature_bom_data.multi_select_disabled = true;
     } else if (this.feature_bom_data.multi_select == 'true') {
@@ -408,7 +409,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   validate_min_values(value, input_id) {
-    this.made_changes = true;
+     CommonData.made_changes = true;
     if (this.feature_bom_data.multi_select == 'true') {
 
       var rgexp = /^\d+$/;
@@ -452,7 +453,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   validate_max_values(value, input_id) {
-    this.made_changes = true;
+     CommonData.made_changes = true;
     if (value == 0) {
       value = 1;
       this.feature_bom_data[input_id] = (value);
@@ -544,7 +545,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       print_on_report: print_on_report_flag,
       print_on_report_disabled: print_on_report_disabled_flag
     });
-    this.made_changes = true;
+    CommonData.made_changes = true;
   };
 
   uploaddetailfile(files: any, rowindex) {
@@ -598,7 +599,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   onDeleteRow(rowindex) {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     if (this.feature_bom_table.length > 0) {
       for (let i = 0; i < this.feature_bom_table.length; ++i) {
         if (this.feature_bom_table[i].rowindex === rowindex) {
@@ -702,14 +703,14 @@ export class FeatureBomAddEditComponent implements OnInit {
       data => {
         this.showLookupLoader = false;
         if (data == "7001") {
-          this.made_changes = false;
+          CommonData.made_changes = false
           this.CommonService.RemoveLoggedInUser().subscribe();
           this.CommonService.signOut(this.route, 'Sessionout');
           return;
         }
 
         if (data === "True") {
-          this.made_changes = false;
+          CommonData.made_changes = false
           //this.toastr.success('', this.language.DataSaved, this.commonData.toast_config);
           this.CommonService.show_notification(this.language.DataSaved, 'success');
           this.route.navigateByUrl('feature-bom/view');
@@ -747,7 +748,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
   on_bom_type_change(selectedvalue, rowindex) {
 
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.currentrowindex = rowindex
     for (let i = 0; i < this.feature_bom_table.length; ++i) {
       if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
@@ -804,7 +805,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   on_type_change(selectedvalue, rowindex) {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.currentrowindex = rowindex;
     this.showLookupLoader = true;
     this.getFeatureDetails(this.feature_bom_data.feature_id, "Detail", selectedvalue);
@@ -855,7 +856,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   on_remark_change(value, rowindex) {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.currentrowindex = rowindex
     for (let i = 0; i < this.feature_bom_table.length; ++i) {
       if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
@@ -865,7 +866,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   on_displayname_change(value, rowindex) {
-    this.made_changes = true;
+   CommonData.made_changes = true;
     this.currentrowindex = rowindex
     for (let i = 0; i < this.feature_bom_table.length; ++i) {
       if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
@@ -878,7 +879,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
   on_typevalue_change(value, rowindex, code, type_value_code) {
     var iIndex;
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.currentrowindex = rowindex
     iIndex = this.currentrowindex - 1;
     for (let j = 0; j < this.feature_bom_table.length; j++) {
@@ -931,7 +932,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
               if (data != undefined && data.length > 0) {
                 if (data[0].ErrorMsg == "7001") {
-                  this.made_changes = false;
+                  CommonData.made_changes = false;
                   this.CommonService.RemoveLoggedInUser().subscribe();
                  
                   return;
@@ -979,7 +980,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   on_defualt_change(value, rowindex) {
-    this.made_changes = true;
+     CommonData.made_changes = true;
     this.currentrowindex = rowindex
     for (let i = 0; i < this.feature_bom_table.length; ++i) {
       if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
@@ -1003,14 +1004,14 @@ export class FeatureBomAddEditComponent implements OnInit {
 
   getLookupValue($event) {
     if (this.lookupfor == 'feature_lookup') {
-      this.made_changes = true;
+       CommonData.made_changes = true;
       this.feature_bom_data.feature_id = $event[0];
       this.feature_bom_data.feature_code = $event[1];
       this.getFeatureDetails($event[0], "Header", 0);
     }
     else if (this.lookupfor == 'Item_Detail_lookup') {
       this.lookupfor = 'Item_Detail_lookup';
-      this.made_changes = true;
+       CommonData.made_changes = true;
       for (let j = 0; j < this.feature_bom_table.length; j++) {
         var psTypeCode = this.feature_bom_table[j].type_value_code;
         if (psTypeCode != undefined && psTypeCode != "") {
@@ -1028,7 +1029,7 @@ export class FeatureBomAddEditComponent implements OnInit {
     }
     else if (this.lookupfor == 'feature_Detail_lookup') {
       //call the method cyclic chk
-      this.made_changes = true;
+       CommonData.made_changes = true;
       for (let j = 0; j < this.feature_bom_table.length; j++) {
         var psTypeCode = this.feature_bom_table[j].type_value_code;
         if (psTypeCode != undefined && psTypeCode != "") {
@@ -1045,7 +1046,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       this.checkFeaturesAlreadyAddedinParent($event[0], "", this.currentrowindex - 1, "lookup");
     }
     else if (this.lookupfor == 'Price_lookup') {
-      this.made_changes = true;
+       CommonData.made_changes = true;
       this.getPriceDetails($event[1], $event[0], this.currentrowindex);
     }
 
@@ -1062,7 +1063,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
   openFeatureLookUp() {
     this.showLookupLoader = true;
-    this.made_changes = true;
+     CommonData.made_changes = true;
     console.log('inopen feature');
     this.serviceData = []
     this.lookupfor = 'feature_lookup';
@@ -1070,7 +1071,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       data => {
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+             CommonData.made_changes = false;
             this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
@@ -1116,7 +1117,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       data => {
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+             CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
@@ -1189,7 +1190,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+             CommonData.made_changes = false;
             this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
@@ -1296,12 +1297,12 @@ export class FeatureBomAddEditComponent implements OnInit {
     this.showLookupLoader = true;
     this.serviceData = []
     this.currentrowindex = rowindex;
-    this.made_changes = true;
+  CommonData.made_changes = true;
     this.fbom.GetPriceList(ItemKey).subscribe(
       data => {
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+          CommonData.made_changes = false;
             this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
@@ -1419,7 +1420,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   on_propagate_qty_change(value, rowindex) {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.currentrowindex = rowindex
     for (let i = 0; i < this.feature_bom_table.length; ++i) {
       if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
@@ -1435,7 +1436,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   print_on_report_change(value, rowindex) {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.currentrowindex = rowindex
     for (let i = 0; i < this.feature_bom_table.length; ++i) {
       if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
@@ -1452,7 +1453,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
   on_price_source_change(id, value, rowindex, actualValue) {
     this.currentrowindex = rowindex
-    this.made_changes = true;
+    CommonData.made_changes = true;
     for (let i = 0; i < this.feature_bom_table.length; ++i) {
       if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
 
@@ -1461,7 +1462,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
             if (data != undefined && data.length > 0) {
               if (data[0].ErrorMsg == "7001") {
-                this.made_changes = false;
+                CommonData.made_changes = false;
                 this.CommonService.RemoveLoggedInUser().subscribe();
                 this.CommonService.signOut(this.route, 'Sessionout');                
                 return;
@@ -1511,7 +1512,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       data => {
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
@@ -1525,7 +1526,7 @@ export class FeatureBomAddEditComponent implements OnInit {
         else if (data[0].IsDeleted == "1") {
           // this.toastr.success('', this.language.DataDeleteSuccesfully  + ' : ' + data[0].FeatureCode, this.commonData.toast_config);
           this.CommonService.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[0].FeatureCode, 'success');
-          this.made_changes = false;
+          CommonData.made_changes = false;
           this.router.navigateByUrl('feature-bom/view');
         }
         else {
@@ -1561,7 +1562,7 @@ export class FeatureBomAddEditComponent implements OnInit {
           if (data != null && data != undefined) {
             if (data.length > 0) {
               if (data[0].ErrorMsg == "7001") {
-                this.made_changes = false;
+                CommonData.made_changes = false;
                 this.CommonService.RemoveLoggedInUser().subscribe();
                 this.CommonService.signOut(this.route, 'Sessionout');
                 this.showLookupLoader = false;
@@ -1619,7 +1620,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
               if (data.length > 0) {
                 if (data[0].ErrorMsg == "7001") {
-                  this.made_changes = false;
+                  CommonData.made_changes = false;
                   this.CommonService.RemoveLoggedInUser().subscribe();
                   this.CommonService.signOut(this.route, 'Sessionout');
                   return;
@@ -1712,14 +1713,14 @@ export class FeatureBomAddEditComponent implements OnInit {
 
 
   onFeatureIdChange() {
-    this.made_changes = true;
+      CommonData.made_changes = true;
     this.fbom.onFeatureIdChange(this.feature_bom_data.feature_code).subscribe(
       data => {
         console.log(data);
 
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+              CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');    
             return;
@@ -1761,7 +1762,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       data => {
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+              CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
@@ -1896,7 +1897,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
   resequence_operation(type) {  // type = 1 : up & type = 2 : down
 
-    this.made_changes = true;
+      CommonData.made_changes = true;
     let row_c_select = this.current_selected_row.rowindex;
     let current_row_index = this.feature_bom_table.findIndex(function (obj) {
       return obj.rowindex == row_c_select;

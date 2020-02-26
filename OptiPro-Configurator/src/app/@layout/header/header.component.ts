@@ -102,6 +102,7 @@ export class HeaderComponent implements OnInit {
     this.version = this.config_data['system_version'];
     this.company = sessionStorage.getItem('selectedComp');
     this.language_current = this.config_data['locale_name'];
+    this.openDialog();
     }
 
     // Sidebar open/close status from local storage

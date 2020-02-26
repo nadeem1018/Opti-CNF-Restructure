@@ -46,7 +46,6 @@ export class OpRoutingAddEditComponent implements OnInit {
   public mask: string = "00:00";
   language = JSON.parse(sessionStorage.getItem('current_lang'));
     public menu_auth_index = '206';
-  public made_changes:boolean = false;
 
   constructor(private ActivatedRouter: ActivatedRoute, private route: Router, private service: RoutingService, private CommonService: CommonService, private DialogService : DialogService) { }
 
@@ -68,7 +67,7 @@ export class OpRoutingAddEditComponent implements OnInit {
   isOperationDisabled: boolean = false;
 
   canDeactivate() {
-    if(this.made_changes == true){
+    if(CommonData.made_changes == true){
       return this.DialogService.confirm('');
     } else {
       return true;
@@ -108,7 +107,6 @@ export class OpRoutingAddEditComponent implements OnInit {
     // check screen authorisation - end
 
     if (this.update_id === "" || this.update_id === null) {
-      this.made_changes = true;
       this.routing_header_data.routing_for = 'feature';
       this.on_operation_change();
       this.isSaveButtonVisible = true;
@@ -124,7 +122,7 @@ export class OpRoutingAddEditComponent implements OnInit {
       this.form_mode = 'add';
       this.isOperationDisabled = false;
     } else {
-      this.made_changes = false;
+      CommonData.made_changes = false;
       this.isSaveButtonVisible = false;
       this.isUpdateButtonVisible = true;
       this.isDeleteButtonVisible = true;
@@ -140,7 +138,7 @@ export class OpRoutingAddEditComponent implements OnInit {
           if (data != undefined) {
             if (data.LICDATA != undefined) {
               if (data.LICDATA[0].ErrorMsg == "7001") {
-                this.made_changes = false;
+                CommonData.made_changes = false;
                 this.CommonService.RemoveLoggedInUser().subscribe();
                 this.CommonService.signOut(this.route, 'Sessionout');
                 this.showLoader = false;
@@ -395,7 +393,7 @@ export class OpRoutingAddEditComponent implements OnInit {
 ngOnChanges() { }
 
 on_operation_change() {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   this.current_selected_row = [];
   if (this.routing_header_data.routing_for == 'feature') {
     this.reset_model()
@@ -457,7 +455,7 @@ reset_model() {
 }
 
 header_numeric_input_change(value, input_id) {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   if (value == 0 && value != '') {
     value = 1;
     this.routing_header_data[input_id] = (value);
@@ -528,7 +526,7 @@ getLookupValue($event) {
     this.routing_header_data.feature_id = $event[0];
     this.routing_header_data.feature_code = $event[1];
     this.routing_header_data.feature_description = $event[2];
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.GetDataByFeatureId($event[0], "header", 0);
   }
 
@@ -536,19 +534,19 @@ getLookupValue($event) {
     this.routing_header_data.modal_id = $event[0];
     this.routing_header_data.modal_code = $event[1];
     this.routing_header_data.modal_description = $event[2];
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.GetDataByModelId($event[0], "header", 0);
   }
 
   if (this.lookupfor == 'warehouse_lookup') {
     this.routing_header_data.warehouse_id = $event[0];
     this.routing_header_data.warehouse_code = $event[0];
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.ClearOperLineOnWarehouse();
   }
 
   if (this.lookupfor == 'operation_lookup') {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     let res_cnsmtn_mthd = this.commonData.res_consumption_method();
     this.routing_detail_data[this.current_grid_action_row].count_point_operation = false;
     this.routing_detail_data[this.current_grid_action_row].count_point_operation_disabled = false;
@@ -580,14 +578,14 @@ getLookupValue($event) {
   }
 
   if (this.lookupfor == "workcenter_lookup") {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.routing_detail_data[this.current_grid_action_row].wc_id = $event[2];
     this.routing_detail_data[this.current_grid_action_row].wc_code = $event[2];
     //  this.current_grid_action_row = 0;
   }
 
   if (this.lookupfor == "routing_resource_lookup") {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     let temp_array = [];
     let pollcounter = 1;
     for (let i = 0; i < $event.length; ++i) {
@@ -634,7 +632,7 @@ getLookupValue($event) {
   }
 
   if (this.lookupfor == "template_routing_lookup") {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.routing_header_data.template_routing_id = $event[0];
     this.routing_header_data.template_routing_code = $event[0];
   }
@@ -647,7 +645,7 @@ getLookupValue($event) {
 }
 
 resequence_operation(type) {  // type = 1 : up & type = 2 : down
-  this.made_changes = true;
+  CommonData.made_changes = true;
   console.log("this.current_selected_row", this.current_selected_row);
   // let current_row_index = this.current_selected_row.rowindex - 1;
   let row_c_select = this.current_selected_row.rowindex;
@@ -708,7 +706,7 @@ getSelectedRowDetail(event) {
 
 
 openFeatureLookup(flag) {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   this.showLookupLoader = true;
   console.log('inopen feature');
   this.serviceData = []
@@ -718,7 +716,7 @@ openFeatureLookup(flag) {
       if (data != undefined) {
         if (data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             this.showLookupLoader = false;
@@ -765,7 +763,7 @@ openFeatureLookup(flag) {
 }
 
 openModalLookup(flag) {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   this.showLookupLoader = true;
   this.serviceData = []
   this.service.GetModelList().subscribe(
@@ -774,7 +772,7 @@ openModalLookup(flag) {
       if (data != undefined) {
         if (data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             this.showLookupLoader = false;
@@ -831,7 +829,7 @@ clearInvalidModel() {
 }
 
 getFeatureDetail(feature_code) {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   this.showLookupLoader = true;
   this.service.getFeatureDetail(feature_code).subscribe(
     data => {
@@ -840,7 +838,7 @@ getFeatureDetail(feature_code) {
         if (data != undefined) {
           if (data.length > 0) {
             if (data[0].ErrorMsg == "7001") {
-              this.made_changes = false;
+              CommonData.made_changes = false;
               this.CommonService.RemoveLoggedInUser().subscribe();
               this.CommonService.signOut(this.route, 'Sessionout');
               this.showLookupLoader = false;
@@ -879,7 +877,7 @@ getFeatureDetail(feature_code) {
 }
 
 getModalDetail(model_code) {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   this.showLookupLoader = true;
   this.service.getModalDetail(model_code).subscribe(
     data => {
@@ -929,7 +927,7 @@ GetDataByFeatureId(feature_code, press_location, index) {
         console.log(data);
         if (data != undefined && data.LICDATA != undefined) {
           if (data.LICDATA[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             this.showLookupLoader = false;
@@ -1033,7 +1031,7 @@ GetDataByModelId(modal_code, press_location, index) {
       data => {
         if (data != undefined && data.LICDATA != undefined) {
           if (data.LICDATA[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             this.showLookupLoader = false;
@@ -1136,7 +1134,7 @@ clearInvalidWarehouse() {
 }
 
 openWarehouseLook(flag) {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   this.showLookupLoader = true;
   this.serviceData = []
   this.service.getWarehouseList().subscribe(
@@ -1144,7 +1142,7 @@ openWarehouseLook(flag) {
       if (data != undefined) {
         if (data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             this.showLookupLoader = false;
@@ -1187,7 +1185,7 @@ getWarehouseDetails(warehouse_code) {
       if (data != null) {
         if (data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             this.showLookupLoader = false;
@@ -1217,7 +1215,7 @@ getWarehouseDetails(warehouse_code) {
 }
 
 openTemplateRoutingLookup(flag) {
-this.made_changes = true;
+CommonData.made_changes = true;
   this.showLookupLoader = true;
   this.serviceData = []
   this.service.TemplateRoutingList().subscribe(
@@ -1225,7 +1223,7 @@ this.made_changes = true;
       if (data != undefined) {
         if (data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             this.showLookupLoader = false;
@@ -1274,7 +1272,7 @@ getTemplateRoutingDetails(template_code) {
       if (data != null) {
         if (data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             this.showLookupLoader = false;
@@ -1303,16 +1301,22 @@ getTemplateRoutingDetails(template_code) {
       return;
     });
 }
+on_template_change(){
+  if(this.routing_header_data.use_template_routing == false){
+    this.routing_header_data.template_routing_id = "";
+    this.routing_header_data.template_routing_code = "";
+   }
+}
 
 on_type_click_lookup(type, rowindex) {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   this.showLookupLoader = true;
   this.serviceData = [];
   this.showLookupLoader = false;
 }
 
 open_operation_lookup(type, rowindex) {
-this.made_changes = true;
+CommonData.made_changes = true;
   this.serviceData = [];
   if (this.routing_header_data.warehouse_code == "" || this.routing_header_data.warehouse_code == null || this.routing_header_data.warehouse_code == undefined) {
     this.CommonService.show_notification(this.language.noselectWarehouse, 'error');
@@ -1325,7 +1329,7 @@ this.made_changes = true;
       if (data != undefined) {
         if (data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             this.showLookupLoader = false;
@@ -1370,7 +1374,7 @@ this.made_changes = true;
 
 open_wc_lookup(type, rowindex) {
   this.serviceData = [];
-this.made_changes = true;
+CommonData.made_changes = true;
   if (this.routing_header_data.warehouse_code == "" || this.routing_header_data.warehouse_code == null || this.routing_header_data.warehouse_code == undefined) {
     this.CommonService.show_notification(this.language.noselectWarehouse, 'error');
     return;
@@ -1382,7 +1386,7 @@ this.made_changes = true;
       if (data != undefined) {
         if (data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             this.showLookupLoader = false;
@@ -1427,7 +1431,7 @@ getOperationResourceDetail(oper_id, oper_code, oper_type, oper_consumption_type,
       if (data != undefined) {
         if (data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
@@ -1505,7 +1509,7 @@ getOperationResourceDetail(oper_id, oper_code, oper_type, oper_consumption_type,
 }
 
 open_operation_resources(flag) {
-  this.made_changes = true;
+  CommonData.made_changes = true;
   if (Object.keys(this.current_selected_row).length > 0) {
     if (this.current_selected_row.oper_code != "") {
       this.showLookupLoader = true;
@@ -1534,7 +1538,7 @@ open_operation_resources(flag) {
     }
 
     changeEffectiveDate(picker_date) {
-      this.made_changes = true;
+      CommonData.made_changes = true;
       let temp = new Date(picker_date);
       this.routing_header_data.EffectiveDate = new Date((temp.getMonth() + 1) + '/' + temp.getDate() + '/' + temp.getFullYear());
       this.over_ride_grid_effective_date()
@@ -1542,14 +1546,14 @@ open_operation_resources(flag) {
     }
 
     confirm_override_grid_effective_date() {
-      this.made_changes = true;
+      CommonData.made_changes = true;
       this.dialog_params.push({ 'dialog_type': 'confirmation', 'message': this.language.confirm_override_detials_effective_date });
       this.show_dialog = true;
     }
 
      //This will take confimation box value
      get_dialog_value(userSelectionValue) {
-    this.made_changes = true;
+CommonData.made_changes = true;
       if (this.is_delete_called == true) {
         if (userSelectionValue == true) {
           this.onDelete(this.update_id);
@@ -1603,7 +1607,7 @@ open_operation_resources(flag) {
       if (this.validate_header_info() == '0') {
         return false;
       }
-      this.made_changes = true;
+      CommonData.made_changes = true;
       this.counter = 0;
       if (this.routing_detail_data.length > 0) {
         this.counter = this.routing_detail_data.length
@@ -1747,7 +1751,7 @@ open_operation_resources(flag) {
     }
 
     on_input_change(value, rowindex, grid_element) {
-      this.made_changes = true;
+      CommonData.made_changes = true;
       let currentrow = 0;
       currentrow = this.getGridCurrentRow(rowindex);
       if (grid_element == 'selected_type') {
@@ -1779,7 +1783,7 @@ open_operation_resources(flag) {
               if (data != undefined) {
                 if (data.length > 0) {
                   if (data[0].ErrorMsg == "7001") {
-                    this.made_changes = false;
+                    CommonData.made_changes = false;
                     this.CommonService.RemoveLoggedInUser().subscribe();
                     this.CommonService.signOut(this.route, 'Sessionout');
                     this.showLookupLoader = false;
@@ -1857,7 +1861,7 @@ open_operation_resources(flag) {
               if (data != undefined) {
                 if (data.length > 0) {
                   if (data[0].ErrorMsg == "7001") {
-                    this.made_changes = false;
+                    CommonData.made_changes = false;
                     this.CommonService.RemoveLoggedInUser().subscribe();
                     this.CommonService.signOut(this.route, 'Sessionout');
                     this.showLookupLoader = false;
@@ -2030,7 +2034,7 @@ open_operation_resources(flag) {
   }
 
   onDeleteRow(rowindex) {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     if (this.routing_detail_data.length > 0) {
       for (let i = 0; i < this.routing_detail_data.length; ++i) {
         if (this.routing_detail_data[i].rowindex === rowindex) {
@@ -2264,14 +2268,14 @@ open_operation_resources(flag) {
       data => {
         this.showLookupLoader = false;
         if (data == "7001") {
-          this.made_changes = false;
+          CommonData.made_changes = false;
           this.CommonService.RemoveLoggedInUser().subscribe();
           this.CommonService.signOut(this.route, 'Sessionout');
           return;
         }
 
         if (data === "True") {
-          this.made_changes = false;
+          CommonData.made_changes = false;
           this.CommonService.show_notification(this.language.DataSaved, 'success');
           this.route.navigateByUrl('routing/view');
         } else {
@@ -2315,7 +2319,7 @@ open_operation_resources(flag) {
         if (data != undefined) {
           if (data.length > 0) {
             if (data[0].ErrorMsg == "7001") {
-              this.made_changes = false;
+              CommonData.made_changes = false;
               this.CommonService.RemoveLoggedInUser().subscribe();
               this.CommonService.signOut(this.route, 'Sessionout');
               return;
@@ -2328,7 +2332,7 @@ open_operation_resources(flag) {
         }
         else if (data[0].IsDeleted == "1") {
           this.CommonService.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[0].RoutingCode, 'success');
-          this.made_changes = false;
+          CommonData.made_changes = false;
           this.route.navigateByUrl('routing/view');
         }
         else {
@@ -2358,13 +2362,7 @@ open_operation_resources(flag) {
     } else if (type_value == 'model') {
       this.route.navigateByUrl('model-bom/edit/' + this.routing_header_data.modal_id);
     }
-  }
-  on_template_change(){
-    if(this.routing_header_data.use_template_routing == false){
-      this.routing_header_data.template_routing_id = "";
-      this.routing_header_data.template_routing_code = "";
-     }
-  }
+  }  
 
   navigateToFeatureOrModelBom(type_value, type) {
     if (type == '1') {
@@ -2480,7 +2478,7 @@ open_operation_resources(flag) {
 
               if (data.length > 0) {
                 if (data[0].ErrorMsg == "7001") {
-                  this.made_changes = false;
+                  CommonData.made_changes = false;
                   this.CommonService.RemoveLoggedInUser().subscribe();
                   this.CommonService.signOut(this.route, 'Sessionout');
                   return;
