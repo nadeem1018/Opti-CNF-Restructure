@@ -398,7 +398,7 @@
                 <button kendoWindowRestoreAction></button>
                 <button kendoWindowCloseAction></button>
             </kendo-window-titlebar>
-            <div class="">
+          
                 <kendo-grid [kendoGridBinding]="serviceData" [filterable]="isColumnFilter" [selectable]="true"
                     [pageable]="true" [pageSize]="50" [resizable]="true" [skip]="skip"
                     (selectionChange)="on_item_select($event)" style="max-height:400px;"
@@ -423,7 +423,7 @@
                         title="{{column.title}}" filter="{{column.type}}" format="{{column.format}}"
                         width="{{column.width}}" minResizableWidth="{{column.width}}"></kendo-grid-column>
                 </kendo-grid>
-            </div>
+
         </kendo-window>
     </div>
 </div>

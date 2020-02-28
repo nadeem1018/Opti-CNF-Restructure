@@ -90,7 +90,7 @@ export class RuleWbAddEditComponent implements OnInit {
   
 
  canDeactivate() {
-    if(this.made_changes == true){
+    if(CommonData.made_changes == true){
       return this.DialogService.confirm('');
     } else {
       return true;
@@ -98,7 +98,7 @@ export class RuleWbAddEditComponent implements OnInit {
   }
 
   detect_change(){
-     this.made_changes = true;
+     CommonData.made_changes = true;
   }
 
   ngOnInit() {
@@ -142,7 +142,7 @@ export class RuleWbAddEditComponent implements OnInit {
     this.update_id = "";
     this.update_id = this.ActivatedRouter.snapshot.paramMap.get('id');
     if (this.update_id === "" || this.update_id === null) {
-      this.made_changes = true;
+      CommonData.made_changes = true;
       this.isUpdateButtonVisible = false;
       this.code_disabled = "false";
       this.isSaveButtonVisible = true;
@@ -155,7 +155,7 @@ export class RuleWbAddEditComponent implements OnInit {
       this.showLoader = false;
       this.is_applicable_for_disabled = false;
     } else {
-      this.made_changes = false;
+      CommonData.made_changes = false;
       this.isUpdateButtonVisible = true;
       this.code_disabled = "true";
       this.isSaveButtonVisible = false;
@@ -168,7 +168,7 @@ export class RuleWbAddEditComponent implements OnInit {
         data => {
           if (data != undefined && data.LICDATA != undefined) {
             if (data.LICDATA[0].ErrorMsg == "7001") {
-              this.made_changes = false;
+              CommonData.made_changes = false;
               this.CommonService.RemoveLoggedInUser().subscribe();
               this.CommonService.signOut(this.route, 'Sessionout');
               return;
@@ -430,7 +430,7 @@ export class RuleWbAddEditComponent implements OnInit {
   }
   
   effective_from(effective_from_date) {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     var temp = new Date(effective_from_date);
     let effectiveFrom = new Date((temp.getMonth() + 1) + '/' + temp.getDate() + '/' + temp.getFullYear());
     if (this.rule_wb_data.effective_to != null) {
@@ -459,7 +459,7 @@ export class RuleWbAddEditComponent implements OnInit {
       }
     }
     this.rule_wb_data.effective_to = effectiveto;
-    this.made_changes = true;
+    CommonData.made_changes = true;
   }
   
   copy(o) {
@@ -473,7 +473,7 @@ export class RuleWbAddEditComponent implements OnInit {
   }
   
   addNewSequence() {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.add_sequence_mode = true;
     this.update_sequence_mode = false;
     if (this.validation("AddRow") == false)
@@ -520,7 +520,7 @@ export class RuleWbAddEditComponent implements OnInit {
   }
   
   hide_show_output() {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     if (this.is_showoutput_visible == 0) {
       this.is_showoutput_visible = 1;
       this.showoutput_btn_text = this.language.hide_output;
@@ -560,11 +560,11 @@ export class RuleWbAddEditComponent implements OnInit {
       is_operand2_disable: true,
       row_expression: ''
     });
-    this.made_changes = true;
+    CommonData.made_changes = true;
   }
   
   getFetureListLookup(status) {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     console.log('inopen feature');
     this.showLookupLoader = true;
     this.serviceData = []
@@ -573,7 +573,7 @@ export class RuleWbAddEditComponent implements OnInit {
       data => {
         if (data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
@@ -677,7 +677,7 @@ export class RuleWbAddEditComponent implements OnInit {
         this.showLookupLoader = false;
         if (data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-            this.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
@@ -727,7 +727,7 @@ export class RuleWbAddEditComponent implements OnInit {
         if (data != null && data != "" && data != undefined) {
           if (data.length > 0) {
             if (data[0].ErrorMsg == "7001") {
-              this.made_changes = false;
+              CommonData.made_changes = false;
               this.showLookupLoader = false;
               this.CommonService.RemoveLoggedInUser().subscribe();
               this.CommonService.signOut(this.route, 'Sessionout');
@@ -767,7 +767,7 @@ export class RuleWbAddEditComponent implements OnInit {
         if (data != null && data != "" && data != undefined) {
           if (data.length > 0) {
             if (data[0].ErrorMsg == "7001") {
-              this.made_changes = false;
+              CommonData.made_changes = false;
               this.showLookupLoader = false;
               this.CommonService.RemoveLoggedInUser().subscribe();
               this.CommonService.signOut(this.route, 'Sessionout');
@@ -865,7 +865,7 @@ export class RuleWbAddEditComponent implements OnInit {
   }
   
   async  genearate_expression() {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     await this.sleep(700);
     let current_seq = this.seq_count;
     console.log(current_seq);
@@ -1024,7 +1024,7 @@ export class RuleWbAddEditComponent implements OnInit {
        }
 
        on_input_change(rowindex, key, value, actualvalue) {
-        this.made_changes = true;
+        CommonData.made_changes = true;
         this.currentrowindex = rowindex;
         for (let i = 0; i < this.rule_sequence_data.length; ++i) {
           if (this.rule_sequence_data[i].rowindex === this.currentrowindex) {
@@ -1092,7 +1092,7 @@ export class RuleWbAddEditComponent implements OnInit {
  
                     if (data != undefined && data.length > 0) {
                       if (data[0].ErrorMsg == "7001") {
-                        this.made_changes = false;
+                        CommonData.made_changes = false;
                         this.CommonService.RemoveLoggedInUser().subscribe();
                         this.CommonService.signOut(this.route, 'Sessionout');
                         return;
@@ -1122,7 +1122,7 @@ export class RuleWbAddEditComponent implements OnInit {
  
                     if (data != undefined && data.length > 0) {
                       if (data[0].ErrorMsg == "7001") {
-                        this.made_changes = false;
+                        CommonData.made_changes = false;
                         this.CommonService.RemoveLoggedInUser().subscribe();
                         this.CommonService.signOut(this.route, 'Sessionout');
                         return;
@@ -1155,7 +1155,7 @@ export class RuleWbAddEditComponent implements OnInit {
  
                     if (data != undefined && data.length > 0) {
                       if (data[0].ErrorMsg == "7001") {
-                        this.made_changes = false;
+                        CommonData.made_changes = false;
                         this.CommonService.RemoveLoggedInUser().subscribe();
                         this.CommonService.signOut(this.route, 'Sessionout');
                         return;
@@ -1202,7 +1202,7 @@ export class RuleWbAddEditComponent implements OnInit {
  
                     if (data != undefined && data.length > 0) {
                       if (data[0].ErrorMsg == "7001") {
-                        this.made_changes = false;
+                        CommonData.made_changes = false;
                         this.CommonService.RemoveLoggedInUser().subscribe();
                         this.CommonService.signOut(this.route, 'Sessionout');
                         return;
@@ -1239,7 +1239,7 @@ export class RuleWbAddEditComponent implements OnInit {
               this.lookupfor = 'ModelBom_lookup';
               this.showLookupLoader = false;
               if (data[0].ErrorMsg == "7001") {
-                this.made_changes = false;
+                CommonData.made_changes = false;
                 this.CommonService.RemoveLoggedInUser().subscribe();
                 this.CommonService.signOut(this.route, 'Sessionout');
                 return;
@@ -1256,7 +1256,7 @@ export class RuleWbAddEditComponent implements OnInit {
       }
  
       show_operand_lookup(type, type_value, rowindex, operand_value) {
-        this.made_changes = true;
+        CommonData.made_changes = true;
         this.showLookupLoader = true;
         this.service.get_model_feature_options(type_value, type).subscribe(
           data => {
@@ -1266,7 +1266,7 @@ export class RuleWbAddEditComponent implements OnInit {
             if (data.length > 0) {
               console.log(data);
               if (data[0].ErrorMsg == "7001") {
-                this.made_changes = false;
+                CommonData.made_changes = false;
                 this.CommonService.RemoveLoggedInUser().subscribe();
                 this.CommonService.signOut(this.route, 'Sessionout');
                 return;
@@ -1309,12 +1309,12 @@ export class RuleWbAddEditComponent implements OnInit {
  
    on_typevalue_change(value, rowindex, actualvalue) {
      // apply validation 
-     this.made_changes = true;
+     CommonData.made_changes = true;
      this.on_input_change(rowindex, 'type_value', value, actualvalue);
    }
  
    add_rule_sequence() {
-     this.made_changes = true;
+     CommonData.made_changes = true;
      if (this.rule_sequence_data.length > 0) {
        this.expression_counter = 0;
        if (this.rule_expression_data.length > 0) {
@@ -1383,7 +1383,7 @@ export class RuleWbAddEditComponent implements OnInit {
    }
  
    update_rule_sequence() {
-     this.made_changes = true;
+     CommonData.made_changes = true;
      if (this.rule_sequence_data.length > 0) {
        // additional validation for atleast 1 option selected as default in output
        var feature_data_default_value = this.rule_feature_data.filter(function (obj) {
@@ -1421,7 +1421,7 @@ export class RuleWbAddEditComponent implements OnInit {
    }
  
    edit_expression(row, rowindex) {
-     this.made_changes = true;
+     CommonData.made_changes = true;
      this.add_sequence_mode = false;
      this.update_sequence_mode = true;
      this.rule_sequence_data = [];
@@ -1460,14 +1460,14 @@ export class RuleWbAddEditComponent implements OnInit {
    }
  
    delete_expression(rowindex) {
-     this.made_changes = true;
+     CommonData.made_changes = true;
      this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.DeleteConfimation });
      this.show_dialog = true;
      this.row_id = rowindex;
    }
  
    delete_row() {
-     this.made_changes = true;
+     CommonData.made_changes = true;
      if (this.rule_expression_data.length > 0) {
        for (let i = 0; i < this.rule_expression_data.length; ++i) {
          if (this.rule_expression_data[i].rowindex === this.row_id) {
@@ -1487,7 +1487,7 @@ export class RuleWbAddEditComponent implements OnInit {
  
    //This will take confimation box value
    get_dialog_value(userSelectionValue) {
-     this.made_changes = true;
+     CommonData.made_changes = true;
      if (userSelectionValue == true) {
        this.delete_row();
      }
@@ -1496,7 +1496,7 @@ export class RuleWbAddEditComponent implements OnInit {
  
  
    output_change_event(name, value, rowindex) {
-     this.made_changes = true;
+     CommonData.made_changes = true;
      for (let i = 0; i < this.rule_feature_data.length; ++i) {
        if (this.rule_feature_data[i].rowindex == rowindex) {
          if (name == "check_child") {
@@ -1549,7 +1549,7 @@ export class RuleWbAddEditComponent implements OnInit {
    }
  
    check_all(value) {
-     this.made_changes = true;
+     CommonData.made_changes = true;
      for (let i = 0; i < this.rule_feature_data.length; ++i) {
        this.rule_feature_data[i].check_child = value;
        if(value == false ){
@@ -1562,7 +1562,7 @@ export class RuleWbAddEditComponent implements OnInit {
    }
  
    excludeAllRowsOnCheck() {
-     this.made_changes = true;
+     CommonData.made_changes = true;
      if (this.rule_wb_data.Excluded) {
        this.isExcluded = true;
        for (var i = 0; i < this.rule_feature_data.length; i++) {
@@ -1692,14 +1692,14 @@ export class RuleWbAddEditComponent implements OnInit {
          data => {
            this.showLookupLoader = false;
            if (data == "7001") {
-             this.made_changes = false;
+             CommonData.made_changes = false;
              this.CommonService.RemoveLoggedInUser().subscribe();
              this.CommonService.signOut(this.route, 'Sessionout');
              return;
            }
 
            if (data === "True") {
-             this.made_changes = false;
+             CommonData.made_changes = false;
              this.CommonService.show_notification(this.language.DataSaved, 'success');
              this.route.navigateByUrl('rule-work-bench/view');
              return;

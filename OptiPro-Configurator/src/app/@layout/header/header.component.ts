@@ -91,8 +91,13 @@ export class HeaderComponent implements OnInit {
     }
 
     logout() {
-        this.CommonService.RemoveLoggedInUser().subscribe();
-        this.CommonService.signOut(this.router, 'Logout');
+    CommonData.sessionExpire = true;
+    if(CommonData.made_changes){
+     this.router.navigateByUrl('/login');
+      return;
+    }
+    this.CommonService.RemoveLoggedInUser().subscribe();
+    this.CommonService.signOut(this.router, 'Logout');
     }
 
     open_info_popup() {

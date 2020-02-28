@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { OpRoutingViewComponent } from './op-routing-view/op-routing-view.component';
 import { OpRoutingAddEditComponent } from './op-routing-add-edit/op-routing-add-edit.component';
+import { CanDeactivateGuard } from 'src/app/can-deactivate.guard';
 
 
 const routes: Routes = [
@@ -11,8 +12,8 @@ const routes: Routes = [
     pathMatch: 'full'    
   }, 
   { path: 'view', component: OpRoutingViewComponent },
-  { path: 'add-edit', component: OpRoutingAddEditComponent },
-  { path: 'add-edit/:id', component: OpRoutingAddEditComponent }
+  { path: 'add-edit', component: OpRoutingAddEditComponent, canDeactivate: [CanDeactivateGuard] },
+  { path: 'add-edit/:id', component: OpRoutingAddEditComponent, canDeactivate: [CanDeactivateGuard] }
 ];
 
 @NgModule({

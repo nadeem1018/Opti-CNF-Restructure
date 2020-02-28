@@ -114,7 +114,7 @@ export class PreferencesComponent implements OnInit {
 				if (data != null && data != undefined) {
 					if(data.length > 0 && data != undefined){
 						if (data[0].ErrorMsg == "7001") {
-							this.made_changes = false;
+							CommonData.made_changes = false;
 							this.commanService.RemoveLoggedInUser().subscribe();
 							this.commanService.signOut(this.route, 'Sessionout');
 							return;

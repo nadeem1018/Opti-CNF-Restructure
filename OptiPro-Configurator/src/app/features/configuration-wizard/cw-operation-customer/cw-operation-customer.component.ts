@@ -38,7 +38,7 @@ export class CwOperationCustomerComponent implements OnInit {
   }
 
   onOperationChange(operation_type) {
-    this.made_changes = true;
+    CommonData.made_changes = true;
     this.step1_data = [];
     /* const inpueElem = document.getElementById('description');
     inpueElem.focus();     */

@@ -668,15 +668,15 @@
                                     </button>                                        
                                     <div class="d-flex align-items-center flex-wrap">
                                         <select class="form-control form-control-sm w-auto d-inline-flex mr-2" name="added_model_list" id="added_model_list" *ngIf="this.step3_data_final.length > 0" (change)="onAddedModelChange(step2_model_ref.value,'')" #step2_model_ref>
-                                            <option value="" [selected]="step2_selected_model_id == -1">{{language.select_model_on_config}}</option>
+                                            <option value="" [selected]="step2_selected_model_id == ''">{{language.select_model_on_config}}</option>
                                             <option *ngFor="let model_data of this.step3_data_final" [value]="model_data.rowIndex" [selected]="step2_selected_model_id == model_data.rowIndex">{{model_data.item}}</option>
                                         </select>                       
-                                        <button type="button" class="btn btn-sm btn-info with-icon add-update-btn add-btn multiple_model_click_btn mr-2" (click)="add_fg_multiple_model('')" [disabled]="multiple_model_disabled_status" *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined && step2_selected_model_id == -1">
+                                        <button type="button" class="btn btn-sm btn-info with-icon add-update-btn add-btn multiple_model_click_btn mr-2" (click)="add_fg_multiple_model('')" [disabled]="multiple_model_disabled_status" *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined && step2_selected_model_id == ''">
                                             <svg viewBox="0 0 8500 8500" class="icon"><use xlink:href="#add"></use></svg>{{language.add_model}}
                                         </button>
-                                        <button type="button" [disabled]="multiple_model_disabled_status" class="btn with-icon btn-sm btn-info mr-2 add-update-btn update-btn multiple_model_click_btn" (click)="update_added_model()" *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined &&  step2_selected_model_id != -1 "> <svg viewBox="0 0 8500 8500" class="icon"><use xlink:href="#add"></use></svg>{{language.update_model}}
+                                        <button type="button" [disabled]="multiple_model_disabled_status" class="btn with-icon btn-sm btn-info mr-2 add-update-btn update-btn multiple_model_click_btn" (click)="update_added_model()" *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined &&  step2_selected_model_id != '' "> <svg viewBox="0 0 8500 8500" class="icon"><use xlink:href="#add"></use></svg>{{language.update_model}}
                                         </button>
-                                        <button type="button" class="btn btn-sm with-icon btn-danger" title="{{language.remove_this_modal}}" *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined &&  step2_selected_model_id != -1 " (click)="remove_final_modal(step2_selected_model)">
+                                        <button type="button" class="btn btn-sm with-icon btn-danger" title="{{language.remove_this_modal}}" *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined &&  step2_selected_model_id != '' " (click)="remove_final_modal(step2_selected_model)">
                                             <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg>{{language.delete_model}}
                                         </button>
                                     </div>                    
