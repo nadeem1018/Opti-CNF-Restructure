@@ -415,7 +415,7 @@ export class RuleWbAddEditComponent implements OnInit {
   }
 
   navigateToFeatureOrModelBom(type_value) {
-    this.route.navigateByUrl("feature/bom/edit/" + type_value);
+    this.route.navigateByUrl("feature-bom/edit/" + type_value);
   }
   
   ngAfterViewInit() {
@@ -1701,7 +1701,7 @@ export class RuleWbAddEditComponent implements OnInit {
            if (data === "True") {
              this.made_changes = false;
              this.CommonService.show_notification(this.language.DataSaved, 'success');
-             this.route.navigateByUrl('rulewb/view');
+             this.route.navigateByUrl('rule-work-bench/view');
              return;
            }
            else if (data === "AlreadyExist") {
