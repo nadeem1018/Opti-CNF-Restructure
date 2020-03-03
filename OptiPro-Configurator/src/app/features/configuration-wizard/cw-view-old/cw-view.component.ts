@@ -1854,6 +1854,7 @@ export class CwViewOldComponent implements OnInit {
           this.ModelLookupFlag = true
 
           /* this.ModelHeaderData = this.ModelHeaderData.sort((a, b) => a.sort_key.localeCompare(b.sort_key)); */
+          this.ModelHeaderData.sort((a, b) => a.sort_key.localeCompare(b.sort_key));
           
 
           if (this.setModelDataFlag == true) {
@@ -2129,7 +2130,7 @@ export class CwViewOldComponent implements OnInit {
               if (parentarray[0].element_type == "radio") {
 
                 if (parentfeatureid != "" && feature_model_data.OPTM_CHILDFEATUREID != feature_model_data.OPTM_FEATUREID) {
-                  this.removefeaturesanditems(parentfeatureid)
+                  this.removefeaturesanditems(parentfeatureid, feature_model_data.nodeid)
                 }
                 else if (parentmodelid != "") {
                   for (let imodelheader = 0; imodelheader < this.ModelHeaderData.length; imodelheader++) {
@@ -6392,10 +6393,10 @@ export class CwViewOldComponent implements OnInit {
                   this1.FeatureBOMDataForSecondLevel[iItemFeatureTable].disable = true
                   let currentFeatureBomData = this1.FeatureBOMDataForSecondLevel[iItemFeatureTable]
                   if (currentFeatureBomData.parentfeatureid != null && currentFeatureBomData.parentfeatureid != "" && currentFeatureBomData.parentfeatureid != "0") {
-                    this.removefeaturesanditems(currentFeatureBomData.parentfeatureid)
+                    this.removefeaturesanditems(currentFeatureBomData.parentfeatureid, currentFeatureBomData.nodeid)
                   } else {
-                    this.removefeaturesanditems(currentFeatureBomData.OPTM_FEATUREID)
-                  }
+                    this.removefeaturesanditems(currentFeatureBomData.OPTM_FEATUREID, currentFeatureBomData.nodeid)
+                  }                  
                   this1.FeatureBOMDataForSecondLevel[iItemFeatureTable].checked = false
                 }
                 else {
@@ -7496,16 +7497,18 @@ export class CwViewOldComponent implements OnInit {
   }
 
 
-  removefeaturesanditems(parentfeatureid) {
+  removefeaturesanditems(parentfeatureid, remove_nodeid)  {
     var tempfeatureidmodelheader;
     var tempparentfeatureidmodelheader;
     var tempchildfeatureidmodelheader;
     var tempchildfeatunique_key;
+    var tempchildfeaturenodeid;
     var itemkey;
     var tempfeatureidforfeaturebom;
     var tempNodeId;
     for (var itemp = 0; itemp < this.ModelHeaderData.length; itemp++) {
-      if (this.ModelHeaderData[itemp].parentfeatureid == parentfeatureid) {
+      if (this.ModelHeaderData[itemp].parentfeatureid == parentfeatureid && 
+        this.ModelHeaderData[itemp].nodeid == remove_nodeid) {
         tempfeatureidmodelheader = this.ModelHeaderData[itemp].OPTM_FEATUREID
         tempchildfeatunique_key = this.ModelHeaderData[itemp].unique_key
         this.ModelHeaderData.splice(itemp, 1);
@@ -7515,9 +7518,10 @@ export class CwViewOldComponent implements OnInit {
           if (this.FeatureBOMDataForSecondLevel[itemp2].nodeid == tempchildfeatunique_key && this.FeatureBOMDataForSecondLevel[itemp2].OPTM_FEATUREID == tempfeatureidmodelheader) {
             if (this.FeatureBOMDataForSecondLevel[itemp2].OPTM_TYPE == "1") {
               tempchildfeatureidmodelheader = this.FeatureBOMDataForSecondLevel[itemp2].OPTM_FEATUREID
+              tempchildfeaturenodeid = this.FeatureBOMDataForSecondLevel[itemp2].nodeid
               this.FeatureBOMDataForSecondLevel.splice(itemp2, 1)
               itemp2 = itemp2 - 1
-              this.removefeaturesanditems(tempchildfeatureidmodelheader)
+              this.removefeaturesanditems(tempchildfeatureidmodelheader, tempchildfeaturenodeid)
             }
             else if (this.FeatureBOMDataForSecondLevel[itemp2].OPTM_TYPE == "2") {
               tempfeatureidforfeaturebom = this.FeatureBOMDataForSecondLevel[itemp2].OPTM_FEATUREID
