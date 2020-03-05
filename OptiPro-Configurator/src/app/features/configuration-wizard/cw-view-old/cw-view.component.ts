@@ -7368,7 +7368,8 @@ export class CwViewOldComponent implements OnInit {
     for (let iremove = 0; iremove < this.ModelHeaderData.length; iremove++) {
       let parentId = "";
       let modelHeaderId = "";
-      if (removemodelheaderid != undefined && removemodelheaderid != null) {
+      if (removemodelheaderid != undefined && removemodelheaderid != null
+          && removemodelheaderid != 0 ) {
         parentId = this.ModelHeaderData[iremove].parentmodelid
         modelHeaderId = removemodelheaderid
       } else {
