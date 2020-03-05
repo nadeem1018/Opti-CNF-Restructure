@@ -956,7 +956,7 @@
                             
                             
                                             <div class="final_item_discount_table">
-                                                <div class="col-md-6 pull-right pr-0 mt-4">
+                                                <div class="col-md-6 pull-right pr-0 mt-4" style="float: right;">
                                                     <table class="table table-bordered table-sm">                        
                                                         <tbody>                        
                                                             <tr>
@@ -1015,8 +1015,9 @@
                 
                             <span class="output_final_screen_save_button">
                             <button (click)="onFinishPress('screen4_data', 'finishPress')" *ngIf="step3_data_final.length > 0  && step1_data.document != 'draft'"
-                                type="submit" class="btn btn-sm btn-primar with-icon btn-submit btn-next js-btn-finish" data-next-block="fina_doc_create">
-                                <i class="fa fa-check-circle fa-fw"></i> {{language.finish}}</button>
+                                type="submit" class="btn btn-sm btn-primary with-icon btn-next mr-2" data-next-block="fina_doc_create">                               
+                                <svg viewBox="0 0 24 24" class="icon arrow-icon"><use xlink:href="#rightArrow"></use></svg>{{language.finish}}
+                                </button>                                
                             </span>
                         </div>
                     </fieldset>            
@@ -1344,7 +1345,7 @@
                                         </div>
                                         </div>
                                         <div class="">
-                                        <div class="col-md-6 pull-left">
+                                        <div class="col-md-6 pull-left" style="float: left;">
                                             <div class="form-group row clearfix">
                                             <label class="col-sm-5 col-form-label">
                                                 <b>{{language.sales_employee}}</b>
@@ -1359,7 +1360,7 @@
                                             </div>
                                         </div>
                                         <div class="item_discount_table">
-                                            <div class="col-md-4 pull-right">
+                                            <div class="col-md-4 pull-right" style="float: right;">
                                             <table class="table table-bordered table-sm">
                                                 <thead class="">
                                                     <tr>

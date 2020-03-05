@@ -102,7 +102,7 @@ export class OpRoutingViewComponent implements OnInit {
                             this.selectall = false;
                         }
                         else if (data[i].IsDeleted == "1") {
-                            this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[i].RoutingCode, 'error');
+                            this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[i].RoutingCode, 'success');
                             this.CheckedData = [];
                             this.selectall = false;
                             this.service_call(this.current_page, this.search_string);

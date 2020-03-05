@@ -294,7 +294,7 @@ export class ModelBomViewComponent implements OnInit {
           this.commonData.clearChildCheckbox();
         }
         else if (data[0].IsDeleted == "1") {
-          this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[0].ModelCode, 'error');
+          this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[0].ModelCode, 'success');
           this.service_call(this.current_page, this.search_string);
           this.router.navigateByUrl('model-bom/view');
           this.CheckedData = [];
@@ -417,7 +417,7 @@ export class ModelBomViewComponent implements OnInit {
               this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[i].ModelCode, 'error');
             }
             else if (data[i].IsDeleted == "1") {
-              this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[i].ModelCode, 'error');
+              this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[i].ModelCode, 'success');
               this.CheckedData = [];
               this.service_call(this.current_page, this.search_string);
               this.router.navigateByUrl('model-bom/view');
