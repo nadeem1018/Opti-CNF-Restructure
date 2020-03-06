@@ -337,7 +337,7 @@ export class FeatureBomViewComponent implements OnInit {
                     this.selectall = false;
                 }
                 else if (data[0].IsDeleted == "1") {
-                    this.commonservice.show_notification( this.language.DataDeleteSuccesfully  + ' : ' + data[0].FeatureCode, 'error');
+                    this.commonservice.show_notification( this.language.DataDeleteSuccesfully  + ' : ' + data[0].FeatureCode, 'success');
                     this.service_call(this.current_page, this.search_string);
                     this.router.navigateByUrl('feature-bom/view');
                 }
@@ -466,7 +466,7 @@ export class FeatureBomViewComponent implements OnInit {
                             this.selectall = false;
                         }
                         else if (data[i].IsDeleted == "1") {
-                            this.commonservice.show_notification( this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[i].FeatureCode, 'error');
+                            this.commonservice.show_notification( this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[i].FeatureCode, 'success');
                             this.CheckedData = [];
                             this.selectall = false;
                             this.service_call(this.current_page, this.search_string);

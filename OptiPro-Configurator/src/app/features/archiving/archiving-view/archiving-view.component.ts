@@ -52,7 +52,7 @@ export class ArchivingViewComponent implements OnInit {
     let date_obj = new Date();
     this.min_date = new Date(date_obj.setDate(date_obj.getDate() - 1));
     this.isUpdateButtonVisible = false;
-    this.isSaveButtonVisible = true;
+    this.isSaveButtonVisible = false;
     this.isDeleteButtonVisible = false;
     var current_date = new Date();
     this.filter_section_data.to_date = (new Date((current_date.getMonth() + 1) + '/' + (current_date.getDate()) + '/' + current_date.getFullYear()));
@@ -314,7 +314,7 @@ export class ArchivingViewComponent implements OnInit {
             }
             // here goes the result processing 
             this.clear_filter_results(0);
-            this.CommonService.show_notification(this.language.cnf_archieved_successfully, 'error');
+            this.CommonService.show_notification(this.language.cnf_archieved_successfully, 'success');
             this.showLookupLoader = false;
 
           } else {

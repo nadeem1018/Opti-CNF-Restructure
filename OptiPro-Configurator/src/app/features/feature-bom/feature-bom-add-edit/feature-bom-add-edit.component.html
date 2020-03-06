@@ -135,7 +135,7 @@
                                 </div>
                             </div>
                             <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
-                                <kendo-grid [kendoGridBinding]="feature_bom_table" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings" [kendoGridSelectBy]="'rowindex'" [selectedKeys]="row_selection" [ngStyle]="{'height':'100%'}" (selectionChange)="getSelectedRowDetail($event)">
+                                <kendo-grid [kendoGridBinding]="feature_bom_table" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings" [kendoGridSelectBy]="'rowindex'" [selectedKeys]="row_selection" [ngStyle]="{'height':'100%', 'max-width':'100%'}" (selectionChange)="getSelectedRowDetail($event)">
                                     <ng-template kendoGridToolbarTemplate>
                                         <div class="d-flex align-items-center">
                                             <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" title="{{language.add_row}}" (click)="onAddRow()" #button class="btn btn-sm btn-primary with-icon mr-2"><svg viewBox="0 0 8500 8500" class="icon"><use xlink:href="#add"></use></svg> {{language.add_row}}
@@ -165,7 +165,7 @@
                                             </select>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column field="Bom_FeatureValue" title="{{language.Bom_FeatureValue}}" filter="text" [minResizableWidth]="145">
+                                    <kendo-grid-column field="Bom_FeatureValue" title="{{language.Bom_FeatureValue}}" filter="text" [width]="145" [minResizableWidth]="145">
                                         <ng-template kendoGridCellTemplate let-dataItem>
                                             <input [disabled]="dataItem.isTypeDisabled" type="hidden" class="form-control  form-control-sm" id="type_value" (change)="on_typevalue_change(type_value.value,dataItem.rowindex, dataItem.type_value_code)" value={{dataItem.type_value}} #type_value title="{{dataItem.type_value}}" />
                                             <div class="input-group">
@@ -178,7 +178,7 @@
                                             </div>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column field="Bom_Displayname" title="{{language.Bom_Displayname}}" filter="text" [minResizableWidth]="145">
+                                    <kendo-grid-column field="Bom_Displayname" title="{{language.Bom_Displayname}}" filter="text" [width]="145" [minResizableWidth]="145">
                                         <ng-template kendoGridCellTemplate let-dataItem>
                                             <input [disabled]="dataItem.isDisplayNameDisabled" type="text" class="form-control  form-control-sm" id="display_name" (change)="on_displayname_change(display_name.value,dataItem.rowindex)" value={{dataItem.display_name}} #display_name title="{{dataItem.display_name}}" />
                                         </ng-template>
@@ -256,7 +256,7 @@
                                     </kendo-grid-column>
                                     <kendo-grid-column field="delete" title="" template="" [width]="60" [minResizableWidth]="60">
                                         <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-                                            <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg>
+                                            <svg viewBox="0 0 753.23 753.23" class="icon" style="color:black ;"><use xlink:href="#bin"></use></svg>
                                         </ng-template>
                                         <ng-template kendoGridCellTemplate let-dataItem>
                                             <button type="button" class="btn btn-danger btn-sm btn-icon" (click)="onDeleteRow(dataItem.rowindex)" title="{{this.language.delete}}">
