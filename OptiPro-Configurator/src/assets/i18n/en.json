@@ -618,6 +618,8 @@
     "archive_all":"Archive All",	
     "cnf_archieved_successfully":"Configurations Archieved successfully",	
     "cnf_deleted_successfully":"Configurations Deleted successfully",	
-    "delete_all":"Delete All"
+    "delete_all":"Delete All",
+    "EffectiveTo": "Effective To"
+
 
 }

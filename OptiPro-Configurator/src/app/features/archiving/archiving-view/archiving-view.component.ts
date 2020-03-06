@@ -24,6 +24,7 @@ export class ArchivingViewComponent implements OnInit {
   serviceData: any;
   public showLoader: boolean = true;
   public showLookupLoader: boolean = false;
+  public isData: boolean = false;
   isMobile: boolean = false;
   isIpad: boolean = false;
   isDesktop: boolean = true;
@@ -229,8 +230,9 @@ export class ArchivingViewComponent implements OnInit {
             }
 
             this.showLookupLoader = false;
+            this.isData = true;
             if(data.length > 0){
-              let counter = 0;
+              let counter = 1;
               for(let grid_index of data){
                 var change_date_format = new Date(grid_index.OPTM_POSTINGDATE).toLocaleDateString('it-US');
 
