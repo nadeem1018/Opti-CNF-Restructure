@@ -67,9 +67,9 @@ export class ArchivingViewComponent implements OnInit {
     };
 
     let doc_type_values = this.commonData.document_type();
-    this.doctype = [doc_type_values[1], doc_type_values[2], { "value": 'both', "Name": this.language.both, "selected": "0" }];
+    this.doctype = [doc_type_values[1], doc_type_values[2], { "value": 'All', "Name": this.language.both, "selected": "0" }];
     this.doctype[2].selected = '1';
-    this.filter_section_data.doc_type = 'both';
+    this.filter_section_data.doc_type = 'All';
     this.filter_section_data.order_status = 'processed';
     this.order_status_types = [
     { "value": 'draft', "name": this.language.draft_new },
@@ -198,6 +198,7 @@ export class ArchivingViewComponent implements OnInit {
     this.grid_section_data = [];
     this.current_selected_row = [];
     this.row_selection = [];
+    this.isData = false;
     this.selectButtonTextIconChange(1);
 
     if(show_msg == 1){
@@ -356,6 +357,10 @@ export class ArchivingViewComponent implements OnInit {
     let log_id = '';
     if(log_id_arr.length > 0){
       log_id = log_id_arr.join(","); 
+    } else if(flag == '' && log_id_arr.length == 0) {
+      this.CommonService.show_notification(this.language.Norowselected, 'error');
+      this.showLookupLoader = false;
+      return;
     }
 
      if(flag == 'all'){
@@ -400,8 +405,17 @@ export class ArchivingViewComponent implements OnInit {
 
 
 
-  ondoc_type_change(selected_value){
+  ondoc_type_change(selected_value) {debugger
+  if(this.filter_section_data.order_status == 'draft') {
 
+}
   }
+
+  OnOrderStatusChange(value:string){debugger
+    this.grid_section_data = [];
+    this.current_selected_row = [];
+    this.row_selection = [];
+    this.isData = false;
+}
 
 }
