@@ -405,13 +405,13 @@ export class ArchivingViewComponent implements OnInit {
 
 
 
-  ondoc_type_change(selected_value) {debugger
+  ondoc_type_change(selected_value) {
   if(this.filter_section_data.order_status == 'draft') {
 
 }
   }
 
-  OnOrderStatusChange(value:string){debugger
+  OnOrderStatusChange(value:string){
     this.grid_section_data = [];
     this.current_selected_row = [];
     this.row_selection = [];
