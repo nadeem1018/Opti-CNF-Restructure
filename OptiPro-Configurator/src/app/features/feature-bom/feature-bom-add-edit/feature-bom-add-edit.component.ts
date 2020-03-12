@@ -67,7 +67,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   public dialog_params: any = [];
   public show_dialog: boolean = false;
   constructor(private route: Router, private fbom: FeaturebomService, private router: Router, private ActivatedRouter: ActivatedRoute, private httpclient: HttpClient, private CommonService: CommonService, private cdref: ChangeDetectorRef, private DialogService: DialogService) { }
-
+  page_main_title = this.language.Bom_title;
   isMobile: boolean = false;
   isIpad: boolean = false;
   isDesktop: boolean = true;
