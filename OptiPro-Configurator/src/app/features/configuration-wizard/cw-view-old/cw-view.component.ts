@@ -2226,11 +2226,7 @@ export class CwViewOldComponent implements OnInit {
                 var psMinSelect = "1"
                 var pselementclass = "custom-control custom-radio"
                 var pselementtype = "radio"
-                
-                DataForSelectedFeatureModelItem = data.SelectedFeatureBOMForSecondLevel.filter(function (obj) {
-                  return obj['nodeid'] == feature_model_data.unique_key 
-                });
-                if (DataForSelectedFeatureModelItem.length > 0) {
+                if (data.DataForSelectedFeatureModelItem.length > 0) {
                   isExist = this.ModelHeaderData.filter(function (obj) {
                     return obj['unique_key'] == feature_model_data.unique_key && obj['parentfeatureid'] == feature_model_data.OPTM_FEATUREID;
                   });
@@ -2308,48 +2304,48 @@ export class CwViewOldComponent implements OnInit {
                     });
 
                   }
-                  for (var i = 0; i < DataForSelectedFeatureModelItem.length; ++i) {
+                  for (var i = 0; i < data.DataForSelectedFeatureModelItem.length; ++i) {
                     var isExist;
-                    if (DataForSelectedFeatureModelItem.length > 0) {
-                      if (DataForSelectedFeatureModelItem[i].OPTM_TYPE == 1) {
+                    if (data.DataForSelectedFeatureModelItem.length > 0) {
+                      if (data.DataForSelectedFeatureModelItem[i].OPTM_TYPE == 1) {
                         isExist = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-                          return obj['OPTM_CHILDFEATUREID'] == DataForSelectedFeatureModelItem[i].OPTM_CHILDFEATUREID && obj['nodeid'] == DataForSelectedFeatureModelItem[i].nodeid && obj['OPTM_TYPE'] == 1;
+                          return obj['OPTM_CHILDFEATUREID'] == data.DataForSelectedFeatureModelItem[i].OPTM_CHILDFEATUREID && obj['nodeid'] == data.DataForSelectedFeatureModelItem[i].nodeid && obj['OPTM_TYPE'] == 1;
                         });
                       }
-                      else if (DataForSelectedFeatureModelItem[i].OPTM_TYPE == 2) {
+                      else if (data.DataForSelectedFeatureModelItem[i].OPTM_TYPE == 2) {
                         isExist = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-                          return obj['OPTM_ITEMKEY'] == DataForSelectedFeatureModelItem[i].OPTM_ITEMKEY && obj['nodeid'] == DataForSelectedFeatureModelItem[i].nodeid;
+                          return obj['OPTM_ITEMKEY'] == data.DataForSelectedFeatureModelItem[i].OPTM_ITEMKEY && obj['nodeid'] == data.DataForSelectedFeatureModelItem[i].nodeid;
                         });
                       }
                       else {
                         isExist = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-                          return obj['OPTM_VALUE'] == DataForSelectedFeatureModelItem[i].OPTM_VALUE && obj['nodeid'] == DataForSelectedFeatureModelItem[i].nodeid;
+                          return obj['OPTM_VALUE'] == data.DataForSelectedFeatureModelItem[i].OPTM_VALUE && obj['nodeid'] == data.DataForSelectedFeatureModelItem[i].nodeid;
                         });
                       }
                       let checkeddefault = false;
-                      if (DataForSelectedFeatureModelItem[i].OPTM_DEFAULT == "Y") {
+                      if (data.DataForSelectedFeatureModelItem[i].OPTM_DEFAULT == "Y") {
                         checkeddefault = true
                       }
                       this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-                        if ((obj.OPTM_FEATUREID == DataForSelectedFeatureModelItem[i].OPTM_FEATUREID) && (obj.nodeid == DataForSelectedFeatureModelItem[i].nodeid) && obj.OPTM_DEFAULT == 'Y') {
+                        if ((obj.OPTM_FEATUREID == data.DataForSelectedFeatureModelItem[i].OPTM_FEATUREID) && (obj.nodeid == data.DataForSelectedFeatureModelItem[i].nodeid) && obj.OPTM_DEFAULT == 'Y') {
                           return obj['checked'] = true;
-                        } else if ((obj.OPTM_FEATUREID == DataForSelectedFeatureModelItem[i].OPTM_FEATUREID) && (obj.nodeid == DataForSelectedFeatureModelItem[i].nodeid) && obj.OPTM_DEFAULT == 'N') {
+                        } else if ((obj.OPTM_FEATUREID == data.DataForSelectedFeatureModelItem[i].OPTM_FEATUREID) && (obj.nodeid == data.DataForSelectedFeatureModelItem[i].nodeid) && obj.OPTM_DEFAULT == 'N') {
                           return obj['checked'] = false;
                         }
                       });
 
 
                       if (feature_model_data.OPTM_PROPOGATEQTY == "Y") {
-                        if (DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY == "Y") {
-                          DataForSelectedFeatureModelItem[i].OPTM_QUANTITY = parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY) * parseFloat(feature_model_data.OPTM_QUANTITY)
-                          propagateqty = DataForSelectedFeatureModelItem[i].OPTM_QUANTITY
+                        if (data.DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY == "Y") {
+                          data.DataForSelectedFeatureModelItem[i].OPTM_QUANTITY = parseFloat(data.DataForSelectedFeatureModelItem[i].OPTM_QUANTITY) * parseFloat(feature_model_data.OPTM_QUANTITY)
+                          propagateqty = data.DataForSelectedFeatureModelItem[i].OPTM_QUANTITY
                         }
 
                       }
 
                       if (isExist.length == 0) {
                         // hit and try multi-select changes after a certial level
-                        if (DataForSelectedFeatureModelItem[i].OPTM_ISMULTISELECT != undefined && DataForSelectedFeatureModelItem[i].OPTM_ISMULTISELECT == 'Y') {
+                        if (data.DataForSelectedFeatureModelItem[i].OPTM_ISMULTISELECT != undefined && data.DataForSelectedFeatureModelItem[i].OPTM_ISMULTISELECT == 'Y') {
                           var item_elementclass = "custom-control custom-checkbox";
                           var item_elementtype = "checkbox";
                         } else {
@@ -2358,36 +2354,36 @@ export class CwViewOldComponent implements OnInit {
                         }
 
                         this.FeatureBOMDataForSecondLevel.push({
-                          ACCESSORY: DataForSelectedFeatureModelItem[i].ACCESSORY,
-                          ListName: DataForSelectedFeatureModelItem[i].ListName,
-                          IMAGEPATH: this.commonData.get_current_url() + DataForSelectedFeatureModelItem[i].OPTM_ATTACHMENT,
-                          DocEntry: DataForSelectedFeatureModelItem[i].DocEntry,
-                          OPTM_ATTACHMENT: DataForSelectedFeatureModelItem[i].OPTM_ATTACHMENT,
-                          OPTM_CHILDFEATUREID: parseInt(DataForSelectedFeatureModelItem[i].OPTM_CHILDFEATUREID),
-                          CHILD_ACCESSORY: DataForSelectedFeatureModelItem[i].CHILD_ACCESSORY,
-                          OPTM_COMPANYID: DataForSelectedFeatureModelItem[i].OPTM_COMPANYID,
-                          OPTM_CREATEDATETIME: DataForSelectedFeatureModelItem[i].OPTM_CREATEDATETIME,
-                          OPTM_CREATEDBY: DataForSelectedFeatureModelItem[i].OPTM_CREATEDBY,
-                          OPTM_DEFAULT: DataForSelectedFeatureModelItem[i].OPTM_DEFAULT,
-                          OPTM_DISPLAYNAME: DataForSelectedFeatureModelItem[i].OPTM_DISPLAYNAME,
-                          OPTM_FEATUREID: DataForSelectedFeatureModelItem[i].OPTM_FEATUREID,
-                          OPTM_ISMULTISELECT: DataForSelectedFeatureModelItem[i].OPTM_ISMULTISELECT,
-                          OPTM_ISEXCLUDED: DataForSelectedFeatureModelItem[i].OPTM_ISEXCLUDED,
-                          OPTM_ISINCLUDED: DataForSelectedFeatureModelItem[i].OPTM_ISINCLUDED,
-                          OPTM_MIN_SELECTABLE: DataForSelectedFeatureModelItem[i].OPTM_MIN_SELECTABLE,
-                          OPTM_MAX_SELECTABLE: DataForSelectedFeatureModelItem[i].OPTM_MAX_SELECTABLE,
-                          OPTM_ITEMKEY: DataForSelectedFeatureModelItem[i].OPTM_ITEMKEY,
-                          OPTM_LINENO: DataForSelectedFeatureModelItem[i].OPTM_LINENO,
-                          OPTM_MODIFIEDBY: DataForSelectedFeatureModelItem[i].OPTM_MODIFIEDBY,
-                          OPTM_MODIFIEDDATETIME: String(DataForSelectedFeatureModelItem[i].OPTM_MODIFIEDDATETIME).toString(),
-                          OPTM_PRICESOURCE: DataForSelectedFeatureModelItem[i].ListName,
-                          OPTM_PROPOGATEQTY: DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY,
-                          OPTM_QUANTITY: parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(3),
-                          OPTM_REMARKS: DataForSelectedFeatureModelItem[i].OPTM_REMARKS,
-                          OPTM_TYPE: DataForSelectedFeatureModelItem[i].OPTM_TYPE,
-                          OPTM_VALUE: DataForSelectedFeatureModelItem[i].OPTM_VALUE,
-                          feature_code: DataForSelectedFeatureModelItem[i].feature_code,
-                          parent_code: DataForSelectedFeatureModelItem[i].parent_code,                        
+                          ACCESSORY: data.DataForSelectedFeatureModelItem[i].ACCESSORY,
+                          ListName: data.DataForSelectedFeatureModelItem[i].ListName,
+                          IMAGEPATH: this.commonData.get_current_url() + data.DataForSelectedFeatureModelItem[i].OPTM_ATTACHMENT,
+                          DocEntry: data.DataForSelectedFeatureModelItem[i].DocEntry,
+                          OPTM_ATTACHMENT: data.DataForSelectedFeatureModelItem[i].OPTM_ATTACHMENT,
+                          OPTM_CHILDFEATUREID: parseInt(data.DataForSelectedFeatureModelItem[i].OPTM_CHILDFEATUREID),
+                          CHILD_ACCESSORY: data.DataForSelectedFeatureModelItem[i].CHILD_ACCESSORY,
+                          OPTM_COMPANYID: data.DataForSelectedFeatureModelItem[i].OPTM_COMPANYID,
+                          OPTM_CREATEDATETIME: data.DataForSelectedFeatureModelItem[i].OPTM_CREATEDATETIME,
+                          OPTM_CREATEDBY: data.DataForSelectedFeatureModelItem[i].OPTM_CREATEDBY,
+                          OPTM_DEFAULT: data.DataForSelectedFeatureModelItem[i].OPTM_DEFAULT,
+                          OPTM_DISPLAYNAME: data.DataForSelectedFeatureModelItem[i].OPTM_DISPLAYNAME,
+                          OPTM_FEATUREID: data.DataForSelectedFeatureModelItem[i].OPTM_FEATUREID,
+                          OPTM_ISMULTISELECT: data.DataForSelectedFeatureModelItem[i].OPTM_ISMULTISELECT,
+                          OPTM_ISEXCLUDED: data.DataForSelectedFeatureModelItem[i].OPTM_ISEXCLUDED,
+                          OPTM_ISINCLUDED: data.DataForSelectedFeatureModelItem[i].OPTM_ISINCLUDED,
+                          OPTM_MIN_SELECTABLE: data.DataForSelectedFeatureModelItem[i].OPTM_MIN_SELECTABLE,
+                          OPTM_MAX_SELECTABLE: data.DataForSelectedFeatureModelItem[i].OPTM_MAX_SELECTABLE,
+                          OPTM_ITEMKEY: data.DataForSelectedFeatureModelItem[i].OPTM_ITEMKEY,
+                          OPTM_LINENO: data.DataForSelectedFeatureModelItem[i].OPTM_LINENO,
+                          OPTM_MODIFIEDBY: data.DataForSelectedFeatureModelItem[i].OPTM_MODIFIEDBY,
+                          OPTM_MODIFIEDDATETIME: String(data.DataForSelectedFeatureModelItem[i].OPTM_MODIFIEDDATETIME).toString(),
+                          OPTM_PRICESOURCE: data.DataForSelectedFeatureModelItem[i].ListName,
+                          OPTM_PROPOGATEQTY: data.DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY,
+                          OPTM_QUANTITY: parseFloat(data.DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(3),
+                          OPTM_REMARKS: data.DataForSelectedFeatureModelItem[i].OPTM_REMARKS,
+                          OPTM_TYPE: data.DataForSelectedFeatureModelItem[i].OPTM_TYPE,
+                          OPTM_VALUE: data.DataForSelectedFeatureModelItem[i].OPTM_VALUE,
+                          feature_code: data.DataForSelectedFeatureModelItem[i].feature_code,
+                          parent_code: data.DataForSelectedFeatureModelItem[i].parent_code,                        
                           checked: checkeddefault,
                           OPTM_LEVEL: feature_model_data.OPTM_LEVEL + 1,
                           is_second_level: 1,
@@ -2396,13 +2392,13 @@ export class CwViewOldComponent implements OnInit {
                           parentfeatureid: parentfeatureid.toString(),
                           parentmodelid: parentmodelid,
                           HEADER_LINENO: this.ModelHeaderData.length + 1,
-                          unique_key: DataForSelectedFeatureModelItem[i].unique_key,
-                          nodeid: DataForSelectedFeatureModelItem[i].nodeid,
+                          unique_key: data.DataForSelectedFeatureModelItem[i].unique_key,
+                          nodeid: data.DataForSelectedFeatureModelItem[i].nodeid,
                           random_unique_key: this.commonData.random_string(50),
                           isManuallyChecked: false,
                           isSecondIteration: false,
                           isRuleApplied: false,
-                          sort_key: DataForSelectedFeatureModelItem[i].sort_key
+                          sort_key: data.DataForSelectedFeatureModelItem[i].sort_key
                         });
                       }
 
@@ -2426,7 +2422,7 @@ export class CwViewOldComponent implements OnInit {
 
                       let itemsData = [];
                       let isValue: boolean = false
-                      itemsData.push(DataForSelectedFeatureModelItem[i])
+                      itemsData.push(data.DataForSelectedFeatureModelItem[i])
                       if (itemsData[0].OPTM_VALUE == null || itemsData[0].OPTM_VALUE == "") {
                         isValue = false
                       } else {
@@ -2437,11 +2433,11 @@ export class CwViewOldComponent implements OnInit {
                       if (checkeddefault == true) {
                         var itemData = [];
                         parentarray = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-                          return obj['OPTM_CHILDFEATUREID'] == DataForSelectedFeatureModelItem[i].OPTM_FEATUREID && obj['unique_key'] == DataForSelectedFeatureModelItem[i].nodeid;
+                          return obj['OPTM_CHILDFEATUREID'] == data.DataForSelectedFeatureModelItem[i].OPTM_FEATUREID && obj['unique_key'] == data.DataForSelectedFeatureModelItem[i].nodeid;
                         });
                         if (parentarray.length == 0) {
                           parentarray = this.ModelBOMDataForSecondLevel.filter(function (obj) {
-                            return obj['OPTM_CHILDFEATUREID'] == DataForSelectedFeatureModelItem[i].OPTM_FEATUREID && obj['nodeid'] == DataForSelectedFeatureModelItem[i].nodeid
+                            return obj['OPTM_CHILDFEATUREID'] == data.DataForSelectedFeatureModelItem[i].OPTM_FEATUREID && obj['nodeid'] == data.DataForSelectedFeatureModelItem[i].nodeid
                           });
                           if (parentarray.length > 0) {
                             if (parentarray[0].OPTM_MAXSELECTABLE > 1) {
@@ -2467,7 +2463,7 @@ export class CwViewOldComponent implements OnInit {
                           }
                         }
 
-                        if (DataForSelectedFeatureModelItem[0].OPTM_ISMULTISELECT != undefined && DataForSelectedFeatureModelItem[0].OPTM_ISMULTISELECT == 'Y') {
+                        if (data.DataForSelectedFeatureModelItem[0].OPTM_ISMULTISELECT != undefined && data.DataForSelectedFeatureModelItem[0].OPTM_ISMULTISELECT == 'Y') {
                           parentarray[0].element_class = "custom-control custom-checkbox"
                           parentarray[0].element_type = "checkbox"
                         }
@@ -2486,11 +2482,11 @@ export class CwViewOldComponent implements OnInit {
                             uniqueIdentifier = parentarray[0].OPTM_UNIQUEIDNT
                           }
 
-                          if (parentarray[0].OPTM_FEATUREID == DataForSelectedFeatureModelItem[i].OPTM_FEATUREID && DataForSelectedFeatureModelItem[i].OPTM_TYPE == 2 && parentarray[0].parent_code != undefined && parentarray[0].parent_code != null) {
+                          if (parentarray[0].OPTM_FEATUREID == data.DataForSelectedFeatureModelItem[i].OPTM_FEATUREID && data.DataForSelectedFeatureModelItem[i].OPTM_TYPE == 2 && parentarray[0].parent_code != undefined && parentarray[0].parent_code != null) {
                             parentarray[0].feature_code = parentarray[0].parent_code
                           }
-                          if (DataForSelectedFeatureModelItem[i].OPTM_TYPE == 2) {
-                            itemData.push(DataForSelectedFeatureModelItem[i])
+                          if (data.DataForSelectedFeatureModelItem[i].OPTM_TYPE == 2) {
+                            itemData.push(data.DataForSelectedFeatureModelItem[i])
                             if (parentarray[0].OPTM_ISMULTISELECT == "N") {
                               parentarray[0].element_type = "radio"
                             } else {
@@ -2501,9 +2497,9 @@ export class CwViewOldComponent implements OnInit {
 
                             this.setItemDataForFeature(itemData, parentarray, propagateqtychecked, propagateqty, parentarray[0].feature_code, parentarray[0].HEADER_LINENO, type, parentArrayElemType, false, feature_model_data);
                           }
-                          else if (DataForSelectedFeatureModelItem[i].OPTM_TYPE == 1) {
+                          else if (data.DataForSelectedFeatureModelItem[i].OPTM_TYPE == 1) {
                             isExist = this.ModelHeaderData.filter(function (obj) {
-                              return obj['OPTM_FEATUREID'] == DataForSelectedFeatureModelItem[i].OPTM_CHILDFEATUREID && obj['unique_key'] == DataForSelectedFeatureModelItem[i].nodeid;
+                              return obj['OPTM_FEATUREID'] == data.DataForSelectedFeatureModelItem[i].OPTM_CHILDFEATUREID && obj['unique_key'] == data.DataForSelectedFeatureModelItem[i].nodeid;
                             });
 
                             var psMaxSelect = "1"
@@ -2511,9 +2507,9 @@ export class CwViewOldComponent implements OnInit {
                             var pselementclass = "custom-control custom-radio"
                             var pselementtype = "radio"
 
-                            if (DataForSelectedFeatureModelItem[i].OPTM_ISMULTISELECT == "Y") {
-                              psMaxSelect = DataForSelectedFeatureModelItem[i].OPTM_MAX_SELECTABLE
-                              psMinSelect = DataForSelectedFeatureModelItem[i].OPTM_MIN_SELECTABLE
+                            if (data.DataForSelectedFeatureModelItem[i].OPTM_ISMULTISELECT == "Y") {
+                              psMaxSelect = data.DataForSelectedFeatureModelItem[i].OPTM_MAX_SELECTABLE
+                              psMinSelect = data.DataForSelectedFeatureModelItem[i].OPTM_MIN_SELECTABLE
                               if (parseInt(psMaxSelect) >= 1) {
                                 pselementclass = "custom-control custom-checkbox"
                                 pselementtype = "checkbox"
@@ -2533,61 +2529,61 @@ export class CwViewOldComponent implements OnInit {
 
                             if (isExist.length == 0) {
                               let model_mandatory = "N";
-                              if (DataForSelectedFeatureModelItem[i].OPTM_MANDATORY != undefined && DataForSelectedFeatureModelItem[i].OPTM_MANDATORY == "Y") {
+                              if (data.DataForSelectedFeatureModelItem[i].OPTM_MANDATORY != undefined && data.DataForSelectedFeatureModelItem[i].OPTM_MANDATORY == "Y") {
                                 model_mandatory = 'Y';
                               }
 
                               this.ModelHeaderData.push({
-                                ACCESSORY: DataForSelectedFeatureModelItem[i].ACCESSORY,
-                                IMAGEPATH: DataForSelectedFeatureModelItem[i].IMAGEPATH,
+                                ACCESSORY: data.DataForSelectedFeatureModelItem[i].ACCESSORY,
+                                IMAGEPATH: data.DataForSelectedFeatureModelItem[i].IMAGEPATH,
                                 OPTM_CHILDMODELID: 0,
-                                OPTM_COMPANYID: DataForSelectedFeatureModelItem[i].OPTM_COMPANYID,
-                                OPTM_CREATEDATETIME: DataForSelectedFeatureModelItem[i].OPTM_CREATEDATETIME,
-                                OPTM_CREATEDBY: DataForSelectedFeatureModelItem[i].OPTM_CREATEDBY,
-                                OPTM_DISPLAYNAME: DataForSelectedFeatureModelItem[i].OPTM_DISPLAYNAME,
-                                OPTM_FEATUREID: DataForSelectedFeatureModelItem[i].OPTM_CHILDFEATUREID,
-                                OPTM_ITEMKEY: DataForSelectedFeatureModelItem[i].OPTM_ITEMKEY,
+                                OPTM_COMPANYID: data.DataForSelectedFeatureModelItem[i].OPTM_COMPANYID,
+                                OPTM_CREATEDATETIME: data.DataForSelectedFeatureModelItem[i].OPTM_CREATEDATETIME,
+                                OPTM_CREATEDBY: data.DataForSelectedFeatureModelItem[i].OPTM_CREATEDBY,
+                                OPTM_DISPLAYNAME: data.DataForSelectedFeatureModelItem[i].OPTM_DISPLAYNAME,
+                                OPTM_FEATUREID: data.DataForSelectedFeatureModelItem[i].OPTM_CHILDFEATUREID,
+                                OPTM_ITEMKEY: data.DataForSelectedFeatureModelItem[i].OPTM_ITEMKEY,
                                 OPTM_LINENO: this.ModelHeaderData.length + 1,
                                 OPTM_MANDATORY: model_mandatory,
-                                OPTM_ISMULTISELECT: DataForSelectedFeatureModelItem[i].OPTM_ISMULTISELECT,
+                                OPTM_ISMULTISELECT: data.DataForSelectedFeatureModelItem[i].OPTM_ISMULTISELECT,
                                 OPTM_MAXSELECTABLE: psMaxSelect,
                                 OPTM_MINSELECTABLE: psMinSelect,
                                 OPTM_MODELID: parent_modelid,
-                                OPTM_MODIFIEDBY: DataForSelectedFeatureModelItem[i].OPTM_MODIFIEDBY,
-                                OPTM_MODIFIEDDATETIME: String(DataForSelectedFeatureModelItem[i].OPTM_MODIFIEDDATETIME).toString(),
-                                OPTM_PRICESOURCE: DataForSelectedFeatureModelItem[i].ListName,
-                                OPTM_PROPOGATEQTY: DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY,
-                                OPTM_QUANTITY: parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(3),
-                                OPTM_TYPE: DataForSelectedFeatureModelItem[i].OPTM_TYPE,
+                                OPTM_MODIFIEDBY: data.DataForSelectedFeatureModelItem[i].OPTM_MODIFIEDBY,
+                                OPTM_MODIFIEDDATETIME: String(data.DataForSelectedFeatureModelItem[i].OPTM_MODIFIEDDATETIME).toString(),
+                                OPTM_PRICESOURCE: data.DataForSelectedFeatureModelItem[i].ListName,
+                                OPTM_PROPOGATEQTY: data.DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY,
+                                OPTM_QUANTITY: parseFloat(data.DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(3),
+                                OPTM_TYPE: data.DataForSelectedFeatureModelItem[i].OPTM_TYPE,
                                 OPTM_UNIQUEIDNT: uniqueIdentifier,
                                 OPTM_UOM: parentarray[0].OPTM_UOM,
                                 child_code: parentarray[0].child_code,
                                 element_class: pselementclass,
                                 element_type: pselementtype,
-                                feature_code: DataForSelectedFeatureModelItem[i].feature_code,
-                                parentfeatureid: DataForSelectedFeatureModelItem[i].OPTM_FEATUREID,
+                                feature_code: data.DataForSelectedFeatureModelItem[i].feature_code,
+                                parentfeatureid: data.DataForSelectedFeatureModelItem[i].OPTM_FEATUREID,
                                 parentmodelid: parentmodelid,
                                 OPTM_LEVEL: feature_model_data.OPTM_LEVEL,
                                 is_second_level: 1,
-                                nodeid: DataForSelectedFeatureModelItem[i].nodeid,
-                                unique_key: DataForSelectedFeatureModelItem[i].unique_key,
-                                sort_key: DataForSelectedFeatureModelItem[i].sort_key,
+                                nodeid: data.DataForSelectedFeatureModelItem[i].nodeid,
+                                unique_key: data.DataForSelectedFeatureModelItem[i].unique_key,
+                                sort_key: data.DataForSelectedFeatureModelItem[i].sort_key,
                                 random_unique_key: this.commonData.random_string(50)
                               });
 
-                              if (DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY == "Y") {
+                              if (data.DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY == "Y") {
                                 propagateqtychecked = "Y"
-                                DataForSelectedFeatureModelItem[i].OPTM_QUANTITY = parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(3)
-                                propagateqty = DataForSelectedFeatureModelItem[i].OPTM_QUANTITY
+                                data.DataForSelectedFeatureModelItem[i].OPTM_QUANTITY = parseFloat(data.DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(3)
+                                propagateqty = data.DataForSelectedFeatureModelItem[i].OPTM_QUANTITY
                               }
 
-                              if (data.SelectedFeatureBOMForSecondLevel.length > 0) {
-                                let dtFeatureDataWithDefault = data.SelectedFeatureBOMForSecondLevel.filter(function (obj) {
-                                  return obj['OPTM_FEATUREID'] == DataForSelectedFeatureModelItem[i].OPTM_CHILDFEATUREID && obj['nodeid'] == DataForSelectedFeatureModelItem[i].unique_key
+                              if (data.dtFeatureDataWithDefault.length > 0) {
+                                let dtFeatureDataWithDefault = data.dtFeatureDataWithDefault.filter(function (obj) {
+                                  return obj['OPTM_FEATUREID'] == data.DataForSelectedFeatureModelItem[i].OPTM_CHILDFEATUREID && obj['nodeid'] == data.DataForSelectedFeatureModelItem[i].unique_key
                                 })
                                 this.console.log('dtFeatureDataWithDefault:', dtFeatureDataWithDefault);
 
-                                this.setDtFeatureDataWithDefault(dtFeatureDataWithDefault, DataForSelectedFeatureModelItem[i], feature_model_data, parentmodelid, parentarray, propagateqtychecked, data, type)
+                                this.setDtFeatureDataWithDefault(dtFeatureDataWithDefault, data.DataForSelectedFeatureModelItem[i], feature_model_data, parentmodelid, parentarray, propagateqtychecked, data, type)
                               }
 
                             }
@@ -2599,6 +2595,7 @@ export class CwViewOldComponent implements OnInit {
                       }
                     }
                   }
+
                   if(data.AccessoryBOM != undefined){
                     if (this.selectedAccessoryBOM == undefined || this.selectedAccessoryBOM == null) {                 
                       this.selectedAccessoryBOM = data.AccessoryBOM;
@@ -3174,7 +3171,7 @@ export class CwViewOldComponent implements OnInit {
           propagateqty = checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_QUANTITY
         }
 
-        var childItemsAddedModelHeaderData = data.SelectedFeatureBOMForSecondLevel.filter(function (obj) {
+        var childItemsAddedModelHeaderData = data.AllDataForFeature.filter(function (obj) {
           return obj['OPTM_FEATUREID'] == checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_CHILDFEATUREID
         })
 
@@ -3190,6 +3187,7 @@ export class CwViewOldComponent implements OnInit {
     // }
 
   }
+
 
 
   remove_all_features_child(unique_key, parentArray,featureModelData) {
@@ -4125,6 +4123,7 @@ export class CwViewOldComponent implements OnInit {
             this.CommonService.show_notification(this.language.OperCompletedSuccess, 'success');
 
             if (button_press == 'finishPress') {
+              this.navigation_in_steps(3, 4);
               setTimeout(function () {
                 obj.getFinalBOMStatus();
               }, 100);
@@ -7368,7 +7367,8 @@ export class CwViewOldComponent implements OnInit {
     for (let iremove = 0; iremove < this.ModelHeaderData.length; iremove++) {
       let parentId = "";
       let modelHeaderId = "";
-      if (removemodelheaderid != undefined && removemodelheaderid != null) {
+      if (removemodelheaderid != undefined && removemodelheaderid != null
+          && removemodelheaderid != 0 ) {
         parentId = this.ModelHeaderData[iremove].parentmodelid
         modelHeaderId = removemodelheaderid
       } else {

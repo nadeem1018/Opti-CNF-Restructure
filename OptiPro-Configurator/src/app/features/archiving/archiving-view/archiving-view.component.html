@@ -50,7 +50,7 @@
                       <div class="form-group row clearfic mb-2">
                         <label class="col-sm-4 col-form-label" for="order_status">{{language.order_status}}</label>
                         <div class="col-sm-8">
-                          <select class="form-control  form-control-sm mt3" name="order_status" id="order_status" [(ngModel)]="filter_section_data.order_status" #order_status_value>
+                          <select class="form-control  form-control-sm mt3" name="order_status" id="order_status" [(ngModel)]="filter_section_data.order_status" #order_status_value (change)='OnOrderStatusChange(order_status_value)'>
                             <option *ngFor="let v of order_status_types" [value]="v.value" [selected]="filter_section_data.order_status == v.value">{{v.name}}</option>
                           </select>
                         </div>
@@ -96,7 +96,7 @@
                           {{dataItem.rowindex}}
                         </ng-template>
                       </kendo-grid-column>
-                      <kendo-grid-column field="config_id" title="{{language.log_id}}" filter="text" [width]="140" [minResizableWidth]="140">
+                      <kendo-grid-column field="config_id" title="{{language.configuration_id}}" filter="text" [width]="140" [minResizableWidth]="140">
                         <ng-template kendoGridCellTemplate let-dataItem>
                           {{dataItem.config_id}}
                         </ng-template>
@@ -108,8 +108,8 @@
                       </kendo-grid-column>
                       <kendo-grid-column field="doc_type" title="{{language.document_type}}" filter="text" [width]="140" [minResizableWidth]="140">
                         <ng-template kendoGridCellTemplate let-dataItem>
-                          <span *ngIf="dataItem.doc_type == 17">{{this.language.SalesQuote}}</span>
-                          <span *ngIf="dataItem.doc_type == 23">{{this.language.SalesOrder}}</span>
+                          <span *ngIf="dataItem.doc_type == 23">{{this.language.SalesQuote}}</span>
+                          <span *ngIf="dataItem.doc_type == 17">{{this.language.SalesOrder}}</span>
                         </ng-template>
                       </kendo-grid-column>
                       <kendo-grid-column field="ref_doc_entry" title="{{language.ref_doc_entry}}" filter="text" [width]="140" [minResizableWidth]="140">
@@ -170,10 +170,10 @@
                  </button>
               </div>
               <div class="ml-auto d-flex align-items-center flex-wrap">                
-                <button type="button" class="btn btn-danger btn-sm with-icon mr-2" title="{{language.delete}}" (click)="delete_data('')" *ngIf="filter_section_data.order_status != 'processed'">
+                <button type="button" class="btn btn-danger btn-sm with-icon mr-2" title="{{language.delete}}" [disabled]="!isData" (click)="delete_data('')" *ngIf="filter_section_data.order_status != 'processed'">
                   <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg> {{this.language.delete}} 
                  </button>
-                 <button type="button" class="btn btn-danger btn-sm with-icon" title="{{language.delete_all}}" (click)="delete_data('all')" *ngIf="filter_section_data.order_status != 'processed'">
+                 <button type="button" class="btn btn-danger btn-sm with-icon" title="{{language.delete_all}}" [disabled]="!isData" (click)="delete_data('all')" *ngIf="filter_section_data.order_status != 'processed'">
                   <b><svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg> {{this.language.delete_all}} </b>
                  </button>    
               </div>

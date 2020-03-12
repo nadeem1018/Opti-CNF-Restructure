@@ -569,7 +569,7 @@
     "filter_options":"Filter Options",
     "document_type": "Document Type",
     "filter_result":"Filtered Results",
-    "both":"Both",
+    "both":"All",
     "archive":"Archive",
     "archiving":"Archiving",
     "notAuthorisedScreen":"You are not authorised to access this screen.",
@@ -618,6 +618,8 @@
     "archive_all":"Archive All",	
     "cnf_archieved_successfully":"Configurations Archieved successfully",	
     "cnf_deleted_successfully":"Configurations Deleted successfully",	
-    "delete_all":"Delete All"
+    "delete_all":"Delete All",
+    "EffectiveTo": "Effective To"
+
 
 }

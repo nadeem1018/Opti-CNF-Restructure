@@ -754,6 +754,9 @@ getLookupValue($event) {
     for (let j = 0; j < this.modelbom_data.length; j++) {
       var psTypeCode = this.modelbom_data[j].type_value_code;
       var result = false;
+      if($event[1] == null || $event[1] == undefined){
+        $event[1] = "";
+      }
       if (psTypeCode != undefined && psTypeCode != "") {
         if (this.lookupfor == "Item_Detail_lookup") {
           if (psTypeCode.toUpperCase() == $event[1].toUpperCase() || psTypeCode.toUpperCase() == $event[0].toUpperCase()) {

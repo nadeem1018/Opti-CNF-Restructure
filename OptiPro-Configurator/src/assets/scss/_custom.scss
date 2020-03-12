@@ -7,7 +7,7 @@ html, body{
 .icon {
   width: 16px;
   height: auto;
-  fill: #fff;
+  fill: rgb(14, 13, 13); 
   &.icon-dark{
     fill:$gray-900;
     .with-icon &{
@@ -1645,4 +1645,9 @@ ul.parent_ul li:first-child div treeview li:after {
   100% {
     background-position: 0% 50%;
   }
+}
+
+a.common_grid_link {
+  color: #0056b3!important;
+  cursor: pointer;
 }

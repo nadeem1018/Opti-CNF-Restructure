@@ -751,7 +751,7 @@ export class LookupComponent implements OnInit {
 
     ];
 
-    this.table_head_hidden_elements = [false];
+    this.table_head_hidden_elements = [false, false];
     this.lookup_key = 'OPTM_CODE';
     this.width_value = ((100 / this.table_head.length) + '%');
 

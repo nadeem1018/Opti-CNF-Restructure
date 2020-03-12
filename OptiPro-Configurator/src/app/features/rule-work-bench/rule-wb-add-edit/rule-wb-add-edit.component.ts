@@ -1348,7 +1348,7 @@ export class RuleWbAddEditComponent implements OnInit {
          row_data: this.rule_sequence_data,
          output_data: this.rule_feature_data
        });
-       this.CommonService.show_notification(this.language.expression_generated, 'error');
+       this.CommonService.show_notification(this.language.expression_generated, 'success');
        this.close_rule_sequence();
        console.log(this.rule_expression_data);
      }
@@ -1413,7 +1413,7 @@ export class RuleWbAddEditComponent implements OnInit {
        this.rule_expression_data[row_auto_index]['expression'] = this.generated_expression_value;
        this.rule_expression_data[row_auto_index]['row_data'] = this.rule_sequence_data;
        this.rule_expression_data[row_auto_index]['output_data'] = this.rule_feature_data;
-       this.CommonService.show_notification(this.language.expression_updated, 'error');
+       this.CommonService.show_notification(this.language.expression_updated, 'success');
        this.close_rule_sequence();
      } else {
        this.CommonService.show_notification(this.language.sequence_row_empty, 'error');
