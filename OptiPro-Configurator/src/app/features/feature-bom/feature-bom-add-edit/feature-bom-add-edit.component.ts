@@ -67,7 +67,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   public dialog_params: any = [];
   public show_dialog: boolean = false;
   constructor(private route: Router, private fbom: FeaturebomService, private router: Router, private ActivatedRouter: ActivatedRoute, private httpclient: HttpClient, private CommonService: CommonService, private cdref: ChangeDetectorRef, private DialogService: DialogService) { }
-
+  page_main_title = this.language.Bom_title
   isMobile: boolean = false;
   isIpad: boolean = false;
   isDesktop: boolean = true;
@@ -370,7 +370,7 @@ export class FeatureBomAddEditComponent implements OnInit {
               this.showImageBlock = true;
             }
           }
-          this.onExplodeClick('auto');
+     //     this.onExplodeClick('auto');
         }
         this.showLoader = false;
         if(this.isDuplicateMode) {
@@ -1820,6 +1820,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
   check_component_exist(unique_key, level) {
     level = (parseInt(level) + 1);
+    console.log("check_component_exist", unique_key);
     let data = [];
     if (unique_key != "" && unique_key != null && unique_key != undefined) {
       data = this.tree_data_json.filter(function (obj) {
