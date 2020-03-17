@@ -2669,7 +2669,7 @@ export class CwViewOldComponent implements OnInit {
                       }
                       else if (data.DataForSelectedFeatureModelItem[i].OPTM_TYPE == 3) {
                         isExist = this.ModelBOMDataForSecondLevel.filter(function (obj) {
-                          return obj['OPTM_CHILDMODELID'] == data.DataForSelectedFeatureModelItem[i].OPTM_CHILDMODELID && obj['nodeid'] == data.DataForSelectedFeatureModelItem[i].nodeid;
+                          return obj['OPTM_CHILDMODELID'] == data.DataForSelectedFeatureModelItem[i].OPTM_CHILDMODELID && obj['unique_key'] == data.DataForSelectedFeatureModelItem[i].unique_key;
                         });
                       }
                       else {
