@@ -74,6 +74,7 @@ export class FeatureModelAddEditComponent implements OnInit {
   public menu_auth_index = '201';
   public files: any;
   public featureMasterImage: any;
+  public addImageBlock: boolean = false;
 
   canDeactivate() {
     if(CommonData.made_changes == true){
@@ -124,6 +125,7 @@ export class FeatureModelAddEditComponent implements OnInit {
 
     if (this.codekey === "" || this.codekey === null) {
       this.button = "save";
+      this.addImageBlock = true;
     //  CommonData.made_changes = true; 
       this.isUpdateButtonVisible = false;
       this.isDeleteButtonVisible = false;
@@ -215,7 +217,8 @@ export class FeatureModelAddEditComponent implements OnInit {
 
           if (data[0].OPTM_PHOTO !== undefined && data[0].OPTM_PHOTO !== "" && data[0].OPTM_PHOTO !== 0) {
             this.featureBom.Image = data[0].OPTM_PHOTO
-            this.ModelImage = this.commonData.get_current_url() + data[0].OPTM_PHOTO
+            //this.ModelImage = this.commonData.get_current_url() + data[0].OPTM_PHOTO;
+            this.ModelImage = 'http://172.16.6.190/OptiProERPCNFService/web' + data[0].OPTM_PHOTO;
             this.showImageBlock = true;
 
           }
@@ -326,6 +329,7 @@ export class FeatureModelAddEditComponent implements OnInit {
         FeatureStatus: this.featureBom.Status,
         ModelTemplateItem: this.featureBom.ItemName,
         ItemCodeGenerationRef: this.featureBom.Ref,
+       // this.featureMasterImage
         PicturePath: this.featureBom.Image,
         CreatedUser: this.username,
         Accessory: this.featureBom.Accessory
@@ -405,7 +409,7 @@ export class FeatureModelAddEditComponent implements OnInit {
     )
   }
 
-  /*uploadimagefile(files: any) {
+  uploadimagefile(files: any, event: any) {
     if (files.length === 0)
       return;
     const formData = new FormData();
@@ -415,20 +419,17 @@ export class FeatureModelAddEditComponent implements OnInit {
     }
     CommonData.made_changes = true; 
     this.fms.UploadFeature(formData).subscribe(data => {
+    //this.ModelImage =  'http://172.16.6.190/OptiProERPCNFService/web/assets/UploadFile/Image/138x45.png';
       if (data !== undefined && data != "") {
         if (data.body === "False") {
           this.showImageBlock = false;
           this.commanService.show_notification(this.language.filecannotupload, 'error');           
         }
         else {
-
           if (data.body != "" && data.body != undefined) {
-
             this.featureBom.Image = data.body
-            this.ModelImage = this.commonData.get_current_url() + data.body;
-            console.log(this.featureBom.Image);
+            this.ModelImage =  'http://172.16.6.190/OptiProERPCNFService/web' + data.body;
             console.log(this.ModelImage);
-
             this.showImageBlock = true;
           }
         }
@@ -440,21 +441,6 @@ export class FeatureModelAddEditComponent implements OnInit {
       }
       return;
     })
-  }*/
-
-  uploadimagefile(event: any) {
-    this.files = event.target.files;
-    if (!this.files) {
-        return;
-    }
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-        this.ModelImage = e.target.result;
-        this.featureMasterImage = this.files[0];
-        console.log(this.ModelImage);
-        console.log(this.featureMasterImage);
-    };
-    reader.readAsDataURL(this.files[0]);
   }
 
   enlage_image(image) {
@@ -547,6 +533,7 @@ export class FeatureModelAddEditComponent implements OnInit {
         FeatureStatus: this.featureBom.Status,
         ModelTemplateItem: this.featureBom.ItemName,
         ItemCodeGenerationRef: this.featureBom.Ref,
+       // this.featureMasterImage
         PicturePath: this.featureBom.Image,
         CreatedUser: this.username,
         Accessory: this.featureBom.Accessory

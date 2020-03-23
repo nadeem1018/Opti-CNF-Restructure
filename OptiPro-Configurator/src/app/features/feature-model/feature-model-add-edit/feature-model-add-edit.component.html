@@ -98,30 +98,6 @@
                                     </kendo-datepicker>
                                 </div>
                             </div>
-                           <!-- <div class="form-group row clearfix" *ngIf="showImageBlock">
-                                <label class="col-sm-4 col-form-label" for="image">{{language.image}}</label>
-                                <div class="col-sm-5 d-inline-flex align-items-center">
-                                    <div class="row image_data">
-                                        <div class=" col-md-4 col-sm-4">
-                                            <a href="javascript:;" data-toggle="modal"
-                                                data-target="#enlarge_image_modal" (click)="enlage_image(ModelImage)">
-                                                <img src={{ModelImage}} class="img-thumbnail rounded float-left mdelbom_image" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row clearfix">
-                                <label class="col-sm-4 col-form-label" for="image">{{language.Model_Image}}</label>
-                                <div class="col-sm-5 d-inline-flex align-items-center">
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input type="file" [ngStyle]="{'position':'absolute', 'width':'0'}" class="custom-file-input" id="image" #image (change)="uploadimagefile(image.files)">
-                                            <label class="btn btn-secondary btn-sm m-0 d-flex align-items-center" for="image">{{language.choose_image}}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>-->
 
                             <div class="form-group row clearfix" *ngIf="showImageBlock">
                                 <label class="col-sm-4 col-form-label" for="image">{{language.image}}</label>
@@ -136,19 +112,19 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="form-group row clearfix">
                                 <label class="col-sm-4 col-form-label" for="image">{{language.Model_Image}}</label>
                                 <div class="col-sm-5 d-inline-flex align-items-center">
                                     <div class="input-group">
                                         <div class="custom-file">
-                                            <input type="file" [ngStyle]="{'position':'absolute', 'width':'0'}" class="custom-file-input" id="image" #image (change)="uploadimagefile($event)"
-                                            accept="image/png, image/jpeg, image/jpg">
+                                            <input type="file" [ngStyle]="{'position':'absolute', 'width':'0'}" class="custom-file-input" id="image" #image (change)="uploadimagefile(image.files)">
                                             <label class="btn btn-secondary btn-sm m-0 d-flex align-items-center" for="image">{{language.choose_image}}</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
+                           
                             <div class="form-group row clearfix">
                                 <label class="col-sm-4 col-form-label" for="Status">{{language.Model_Status}}</label>
                                 <div class="col-sm-5 d-inline-flex align-items-center">
