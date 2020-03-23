@@ -4,10 +4,10 @@
 		"app_title":"OptiPro Configurator",
 		"locale":"en",
 		"locale_name": "English",
-		"service_url":"http://172.16.6.139/OptiProERPCNFService-Asif/",
+		"service_url":"http://172.16.6.139/OptiProERPCNFService/",
 		"admin_db_name":"OPTIPROADMIN",
 		"product_code":"CNF",
-		"system_version":"1.15.03",
+		"system_version":"1.20.00",
 		"installed" : 1
 	}
 ]
