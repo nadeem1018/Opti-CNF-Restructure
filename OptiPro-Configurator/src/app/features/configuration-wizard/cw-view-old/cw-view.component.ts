@@ -7517,11 +7517,13 @@ export class CwViewOldComponent implements OnInit {
     var itemkey;
     var tempfeatureidforfeaturebom;
     var tempNodeId;
+    var removeitemrightgrid = true;
     for (var itemp = 0; itemp < this.ModelHeaderData.length; itemp++) {
       if (this.ModelHeaderData[itemp].parentfeatureid == parentfeatureid && 
         this.ModelHeaderData[itemp].nodeid == remove_nodeid) {
         tempfeatureidmodelheader = this.ModelHeaderData[itemp].OPTM_FEATUREID
         tempchildfeatunique_key = this.ModelHeaderData[itemp].unique_key
+        removeitemrightgrid =false;
         this.ModelHeaderData.splice(itemp, 1);
         itemp = itemp - 1
         this.removeAccessoryHeaderAndItems(tempchildfeatunique_key); 
@@ -7558,6 +7560,15 @@ export class CwViewOldComponent implements OnInit {
       }
 
     }
+
+    if(removeitemrightgrid){
+    for (var itemp3 = 0; itemp3 < this.feature_itm_list_table.length; itemp3++) {
+      if (this.feature_itm_list_table[itemp3].nodeid == remove_nodeid) {
+        this.feature_itm_list_table.splice(itemp3, 1)
+        itemp3 = itemp3 - 1
+      }
+    }
+  }
 
   }
 
