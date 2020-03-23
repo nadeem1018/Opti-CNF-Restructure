@@ -75,6 +75,7 @@ export class FeatureModelAddEditComponent implements OnInit {
   public files: any;
   public featureMasterImage: any;
   public addImageBlock: boolean = false;
+  public config_params: any;
 
   canDeactivate() {
     if(CommonData.made_changes == true){
@@ -85,7 +86,7 @@ export class FeatureModelAddEditComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.config_params = JSON.parse(sessionStorage.getItem('system_config'));
     // const element = document.getElementsByTagName('body')[0];
     // // element.className = '';
     // element.classList.add('sidebar-toggled');
@@ -218,7 +219,7 @@ export class FeatureModelAddEditComponent implements OnInit {
           if (data[0].OPTM_PHOTO !== undefined && data[0].OPTM_PHOTO !== "" && data[0].OPTM_PHOTO !== 0) {
             this.featureBom.Image = data[0].OPTM_PHOTO
             //this.ModelImage = this.commonData.get_current_url() + data[0].OPTM_PHOTO;
-            this.ModelImage = 'http://172.16.6.190/OptiProERPCNFService/web' + data[0].OPTM_PHOTO;
+            this.ModelImage =  this.config_params.service_url+'web'+ data[0].OPTM_PHOTO;
             this.showImageBlock = true;
 
           }
@@ -427,8 +428,8 @@ export class FeatureModelAddEditComponent implements OnInit {
         }
         else {
           if (data.body != "" && data.body != undefined) {
-            this.featureBom.Image = data.body
-            this.ModelImage =  'http://172.16.6.190/OptiProERPCNFService/web' + data.body;
+            this.featureBom.Image = data.body;
+            this.ModelImage =  this.config_params.service_url+'web'+ data.body;
             console.log(this.ModelImage);
             this.showImageBlock = true;
           }
