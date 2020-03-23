@@ -2003,6 +2003,7 @@ export class CwViewOldComponent implements OnInit {
       parentArrayElemType = parentarray[0].element_type;
     } else {
       parentArrayElemType = "";
+      parentarray[0].element_type ="radio"
     }
 
 

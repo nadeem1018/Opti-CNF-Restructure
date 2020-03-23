@@ -1335,7 +1335,7 @@ p-treetabletoggler:empty {
   flex-direction: column;
 }
 
-.tree li [data-branchtype]:not([data-branchtype=""]) {
+.tree li [data-branchtype]:not([data-branchtype=""]), .custom-kendo-tree li [data-branchtype]:not([data-branchtype=""]){
   padding-left: 30px;
   position: relative;
   white-space: nowrap;
@@ -1345,7 +1345,7 @@ p-treetabletoggler:empty {
   align-items: center;
 }
 
-.tree li [data-branchtype]:not([data-branchtype=""]):before {
+.tree li [data-branchtype]:not([data-branchtype=""]):before,  .custom-kendo-tree li [data-branchtype]:not([data-branchtype=""]):before {
   width: 30px;
   height: 26px;
   font-family: 'FontAwesome';
@@ -1355,7 +1355,7 @@ p-treetabletoggler:empty {
   text-align: center;
 }
 
-.tree li [data-branchtype="modal"]:before {
+.tree li [data-branchtype="modal"]:before,  .custom-kendo-tree li [data-branchtype="modal"]:before{
   content: "";
   background-image: url("./assets/images/tree-view-icons/modal-icon.svg");
   background-repeat: no-repeat;
@@ -1363,7 +1363,7 @@ p-treetabletoggler:empty {
   background-position: center;
 }
 
-.tree li [data-branchtype="feature"]:before {
+.tree li [data-branchtype="feature"]:before, .custom-kendo-tree li [data-branchtype="feature"]:before {
   content: "";
   background-image: url("./assets/images/tree-view-icons/feature-icon.svg");
   background-repeat: no-repeat;
@@ -1371,7 +1371,7 @@ p-treetabletoggler:empty {
   background-position: center;
 }
 
-.tree li [data-branchtype="operation"]:before {
+.tree li [data-branchtype="operation"]:before,  .custom-kendo-tree li [data-branchtype="operation"]:before {
   content: "";
   background-image: url("./assets/images/tree-view-icons/opration-icon.svg");
   background-repeat: no-repeat;
@@ -1379,7 +1379,7 @@ p-treetabletoggler:empty {
   background-position: center;
 }
 
-.tree li [data-branchtype="item"]:before {
+.tree li [data-branchtype="item"]:before,  .custom-kendo-tree li [data-branchtype="item"]:before  {
   content: "";
   background-image: url("./assets/images/tree-view-icons/item-icon.svg");
   background-repeat: no-repeat;
@@ -1387,7 +1387,7 @@ p-treetabletoggler:empty {
   background-position: center;
 }
 
-.tree li [data-branchtype="value"]:before {
+.tree li [data-branchtype="value"]:before,  .custom-kendo-tree li [data-branchtype="value"]:before  {
   content: "";
   background-image: url("./assets/images/tree-view-icons/value-icon.svg");
   background-repeat: no-repeat;
@@ -1395,7 +1395,7 @@ p-treetabletoggler:empty {
   background-position: center;
 }
 
-.tree li [data-branchtype]:not([data-branchtype="operation"]):empty {
+.tree li [data-branchtype]:not([data-branchtype="operation"]):empty,  .custom-kendo-tree li [data-branchtype]:not([data-branchtype="operation"]):empty{
   padding-left: 20px;
 }
 
@@ -1651,3 +1651,57 @@ a.common_grid_link {
   color: #0056b3!important;
   cursor: pointer;
 }
+.tr-hide {
+  display: none;
+}
+.custom-kendo-tree
+{ 
+  padding-left: 10px;
+  // .k-treeview li.k-item::before{
+  //   content: '';
+  //   border-left: 1.2px solid #999;
+  //   top: -3px;
+  //   height: calc(100% + 25px);
+  //   width: 1px;
+  // }
+  .k-treeview .k-in{
+    padding: 4px 0px;
+  }
+  .k-widget{
+   .k-icon.k-i-collapse,  .k-icon.k-i-expand{
+  border: 1px solid #999;
+  height: 18px;
+  width: 19px;
+  font-size: 13px;
+    color: #999;
+   }
+   .k-icon.k-i-collapse::before{
+     background-image: none;
+    content: "\e121";
+    transform: none;
+    width: 13px;
+    height: 13px;
+   }
+   .k-icon.k-i-expand::before{
+    background-image: none;
+    content: "\e11e";
+    transform: none;
+    width: 13px;
+    height: 13px;
+   }
+   
+}
+}
+.custom-kendo-dialog-actions{
+  padding: 5px;
+  .mr-10 {
+    margin-right: 10px;
+  }
+}
+
+.k-grid-header {
+    background-color: #e2e2e2;
+    border-color: #cccccc;
+}
+
+ 

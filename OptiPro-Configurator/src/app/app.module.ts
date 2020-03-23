@@ -13,6 +13,8 @@ import { SharedModules } from './shared/shared.module';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { InputsModule } from '@progress/kendo-angular-inputs';
+import { TreeViewModule } from '@progress/kendo-angular-treeview';
+
 
 
 
@@ -33,7 +35,8 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
     SharedModules,
     DateInputsModule,
     TooltipModule,
-    InputsModule
+    InputsModule,
+    TreeViewModule
   ],
   providers: [],
   bootstrap: [AppComponent]

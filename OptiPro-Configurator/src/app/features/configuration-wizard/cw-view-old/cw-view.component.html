@@ -355,7 +355,7 @@
                                                         name="modelName" id="modelNameId">
                                                 <div class="col-sm-9 input-group">                                                
                                                     <input type="text" ngValue="" class="form-control  form-control-sm" name="model" id="model"
-                                                        placeholder="{{language.model}}" [(ngModel)]="step2_data.model_code" #modelcode (change)="onModelCodeChange()">
+                                                        placeholder="{{language.model}}" [(ngModel)]="step2_data.model_code" #modelcode (change)="onModelCodeChange(modelcode.value)">
                                                     <div class="input-group-append">
                                                         <span class="btn btn-sm btn-primary cursor-pointer btn-icon" id="basic-addon3" (click)="openModalList()">
                                                             <svg viewBox="0 -96 512 512" class="icon m-0"><use xlink:href="#menu"></use></svg>
@@ -1015,8 +1015,9 @@
                 
                             <span class="output_final_screen_save_button">
                             <button (click)="onFinishPress('screen4_data', 'finishPress')" *ngIf="step3_data_final.length > 0  && step1_data.document != 'draft'"
-                                type="submit" class="btn btn-sm btn-primary with-icon btn-next mr-2" data-next-block="fina_doc_create">                               
-                                <svg viewBox="0 0 24 24" class="icon arrow-icon"><use xlink:href="#rightArrow"></use></svg>{{language.finish}}
+                                type="submit" class="btn btn-sm btn-primary  btn-next mr-2" data-next-block="fina_doc_create">                               
+                                <!-- <svg viewBox="0 0 24 24" class="icon arrow-icon"><use xlink:href="#rightArrow"></use></svg> -->
+                                {{language.finish}}
                                 </button>                                
                             </span>
                         </div>

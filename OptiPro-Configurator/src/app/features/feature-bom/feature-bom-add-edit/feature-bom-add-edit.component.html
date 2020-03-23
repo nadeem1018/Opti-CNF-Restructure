@@ -281,7 +281,25 @@
                                             <svg viewBox="0 0 475 475" class="icon"><use xlink:href="#close" ></use></svg>
                                         </button>
                                     </div>
-                                    <ul class="parent_ul slim-scroll" *ngIf="tree_data_json.length > 0">
+                                    <div class="custom-kendo-tree">
+                                        <kendo-treeview
+                                        [nodes]="data1"
+                                        textField="component"
+                                        kendoTreeViewExpandable
+                                        kendoTreeViewSelectable
+                                        kendoTreeViewHierarchyBinding
+                                        childrenField="children"
+                                        [expandBy]="branchType"
+                                        [(expandedKeys)]="expandedKeys"
+                                    >
+                                    <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                                      <span [attr.data-branchtype]="dataItem.branchType">{{dataItem.component}}</span>
+                                            <!-- <span class="k-icon k-i-file-pdf"></span>
+                                            {{dataItem.component}} -->
+                                        </ng-template>
+                                    </kendo-treeview>
+                                    </div>
+                                    <!-- <ul class="parent_ul slim-scroll" *ngIf="tree_data_json.length > 0">
                                         <li class="first_level_li" *ngFor="let element of tree_data_json; let i= index;"
                                             [hidden]="element.level != 0 && element.node_id!=''">
                                             <div *ngIf="element.level == 0 && element.node_id==''">
@@ -297,7 +315,7 @@
                                                     </div>
                                                 </ng-template>
                                                 <span class="first_level" kendoTooltip [tooltipTemplate]="template">
-                                                    <!-- <i class="fa fa-circle"></i>  -->
+                                                <i class="fa fa-circle"></i> 
                                                     <span #btn (click)="childExpand(btn)" class="expand-btn expanded" id="expand-btn" *ngIf="check_component_exist(element.unique_key, i).length > 0"></span>
                                                     <span kendoTooltip [tooltipTemplate]="popTemplate" showOn="click" filter="span">
                                                         <span [attr.data-branchtype]="element.branchType">{{element.component}}</span>
@@ -307,7 +325,7 @@
                                                 </treeview>
                                             </div>
                                         </li>
-                                    </ul>
+                                    </ul> -->
                                 </div>
                             </div>
                         </div>
@@ -318,7 +336,7 @@
                         <button type="button" (click)="onSaveClick()" *ngIf="isSaveButtonVisible" class="btn btn-sm btn-success with-icon mr-2 ">
                             <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.save}}
                         </button>
-                        <button type="button" *ngIf="isUpdateButtonVisible" (click)="onSaveClick()" class="btn btn-sm btn-success mr-2">
+                        <button type="button" *ngIf="isUpdateButtonVisible" (click)="onSaveClick()" class="btn btn-sm btn-success with-icon mr-2">
                             <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.update}}
                         </button>
                         <button type="button" *ngIf="isExplodeButtonVisible" (click)="onExplodeClick('manual')" class="btn btn-sm btn-info with-icon mr-2">

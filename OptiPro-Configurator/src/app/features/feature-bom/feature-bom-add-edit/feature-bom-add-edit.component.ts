@@ -76,6 +76,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   public made_changes: boolean = false;
   public isDuplicateMode:boolean = false;
   public NewFeatureId = "";
+  public expandedKeys: any[] = [];
 
   getSelectedRowDetail(event) {
     CommonData.made_changes = true;
@@ -1633,6 +1634,7 @@ export class FeatureBomAddEditComponent implements OnInit {
                 return obj;
               });
               this.tree_data_json = temp_data;
+              this.data1 = this.unflatten(temp_data);
               console.log(this.tree_data_json);
 
             }
@@ -1710,7 +1712,36 @@ export class FeatureBomAddEditComponent implements OnInit {
     }
 
   }
-
+  public data1: any[] = [];
+  public unflatten(arr) {
+   let tree = [],
+       mappedArr = {},
+       arrElem,
+       mappedElem;
+ 
+   // First map the nodes of the array to an object -> create a hash table.
+   for(var i = 0, len = arr.length; i < len; i++) {
+     arrElem = arr[i];
+     mappedArr[arrElem.unique_key] = arrElem;
+     mappedArr[arrElem.unique_key]['children'] = [];
+   }
+ 
+ 
+   for (let unique_key in mappedArr) {
+     if (mappedArr.hasOwnProperty(unique_key)) {
+       mappedElem = mappedArr[unique_key];
+       // If the element is not at the root level, add it to its parent array of children.
+       if (mappedElem.node_id) {
+         mappedArr[mappedElem['node_id']]['children'].push(mappedElem);
+       }
+       // If the element is at the root level, add it to first level elements array.
+       else {
+         tree.push(mappedElem);
+       }
+     }
+   }
+   return tree;
+ }
 
   onFeatureIdChange() {
       CommonData.made_changes = true;
@@ -1874,26 +1905,29 @@ export class FeatureBomAddEditComponent implements OnInit {
     }
   }
   expandAll() {
-    var tree = document.getElementsByTagName('treeview');
-    var exBtn = document.getElementsByClassName('expand-btn');
-    for(var i=0; i < exBtn.length; i++){
-      exBtn[i].classList.add("expanded");
-    }
-    for(var h=0; h < exBtn.length; h++){
-      tree[h].classList.remove("d-none");
-      tree[h].classList.add("d-block");
-    }
+
+    this.expandedKeys = ['feature','modal']
+    // var tree = document.getElementsByTagName('treeview');
+    // var exBtn = document.getElementsByClassName('expand-btn');
+    // for(var i=0; i < exBtn.length; i++){
+    //   exBtn[i].classList.add("expanded");
+    // }
+    // for(var h=0; h < exBtn.length; h++){
+    //   tree[h].classList.remove("d-none");
+    //   tree[h].classList.add("d-block");
+    // }
   }
   collapseAll() {
-    var tree = document.getElementsByTagName('treeview');  
-    var exBtn = document.getElementsByClassName('expand-btn');    
-    for(var i=0; i < exBtn.length; i++){
-      exBtn[i].classList.remove("expanded");
-    }
-    for(var h=0; h < exBtn.length; h++){      
-      tree[h].classList.remove("d-block");
-      tree[h].classList.add("d-none");
-    }
+    this.expandedKeys = []
+    // var tree = document.getElementsByTagName('treeview');  
+    // var exBtn = document.getElementsByClassName('expand-btn');    
+    // for(var i=0; i < exBtn.length; i++){
+    //   exBtn[i].classList.remove("expanded");
+    // }
+    // for(var h=0; h < exBtn.length; h++){      
+    //   tree[h].classList.remove("d-block");
+    //   tree[h].classList.add("d-none");
+    // }
   }
 
   resequence_operation(type) {  // type = 1 : up & type = 2 : down
