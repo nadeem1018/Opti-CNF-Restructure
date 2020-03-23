@@ -2,7 +2,6 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonData } from 'src/app/core/data/CommonData';
 import { FormGroup } from '@angular/forms';
 import { FeaturemodelService } from 'src/app/core/service/featuremodel.service';
-
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonService } from 'src/app/core/service/common.service';
 import { FeaturebomService } from 'src/app/core/service/featurebom.service';
@@ -73,7 +72,10 @@ export class FeatureModelAddEditComponent implements OnInit {
   public isUsedAccesoriesDisabled = false;
   public header_image_data: any;
   public menu_auth_index = '201';
-  
+  public files: any;
+  public featureMasterImage: any;
+  public addImageBlock: boolean = false;
+  public config_params: any;
 
   canDeactivate() {
     if(CommonData.made_changes == true){
@@ -84,7 +86,7 @@ export class FeatureModelAddEditComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.config_params = JSON.parse(sessionStorage.getItem('system_config'));
     // const element = document.getElementsByTagName('body')[0];
     // // element.className = '';
     // element.classList.add('sidebar-toggled');
@@ -124,6 +126,7 @@ export class FeatureModelAddEditComponent implements OnInit {
 
     if (this.codekey === "" || this.codekey === null) {
       this.button = "save";
+      this.addImageBlock = true;
     //  CommonData.made_changes = true; 
       this.isUpdateButtonVisible = false;
       this.isDeleteButtonVisible = false;
@@ -215,7 +218,8 @@ export class FeatureModelAddEditComponent implements OnInit {
 
           if (data[0].OPTM_PHOTO !== undefined && data[0].OPTM_PHOTO !== "" && data[0].OPTM_PHOTO !== 0) {
             this.featureBom.Image = data[0].OPTM_PHOTO
-            this.ModelImage = this.commonData.get_current_url() + data[0].OPTM_PHOTO
+            //this.ModelImage = this.commonData.get_current_url() + data[0].OPTM_PHOTO;
+            this.ModelImage =  this.config_params.service_url+'web'+ data[0].OPTM_PHOTO;
             this.showImageBlock = true;
 
           }
@@ -326,6 +330,7 @@ export class FeatureModelAddEditComponent implements OnInit {
         FeatureStatus: this.featureBom.Status,
         ModelTemplateItem: this.featureBom.ItemName,
         ItemCodeGenerationRef: this.featureBom.Ref,
+       // this.featureMasterImage
         PicturePath: this.featureBom.Image,
         CreatedUser: this.username,
         Accessory: this.featureBom.Accessory
@@ -405,7 +410,7 @@ export class FeatureModelAddEditComponent implements OnInit {
     )
   }
 
-  uploadimagefile(files: any) {
+  uploadimagefile(files: any, event: any) {
     if (files.length === 0)
       return;
     const formData = new FormData();
@@ -415,17 +420,17 @@ export class FeatureModelAddEditComponent implements OnInit {
     }
     CommonData.made_changes = true; 
     this.fms.UploadFeature(formData).subscribe(data => {
+    //this.ModelImage =  'http://172.16.6.190/OptiProERPCNFService/web/assets/UploadFile/Image/138x45.png';
       if (data !== undefined && data != "") {
         if (data.body === "False") {
           this.showImageBlock = false;
           this.commanService.show_notification(this.language.filecannotupload, 'error');           
         }
         else {
-
           if (data.body != "" && data.body != undefined) {
-
-            this.featureBom.Image = data.body
-            this.ModelImage = this.commonData.get_current_url() + data.body
+            this.featureBom.Image = data.body;
+            this.ModelImage =  this.config_params.service_url+'web'+ data.body;
+            console.log(this.ModelImage);
             this.showImageBlock = true;
           }
         }
@@ -511,6 +516,7 @@ export class FeatureModelAddEditComponent implements OnInit {
     }
     return true;
   }
+
   onUpdateClick() {
     this.showLookupLoader = true;
     this.featureModel = [];
@@ -528,6 +534,7 @@ export class FeatureModelAddEditComponent implements OnInit {
         FeatureStatus: this.featureBom.Status,
         ModelTemplateItem: this.featureBom.ItemName,
         ItemCodeGenerationRef: this.featureBom.Ref,
+       // this.featureMasterImage
         PicturePath: this.featureBom.Image,
         CreatedUser: this.username,
         Accessory: this.featureBom.Accessory
