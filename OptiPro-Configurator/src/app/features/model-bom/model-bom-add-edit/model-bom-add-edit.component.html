@@ -215,18 +215,38 @@
                 </div>
                 <div class="col-md-3 d-none" id="right-tree-section">
                   <div class="opti_overflow-auto tree-wrapper">
-                    <div class="tree well">
+                 
+                    <div class="tree1 well">
                       <div class="collaps-control d-flex justify-content-end">
-                          <button class="btn btn-sm btn-icon btn-info mr-2" title="{{this.language.expand_all}}" type="button" (click)="expandAll()">
+                          <button class="btn btn-sm btn-icon btn-info mr-2 mt-2" title="{{this.language.expand_all}}" type="button" (click)="expandAll()">
                               <svg class="icon" viewBox="0 0 1024 1024"><use xlink:href="#expandAll"></use></svg>
                           </button>
-                          <button class="btn btn-sm btn-icon btn-success mr-2" title="{{this.language.collapse_all}}" type="button" (click)="collapseAll()">
+                          <button class="btn btn-sm btn-icon btn-success mr-2 mt-2" title="{{this.language.collapse_all}}" type="button" (click)="collapseAll()">
                               <svg class="icon" viewBox="0 0 1024 1024"><use xlink:href="#collapseAll"></use></svg>
                           </button>
-                          <button class="btn btn-sm btn-icon btn-danger" (click)="toggleTree($event)" type="button" title="Close">
+                          <button class="btn btn-sm btn-icon btn-danger mt-2 mr-2" (click)="toggleTree($event)" type="button" title="Close">
                             <svg viewBox="0 0 475 475" class="icon"><use xlink:href="#close" ></use></svg>
                           </button>
                       </div>
+                      <div class="custom-kendo-tree">
+                        <kendo-treeview
+                        [nodes]="data1"
+                        textField="component"
+                        kendoTreeViewExpandable
+                        kendoTreeViewSelectable
+                        kendoTreeViewHierarchyBinding
+                        childrenField="children"
+                        [expandBy]="branchType"
+                        [(expandedKeys)]="expandedKeys"
+                    >
+                    <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                      <span [attr.data-branchtype]="dataItem.branchType">{{dataItem.component}}</span>
+                            <!-- <span class="k-icon k-i-file-pdf"></span>
+                            {{dataItem.component}} -->
+                        </ng-template>
+                    </kendo-treeview>
+                  </div>
+                     <!-- <div class="tree">
                       <ul class="parent_ul slim-scroll" *ngIf="tree_data_json.length > 0">
                           <li class="first_level_li" *ngFor="let element of tree_data_json; let i= index;" [hidden]="element.level != 0 && element.node_id!=''">
                               <div *ngIf="element.level == 0 && element.node_id==''">
@@ -251,6 +271,7 @@
                               </div>
                           </li>
                       </ul>
+                    </div> -->
                     </div>
                   </div>
                 </div>                          

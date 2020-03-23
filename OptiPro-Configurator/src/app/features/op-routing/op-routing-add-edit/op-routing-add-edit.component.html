@@ -241,8 +241,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>                        
-                            <div [hidden]="routing_header_data.use_template_routing" class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">                    
+                            </div> 
+                            <div [hidden] = "routing_header_data.use_template_routing"  [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">                    
+                            <div  class="d-flex">                    
                                 <kendo-grid [kendoGridBinding]="routing_detail_data" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings" [ngStyle]="{'height':'100%'}" class="w-100" [kendoGridSelectBy]="'rowindex'" [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
                                     <ng-template kendoGridToolbarTemplate>
                                         <div class="d-flex align-items-center">
@@ -469,6 +470,7 @@
                                     </kendo-grid-column>
                                 </kendo-grid>
                             </div>
+                        </div>   
                         </div>                        
                         <div class="d-none col-md-3" id="right-tree-section">
                             <div class="opti_overflow-auto tree-wrapper">

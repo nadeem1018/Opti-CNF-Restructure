@@ -106,9 +106,41 @@ export class ModelBomAddEditComponent implements OnInit {
   navigateToMasterHeader(modal_id) {
     this.route.navigateByUrl("feature/edit/"+modal_id);
   }
+ public data1: any[] = [];
+ public unflatten(arr) {
+  let tree = [],
+      mappedArr = {},
+      arrElem,
+      mappedElem;
+
+  // First map the nodes of the array to an object -> create a hash table.
+  for(var i = 0, len = arr.length; i < len; i++) {
+    arrElem = arr[i];
+    mappedArr[arrElem.unique_key] = arrElem;
+    mappedArr[arrElem.unique_key]['children'] = [];
+  }
+
+
+  for (let unique_key in mappedArr) {
+    if (mappedArr.hasOwnProperty(unique_key)) {
+      mappedElem = mappedArr[unique_key];
+      // If the element is not at the root level, add it to its parent array of children.
+      if (mappedElem.node_id) {
+        mappedArr[mappedElem['node_id']]['children'].push(mappedElem);
+      }
+      // If the element is at the root level, add it to first level elements array.
+      else {
+        tree.push(mappedElem);
+      }
+    }
+  }
+  return tree;
+}
+public expandedKeys: any[] = [];
+public expandedKeysvalue: any[] = [];
 
   ngOnInit() {
-
+    // this.data1 = this.unflatten(this.data1);
     const element = document.getElementsByTagName('body')[0];
     CommonData.made_changes = false;
     this.commonData.checkSession();
@@ -356,7 +388,7 @@ export class ModelBomAddEditComponent implements OnInit {
           if (data.RuleData.length > 0) {
             this.rule_data = data.RuleData;
           }
-          this.onExplodeClick('auto');
+        //this.onExplodeClick('auto');
           this.showLoader = false;
           if(this.isDuplicateMode)
           { 
@@ -1543,6 +1575,7 @@ onExplodeClick(type) {
               return obj;
             });
             this.tree_data_json = temp_data;
+            this.data1 = this.unflatten(temp_data);
 
           }
           else {
@@ -1614,6 +1647,7 @@ onExplodeClick(type) {
             //this.live_tree_view_data.splice(key, 1);
           }
           console.log(this.tree_data_json);
+          // this.tree_data_json = this.unflatten(this.tree_data_json)
           this.live_tree_view_data = [];
         }
       }
@@ -1837,6 +1871,7 @@ onExplodeClick(type) {
 
   check_component_exist(unique_key, level) {
     level = (parseInt(level) + 1);
+    console.log("check_component_exist",unique_key + level );
     let data = [];
     if (unique_key != "" && unique_key != null && unique_key != undefined) {
       data = this.tree_data_json.filter(function (obj) {
@@ -2020,26 +2055,39 @@ onExplodeClick(type) {
     }
   }
   expandAll() {
-    var tree = document.getElementsByTagName('treeview');
-    var exBtn = document.getElementsByClassName('expand-btn');
-    for(var i=0; i < exBtn.length; i++){
-      exBtn[i].classList.add("expanded");
-    }
-    for(var h=0; h < exBtn.length; h++){
-      tree[h].classList.remove("d-none");
-      tree[h].classList.add("d-block");
-    }
+    // alert("expandAll")
+  //  this.expandedKeys = ['feature','modal']
+
+
+  this.expandedKeysvalue = this.tree_data_json.filter(function (obj) {      
+      return (obj.branchType == "modal" || obj.branchType == "feature")      
+    });
+    for(var i=0; i < this.expandedKeysvalue.length; i++){
+      this.expandedKeys.push(this.expandedKeysvalue[i].unique_key)
+       }
+
+    // var tree = document.getElementsByTagName('treeview');
+    // var exBtn = document.getElementsByClassName('expand-btn');
+    // for(var i=0; i < exBtn.length; i++){
+    //   exBtn[i].classList.add("expanded");
+    // }
+    // for(var h=0; h < exBtn.length; h++){
+    //   tree[h].classList.remove("d-none");
+    //   tree[h].classList.add("d-block");
+    // }
   }
   collapseAll() {
-    var tree = document.getElementsByTagName('treeview');  
-    var exBtn = document.getElementsByClassName('expand-btn');    
-    for(var i=0; i < exBtn.length; i++){
-      exBtn[i].classList.remove("expanded");
-    }
-    for(var h=0; h < exBtn.length; h++){      
-      tree[h].classList.remove("d-block");
-      tree[h].classList.add("d-none");
-    }
+    // alert("collapseAll")
+    this.expandedKeys = []
+    // var tree = document.getElementsByTagName('treeview');  
+    // var exBtn = document.getElementsByClassName('expand-btn');    
+    // for(var i=0; i < exBtn.length; i++){
+    //   exBtn[i].classList.remove("expanded");
+    // }
+    // for(var h=0; h < exBtn.length; h++){      
+    //   tree[h].classList.remove("d-block");
+    //   tree[h].classList.add("d-none");
+    // }
   }
 
   resequence_operation(type) {  // type = 1 : up & type = 2 : down

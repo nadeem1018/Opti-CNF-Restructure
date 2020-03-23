@@ -217,6 +217,8 @@
             [minWidth]="320" [width]="850" [(top)]="windowTop">
             <kendo-window-titlebar>
                 <div class='k-window-title'>{{resource_popup_title}}</div>
+                <button kendoWindowMaximizeAction></button>
+                <button kendoWindowRestoreAction></button>
                 <button kendoWindowCloseAction></button>
             </kendo-window-titlebar>
             <div class="routing-resource-contents">

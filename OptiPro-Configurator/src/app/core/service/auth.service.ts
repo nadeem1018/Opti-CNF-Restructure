@@ -28,6 +28,7 @@ export class AuthService {
   getCompany(loginCredentials: any, psURL: string): Observable<any> {
     //JSON Obeject Prepared to be send as a param to API
     //Product: this.config_params.product_code
+    this.config_params = JSON.parse(sessionStorage.getItem('system_config'));
     let jObject: any = { Username: JSON.stringify([{ Username: loginCredentials.userName, Product: this.config_params.product_code }]) };
     //Return the response form the API  
     return this.httpclient.post(psURL + "/login/GetCompaniesAndLanguages", jObject, this.common_params.httpOptions)
