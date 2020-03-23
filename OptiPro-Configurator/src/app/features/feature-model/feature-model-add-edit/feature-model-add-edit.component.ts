@@ -2,7 +2,6 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonData } from 'src/app/core/data/CommonData';
 import { FormGroup } from '@angular/forms';
 import { FeaturemodelService } from 'src/app/core/service/featuremodel.service';
-
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonService } from 'src/app/core/service/common.service';
 import { FeaturebomService } from 'src/app/core/service/featurebom.service';
@@ -73,7 +72,8 @@ export class FeatureModelAddEditComponent implements OnInit {
   public isUsedAccesoriesDisabled = false;
   public header_image_data: any;
   public menu_auth_index = '201';
-  
+  public files: any;
+  public featureMasterImage: any;
 
   canDeactivate() {
     if(CommonData.made_changes == true){
@@ -405,7 +405,7 @@ export class FeatureModelAddEditComponent implements OnInit {
     )
   }
 
-  uploadimagefile(files: any) {
+  /*uploadimagefile(files: any) {
     if (files.length === 0)
       return;
     const formData = new FormData();
@@ -425,7 +425,10 @@ export class FeatureModelAddEditComponent implements OnInit {
           if (data.body != "" && data.body != undefined) {
 
             this.featureBom.Image = data.body
-            this.ModelImage = this.commonData.get_current_url() + data.body
+            this.ModelImage = this.commonData.get_current_url() + data.body;
+            console.log(this.featureBom.Image);
+            console.log(this.ModelImage);
+
             this.showImageBlock = true;
           }
         }
@@ -437,6 +440,21 @@ export class FeatureModelAddEditComponent implements OnInit {
       }
       return;
     })
+  }*/
+
+  uploadimagefile(event: any) {
+    this.files = event.target.files;
+    if (!this.files) {
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+        this.ModelImage = e.target.result;
+        this.featureMasterImage = this.files[0];
+        console.log(this.ModelImage);
+        console.log(this.featureMasterImage);
+    };
+    reader.readAsDataURL(this.files[0]);
   }
 
   enlage_image(image) {
@@ -511,6 +529,7 @@ export class FeatureModelAddEditComponent implements OnInit {
     }
     return true;
   }
+
   onUpdateClick() {
     this.showLookupLoader = true;
     this.featureModel = [];
