@@ -4,11 +4,7 @@
 		"app_title":"OptiPro Configurator",
 		"locale":"en",
 		"locale_name": "English",
-<<<<<<< HEAD
-		"service_url":"http://172.16.6.139/OptiProERPCNFService/",
-=======
-		"service_url":"http://172.16.6.190/OptiProERPCNFService/",
->>>>>>> 4135527e8226a2ee7b056963e88e32da808cba6f
+		"service_url":"http://172.16.6.190/OptiProERPCNFService1211IR3",
 		"admin_db_name":"OPTIPROADMIN",
 		"product_code":"CNF",
 		"system_version":"1.20.00",

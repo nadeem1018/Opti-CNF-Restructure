@@ -40,11 +40,7 @@
     "@progress/kendo-angular-pdf-export": "^2.0.0",
     "@progress/kendo-angular-popup": "^3.0.0",
     "@progress/kendo-angular-tooltip": "^2.1.0",
-<<<<<<< HEAD
     "@progress/kendo-angular-treeview": "^4.1.1",
-=======
-    "@progress/kendo-angular-treeview": "^4.1.2",
->>>>>>> 4135527e8226a2ee7b056963e88e32da808cba6f
     "@progress/kendo-data-query": "^1.0.0",
     "@progress/kendo-drawing": "^1.5.12",
     "@progress/kendo-theme-bootstrap": "^4.1.0",

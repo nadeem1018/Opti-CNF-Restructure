@@ -4973,7 +4973,7 @@ export class CwViewOldComponent implements OnInit {
               "OPTM_OUTPUTID": "",
               "OPTM_OUTPUTDTLID": "",
               "OPTM_ITEMNUMBER": "",
-              "OPTM_ITEMCODE": imodelData[0].OPTM_DISPLAYNAME.trim(),
+              "OPTM_ITEMCODE": imodelData[0].child_code.trim(),
               //"OPTM_KEY": itemkeyforparentmodel,
               "OPTM_KEY": "",
               "OPTM_PARENTKEY": "",
