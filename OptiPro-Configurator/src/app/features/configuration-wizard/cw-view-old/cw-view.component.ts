@@ -6179,10 +6179,14 @@ export class CwViewOldComponent implements OnInit {
         }
 
         ModelItemsArray[imodelItemsarray].OPTM_QUANTITY = parseFloat(ModelItemsArray[imodelItemsarray].OPTM_QUANTITY).toFixed(3)
+        let feature_id = 0;
+        if(ModelItemsArray[imodelItemsarray].OPTM_FEATUREID != null){
+          feature_id = ModelItemsArray[imodelItemsarray].OPTM_FEATUREID ;  
+         }
 
         if (isExist.length == 0) {
           this.feature_itm_list_table.push({
-            FeatureId: ModelItemsArray[imodelItemsarray].OPTM_FEATUREID,
+            FeatureId: feature_id,
             featureName: featureCode,
             Item: ModelItemsArray[imodelItemsarray].OPTM_ITEMKEY,
             discount: 0,

@@ -3,6 +3,7 @@ import { CommonData } from 'src/app/core/data/CommonData';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/core/service/localstorage.service';
 import { CommonService } from 'src/app/core/service/common.service';
+import { DialogService } from 'src/app/core/service/dialog.service';
 
 @Component({
     selector: 'app-header',
@@ -36,7 +37,7 @@ export class HeaderComponent implements OnInit {
     public current_data;
     public user_guide_link = '';
     
-    constructor(private router: Router, private localStorageService: LocalStorageService, private CommonService: CommonService) {
+    constructor(private router: Router, private localStorageService: LocalStorageService, private CommonService: CommonService, private DialogService: DialogService) {
 
     }
 
@@ -90,14 +91,17 @@ export class HeaderComponent implements OnInit {
         }, 2000);
     }
 
-    logout() {
-    CommonData.sessionExpire = true;
-    if(CommonData.made_changes){
+    logout() {    
+    if(!CommonData.made_changes){
      this.router.navigateByUrl('/login');
-      return;
+     this.CommonService.RemoveLoggedInUser().subscribe();
+     this.CommonService.signOut(this.router, 'Logout');
+     
+    }else{
+        CommonData.sessionExpire = true;
+        this.DialogService.confirm('');
     }
-    this.CommonService.RemoveLoggedInUser().subscribe();
-    this.CommonService.signOut(this.router, 'Logout');
+   
     }
 
     open_info_popup() {

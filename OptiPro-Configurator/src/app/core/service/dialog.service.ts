@@ -15,8 +15,12 @@ export class DialogService {
     }
     const confirmation = window.confirm(message || 'Is it OK?');
     if(confirmation && CommonData.sessionExpire){
+      CommonData.made_changes =false;
+      this.router.navigateByUrl('/login');
       this.commonservice.RemoveLoggedInUser().subscribe();
-        this.commonservice.signOut(this.router, 'Logout');
+      this.commonservice.signOut(this.router, 'Logout');
+    } else if(confirmation){
+      CommonData.made_changes =false;
     }
     CommonData.sessionExpire =false;
     return of(confirmation);
