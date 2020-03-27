@@ -149,7 +149,7 @@
                           <ng-template kendoGridCellTemplate let-dataItem>
                               <ng-container>
                                   <label class="custom-checkbox mb-0 without-label">
-                                      <input type="checkbox" value="1" name="default_value_selection" id="default_{{dataItem.rowindex}}" (change)="on_defualt_change(default,dataItem.rowindex)" value={{dataItem.default}} #default [(checked)]=dataItem.default title="{{dataItem.default}}">
+                                      <input type="checkbox" value="1" name="default_value_selection" id="default_{{dataItem.rowindex}}" (change)="on_defualt_change(default,dataItem.rowindex)" value={{dataItem.default}} #default [(checked)]=dataItem.default [disabled]="dataItem.is_default" title="{{dataItem.default}}">
                                       <span class="checkbox"></span>
                                   </label>
                               </ng-container>

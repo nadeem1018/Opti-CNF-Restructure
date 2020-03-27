@@ -219,7 +219,7 @@ export class FeatureModelAddEditComponent implements OnInit {
           if (data[0].OPTM_PHOTO !== undefined && data[0].OPTM_PHOTO !== "" && data[0].OPTM_PHOTO !== 0) {
             this.featureBom.Image = data[0].OPTM_PHOTO
             //this.ModelImage = this.commonData.get_current_url() + data[0].OPTM_PHOTO;
-            this.ModelImage =  this.config_params.service_url+'web'+ data[0].OPTM_PHOTO;
+            this.ModelImage =  this.config_params.service_url+'/web'+ data[0].OPTM_PHOTO;
             this.showImageBlock = true;
 
           }
@@ -429,7 +429,7 @@ export class FeatureModelAddEditComponent implements OnInit {
         else {
           if (data.body != "" && data.body != undefined) {
             this.featureBom.Image = data.body;
-            this.ModelImage =  this.config_params.service_url+'web'+ data.body;
+            this.ModelImage =  this.config_params.service_url+'/web'+ data.body;
             console.log(this.ModelImage);
             this.showImageBlock = true;
           }

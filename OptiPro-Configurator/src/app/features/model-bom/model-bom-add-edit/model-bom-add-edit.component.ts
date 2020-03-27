@@ -57,6 +57,9 @@ export class ModelBomAddEditComponent implements OnInit {
   // public mandatory_disabled: boolean = false;
   public menu_auth_index = '203';
   public defaultcheckbox: boolean = false; 
+  public is_default: boolean = false;
+  public config_params: any;
+
   // modalRef: BsModalRef;
 
   constructor(private ActivatedRouter: ActivatedRoute, private route: Router, private service: ModelbomService, private CommonService: CommonService, private DialogService: DialogService) { }
@@ -142,6 +145,7 @@ public expandedKeysvalue: any[] = [];
 
   ngOnInit() {
     // this.data1 = this.unflatten(this.data1);
+    this.config_params = JSON.parse(sessionStorage.getItem('system_config'));
     const element = document.getElementsByTagName('body')[0];
     CommonData.made_changes = false;
     this.commonData.checkSession();
@@ -233,7 +237,7 @@ public expandedKeysvalue: any[] = [];
             return;
           } 
         }
-
+        console.log(data.ModelDetail);
         if (data.ModelHeader.length > 0) {
           this.modelbom_data.modal_id = data.ModelDetail[0].OPTM_MODELID
           this.modelbom_data.modal_code = data.ModelHeader[0].OPTM_FEATURECODE
@@ -243,7 +247,9 @@ public expandedKeysvalue: any[] = [];
           this.modelbom_data.is_ready_to_use = data.ModelHeader[0].OPTM_READYTOUSE
           if (this.modelbom_data.image_path != null || this.modelbom_data.image_path != "") {
             this.showImageBlock = true;
-            this.header_image_data = this.commonData.get_current_url() + this.modelbom_data.image_path
+            //this.header_image_data = this.commonData.get_current_url() + this.modelbom_data.image_path;
+            this.header_image_data =  this.config_params.service_url+'/web'+ this.modelbom_data.image_path;
+            alert(this.header_image_data);
           }
 
 
@@ -275,6 +281,7 @@ public expandedKeysvalue: any[] = [];
               this.isMinSelectedDisable = false;
               this.isMaxSelectedDisable = false;
               mandatory_item_disabled = false;
+              this.is_default = false
               // this.mandatory_disabled = false;
             } else if (data.ModelDetail[i].OPTM_TYPE == 2) {
               this.typevaluefromdatabase = data.ModelDetail[i].OPTM_ITEMKEY.toString()
@@ -285,6 +292,7 @@ public expandedKeysvalue: any[] = [];
               this.isMinSelectedDisable = true;
               this.isMaxSelectedDisable = true;
               mandatory_item_disabled = true;
+              this.is_default = true
               // this.mandatory_disabled = true;
             } else {
               this.typevaluefromdatabase = data.ModelDetail[i].OPTM_CHILDMODELID.toString()
@@ -295,6 +303,7 @@ public expandedKeysvalue: any[] = [];
               this.isMinSelectedDisable = false;
               this.isMaxSelectedDisable = false;
               mandatory_item_disabled = false;
+              this.is_default = false
               // this.mandatory_disabled = false;
             }
             // if (data.ModelDetail[i].OPTM_READYTOUSE == "" || data.ModelDetail[i].OPTM_READYTOUSE == null || data.ModelDetail[i].OPTM_READYTOUSE == undefined || data.ModelDetail[i].OPTM_READYTOUSE == "N") {
@@ -380,7 +389,8 @@ public expandedKeysvalue: any[] = [];
                 is_feature_multiselect: data.ModelDetail[i].OPTM_ISMULTISELECT,
                 feature_default_count: data.ModelDetail[i].OPTM_DEFAULTCOUNT,
                 print_on_report : print_on_report,
-                print_on_report_disabled : print_on_report_disabled
+                print_on_report_disabled : print_on_report_disabled,
+                is_default: this.is_default,
               });
 
             }
@@ -475,7 +485,8 @@ onAddRow() {
     is_feature_multiselect: 'N',
     feature_default_count: 0,
     print_on_report : print_on_report_flag,
-    print_on_report_disabled : print_on_report_disabled_flag
+    print_on_report_disabled : print_on_report_disabled_flag,
+    is_default: false,
   });
   CommonData.made_changes = true;
 };
@@ -562,6 +573,7 @@ on_bom_type_change(selectedvalue, rowindex) {
         this.modelbom_data[i].mandatory_item_disabled = false;
         this.modelbom_data[i].print_on_report = false;
         this.modelbom_data[i].print_on_report_disabled = true;
+        this.modelbom_data[i].is_default = false;
       }
       else {
         this.modelbom_data[i].isDisplayNameDisabled = false
@@ -578,7 +590,7 @@ on_bom_type_change(selectedvalue, rowindex) {
           this.modelbom_data[i].isMaxSelectedDisable = true;
           this.modelbom_data[i].propagate_qty = true;
           this.modelbom_data[i].mandatory = true;
-          
+          this.modelbom_data[i].is_default = true;
           this.modelbom_data[i].unique_identifer = true;
           this.modelbom_data[i].mandatory_item_disabled = true;
           this.modelbom_data[i].print_on_report = true;
@@ -599,11 +611,9 @@ on_bom_type_change(selectedvalue, rowindex) {
           this.modelbom_data[i].mandatory_item_disabled = false;
           this.modelbom_data[i].print_on_report = false;
           this.modelbom_data[i].print_on_report_disabled = true;
+          this.modelbom_data[i].is_default = false;
         }
-
       }
-
-
     }
   }
 }
