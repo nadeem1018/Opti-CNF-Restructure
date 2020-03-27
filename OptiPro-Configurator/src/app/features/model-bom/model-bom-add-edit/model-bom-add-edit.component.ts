@@ -249,7 +249,6 @@ public expandedKeysvalue: any[] = [];
             this.showImageBlock = true;
             //this.header_image_data = this.commonData.get_current_url() + this.modelbom_data.image_path;
             this.header_image_data =  this.config_params.service_url+'/web'+ this.modelbom_data.image_path;
-            alert(this.header_image_data);
           }
 
 
