@@ -55,7 +55,8 @@ export class ModelBomAddEditComponent implements OnInit {
   public selectableSettings: any = [];
   public model_bom_type:any = '';
   // public mandatory_disabled: boolean = false;
-  public menu_auth_index = '203'; 
+  public menu_auth_index = '203';
+  public defaultcheckbox: boolean = false; 
   // modalRef: BsModalRef;
 
   constructor(private ActivatedRouter: ActivatedRoute, private route: Router, private service: ModelbomService, private CommonService: CommonService, private DialogService: DialogService) { }
@@ -335,6 +336,13 @@ public expandedKeysvalue: any[] = [];
                 print_on_report_disabled = true;
               }
 
+              if (data.ModelDetail[i].OPTM_DEFAULT == "Y") {
+                this.defaultcheckbox = true
+              }
+              else {
+                this.defaultcheckbox = false
+              }
+
               this.counter++;
               this.modelbom_data.push({
                 rowindex: this.counter,
@@ -347,6 +355,7 @@ public expandedKeysvalue: any[] = [];
                 display_name: data.ModelDetail[i].OPTM_DISPLAYNAME,
                 uom: data.ModelDetail[i].OPTM_UOM,
                 quantity: data.ModelDetail[i].OPTM_QUANTITY,
+                default: this.defaultcheckbox,
                 min_selected: data.ModelDetail[i].OPTM_MINSELECTABLE,
                 max_selected: data.ModelDetail[i].OPTM_MAXSELECTABLE,
                 feature_min_selected: data.ModelDetail[i].FEATURE_MINSELECTABLE,
@@ -442,6 +451,7 @@ onAddRow() {
     display_name: "",
     uom: '',
     quantity: ("1"),
+    //default: first_default,
     min_selected: 1,
     max_selected: 1, 
     feature_min_selected: 1,
@@ -777,6 +787,26 @@ openPriceLookUp(ItemKey, rowindex) {
       return;
     }
     )
+}
+
+on_defualt_change(value, rowindex) {
+  CommonData.made_changes = true;
+ this.currentrowindex = rowindex
+ for (let i = 0; i < this.modelbom_data.length; ++i) {
+   if (this.modelbom_data[i].rowindex === this.currentrowindex) {
+     if (value.checked == true) {
+       this.modelbom_data[i].default = true;
+     }
+     else {
+       this.modelbom_data[i].default = false;
+     }
+   }
+   else {
+     if (this.modelbom_data.multi_select == 'false') {
+       this.modelbom_data[i].default = false
+     }
+   }
+ }
 }
 
 getLookupValue($event) {
@@ -1928,7 +1958,6 @@ onExplodeClick(type) {
         return;
       }
       temp_model_data = this.modelbom_data;
-      console.log("modelbom data ", this.modelbom_data);
       for (let i = 0; i < temp_model_data.length; ++i) {
         if(this.isDuplicateMode)
         {
@@ -1968,13 +1997,16 @@ onExplodeClick(type) {
          else {
            this.modelbom_data[i].print_on_report = "Y"
          }
+
+        if (temp_model_data[i].default === true) {
+          temp_model_data[i].default = "Y"
+        }
+        else {
+          temp_model_data[i].default = "N"
+        }
       }
-
-
-      console.log("temp_model_data ", temp_model_data);
       objDataset.ModelData = temp_model_data;
       objDataset.RuleData = this.rule_data;
-
       this.service.SaveModelBom(objDataset).subscribe(
         data => {
           this.showLookupLoader = false;

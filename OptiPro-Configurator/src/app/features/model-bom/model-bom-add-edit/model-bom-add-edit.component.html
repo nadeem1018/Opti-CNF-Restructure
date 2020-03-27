@@ -77,7 +77,9 @@
                           </div>
                         </div>                
                       </div>
-                    </div>              
+                    </div> 
+
+                    <!-- Add Row Grid -->             
                     <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
                       <kendo-grid [kendoGridBinding]="modelbom_data" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"  [kendoGridSelectBy]="'rowindex'"  [ngStyle]="{'height':'100%', 'max-width':'100%'}" [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
                         <ng-template kendoGridToolbarTemplate>
@@ -142,6 +144,19 @@
                             <input type="text" class="form-control form-control-sm text-right bom_quantity" name="bom_quantity" id="quantity" value={{dataItem.quantity}} (change)="on_quantity_change(quantity.value,dataItem.rowindex)" title={{dataItem.quantity}} #quantity />
                           </ng-template>
                         </kendo-grid-column>
+
+                        <kendo-grid-column field="Bom_Default" headerClass="text-center" class="text-center" title="{{language.Bom_Default}}" filter="text" [width]="80" [minResizableWidth]="80">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                              <ng-container>
+                                  <label class="custom-checkbox mb-0 without-label">
+                                      <input type="checkbox" value="1" name="default_value_selection" id="default_{{dataItem.rowindex}}" (change)="on_defualt_change(default,dataItem.rowindex)" value={{dataItem.default}} #default [(checked)]=dataItem.default title="{{dataItem.default}}">
+                                      <span class="checkbox"></span>
+                                  </label>
+                              </ng-container>
+                          </ng-template>
+                      </kendo-grid-column>
+
+
                         <kendo-grid-column field="min_selectable" title="{{language.min_selectable}}" filter="text" [width]="118" [minResizableWidth]="118">
                           <ng-template kendoGridCellTemplate let-dataItem>
                             <input type="text" [disabled]="dataItem.isMinSelectedDisable" class="form-control text-right form-control-sm min_selectable_row" id="min_selected" value={{dataItem.min_selected}} (change)="on_min_selected_change(min_selected.value,dataItem.rowindex,min_selected)"

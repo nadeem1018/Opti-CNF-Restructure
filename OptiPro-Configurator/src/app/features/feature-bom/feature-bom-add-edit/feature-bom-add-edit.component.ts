@@ -700,6 +700,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       }
     }
     this.showLookupLoader = true;
+    console.log(this.feature_bom_table);
     this.fbom.SaveModelBom(this.feature_bom_table).subscribe(
       data => {
         this.showLookupLoader = false;
@@ -986,10 +987,12 @@ export class FeatureBomAddEditComponent implements OnInit {
     for (let i = 0; i < this.feature_bom_table.length; ++i) {
       if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
         if (value.checked == true) {
-          this.feature_bom_table[i].default = true
+          this.feature_bom_table[i].default = true;
+          console.log(this.feature_bom_table[i]);
         }
         else {
-          this.feature_bom_table[i].default = false
+          this.feature_bom_table[i].default = false;
+          console.log(this.feature_bom_table[i]);
         }
       }
       else {
@@ -1635,8 +1638,7 @@ export class FeatureBomAddEditComponent implements OnInit {
               });
               this.tree_data_json = temp_data;
               this.data1 = this.unflatten(temp_data);
-              console.log(this.tree_data_json);
-
+              console.log(this.data1);
             }
             else {
             }
@@ -1905,8 +1907,15 @@ export class FeatureBomAddEditComponent implements OnInit {
     }
   }
   expandAll() {
-
-    this.expandedKeys = ['feature','modal']
+    this.expandedKeys = ['feature'];
+    //this.expandedKeys = ['feature','modal'];
+   // console.log(JSON.stringify(this.data1));
+   // this.data1.forEach((i, idx) =>{
+      //console.log(idx);
+      //this.expandedKeys.push(idx.toString());
+      //console.log(this.expandedKeys);
+    //})
+    //console.log(this.expandedKeys);
     // var tree = document.getElementsByTagName('treeview');
     // var exBtn = document.getElementsByClassName('expand-btn');
     // for(var i=0; i < exBtn.length; i++){
