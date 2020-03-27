@@ -66,6 +66,7 @@ export class LoginComponent implements OnInit {
 		this._el.nativeElement.focus();
 		this.selecetedComp = "";
 		let objj = this;
+		CommonData.made_changes = false;
 		setTimeout(function () {
 			objj.config_data = JSON.parse(sessionStorage.getItem('system_config'));
 			objj.language = JSON.parse(sessionStorage.getItem('current_lang'));
