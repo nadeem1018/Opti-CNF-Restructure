@@ -1906,37 +1906,26 @@ export class FeatureBomAddEditComponent implements OnInit {
       id.parentNode.parentNode.childNodes[4].classList.add("d-none");      
     }
   }
-  expandAll() {
-    this.expandedKeys = ['feature'];
-    //this.expandedKeys = ['feature','modal'];
-   // console.log(JSON.stringify(this.data1));
-   // this.data1.forEach((i, idx) =>{
-      //console.log(idx);
-      //this.expandedKeys.push(idx.toString());
-      //console.log(this.expandedKeys);
-    //})
-    //console.log(this.expandedKeys);
-    // var tree = document.getElementsByTagName('treeview');
-    // var exBtn = document.getElementsByClassName('expand-btn');
-    // for(var i=0; i < exBtn.length; i++){
-    //   exBtn[i].classList.add("expanded");
-    // }
-    // for(var h=0; h < exBtn.length; h++){
-    //   tree[h].classList.remove("d-none");
-    //   tree[h].classList.add("d-block");
-    // }
+
+  getAllId(arr, key) {
+    arr.forEach(item => {
+      for (let keys in item) {
+        if (keys === key) { 
+          this.expandedKeys.push(item[key])
+        } else if (Array.isArray(item[keys])) {
+          this.getAllId(item[keys], key);
+        }
+      }  
+    });
   }
+
+  expandAll() {
+    this.getAllId(this.data1, 'level');
+  }
+
+
   collapseAll() {
-    this.expandedKeys = []
-    // var tree = document.getElementsByTagName('treeview');  
-    // var exBtn = document.getElementsByClassName('expand-btn');    
-    // for(var i=0; i < exBtn.length; i++){
-    //   exBtn[i].classList.remove("expanded");
-    // }
-    // for(var h=0; h < exBtn.length; h++){      
-    //   tree[h].classList.remove("d-block");
-    //   tree[h].classList.add("d-none");
-    // }
+    this.expandedKeys = [];
   }
 
   resequence_operation(type) {  // type = 1 : up & type = 2 : down
