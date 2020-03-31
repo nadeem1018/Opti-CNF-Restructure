@@ -2095,40 +2095,25 @@ onExplodeClick(type) {
       id.parentNode.parentNode.childNodes[4].classList.add("d-none");
     }
   }
-  expandAll() {
-    // alert("expandAll")
-  //  this.expandedKeys = ['feature','modal']
 
-
-  this.expandedKeysvalue = this.tree_data_json.filter(function (obj) {      
-      return (obj.branchType == "modal" || obj.branchType == "feature")      
+  getAllId(arr, key) {
+    arr.forEach(item => {
+      for (let keys in item) {
+        if (keys === key) { 
+          this.expandedKeys.push(item[key])
+        } else if (Array.isArray(item[keys])) {
+          this.getAllId(item[keys], key);
+        }
+      }  
     });
-    for(var i=0; i < this.expandedKeysvalue.length; i++){
-      this.expandedKeys.push(this.expandedKeysvalue[i].unique_key)
-       }
-
-    // var tree = document.getElementsByTagName('treeview');
-    // var exBtn = document.getElementsByClassName('expand-btn');
-    // for(var i=0; i < exBtn.length; i++){
-    //   exBtn[i].classList.add("expanded");
-    // }
-    // for(var h=0; h < exBtn.length; h++){
-    //   tree[h].classList.remove("d-none");
-    //   tree[h].classList.add("d-block");
-    // }
   }
+
+  expandAll() {
+    this.getAllId(this.data1, 'level');
+  }
+
   collapseAll() {
-    // alert("collapseAll")
     this.expandedKeys = []
-    // var tree = document.getElementsByTagName('treeview');  
-    // var exBtn = document.getElementsByClassName('expand-btn');    
-    // for(var i=0; i < exBtn.length; i++){
-    //   exBtn[i].classList.remove("expanded");
-    // }
-    // for(var h=0; h < exBtn.length; h++){      
-    //   tree[h].classList.remove("d-block");
-    //   tree[h].classList.add("d-none");
-    // }
   }
 
   resequence_operation(type) {  // type = 1 : up & type = 2 : down
