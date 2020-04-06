@@ -2256,7 +2256,10 @@ export class CwViewOldComponent implements OnInit {
                     } else {
                       is_multi_select = data.DataForMinMaxForFeatureId[0].OPTM_ISMULTISELECT;
                     }
-
+                    let model_mandatory = "N";
+                     if (feature_model_data.OPTM_MANDATORY != undefined && feature_model_data.OPTM_MANDATORY == "Y") {
+                         model_mandatory = "Y";
+                     }
                     this.ModelHeaderData.push({
                       ACCESSORY: feature_model_data.ACCESSORY,
                       IMAGEPATH: feature_model_data.IMAGEPATH,
@@ -2268,7 +2271,7 @@ export class CwViewOldComponent implements OnInit {
                       OPTM_FEATUREID: feature_model_data.OPTM_CHILDFEATUREID,
                       OPTM_ITEMKEY: feature_model_data.OPTM_ITEMKEY,
                       OPTM_LINENO: this.ModelHeaderData.length + 1,
-                      OPTM_MANDATORY: feature_model_data.OPTM_MANDATORY,
+                      OPTM_MANDATORY: model_mandatory,
                       OPTM_ISMULTISELECT: is_multi_select,
                       OPTM_MAXSELECTABLE: psMaxSelect,
                       OPTM_MINSELECTABLE: psMinSelect,
@@ -2285,7 +2288,7 @@ export class CwViewOldComponent implements OnInit {
                       element_class: pselementclass,
                       element_type: pselementtype,
                       feature_code: feature_model_data.feature_code,
-                      parentfeatureid: parentfeatureid,
+                      parentfeatureid: parentfeatureid.toString(),
                       parentmodelid: parentmodelid,
                       OPTM_LEVEL: feature_model_data.OPTM_LEVEL,
                       is_second_level: 1,
@@ -2486,6 +2489,14 @@ export class CwViewOldComponent implements OnInit {
                           } else {
                             uniqueIdentifier = parentarray[0].OPTM_UNIQUEIDNT
                           }
+                          let optm_umo = "";
+                          if (parentarray[0].OPTM_UOM != undefined && parentarray[0].OPTM_UOM != null) {
+                            optm_umo = parentarray[0].OPTM_UOM;
+                          }
+                          let optm_child_code = "";
+                          if (parentarray[0].child_code != undefined && parentarray[0].child_code != null) {
+                            optm_child_code = parentarray[0].child_code;
+                          }
 
                           if (parentarray[0].OPTM_FEATUREID == DataForSelectedFeatureModelItem[i].OPTM_FEATUREID && DataForSelectedFeatureModelItem[i].OPTM_TYPE == 2 && parentarray[0].parent_code != undefined && parentarray[0].parent_code != null) {
                             parentarray[0].feature_code = parentarray[0].parent_code
@@ -2535,7 +2546,7 @@ export class CwViewOldComponent implements OnInit {
                             if (isExist.length == 0) {
                               let model_mandatory = "N";
                               if (DataForSelectedFeatureModelItem[i].OPTM_MANDATORY != undefined && DataForSelectedFeatureModelItem[i].OPTM_MANDATORY == "Y") {
-                                model_mandatory = 'Y';
+                                model_mandatory = "Y";
                               }
 
                               this.ModelHeaderData.push({
@@ -2561,12 +2572,12 @@ export class CwViewOldComponent implements OnInit {
                                 OPTM_QUANTITY: parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(3),
                                 OPTM_TYPE: DataForSelectedFeatureModelItem[i].OPTM_TYPE,
                                 OPTM_UNIQUEIDNT: uniqueIdentifier,
-                                OPTM_UOM: parentarray[0].OPTM_UOM,
-                                child_code: parentarray[0].child_code,
+                                OPTM_UOM: optm_umo,
+                                child_code: optm_child_code,
                                 element_class: pselementclass,
                                 element_type: pselementtype,
                                 feature_code: DataForSelectedFeatureModelItem[i].feature_code,
-                                parentfeatureid: DataForSelectedFeatureModelItem[i].OPTM_FEATUREID,
+                                parentfeatureid: (DataForSelectedFeatureModelItem[i].OPTM_FEATUREID).toString(),
                                 parentmodelid: parentmodelid,
                                 OPTM_LEVEL: feature_model_data.OPTM_LEVEL,
                                 is_second_level: 1,
@@ -2617,7 +2628,7 @@ export class CwViewOldComponent implements OnInit {
                 if (data.DataForSelectedFeatureModelItem.length > 0) {
                   let model_mandatory = "N";
                   if (feature_model_data.OPTM_MANDATORY != undefined && feature_model_data.OPTM_MANDATORY == "Y") {
-                    model_mandatory = 'Y';
+                    model_mandatory = "Y";
                   }
                   this.ModelHeaderData.push({
                     ACCESSORY: feature_model_data.ACCESSORY,
@@ -2650,7 +2661,7 @@ export class CwViewOldComponent implements OnInit {
                     element_class: parentarray[0].element_class,
                     element_type: parentarray[0].element_type,
                     feature_code: feature_model_data.feature_code,
-                    parentfeatureid: parentfeatureid,
+                    parentfeatureid: parentfeatureid.toString(),
                     parentmodelid: parentmodelid,
                     OPTM_LEVEL: feature_model_data.OPTM_LEVEL,
                     is_second_level: 1,
@@ -2726,7 +2737,7 @@ export class CwViewOldComponent implements OnInit {
                           is_second_level: 1,
                           element_class: item_elementclass,
                           element_type: item_elementtype,
-                          parentfeatureid: parentfeatureid,
+                          parentfeatureid: parentfeatureid.toString(),
                           parentmodelid: data.DataForSelectedFeatureModelItem[i].parent_modelid,
                           HEADER_LINENO: parentarray[0].OPTM_LINENO,
                           random_unique_key: this.commonData.random_string(50),
@@ -3128,8 +3139,32 @@ export class CwViewOldComponent implements OnInit {
       if (isExist.length == 0) {
         let model_mandatory = "N";
         if (checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_MANDATORY != undefined && checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_MANDATORY == "Y") {
-          model_mandatory = 'Y';
+          model_mandatory = "Y";
         }
+        let parent_modelid = '';
+        if (parentarray[0].OPTM_MODELID == undefined) {
+          if (parentarray[0].parentmodelid == undefined) {
+            parent_modelid = this.step2_data.model_id;
+          } else {
+            parent_modelid = parentarray[0].parentmodelid;
+          }
+        } else {
+          parent_modelid = parentarray[0].OPTM_MODELID;
+        }
+        let optm_umo = "";
+        if (parentarray[0].OPTM_UOM != undefined && parentarray[0].OPTM_UOM != null) {
+          optm_umo = parentarray[0].OPTM_UOM;
+        }
+        let optm_child_code = "";
+        if (parentarray[0].child_code != undefined && parentarray[0].child_code != null) {
+          optm_child_code = parentarray[0].child_code;
+        }
+        
+        let optm_uniqueidnt = "N";
+        if (parentarray[0].OPTM_UNIQUEIDNT != undefined && parentarray[0].OPTM_UNIQUEIDNT != null) {
+          optm_uniqueidnt = parentarray[0].OPTM_UNIQUEIDNT;
+        }
+
         this.ModelHeaderData.push({
           ACCESSORY: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].ACCESSORY,
           IMAGEPATH: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].IMAGEPATH,
@@ -3145,20 +3180,20 @@ export class CwViewOldComponent implements OnInit {
           OPTM_ISMULTISELECT: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_ISMULTISELECT,
           OPTM_MAXSELECTABLE: psMaxSelect,
           OPTM_MINSELECTABLE: psMinSelect,
-          OPTM_MODELID: parentarray[0].OPTM_MODELID,
+          OPTM_MODELID: parent_modelid,
           OPTM_MODIFIEDBY: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_MODIFIEDBY,
           OPTM_MODIFIEDDATETIME: String(checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_MODIFIEDDATETIME).toString(),
           OPTM_PRICESOURCE: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].ListName,
           OPTM_PROPOGATEQTY: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_PROPOGATEQTY,
           OPTM_QUANTITY: parseFloat(checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_QUANTITY).toFixed(3),
           OPTM_TYPE: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_TYPE,
-          OPTM_UNIQUEIDNT: parentarray[0].OPTM_UNIQUEIDNT,
-          OPTM_UOM: parentarray[0].OPTM_UOM,
-          child_code: parentarray[0].child_code,
+          OPTM_UNIQUEIDNT: optm_uniqueidnt,
+          OPTM_UOM: optm_umo,
+          child_code: optm_child_code,
           element_class: pselementclass,
           element_type: pselementtype,
           feature_code: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].feature_code,
-          parentfeatureid: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_FEATUREID,
+          parentfeatureid: (checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_FEATUREID).toString(),
           parentmodelid: parentmodelid,
           OPTM_LEVEL: feature_model_data.OPTM_LEVEL,
           is_second_level: 1,
