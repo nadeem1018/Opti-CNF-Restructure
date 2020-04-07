@@ -2016,6 +2016,7 @@ onExplodeClick(type) {
       }
       objDataset.ModelData = temp_model_data;
       objDataset.RuleData = this.rule_data;
+      console.log(JSON.stringify(objDataset));
       this.service.SaveModelBom(objDataset).subscribe(
         data => {
           this.showLookupLoader = false;
