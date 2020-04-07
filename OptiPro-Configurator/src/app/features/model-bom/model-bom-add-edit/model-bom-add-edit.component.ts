@@ -2029,7 +2029,7 @@ onExplodeClick(type) {
 
           if (data === "True") {
             
-            this.CommonService.show_notification(this.language.DisplayNameRequired, 'success');
+            this.CommonService.show_notification(this.language.DataSaved, 'success');
             this.route.navigateByUrl('model-bom/view');
             return;
           }
