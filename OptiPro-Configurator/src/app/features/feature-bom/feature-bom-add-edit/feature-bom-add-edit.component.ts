@@ -1920,7 +1920,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   expandAll() {
-    this.getAllId(this.data1, 'level');
+    this.getAllId(this.data1, 'unique_key');
   }
 
 

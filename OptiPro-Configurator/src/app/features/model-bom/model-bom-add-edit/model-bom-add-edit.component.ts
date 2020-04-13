@@ -237,7 +237,6 @@ public expandedKeysvalue: any[] = [];
             return;
           } 
         }
-        console.log(data.ModelDetail);
         if (data.ModelHeader.length > 0) {
           this.modelbom_data.modal_id = data.ModelDetail[0].OPTM_MODELID
           this.modelbom_data.modal_code = data.ModelHeader[0].OPTM_FEATURECODE
@@ -1615,7 +1614,6 @@ onExplodeClick(type) {
             });
             this.tree_data_json = temp_data;
             this.data1 = this.unflatten(temp_data);
-
           }
           else {
             
@@ -2100,17 +2098,18 @@ onExplodeClick(type) {
   getAllId(arr, key) {
     arr.forEach(item => {
       for (let keys in item) {
-        if (keys === key) { 
-          this.expandedKeys.push(item[key])
+        if (keys === key) {
+          this.expandedKeys.push(item[key]);
         } else if (Array.isArray(item[keys])) {
           this.getAllId(item[keys], key);
         }
       }  
     });
+
   }
 
   expandAll() {
-    this.getAllId(this.data1, 'level');
+    this.getAllId(this.data1, 'unique_key');
   }
 
   collapseAll() {
