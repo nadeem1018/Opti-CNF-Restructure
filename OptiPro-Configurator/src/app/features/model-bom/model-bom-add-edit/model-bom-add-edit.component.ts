@@ -2100,20 +2100,21 @@ onExplodeClick(type) {
       for (let keys in item) {
         if (keys === key) {
           this.expandedKeys.push(item[key]);
+          console.log(JSON.stringify(this.expandedKeys));
         } else if (Array.isArray(item[keys])) {
           this.getAllId(item[keys], key);
         }
       }  
     });
-
   }
 
   expandAll() {
+    this.expandedKeys = [];
     this.getAllId(this.data1, 'unique_key');
   }
 
   collapseAll() {
-    this.expandedKeys = []
+    this.expandedKeys = [];
   }
 
   resequence_operation(type) {  // type = 1 : up & type = 2 : down
