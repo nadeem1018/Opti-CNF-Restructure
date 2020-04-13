@@ -1705,7 +1705,10 @@ a.common_grid_link {
 }
 
 .k-treeview {
-  height: 483px;
+  height: 445px;
+  overflow: visible;
+  //height: 100%;
+  //flex: 0 1 100%;
 }
 
  
