@@ -165,7 +165,7 @@
                         </kendo-grid-column>
                         <kendo-grid-column field="min_selectable" title="{{language.max_selectable}}" filter="text" [width]="118" [minResizableWidth]="118">
                           <ng-template kendoGridCellTemplate let-dataItem>
-                            <input type="text" [disabled]="dataItem.isMaxSelectedDisable" class="form-control  form-control-sm pull-right max_selectable_row" id="max_selected" value={{dataItem.max_selected}} (change)="on_max_selected_change(max_selected.value,dataItem.rowindex,max_selected)" #max_selected title="{{dataItem.max_selected}}" />
+                            <input type="text" [disabled]="dataItem.isMaxSelectedDisable" class="form-control text-right form-control-sm pull-right max_selectable_row" id="max_selected" value={{dataItem.max_selected}} (change)="on_max_selected_change(max_selected.value,dataItem.rowindex,max_selected)" #max_selected title="{{dataItem.max_selected}}" />
                           </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column field="propagate_qty" headerClass="text-center" title="{{language.propagate_qty}}" filter="numeric" [width]="115" [minResizableWidth]="115">
