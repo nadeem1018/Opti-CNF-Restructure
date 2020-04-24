@@ -31,7 +31,8 @@ export class FeatureModelAddEditComponent implements OnInit {
      private ActivatedRouter: ActivatedRoute,
      private commanService: CommonService, 
      private fbom: FeaturebomService, 
-     private DialogService: DialogService) { }
+     private DialogService: DialogService) { 
+     }
 
   page_main_title = this.language.model_feature_master;
   section_title = "";
@@ -39,6 +40,7 @@ export class FeatureModelAddEditComponent implements OnInit {
   username: string;
   lookupfor: string = '';
   serviceData: any;
+  selectedImage: any;
   item: string = '';
   public codekey: string = "";
   public button = "save";
@@ -57,7 +59,7 @@ export class FeatureModelAddEditComponent implements OnInit {
   //custom dialoag params
   public dialog_params: any = [];
   public show_dialog: boolean = false;
-  public selectedImage = "";
+  //public selectedImage = "";
   public ModelImage: string = "";
   public isRefCodeDisabled = true;
   public isItemCodeDisabled = true;
@@ -383,6 +385,22 @@ export class FeatureModelAddEditComponent implements OnInit {
 
   }
 
+  
+  enlage_image(image) {
+    this.showLookupLoader = true;
+    if(image){
+      this.lookupfor = 'large_image_view';
+      this.selectedImage = image;
+      this.showLookupLoader = false;
+      console.log(this.selectedImage);
+    }
+  }
+
+  getLookupValues($event) {
+    this.lookupfor = '';
+    this.selectedImage = '';
+  }
+
   getAllTemplateItems() {
     this.fms.getTemplateItems(this.companyName).subscribe(
       data => {
@@ -442,11 +460,6 @@ export class FeatureModelAddEditComponent implements OnInit {
       }
       return;
     })
-  }
-
-  enlage_image(image) {
-    this.lookupfor = 'large_image_view';
-    this.selectedImage = image;
   }
 
   call_change_event(){

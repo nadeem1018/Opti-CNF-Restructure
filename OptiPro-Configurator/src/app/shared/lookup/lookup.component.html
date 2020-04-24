@@ -431,3 +431,23 @@
 </div>
 
 
+
+
+<!-- Enlarge Image -->
+
+<div class="k-overlay" *ngIf="imageDialogOpened"></div>
+<div class="custom-window-wrapper" *ngIf="imageDialogOpened">
+    <div class="custom-window-innner">
+        <kendo-window [draggable]="isDraggable" class="border-0 bg-transparent" (close)="closeImageDialog()"
+            [minWidth]="320" [width]="500">
+            <kendo-window-titlebar>
+                <div class='k-window-title'>{{popup_title}}</div>
+                <button kendoWindowCloseAction></button>
+            </kendo-window-titlebar>
+          
+               <img src="{{enlargeImage}}" style="max-height:400px" width="460"/>
+
+        </kendo-window>
+    </div>
+</div>
+

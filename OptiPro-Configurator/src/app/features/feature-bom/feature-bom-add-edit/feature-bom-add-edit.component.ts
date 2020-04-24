@@ -273,7 +273,9 @@ export class FeatureBomAddEditComponent implements OnInit {
               is_accessory_disabled = true;
             }
 
-            this.row_image_data = this.commonData.get_current_url() + data.FeatureDetail[i].OPTM_ATTACHMENT
+            //this.row_image_data = this.commonData.get_current_url() + data.FeatureDetail[i].OPTM_ATTACHMENT
+            this.row_image_data = this.config_params.service_url+'/web'+ data.FeatureDetail[i].OPTM_ATTACHMENT;
+
             this.counter = 0;
             if (this.feature_bom_table.length > 0) {
               this.counter = this.feature_bom_table.length
@@ -367,7 +369,8 @@ export class FeatureBomAddEditComponent implements OnInit {
 
           if (this.feature_bom_data.image_path != "") {
             if (this.feature_bom_data.image_path != null) {
-              this.header_image_data = this.commonData.get_current_url() + this.feature_bom_data.image_path
+             // this.header_image_data = this.commonData.get_current_url() + this.feature_bom_data.image_path
+              this.header_image_data = this.config_params.service_url+'/web'+ this.feature_bom_data.image_path;
               this.showImageBlock = true;
             }
           }
@@ -559,16 +562,18 @@ export class FeatureBomAddEditComponent implements OnInit {
     }
 
     this.fbom.UploadFeatureBOM(formData).subscribe(data => {
+      console.log(data);
       if (data.body === "False") {
-        //    this.toastr.error('', this.language.filecannotupload, this.commonData.toast_config);
         this.CommonService.show_notification(this.language.filecannotupload, 'error');
       }
       else {
         if (this.feature_bom_table.length > 0) {
           for (let i = 0; i < this.feature_bom_table.length; ++i) {
             if (this.feature_bom_table[i].rowindex === rowindex) {
-              this.feature_bom_table[i].attachment = data.body
-              this.feature_bom_table[i].preview = this.commonData.get_current_url() + data.body
+              this.feature_bom_table[i].attachment = data.body;
+              this.feature_bom_table[i].preview = this.config_params.service_url+'/web'+ data.body;
+              console.log(this.feature_bom_table[i].preview);
+              //this.feature_bom_table[i].preview = this.commonData.get_current_url() + data.body
               // this.detail_image_data.push(this.feature_bom_table[i].attachment)  
 
               if (this.detail_image_data.length > 0) {
@@ -1231,7 +1236,8 @@ export class FeatureBomAddEditComponent implements OnInit {
               this.showImageBlock = false;
               if (this.feature_bom_data.image_path != null) {
                 if (this.feature_bom_data.image_path != "") {
-                  this.header_image_data = this.commonData.get_current_url() + this.feature_bom_data.image_path;
+                  //this.header_image_data = this.commonData.get_current_url() + this.feature_bom_data.image_path;
+                  this.header_image_data = this.config_params.service_url+'/web'+ this.feature_bom_data.image_path;
                   this.showImageBlock = true;
                 }
               }
@@ -1257,7 +1263,9 @@ export class FeatureBomAddEditComponent implements OnInit {
                   }
                   this.feature_bom_table[i].display_name = data[0].OPTM_DISPLAYNAME;
                   if (data[0].OPTM_PHOTO != null && data[0].OPTM_PHOTO != "") {
-                    this.feature_bom_table[i].preview = this.commonData.get_current_url() + data[0].OPTM_PHOTO;
+                    //this.feature_bom_table[i].preview = this.commonData.get_current_url() + data[0].OPTM_PHOTO;
+                    this.feature_bom_table[i].preview = this.config_params.service_url+'/web'+ data[0].OPTM_PHOTO;
+
                     this.feature_bom_table[i].attachment = data[0].OPTM_PHOTO;
                   }
 
@@ -1339,8 +1347,18 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   enlage_image(image) {
-    this.lookupfor = 'large_image_view';
-    this.selectedImage = image;
+    this.showLookupLoader = true;
+    if(image){
+      this.lookupfor = 'large_image_view';
+      this.selectedImage = image;
+      this.showLookupLoader = false;
+      console.log(this.selectedImage);
+    }
+  }
+
+  getLookupValues($event) {
+    this.lookupfor = '';
+    this.selectedImage = '';
   }
 
   validation(btnpress) {

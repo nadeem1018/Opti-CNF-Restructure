@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
 import { ModelbomService } from 'src/app/core/service/modelbom.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-lookup',
@@ -17,6 +18,8 @@ export class LookupComponent implements OnInit {
   @Input() lookupfor: any;
   @Input() selectedImage: any
   @Output() lookupvalue = new EventEmitter();
+  @Output() lookupvalues = new EventEmitter();
+
 
   public commonData = new CommonData();
   language = JSON.parse(sessionStorage.getItem('current_lang'));
@@ -66,7 +69,8 @@ export class LookupComponent implements OnInit {
   public resourceServiceWc: any = "";
   public windowTop: number = 50;
   public windowLeft: number = 50;
-  
+  public imageDialogOpened: boolean = false;
+  public enlargeImage: any;
   
 
   constructor(
@@ -75,7 +79,8 @@ export class LookupComponent implements OnInit {
     private router: Router,
     private mbom: ModelbomService, 
 
-  ) { }
+  ) { 
+  }
 
   ngOnInit() {
   }
@@ -112,6 +117,7 @@ export class LookupComponent implements OnInit {
 
     if (this.popup_lookupfor != "") {
       if (this.popup_lookupfor == "model_template") {
+        console.log(this.serviceData);
         this.model_template_lookup();
         return;
       }
@@ -143,10 +149,13 @@ export class LookupComponent implements OnInit {
         return;
       }
 
-    //   if (this.popup_lookupfor == "large_image_view") {
-    //     this.showImage();
-    //     return;
-    //   }
+       if (this.popup_lookupfor == "large_image_view") {
+         console.log('hello');
+         console.log(this.selectedImage);
+         this.showImage();
+         return;
+       }
+
       if (this.popup_lookupfor == "Price_lookup") {
         this.get_Price_lookup();
         return;
@@ -765,6 +774,17 @@ export class LookupComponent implements OnInit {
       }
     }
   }
+
+  showImage(){
+    this.imageDialogOpened = true;
+    this.enlargeImage = this.selectedImage;
+  }
+
+  closeImageDialog(){
+    this.imageDialogOpened = false;
+    this.lookupvalues.emit('');
+  }
+
 
   model_template_lookup() {
     this.popup_title = this.language.model_template;
