@@ -2065,6 +2065,9 @@ export class CwViewOldComponent implements OnInit {
         obj['isManuallyChecked'] = true
       }
     })
+    if(parentarray[0].OPTM_TYPE == 1){
+      modelid = 0;
+    }
 
     this.showLookupLoader = true;
     let GetDataForSelectedFeatureModelItemData: any = {};
@@ -2131,7 +2134,10 @@ export class CwViewOldComponent implements OnInit {
 
           if (value == true) {
             if (data.DataForSelectedFeatureModelItem.length > 0) {
-              if (parentarray[0].element_type == "radio" || isSecondLevel) {
+              if(isSecondLevel){
+                this.removeModelfeaturesbyuncheck("","","",feature_model_data.unique_key)
+              }
+              if (parentarray[0].element_type == "radio" && isSecondLevel == false) {
 
                 if (parentfeatureid != "" ) {
                   this.removefeaturesanditems(parentfeatureid, feature_model_data.nodeid)
@@ -8025,7 +8031,7 @@ export class CwViewOldComponent implements OnInit {
     let tempNodeId;
     let temp_unique_key;
     for (var itemp = 0; itemp < this.ModelHeaderData.length; itemp++) {
-      if (this.ModelHeaderData[itemp].feature_code == featurecode && this.ModelHeaderData[itemp].unique_key == unique_key) {
+      if (this.ModelHeaderData[itemp].unique_key == unique_key) {
         tempfeatureidmodelheader = this.ModelHeaderData[itemp].OPTM_FEATUREID
         tempchildfeatuniqueKey = this.ModelHeaderData[itemp].unique_key
         this.ModelHeaderData.splice(itemp, 1);
