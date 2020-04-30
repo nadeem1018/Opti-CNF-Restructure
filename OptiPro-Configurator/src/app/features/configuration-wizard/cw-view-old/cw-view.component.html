@@ -1435,5 +1435,5 @@
 
 <span [hidden]="showLookupLoader">
     <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event) "
-        [selectedImage]="selectedImage"></app-lookup>
+        [selectedImage]="selectedImage" (lookupvalues)="getLookupValues($event)"></app-lookup>
 </span>

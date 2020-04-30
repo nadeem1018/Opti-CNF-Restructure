@@ -300,8 +300,20 @@ export class CwViewOldComponent implements OnInit {
 
 
   enlage_image(image) {
-    this.lookupfor = 'large_image_view';
-    this.selectedImage = image;
+    //this.lookupfor = 'large_image_view';
+   // this.selectedImage = image;
+    this.showLookupLoader = true;
+    if(image){
+      this.lookupfor = 'large_image_view';
+      this.selectedImage = image;
+      this.showLookupLoader = false;
+      console.log(this.selectedImage);
+    }
+  }
+
+  getLookupValues($event) {
+    this.lookupfor = '';
+    this.selectedImage = '';
   }
 
   ngAfterContentChecked() {
@@ -5896,7 +5908,7 @@ export class CwViewOldComponent implements OnInit {
 
     }
 
-
+    console.log(JSON.stringify(array));
 
     return array;
   }
