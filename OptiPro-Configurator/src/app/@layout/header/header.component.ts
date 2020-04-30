@@ -36,6 +36,8 @@ export class HeaderComponent implements OnInit {
     public show_pdf = '';
     public current_data;
     public user_guide_link = '';
+    public config_params: any;
+
     
     constructor(private router: Router, private localStorageService: LocalStorageService, private CommonService: CommonService, private DialogService: DialogService) {
 
@@ -58,7 +60,8 @@ export class HeaderComponent implements OnInit {
                 }
             })
         });
-        this.current_url = this.commonData.get_current_url();
+        this.config_params = JSON.parse(sessionStorage.getItem('system_config'));
+        this.current_url = this.config_params.service_url+'/web';
         this.user_guide_link = this.current_url + '/assets/user-guide/OptiPro-Configurator.html';        
         this.sidebar();
     }
