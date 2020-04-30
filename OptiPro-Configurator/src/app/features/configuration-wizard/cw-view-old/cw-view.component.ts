@@ -5908,8 +5908,6 @@ export class CwViewOldComponent implements OnInit {
 
     }
 
-    console.log(JSON.stringify(array));
-
     return array;
   }
 
