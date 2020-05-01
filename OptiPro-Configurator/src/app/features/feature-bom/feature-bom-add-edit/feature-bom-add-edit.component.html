@@ -239,14 +239,15 @@
                                     </kendo-grid-column>
                                     <kendo-grid-column field="Bom_Attach" title="{{language.Bom_Attach}}" [width]="130" [minResizableWidth]="130">
                                         <ng-template kendoGridCellTemplate let-dataItem>
-                                            <input class="custom-file-input" type="file" id="attachment" name="attachmentname" #attachment (change)="uploaddetailfile(attachment.files,dataItem.rowindex)" [ngStyle]="{'position': 'absolute', 'width': '0'}">
-                                            <label class="btn btn-secondary btn-sm m-0 d-flex text-center justify-content-center align-items-center" [ngStyle]="{'min-height': '22px'}" for="attachment">{{language.choose_image}}</label>
+                                            <input class="custom-file-input" type="file" id="attachment{{dataItem.rowindex}}" name="attachmentname" #attachment (change)="uploaddetailfile(attachment.files,dataItem.rowindex)" [ngStyle]="{'position': 'absolute', 'width': '0'}">
+                                            <label class="btn btn-secondary btn-sm m-0 d-flex text-center justify-content-center align-items-center" [ngStyle]="{'min-height': '22px'}" for="attachment{{dataItem.rowindex}}">{{language.choose_image}}</label>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column field="image" title="{{language.image}}" [width]="100" [minResizableWidth]="100">
+                                    <kendo-grid-column field="image" title="{{language.image}}" headerClass="text-center" class="text-center" [width]="80" [minResizableWidth]="80">
                                         <ng-template kendoGridCellTemplate let-dataItem>
                                             <a data-toggle="modal" data-target="#enlarge_image_modal" (click)="enlage_image(dataItem.preview)">
-                                                <img src="{{dataItem.preview}}" class="img-thumbnail rounded  mdelbom_image inner_table_image" alt="">
+                                                <img src="{{dataItem.preview}}" class="img-thumbnail rounded  mdelbom_image inner_table_image" 
+                                                height="50" width="50" alt="">
                                             </a>
                                         </ng-template>
                                     </kendo-grid-column>

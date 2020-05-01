@@ -562,7 +562,6 @@ export class FeatureBomAddEditComponent implements OnInit {
     }
 
     this.fbom.UploadFeatureBOM(formData).subscribe(data => {
-      console.log(data);
       if (data.body === "False") {
         this.CommonService.show_notification(this.language.filecannotupload, 'error');
       }

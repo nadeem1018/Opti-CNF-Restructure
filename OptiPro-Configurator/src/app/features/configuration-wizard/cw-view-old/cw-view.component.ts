@@ -184,6 +184,7 @@ export class CwViewOldComponent implements OnInit {
   public accessoriesPanelToggle:boolean = false;
   public stepsEl = document.getElementsByClassName("one_step_block") as HTMLCollectionOf<HTMLElement>;
   public stepsElLI = document.getElementsByClassName("steps-info") as HTMLCollectionOf<HTMLElement>;
+  public config_params: any;
   
   constructor(private ActivatedRouter: ActivatedRoute,
     private route: Router,
@@ -254,7 +255,9 @@ export class CwViewOldComponent implements OnInit {
     this.step1_data.print_operation = "";
     // check screen authorisation - start
 
-    this.check_authorisation()
+    this.check_authorisation();
+    this.config_params = JSON.parse(sessionStorage.getItem('system_config'));
+
   }
 
   navigation_in_steps(hide_index, show_index) {
@@ -297,8 +300,20 @@ export class CwViewOldComponent implements OnInit {
 
 
   enlage_image(image) {
-    this.lookupfor = 'large_image_view';
-    this.selectedImage = image;
+    //this.lookupfor = 'large_image_view';
+   // this.selectedImage = image;
+    this.showLookupLoader = true;
+    if(image){
+      this.lookupfor = 'large_image_view';
+      this.selectedImage = image;
+      this.showLookupLoader = false;
+      console.log(this.selectedImage);
+    }
+  }
+
+  getLookupValues($event) {
+    this.lookupfor = '';
+    this.selectedImage = '';
   }
 
   ngAfterContentChecked() {
@@ -780,13 +795,15 @@ export class CwViewOldComponent implements OnInit {
           data.FeatureBOMDataForSecondLevel[i].disable = true
         }
         if (data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != "" && data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != null && data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != undefined) {
-          data.FeatureBOMDataForSecondLevel[i].IMAGEPATH = this.commonData.get_current_url() + data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT
+          //data.FeatureBOMDataForSecondLevel[i].IMAGEPATH = this.commonData.get_current_url() + data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT;
+          data.FeatureBOMDataForSecondLevel[i].IMAGEPATH = this.config_params.service_url+'/web'+ data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT;
         }
       }
 
       for (var i in data.ModelBOMDataForSecondLevel) {
         if (data.ModelBOMDataForSecondLevel[i].IMAGEPATH != "" && data.ModelBOMDataForSecondLevel[i].IMAGEPATH != null && data.ModelBOMDataForSecondLevel[i].IMAGEPATH != undefined) {
-          data.ModelBOMDataForSecondLevel[i].IMAGEPATH = this.commonData.get_current_url() + data.ModelBOMDataForSecondLevel[i].IMAGEPATH
+          //data.ModelBOMDataForSecondLevel[i].IMAGEPATH = this.commonData.get_current_url() + data.ModelBOMDataForSecondLevel[i].IMAGEPATH;
+          data.ModelBOMDataForSecondLevel[i].IMAGEPATH = this.config_params.service_url+'/web'+ data.ModelBOMDataForSecondLevel[i].IMAGEPATH;
         }
         if (data.ModelBOMDataForSecondLevel[i].disable == "False") {
           data.ModelBOMDataForSecondLevel[i].disable = false
@@ -1747,13 +1764,14 @@ export class CwViewOldComponent implements OnInit {
               data.FeatureBOMDataForSecondLevel[i].checked = false
             }
             if (data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != "" && data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != null && data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != undefined) {
-              data.FeatureBOMDataForSecondLevel[i].IMAGEPATH = this.commonData.get_current_url() + data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT
+              //data.FeatureBOMDataForSecondLevel[i].IMAGEPATH = this.commonData.get_current_url() + data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT
+              data.FeatureBOMDataForSecondLevel[i].IMAGEPATH =  this.config_params.service_url+'/web'+ data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT;
             }
           }
 
           for (var i in data.ModelBOMDataForSecondLevel) {
             if (data.ModelBOMDataForSecondLevel[i].IMAGEPATH != "" && data.ModelBOMDataForSecondLevel[i].IMAGEPATH != null && data.ModelBOMDataForSecondLevel[i].IMAGEPATH != undefined) {
-              data.ModelBOMDataForSecondLevel[i].IMAGEPATH = this.commonData.get_current_url() + data.ModelBOMDataForSecondLevel[i].IMAGEPATH
+              data.ModelBOMDataForSecondLevel[i].IMAGEPATH = this.config_params.service_url+'/web'+ data.ModelBOMDataForSecondLevel[i].IMAGEPATH
             }
           }
 
@@ -2392,7 +2410,7 @@ export class CwViewOldComponent implements OnInit {
                         this.FeatureBOMDataForSecondLevel.push({
                           ACCESSORY: DataForSelectedFeatureModelItem[i].ACCESSORY,
                           ListName: DataForSelectedFeatureModelItem[i].ListName,
-                          IMAGEPATH: this.commonData.get_current_url() + DataForSelectedFeatureModelItem[i].OPTM_ATTACHMENT,
+                          IMAGEPATH: this.config_params.service_url+'/web'+ DataForSelectedFeatureModelItem[i].OPTM_ATTACHMENT,
                           DocEntry: DataForSelectedFeatureModelItem[i].DocEntry,
                           OPTM_ATTACHMENT: DataForSelectedFeatureModelItem[i].OPTM_ATTACHMENT,
                           OPTM_CHILDFEATUREID: parseInt(DataForSelectedFeatureModelItem[i].OPTM_CHILDFEATUREID),
@@ -2749,7 +2767,7 @@ export class CwViewOldComponent implements OnInit {
 
                         this.ModelBOMDataForSecondLevel.push({
                           ACCESSORY: DataForSelectedFeatureModelItem[i].ACCESSORY,
-                          IMAGEPATH: this.commonData.get_current_url() + DataForSelectedFeatureModelItem[i].OPTM_ATTACHMENT,
+                          IMAGEPATH: this.config_params.service_url+'/web'+ DataForSelectedFeatureModelItem[i].OPTM_ATTACHMENT,
                           ITEMCODEGENREF: DataForSelectedFeatureModelItem[i].ITEMCODEGENREF,
                           MODELTEMPLATEITEM: DataForSelectedFeatureModelItem[i].MODELTEMPLATEITEM,
                           OPTM_ATTACHMENT: DataForSelectedFeatureModelItem[i].OPTM_ATTACHMENT,
@@ -3187,7 +3205,7 @@ export class CwViewOldComponent implements OnInit {
 
         this.ModelBOMDataForSecondLevel.push({
           ACCESSORY: dtModelDataWithDefaultChild[idtfeature].ACCESSORY,
-          IMAGEPATH: this.commonData.get_current_url() + dtModelDataWithDefaultChild[idtfeature].OPTM_ATTACHMENT,
+          IMAGEPATH: this.config_params.service_url+'/web'+ dtModelDataWithDefaultChild[idtfeature].OPTM_ATTACHMENT,
           ITEMCODEGENREF: dtModelDataWithDefaultChild[idtfeature].ITEMCODEGENREF,
           MODELTEMPLATEITEM: dtModelDataWithDefaultChild[idtfeature].MODELTEMPLATEITEM,
           OPTM_ATTACHMENT: dtModelDataWithDefaultChild[idtfeature].OPTM_ATTACHMENT,
@@ -3365,7 +3383,7 @@ export class CwViewOldComponent implements OnInit {
         }
         this.FeatureBOMDataForSecondLevel.push({
           ACCESSORY: dtFeatureDataWithDefault[idtfeature].ACCESSORY,
-          IMAGEPATH: this.commonData.get_current_url() + dtFeatureDataWithDefault[idtfeature].OPTM_ATTACHMENT,
+          IMAGEPATH: this.config_params.service_url+'/web'+ dtFeatureDataWithDefault[idtfeature].OPTM_ATTACHMENT,
           DocEntry: dtFeatureDataWithDefault[idtfeature].DocEntry,
           OPTM_ATTACHMENT: dtFeatureDataWithDefault[idtfeature].OPTM_ATTACHMENT,
           OPTM_CHILDFEATUREID: parseInt(dtFeatureDataWithDefault[idtfeature].OPTM_CHILDFEATUREID),
@@ -5917,8 +5935,6 @@ export class CwViewOldComponent implements OnInit {
       }
 
     }
-
-
 
     return array;
   }
