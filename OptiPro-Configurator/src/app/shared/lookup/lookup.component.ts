@@ -71,6 +71,8 @@ export class LookupComponent implements OnInit {
   public windowLeft: number = 50;
   public imageDialogOpened: boolean = false;
   public enlargeImage: any;
+  public reportDialogOpened: boolean = false;
+  public reportBase64String:any;
   
 
   constructor(
@@ -106,6 +108,8 @@ export class LookupComponent implements OnInit {
     this.rule_selection_show = false;
     this.rule_output_data_loaded = false;
     this.routing_resource_show = false
+    this.reportDialogOpened = false;
+    
 
     this.current_popup_row = "";
     //this.test_model();
@@ -203,6 +207,11 @@ export class LookupComponent implements OnInit {
       return;
     }
 
+    if (this.popup_lookupfor == "output_invoice_print_new") {
+      this.output_invoice_print_new();
+      return;
+    }
+
     // if (this.popup_lookupfor == "output_invoice_print") {
     //   this.output_invoice_print();
     //   return;
@@ -235,6 +244,15 @@ export class LookupComponent implements OnInit {
     //   }
 
      }
+  }
+
+  output_invoice_print_new(){
+    this.popup_title = this.language.print_quote;
+    this.reportBase64String= "data:application/pdf;base64,"+ this.serviceData; 
+    console.log("this", this.reportBase64String);
+    if(this.reportBase64String!=null && this.reportBase64String != "")  { 
+      this.reportDialogOpened = true; 
+    }
   }
 
   operation_lookup_list() {
@@ -1554,6 +1572,7 @@ export class LookupComponent implements OnInit {
     this.show_associate_bom_popup = false;
     this.rule_selection_show = false;
     this.routing_resource_show = false;
+    this.reportDialogOpened = false;
   }
 
   public close_inner_kenod_dialog(){

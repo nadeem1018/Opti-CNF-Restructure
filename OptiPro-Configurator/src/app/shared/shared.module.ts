@@ -15,6 +15,7 @@ import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { ToFixedPipe } from 'src/app/core/pipe/to-fixed.pipe';
 import { PreferencesComponent } from '../features/preferences/preferences.component';
 import { PanelBarModule } from '@progress/kendo-angular-layout';
+import { PdfpipePipe } from '../core/pipe/pdfpipe.pipe';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { PanelBarModule } from '@progress/kendo-angular-layout';
   TreeViewComponent,
   CustomDialogsComponent,
   ToFixedPipe,
+  PdfpipePipe,
   PreferencesComponent
 ],
   imports: [

@@ -29,6 +29,22 @@
 
     </div>
 </div>
+<!-- Output Invoice -->
+<div class="k-overlay" *ngIf="reportDialogOpened"></div>
+<div class="custom-window-wrapper" *ngIf="reportDialogOpened">
+    <div class="custom-window-innner">
+        <kendo-window [draggable]="isDraggable" (close)="close_kendo_dialog()" [minWidth]="320" [width]="1050">
+        <kendo-window-titlebar>
+                    <div class='k-window-title'>{{popup_title}}</div>
+                    <button kendoWindowMaximizeAction></button>
+                    <button kendoWindowRestoreAction></button>
+                    <button kendoWindowCloseAction></button>
+                </kendo-window-titlebar>
+                <iframe width='100%' height='100%' [src]='reportBase64String | pdfpipe'></iframe>
+        </kendo-window>
+    </div>
+</div>
+
 
 <div class="k-overlay" *ngIf="rule_selection_show"></div>
 <div class="custom-window-wrapper" *ngIf="rule_selection_show">

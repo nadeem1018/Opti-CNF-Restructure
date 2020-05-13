@@ -12,7 +12,7 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 
 
 @NgModule({
-  declarations: [CwViewComponent, CwOperationCustomerComponent, CwMbomConfigureProductComponent, CwVerifyAcceptFinalComponent, CwViewOldComponent],
+  declarations: [CwViewComponent, CwOperationCustomerComponent, CwMbomConfigureProductComponent, CwVerifyAcceptFinalComponent, CwViewOldComponent ],
   imports: [
     CommonModule,
     ConfigurationWizardRoutingModule,
