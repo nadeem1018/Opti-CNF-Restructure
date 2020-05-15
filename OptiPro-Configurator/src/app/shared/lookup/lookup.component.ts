@@ -1575,7 +1575,13 @@ export class LookupComponent implements OnInit {
     this.reportDialogOpened = false;
   }
 
+
+  public close_report_kenod_dialog(){
+    this.lookupvalue.emit('');
+    this.dialogOpened = false;
+  }
   public close_inner_kenod_dialog(){
+    this.lookupvalue.emit('');
     this.dialogOpened = false;
   }
   public sortChange(sort: SortDescriptor[]): void {

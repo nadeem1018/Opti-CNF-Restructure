@@ -1079,6 +1079,7 @@ export class CwViewOldComponent implements OnInit {
 
   getLookupValue($event) {
     if($event.length == 0){
+      this.lookupfor = "";
       return;
     }
     if (this.lookupfor == 'ModelBomForWizard_lookup') {
@@ -1092,6 +1093,7 @@ export class CwViewOldComponent implements OnInit {
       this.navigatenextbtn = false;
       this.validnextbtn = true;
       this.getSavedModelData = [];
+      this.lookupfor = "";
       this.GetAllDataForModelBomOutput(this.getSavedModelData);
     }
     else if (this.lookupfor == 'Item_Detail_lookup') {
@@ -1100,9 +1102,9 @@ export class CwViewOldComponent implements OnInit {
     else if (this.lookupfor == 'output_customer') {
       this.step1_data.customer = $event[0];
       this.step1_data.customer_name = $event[1];
-
+      this.lookupfor = "";
       if (this.step1_data.customer != undefined) {
-        this.isNextButtonVisible = true;
+        this.isNextButtonVisible = true;       
         this.getCustomerAllInfo("");
       }
       else {
@@ -1120,7 +1122,7 @@ export class CwViewOldComponent implements OnInit {
       this.owner_list = [];
       this.step3_data_final = [];
       this.onclearselection(0);
-
+      this.lookupfor = "";
       this.step1_data.selected_configuration_key = $event[0];
       this.step1_data.description = $event[1];
       this.iLogID = $event[0];
@@ -1422,7 +1424,7 @@ export class CwViewOldComponent implements OnInit {
             for (let mhia_i = 0; mhia_i < model_feature_array.length; mhia_i++) {
               model_feature_array[mhia_i]['super_model_key'] = super_model_key;
               model_feature_array[mhia_i]['ItemNumber'] = (model_feature_array[mhia_i]['ItemNumber']!= undefined && model_feature_array[mhia_i]['ItemNumber']!= null) ? (model_feature_array[mhia_i]['ItemNumber']).toString() : "";
-              model_feature_array[mhia_i]['ModelId'] = (model_feature_array[mhia_i]['ModelId']!= undefined && model_feature_array[mhia_i]['ModelId']!= null) ? (model_feature_array[mhia_i]['ItemNumber']).toString() : "";
+              model_feature_array[mhia_i]['ModelId'] = (model_feature_array[mhia_i]['ModelId']!= undefined && model_feature_array[mhia_i]['ModelId']!= null) ? (model_feature_array[mhia_i]['ModelId']).toString() : "";
               
               invoice_output_data.feature.push(model_feature_array[mhia_i]);
             }
