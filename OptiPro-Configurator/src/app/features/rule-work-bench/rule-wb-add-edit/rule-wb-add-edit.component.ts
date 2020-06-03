@@ -625,7 +625,10 @@ export class RuleWbAddEditComponent implements OnInit {
       }
     }
   
-  
+    if($event.length == 0){
+      this.lookupfor = "";
+      return;
+    }
   
     if (this.lookupfor == 'feature_lookup') {
       this.rule_wb_data.applicable_for_feature_id = $event[0];

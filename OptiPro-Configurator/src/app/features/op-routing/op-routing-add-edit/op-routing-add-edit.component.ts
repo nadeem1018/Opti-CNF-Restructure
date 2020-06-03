@@ -521,6 +521,10 @@ ClearOperLineOnWarehouse() {
 }
 
 getLookupValue($event) {
+  if($event.length == 0){
+    this.lookupfor = "";
+    return;
+  }
 
   if (this.lookupfor == 'feature_lookup') {
     this.routing_header_data.feature_id = $event[0];
@@ -1265,6 +1269,7 @@ clearInvalidTemplateRouting() {
 }
 
 getTemplateRoutingDetails(template_code) {
+ if(template_code.trim().length > 0){
   this.showLookupLoader = true;
   this.service.TemplateRoutingDetail(template_code).subscribe(
     data => {
@@ -1300,6 +1305,7 @@ getTemplateRoutingDetails(template_code) {
       }
       return;
     });
+  }
 }
 on_template_change(){
   if(this.routing_header_data.use_template_routing == false){

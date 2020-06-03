@@ -1932,7 +1932,7 @@ onExplodeClick(type) {
 
     // if (this.modelbom_data.is_ready_to_use == true) {
       var unique_item_array = this.modelbom_data.filter(function (obj) {
-        return (obj.unique_identifer == true) ? obj : ""
+        return (obj.unique_identifer == true || obj.unique_identifer == "Y") ? obj : ""
       });
 
       if (unique_item_array.length == 0) {
@@ -2008,14 +2008,14 @@ onExplodeClick(type) {
 
         temp_model_data[i].type_value = temp_model_data[i].type_value.toString();
 
-        if (this.modelbom_data[i].print_on_report === false) {
+        if (this.modelbom_data[i].print_on_report == false) {
            this.modelbom_data[i].print_on_report = "N"
          }
          else {
            this.modelbom_data[i].print_on_report = "Y"
          }
 
-        if (temp_model_data[i].default === true) {
+        if (temp_model_data[i].default == true || temp_model_data[i].default == "Y") {
           temp_model_data[i].default = "Y"
         }
         else {
@@ -2035,15 +2035,21 @@ onExplodeClick(type) {
             return;
           }
 
-          if (data === "True") {
+          if (data == "True") {
             
             this.CommonService.show_notification(this.language.DataSaved, 'success');
             this.route.navigateByUrl('model-bom/view');
             return;
           }
-          else if (data === "AlreadyExist") {
+          else if (data == "AlreadyExist") {
             
             this.CommonService.show_notification(this.language.DuplicateCode, 'error');
+            return;
+          }
+          else if (JSON.stringify(data).includes("Invalid Selection for Max Selectable for") || 
+                   JSON.stringify(data).includes("invalid Default Selection for")) {
+            //this.toastr.error('', this.language.MoreDefaultThanMaxSelectable, this.commonData.toast_config);
+            this.CommonService.show_notification(JSON.stringify(data), 'error');
             return;
           }
           else {
