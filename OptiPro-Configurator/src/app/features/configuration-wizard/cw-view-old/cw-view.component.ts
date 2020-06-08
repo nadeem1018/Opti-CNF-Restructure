@@ -839,10 +839,10 @@ export class CwViewOldComponent implements OnInit {
         return obj['ACCESSORY'] == "Y";
       });
 
-      if (data.SelectedAccessory !== undefined) {
-        if (data.SelectedAccessory.length > 0) {
+      if (data.SelectedAccessoryHDR !== undefined) {
+        if (data.SelectedAccessoryHDR.length > 0) {
 
-          this.selectedAccessoryHeader = data.SelectedAccessory;
+          this.selectedAccessoryHeader = data.SelectedAccessoryHDR;
           this.getAccessoryData(this.selectedAccessoryHeader);
 
           this.selectedAccessoryBOM = data.SelectedAccessoryBOM;
@@ -5274,7 +5274,7 @@ export class CwViewOldComponent implements OnInit {
                 })
 
 
-                if (indexmatchmodelitemarray.length > 0)
+                if (indexmatchmodelitemarray.length > 0 && imodelData.length > 0)
                   imodelfilteritems.push({
                     DocEntry: matchmodelitemarray[imatchmodel].ItemNumber,
                     OPTM_UNIQUEIDNT: imodelData[0].OPTM_UNIQUEIDNT,
