@@ -2478,13 +2478,8 @@ export class CwViewOldComponent implements OnInit {
                       this.AccessModel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
                         return obj['ACCESSORY'] == "Y";
                       });
-                      if (this.AccessModel != undefined || this.AccessModel != null) {
-  
-                      if(this.selectedAccessoryHeader == undefined || this.selectedAccessoryHeader == null){
-                        this.selectedAccessoryHeader = this.AccessModel;
-                      }else{
-                        this.selectedAccessoryHeader = this.selectedAccessoryHeader.concat(this.AccessModel);
-                      }
+                      if (this.AccessModel.length > 0) {
+                       this.setHeaderAccessoryData(this.AccessModel); 
                       this.getAccessoryData(this.selectedAccessoryHeader)
                       }
   
@@ -2846,13 +2841,8 @@ export class CwViewOldComponent implements OnInit {
                     this.AccessModel = this.ModelBOMDataForSecondLevel.filter(function (obj) {
                       return obj['ACCESSORY'] == "Y";
                     });
-                    if (this.AccessModel != undefined || this.AccessModel != null) {
-
-                    if(this.selectedAccessoryHeader == undefined || this.selectedAccessoryHeader == null){
-                      this.selectedAccessoryHeader = this.AccessModel;
-                    }else{
-                      this.selectedAccessoryHeader = this.selectedAccessoryHeader.concat(this.AccessModel);
-                    }
+                    if (this.AccessModel.length > 0) {
+                    this.setHeaderAccessoryData(this.AccessModel); 
                     this.getAccessoryData(this.selectedAccessoryHeader)
                     }
 
@@ -6084,6 +6074,64 @@ export class CwViewOldComponent implements OnInit {
           OPTM_PARENTMODELID: Accarray[iaccss].OPTM_PARENTMODELID
         });
       }
+
+    }
+  }
+
+
+  setHeaderAccessoryData(AccarrayData) {   
+   
+    var isAccExist;
+    for (let iaccss = 0; iaccss < AccarrayData.length; iaccss++) {      
+      if(this.selectedAccessoryHeader.length > 0) {
+        isAccExist = this.selectedAccessoryHeader.filter(function (obj) {
+          // return obj['OPTM_FEATUREID'] == Accarray[iaccss].OPTM_FEATUREID
+          return obj['unique_key'] == AccarrayData[iaccss].unique_key
+        })        
+  
+        if (isAccExist.length == 0) {
+          this.selectedAccessoryHeader.push({           
+            ListName: "",
+            OPTM_CHILDFEATUREID: parseInt(AccarrayData[iaccss].OPTM_CHILDFEATUREID),
+            OPTM_DEFAULT: AccarrayData[iaccss].OPTM_DEFAULT,
+            OPTM_DISPLAYNAME: AccarrayData[iaccss].OPTM_DISPLAYNAME,
+            OPTM_FEATUREID: AccarrayData[iaccss].OPTM_FEATUREID,
+            OPTM_ITEMKEY: AccarrayData[iaccss].OPTM_ITEMKEY,           
+            OPTM_LINENO: AccarrayData[iaccss].OPTM_LINENO,
+            OPTM_PARENTMODELID: AccarrayData[iaccss].parentmodelid,
+            OPTM_PRICESOURCE: AccarrayData[iaccss].OPTM_PRICESOURCE,
+            OPTM_PROPOGATEQTY: AccarrayData[iaccss].OPTM_PROPOGATEQTY,
+            OPTM_QUANTITY: parseFloat(AccarrayData[iaccss].OPTM_QUANTITY).toFixed(3),
+            OPTM_TYPE: AccarrayData[iaccss].OPTM_TYPE,
+            OPTM_VALUE: AccarrayData[iaccss].OPTM_VALUE,
+            unique_key: AccarrayData[iaccss].unique_key,
+            nodeid: AccarrayData[iaccss].nodeid,
+            sort_key: AccarrayData[iaccss].sort_key            
+          });
+        }
+
+      } else {
+
+        this.selectedAccessoryHeader.push({
+          ListName: "",
+          OPTM_CHILDFEATUREID: parseInt(AccarrayData[iaccss].OPTM_CHILDFEATUREID),
+          OPTM_DEFAULT: AccarrayData[iaccss].OPTM_DEFAULT,
+          OPTM_DISPLAYNAME: AccarrayData[iaccss].OPTM_DISPLAYNAME,
+          OPTM_FEATUREID: AccarrayData[iaccss].OPTM_FEATUREID,
+          OPTM_ITEMKEY: AccarrayData[iaccss].OPTM_ITEMKEY,           
+          OPTM_LINENO: AccarrayData[iaccss].OPTM_LINENO,
+          OPTM_PARENTMODELID: AccarrayData[iaccss].parentmodelid,
+          OPTM_PRICESOURCE: AccarrayData[iaccss].OPTM_PRICESOURCE,
+          OPTM_PROPOGATEQTY: AccarrayData[iaccss].OPTM_PROPOGATEQTY,
+          OPTM_QUANTITY: parseFloat(AccarrayData[iaccss].OPTM_QUANTITY).toFixed(3),
+          OPTM_TYPE: AccarrayData[iaccss].OPTM_TYPE,
+          OPTM_VALUE: AccarrayData[iaccss].OPTM_VALUE,
+          unique_key: AccarrayData[iaccss].unique_key,
+          nodeid: AccarrayData[iaccss].nodeid,
+          sort_key: AccarrayData[iaccss].sort_key  
+        });
+
+      }    
 
     }
   }
