@@ -2061,16 +2061,10 @@ export class CwViewOldComponent implements OnInit {
       var isExistFeatureInModel = [];
       
       if (feature_model_data.OPTM_FEATUREID != '0' && feature_model_data.OPTM_FEATUREID != "" && parentarray[0].OPTM_TYPE == 1) {
-        if (feature_model_data.OPTM_TYPE == 2 || feature_model_data.OPTM_TYPE == 1) {
           isExistForItemMax = this.feature_itm_list_table.filter(function (obj) {
             return  obj.nodeid == feature_model_data.nodeid;
-          })
-        }
-
-        // isExistForFeatureMax = this.ModelHeaderData.filter(function (obj) {
-        //   return obj['parentfeatureid'] == feature_model_data.OPTM_FEATUREID && obj['unique_key'] == feature_model_data.nodeid
-        // })
-      }
+          })     
+          }
 
       isExistForValue = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
         return obj['OPTM_FEATUREID'] == feature_model_data.OPTM_FEATUREID && obj['OPTM_TYPE'] == 3 && obj['checked'] == true && obj.nodeid == feature_model_data.nodeid;
@@ -3317,17 +3311,23 @@ export class CwViewOldComponent implements OnInit {
         } else {
           input_type = 'radio';
         }
-        let temp_feature_code;
-        if (tempparentarray.length == 0) {
-          temp_feature_code = '';
-        } else {
-         temp_feature_code = tempparentarray[0].feature_code;  
-        }
+        let temp_feature_code;       
         propagateqty=1;
         propagateqty = propagateqty * this.getPropagateQuantity(tempparentarray[0].nodeid);
-        if(DataForSelectedFeatureModelItem.OPTM_TYPE == "3"){       
+        if(DataForSelectedFeatureModelItem.OPTM_TYPE == "3"){  
+          if(itemData[0].feature_code == undefined || itemData[0].feature_code == null || itemData[0].feature_code == "" ){
+            temp_feature_code = tempparentarray[0].child_code; 
+          } else {
+            temp_feature_code = itemData[0].feature_code;
+          }
+          
          this.setItemDataForFeature(itemData, tempparentarray, propagateqtychecked, propagateqty, temp_feature_code, tempparentarray[0].OPTM_LINENO, DataForSelectedFeatureModelItem.OPTM_TYPE, input_type, false, DataForSelectedFeatureModelItem);
         } if(DataForSelectedFeatureModelItem.OPTM_TYPE == "1"){
+          if(itemData[0].feature_code == undefined || itemData[0].feature_code == null || itemData[0].feature_code == "" ){
+            temp_feature_code = tempparentarray[0].feature_code; 
+          } else {
+            temp_feature_code = itemData[0].feature_code;
+          }
           this.setItemDataForFeature(itemData, tempparentarray, propagateqtychecked, propagateqty, temp_feature_code, tempparentarray[0].HEADER_LINENO, dtModelDataWithDefaultChild[idtfeature].OPTM_TYPE, input_type, false, "");
         }
 
@@ -6081,7 +6081,7 @@ export class CwViewOldComponent implements OnInit {
           unique_key: Accarray[iaccss].unique_key,
           nodeid: Accarray[iaccss].nodeid,
           sort_key: Accarray[iaccss].sort_key,
-          parentmodelid: Accarray[iaccss].OPTM_PARENTMODELID
+          OPTM_PARENTMODELID: Accarray[iaccss].OPTM_PARENTMODELID
         });
       }
 
@@ -6822,6 +6822,7 @@ export class CwViewOldComponent implements OnInit {
       let unqiue_key: any;
       let nodeid: any;
       let originalQuantity: any = "";
+      let feature_name: any = "";
       console.log("saved_data_for_output_dtl ", saved_data_for_output_dtl);
       if (get_saved_data.length == 0) {
         DefaultData[idefault].OPTM_QUANTITY = parseFloat(DefaultData[idefault].OPTM_QUANTITY).toFixed(3)
@@ -6842,11 +6843,18 @@ export class CwViewOldComponent implements OnInit {
         nodeid = get_saved_data[0].NODEID;
       }
 
+      if(DefaultData[idefault].parent_code == undefined || 
+        DefaultData[idefault].parent_code == null || DefaultData[idefault].parent_code == ""){
+        feature_name = DefaultData[idefault].feature_code;
+      }else{
+        feature_name = DefaultData[idefault].parent_code;
+      }
+
 
       if (isExist.length == 0) {
         this.feature_itm_list_table.push({
           FeatureId: DefaultData[idefault].OPTM_FEATUREID,
-          featureName: DefaultData[idefault].parent_code,
+          featureName: feature_name,
           Item: DefaultData[idefault].OPTM_ITEMKEY,
           discount: 0,
           ItemNumber: DefaultData[idefault].DocEntry,

@@ -888,9 +888,9 @@
                                                         {{this.language.action}}
                                                     </ng-template>
                                                     <ng-template kendoGridCellTemplate let-row>
-                                                        <button type="button" class="btn btn-sm btn-icon btn-info mr-2" (click)="step4_edit_model(row)" title="{{language.edit_this_modal}}">
+                                                        <!-- <button type="button" class="btn btn-sm btn-icon btn-info mr-2" (click)="step4_edit_model(row)" title="{{language.edit_this_modal}}">
                                                             <svg class="icon" viewBox="0 0 383.947 383.947"><use xlink:href="#editAlt"></use></svg>
-                                                        </button>
+                                                        </button> -->
                                                         <button type="button" class="btn btn-sm btn-icon btn-danger" (click)="remove_final_modal(row)" title="{{language.remove_this_modal}}">
                                                             <svg class="icon" viewBox="0 0 192 192"><use xlink:href="#binAlt"></use></svg>
                                                         </button>
@@ -900,8 +900,8 @@
                                                 <kendo-grid class="opti_screen4-detail-row opti_screen4-detail-row-btm" [data]="getFeatureHasAccesory(dataItem.feature)"
                                                     [selectable]="false" [resizable]="true">
                                                     <kendo-grid-messages noRecords="{{this.language.no_accessory_selected}}"> </kendo-grid-messages>
-                                                    <kendo-grid-column class="k-hierarchy-cell k-header" field="rowIndex" title="rowIndex" [width]="31"
-                                                    [minResizableWidth]="31"></kendo-grid-column>
+                                                    <!-- <kendo-grid-column class="k-hierarchy-cell k-header" field="rowIndex" title="rowIndex" [width]="31"
+                                                    [minResizableWidth]="31"></kendo-grid-column> -->
                                                     <kendo-grid-column field="sl_no" title="{{this.language.serial}}" [width]="50"
                                                     [minResizableWidth]="50">
                                                     <ng-template kendoGridCellTemplate let-childDataItem let-row let-rowIndex="rowIndex">
