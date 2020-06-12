@@ -6974,7 +6974,7 @@ export class CwViewOldComponent implements OnInit {
                   let this1 = this
                   this1.FeatureBOMDataForSecondLevel[iItemFeatureTable].disable = true
                   let currentFeatureBomData = this1.FeatureBOMDataForSecondLevel[iItemFeatureTable]
-                   this.removefeaturesanditemsinrule(currentFeatureBomData.nodeid)                                   
+                   this.removefeaturesanditemsinrule(currentFeatureBomData.unique_key)                                   
                   this1.FeatureBOMDataForSecondLevel[iItemFeatureTable].checked = false
                 }
                 else {
@@ -7015,7 +7015,7 @@ export class CwViewOldComponent implements OnInit {
                       if (this.FeatureBOMDataForSecondLevel[iItemFeatureTable].OPTM_DEFAULT == "Y" && this.FeatureBOMDataForSecondLevel[iItemFeatureTable].checked == true && !this.FeatureBOMDataForSecondLevel[iItemFeatureTable].isManuallyChecked) {
                         this.FeatureBOMDataForSecondLevel[iItemFeatureTable].checked = false;
                         let currentFeatureBomData = this.FeatureBOMDataForSecondLevel[iItemFeatureTable]
-                        this.removefeaturesanditemsinrule(currentFeatureBomData.nodeid)
+                        this.removefeaturesanditemsinrule(currentFeatureBomData.unique_key)
                       }
                       break loopRule;
                     }
@@ -7243,7 +7243,7 @@ export class CwViewOldComponent implements OnInit {
                   this.ModelBOMDataForSecondLevel[iModelItemTable].disable = true
                   this.ModelBOMDataForSecondLevel[iModelItemTable].checked = false
                   let currentFeatureBomData =  this.ModelBOMDataForSecondLevel[iModelItemTable];
-                  this.removefeaturesanditemsinrule(currentFeatureBomData.nodeid);                  
+                  this.removefeaturesanditemsinrule(currentFeatureBomData.unique_key);                  
                 }
                 else {
                   this.ModelBOMDataForSecondLevel[iModelItemTable].disable = false
@@ -7282,7 +7282,7 @@ export class CwViewOldComponent implements OnInit {
                       if ( this.ModelBOMDataForSecondLevel[iModelItemTable].OPTM_DEFAULT == "Y" &&  this.ModelBOMDataForSecondLevel[iModelItemTable].checked == true && ! this.ModelBOMDataForSecondLevel[iModelItemTable].isManuallyChecked) {
                          this.ModelBOMDataForSecondLevel[iModelItemTable].checked = false;
                          let currentFeatureBomData =  this.ModelBOMDataForSecondLevel[iModelItemTable];
-                         this.removefeaturesanditemsinrule(currentFeatureBomData.nodeid); 
+                         this.removefeaturesanditemsinrule(currentFeatureBomData.unique_key); 
                       }
                       break loopRule;
                     }
@@ -8248,18 +8248,18 @@ export class CwViewOldComponent implements OnInit {
     }
     return false
   }
-  removefeaturesanditemsinrule(remove_nodeid)  {
+  removefeaturesanditemsinrule(remove_unique)  {
     var tempfeatureidmodelheader;
     var tempparentfeatureidmodelheader;
     var tempchildfeatureidmodelheader;
     var tempchildfeatunique_key;
-    var tempchildfeaturenodeid;
+    var tempchildfeatureuniquekey;
     var itemkey;
     var tempfeatureidforfeaturebom;
     var tempNodeId;
     var removeitemrightgrid = true;
     for (var itemp = 0; itemp < this.ModelHeaderData.length; itemp++) {
-      if (this.ModelHeaderData[itemp].nodeid == remove_nodeid) {
+      if (this.ModelHeaderData[itemp].unique_key == remove_unique) {
         tempfeatureidmodelheader = this.ModelHeaderData[itemp].OPTM_FEATUREID
         tempchildfeatunique_key = this.ModelHeaderData[itemp].unique_key
         removeitemrightgrid =false;
@@ -8270,10 +8270,10 @@ export class CwViewOldComponent implements OnInit {
           if (this.FeatureBOMDataForSecondLevel[itemp2].nodeid == tempchildfeatunique_key) {
             if (this.FeatureBOMDataForSecondLevel[itemp2].OPTM_TYPE == "1") {
               tempchildfeatureidmodelheader = this.FeatureBOMDataForSecondLevel[itemp2].OPTM_FEATUREID
-              tempchildfeaturenodeid = this.FeatureBOMDataForSecondLevel[itemp2].nodeid
+              tempchildfeatureuniquekey = this.FeatureBOMDataForSecondLevel[itemp2].unique_key
               this.FeatureBOMDataForSecondLevel.splice(itemp2, 1)
               itemp2 = itemp2 - 1
-              this.removefeaturesanditemsinrule(tempchildfeaturenodeid)
+              this.removefeaturesanditemsinrule(tempchildfeatureuniquekey)
             }
             else if (this.FeatureBOMDataForSecondLevel[itemp2].OPTM_TYPE == "2") {
               tempfeatureidforfeaturebom = this.FeatureBOMDataForSecondLevel[itemp2].OPTM_FEATUREID
@@ -8323,7 +8323,7 @@ export class CwViewOldComponent implements OnInit {
               }
             }
             if(tempType != 2){
-            this.removefeaturesanditemsinrule(tempNodeId)
+            this.removefeaturesanditemsinrule(tempUniqueKey)
             }
           }
         } 
