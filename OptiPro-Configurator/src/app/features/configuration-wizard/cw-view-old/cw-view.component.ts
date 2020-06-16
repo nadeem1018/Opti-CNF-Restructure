@@ -2929,8 +2929,28 @@ export class CwViewOldComponent implements OnInit {
 
             }//end data length
 
-            if (data.RuleOutputData.length > 0) {
-              this.RuleIntegration(data.RuleOutputData, value, feature_model_data, isRuleComing);
+            if (data.RuleOutputData.length > 0) { 
+              let ruledata = [];              
+                for(var element in data.RuleOutputData ) {  
+                let isExist = this.feature_itm_list_table.filter(function (obj) {
+                     return obj.ModelId == data.RuleOutputData[element].OPTM_MODELID
+                   });   
+                   if(isExist.length > 0){
+                    ruledata.push(data.RuleOutputData[element]);
+                    }else {
+                      if(this.MainModelDetails[0].OPTM_MODELID == data.RuleOutputData[element].OPTM_MODELID ){
+                        ruledata.push(data.RuleOutputData[element]);
+                      }
+                     
+                    }           
+                 
+               }
+              if(ruledata.length >0){
+                this.RuleIntegration(ruledata, value, feature_model_data, isRuleComing);
+              }
+              
+
+             
             } 
             else {
               this.enableFeatureModelsItems();
@@ -2975,8 +2995,26 @@ export class CwViewOldComponent implements OnInit {
               }
             }
             this.enableFeatureModelsItems1();
-            if (data.RuleOutputData.length > 0) {
-            this.RuleIntegration(data.RuleOutputData, value, feature_model_data, isRuleComing);
+            if (data.RuleOutputData.length > 0) {              
+                let ruledata = [];              
+                  for(var element in data.RuleOutputData ) {  
+                  let isExist = this.feature_itm_list_table.filter(function (obj) {
+                       return obj.ModelId == data.RuleOutputData[element].OPTM_MODELID
+                     });   
+                     if(isExist.length > 0){
+                      ruledata.push(data.RuleOutputData[element]);
+                      }else {
+                        if(this.MainModelDetails[0].OPTM_MODELID == data.RuleOutputData[element].OPTM_MODELID ){
+                          ruledata.push(data.RuleOutputData[element]);
+                        }
+                       
+                      }           
+                   
+                 }
+              if(ruledata.length > 0){
+                this.RuleIntegration(data.RuleOutputData, value, feature_model_data, isRuleComing);
+              }
+           
             }
             this.RuleOutputData = data.RuleOutputData;
             this.feature_price_calculate();
@@ -3145,6 +3183,8 @@ export class CwViewOldComponent implements OnInit {
       this.ModelHeaderData.push({
         ACCESSORY: DataForSelectedFeatureModelItem.ACCESSORY,
         IMAGEPATH: DataForSelectedFeatureModelItem.IMAGEPATH,
+        ITEMCODEGENREF: DataForSelectedFeatureModelItem.ITEMCODEGENREF,
+        MODELTEMPLATEITEM: DataForSelectedFeatureModelItem.MODELTEMPLATEITEM,
         OPTM_CHILDMODELID: DataForSelectedFeatureModelItem.OPTM_CHILDMODELID,
         OPTM_COMPANYID: DataForSelectedFeatureModelItem.OPTM_COMPANYID,
         OPTM_CREATEDATETIME: DataForSelectedFeatureModelItem.OPTM_CREATEDATETIME,
