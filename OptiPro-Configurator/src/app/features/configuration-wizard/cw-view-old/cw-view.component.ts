@@ -664,12 +664,13 @@ export class CwViewOldComponent implements OnInit {
                 this.step2_data.templateid = data[isavedmultimodel].AddedModelHeaderData[0].OPTM_MODELTEMPLATEITEM
                 this.step2_data.itemcodegenkey = data[isavedmultimodel].AddedModelHeaderData[0].OPTM_ITEMCODEGENREF
                 this.GetAllDataForSavedMultiModelBomOutput(data[isavedmultimodel], saveddata);
-                if (this.isDuplicate) {
-                  this.step3_data_final = [];
-                  this.add_fg_multiple_model("");
-                } else {
-                  this.add_fg_multiple_model("");
-                }
+                // if (this.isDuplicate) {
+                //   this.step3_data_final = [];
+                //   this.add_fg_multiple_model("");
+                // } else {
+                //   this.add_fg_multiple_model("");
+                // }
+                this.add_fg_multiple_model("");
                 this.showLookupLoader = false;
               }
               if (this.step1_data.main_operation_type == "3") {
@@ -1967,11 +1968,12 @@ export class CwViewOldComponent implements OnInit {
 
     parentmodelid = 0;
     if ((feature_model_data.OPTM_MODELID != undefined && feature_model_data.OPTM_MODELID != null && feature_model_data.OPTM_MODELID != 0)) {
-      parentmodelid = feature_model_data.parentmodelid;
+      parentmodelid = feature_model_data.OPTM_MODELID;
       if (parentmodelid != this.step2_data.model_id) {
         featureid = parentfeatureid
         feature_model_data.OPTM_CHILDFEATUREID = featureid
       }
+      parentmodelid  = feature_model_data.parentmodelid;
     } else if ((feature_model_data.parentmodelid != undefined && feature_model_data.parentmodelid != null)) {
       parentmodelid = feature_model_data.parentmodelid;
     } else {
@@ -3346,13 +3348,12 @@ export class CwViewOldComponent implements OnInit {
         let temp_feature_code;       
         propagateqty=1;
         propagateqty = propagateqty * this.getPropagateQuantity(tempparentarray[0].nodeid);
-        if(DataForSelectedFeatureModelItem.OPTM_TYPE == "3"){  
-          if(itemData[0].feature_code == undefined || itemData[0].feature_code == null || itemData[0].feature_code == "" ){
-            temp_feature_code = tempparentarray[0].child_code; 
-          } else {
-            temp_feature_code = itemData[0].feature_code;
-          }
-          
+        if(DataForSelectedFeatureModelItem.OPTM_TYPE == "3"){ 
+         if(itemData[0].OPTM_TYPE == "2"){  
+         temp_feature_code = itemData[0].feature_code; 
+         }else{
+         temp_feature_code = tempparentarray[0].feature_code;   
+         }          
          this.setItemDataForFeature(itemData, tempparentarray, propagateqtychecked, propagateqty, temp_feature_code, tempparentarray[0].OPTM_LINENO, DataForSelectedFeatureModelItem.OPTM_TYPE, input_type, false, DataForSelectedFeatureModelItem);
         } if(DataForSelectedFeatureModelItem.OPTM_TYPE == "1"){
           if(itemData[0].feature_code == undefined || itemData[0].feature_code == null || itemData[0].feature_code == "" ){
