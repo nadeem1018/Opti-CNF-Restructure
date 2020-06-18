@@ -1967,7 +1967,7 @@ export class CwViewOldComponent implements OnInit {
 
     parentmodelid = 0;
     if ((feature_model_data.OPTM_MODELID != undefined && feature_model_data.OPTM_MODELID != null && feature_model_data.OPTM_MODELID != 0)) {
-      parentmodelid = feature_model_data.OPTM_MODELID;
+      parentmodelid = feature_model_data.parentmodelid;
       if (parentmodelid != this.step2_data.model_id) {
         featureid = parentfeatureid
         feature_model_data.OPTM_CHILDFEATUREID = featureid
@@ -2472,20 +2472,7 @@ export class CwViewOldComponent implements OnInit {
                           isRuleApplied: false,
                           sort_key: DataForSelectedFeatureModelItem[i].sort_key
                         });
-                      }
-
-                      this.AccessModel = [];
-                      this.AccessModel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-                        return obj['ACCESSORY'] == "Y";
-                      });
-                      if (this.AccessModel.length > 0) {
-                       this.setHeaderAccessoryData(this.AccessModel); 
-                      this.getAccessoryData(this.selectedAccessoryHeader)
-                      }
-  
-                      this.FeatureBOMDataForSecondLevel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-                        return obj['ACCESSORY'] != "Y"
-                      });
+                      }                     
 
                       let itemsData = [];
                       let isValue: boolean = false
@@ -2670,6 +2657,19 @@ export class CwViewOldComponent implements OnInit {
                     }
                   }
 
+                  this.AccessModel = [];
+                  this.AccessModel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+                    return obj['ACCESSORY'] == "Y";
+                  });
+                  if (this.AccessModel.length > 0) {
+                   this.setHeaderAccessoryData(this.AccessModel); 
+                  this.getAccessoryData(this.selectedAccessoryHeader)
+                  }
+
+                  this.FeatureBOMDataForSecondLevel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+                    return obj['ACCESSORY'] != "Y"
+                  });
+
                   if(data.AccessoryBOM != undefined){
                     if (this.selectedAccessoryBOM == undefined || this.selectedAccessoryBOM == null) {                 
                       this.selectedAccessoryBOM = data.AccessoryBOM;
@@ -2763,7 +2763,7 @@ export class CwViewOldComponent implements OnInit {
                         var psModelelement_class = "custom-control custom-radio"
                         var psModelelement_type = "radio"
                 
-                        if (DataForSelectedFeatureModelItem[i].OPTM_ISMULTISELECT == "Y") {
+                     //   if (DataForSelectedFeatureModelItem[i].OPTM_ISMULTISELECT == "Y") {
                           if(DataForSelectedFeatureModelItem[i].OPTM_MAX_SELECTABLE == undefined){
                             psModelMax = DataForSelectedFeatureModelItem[i].OPTM_MAXSELECTABLE
                           }else {
@@ -2780,7 +2780,7 @@ export class CwViewOldComponent implements OnInit {
                             psModelelement_type = "checkbox"
                             elementtypeforcheckedfunction = "checkbox"
                           }
-                        }                       
+                       // }                       
                         if (DataForSelectedFeatureModelItem[i].OPTM_DEFAULT == "Y" && DataForSelectedFeatureModelItem[i].OPTM_TYPE != 2 ) {
                           checkeddefault = true
                         }
@@ -2823,7 +2823,7 @@ export class CwViewOldComponent implements OnInit {
                           element_type: psModelelement_type,
                           parentfeatureid: parentfeatureid,
                           checked: checkeddefault,
-                          parentmodelid: DataForSelectedFeatureModelItem[i].parent_modelid,
+                          parentmodelid: parentmodelid,
                           HEADER_LINENO: parentarray[0].OPTM_LINENO,
                           random_unique_key: this.commonData.random_string(50),
                           nodeid: DataForSelectedFeatureModelItem[i].nodeid,
@@ -2837,18 +2837,7 @@ export class CwViewOldComponent implements OnInit {
                       }
                     }
 
-                    this.AccessModel = [];
-                    this.AccessModel = this.ModelBOMDataForSecondLevel.filter(function (obj) {
-                      return obj['ACCESSORY'] == "Y";
-                    });
-                    if (this.AccessModel.length > 0) {
-                    this.setHeaderAccessoryData(this.AccessModel); 
-                    this.getAccessoryData(this.selectedAccessoryHeader)
-                    }
-
-                    this.ModelBOMDataForSecondLevel = this.ModelBOMDataForSecondLevel.filter(function (obj) {
-                      return obj['ACCESSORY'] != "Y"
-                    });                   
+                                     
 
                     // this.ModelBOMDataForSecondLevel.filter(function (obj) {
                     //   if (obj.nodeid == data.DataForSelectedFeatureModelItem[i].nodeid) {
@@ -2887,13 +2876,26 @@ export class CwViewOldComponent implements OnInit {
                         })
                         this.console.log('dtFeatureDataWithDefault:', dtFeatureDataWithDefault);
 
-                        this.setDtModuleDataWithDefault(dtFeatureDataWithDefault, DataForSelectedFeatureModelItem[i], feature_model_data, propagateqtychecked, data)
+                        this.setDtModuleDataWithDefault(dtFeatureDataWithDefault, DataForSelectedFeatureModelItem[i], feature_model_data, propagateqtychecked, data, parentmodelid)
                       }
 
                     }
 
 
                   }
+
+                  this.AccessModel = [];
+                  this.AccessModel = this.ModelBOMDataForSecondLevel.filter(function (obj) {
+                    return obj['ACCESSORY'] == "Y";
+                  });
+                  if (this.AccessModel.length > 0) {
+                  this.setHeaderAccessoryData(this.AccessModel); 
+                  this.getAccessoryData(this.selectedAccessoryHeader)
+                  }
+
+                  this.ModelBOMDataForSecondLevel = this.ModelBOMDataForSecondLevel.filter(function (obj) {
+                    return obj['ACCESSORY'] != "Y"
+                  }); 
                   if(data.AccessoryBOM != undefined){
                   if (this.selectedAccessoryBOM == undefined || this.selectedAccessoryBOM == null) {                 
                     this.selectedAccessoryBOM = data.AccessoryBOM;
@@ -3134,7 +3136,7 @@ export class CwViewOldComponent implements OnInit {
     }
   }
 
-  setDtModuleDataWithDefault(dtModelDataWithDefaultChild, DataForSelectedFeatureModelItem, feature_model_data, propagateqtychecked, data ) {
+  setDtModuleDataWithDefault(dtModelDataWithDefaultChild, DataForSelectedFeatureModelItem, feature_model_data, propagateqtychecked, data, parentmodelid) {
    
     isExist = this.ModelHeaderData.filter(function (obj) {
       return  obj['unique_key'] == DataForSelectedFeatureModelItem.unique_key;
@@ -3211,7 +3213,7 @@ export class CwViewOldComponent implements OnInit {
         element_type: pselementtype,
         feature_code: DataForSelectedFeatureModelItem.feature_code,
         parentfeatureid: DataForSelectedFeatureModelItem.OPTM_FEATUREID,
-        parentmodelid: DataForSelectedFeatureModelItem.parent_modelid,
+        parentmodelid: parentmodelid,
         OPTM_LEVEL: feature_model_data.OPTM_LEVEL,
         is_second_level: 1,
         nodeid: DataForSelectedFeatureModelItem.nodeid,
@@ -3307,7 +3309,7 @@ export class CwViewOldComponent implements OnInit {
           element_type: psModelelement_type,
           checked: checkeddefault,
           parentfeatureid: DataForSelectedFeatureModelItem.OPTM_CHILDFEATUREID,
-          parentmodelid: dtModelDataWithDefaultChild[idtfeature].parent_modelid,
+          parentmodelid: parentmodelid,
           HEADER_LINENO: this.ModelHeaderData.length + 1,
           random_unique_key: this.commonData.random_string(50),
           nodeid: dtModelDataWithDefaultChild[idtfeature].nodeid,
@@ -3382,7 +3384,7 @@ export class CwViewOldComponent implements OnInit {
         })
 
         if (childItemsAddedModelHeaderData.length > 0) {
-          this.setDtModuleDataWithDefault(childItemsAddedModelHeaderData, checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid], feature_model_data, propagateqtychecked, data)
+          this.setDtModuleDataWithDefault(childItemsAddedModelHeaderData, checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid], feature_model_data, propagateqtychecked, data, parentmodelid)
         }
 
       }
