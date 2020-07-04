@@ -1188,8 +1188,8 @@ export class CwViewOldComponent implements OnInit {
               })
             }
 
-            if (modelheaderpropagatechecked.length > 0) {
-              if (modelheaderpropagatechecked[0].OPTM_PROPOGATEQTY == "Y") {
+            if (modelheaderpropagatechecked.length > 0) { 
+              if (modelheaderpropagatechecked[0].OPTM_PROPOGATEQTY == "Y") {           
                 if (modelheaderpropagatechecked[0].OPTM_TYPE == "1") {
                   var itemkey = this.feature_itm_list_table[i].Item
                   var featurepropagatecheck = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
@@ -1204,7 +1204,7 @@ export class CwViewOldComponent implements OnInit {
                     if (featurepropagatecheck[0].OPTM_PROPOGATEQTY == "Y") {
                       // this.feature_itm_list_table[i].quantity = this.step2_data.quantity
                       this.feature_itm_list_table[i].quantity = ((this.step2_data.quantity) * Number(this.feature_itm_list_table[i].progateqty));
-                    }
+                     } 
                   }
                 }
                 else if (modelheaderpropagatechecked[0].OPTM_TYPE == "2") {
@@ -1226,7 +1226,7 @@ export class CwViewOldComponent implements OnInit {
                  }
                  }
 
-              }
+                }
 
             }
           }
@@ -2227,10 +2227,10 @@ export class CwViewOldComponent implements OnInit {
               }
               if (parentarray[0].element_type == "radio" && isRuleComing == false) {
 
-                if (parentfeatureid != "" || parentarray[0].OPTM_TYPE == 1) {
+                if (parentarray[0].OPTM_TYPE == 1) {
                   this.removefeaturesanditems(parentfeatureid, feature_model_data.nodeid)
                 }
-                else if (parentmodelid != "" || parentarray[0].OPTM_TYPE == 3) {
+                else if (parentarray[0].OPTM_TYPE == 3) {
                   for (let imodelheader = 0; imodelheader < this.ModelHeaderData.length; imodelheader++) {
                     if (this.ModelHeaderData[imodelheader].parentmodelid != undefined) {
                       let nodeid = feature_model_data.nodeid;
@@ -2590,8 +2590,10 @@ export class CwViewOldComponent implements OnInit {
                             itemData.push(DataForSelectedFeatureModelItem[i])
                             if (parentarray[0].OPTM_ISMULTISELECT == "N") {
                               parentarray[0].element_type = "radio"
+                              parentArrayElemType  = "radio"
                             } else {
                               parentarray[0].element_type = "checkbox"
+                              parentArrayElemType  = "checkbox"
                             }
 
                             propagateqty = propagateqty * this.getPropagateQuantity(parentarray[0].nodeid);
@@ -2902,9 +2904,11 @@ export class CwViewOldComponent implements OnInit {
                     let propagateQtyForitem = 1;
                     if (data.DataForSelectedFeatureModelItem[i].OPTM_TYPE != 2) {
                       propagateqty = propagateqty * this.getPropagateQuantity(parentarray[0].unique_key);
+                      propagateqtychecked = "Y";
                     } else {
                       if (data.DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY == "Y") {
                         propagateQtyForitem = propagateQtyForitem * this.getPropagateQuantity(DataForSelectedFeatureModelItem[i].nodeid);
+                        propagateqtychecked = "Y";
                       }
                     }
 
@@ -3436,6 +3440,11 @@ export class CwViewOldComponent implements OnInit {
         let temp_feature_code;       
         propagateqty=1;
         propagateqty = propagateqty * this.getPropagateQuantity(tempparentarray[0].nodeid);
+        if (itemData[0].OPTM_PROPOGATEQTY == "Y") {         
+          propagateqtychecked = "Y";
+        } else {
+          propagateqtychecked = "N";
+        }
         if(DataForSelectedFeatureModelItem.OPTM_TYPE == "3"){ 
          if(itemData[0].OPTM_TYPE == "2"){  
          temp_feature_code = itemData[0].feature_code; 
@@ -3836,7 +3845,7 @@ export class CwViewOldComponent implements OnInit {
     if (ItemData.length > 0) {
       if (parentArrayElemType == "radio") {
         if (parentarray[0].OPTM_TYPE == 1 && type == 1) {
-          this.remove_all_features_child(parentarray[0].nodeid, parentarray,featureModelData);
+          this.remove_all_features_child(parentarray[0].unique_key, parentarray,featureModelData);
           this.removeAllSubmodelChild(parentarray[0].unique_key, featureModelData, false);
         } else if (parentarray[0].OPTM_TYPE == 1 && type == 2) {
           this.remove_all_features_child(parentarray[0].unique_key, parentarray,"");
@@ -3931,7 +3940,7 @@ export class CwViewOldComponent implements OnInit {
       }
       else {
         ItemData[0].OPTM_QUANTITY = parseFloat(ItemData[0].OPTM_QUANTITY).toFixed(3)
-        formatequantity = ItemData[0].OPTM_QUANTITY * propagateqty * this.step2_data.quantity
+        formatequantity = ItemData[0].OPTM_QUANTITY * propagateqty
       }
 
       var priceextn: any = formatequantity * ItemData[0].Price
@@ -4313,15 +4322,15 @@ export class CwViewOldComponent implements OnInit {
           "OPTM_BILLADD": this.step1_data.bill_to_address,
           "OPTM_SHIPADD": this.step1_data.ship_to_address,
           "OPTM_POSTINGDATE": this.step1_data.posting_date,
-          "OPTM_GRANDTOTAL": Number(this.step3_data_final[iHdrCount].discounted_price) + 
-                             Number(this.step3_data_final[iHdrCount].accesory_final_price),
-          "OPTM_PRODTOTAL": Number(this.step3_data_final[iHdrCount].price_ext),
-          "OPTM_TOTALBEFOREDIS": Number(this.step3_data_final[iHdrCount].price),
-          "OPTM_PRODDISCOUNT": Number(this.step3_data_final[iHdrCount].feature_discount_percent),
-          "OPTM_ACCESSORYDIS": this.step3_data_final[iHdrCount].accessory_discount_percent,
-          "OPTM_ACCESSORYTOTAL": Number(this.step3_data_final[iHdrCount].accessory_total_before_dis),
-          "OPTM_TOTALDISCOUNT": Number(this.step3_data_final[iHdrCount].discount_amount) + 
-                                Number(this.step3_data_final[iHdrCount].accessory_discount_amount),
+          "OPTM_GRANDTOTAL": (parseFloat(this.step3_data_final[iHdrCount].discounted_price) + 
+                             parseFloat(this.step3_data_final[iHdrCount].accesory_final_price)).toFixed(3),
+          "OPTM_PRODTOTAL": parseFloat(this.step3_data_final[iHdrCount].price_ext).toFixed(3),
+          "OPTM_TOTALBEFOREDIS": parseFloat(this.step3_data_final[iHdrCount].price).toFixed(3),
+          "OPTM_PRODDISCOUNT": parseFloat(this.step3_data_final[iHdrCount].feature_discount_percent).toFixed(3),
+          "OPTM_ACCESSORYDIS": parseFloat(this.step3_data_final[iHdrCount].accessory_discount_percent).toFixed(3),
+          "OPTM_ACCESSORYTOTAL": parseFloat(this.step3_data_final[iHdrCount].accessory_total_before_dis).toFixed(3),
+          "OPTM_TOTALDISCOUNT": (parseFloat(this.step3_data_final[iHdrCount].discount_amount) + 
+                                parseFloat(this.step3_data_final[iHdrCount].accessory_discount_amount)).toFixed(3),
           "model_index": iHdrCount,
         })
       }
@@ -4349,13 +4358,13 @@ export class CwViewOldComponent implements OnInit {
         "OPTM_BILLADD": this.step1_data.bill_to_address,
         "OPTM_SHIPADD": this.step1_data.ship_to_address,
         "OPTM_POSTINGDATE": this.step1_data.posting_date,
-        "OPTM_GRANDTOTAL": 0,
-        "OPTM_PRODTOTAL": 0,
-        "OPTM_TOTALBEFOREDIS": 0,
-        "OPTM_PRODDISCOUNT": 0,
-        "OPTM_ACCESSORYDIS": "0",
-        "OPTM_ACCESSORYTOTAL": "0",
-        "OPTM_TOTALDISCOUNT": "0",
+        "OPTM_GRANDTOTAL": 0.000,
+        "OPTM_PRODTOTAL": 0.000,
+        "OPTM_TOTALBEFOREDIS": 0.000,
+        "OPTM_PRODDISCOUNT": 0.000,
+        "OPTM_ACCESSORYDIS": 0.000,
+        "OPTM_ACCESSORYTOTAL": 0.000,
+        "OPTM_TOTALDISCOUNT": 0.000,
       });
     }
 
@@ -7601,25 +7610,25 @@ export class CwViewOldComponent implements OnInit {
                       var featurepropagatecheck = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
                         return obj['OPTM_ITEMKEY'] == itemkey && obj['nodeid'] == nodeId
                       })
-                      if (featurepropagatecheck.length > 0) {
-                        if (featurepropagatecheck[0].OPTM_PROPOGATEQTY == "Y") {
-                          propagateQuantity = this.getPropagateQuantity(tempnodeId);
-                          if (propagateQuantity > 1) {
-                            this.feature_itm_list_table[iFeatureItemaddedTable].quantity = (RuleOutputData[iItemRule].OPTM_QUANTITY * propagateQuantity)
-                          } else {
-                            this.feature_itm_list_table[iFeatureItemaddedTable].quantity = (RuleOutputData[iItemRule].OPTM_QUANTITY * this.step2_data.quantity)
-                          }
-                        }
-                      }
+                      // if (featurepropagatecheck.length > 0) {
+                      //   if (featurepropagatecheck[0].OPTM_PROPOGATEQTY == "Y") {
+                      //     propagateQuantity = this.getPropagateQuantity(tempnodeId);
+                      //     if (propagateQuantity > 1) {
+                      //       this.feature_itm_list_table[iFeatureItemaddedTable].quantity = (RuleOutputData[iItemRule].OPTM_QUANTITY * propagateQuantity)
+                      //     } else {
+                      //       this.feature_itm_list_table[iFeatureItemaddedTable].quantity = (RuleOutputData[iItemRule].OPTM_QUANTITY * this.step2_data.quantity)
+                      //     }
+                      //   }
+                      // }
                     }
                     else if (modelheaderpropagatechecked[0].OPTM_TYPE == "2") {
                       if (modelheaderpropagatechecked[0].OPTM_ITEMKEY == this.feature_itm_list_table[iFeatureItemaddedTable].Item && modelheaderpropagatechecked[0].unique_key == this.feature_itm_list_table[iFeatureItemaddedTable].nodeId) {
 
-                        if (modelheaderpropagatechecked[0].OPTM_QUANTITY > 1) {
-                          this.feature_itm_list_table[iFeatureItemaddedTable].quantity = (RuleOutputData[iItemRule].OPTM_QUANTITY * modelheaderpropagatechecked[0].OPTM_QUANTITY)
-                        } else {
-                          this.feature_itm_list_table[iFeatureItemaddedTable].quantity = (RuleOutputData[iItemRule].OPTM_QUANTITY * this.step2_data.quantity)
-                        }
+                        // if (modelheaderpropagatechecked[0].OPTM_QUANTITY > 1) {
+                        //   this.feature_itm_list_table[iFeatureItemaddedTable].quantity = (RuleOutputData[iItemRule].OPTM_QUANTITY * modelheaderpropagatechecked[0].OPTM_QUANTITY)
+                        // } else {
+                        //   this.feature_itm_list_table[iFeatureItemaddedTable].quantity = (RuleOutputData[iItemRule].OPTM_QUANTITY * this.step2_data.quantity)
+                        // }
                       }
                     }
                     else {
@@ -7628,16 +7637,16 @@ export class CwViewOldComponent implements OnInit {
                       let modelfeaturepropagatecheck = this.ModelBOMDataForSecondLevel.filter(function (obj) {
                         return obj['OPTM_ITEMKEY'] == itemkey && obj['nodeid'] == nodeId
                       })
-                      if (modelfeaturepropagatecheck.length > 0) {
-                        if (modelfeaturepropagatecheck[0].OPTM_PROPOGATEQTY == "Y") {
-                          propagateQuantity = this.getPropagateQuantity(tempnodeId);
-                          if (propagateQuantity > 1) {
-                            this.feature_itm_list_table[iFeatureItemaddedTable].quantity = (RuleOutputData[iItemRule].OPTM_QUANTITY * propagateQuantity)
-                          } else {
-                            this.feature_itm_list_table[iFeatureItemaddedTable].quantity = (RuleOutputData[iItemRule].OPTM_QUANTITY * this.step2_data.quantity)
-                          }
-                        }
-                      }
+                      // if (modelfeaturepropagatecheck.length > 0) {
+                      //   if (modelfeaturepropagatecheck[0].OPTM_PROPOGATEQTY == "Y") {
+                      //     propagateQuantity = this.getPropagateQuantity(tempnodeId);
+                      //     if (propagateQuantity > 1) {
+                      //       this.feature_itm_list_table[iFeatureItemaddedTable].quantity = (RuleOutputData[iItemRule].OPTM_QUANTITY * propagateQuantity)
+                      //     } else {
+                      //       this.feature_itm_list_table[iFeatureItemaddedTable].quantity = (RuleOutputData[iItemRule].OPTM_QUANTITY * this.step2_data.quantity)
+                      //     }
+                      //   }
+                      // }
                     }
                   }
                   else {
@@ -7653,21 +7662,21 @@ export class CwViewOldComponent implements OnInit {
                 var modelheaderpropagatechecked = this.Accessoryarray.filter(function (obj) {
                   return obj['OPTM_FEATUREID'] == tempfeatureid
                 })
-                if (modelheaderpropagatechecked.length > 0) {
-                  if (modelheaderpropagatechecked[0].OPTM_PROPOGATEQTY == "Y") {
-                    if (this.feature_itm_list_table[iFeatureItemaddedTable].ispropogateqty == "Y") {
-                      this.feature_itm_list_table[iFeatureItemaddedTable].quantity = (RuleOutputData[iItemRule].OPTM_QUANTITY * this.step2_data.quantity)
-                    }
+                // if (modelheaderpropagatechecked.length > 0) {
+                //   if (modelheaderpropagatechecked[0].OPTM_PROPOGATEQTY == "Y") {
+                //     if (this.feature_itm_list_table[iFeatureItemaddedTable].ispropogateqty == "Y") {
+                //       this.feature_itm_list_table[iFeatureItemaddedTable].quantity = (RuleOutputData[iItemRule].OPTM_QUANTITY * this.step2_data.quantity)
+                //     }
 
-                  }
+                //   }
 
-                }
+                // }
               }
 
 
 
-              this.feature_itm_list_table[iFeatureItemaddedTable].quantity = parseFloat(this.feature_itm_list_table[iFeatureItemaddedTable].quantity).toFixed(3)
-              this.feature_itm_list_table[iFeatureItemaddedTable].original_quantity = parseFloat(RuleOutputData[iItemRule].OPTM_QUANTITY).toFixed(3)
+              //this.feature_itm_list_table[iFeatureItemaddedTable].quantity = parseFloat(this.feature_itm_list_table[iFeatureItemaddedTable].quantity).toFixed(3)
+              //this.feature_itm_list_table[iFeatureItemaddedTable].original_quantity = parseFloat(RuleOutputData[iItemRule].OPTM_QUANTITY).toFixed(3)
 
               if (RuleOutputData[iItemRule].OPTM_ISPRICEEDIT == "y") {
                 this.feature_itm_list_table[iFeatureItemaddedTable].isPriceDisabled = false
@@ -8460,7 +8469,7 @@ export class CwViewOldComponent implements OnInit {
       psMinSelect = tempparentarray[0].OPTM_MIN_SELECTABLE
     }      
    
-    if (parseFloat(psMaxSelect) > 1) {
+    if (parseFloat(psMaxSelect) > 1 || tempparentarray[0].OPTM_ISMULTISELECT == "Y") {
       pselementclass = "custom-control custom-checkbox"
       input_type = "checkbox"      
     }
@@ -8502,7 +8511,7 @@ export class CwViewOldComponent implements OnInit {
       });
     }
     let temp_feature_code;       
-    propagateqty=1;
+    propagateqty= itemData[0].OPTM_QUANTITY;
     propagateqty = propagateqty * this.getPropagateQuantity(tempparentarray[0].nodeid);     
       if(itemData[0].feature_code == undefined || itemData[0].feature_code == null || itemData[0].feature_code == "" ){
         temp_feature_code = tempparentarray[0].feature_code; 
