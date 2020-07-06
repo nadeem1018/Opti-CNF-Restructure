@@ -174,8 +174,8 @@ export class CwViewOldComponent implements OnInit {
   public SelectedAccessory: any = [];
   public selectedAccessoryHeader: any = []
   public selectedAccessoryBOM: any = []
-  public menu_auth_index = '205';
-
+  public menu_auth_index = '205';  
+ 
   isMobile: boolean = false;
   isIpad: boolean = false;
   isDesktop: boolean = true;
@@ -4891,6 +4891,13 @@ export class CwViewOldComponent implements OnInit {
         }
       }
 
+    let finaldatastring: string = localStorage.getItem('final_data');
+    var finaldata;
+    if (finaldatastring != null && finaldatastring != undefined && finaldatastring != ''
+        && finaldatastring != 'null') {
+        finaldata  = JSON.parse(finaldatastring);
+      }
+      this.step3_data_final = finaldata;
       this.step2_selected_model = this.step3_data_final[current_row];
       this.step2_data.model_id = this.step2_selected_model.model_id;
       this.step2_data.model_code = this.step2_selected_model.item;
@@ -5056,6 +5063,28 @@ export class CwViewOldComponent implements OnInit {
       }
       this.feature_itm_list_table[fiti].dicount_amount = (discount_amount).toFixed(3);
     }
+    // let modelheaderdatavalue = [];
+    // let featurebomdataforsecondlevelvalue = [];
+    // let modelbomdataforsecondlevelvalue = [];
+   
+    //  if (this.ModelHeaderData.length > 0) {
+    //   for (let itemindex = 0; itemindex < this.ModelHeaderData.length; itemindex++) {     
+    //        modelheaderdatavalue.push(this.ModelHeaderData[itemindex])       
+    //   }
+    // }    
+    // if (this.FeatureBOMDataForSecondLevel.length > 0) {
+    //   for (let itemindex1 = 0; itemindex1 < this.FeatureBOMDataForSecondLevel.length; itemindex1++) {     
+    //        featurebomdataforsecondlevelvalue.push(this.FeatureBOMDataForSecondLevel[itemindex1])       
+    //   }
+    // }
+    // if (this.ModelBOMDataForSecondLevel.length > 0) {
+    //   for (let itemindex2 = 0; itemindex2 < this.ModelBOMDataForSecondLevel.length; itemindex2++) {     
+    //        modelbomdataforsecondlevelvalue.push(this.ModelBOMDataForSecondLevel[itemindex2])       
+    //   }
+    // }   
+      
+
+
 
     if (mode == 'add') {
       if (this.step3_data_final.length > 0) {
@@ -5063,7 +5092,8 @@ export class CwViewOldComponent implements OnInit {
         sl_no = this.step3_data_final.length;
       }
       rowIndex++;
-      sl_no++;
+      sl_no++;     
+
       this.step3_data_final.push({
         "rowIndex": rowIndex,
         "sl_no": sl_no,
@@ -5123,10 +5153,12 @@ export class CwViewOldComponent implements OnInit {
       this.step3_data_final[row_id]["RuleOutputData"] = this.RuleOutputData;
       this.CommonService.show_notification(this.language.multiple_model_update, 'success');
     }
+
     this.console.log("this.step3_data_final");
     this.console.log(this.step3_data_final);
     this.step4_final_price_calculation();
     this.multiple_model_disabled_status = false;
+    localStorage.setItem('final_data', JSON.stringify(this.step3_data_final));
   }
 
 
