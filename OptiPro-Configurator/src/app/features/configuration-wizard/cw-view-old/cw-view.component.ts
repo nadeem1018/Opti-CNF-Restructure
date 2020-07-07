@@ -8377,7 +8377,10 @@ export class CwViewOldComponent implements OnInit {
    var disableModelobject  = this.ModelBOMDataForSecondLevel.filter(function (obj) {
      return obj['disable'] == true || obj['isRuleApplied'] == true
     })
-
+    var disableModeldata  = this.ModelBOMDataForSecondLevel.filter(function (obj) {
+      return obj['disable'] == true || obj['isRuleApplied'] == true
+     })
+   
         if(disableModelobject.length > 0){
       for(var element in disableModelobject){
         for (var itemp2 = 0; itemp2 < this.ModelBOMDataForSecondLevel.length; itemp2++) {
@@ -8415,8 +8418,27 @@ export class CwViewOldComponent implements OnInit {
       obj['isSecondIteration'] = false
       return obj
     })   
-      
-
+    
+    for(var modelIndexing in disableModeldata) {
+      var isExist =  disableModelobject.filter(function (obj) {
+        return obj['unique_key'] == disableModeldata[modelIndexing].unique_key 
+      })
+      if(isExist.length >0){
+      var disableModelitemdata = disableModelobject.filter(function (obj) {
+       return obj['unique_key'] != disableModeldata[modelIndexing].unique_key && obj['nodeid'] == disableModeldata[modelIndexing].nodeid;          
+      })
+      for(var itemp = 0 ;itemp < disableModelitemdata.length; itemp++ ){
+        let index = disableModelobject.findIndex(function (obj) {
+          return obj.unique_key == disableModelitemdata[itemp].unique_key
+        });
+        if (index != -1) {
+          disableModelobject.splice(
+            index, 1);
+        }
+      }
+    }
+    }   
+    
     if(disableModelobject.length > 0){
       for(var modelIndexing in disableModelobject) {
         let ruleDataValue_indexing1 = disableModelobject[modelIndexing];
@@ -8551,7 +8573,7 @@ export class CwViewOldComponent implements OnInit {
         temp_feature_code = itemData[0].feature_code;
       }
       this.setItemDataForFeature(itemData, tempparentarray, propagateqtychecked, propagateqty, temp_feature_code, tempparentarray[0].HEADER_LINENO, itemms.OPTM_TYPE, input_type, false, "");
-    
+      
 
   }
 
