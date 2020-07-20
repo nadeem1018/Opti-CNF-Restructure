@@ -2035,8 +2035,20 @@ CommonData.made_changes = true;
     if (value == "") {
       return "00:00";
     }
-    if (!/:/.test(value)) { value += ':00'; }
-    return value.replace(/^\d{1}:/, '0$&').replace(/:\d{1}$/, '$&0');
+    if (!/:/.test(value)) {
+      if(value.trimRight().length > 2){
+      var partone =  value.substring(0,2);
+      var parttwo = value.substring(2,value.trimRight().length);
+      if(partone.trim().length == 0){
+        partone = '00'; 
+      }
+      value = partone.trim()+':'+parttwo.trim();
+      }else{
+        value = value.trim();
+        value += ':00'; 
+      }
+     }
+    return value.trim().replace(/^\d{1}:/, '0$&').replace(/:\d{1}$/, '$&0');
   }
 
   onDeleteRow(rowindex) {

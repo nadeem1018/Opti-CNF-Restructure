@@ -188,6 +188,7 @@ export class CwViewOldComponent implements OnInit {
   public config_params: any;
   public SelectedFeautrItem = [];
   public SelectedModelItem = [];
+  public firsttimecalling: boolean = false;
   
   constructor(private ActivatedRouter: ActivatedRoute,
     private route: Router,
@@ -1901,8 +1902,15 @@ export class CwViewOldComponent implements OnInit {
               this.SetModelFeatureSavedItems(Modelfeaturesaveditems, "");
             }
           }
-        //  this.feature_itm_list_table = this.feature_itm_list_table.sort((a, b) => a.HEADER_LINENO - b.HEADER_LINENO)
+        // this.feature_itm_list_table = this.feature_itm_list_table.sort((a, b) => a.HEADER_LINENO - b.HEADER_LINENO)
           this.showLookupLoader = false;
+          var selecteditem = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+            return obj['checked'] == true && obj['OPTM_TYPE'] == 2
+          })
+          if(selecteditem.length > 0 && data.RuleOutputData.length > 0){
+            this.onselectionchange(selecteditem[0], true, 0, true, selecteditem[0].unique_key, false, false, true);
+          }
+
         }
         else {
           this.showLookupLoader = false;
@@ -1924,7 +1932,7 @@ export class CwViewOldComponent implements OnInit {
     );
   }
 
-  async onselectionchange(feature_model_data, value, id, isSecondLevel, unique_key, isRuleComing, isEnableFeature) {
+  async onselectionchange(feature_model_data, value, id, isSecondLevel, unique_key, isRuleComing, isEnableFeature, updateRule) {
     // this function sets/removes data from right grid on selection/de-selection.
     let type = feature_model_data.OPTM_TYPE
     let modelid;
@@ -2092,7 +2100,7 @@ export class CwViewOldComponent implements OnInit {
       });
 
       var totalSelect = isExistForItemMax.length + isExistForFeatureMax.length + isExistForValue.length + isExistForModel.length + isExistFeatureInModel.length + isExistForOnlyFeature.length;
-      if (totalSelect >= parentarray[0].OPTM_MAXSELECTABLE && feature_model_data.isRuleApplied == false) {
+      if (totalSelect >= parentarray[0].OPTM_MAXSELECTABLE) {
         this.CommonService.show_notification(this.language.select_max_selectable, 'error');
         let checkEl = document.getElementById(id) as HTMLInputElement;
         checkEl.checked = false;
@@ -2105,11 +2113,20 @@ export class CwViewOldComponent implements OnInit {
     if (feature_model_data.isRuleApplied == false) {
       this.checkedFunction(feature_model_data, elementtypeforcheckedfunction, value, true);
     }
-    if(isRuleComing == false && isEnableFeature == false){
-      feature_model_data.isManuallyChecked = true;   
-     }else{
-      feature_model_data.isManuallyChecked = false; 
+    if(isRuleComing == false && isEnableFeature == false && updateRule == false) {
+      this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+        if (feature_model_data.nodeid == obj.nodeid && feature_model_data.unique_key == obj.unique_key) {
+          obj['isManuallyChecked'] = true
+        }
+      })  
+
+      this.ModelBOMDataForSecondLevel.filter(function (obj) {
+        if (feature_model_data.nodeid == obj.nodeid && feature_model_data.unique_key == obj.unique_key) {
+          obj['isManuallyChecked'] = true
+        }
+      }) 
      }
+
     if(parentarray[0].OPTM_TYPE == 1){
       modelid = 0;
     }
@@ -2186,18 +2203,21 @@ export class CwViewOldComponent implements OnInit {
 
      } else if ( value == false) {
       let featureunselectitem =  GetDataForSelectedFeatureModelItemData.featurebomdata.filter(function (obj) {
-        return  obj['nodeid'] == feature_model_data.unique_key      
+        return  obj['unique_key'] == feature_model_data.unique_key      
         })
         if(featureunselectitem.length > 0){
-          this.removeunselectFeatureitem(featureunselectitem[0].nodeid);
+          this.removeunselectFeatureitem(featureunselectitem[0].unique_key);
         }
   
         let modelunselectitem =  GetDataForSelectedFeatureModelItemData.modelbomdata.filter(function (obj) {
-          return  obj['nodeid'] == feature_model_data.unique_key      
+          return  obj['unique_key'] == feature_model_data.unique_key      
           })
           if(modelunselectitem.length > 0){
-            this.removeunselectModelitem(modelunselectitem[0].nodeid);
+            this.removeunselectModelitem(modelunselectitem[0].unique_key);
           }
+     }
+     if(value == true){
+      GetDataForSelectedFeatureModelItemData.featurebomdata = this.SelectedFeautrItem.push(feature_model_data)
      }
      GetDataForSelectedFeatureModelItemData.featurebomdata = this.SelectedFeautrItem;
      GetDataForSelectedFeatureModelItemData.modelbomdata = this.SelectedModelItem;
@@ -2595,8 +2615,9 @@ export class CwViewOldComponent implements OnInit {
                               parentarray[0].element_type = "checkbox"
                               parentArrayElemType  = "checkbox"
                             }
-
-                            propagateqty = propagateqty * this.getPropagateQuantity(parentarray[0].nodeid);
+                            if (DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY == "Y") {
+                             propagateqty = propagateqty * this.getPropagateQuantity(parentarray[0].unique_key);
+                            }
 
                             this.setItemDataForFeature(itemData, parentarray, propagateqtychecked, propagateqty, parentarray[0].feature_code, parentarray[0].HEADER_LINENO, type, parentArrayElemType, false, feature_model_data);
                           }
@@ -2887,7 +2908,9 @@ export class CwViewOldComponent implements OnInit {
                     }
 
                                      
-
+                    if (feature_model_data.OPTM_PROPOGATEQTY == "Y") {                    
+                        propagateqty = parseFloat(feature_model_data.OPTM_QUANTITY) ;                 
+                    }
                     // this.ModelBOMDataForSecondLevel.filter(function (obj) {
                     //   if (obj.nodeid == data.DataForSelectedFeatureModelItem[i].nodeid) {
                     //     return obj['checked'] = false;
@@ -2907,6 +2930,7 @@ export class CwViewOldComponent implements OnInit {
                       propagateqtychecked = "Y";
                     } else {
                       if (data.DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY == "Y") {
+                        propagateQtyForitem = data.DataForSelectedFeatureModelItem[i].OPTM_QUANTITY;
                         propagateQtyForitem = propagateQtyForitem * this.getPropagateQuantity(DataForSelectedFeatureModelItem[i].nodeid);
                         propagateqtychecked = "Y";
                       }
@@ -2982,22 +3006,22 @@ export class CwViewOldComponent implements OnInit {
 
             }//end data length
             if(isRuleComing == false && isEnableFeature == false){
-
-              if(feature_model_data.isManuallyChecked == true) {      
-              let isExist = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-                return obj['nodeid'] == feature_model_data.nodeid  &&  obj['isRuleApplied'] == true         
-              });
-              if(isExist.length == 0){
-                 isExist = this.ModelBOMDataForSecondLevel.filter(function (obj) {
-                  return obj['nodeid'] == feature_model_data.nodeid  &&  obj['isRuleApplied'] == true         
-                });
-              }
-              if(isExist.length == 0){
-              this.enableFeatureModelsItems1();
-              }
-              }else{
-                this.enableFeatureModelsItems1();
-              }
+              this.enableFeatureModelsItems()
+              // if(feature_model_data.isManuallyChecked == true) {      
+              // let isExist = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+              //   return obj['nodeid'] == feature_model_data.nodeid  &&  obj['isRuleApplied'] == true         
+              // });
+              // if(isExist.length == 0){
+              //    isExist = this.ModelBOMDataForSecondLevel.filter(function (obj) {
+              //     return obj['nodeid'] == feature_model_data.nodeid  &&  obj['isRuleApplied'] == true         
+              //   });
+              // }
+              // if(isExist.length == 0){
+              // this.enableFeatureModelsItems1();
+              // }
+              // }else{
+              //   this.enableFeatureModelsItems1();
+              // }
             }
            
             if (data.RuleOutputData.length > 0) { 
@@ -3029,6 +3053,7 @@ export class CwViewOldComponent implements OnInit {
             } 
             else {
               this.enableFeatureModelsItems();
+              this.enableFeatureModelsItems1();
             }
             this.RuleOutputData = data.RuleOutputData;
 
@@ -3070,22 +3095,22 @@ export class CwViewOldComponent implements OnInit {
               }
             }
             if(isRuleComing == false && isEnableFeature == false){
-
-              if(feature_model_data.isManuallyChecked == true) {      
-                let isExist = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-                  return obj['nodeid'] == feature_model_data.nodeid  &&  obj['isRuleApplied'] == true         
-                });
-                if(isExist.length == 0){
-                   isExist = this.ModelBOMDataForSecondLevel.filter(function (obj) {
-                    return obj['nodeid'] == feature_model_data.nodeid  &&  obj['isRuleApplied'] == true         
-                  });
-                }
-                if(isExist.length == 0){
-                this.enableFeatureModelsItems1();
-                }
-                }else{
-                  this.enableFeatureModelsItems1();
-                }            
+              this.enableFeatureModelsItems()
+              // if(feature_model_data.isManuallyChecked == true) {      
+              //   let isExist = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+              //     return obj['nodeid'] == feature_model_data.nodeid  &&  obj['isRuleApplied'] == true         
+              //   });
+              //   if(isExist.length == 0){
+              //      isExist = this.ModelBOMDataForSecondLevel.filter(function (obj) {
+              //       return obj['nodeid'] == feature_model_data.nodeid  &&  obj['isRuleApplied'] == true         
+              //     });
+              //   }
+              //   if(isExist.length == 0){
+              //   this.enableFeatureModelsItems1();
+              //   }
+              //   }else{
+              //     this.enableFeatureModelsItems1();
+              //   }            
               }            
             if (data.RuleOutputData.length > 0) {              
                 let ruledata = [];              
@@ -3111,6 +3136,9 @@ export class CwViewOldComponent implements OnInit {
                 isEnableFeature = false
               }
            
+            }else{
+              this.enableFeatureModelsItems();
+              this.enableFeatureModelsItems1();
             }
             this.RuleOutputData = data.RuleOutputData;
             this.feature_price_calculate();
@@ -3150,6 +3178,13 @@ export class CwViewOldComponent implements OnInit {
         }//end data null
         this.ModelHeaderData.sort((a, b) => a.sort_key.localeCompare(b.sort_key));
         this.showLookupLoader = false;
+
+        var selecteditem = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+          return obj['checked'] == true && obj['OPTM_TYPE'] == 2
+        })
+        if(selecteditem.length > 0 && data.RuleOutputData.length > 0 && updateRule == false ){          
+          this.onselectionchange(selecteditem[0], true, 0, true, selecteditem[0].unique_key, false, false, true);
+          }
       },//end data
       error => {
 
@@ -7137,11 +7172,11 @@ export class CwViewOldComponent implements OnInit {
           if (this.FeatureBOMDataForSecondLevel[iItemFeatureTable].OPTM_TYPE == 1) {
             if (this.FeatureBOMDataForSecondLevel[iItemFeatureTable].OPTM_CHILDFEATUREID == RuleOutputData[iItemRule].OPTM_FEATUREID && this.FeatureBOMDataForSecondLevel[iItemFeatureTable].OPTM_FEATUREID == RuleOutputData[iItemRule].OPTM_APPLICABLEFOR) {
          
-              if(feature_model_data.isManuallyChecked == true ) {
-                if(feature_model_data.nodeid == this.FeatureBOMDataForSecondLevel[iItemFeatureTable].nodeid){
-                  return
-                }
-              } 
+              // if(feature_model_data.isManuallyChecked == true ) {
+              //   if(feature_model_data.nodeid == this.FeatureBOMDataForSecondLevel[iItemFeatureTable].nodeid){
+              //     return
+              //   }
+              // } 
             //  if (value == true) {
 
                 if (RuleOutputData[iItemRule].OPTM_ISINCLUDED.toString().trim() == "False") {
@@ -7165,7 +7200,7 @@ export class CwViewOldComponent implements OnInit {
                         let rule_data_rule_index = this.ruleData[this.ruleIndex];
 
                         if (rule_data_rule_index.isSecondIteration == false && callingApi == false) {
-                          this.onselectionchange(rule_data_rule_index, true, 0, true, rule_data_rule_index.unique_key, true, false);
+                          this.onselectionchange(rule_data_rule_index, true, 0, true, rule_data_rule_index.unique_key, true, false, true);
                           this.FeatureBOMDataForSecondLevel[iItemFeatureTable].isSecondIteration = true
                         }
 
@@ -7220,21 +7255,41 @@ export class CwViewOldComponent implements OnInit {
 
             //  if (value == true) {
 
-                if(feature_model_data.isManuallyChecked == true ) {
-                  if(feature_model_data.nodeid == this.FeatureBOMDataForSecondLevel[iItemFeatureTable].nodeid){
-                    return
-                  }
-                }   
+                // if(feature_model_data.isManuallyChecked == true ) {
+                //   if(feature_model_data.nodeid == this.FeatureBOMDataForSecondLevel[iItemFeatureTable].nodeid){
+                //     return
+                //   }
+                // }   
                 if (RuleOutputData[iItemRule].OPTM_ISINCLUDED.toString().trim() == "False") {
                   this.FeatureBOMDataForSecondLevel[iItemFeatureTable].disable = true
                   this.FeatureBOMDataForSecondLevel[iItemFeatureTable].checked = false
+                  this.FeatureBOMDataForSecondLevel[iItemFeatureTable].isRuleApplied = false
+                  this.FeatureBOMDataForSecondLevel[iItemFeatureTable].isSecondIteration = false
+                  // remove data from right side, write code.
+                  for (let i = 0; i < this.feature_itm_list_table.length; i++) {
+                    if (this.feature_itm_list_table[i].unique_key == this.FeatureBOMDataForSecondLevel[iItemFeatureTable].unique_key) {
+                      this.feature_itm_list_table.splice(i, 1);
+                      i = i - 1;
+                    }
+                  }
                 }
                 else {
 
                   this.FeatureBOMDataForSecondLevel[iItemFeatureTable].disable = false
 
-                  if (this.FeatureBOMDataForSecondLevel[iItemFeatureTable].isRuleApplied == false && this.FeatureBOMDataForSecondLevel[iItemFeatureTable].isManuallyChecked == false) {
+                  if (this.FeatureBOMDataForSecondLevel[iItemFeatureTable].isManuallyChecked == false) {
                     if (this.FeatureBOMDataForSecondLevel[iItemFeatureTable].OPTM_FEATUREID.toString() == RuleOutputData[iItemRule].OPTM_APPLICABLEFOR && this.FeatureBOMDataForSecondLevel[iItemFeatureTable].OPTM_ITEMKEY == RuleOutputData[iItemRule].OPTM_ITEMKEY && RuleOutputData[iItemRule].OPTM_DEFAULT == "True") {
+                      var temp_nodeid = this.FeatureBOMDataForSecondLevel[iItemFeatureTable].nodeid;
+                      let selecteditemforfeature = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+                        return obj['checked'] == true && obj['nodeid'] == temp_nodeid && obj['isRuleApplied'] == false 
+                       
+                      })
+                       let selecteditemforfeatureruledata = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+                        return obj['nodeid'] == temp_nodeid && obj['isRuleApplied'] == true 
+                       
+                      })
+
+                      if(selecteditemforfeature.length == 0 || selecteditemforfeatureruledata.length == 0){
                       this.FeatureBOMDataForSecondLevel[iItemFeatureTable].checked = true;
                       this.ruleData.push(this.FeatureBOMDataForSecondLevel[iItemFeatureTable])
                       /* this.isRuleApplied = true */
@@ -7271,12 +7326,22 @@ export class CwViewOldComponent implements OnInit {
                         this.ruleData = [];
 
                       }
+                    }
 
                     //  break loopRule;
                     } else if (this.FeatureBOMDataForSecondLevel[iItemFeatureTable].OPTM_FEATUREID.toString() == RuleOutputData[iItemRule].OPTM_APPLICABLEFOR && this.FeatureBOMDataForSecondLevel[iItemFeatureTable].OPTM_ITEMKEY == RuleOutputData[iItemRule].OPTM_ITEMKEY) {
 
-                      if (this.FeatureBOMDataForSecondLevel[iItemFeatureTable].OPTM_DEFAULT == "Y" && this.FeatureBOMDataForSecondLevel[iItemFeatureTable].checked == true && !this.FeatureBOMDataForSecondLevel[iItemFeatureTable].isManuallyChecked) {
+                       if(this.FeatureBOMDataForSecondLevel[iItemFeatureTable].checked == true && !this.FeatureBOMDataForSecondLevel[iItemFeatureTable].isManuallyChecked){
                         this.FeatureBOMDataForSecondLevel[iItemFeatureTable].checked = false;
+                        this.FeatureBOMDataForSecondLevel[iItemFeatureTable].isRuleApplied = false;
+                        this.FeatureBOMDataForSecondLevel[iItemFeatureTable].isSecondIteration = false;
+
+                        for (let i = 0; i < this.feature_itm_list_table.length; i++) {
+                          if (this.feature_itm_list_table[i].unique_key == this.FeatureBOMDataForSecondLevel[iItemFeatureTable].unique_key) {
+                            this.feature_itm_list_table.splice(i, 1);
+                            i = i - 1;
+                          }
+                        }
                       }
                 //      break loopRule;
                     }
@@ -7295,6 +7360,8 @@ export class CwViewOldComponent implements OnInit {
                             obj['checked'] = true;
                           }
                         })
+                      } else  if (ModelHeaderData[0].element_type == "check_box") {
+
                       }
                     }
                   }
@@ -7314,17 +7381,19 @@ export class CwViewOldComponent implements OnInit {
 
               //   }
               // }
+            }else {
+             
             }
           }
           else {
             if (this.FeatureBOMDataForSecondLevel[iItemFeatureTable].OPTM_VALUE == RuleOutputData[iItemRule].OPTM_VALUE && this.FeatureBOMDataForSecondLevel[iItemFeatureTable].OPTM_FEATUREID == RuleOutputData[iItemRule].OPTM_APPLICABLEFOR ) {
             // if (value == true) {
 
-              if(feature_model_data.isManuallyChecked == true ) {
-                if(feature_model_data.nodeid == this.FeatureBOMDataForSecondLevel[iItemFeatureTable].nodeid){
-                  return
-                }
-              } 
+              // if(feature_model_data.isManuallyChecked == true ) {
+              //   if(feature_model_data.nodeid == this.FeatureBOMDataForSecondLevel[iItemFeatureTable].nodeid){
+              //     return
+              //   }
+              // } 
 
                 if (RuleOutputData[iItemRule].OPTM_ISINCLUDED.toString().trim() == "False") {
                   this.FeatureBOMDataForSecondLevel[iItemFeatureTable].disable = true
@@ -7412,6 +7481,21 @@ export class CwViewOldComponent implements OnInit {
         }
       }
 
+       var ruleapplyitem =  this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+        return  obj['isRuleApplied'] == true
+        })
+        for(var ruleitemIndex in ruleapplyitem){
+          var isExist = RuleOutputData.filter(function (obj) {
+            return  obj['OPTM_ITEMKEY'] == ruleapplyitem[ruleitemIndex].OPTM_ITEMKEY && obj['OPTM_APPLICABLEFOR'] == ruleapplyitem[ruleitemIndex].OPTM_FEATUREID 
+            })
+            if(isExist.length == 0){
+              this.selectdefaultFeatureModelsItems(ruleapplyitem[ruleitemIndex]);
+            }
+        }
+
+
+      
+
       for (var iModelItemTable in this.ModelBOMDataForSecondLevel) {
         loopRule:
         for (var iItemRule in RuleOutputData) {
@@ -7428,11 +7512,11 @@ export class CwViewOldComponent implements OnInit {
               }
             if(featureid == RuleOutputData[iItemRule].OPTM_APPLICABLEFOR){
              // if (value == true) {
-              if(feature_model_data.isManuallyChecked == true ) {
-                if(feature_model_data.nodeid == this.ModelBOMDataForSecondLevel[iItemFeatureTable].nodeid){
-                  return
-                }
-              } 
+              // if(feature_model_data.isManuallyChecked == true ) {
+              //   if(feature_model_data.nodeid == this.ModelBOMDataForSecondLevel[iItemFeatureTable].nodeid){
+              //     return
+              //   }
+              // } 
                 if (RuleOutputData[iItemRule].OPTM_ISINCLUDED.toString().trim() == "False") {
                   this.ModelBOMDataForSecondLevel[iModelItemTable].disable = true
                   this.ModelBOMDataForSecondLevel[iModelItemTable].checked = false
@@ -7452,7 +7536,7 @@ export class CwViewOldComponent implements OnInit {
                         let rule_data_rule_index = this.ruleData[this.ruleIndex];
 
                         if (rule_data_rule_index.isSecondIteration == false && callingApi == false) {
-                          this.onselectionchange(rule_data_rule_index, true, 0, true, rule_data_rule_index.unique_key, true, false);
+                          this.onselectionchange(rule_data_rule_index, true, 0, true, rule_data_rule_index.unique_key, true, false, true);
                            this.ModelBOMDataForSecondLevel[iModelItemTable].isSecondIteration = true
                         }
 
@@ -7509,19 +7593,28 @@ export class CwViewOldComponent implements OnInit {
               && feature_Id == RuleOutputData[iItemRule].OPTM_APPLICABLEFOR) {
               var defaultitemarray = [];
              // if (value == true) {
-              if(feature_model_data.isManuallyChecked == true ) {
-                if(feature_model_data.nodeid == this.ModelBOMDataForSecondLevel[iItemFeatureTable].nodeid){
-                  return
-                }
-              } 
+              // if(feature_model_data.isManuallyChecked == true ) {
+              //   if(feature_model_data.nodeid == this.ModelBOMDataForSecondLevel[iItemFeatureTable].nodeid){
+              //     return
+              //   }
+              // } 
                 if (RuleOutputData[iItemRule].OPTM_ISINCLUDED.toString().trim() == "False") {
                   this.ModelBOMDataForSecondLevel[iModelItemTable].disable = true
                   this.ModelBOMDataForSecondLevel[iModelItemTable].checked = false
+                  this.ModelBOMDataForSecondLevel[iModelItemTable].isRuleApplied = false
+                  this.ModelBOMDataForSecondLevel[iModelItemTable].isSecondIteration = false
+                  // remove data from right side, write code.
+                  for (let i = 0; i < this.feature_itm_list_table.length; i++) {
+                    if (this.feature_itm_list_table[i].unique_key == this.ModelBOMDataForSecondLevel[iModelItemTable].unique_key) {
+                      this.feature_itm_list_table.splice(i, 1);
+                      i = i - 1;
+                    }
+                  }
                 }
                 else {
                   this.ModelBOMDataForSecondLevel[iModelItemTable].disable = false
 
-                  if (this.ModelBOMDataForSecondLevel[iModelItemTable].isRuleApplied == false && this.ModelBOMDataForSecondLevel[iModelItemTable].isManuallyChecked == false) {
+                  if (this.ModelBOMDataForSecondLevel[iModelItemTable].isManuallyChecked == false) {
                     var featureId = "";
                     if (this.ModelBOMDataForSecondLevel[iModelItemTable].OPTM_FEATUREID != null) {
                       featureId = this.ModelBOMDataForSecondLevel[iModelItemTable].OPTM_FEATUREID;
@@ -7529,6 +7622,18 @@ export class CwViewOldComponent implements OnInit {
                       featureId = ""
                     }
                     if (featureId == RuleOutputData[iItemRule].OPTM_APPLICABLEFOR && this.ModelBOMDataForSecondLevel[iModelItemTable].OPTM_ITEMKEY == RuleOutputData[iItemRule].OPTM_ITEMKEY && RuleOutputData[iItemRule].OPTM_DEFAULT == "True") {
+                      var temp_nodeid = this.ModelBOMDataForSecondLevel[iModelItemTable].nodeid;
+                      let selecteditemforfeature = this.ModelBOMDataForSecondLevel.filter(function (obj) {
+                        return obj['checked'] == true && obj['nodeid'] == temp_nodeid && obj['isRuleApplied'] == false 
+                       
+                      })
+                       let selecteditemforfeatureruledata = this.ModelBOMDataForSecondLevel.filter(function (obj) {
+                        return obj['nodeid'] == temp_nodeid && obj['isRuleApplied'] == true 
+                       
+                      })
+
+                      if(selecteditemforfeature.length == 0 || selecteditemforfeatureruledata.length == 0){
+                      
                       this.ModelBOMDataForSecondLevel[iModelItemTable].checked = true;
                       this.ruleData.push(this.ModelBOMDataForSecondLevel[iModelItemTable])
                       this.ModelBOMDataForSecondLevel[iModelItemTable].isRuleApplied = true
@@ -7558,14 +7663,42 @@ export class CwViewOldComponent implements OnInit {
                         this.ruleData = [];
 
                       }
-
+                    }
                    //   break loopRule;
                     } else if (featureId.toString() == RuleOutputData[iItemRule].OPTM_APPLICABLEFOR && this.ModelBOMDataForSecondLevel[iModelItemTable].OPTM_ITEMKEY == RuleOutputData[iItemRule].OPTM_ITEMKEY) {
 
-                      if (this.ModelBOMDataForSecondLevel[iModelItemTable].OPTM_DEFAULT == "Y" && this.ModelBOMDataForSecondLevel[iModelItemTable].checked == true && !this.ModelBOMDataForSecondLevel[iModelItemTable].isManuallyChecked) {
+                       if(this.ModelBOMDataForSecondLevel[iModelItemTable].checked == true && !this.ModelBOMDataForSecondLevel[iModelItemTable].isManuallyChecked){
                         this.ModelBOMDataForSecondLevel[iModelItemTable].checked = false;
+                        this.ModelBOMDataForSecondLevel[iModelItemTable].isRuleApplied = false;
+                        this.ModelBOMDataForSecondLevel[iModelItemTable].isSecondIteration = false;
+
+                        for (let i = 0; i < this.feature_itm_list_table.length; i++) {
+                          if (this.feature_itm_list_table[i].unique_key == this.ModelBOMDataForSecondLevel[iModelItemTable].unique_key) {
+                            this.feature_itm_list_table.splice(i, 1);
+                            i = i - 1;
+                          }
+                        }
                       }
                     //  break loopRule;
+                    }
+                  } else if (this.ModelBOMDataForSecondLevel[iModelItemTable].isManuallyChecked == true) {
+                    var ModelHeaderData = this.ModelHeaderData.filter(function (obj) {
+                      return obj.unique_key == feature_model_data.nodeid
+                    })
+                    if (ModelHeaderData.length > 0) {
+                      if (ModelHeaderData[0].element_type == "radio") {
+                        var nodeid = feature_model_data.nodeid;
+                        var unique_key = feature_model_data.unique_key;
+                        this.ModelBOMDataForSecondLevel.filter(function (obj) {
+                          if (obj.nodeid == nodeid && obj.unique_key != unique_key) {
+                            obj['checked'] = false;
+                          } else if (obj.nodeid == nodeid && obj.unique_key == unique_key) {
+                            obj['checked'] = true;
+                          }
+                        })
+                      } else  if (ModelHeaderData[0].element_type == "check_box") {
+
+                      }
                     }
                   }
 
@@ -7587,11 +7720,11 @@ export class CwViewOldComponent implements OnInit {
           else {
             if (this.ModelBOMDataForSecondLevel[iModelItemTable].OPTM_VALUE == RuleOutputData[iItemRule].OPTM_VALUE && this.ModelBOMDataForSecondLevel[iModelItemTable].OPTM_FEATUREID == RuleOutputData[iItemRule].OPTM_APPLICABLEFOR ) {            
             // if (value == true) {
-              if(feature_model_data.isManuallyChecked == true ) {
-                if(feature_model_data.nodeid == this.ModelBOMDataForSecondLevel[iItemFeatureTable].nodeid){
-                  return
-                }
-              } 
+              // if(feature_model_data.isManuallyChecked == true ) {
+              //   if(feature_model_data.nodeid == this.ModelBOMDataForSecondLevel[iItemFeatureTable].nodeid){
+              //     return
+              //   }
+              // } 
                 if (RuleOutputData[iItemRule].OPTM_ISINCLUDED.toString().trim() == "False") {
                   this.ModelBOMDataForSecondLevel[iModelItemTable].disable = true
                   this.ModelBOMDataForSecondLevel[iModelItemTable].checked = false
@@ -7615,6 +7748,18 @@ export class CwViewOldComponent implements OnInit {
 
         }
       }
+
+      var ruleapplyitem =  this.ModelBOMDataForSecondLevel.filter(function (obj) {
+        return  obj['isRuleApplied'] == true
+        })
+        for(var ruleitemIndex in ruleapplyitem){
+          var isExist = RuleOutputData.filter(function (obj) {
+            return  obj['OPTM_ITEMKEY'] == ruleapplyitem[ruleitemIndex].OPTM_ITEMKEY && obj['OPTM_APPLICABLEFOR'] == ruleapplyitem[ruleitemIndex].OPTM_FEATUREID 
+            })
+            if(isExist.length == 0){
+              this.selectdefaultFeatureModelsItems(ruleapplyitem[ruleitemIndex]);
+            }
+        }
 
       for (var iFeatureItemaddedTable = 0; iFeatureItemaddedTable < this.feature_itm_list_table.length; iFeatureItemaddedTable++) {
         for (var iItemRule in RuleOutputData) {
@@ -8296,11 +8441,105 @@ export class CwViewOldComponent implements OnInit {
       obj['disable'] = false
       return obj
     })
+
+        
+  }
+
+
+  
+  selectdefaultFeatureModelsItems(featureItem) {   
+      this.FeatureBOMDataForSecondLevel =  this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+        if(obj['unique_key'] == featureItem.unique_key){
+          obj['isRuleApplied'] = false
+          obj['isManuallyChecked'] = false
+          obj['isSecondIteration'] = false
+        }       
+        return obj
+      })   
+      var isExist = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+        return obj['nodeid'] == featureItem.nodeid && obj['isManuallyChecked'] == true && obj['Checked'] == true
+       
+      })
+          if(isExist.length == 0) {
+         for (var itemp3 = 0; itemp3 < this.FeatureBOMDataForSecondLevel.length; itemp3++) {
+          if (this.FeatureBOMDataForSecondLevel[itemp3].OPTM_DEFAULT == "Y" && this.FeatureBOMDataForSecondLevel[itemp3].nodeid == featureItem.nodeid ) {
+              this.FeatureBOMDataForSecondLevel[itemp3].checked = true
+              var ruleDataValue_index = this.FeatureBOMDataForSecondLevel[itemp3]
+              if(ruleDataValue_index.OPTM_TYPE == 2) {
+                this.insertfeaturiteminrightgrid(ruleDataValue_index);
+              }
+              else{
+                this.onselectionchange(ruleDataValue_index, true, 0, true, ruleDataValue_index.unique_key, false, true, true);
+              } 
+           }else if (this.FeatureBOMDataForSecondLevel[itemp3].OPTM_DEFAULT == "N" && this.FeatureBOMDataForSecondLevel[itemp3].nodeid == featureItem.nodeid ) {
+            var ruleDataValue_index = this.FeatureBOMDataForSecondLevel[itemp3]
+            this.FeatureBOMDataForSecondLevel[itemp3].checked = false
+            if(ruleDataValue_index.OPTM_TYPE == 2) {
+              this.removeitemRightGridforRule(ruleDataValue_index);
+            }
+            else{
+              this.removeModelfeaturesbyuncheck(ruleDataValue_index.parentmodelid, ruleDataValue_index.feature_code, ruleDataValue_index.nodeid, ruleDataValue_index.unique_key)
+            }
+          }
+        }       
+      }
+      
+   
+     this.ModelBOMDataForSecondLevel  = this.ModelBOMDataForSecondLevel.filter(function (obj) {
+      if(obj['unique_key'] == featureItem.unique_key){
+        obj['isRuleApplied'] = false
+        obj['isManuallyChecked'] = false
+        obj['isSecondIteration'] = false
+      }       
+      return obj
+       })
+   
+       var isExist = this.ModelBOMDataForSecondLevel.filter(function (obj) {
+        return obj['nodeid'] == featureItem.nodeid && obj['isManuallyChecked'] == true && obj['Checked'] == true
+       
+      })
+         if(isExist.length == 0) {
+        for (var itemp2 = 0; itemp2 < this.ModelBOMDataForSecondLevel.length; itemp2++) {
+          if (this.ModelBOMDataForSecondLevel[itemp2].OPTM_DEFAULT == "Y" &&this.ModelBOMDataForSecondLevel[itemp2].nodeid == featureItem.nodeid ) {
+              this.ModelBOMDataForSecondLevel[itemp2].checked = true
+              var ruleDataValue_index = this.ModelBOMDataForSecondLevel[itemp2]
+              if(ruleDataValue_index.OPTM_TYPE == 2) {
+                this.insertfeaturiteminrightgrid(ruleDataValue_index);
+              }
+              else{
+                this.onselectionchange(ruleDataValue_index, true, 0, true, ruleDataValue_index.unique_key, false, true, true);
+              } 
+          } else  if (this.ModelBOMDataForSecondLevel[itemp2].OPTM_DEFAULT == "N" && this.ModelBOMDataForSecondLevel[itemp2].nodeid == featureItem.nodeid) {
+            var ruleDataValue_index = this.ModelBOMDataForSecondLevel[itemp2]
+            this.ModelBOMDataForSecondLevel[itemp2].checked = false
+            if(ruleDataValue_index.OPTM_TYPE == 2) {
+              this.removeitemRightGridforRule(ruleDataValue_index);
+            }
+            else{
+              this.removeModelfeaturesbyuncheck(ruleDataValue_index.parentmodelid, ruleDataValue_index.feature_code, ruleDataValue_index.nodeid, ruleDataValue_index.unique_key)
+              
+            }
+
+          }
+        }    
+         }
+     
+  
   }
    enableFeatureModelsItems1() {
-  var disablefeatureobjet =  this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-    return obj['disable'] == true || obj['isRuleApplied'] == true 
+     
+   var disablefeatureobjet =  this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+    return  obj['isRuleApplied'] == true 
     })
+
+    var disablefeaturedata =  this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+      return  obj['isRuleApplied'] == true 
+      })
+
+      this.FeatureBOMDataForSecondLevel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+         obj['isRuleApplied'] = false 
+        return obj
+        })
      
     if(disablefeatureobjet.length > 0){
       for(var element in disablefeatureobjet){
@@ -8312,28 +8551,27 @@ export class CwViewOldComponent implements OnInit {
         
       }
     }
-    this.FeatureBOMDataForSecondLevel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-      if (obj['OPTM_DEFAULT'] == "Y" &&obj['disable'] == true ) {
-        obj['checked'] = true
-      }
-      return obj
-    })
-
-    this.FeatureBOMDataForSecondLevel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-      if(obj['disable'] == true){
-        obj['isRuleApplied'] = false
-        obj['isManuallyChecked'] = false
-        obj['isSecondIteration'] = false
-      }
-      return obj
-    })
     
-    this.FeatureBOMDataForSecondLevel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-      obj['disable'] = false
-      obj['isRuleApplied'] = false
-      obj['isSecondIteration'] = false
-      return obj
-    })
+
+    for(var featureIndexing in disablefeaturedata) {
+      var isExist =  disablefeatureobjet.filter(function (obj) {
+        return obj['unique_key'] == disablefeaturedata[featureIndexing].unique_key 
+      })
+      if(isExist.length >0){
+      var disablefeatureitemdata = disablefeatureobjet.filter(function (obj) {
+       return obj['unique_key'] != disablefeaturedata[featureIndexing].unique_key && obj['nodeid'] == disablefeaturedata[featureIndexing].nodeid;          
+      })
+      for(var itemp = 0 ;itemp < disablefeatureitemdata.length; itemp++ ){
+        let index = disablefeatureobjet.findIndex(function (obj) {
+          return obj.unique_key == disablefeatureitemdata[itemp].unique_key
+        });
+        if (index != -1) {
+          disablefeatureobjet.splice(
+            index, 1);
+        }
+      }
+    }
+    } 
 
     if(disablefeatureobjet.length > 0){
       for(var featureIndexing in disablefeatureobjet) { 
@@ -8344,43 +8582,44 @@ export class CwViewOldComponent implements OnInit {
         })
         for(var featureIndex in disableFeatuer) { 
           let ruleDataValue_index = disableFeatuer[featureIndex];
+
            var isExist = this.ModelHeaderData.filter(function (obj) {
               return obj['unique_key'] == ruleDataValue_index.unique_key             
-            })
+            })   
             this.FeatureBOMDataForSecondLevel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
               if (obj['OPTM_DEFAULT'] == "N" && obj['nodeid'] == ruleDataValue_index.nodeid ) {
                 obj['checked'] = false
-                obj['isRuleApplied'] = false
-                obj['isManuallyChecked'] = false
-                obj['isSecondIteration'] = false
-              }
+                 }
               return obj
-            })
+            })         
 
          var itemList =  this.FeatureBOMDataForSecondLevel.filter(function (obj) {
               return obj['OPTM_DEFAULT'] == "N" && obj['nodeid'] == ruleDataValue_index.nodeid              
             })
            this.removeitemRightGrid(itemList);
-            if(isExist.length ==0){ 
+            if(isExist.length == 0){ 
               if(ruleDataValue_index.OPTM_TYPE == 2) {
                 this.insertfeaturiteminrightgrid(ruleDataValue_index);
               }
               else{
-                this.onselectionchange(ruleDataValue_index, true, 0, true, ruleDataValue_index.unique_key, false, true);
+                this.onselectionchange(ruleDataValue_index, true, 0, true, ruleDataValue_index.unique_key, false, true, true);
               }             
             
             }
           }
         }
-    }
-    
+    }    
+   
    var disableModelobject  = this.ModelBOMDataForSecondLevel.filter(function (obj) {
-     return obj['disable'] == true || obj['isRuleApplied'] == true
+     return obj['isRuleApplied'] == true
     })
     var disableModeldata  = this.ModelBOMDataForSecondLevel.filter(function (obj) {
-      return obj['disable'] == true || obj['isRuleApplied'] == true
+      return  obj['isRuleApplied'] == true
      })
-   
+     this.ModelBOMDataForSecondLevel = this.ModelBOMDataForSecondLevel.filter(function (obj) {
+       obj['isRuleApplied'] = false 
+      return obj
+      })
         if(disableModelobject.length > 0){
       for(var element in disableModelobject){
         for (var itemp2 = 0; itemp2 < this.ModelBOMDataForSecondLevel.length; itemp2++) {
@@ -8389,36 +8628,9 @@ export class CwViewOldComponent implements OnInit {
           }
         }
         
-      }
-    }
-
-    this.ModelBOMDataForSecondLevel = this.ModelBOMDataForSecondLevel.filter(function (obj) {
-      if (obj['OPTM_DEFAULT'] == "Y" && obj['disable'] == true ) {
-        obj['checked'] = true
-      }
-      return obj
-    })
-    this.ModelBOMDataForSecondLevel = this.ModelBOMDataForSecondLevel.filter(function (obj) {
-      if (obj['OPTM_DEFAULT'] == "N" && obj['disable'] == true ) {
-        obj['checked'] = false
-      }
-      return obj
-    })
-    this.ModelBOMDataForSecondLevel = this.ModelBOMDataForSecondLevel.filter(function (obj) {
-      if(obj['disable'] == true){
-        obj['isRuleApplied'] = false
-        obj['isManuallyChecked'] = false
-        obj['isSecondIteration'] = false
-      }
-      return obj
-    })
-    this.ModelBOMDataForSecondLevel = this.ModelBOMDataForSecondLevel.filter(function (obj) {
-      obj['disable'] = false
-      obj['isRuleApplied'] = false
-      obj['isSecondIteration'] = false
-      return obj
-    })   
+      }   
     
+    } 
     for(var modelIndexing in disableModeldata) {
       var isExist =  disableModelobject.filter(function (obj) {
         return obj['unique_key'] == disableModeldata[modelIndexing].unique_key 
@@ -8454,10 +8666,7 @@ export class CwViewOldComponent implements OnInit {
         this.ModelBOMDataForSecondLevel = this.ModelBOMDataForSecondLevel.filter(function (obj) {
           if (obj['OPTM_DEFAULT'] == "N" && obj['nodeid'] == ruleDataValue_index1.nodeid ) {
             obj['checked'] = false
-            obj['isRuleApplied'] = false
-            obj['isManuallyChecked'] = false
-            obj['isSecondIteration'] = false
-          }
+             }
           return obj
         })
        var itemList  = this.ModelBOMDataForSecondLevel.filter(function (obj) {
@@ -8469,7 +8678,7 @@ export class CwViewOldComponent implements OnInit {
           this.insertfeaturiteminrightgrid(ruleDataValue_index1);
         }
         else{
-          this.onselectionchange(ruleDataValue_index1, true, 0, true, ruleDataValue_index1.unique_key, false, true);
+          this.onselectionchange(ruleDataValue_index1, true, 0, true, ruleDataValue_index1.unique_key, false, true, true);
         } 
        
         }
@@ -8477,7 +8686,17 @@ export class CwViewOldComponent implements OnInit {
       }
     }
   }
-
+  
+  removeitemRightGridforRule(removeitem) {  
+     var tempUniqueKey = removeitem.unique_key;
+     for (var itemp3 = 0; itemp3 < this.feature_itm_list_table.length; itemp3++) {
+       if (this.feature_itm_list_table[itemp3].unique_key == tempUniqueKey) {
+         this.feature_itm_list_table.splice(itemp3, 1)
+         itemp3 = itemp3 - 1
+       }
+     }   
+  
+   }
   removeitemRightGrid(removeitem){
    if(removeitem.length > 0){
      console.log("remove item for rule", removeitem);
@@ -8872,24 +9091,47 @@ export class CwViewOldComponent implements OnInit {
 
   }
 
-  removeunselectFeatureitem(nodeid){
+  removeunselectFeatureitem(unique_key){
+    for(var itemp =0; itemp < this.SelectedFeautrItem.length; itemp++  ){
+       if(this.SelectedFeautrItem[itemp].unique_key == unique_key){
+       var tempnodeid = this.SelectedFeautrItem[itemp].unique_key
+        this.SelectedFeautrItem.splice(itemp, 1);
+        itemp = itemp - 1
+        this.removeunselectFeatureitemfromnodid(tempnodeid)
+       }
+    }  
+
+  }
+
+  removeunselectFeatureitemfromnodid(nodeid){
     for(var itemp =0; itemp < this.SelectedFeautrItem.length; itemp++  ){
        if(this.SelectedFeautrItem[itemp].nodeid == nodeid){
        var tempnodeid = this.SelectedFeautrItem[itemp].unique_key
         this.SelectedFeautrItem.splice(itemp, 1);
         itemp = itemp - 1
-        this.removeunselectFeatureitem(tempnodeid)
+        this.removeunselectFeatureitemfromnodid(tempnodeid)
        }
     }  
 
   }
-  removeunselectModelitem(nodeid){
+  removeunselectModelitem(unique_key){
+    for(var itemp =0; itemp < this.SelectedModelItem.length; itemp++  ){
+      if(this.SelectedModelItem[itemp].unique_key == unique_key){
+      var tempnodeid = this.SelectedModelItem[itemp].unique_key
+       this.SelectedModelItem.splice(itemp, 1);
+       itemp = itemp - 1
+       this.removeunselectModelitemfromnoeid(tempnodeid)
+      }
+   }
+  }
+
+  removeunselectModelitemfromnoeid(nodeid){
     for(var itemp =0; itemp < this.SelectedModelItem.length; itemp++  ){
       if(this.SelectedModelItem[itemp].nodeid == nodeid){
       var tempnodeid = this.SelectedModelItem[itemp].unique_key
        this.SelectedModelItem.splice(itemp, 1);
        itemp = itemp - 1
-       this.removeunselectModelitem(tempnodeid)
+       this.removeunselectModelitemfromnoeid(tempnodeid)
       }
    }
   }
