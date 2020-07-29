@@ -2100,7 +2100,7 @@ export class CwViewOldComponent implements OnInit {
       });
 
       var totalSelect = isExistForItemMax.length + isExistForFeatureMax.length + isExistForValue.length + isExistForModel.length + isExistFeatureInModel.length + isExistForOnlyFeature.length;
-      if (totalSelect >= parentarray[0].OPTM_MAXSELECTABLE) {
+      if (totalSelect >= parentarray[0].OPTM_MAXSELECTABLE && updateRule == false) {
         this.CommonService.show_notification(this.language.select_max_selectable, 'error');
         let checkEl = document.getElementById(id) as HTMLInputElement;
         checkEl.checked = false;
@@ -2616,7 +2616,7 @@ export class CwViewOldComponent implements OnInit {
                               parentArrayElemType  = "checkbox"
                             }
                             if (DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY == "Y") {
-                             propagateqty = propagateqty * this.getPropagateQuantity(parentarray[0].unique_key);
+                             propagateqty = propagateqty * this.getPropagateQuantity(parentarray[0].nodeid);
                             }
 
                             this.setItemDataForFeature(itemData, parentarray, propagateqtychecked, propagateqty, parentarray[0].feature_code, parentarray[0].HEADER_LINENO, type, parentArrayElemType, false, feature_model_data);
@@ -3094,6 +3094,18 @@ export class CwViewOldComponent implements OnInit {
                 i = i - 1;
               }
             }
+            this.FeatureBOMDataForSecondLevel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+              if (obj['unique_key'] == feature_model_data.unique_key ) {
+                obj['checked'] = false
+                 }
+              return obj
+            })
+            this.ModelBOMDataForSecondLevel = this.ModelBOMDataForSecondLevel.filter(function (obj) {
+              if (obj['unique_key'] == feature_model_data.unique_key ) {
+                obj['checked'] = false
+                 }
+              return obj
+            })  
             if(isRuleComing == false && isEnableFeature == false){
               this.enableFeatureModelsItems()
               // if(feature_model_data.isManuallyChecked == true) {      
@@ -3967,10 +3979,10 @@ export class CwViewOldComponent implements OnInit {
       var formatequantity: any;
       if (propagateqtychecked == "Y" && ItemData[0].OPTM_PROPOGATEQTY == "Y") {
         propagateqty = parseFloat(propagateqty).toFixed(3)
-        ItemData[0].OPTM_QUANTITY = propagateqty
+        //ItemData[0].OPTM_QUANTITY = propagateqty
 
-        ItemData[0].OPTM_QUANTITY = parseFloat(ItemData[0].OPTM_QUANTITY).toFixed(3)
-        formatequantity = ItemData[0].OPTM_QUANTITY * this.step2_data.quantity
+       // ItemData[0].OPTM_QUANTITY = parseFloat(ItemData[0].OPTM_QUANTITY).toFixed(3)
+        formatequantity = propagateqty * this.step2_data.quantity
 
       }
       else {
@@ -8785,7 +8797,7 @@ export class CwViewOldComponent implements OnInit {
     }
     let temp_feature_code;       
     propagateqty= itemData[0].OPTM_QUANTITY;
-    propagateqty = propagateqty * this.getPropagateQuantity(tempparentarray[0].nodeid);     
+    propagateqty = propagateqty * this.getPropagateQuantity(tempparentarray[0].unique_key);     
       if(itemData[0].feature_code == undefined || itemData[0].feature_code == null || itemData[0].feature_code == "" ){
         temp_feature_code = tempparentarray[0].feature_code; 
       } else {

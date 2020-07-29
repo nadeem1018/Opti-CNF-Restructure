@@ -539,7 +539,7 @@ export class LookupComponent implements OnInit {
 
     {
       field: 'DisplayName',
-      title: this.language.Model_Name,
+      title: this.language.Model_Code,
       type: 'text',
       width: '100',
       attrType: 'text'
