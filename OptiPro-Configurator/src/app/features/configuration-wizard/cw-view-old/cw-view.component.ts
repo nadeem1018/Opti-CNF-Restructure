@@ -5537,9 +5537,18 @@ export class CwViewOldComponent implements OnInit {
                       return obj.unique_key == featureitemlistfilterdata[0].unique_key;
                     });
                   }
+                  if (temp_model_data.length == 0 && step3_data_row.ModelHeaderItemsArray.length > 0) {
+                    temp_model_data = step3_data_row.ModelHeaderItemsArray.filter(function (obj) {
+                      // return obj.OPTM_ITEMKEY == featureitemlistfilterdata[0].Item;
+                      return obj.unique_key == featureitemlistfilterdata[0].unique_key;
+                    });
+                  }
+                  
+                  if(temp_model_data.length > 0) {
                   if (temp_model_data[0].OPTM_MODELID !== undefined) {
                     temp_model_id_default = temp_model_data[0].OPTM_MODELID
                   }
+                 }
                  var isExist = temp_step2_final_dataset_save.filter(function (obj) {
                     return  obj['UNIQUE_KEY'] == featureitemlistfilterdata[0].unique_key;
                   });
