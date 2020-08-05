@@ -3159,7 +3159,7 @@ export class CwViewOldComponent implements OnInit {
             
             this.showLookupLoader = false;
           }
-          if (data.DataForSelectedFeatureModelItem.length == 1) {
+          if (data.DataForSelectedFeatureModelItem.length == 1) {           
             var currentSelectedFeatureId = data.DataForSelectedFeatureModelItem[0].OPTM_FEATUREID;
             var currentSelectedNodeId = data.DataForSelectedFeatureModelItem[0].unique_key;
             if (currentSelectedFeatureId != null && currentSelectedFeatureId != "") {
@@ -8024,7 +8024,7 @@ export class CwViewOldComponent implements OnInit {
         if (this.ModelBOMDataForSecondLevel[imodelchecked].OPTM_FEATUREID == feature_model_data.OPTM_FEATUREID && this.ModelBOMDataForSecondLevel[imodelchecked].OPTM_ITEMKEY == feature_model_data.OPTM_ITEMKEY && this.ModelBOMDataForSecondLevel[imodelchecked].unique_key == feature_model_data.unique_key) {
           this.ModelBOMDataForSecondLevel[imodelchecked].checked = value
         }
-        if (this.ModelBOMDataForSecondLevel[imodelchecked].OPTM_FEATUREID == feature_model_data.OPTM_FEATUREID && elementtypeforcheckedfunction == "radio" && this.ModelBOMDataForSecondLevel[imodelchecked].OPTM_ITEMKEY != feature_model_data.OPTM_ITEMKEY && this.ModelBOMDataForSecondLevel[imodelchecked].unique_key == feature_model_data.unique_key) {
+        if (this.ModelBOMDataForSecondLevel[imodelchecked].OPTM_FEATUREID == feature_model_data.OPTM_FEATUREID && elementtypeforcheckedfunction == "radio" && this.ModelBOMDataForSecondLevel[imodelchecked].OPTM_ITEMKEY != feature_model_data.OPTM_ITEMKEY && this.ModelBOMDataForSecondLevel[imodelchecked].unique_key != feature_model_data.unique_key) {
           this.ModelBOMDataForSecondLevel[imodelchecked].checked = false
         }
       }
@@ -8769,7 +8769,7 @@ export class CwViewOldComponent implements OnInit {
     }
 
     
-    if(input_type == 'radio'){
+    if(input_type == 'radio'|| parseFloat(psMaxSelect) == 1){
       this.FeatureBOMDataForSecondLevel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
         if  (obj['nodeid'] == itemms.nodeid && obj['unique_key'] != itemms.unique_key){
           obj['checked'] = false
