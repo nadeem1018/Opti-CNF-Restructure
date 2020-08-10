@@ -44,6 +44,7 @@ export class OpRoutingAddEditComponent implements OnInit {
   public routing_type = ""
   public selectedImage = "";
   public mask: string = "00:00";
+  public isDuplicateMode:boolean = false;
   language = JSON.parse(sessionStorage.getItem('current_lang'));
     public menu_auth_index = '206';
 
@@ -123,14 +124,30 @@ export class OpRoutingAddEditComponent implements OnInit {
       this.isOperationDisabled = false;
     } else {
       CommonData.made_changes = false;
-      this.isSaveButtonVisible = false;
-      this.isUpdateButtonVisible = true;
-      this.isDeleteButtonVisible = true;
-      this.isExplodeButtonVisible = true;
-      this.show_resequence_btn = true;
-      this.show_resource_btn = true;
-      this.form_mode = 'edit';
-      this.isOperationDisabled = true;
+      if(this.ActivatedRouter.snapshot.url[0].path == "edit") {
+         this.isSaveButtonVisible = false;
+         this.isUpdateButtonVisible = true;
+        this.isDeleteButtonVisible = true;
+        this.isExplodeButtonVisible = true;
+        this.show_resequence_btn = true;
+        this.show_resource_btn = true;
+        this.form_mode = 'edit';
+        this.isOperationDisabled = true;
+        this.isDuplicateMode = false;
+
+      } else if(this.ActivatedRouter.snapshot.url[0].path == "add"){ 
+        this.isSaveButtonVisible = true;
+        this.isUpdateButtonVisible = false;
+        this.isDeleteButtonVisible = false;
+        this.isExplodeButtonVisible = true;
+        this.show_resequence_btn = true;
+        this.show_resource_btn = true;
+        this.form_mode = 'add';
+        this.isOperationDisabled = true;
+        this.isDuplicateMode = true;       
+      } 
+
+     
       this.showLoader = true;
       this.service.get_routing_details(this.update_id).subscribe(
         data => {
