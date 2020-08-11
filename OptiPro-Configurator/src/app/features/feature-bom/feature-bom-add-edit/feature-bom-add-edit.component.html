@@ -185,6 +185,11 @@
                                             <input [disabled]="dataItem.isDisplayNameDisabled" type="text" class="form-control  form-control-sm" id="display_name" (change)="on_displayname_change(display_name.value,dataItem.rowindex)" value={{dataItem.display_name}} #display_name title="{{dataItem.display_name}}" />
                                         </ng-template>
                                     </kendo-grid-column>
+                                    <kendo-grid-column field="Bom_Description" title="{{language.Bom_Description}}" filter="text" [width]="145" [minResizableWidth]="145">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <input [disabled]="dataItem.isDisplayNameDisabled" type="text" class="form-control  form-control-sm" id="description" (change)="on_description_change(description.value,dataItem.rowindex)" value={{dataItem.description}} #description title="{{dataItem.description}}" />
+                                        </ng-template>
+                                    </kendo-grid-column>
                                     <kendo-grid-column field="Bom_Qty" title="{{language.Bom_Qty}}" filter="text" [width]="90" [minResizableWidth]="90">
                                         <ng-template kendoGridCellTemplate let-dataItem>
                                             <input type="text" [disabled]="dataItem.isQuanityDisabled" class="form-control text-right form-control-sm feature_quantity" id="quantity" name="feature_quantity" (change)="on_quantity_change(quantity.value,dataItem.rowindex)" value={{dataItem.quantity}} #quantity title="{{dataItem.quantity}}" />

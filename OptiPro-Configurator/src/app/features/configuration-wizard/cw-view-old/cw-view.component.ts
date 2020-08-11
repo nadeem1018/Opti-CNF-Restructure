@@ -3191,9 +3191,14 @@ export class CwViewOldComponent implements OnInit {
         this.ModelHeaderData.sort((a, b) => a.sort_key.localeCompare(b.sort_key));
         this.showLookupLoader = false;
 
-        var selecteditem = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-          return obj['checked'] == true && obj['OPTM_TYPE'] == 2
+        var selecteditem = this.ModelBOMDataForSecondLevel.filter(function (obj) {
+          return obj['checked'] == true && obj['OPTM_TYPE'] == 2 && obj['OPTM_DEFAULT'] == "Y"
         })
+        if(selecteditem.length == 0){
+          var selecteditem = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+            return obj['checked'] == true && obj['OPTM_TYPE'] == 2 && obj['OPTM_DEFAULT'] == "Y"
+          })
+        }
         if(selecteditem.length > 0 && data.RuleOutputData.length > 0 && updateRule == false ){          
           this.onselectionchange(selecteditem[0], true, 0, true, selecteditem[0].unique_key, false, false, true);
           }
@@ -8788,6 +8793,12 @@ export class CwViewOldComponent implements OnInit {
         return obj;    
       });
 
+      for (var itemp3 = 0; itemp3 < this.feature_itm_list_table.length; itemp3++) {
+        if (this.feature_itm_list_table[itemp3].nodeid == itemms.nodeid) {
+          this.feature_itm_list_table.splice(itemp3, 1)
+          itemp3 = itemp3 - 1
+        }
+      }
      } 
      else {
       this.FeatureBOMDataForSecondLevel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {

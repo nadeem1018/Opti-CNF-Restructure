@@ -882,6 +882,17 @@ export class FeatureBomAddEditComponent implements OnInit {
       }
     }
   }
+  on_description_change(value, rowindex) {
+    CommonData.made_changes = true;
+     this.currentrowindex = rowindex
+     for (let i = 0; i < this.feature_bom_table.length; ++i) {
+       if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
+         this.feature_bom_table[i].description = value
+ 
+       //  this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
+       }
+     }
+   }
 
   on_typevalue_change(value, rowindex, code, type_value_code) {
     var iIndex;

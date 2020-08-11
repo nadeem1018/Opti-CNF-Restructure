@@ -113,6 +113,7 @@
     "Model_Bom": "Model BOM",
     "Bom_FeatureId": "Feature ID",
     "Bom_Displayname": "Display Name",
+    "Bom_Description": "Description",
     "Bom_FeatureDesc": "Feature Description",
     "Bom_FeatureValue": "Feature/Item/Value",
     "ModelBom_FeatureValue": "Feature/Item/Model",

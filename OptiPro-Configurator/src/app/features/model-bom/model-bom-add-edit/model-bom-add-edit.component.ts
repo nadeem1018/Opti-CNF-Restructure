@@ -1140,6 +1140,24 @@ on_display_name_change(value, rowindex) {
   }
 }
 
+on_description_change(value, rowindex) {
+
+  this.currentrowindex = rowindex
+  CommonData.made_changes = true;
+  for (let i = 0; i < this.modelbom_data.length; ++i) {
+    if (this.modelbom_data[i].rowindex === this.currentrowindex) {
+      if (this.modelbom_data.feature_name == value) {
+        this.modelbom_data[i].display_name = "";
+        
+        this.CommonService.show_notification(this.language.model_child_name_no_same, 'error');
+        return false;
+      }
+      this.modelbom_data[i].description = value;
+     // this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
+    }
+  }
+}
+
 on_quantity_change(value, rowindex) {
   this.currentrowindex = rowindex;
   CommonData.made_changes = true;
