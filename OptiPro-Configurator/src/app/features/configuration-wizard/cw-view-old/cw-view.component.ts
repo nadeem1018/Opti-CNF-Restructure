@@ -3491,6 +3491,9 @@ export class CwViewOldComponent implements OnInit {
         }
         let temp_feature_code;       
         propagateqty=1;
+        if (itemData[0].OPTM_PROPOGATEQTY  == "Y") {                    
+          propagateqty = parseFloat(itemData[0].OPTM_QUANTITY) ;                 
+         }
         propagateqty = propagateqty * this.getPropagateQuantity(tempparentarray[0].nodeid);
         if (itemData[0].OPTM_PROPOGATEQTY == "Y") {         
           propagateqtychecked = "Y";
@@ -8029,7 +8032,7 @@ export class CwViewOldComponent implements OnInit {
         if (this.ModelBOMDataForSecondLevel[imodelchecked].OPTM_FEATUREID == feature_model_data.OPTM_FEATUREID && this.ModelBOMDataForSecondLevel[imodelchecked].OPTM_ITEMKEY == feature_model_data.OPTM_ITEMKEY && this.ModelBOMDataForSecondLevel[imodelchecked].unique_key == feature_model_data.unique_key) {
           this.ModelBOMDataForSecondLevel[imodelchecked].checked = value
         }
-        if (this.ModelBOMDataForSecondLevel[imodelchecked].OPTM_FEATUREID == feature_model_data.OPTM_FEATUREID && elementtypeforcheckedfunction == "radio" && this.ModelBOMDataForSecondLevel[imodelchecked].OPTM_ITEMKEY != feature_model_data.OPTM_ITEMKEY && this.ModelBOMDataForSecondLevel[imodelchecked].unique_key != feature_model_data.unique_key) {
+        if (this.ModelBOMDataForSecondLevel[imodelchecked].OPTM_FEATUREID == feature_model_data.OPTM_FEATUREID && elementtypeforcheckedfunction == "radio" && this.ModelBOMDataForSecondLevel[imodelchecked].nodeid == feature_model_data.nodeid && this.ModelBOMDataForSecondLevel[imodelchecked].unique_key != feature_model_data.unique_key) {
           this.ModelBOMDataForSecondLevel[imodelchecked].checked = false
         }
       }
