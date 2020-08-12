@@ -2475,9 +2475,8 @@ export class CwViewOldComponent implements OnInit {
 
                       if (feature_model_data.OPTM_PROPOGATEQTY == "Y") {
                         if (DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY == "Y") {
-                          DataForSelectedFeatureModelItem[i].OPTM_QUANTITY = parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY) * parseFloat(feature_model_data.OPTM_QUANTITY)
-                          propagateqty = DataForSelectedFeatureModelItem[i].OPTM_QUANTITY
-                        }
+                           propagateqty = parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY) * parseFloat(feature_model_data.OPTM_QUANTITY)
+                            }
 
                       }
 
