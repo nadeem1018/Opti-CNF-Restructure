@@ -28,7 +28,7 @@
                       <div class="col-md-6">                
                         <div class="form-group row clearfix">
                           <label class="col-sm-3 col-form-label" for="featureItemCode">
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center required">
                               <span>{{language.model}}</span>
                               <a class="cursor-pointer ml-2 d-flex align-items-center" (click)="navigateToMasterHeader(modelbom_data.modal_id)" *ngIf="modelbom_data.modal_id && modelbom_data.modal_code">
                                 <svg viewBox="0 0 32 32" class="icon icon-dark"><use xlink:href="#circleRightArrow" ></use></svg>
@@ -81,7 +81,7 @@
 
                     <!-- Add Row Grid -->             
                     <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
-                      <kendo-grid [kendoGridBinding]="modelbom_data" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"  [kendoGridSelectBy]="'rowindex'"  [ngStyle]="{'height':'100%', 'max-width':'100%'}" [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
+                      <kendo-grid [kendoGridBinding]="modelbom_data" [reorderable]="true" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"  [kendoGridSelectBy]="'rowindex'"  [ngStyle]="{'height':'100%', 'max-width':'100%'}" [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
                         <ng-template kendoGridToolbarTemplate>
                           <div class="d-flex align-items-center">
                               <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" title="{{language.add_row}}" (click)="onAddRow()" #button class="btn btn-sm btn-primary with-icon mr-2"><svg viewBox="0 0 8500 8500" class="icon"><use xlink:href="#add"></use></svg> {{language.add_row}}
@@ -113,7 +113,7 @@
                             </select>
                           </ng-template>
                         </kendo-grid-column>
-                        <kendo-grid-column field="ModelBom_FeatureValue" title="{{language.ModelBom_FeatureValue}}" filter="text" [width]="155" [minResizableWidth]="155">
+                        <kendo-grid-column field="ModelBom_FeatureValue" title="{{language.ModelBom_FeatureValue}}" headerClass = "required" filter="text" [width]="155" [minResizableWidth]="155">
                           <ng-template kendoGridCellTemplate let-dataItem>
                             <div class="input-group">
                               <input [disabled]="dataItem.isTypeDisabled" type="hidden" class="form-control  form-control-sm row_type_value_id" id="type_value" (change)="on_typevalue_change(type_value.value,dataItem.rowindex, type_value_code.value, type_value_code)"
@@ -136,7 +136,7 @@
                         </kendo-grid-column>
                         <kendo-grid-column field="Bom_Description" title="{{language.Bom_Description}}" filter="text" [width]="145" [minResizableWidth]="145">
                           <ng-template kendoGridCellTemplate let-dataItem>
-                              <input [disabled]="dataItem.isDisplayNameDisabled" type="text" class="form-control  form-control-sm" id="description" (change)="on_description_change(description.value,dataItem.rowindex)" value={{dataItem.description}} #description title="{{dataItem.description}}" />
+                              <input [disabled]="dataItem.isBomDescriptionDisabled" type="text" class="form-control  form-control-sm" id="bom_description" (change)="on_description_change(bom_description.value,dataItem.rowindex)" value={{dataItem.bom_description}} #bom_description title="{{dataItem.bom_description}}" />
                           </ng-template>
                       </kendo-grid-column>
                         <kendo-grid-column field="uom" title="{{language.uom}}" filter="text" [width]="70" [minResizableWidth]="70">

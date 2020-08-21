@@ -25,7 +25,7 @@
         <div class="row no-gutters">
           <div class="col-md-6 pt-2">
             <div class="form-group row no-gutters">
-              <label class="control-label col-sm-2 d-flex align-items-center mb-0" for="feature">{{language.code}}</label>
+              <label class="control-label col-sm-2 d-flex align-items-center mb-0 required" for="feature">{{language.code}}</label>
               <div class="col-sm-5">
                 <input type="text" [disabled]="!isCodeDisabled" class="form-control form-control-sm" placeholder="{{language.code}}" id="usrID" maxlength="50" name="code" (change)="CheckDuplicateCode()" [(ngModel)]="codekey" #inputBox title="{{codekey}}" (blur)="onCodeStrBlur(codekey)">
               </div>
@@ -36,7 +36,7 @@
         <!-- <hr> -->
 
         
-        <kendo-grid [kendoGridBinding]="itemcodetable" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false">
+        <kendo-grid [kendoGridBinding]="itemcodetable"  [reorderable]="true" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false">
           <ng-template kendoGridToolbarTemplate>
             <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" *ngIf="showAddRowbtn" class="btn btn-sm btn-primary with-icon" title="{{language.add_row}} " (click)="onAddRow(0)"><svg viewBox="0 0 8500 8500" class="icon"><use xlink:href="#add"></use></svg> {{language.add_row}}
             </button>
@@ -50,7 +50,7 @@
               </select>
             </ng-template>
           </kendo-grid-column>
-          <kendo-grid-column field="string" title="{{language.string}}" filter="text" [width]="430"
+          <kendo-grid-column field="string"  title="{{language.string}}" headerClass = "required" filter="text" [width]="430"
             [minResizableWidth]="430">
             <ng-template kendoGridCellTemplate let-dataItem>
               <input type="text" class="form-control  form-control-sm" id="stringtxt" value={{dataItem.string}} title="{{dataItem.string}}" #stringtxtvalue (blur)="onStrBlur(stringtxtvalue.value, dataItem.rowindex, dataItem.stringtype)" />

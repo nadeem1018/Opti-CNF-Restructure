@@ -19,7 +19,10 @@ export class SidebarComponent implements OnInit {
   public language = JSON.parse(sessionStorage.getItem('current_lang'));
   ngOnInit() {
     let temp_menu_data = [  
-      { "itemCode": "0", "itemName": this.language.dashboard, "itemNav": "/home", "itemIcon": "#home", "itemIconSize": "0 0 512 512", "permission":true},
+      { "itemCode": "0", "itemName": this.language.dashboard, "itemNav": "/home", "itemIcon": "#home", "itemIconSize": "0 0 512 512", "permission":true,  
+      children: [
+       { "itemCode": "0", "itemName": this.language.dashboard, "itemNav": "/home", "itemIcon": "#home", "itemIconSize": "0 0 512 512", "permission":true} ,  
+       { "itemCode": "207", "itemName": this.language.archiving, "itemNav": "/archive", "itemIcon": "#archive", "itemIconSize": "0 0 58 58", "permission":true}      ] },
       { "itemCode": "200", "itemName": this.language.itemcodegeneration, "itemNav": "/item-code-generation", "itemIcon": "#code", "itemIconSize": "0 0 612 619.2", "permission":true},
       { "itemCode": "201", "itemName": this.language.model_feature_master, "itemNav": "/feature", "itemIcon": "#featureModal", "itemIconSize": "0 0 512 512", "permission":true},
       { "itemCode": "202", "itemName": this.language.feature_Bom, "itemNav": "/feature-bom", "itemIcon": "#featureBom", "itemIconSize": "0 0 395.636 395.636", "permission":true},
@@ -28,6 +31,8 @@ export class SidebarComponent implements OnInit {
       { "itemCode": "204", "itemName": this.language.rule_workbench, "itemNav": "/rule-work-bench", "itemIcon": "#ruleWorkBench", "itemIconSize": "0 0 504.123 504.123", "permission":true},
       { "itemCode": "207", "itemName": this.language.archiving, "itemNav": "/archive", "itemIcon": "#archive", "itemIconSize": "0 0 58 58", "permission":true},
       { "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission":true},
+      { "itemCode": "205", "itemName": this.language.assessment, "itemNav": "/assessment", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission":true},
+      { "itemCode": "205", "itemName": this.language.assessment_template, "itemNav": "/assessment-template", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission":true},
     ];
     let allowed_menus_ids =["0"];
     this.CommonService.getMenuRecord().subscribe(

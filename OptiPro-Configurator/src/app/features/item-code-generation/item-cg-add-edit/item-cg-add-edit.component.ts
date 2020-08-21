@@ -5,6 +5,7 @@ import { CommonData } from 'src/app/core/data/CommonData';
 import { DialogService } from 'src/app/core/service/dialog.service';
 import { CommonService } from 'src/app/core/service/common.service';
 import { ItemcodegenerationService } from 'src/app/core/service/itemcodegeneration.service';
+import { WindowDialogService } from 'src/app/core/service/window-dialog.service';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class ItemCgAddEditComponent implements OnInit {
     private route: Router, 
     private itemgen: ItemcodegenerationService,
     private commanService: CommonService, 
-    private DialogService: DialogService
+    private DialogService: DialogService,
+    private WindowDialogService: WindowDialogService
     ) { }
 
   companyName: string;
@@ -75,6 +77,7 @@ export class ItemCgAddEditComponent implements OnInit {
   canDeactivate() {
     if(CommonData.made_changes){
       return this.DialogService.confirm('');
+    //   this.WindowDialogService.showConfirmation();
     } else {
       return true;
     }
@@ -239,6 +242,7 @@ export class ItemCgAddEditComponent implements OnInit {
     else{
       this._button.nativeElement.focus();
     }
+   
   }
   onAddRow(oninit) {
     if( oninit == 0 ){

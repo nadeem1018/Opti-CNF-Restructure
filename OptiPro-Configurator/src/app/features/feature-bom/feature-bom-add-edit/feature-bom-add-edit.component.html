@@ -27,7 +27,7 @@
                             <div class="row pt-1">
                                 <div class="col-md-6">
                                     <div class="form-group row clearfix mb-2">
-                                        <label class="col-sm-4 col-form-label d-flex align-items-center" for="featureItemCode">
+                                        <label class="col-sm-4 col-form-label d-flex align-items-center required" for="featureItemCode">
                                             <span>{{language.Feature_Code}}</span>
                                             <a class="cursor-pointer ml-1 d-flex align-items-cente" (click)="navigateToMasterHeader(feature_bom_data.feature_id)" *ngIf="feature_bom_data.feature_id && feature_bom_data.feature_code">
                                                 <svg viewBox="0 0 32 32" class="icon icon-dark"><use xlink:href="#circleRightArrow"></use></svg>
@@ -137,7 +137,7 @@
 
                             <!-- Add Row Grid -->
                             <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
-                                <kendo-grid [kendoGridBinding]="feature_bom_table" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings" [kendoGridSelectBy]="'rowindex'" [selectedKeys]="row_selection" [ngStyle]="{'height':'100%', 'max-width':'100%'}" (selectionChange)="getSelectedRowDetail($event)">
+                                <kendo-grid [kendoGridBinding]="feature_bom_table" [reorderable]="true" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings" [kendoGridSelectBy]="'rowindex'" [selectedKeys]="row_selection" [ngStyle]="{'height':'100%', 'max-width':'100%'}" (selectionChange)="getSelectedRowDetail($event)">
                                     <ng-template kendoGridToolbarTemplate>
                                         <div class="d-flex align-items-center">
                                             <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" title="{{language.add_row}}" (click)="onAddRow()" #button class="btn btn-sm btn-primary with-icon mr-2"><svg viewBox="0 0 8500 8500" class="icon"><use xlink:href="#add"></use></svg> {{language.add_row}}
@@ -167,7 +167,7 @@
                                             </select>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column field="Bom_FeatureValue" title="{{language.Bom_FeatureValue}}" filter="text" [width]="145" [minResizableWidth]="145">
+                                    <kendo-grid-column field="Bom_FeatureValue" title="{{language.Bom_FeatureValue}}" headerClass = "required" filter="text" [width]="145" [minResizableWidth]="145">
                                         <ng-template kendoGridCellTemplate let-dataItem>
                                             <input [disabled]="dataItem.isTypeDisabled" type="hidden" class="form-control  form-control-sm" id="type_value" (change)="on_typevalue_change(type_value.value,dataItem.rowindex, dataItem.type_value_code)" value={{dataItem.type_value}} #type_value title="{{dataItem.type_value}}" />
                                             <div class="input-group">
@@ -187,7 +187,7 @@
                                     </kendo-grid-column>
                                     <kendo-grid-column field="Bom_Description" title="{{language.Bom_Description}}" filter="text" [width]="145" [minResizableWidth]="145">
                                         <ng-template kendoGridCellTemplate let-dataItem>
-                                            <input [disabled]="dataItem.isDisplayNameDisabled" type="text" class="form-control  form-control-sm" id="description" (change)="on_description_change(description.value,dataItem.rowindex)" value={{dataItem.description}} #description title="{{dataItem.description}}" />
+                                            <input [disabled]="dataItem.isBomDescriptionDisabled" type="text" class="form-control  form-control-sm" id="bom_description" (change)="on_description_change(bom_description.value,dataItem.rowindex)" value={{dataItem.bom_description}} #bom_description title="{{dataItem.bom_description}}" />
                                         </ng-template>
                                     </kendo-grid-column>
                                     <kendo-grid-column field="Bom_Qty" title="{{language.Bom_Qty}}" filter="text" [width]="90" [minResizableWidth]="90">

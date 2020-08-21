@@ -305,6 +305,7 @@ export class FeatureBomAddEditComponent implements OnInit {
               type_value: this.typevaluefromdatabase.trim(),
               type_value_code: this.typevaluecodefromdatabase.trim(),
               display_name: data.FeatureDetail[i].OPTM_DISPLAYNAME,
+              bom_description: data.FeatureDetail[i].OPTM_FEATUREDEC,
               quantity: this.isQuanity,
               default: this.defaultcheckbox,
               remark: data.FeatureDetail[i].OPTM_REMARKS,
@@ -318,6 +319,7 @@ export class FeatureBomAddEditComponent implements OnInit {
               isQuanityDisabled: this.isQuanityDisabled,
               hide: this.ishide,
               pricehide: this.pricehide,
+              isBomDescriptionDisabled: true,
               is_accessory: data.FeatureDetail[i].OPTM_ACCESSORY,
               is_accessory_disabled: is_accessory_disabled,
               isPropagateQtyDisable: this.isPropagateQtyDisable,
@@ -887,7 +889,7 @@ export class FeatureBomAddEditComponent implements OnInit {
      this.currentrowindex = rowindex
      for (let i = 0; i < this.feature_bom_table.length; ++i) {
        if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
-         this.feature_bom_table[i].description = value
+         this.feature_bom_table[i].bom_description = value
  
        //  this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
        }

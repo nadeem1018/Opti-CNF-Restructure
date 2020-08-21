@@ -155,6 +155,7 @@ export class RuleWbAddEditComponent implements OnInit {
       this.rule_wb_data.effective_from = new Date((current_date.getMonth() + 1) + '/' + current_date.getDate() + '/' + current_date.getFullYear());
       this.showLoader = false;
       this.is_applicable_for_disabled = false;
+      this.isDuplicateMode = false;
     } else {
       CommonData.made_changes = false;
       if(this.ActivatedRouter.snapshot.url[0].path == "edit") {
@@ -165,7 +166,7 @@ export class RuleWbAddEditComponent implements OnInit {
       this.show_sequence = false;
       this.show_add_sequence_btn = true
       this.is_applicable_for_disabled = true;
-      this.isDuplicateMode = true;
+      this.isDuplicateMode = false;
       } else if(this.ActivatedRouter.snapshot.url[0].path == "add"){ 
        this.isUpdateButtonVisible = false;
       this.code_disabled = "false";
@@ -203,9 +204,15 @@ export class RuleWbAddEditComponent implements OnInit {
             else {
               this.rule_wb_data.Excluded = true
             }
+            if(this.isDuplicateMode){
+              this.rule_wb_data.rule_code = "";
+              this.rule_wb_data.description = "";
+              var current_date = new Date();
+              this.rule_wb_data.effective_from = new Date((current_date.getMonth() + 1) + '/' + current_date.getDate() + '/' + current_date.getFullYear());
+            } else {
             this.rule_wb_data.rule_code = data.RuleWorkBenchHeader[0].OPTM_RULECODE
             this.rule_wb_data.description = data.RuleWorkBenchHeader[0].OPTM_DESCRIPTION;
-
+            
             var effectiveFrom;
             var effectiveTo;
             if (data.RuleWorkBenchHeader[0].OPTM_EFFECTIVEFROM !== undefined && data.RuleWorkBenchHeader[0].OPTM_EFFECTIVEFROM != "" && data.RuleWorkBenchHeader[0].OPTM_EFFECTIVEFROM != null) {
@@ -222,6 +229,7 @@ export class RuleWbAddEditComponent implements OnInit {
             this.rule_wb_data.effective_to = effectiveTo;
             this.editeffectivefrom = effectiveFrom
             this.editeffectiveto = effectiveTo
+          }
             /* this.rule_wb_data.effective_from = new Date(data.RuleWorkBenchHeader[0].OPTM_EFFECTIVEFROM);
             this.rule_wb_data.effective_to  = new Date(data.RuleWorkBenchHeader[0].OPTM_EFFECTIVETO); */
 
@@ -390,6 +398,7 @@ export class RuleWbAddEditComponent implements OnInit {
                   feature: fetch_data.OPTM_FEATUREID.toString(),
                   featureCode: fetch_data.OPTM_FEATURECODE,
                   item: fetch_data.OPTM_ITEMKEY,
+                  item_description: fetch_data.Description, 
                   value: fetch_data.OPTM_VALUE,
                   uom: fetch_data.OPTM_UOM,
                   quantity: parseFloat(fetch_data.OPTM_QUANTITY).toFixed(3),
@@ -832,7 +841,8 @@ export class RuleWbAddEditComponent implements OnInit {
               check_child: true,
               feature: data[i].Feature.toString(),
               featureCode: data[i].featureCode,
-              item: data[i].Item,
+              item: data[i].Item,   
+              item_description: data[i].DisplayName,                         
               value: data[i].Value,
               uom: data[i].UOM,
               quantity: parseFloat(data[i].Quantity).toFixed(3),
@@ -1529,7 +1539,9 @@ export class RuleWbAddEditComponent implements OnInit {
          }
          else if (name == "feature_item") {
            this.rule_feature_data[i].item = value
-         }
+         }else if (name == "feature_item_description") {
+          this.rule_feature_data[i].item_description = value
+        }
          else if (name == "feature_value") {
            this.rule_feature_data[i].value = value
          }
@@ -1621,6 +1633,16 @@ export class RuleWbAddEditComponent implements OnInit {
        }
      }
      else if (btnpress == "Save") {
+
+      if (this.rule_wb_data.rule_code == "" || this.rule_wb_data.rule_code == null) {
+        this.CommonService.show_notification(this.language.selectrulecode, 'error');
+        return false;
+      }
+      
+      if (this.rule_wb_data.effective_from == "" || this.rule_wb_data.effective_from == null) {
+         this.CommonService.show_notification(this.language.selecteffromdate, 'error');
+         return false;
+       }
        if (this.rule_expression_data.length == 0) {
          this.CommonService.show_notification(this.language.Nodataforsave, 'error');
          return false;

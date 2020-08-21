@@ -1711,4 +1711,9 @@ a.common_grid_link {
   //flex: 0 1 100%;
 }
 
- 
+.required:after {
+  content:"*";
+  color: red;
+  font-size: 20px;
+  margin-left: 5px;
+}

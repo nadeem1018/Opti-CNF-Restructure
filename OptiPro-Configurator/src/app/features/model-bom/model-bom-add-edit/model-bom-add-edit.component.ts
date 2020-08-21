@@ -360,6 +360,7 @@ public expandedKeysvalue: any[] = [];
                 type_value: this.typevaluefromdatabase,
                 type_value_code: this.typevaluecodefromdatabase,
                 display_name: data.ModelDetail[i].OPTM_DISPLAYNAME,
+                bom_description: data.ModelDetail[i].Description,
                 uom: data.ModelDetail[i].OPTM_UOM,
                 quantity: data.ModelDetail[i].OPTM_QUANTITY,
                 default: this.defaultcheckbox,
@@ -374,6 +375,7 @@ public expandedKeysvalue: any[] = [];
                 mandatory_item_disabled : mandatory_item_disabled,
                 unique_identifer: data.ModelDetail[i].OPTM_UNIQUEIDNT,
                 isDisplayNameDisabled: false,
+                isBomDescriptionDisabled: true,
                 isTypeDisabled: false,
                 hide: false,
                 CompanyDBId: this.companyName,
@@ -1147,12 +1149,12 @@ on_description_change(value, rowindex) {
   for (let i = 0; i < this.modelbom_data.length; ++i) {
     if (this.modelbom_data[i].rowindex === this.currentrowindex) {
       if (this.modelbom_data.feature_name == value) {
-        this.modelbom_data[i].display_name = "";
+        this.modelbom_data[i].bom_description = "";
         
         this.CommonService.show_notification(this.language.model_child_name_no_same, 'error');
         return false;
       }
-      this.modelbom_data[i].description = value;
+      this.modelbom_data[i].bom_description = value;
      // this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
     }
   }

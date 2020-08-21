@@ -27,7 +27,7 @@
                   <div class="row mb-1">
                     <div class="col-md-4">
                       <div class="form-group row clearfic mb-2">
-                        <label class="col-sm-4 col-form-label" for="date_range">{{language.date_range}}</label>
+                        <label class="col-sm-4 col-form-label required" for="date_range">{{language.date_range}}</label>
                         <div class="col-sm-8">
                           <kendo-daterange class="d-flex align-items-center">
                             <kendo-dateinput class="mr-2 w-100" kendoDateRangeStartInput [format]="'MM/dd/yyyy'" [(value)]="this.filter_section_data.from_date"></kendo-dateinput>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="col-md-4">
                       <div class="form-group row clearfic mb-2">
-                        <label class="col-sm-4 col-form-label" for="order_status">{{language.order_status}}</label>
+                        <label class="col-sm-4 col-form-label required" for="order_status">{{language.order_status}}</label>
                         <div class="col-sm-8">
                           <select class="form-control  form-control-sm mt3" name="order_status" id="order_status" [(ngModel)]="filter_section_data.order_status" #order_status_value (change)='OnOrderStatusChange(order_status_value)'>
                             <option *ngFor="let v of order_status_types" [value]="v.value" [selected]="filter_section_data.order_status == v.value">{{v.name}}</option>
@@ -77,7 +77,7 @@
                     </div>
                   </div> 
                   <div class="d-flex w-100" [ngStyle]="{'height':'calc(100vh - 230px)', 'flex':'0 1 100%'}" *ngIf="grid_section_data.length > 0">
-                    <kendo-grid [ngStyle]="{'height':'100%'}" class="w-100" [kendoGridBinding]="grid_section_data" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings" [kendoGridSelectBy]="'rowindex'" [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)" [pageSize]="getPageValue()" [pageable]="true">
+                    <kendo-grid [ngStyle]="{'height':'100%'}" class="w-100" [kendoGridBinding]="grid_section_data" [reorderable]="true" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings" [kendoGridSelectBy]="'rowindex'" [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)" [pageSize]="getPageValue()" [pageable]="true">
                       <ng-template kendoGridToolbarTemplate *ngIf="grid_section_data.length > 0">
                         <div class="d-flex align-items-center">
                             <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" class="btn btn-info btn-sm mr-2 with-icon" *ngIf="selectButtonIcon =='1'" title="{{language.select_all}}" (click)="select_all_data()">
