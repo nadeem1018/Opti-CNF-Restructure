@@ -621,9 +621,6 @@
     "cnf_archieved_successfully":"Configurations Archieved successfully",	
     "cnf_deleted_successfully":"Configurations Deleted successfully",	
     "delete_all":"Delete All",
-    "EffectiveTo": "Effective To",
-    "assessment": "Need’s Assessment",
-    "assessment_template": "Need’s Assessment Template"
-
+    "EffectiveTo": "Effective To"    
 
 }
