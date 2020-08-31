@@ -28,7 +28,7 @@ export class RuleWbViewComponent implements OnInit {
     public companyName: string = ""; 
     public isColumnFilter: boolean = false;
     public username: string = "";
-    add_route_link = '/rule-work-bench/add-edit';
+    add_route_link = '/rule-work-bench/add';
     record_per_page_list: any = [10, 25, 50, 100]
     record_per_page: any;
     search_string: any = "";
@@ -254,7 +254,7 @@ export class RuleWbViewComponent implements OnInit {
   }
     button_click1(data) {
 
-        this.router.navigateByUrl('rule-work-bench/add-edit/' + data.OPTM_RULEID);
+        this.router.navigateByUrl('rule-work-bench/edit/' + data.OPTM_RULEID);
         // button click function in here
     }
     button_click2(data) {
@@ -270,8 +270,8 @@ export class RuleWbViewComponent implements OnInit {
     }
 
     duplicate_record(data){
-        // data.OPTM_MODELFEATUREID
-    }
+        this.router.navigateByUrl('rule-work-bench/add/' + data.OPTM_RULEID);
+      }
 
     //This will take confimation box value
     get_dialog_value(userSelectionValue) {

@@ -12,8 +12,9 @@ const routes: Routes = [
     pathMatch: 'full'    
   }, 
   { path: 'view', component: RuleWbViewComponent },
-  { path: 'add-edit', component: RuleWbAddEditComponent, canDeactivate: [CanDeactivateGuard] },
-  { path: 'add-edit/:id', component: RuleWbAddEditComponent, canDeactivate: [CanDeactivateGuard] }
+  { path: 'add', component: RuleWbAddEditComponent, canDeactivate: [CanDeactivateGuard] },
+  { path: 'add/:id', component: RuleWbAddEditComponent, canDeactivate: [CanDeactivateGuard] },
+  { path: 'edit/:id', component: RuleWbAddEditComponent, canDeactivate: [CanDeactivateGuard] }
 ];
 
 @NgModule({

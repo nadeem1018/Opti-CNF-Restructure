@@ -113,6 +113,7 @@
     "Model_Bom": "Model BOM",
     "Bom_FeatureId": "Feature ID",
     "Bom_Displayname": "Display Name",
+    "Bom_Description": "Description",
     "Bom_FeatureDesc": "Feature Description",
     "Bom_FeatureValue": "Feature/Item/Value",
     "ModelBom_FeatureValue": "Feature/Item/Model",
@@ -620,7 +621,9 @@
     "cnf_archieved_successfully":"Configurations Archieved successfully",	
     "cnf_deleted_successfully":"Configurations Deleted successfully",	
     "delete_all":"Delete All",
-    "EffectiveTo": "Effective To"
+    "EffectiveTo": "Effective To",
+    "assessment": "Need’s Assessment",
+    "assessment_template": "Need’s Assessment Template"
 
 
 }

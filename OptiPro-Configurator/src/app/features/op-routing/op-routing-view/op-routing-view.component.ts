@@ -24,7 +24,7 @@ export class OpRoutingViewComponent implements OnInit {
 
     language = JSON.parse(sessionStorage.getItem('current_lang'));
     page_main_title = this.language.routing;
-    add_route_link = '/routing/add-edit';
+    add_route_link = '/routing/add';
     public showLoader: boolean = true;
     record_per_page: any;
     search_string: any = "";
@@ -62,7 +62,7 @@ export class OpRoutingViewComponent implements OnInit {
 
 
     button_click1(data) {
-        this.router.navigateByUrl('routing/add-edit/' + data.OPTM_MODELFEATUREID);
+        this.router.navigateByUrl('routing/edit/' + data.OPTM_MODELFEATUREID);
     }
     button_click2(data) {
         this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.DeleteConfimation });
@@ -70,7 +70,9 @@ export class OpRoutingViewComponent implements OnInit {
         this.row_id = data.OPTM_MODELFEATUREID;
     }
 
-
+    duplicate_record(data){
+        this.router.navigateByUrl('routing/add/' + data.OPTM_MODELFEATUREID);
+      }
     show_association(data) {
         console.log("data ", data);
         return false;

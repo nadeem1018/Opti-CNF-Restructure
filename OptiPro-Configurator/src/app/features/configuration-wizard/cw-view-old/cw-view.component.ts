@@ -8801,7 +8801,6 @@ export class CwViewOldComponent implements OnInit {
           itemp3 = itemp3 - 1
         }
       }
-
      } 
      else {
       this.FeatureBOMDataForSecondLevel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {

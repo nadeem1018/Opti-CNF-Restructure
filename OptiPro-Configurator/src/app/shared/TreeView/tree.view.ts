@@ -62,7 +62,7 @@ export class TreeViewComponent {
     }
 
     get_childrens(unique_key, current_level) {
-        debugger;
+        //debugger;
         var next_level = (parseInt(current_level) + 1);
         let data = [];
         if (unique_key != "" && unique_key != null && unique_key != undefined) {

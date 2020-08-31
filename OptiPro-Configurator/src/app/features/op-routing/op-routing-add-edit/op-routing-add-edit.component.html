@@ -50,7 +50,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group row clearfix mb-2">
                                                     <label class="col-sm-6 col-form-label" for="feature_id">
-                                                        <div class="d-flex align-items-center justify-content-start">
+                                                        <div class="d-flex align-items-center justify-content-start required">
                                                             {{language.feature}}
                                                             <a class="cursor-pointer ml-2" *ngIf="routing_header_data.feature_id && routing_header_data.feature_code">
                                                                 <svg viewBox="0 0 32 32" class="icon icon-dark" (click)="navigateToFeatureModelHeader(routing_header_data.routing_for)"><use xlink:href="#circleRightArrow" ></use></svg>
@@ -90,7 +90,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group row clearfix mb-2">
                                                     <label class="col-sm-6 col-form-label" for="feature_id">
-                                                        <div class="d-flex align-items-center justify-content-start">
+                                                        <div class="d-flex align-items-center justify-content-start required">
                                                             {{language.model}}
                                                             <a class="cursor-pointer ml-2" *ngIf="routing_header_data.modal_id && routing_header_data.modal_code">
                                                                 <svg viewBox="0 0 32 32" class="icon icon-dark" (click)="navigateToFeatureModelHeader(routing_header_data.routing_for)"><use xlink:href="#circleRightArrow" ></use></svg>
@@ -130,7 +130,7 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group row clearfix mb-2">
-                                                <label class="col-sm-6 col-form-label" for="warehouse">{{language.warehouse}}</label>
+                                                <label class="col-sm-6 col-form-label required" for="warehouse">{{language.warehouse}}</label>
                                                 <input type="hidden" ngValue="" class="form-control  form-control-sm" name="itemCodeName" id="warehouse_id"
                                                     (change)="getWarehouseDetails(routing_header_data.warehouse_id)" placeholder="{{language.warehouse}}"
                                                     [(ngModel)]="routing_header_data.warehouse_id" title="{{routing_header_data.warehouse_id}}">
@@ -244,7 +244,7 @@
                             </div> 
                             <div [hidden] = "routing_header_data.use_template_routing"  [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">                    
                             <div  class="d-flex">                    
-                                <kendo-grid [kendoGridBinding]="routing_detail_data" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings" [ngStyle]="{'height':'100%'}" class="w-100" [kendoGridSelectBy]="'rowindex'" [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
+                                <kendo-grid [kendoGridBinding]="routing_detail_data" [reorderable]="true" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings" [ngStyle]="{'height':'100%'}" class="w-100" [kendoGridSelectBy]="'rowindex'" [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
                                     <ng-template kendoGridToolbarTemplate>
                                         <div class="d-flex align-items-center">
                                             <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" *ngIf="show_insert_operation_btn" [hidden]="this.current_selected_row.length == 0"class="btn btn-sm btn-primary with-icon mr-2" title="{{language.insert_operation}} "
@@ -298,7 +298,7 @@
                 
                                     </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column field="ModelBom_FeatureValue" title="{{grid_option_title}}" filter="text" [width]="155"
+                                    <kendo-grid-column field="ModelBom_FeatureValue" title="{{grid_option_title}}" headerClass = "required" filter="text" [width]="155"
                                     [minResizableWidth]="155">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input [disabled]="dataItem.isTypeDisabled" type="hidden" class="form-control  form-control-sm row_type_value_id" id="type_value" value={{dataItem.type_value}} #type_value title={{dataItem.type_value}} />   
@@ -329,7 +329,7 @@
                                         </ng-container>
                                     </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column field="oper_code" title="{{language.oper_code}}" filter="text" [width]="155" [minResizableWidth]="155">
+                                    <kendo-grid-column field="oper_code" title="{{language.oper_code}}" headerClass = "required" filter="text" [width]="155" [minResizableWidth]="155">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="hidden" class="form-control  form-control-sm row_oper_id" id="oper_id" value={{dataItem.oper_id}}
                                         #oper_id title={{dataItem.oper_id}} />

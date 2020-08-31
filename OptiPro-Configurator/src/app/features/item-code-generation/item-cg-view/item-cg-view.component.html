@@ -21,7 +21,7 @@
     <div class="card" fxFlex>
         <div class="card-body pb-2" fxFlex fxLayout="column">   
             <div class="main-portion">
-                <kendo-grid [kendoGridBinding]="this.dataArray" class="primary-grid height-restricted" [filterable]="isColumnFilter" [selectable]="true" [pageSize]="getPageValue()" [pageable]="true" [resizable]="true" (selectionChange)="on_selection($event)" [sortable]="{  allowUnsort: allowUnsort,  mode: 'single'}" [height]="500" [sort]="sort" (sortChange)="sortChange($event)">
+                <kendo-grid [kendoGridBinding]="this.dataArray" [reorderable]="true" class="primary-grid height-restricted" [filterable]="isColumnFilter" [selectable]="true" [pageSize]="getPageValue()" [pageable]="true" [resizable]="true" (selectionChange)="on_selection($event)" [sortable]="{  allowUnsort: allowUnsort,  mode: 'single'}" [height]="500" [sort]="sort" (sortChange)="sortChange($event)">
                     <ng-template kendoGridToolbarTemplate> 
                         <label class="custom-checkbox mb-0">
                             <input  #chkFilter type="checkbox" id="columnFilter" [(ngModel)]="isColumnFilter" (change)="saveFilterState()" name="columnfilter">
