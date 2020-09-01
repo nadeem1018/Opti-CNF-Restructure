@@ -54,11 +54,12 @@ export class AuthService {
    } */
 
 
-  getLicenseData(compId: string, loginCredentials: any): Observable<any> {
+  getLicenseData(compId: string, loginCredentials: any, loginTriggerValue: any): Observable<any> {
     this.config_params = JSON.parse(sessionStorage.getItem('system_config'));
     let jObject = {
       LoginId: loginCredentials.userName,
-      CompanyId: compId
+      CompanyId: compId,
+      LoginTriggerValue: loginTriggerValue
     };
     return this.httpclient.post(this.config_params.service_url + "/Login/GetLicenseData", jObject, this.common_params.httpOptions);
   }

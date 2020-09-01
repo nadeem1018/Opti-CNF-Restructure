@@ -134,7 +134,7 @@ export class LoginComponent implements OnInit {
 		if (event.keyCode == 13) {
 			if (this.selecetedComp != undefined && this.selecetedComp != "") {
 				// this.onLoginBtnPress();
-				this.getLisenceData();
+				this.getLisenceData('1');
 			} else {
 				this.onConnectBtnPress();
 			}
@@ -224,17 +224,17 @@ export class LoginComponent implements OnInit {
 		}
 	}
 
-	getLisenceData() {
+	getLisenceData(loginTriggerValue: any) {
 		if (this.selecetedComp == undefined || this.selecetedComp == "") {
 			this.CommonService.show_notification(this.language.CompanyRequired, 'warning');
 			return;
 		} else {
 
 			this.showLoginLoader = true;
-			this.auth.getLicenseData(this.selecetedComp.OPTM_COMPID, this.loginCredentials).subscribe(
+			this.auth.getLicenseData(this.selecetedComp.OPTM_COMPID, this.loginCredentials, loginTriggerValue).subscribe(
 				data => {
 					if (data != undefined) {
-						this.licenseData = data;
+						this.licenseData = data;						
 						this.handleLicenseDataSuccessResponse();
 					} else {
 						//  alert("Lisence Failed");
@@ -265,6 +265,8 @@ export class LoginComponent implements OnInit {
 				sessionStorage.setItem("Token", this.licenseData[0].Token);
 				this.onLoginBtnPress();
 
+			} else if (this.licenseData[0].ErrMessage == "Already Login") {				
+				this.openUserDialog();			 
 			} else {
 				this.showLoginLoader = false;
 				this.CommonService.show_notification(this.licenseData[0].ErrMessage, 'error');
@@ -274,6 +276,17 @@ export class LoginComponent implements OnInit {
 			this.CommonService.show_notification(this.licenseData[0].ErrMessage, 'error');
 		}
 	}
+    //open dialog
+	openUserDialog(){
+		let userResponse;
+		userResponse = confirm(this.language.user_already_loggedin);
+		if (userResponse == true) {
+		  this.getLisenceData('2');
+		}
+		else{
+		  this.getLisenceData('3');
+		}
+	  }
 
 	//to get the companies assigned to user
 	getCompanies() {
