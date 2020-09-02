@@ -59,7 +59,7 @@ export class AuthService {
     let jObject = {
       LoginId: loginCredentials.userName,
       CompanyId: compId,
-      LoginTriggerValue: loginTriggerValue
+      LoginTrigger: loginTriggerValue
     };
     return this.httpclient.post(this.config_params.service_url + "/Login/GetLicenseData", jObject, this.common_params.httpOptions);
   }

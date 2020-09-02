@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
 	public project_name = "";
 	public showLoginLoader: boolean = true;
 	public connectButtonLoader: boolean = false;
+	public loginTriggerValue = "1";
 
 	public appVersion: any;
 	// common_params = new CommonData();
@@ -134,7 +135,8 @@ export class LoginComponent implements OnInit {
 		if (event.keyCode == 13) {
 			if (this.selecetedComp != undefined && this.selecetedComp != "") {
 				// this.onLoginBtnPress();
-				this.getLisenceData('1');
+				this.loginTriggerValue = "1";
+				this.getLisenceData();
 			} else {
 				this.onConnectBtnPress();
 			}
@@ -224,14 +226,14 @@ export class LoginComponent implements OnInit {
 		}
 	}
 
-	getLisenceData(loginTriggerValue: any) {
+	getLisenceData() {
 		if (this.selecetedComp == undefined || this.selecetedComp == "") {
 			this.CommonService.show_notification(this.language.CompanyRequired, 'warning');
 			return;
 		} else {
 
 			this.showLoginLoader = true;
-			this.auth.getLicenseData(this.selecetedComp.OPTM_COMPID, this.loginCredentials, loginTriggerValue).subscribe(
+			this.auth.getLicenseData(this.selecetedComp.OPTM_COMPID, this.loginCredentials, this.loginTriggerValue).subscribe(
 				data => {
 					if (data != undefined) {
 						this.licenseData = data;						
@@ -281,10 +283,12 @@ export class LoginComponent implements OnInit {
 		let userResponse;
 		userResponse = confirm(this.language.user_already_loggedin);
 		if (userResponse == true) {
-		  this.getLisenceData('2');
+		this.loginTriggerValue = "2";
+		  this.getLisenceData();
 		}
 		else{
-		  this.getLisenceData('3');
+		this.loginTriggerValue = "3";	
+		  this.getLisenceData();
 		}
 	  }
 
