@@ -1,0 +1,347 @@
+<!-- loader start -->
+<div class="loader-sm" *ngIf="showLoader">
+    <svg viewBox="0 0 218.2 218.8" class="loader2">
+        <use xlink:href="#loader2"></use>
+    </svg>
+</div>
+    <!-- loader end -->
+    
+<!-- loader start for lookup -->
+<div class="loader-sm" *ngIf="showLookupLoader">
+    <svg viewBox="0 0 218.2 218.8" class="loader2">
+        <use xlink:href="#loader2"></use>
+    </svg>
+</div>
+<!-- loader end for lookup -->
+
+<div class="layout-mode" fxFlex fxLayout="column">
+    <div class="page-header">
+        <h4>{{page_main_title}}</h4>
+    </div>
+    <div class="card" fxFlex>
+        <div class="card-body pb-2" fxFlex fxLayout="column">   
+          <form class="form-horizontal" fxFlex="0 1 100%" fxLayout="column">
+            <div class="main-portion"> 
+              <div class="row h-100">
+                <div class="col-md-12 d-flex flex-column" id="left-table-section">                   
+                    <div class="row">
+                      <div class="col-md-6">              
+                                       
+                        <div class="form-group row clearfix">
+                          <label class="col-sm-3 col-form-label" for="featureDisplay">{{language.template_id}}</label>
+                          <div class="col-sm-5">
+                            <input type="text" name="feature_name" class="form-control  form-control-sm" id="featuredisplayname" placeholder="{{language.template_id}}" #Templateinputbox [(ngModel)]="modelbom_data.feature_name" title="{{modelbom_data.feature_name}}">
+                          </div>
+                          
+                        </div>
+                        <div class="form-group row clearfix">
+                          <label class="col-sm-3 col-form-label" for="featureDesc">{{language.description}}</label>
+                          <div class="col-sm-5">
+                            <input type="text" name="feature_desc" class="form-control  form-control-sm" id="featureDesc" placeholder="{{language.description}}"  [(ngModel)]="modelbom_data.feature_desc" title="{{modelbom_data.feature_desc}}">
+                          </div>
+                        </div>  
+                        <div class="form-group row clearfix mb-2">
+                          <label class="col-sm-3 col-form-label" for="featureDisplay">{{language.Model_Active}}</label>
+                          <div class="col-sm-5 mt-3px">
+                            <label class="custom-checkbox mb-0 wihtout-label">
+                              <input type="checkbox" id="yes" name="discontinued" [(ngModel)]="modelbom_data.is_ready_to_use"
+                                class="custom-control-input" value="1" title="{{modelbom_data.is_ready_to_use}}" tabindex="5">
+                                <span class="checkbox"></span>
+                              </label>
+                          </div>
+                        </div>              
+                        <div class="form-group row clearfix" *ngIf="showImageBlock">
+                          <label class="col-sm-3 col-form-label" for="image">{{language.image}}</label>
+                          <div class="col-sm-5">
+                            <div class="row image_data">
+                              <div class=" col-md-4 col-sm-4">
+                                <a href="javascript:;" data-toggle="modal" data-target="#enlarge_image_modal" (click)="enlage_image(header_image_data)">
+                                  <img src="{{header_image_data}}" class="img-thumbnail rounded float-left mdelbom_image" alt="">
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>                
+                      </div>
+                    </div> 
+
+                    <!-- Add Row Grid -->             
+                    <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
+                      <kendo-grid [kendoGridBinding]="modelbom_data" [reorderable]="true" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"  [kendoGridSelectBy]="'rowindex'"  [ngStyle]="{'height':'100%', 'max-width':'100%'}" [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
+                        <ng-template kendoGridToolbarTemplate>
+                          <div class="d-flex align-items-center">
+                              <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" title="{{language.add_row}}" (click)="onAddRow()" #button class="btn btn-sm btn-primary with-icon mr-2"><svg viewBox="0 0 8500 8500" class="icon"><use xlink:href="#add"></use></svg> {{language.add_row}}
+                              </button>
+                              <button [ngStyle]="{'padding':'3px 5px','min-height':'22px','height':'22px'}" class="btn btn-primary btn-sm mr-2 btn-icon" [hidden]="this.current_selected_row.length == 0" *ngIf="this.modelbom_data.length > 1" title="{{language.move_row_up}} " (click)="resequence_operation('1')">
+                                  <svg viewBox="0 0 21.825 21.825" [ngStyle]="{'width':'14px','height':'14px', 'transform':'rotateX(180deg)'}" class="icon"><use xlink:href="#downArrow"></use></svg>
+                              </button>
+                              <button [ngStyle]="{'padding':'3px 5px','min-height':'22px','height':'22px'}" class="btn btn-primary btn-sm mr-2 btn-icon" [hidden]="this.current_selected_row.length == 0" *ngIf="this.modelbom_data.length > 1" title="{{language.move_row_down}}" (click)="resequence_operation('2')">
+                                  <svg viewBox="0 0 21.825 21.825" [ngStyle]="{'width':'14px','height':'14px'}" class="icon"><use xlink:href="#downArrow"></use></svg>
+                              </button>
+                              <button type="button" (click)="on_rule_click()" class="btn btn-sm btn-primary with-icon mr-2" [ngStyle]="{'padding':'3px 5px','min-height':'22px','height':'22px'}">
+                                <svg viewBox="0 0 32 32" class="icon"><use xlink:href="#transfer" ></use></svg>  {{language.apply_remove_rule}}
+                              </button>
+                          </div>
+                        </ng-template>
+                        <kendo-grid-column field="rowindex" headerClass="text-center" title="#" width="60" [minResizableWidth]="60" filter="numeric">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <div class="d-flex align-items-center justify-content-center">
+                              <a class="cursor-pointer mr-1 d-flex align-items-center" (click)="navigateToFeatureOrModelBom(dataItem.type_value, dataItem.type)" *ngIf="(dataItem.type_value) && (dataItem.type == '1' || dataItem.type == '3')">
+                                <svg viewBox="0 0 32 32" class="icon icon-dark"><use xlink:href="#circleRightArrow" ></use></svg>
+                              </a><span>{{dataItem.rowindex}}</span>
+                            </div>
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="assessment_id" title="{{language.assessment_id}}" filter="text" [width]="140" [minResizableWidth]="140">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <input type="text" class="form-control  form-control-sm" id="assessment_id" value={{dataItem.display_name}} (change)="on_display_name_change(display_name.value,dataItem.rowindex)" #display_name title={{dataItem.display_name}} />
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="question" title="{{language.question}}" filter="text" [width]="145" [minResizableWidth]="145">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                              <input [disabled]="dataItem.isBomDescriptionDisabled" type="text" class="form-control  form-control-sm" id="bom_description" (change)="on_description_change(bom_description.value,dataItem.rowindex)" value={{dataItem.bom_description}} #bom_description title="{{dataItem.bom_description}}" />
+                          </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="mandatory" headerClass="text-center" title="{{language.mandatory}}" [width]="100" [minResizableWidth]="100">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <label class="custom-checkbox mb-0 wihtout-label mx-auto curser-pointer">
+                            <input type="checkbox" id="mandatory_{{dataItem.rowindex}}" [disabled]="dataItem.isAccessory || dataItem.mandatory_item_disabled" value={{dataItem.mandatory}} (change)="on_mandatory_change(mandatory,dataItem.rowindex)" #mandatory [(checked)]="dataItem.mandatory" title="{{dataItem.mandatory}}">
+                            <span class="checkbox"></span>
+                          </label>  
+                        </ng-template>
+                      </kendo-grid-column>
+                        <!-- <kendo-grid-column field="bom_type_option" title="{{language.Model_Type}}" [width]="110" [minResizableWidth]="110">
+                          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="dropdown_index">
+                            <select class="form-control form-control-sm" #selectedvalue (change)="on_bom_type_change(selectedvalue.value,dataItem.rowindex)">
+                              <option *ngFor="let v of model_bom_type" [value]="v.value" [selected]="dataItem.type==v.value">{{v.Name}}</option>
+                            </select>
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="ModelBom_FeatureValue" title="{{language.ModelBom_FeatureValue}}" headerClass = "required" filter="text" [width]="155" [minResizableWidth]="155">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <div class="input-group">
+                              <input [disabled]="dataItem.isTypeDisabled" type="hidden" class="form-control  form-control-sm row_type_value_id" id="type_value" (change)="on_typevalue_change(type_value.value,dataItem.rowindex, type_value_code.value, type_value_code)"
+                              value={{dataItem.type_value}} #type_value title={{dataItem.type_value}} />
+                              <input [disabled]="dataItem.isTypeDisabled" type="text" class="form-control  form-control-sm row_type_value_code" id="type_value_code" (change)="on_typevalue_change(type_value.value,dataItem.rowindex, type_value_code.value, type_value_code)"
+                              value={{dataItem.type_value_code}} #type_value_code title={{dataItem.type_value_code}} />
+                              <div class="input-group-append" [hidden]=dataItem.hide>
+                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="on_type_click(dataItem.type, dataItem.rowindex)">
+                                    <svg class="icon m-0" viewBox="0 -96 512 512"><use xlink:href="#menu"></use></svg>
+                                </span>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </kendo-grid-column>
+              
+                        <kendo-grid-column field="Bom_Displayname" title="{{language.Bom_Displayname}}" filter="text" [width]="140" [minResizableWidth]="140">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <input type="text" class="form-control  form-control-sm" id="display_name" value={{dataItem.display_name}} (change)="on_display_name_change(display_name.value,dataItem.rowindex)" #display_name title={{dataItem.display_name}} />
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="Bom_Description" title="{{language.Bom_Description}}" filter="text" [width]="145" [minResizableWidth]="145">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                              <input [disabled]="dataItem.isBomDescriptionDisabled" type="text" class="form-control  form-control-sm" id="bom_description" (change)="on_description_change(bom_description.value,dataItem.rowindex)" value={{dataItem.bom_description}} #bom_description title="{{dataItem.bom_description}}" />
+                          </ng-template>
+                      </kendo-grid-column>
+                        <kendo-grid-column field="uom" title="{{language.uom}}" filter="text" [width]="70" [minResizableWidth]="70">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <input type="text" [disabled]="dataItem.isUOMDisabled" class="form-control  form-control-sm" id="uom" value={{dataItem.uom}} (change)="on_uom_change(uom.value,dataItem.rowindex)" #uom title={{dataItem.uom}} />
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="Bom_Qty" title="{{language.Bom_Qty}}" filter="text" [width]="80" [minResizableWidth]="80">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <input type="text" class="form-control form-control-sm text-right bom_quantity" name="bom_quantity" id="quantity" value={{dataItem.quantity}} (change)="on_quantity_change(quantity.value,dataItem.rowindex)" title={{dataItem.quantity}} #quantity />
+                          </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="Bom_Default" headerClass="text-center" class="text-center" title="{{language.Bom_Default}}" filter="text" [width]="80" [minResizableWidth]="80">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                              <ng-container>
+                                  <label class="custom-checkbox mb-0 without-label">
+                                      <input type="checkbox" value="1" name="default_value_selection" id="default_{{dataItem.rowindex}}" (change)="on_defualt_change(default,dataItem.rowindex)" value={{dataItem.default}} #default [(checked)]=dataItem.default [disabled]="dataItem.is_default" title="{{dataItem.default}}">
+                                      <span class="checkbox"></span>
+                                  </label>
+                              </ng-container>
+                          </ng-template>
+                      </kendo-grid-column>
+
+
+                        <kendo-grid-column field="min_selectable" title="{{language.min_selectable}}" filter="text" [width]="118" [minResizableWidth]="118">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <input type="text" [disabled]="dataItem.isMinSelectedDisable" class="form-control text-right form-control-sm min_selectable_row" id="min_selected" value={{dataItem.min_selected}} (change)="on_min_selected_change(min_selected.value,dataItem.rowindex,min_selected)"
+                            #min_selected title="{{dataItem.min_selected}}" />
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="min_selectable" title="{{language.max_selectable}}" filter="text" [width]="118" [minResizableWidth]="118">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <input type="text" [disabled]="dataItem.isMaxSelectedDisable" class="form-control text-right form-control-sm pull-right max_selectable_row" id="max_selected" value={{dataItem.max_selected}} (change)="on_max_selected_change(max_selected.value,dataItem.rowindex,max_selected)" #max_selected title="{{dataItem.max_selected}}" />
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="propagate_qty" headerClass="text-center" title="{{language.propagate_qty}}" filter="numeric" [width]="115" [minResizableWidth]="115">
+                          <ng-template kendoGridCellTemplate let-dataItem>   
+                            <label class="custom-checkbox mb-0 wihtout-label mx-auto curser-pointer">
+                              <input type="checkbox" id="propagate_qtye_{{dataItem.rowindex}}" value={{dataItem.propagate_qty}} (change)="on_propagate_qty_change(propagate_qty,dataItem.rowindex)" [(checked)]="dataItem.propagate_qty" #propagate_qty title="{{dataItem.propagate_qty}}">
+                              <span class="checkbox"></span>
+                            </label>          
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="price_source" title="{{language.price_source}}" filter="text" [width]="110" [minResizableWidth]="110">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <div class="input-group">
+                              <input [disabled]="dataItem.price_source" type="hidden" class="form-control  form-control-sm" id="price_source_id" title="{{dataItem.price_source_id}}" (change)="on_price_source_change(price_source_id.value,price_source.value,dataItem.rowindex,price_source)" value={{dataItem.price_source_id}} #price_source_id />                
+                              <input type="text" class="form-control  form-control-sm" id="price_source" value={{dataItem.price_source}} name="price_source" (change)="on_price_source_change(price_source_id.value,price_source.value,dataItem.rowindex,price_source)" #price_source [disabled]="dataItem.isPriceDisabled" title="{{dataItem.price_source}}" />
+                              <div class="input-group-append" [hidden]=dataItem.pricehide>
+                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="openPriceLookUp(dataItem.type_value,dataItem.rowindex)">
+                                    <svg class="icon m-0" viewBox="0 -96 512 512"><use xlink:href="#menu"></use></svg>
+                                </span>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="mandatory" headerClass="text-center" title="{{language.mandatory}}" [width]="100" [minResizableWidth]="100">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <label class="custom-checkbox mb-0 wihtout-label mx-auto curser-pointer">
+                              <input type="checkbox" id="mandatory_{{dataItem.rowindex}}" [disabled]="dataItem.isAccessory || dataItem.mandatory_item_disabled" value={{dataItem.mandatory}} (change)="on_mandatory_change(mandatory,dataItem.rowindex)" #mandatory [(checked)]="dataItem.mandatory" title="{{dataItem.mandatory}}">
+                              <span class="checkbox"></span>
+                            </label>  
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="unique_identifier" headerClass="text-center" title="{{language.unique_identifier}}" [width]="135"
+                        [minResizableWidth]="135">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <label class="custom-checkbox mb-0 wihtout-label mx-auto curser-pointer">
+                              <input type="checkbox" id="unique_identifer_{{dataItem.rowindex}}" [disabled]="dataItem.isAccessory || dataItem.type == '2' " value={{dataItem.unique_identifer}} [(checked)]="dataItem.unique_identifer" (change)="on_unique_identifer_change(unique_identifer,dataItem.rowindex)" title="{{dataItem.unique_identifer}}" #unique_identifer >
+                              <span class="checkbox"></span>
+                            </label>  
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="print_on_report" headerClass="text-center" title="{{language.print_on_report}}" filter="numeric" [width]="120" [minResizableWidth]="120">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <label class="custom-checkbox mb-0 wihtout-label mx-auto curser-pointer">
+                              <input type="checkbox" id="print_on_report_{{dataItem.rowindex}}" value={{dataItem.print_on_report}}
+                              (change)="print_on_report_change(print_on_report,dataItem.rowindex)" [(checked)]=dataItem.print_on_report [disabled]="dataItem.print_on_report_disabled" #print_on_report title="{{dataItem.print_on_report}}">
+                              <span class="checkbox"></span>
+                            </label>  
+                          </ng-template>
+                        </kendo-grid-column> -->
+                        <kendo-grid-column field="delete" title="" template="" [width]="60" [minResizableWidth]="60">                
+                          <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                            <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg>
+                          </ng-template>                
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <button type="button" class="btn btn-danger btn-sm btn-icon" (click)="onDeleteRow(dataItem.rowindex)">
+                              <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg>
+                            </button>
+                          </ng-template>
+                        </kendo-grid-column>
+                      </kendo-grid>
+                    </div>
+                </div>
+
+                <div class="col-md-3 d-none" id="right-tree-section">
+                  <div class="opti_overflow-auto tree-wrapper">
+                 
+                    <!--<div class="tree1 well">-->
+                      <div class="tree well">
+                      <div class="collaps-control d-flex justify-content-end">
+                          <button class="btn btn-sm btn-icon btn-info mr-2 mt-2" title="{{this.language.expand_all}}" type="button" (click)="expandAll()">
+                              <svg class="icon" viewBox="0 0 1024 1024"><use xlink:href="#expandAll"></use></svg>
+                          </button>
+                          <button class="btn btn-sm btn-icon btn-success mr-2 mt-2" title="{{this.language.collapse_all}}" type="button" (click)="collapseAll()">
+                              <svg class="icon" viewBox="0 0 1024 1024"><use xlink:href="#collapseAll"></use></svg>
+                          </button>
+                          <button class="btn btn-sm btn-icon btn-danger mt-2 mr-2" (click)="toggleTree($event)" type="button" title="Close">
+                            <svg viewBox="0 0 475 475" class="icon"><use xlink:href="#close" ></use></svg>
+                          </button>
+                      </div>
+                      <div class="custom-kendo-tree">
+                        <kendo-treeview
+                        [nodes]="data1"
+                        textField="component"
+                        kendoTreeViewExpandable
+                        kendoTreeViewSelectable
+                        kendoTreeViewHierarchyBinding
+                        childrenField="children"
+                        [expandBy]="'unique_key'"
+                        [(expandedKeys)]="expandedKeys"
+                    >
+                    <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                      <span [attr.data-branchtype]="dataItem.branchType">{{dataItem.component}}</span>
+                            <!-- <span class="k-icon k-i-file-pdf"></span>
+                            {{dataItem.component}} -->
+                        </ng-template>
+                    </kendo-treeview>
+                      </div>
+                     <!-- <div class="tree">
+                      <ul class="parent_ul slim-scroll" *ngIf="tree_data_json.length > 0">
+                          <li class="first_level_li" *ngFor="let element of tree_data_json; let i= index;" [hidden]="element.level != 0 && element.node_id!=''">
+                              <div *ngIf="element.level == 0 && element.node_id==''">
+                                <ng-template #template>
+                                      <div class="modal-body text-center">
+                                          <img [attr.src]="element.modalImage" style="max-width:100%">
+                                      </div>
+                                  </ng-template>
+                                  <ng-template #popTemplate>
+                                    <div class="text-center">
+                                        <img *ngIf="!element.modalImage==''" [attr.src]="element.modalImage" height="100" (click)="openModal(template)">
+                                        <div *ngIf="element.modalImage==''" class="no-img-msg">No Image Found</div>
+                                    </div>
+                                </ng-template>
+                                <span class="first_level" kendoTooltip [tooltipTemplate]="template">
+                                    <span #btn (click)="childExpand(btn)" class="expand-btn expanded" id="expand-btn" *ngIf="check_component_exist(element.unique_key, i).length > 0"></span>
+                                    <span kendoTooltip [tooltipTemplate]="popTemplate" showOn="click" filter="span">
+                                        <span [attr.data-branchtype]="element.branchType">{{element.component}}</span>
+                                    </span>
+                                </span>
+                                <treeview id="treeview" #tree [tree_data_json]="check_component_exist(element.unique_key, i)" [complete_dataset]="tree_data_json" *ngIf="check_component_exist(element.unique_key, i).length > 0"></treeview>
+                              </div>
+                          </li>
+                      </ul>
+                    </div> -->
+                    </div>
+                  </div>
+                </div> 
+                
+                
+              </div>                          
+            </div>
+            <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
+              <div class="mr-auto d-flex align-items-center flex-wrap">
+                <button type="button" (click)="onSave()" *ngIf="isSaveButtonVisible" class="btn btn-sm btn-success with-icon mr-2">
+                  <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.save}}
+                </button>
+                <button type="button" *ngIf="isUpdateButtonVisible" (click)="onSave()" class="btn btn-sm btn-success with-icon mr-2">
+                  <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.update}}
+                </button>
+                <button type="button" (click)="onExplodeClick('manual')" *ngIf="isExplodeButtonVisible" class="btn btn-sm btn-info with-icon mr-2">
+                  <svg class="icon" viewBox="0 0 512 512"><use xlink:href="#treeView"></use></svg> {{language.explode}}
+                </button>        
+                <button type="button" (click)="onVerifyOutput()" *ngIf="isVerifyButtonVisible" class="btn btn-sm btn-primary with-icon mr-2">
+                  <svg viewBox="0 0 490 490" class="icon"><use xlink:href="#confirm"></use></svg> {{language.verify_output}}
+                </button> 
+              </div>
+              <div class="ml-auto d-flex align-items-center flex-wrap">
+                <button type="button" class="btn btn-sm btn-danger mr-2 with-icon" *ngIf="isDeleteButtonVisible" (click)="onDelete()">
+                  <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg>
+                  <span> {{language.delete}}</span>
+                </button>
+                <button type="button" routerLink="{{view_route_link}}" class="btn btn-sm btn-secondary with-icon">
+                  <svg viewBox="0 0 489 489" class="icon"><use xlink:href="#cancel"></use></svg>
+                  <span> {{language.cancel}}</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+    </div>
+</div>
+    
+
+<span [hidden]="showLookupLoader">
+    <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event) " 
+    [selectedImage]="selectedImage" (lookupvalues)="getLookupValues($event)"></app-lookup>
+</span>
+
+<!--Custom Dialog-->
+<app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)"></app-custom-dialogs>
+    

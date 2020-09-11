@@ -1,0 +1,110 @@
+<!-- loader start -->
+<div class="loader-sm" *ngIf="showLoader">
+    <svg viewBox="0 0 218.2 218.8" class="loader2">
+        <use xlink:href="#loader2"></use>
+    </svg>
+</div>
+    <!-- loader end -->
+    
+<!-- loader start for lookup -->
+<div class="loader-sm" *ngIf="showLookupLoader">
+    <svg viewBox="0 0 218.2 218.8" class="loader2">
+        <use xlink:href="#loader2"></use>
+    </svg>
+</div>
+<!-- loader end for lookup -->
+
+<div class="layout-mode" fxFlex fxLayout="column">
+    <div class="page-header">
+        <h4>{{page_main_title}}</h4>
+    </div>
+    <div class="card" fxFlex>
+        <div class="card-body pb-2" fxFlex fxLayout="column">   
+            <div class="main-portion">
+                <kendo-grid [kendoGridBinding]="this.dataArray" [reorderable]="true" class="primary-grid height-restricted" [filterable]="isColumnFilter" [selectable]="true" [pageSize]="getPageValue()" [pageable]="true" [resizable]="true" (selectionChange)="on_selection($event)" [sortable]="{  allowUnsort: allowUnsort,  mode: 'single'}" [height]="500" [sort]="sort" (sortChange)="sortChange($event)">
+                    <ng-template kendoGridToolbarTemplate> 
+                        <label class="custom-checkbox mb-0">
+                            <input  #chkFilter type="checkbox" id="columnFilter" [(ngModel)]="isColumnFilter" (change)="saveFilterState()" name="columnfilter">
+                            <span class="checkbox"></span>
+                            <span class="text-inverse">{{language.enable_filter}}</span>
+                        </label>
+                    </ng-template>
+    
+                    <kendo-grid-column field="checkbox" [sortable]="false" title="checkbox" filter="numeric" [width]="30"
+                        [minResizableWidth]="30" class="text-center" headerClass="text-center" [filterable]="false">
+                        <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
+                            <label class="custom-checkbox mb-0 wihtout-label">
+                                <input type="checkbox" name="parent_checkbox" class="parent_checkbox" #Selectallcheckedvalue (change)="on_Selectall_checkbox_checked(Selectallcheckedvalue.checked)"
+                                id="parent_checkbox_{{rowIndex}}" [checked]=selectall>
+                                <span class="checkbox"></span>
+                            </label>
+                        </ng-template>
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <label class="custom-checkbox mb-0 wihtout-label">
+                                <input type="checkbox" name="child_checkbox" class="child_checkbox" #checkedvalue (change)="on_checkbox_checked(checkedvalue.checked,dataItem)" [checked]=selectall
+                                id="child_checkbox_{{rowIndex}}">
+                                <span class="checkbox"></span>
+                            </label>
+                        </ng-template>
+                    </kendo-grid-column>
+    
+                    <kendo-grid-column *ngFor="let column of columns" field="{{column.field}}" title="{{column.title}}"
+                        filter="{{column.type}}" format="{{column.format}}" width="{{column.width}}"
+                        minResizableWidth="{{column.width}}">
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <ng-container *ngIf="column.attrType == 'link'">        
+                                <a class="common_grid_link" (click)="button_click1(dataItem)">{{dataItem[column.field]}}</a>        
+                            </ng-container>        
+                            <ng-container *ngIf="column.attrType == 'text'">{{dataItem[column.field]}}</ng-container>
+                        </ng-template>
+                    </kendo-grid-column>
+    
+                    <kendo-grid-column [sortable]="false" field="action" title="{{language.action}}" filter="numeric"
+                        [width]="100" [minResizableWidth]="100" [filterable]="false">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <button type="button" class="btn btn-sm btn-icon mr-2 btn-primary" (click)="button_click1(dataItem)" title="{{this.language.edit}}">
+                                <svg viewBox="0 0 383.947 383.947" class="icon"><use xlink:href="#editAlt" ></use></svg>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-icon mr-2 btn-danger" (click)="button_click2(dataItem)" title="{{this.language.delete}}">
+                                <svg viewBox="0 0 192 192" class="icon"><use xlink:href="#binAlt"></use></svg>
+                            </button>    
+                            <!-- <button type="button" class="btn btn-sm btn-icon mr-2 btn-secondary" (click)="show_association(dataItem)" title="{{this.language.associated_BOMs}}">
+                                <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#hierarchy"></use></svg>
+                            </button> -->
+                            <button type="button" class="btn btn-sm btn-icon btn-success" (click)="duplicate_record(dataItem)" title="{{this.language.duplicate_record}}">
+                                <svg viewBox="-22 0 435 435.6" class="icon"><use xlink:href="#copyAlt"></use></svg>
+                            </button>
+                        </ng-template>    
+                    </kendo-grid-column>
+                    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                        <kendo-pager-prev-buttons></kendo-pager-prev-buttons>                        
+                        <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
+                        <kendo-pager-next-buttons></kendo-pager-next-buttons>                        
+                        <kendo-dropdownlist [data]="listItems" class="form-control-sm ml-3 form-control d-inline-flex w-auto" (selectionChange)="getcurrentPageSize($event)"
+                        [(ngModel)]="selectedValue"></kendo-dropdownlist>
+                        <kendo-pager-info></kendo-pager-info>
+                    </ng-template>
+                </kendo-grid>
+            </div>
+            <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
+                <button type="button" routerLink="{{add_route_link}}" class="mr-10 btn btn-sm btn-primary with-icon mr-2">
+                    <svg viewBox="0 0 8500 8500" class="icon"><use xlink:href="#add"></use></svg> {{language.add}}
+                </button>
+                <button type="button" class="mr-10 btn btn-sm btn-danger with-icon" (click)="delete()">
+                    <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg> {{language.delete}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Custom Dialog-->
+<app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)">
+</app-custom-dialogs>
+
+<span [hidden]="showLookupLoader">
+    <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event) "
+        [selectedImage]="selectedImage"></app-lookup>
+    <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event) "
+        [selectedImage]="selectedImage"></app-lookup>
+</span>

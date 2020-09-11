@@ -622,6 +622,14 @@
     "cnf_deleted_successfully":"Configurations Deleted successfully",	
     "delete_all":"Delete All",
     "EffectiveTo": "Effective To",   
-    "user_already_loggedin": "You are already logged in. Close current session ? "
+    "user_already_loggedin": "You are already logged in. Close current session ? ",
+    "need_assessment": "Need's Assessment", 
+    "need_assessment_template": "Need's Assessment Template", 
+    "need_assessment_rule": "Need's Assessment Rule", 
+    "cust_need_tem_map": "Customer Needs Assessment Template mapping",
+    "assessment_id": "Assessment Id", 
+    "question": "Question",
+    "template_id": "Template Id",
+    "option": "Option"
 
 }

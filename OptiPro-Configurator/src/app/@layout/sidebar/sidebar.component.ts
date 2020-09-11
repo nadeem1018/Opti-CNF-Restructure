@@ -30,7 +30,12 @@ export class SidebarComponent implements OnInit {
       { "itemCode": "206", "itemName": this.language.routing, "itemNav": "/routing", "itemIcon": "#routing", "itemIconSize": "0 0 32 32", "permission":true},
       { "itemCode": "204", "itemName": this.language.rule_workbench, "itemNav": "/rule-work-bench", "itemIcon": "#ruleWorkBench", "itemIconSize": "0 0 504.123 504.123", "permission":true},
       { "itemCode": "207", "itemName": this.language.archiving, "itemNav": "/archive", "itemIcon": "#archive", "itemIconSize": "0 0 58 58", "permission":true},
-      { "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission":true}     
+      { "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission":true},
+      { "itemCode": "205", "itemName": this.language.need_assessment, "itemNav": "/need-assessment", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission":true},
+      { "itemCode": "205", "itemName": this.language.need_assessment_template, "itemNav": "/need-assessment-template", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission":true}
+      // { "itemCode": "205", "itemName": this.language.configuration, "itemNav": "/configuration", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission":true},     
+      // { "itemCode": "205", "itemName": this.language.need_assessment_rule, "itemNav": "/need-assessment-rule", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission":true} ,
+      // { "itemCode": "205", "itemName": this.language.cust_need_tem_map, "itemNav": "/customer-need-template", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission":true}         
     ];
     let allowed_menus_ids =["0"];
     this.CommonService.getMenuRecord().subscribe(

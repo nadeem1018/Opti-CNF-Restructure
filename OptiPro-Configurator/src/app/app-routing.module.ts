@@ -63,13 +63,13 @@ const routes: Routes = [
     data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
   },
   {
-    path: 'assessment',
-    loadChildren: () => import('./features/model-bom/model-bom.module').then(m => m.ModelBOMModule),    
+    path: 'need-assessment',
+    loadChildren: () => import('./features/need-assessment/need-assessment.module').then(m => m.NeedAssessmentModule),    
     data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
   },
   {
-    path: 'assessment-template',
-    loadChildren: () => import('./features/rule-work-bench/rule-work-bench.module').then(m => m.RuleWorkBenchModule),    
+    path: 'need-assessment-template',
+    loadChildren: () => import('./features/need-assessment-template/need-assessment-template.module').then(m => m.NeedAssessmentTemplateModule),    
     data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
   },
 ];
