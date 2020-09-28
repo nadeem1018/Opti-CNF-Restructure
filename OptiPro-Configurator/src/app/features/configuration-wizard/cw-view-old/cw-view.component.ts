@@ -7323,8 +7323,8 @@ export class CwViewOldComponent implements OnInit {
                       /* this.isRuleApplied = true */
                       this.FeatureBOMDataForSecondLevel[iItemFeatureTable].isRuleApplied = true
 
-                      console.log("rule-apply 11",this.FeatureBOMDataForSecondLevel[iItemFeatureTable]);
-                      console.log("rule-apply 22",RuleOutputData[iItemRule]);
+                  //    console.log("rule-apply 11",this.FeatureBOMDataForSecondLevel[iItemFeatureTable]);
+                     // console.log("rule-apply 22",RuleOutputData[iItemRule]);
 
                       if (this.ruleData.length > 0) {
                         let rule_data_rule_index = this.ruleData[this.ruleIndex];
@@ -7627,6 +7627,13 @@ export class CwViewOldComponent implements OnInit {
               //   }
               // } 
                 if (RuleOutputData[iItemRule].OPTM_ISINCLUDED.toString().trim() == "False") {
+                  var itemkey =  this.ModelBOMDataForSecondLevel[iModelItemTable].OPTM_ITEMKEY;   
+                  var isExist = RuleOutputData.filter(function (obj) {
+                    return  obj['OPTM_ITEMKEY'] == itemkey && obj['OPTM_ISINCLUDED'] == "True" 
+                    })
+
+                 if(isExist.length == 0)
+                  {
                   this.ModelBOMDataForSecondLevel[iModelItemTable].disable = true
                   this.ModelBOMDataForSecondLevel[iModelItemTable].checked = false
                   this.ModelBOMDataForSecondLevel[iModelItemTable].isRuleApplied = false
@@ -7639,6 +7646,7 @@ export class CwViewOldComponent implements OnInit {
                     }
                   }
                 }
+              }
                 else {
                   this.ModelBOMDataForSecondLevel[iModelItemTable].disable = false
 
@@ -7661,8 +7669,7 @@ export class CwViewOldComponent implements OnInit {
                       })
 
                       if(selecteditemforfeature.length == 0 || selecteditemforfeatureruledata.length == 0){
-                      
-                      this.ModelBOMDataForSecondLevel[iModelItemTable].checked = true;
+                                          
                       this.ruleData.push(this.ModelBOMDataForSecondLevel[iModelItemTable])
                       this.ModelBOMDataForSecondLevel[iModelItemTable].isRuleApplied = true
 
@@ -7670,6 +7677,7 @@ export class CwViewOldComponent implements OnInit {
                         let rule_data_rule_index = this.ruleData[this.ruleIndex];
 
                         if (rule_data_rule_index.isSecondIteration == false && callingApi == false) {
+                          this.ModelBOMDataForSecondLevel[iModelItemTable].checked = true;
                           this.insertfeaturiteminrightgrid(rule_data_rule_index);
                           //this.onselectionchange(rule_data_rule_index, true, 0, true, rule_data_rule_index.unique_key, true, false);
                           this.ModelBOMDataForSecondLevel[iModelItemTable].isSecondIteration = true
@@ -8757,8 +8765,12 @@ export class CwViewOldComponent implements OnInit {
     var psMaxSelect = "1"
     var psMinSelect = "1"
     var pselementclass = "custom-control custom-radio"
-    var input_type = "radio"                           
+    var input_type = "radio" 
 
+   if(tempparentarray.length == 0){
+    var psMaxSelect = "2"
+    var input_type = "checkbox" 
+   } else {
     if(tempparentarray[0].OPTM_MAX_SELECTABLE == undefined){
       psMaxSelect = tempparentarray[0].OPTM_MAXSELECTABLE
     }else {
@@ -8768,7 +8780,8 @@ export class CwViewOldComponent implements OnInit {
       psMinSelect = tempparentarray[0].OPTM_MINSELECTABLE
     }else{
       psMinSelect = tempparentarray[0].OPTM_MIN_SELECTABLE
-    }      
+    } 
+  }     
    
     if (parseFloat(psMaxSelect) > 1 || tempparentarray[0].OPTM_ISMULTISELECT == "Y") {
       pselementclass = "custom-control custom-checkbox"
@@ -8819,14 +8832,23 @@ export class CwViewOldComponent implements OnInit {
     }
     let temp_feature_code;       
     propagateqty= itemData[0].OPTM_QUANTITY;
+    if(tempparentarray.length != 0){
     propagateqty = propagateqty * this.getPropagateQuantity(tempparentarray[0].unique_key);     
       if(itemData[0].feature_code == undefined || itemData[0].feature_code == null || itemData[0].feature_code == "" ){
         temp_feature_code = tempparentarray[0].feature_code; 
       } else {
         temp_feature_code = itemData[0].feature_code;
       }
+    
       this.setItemDataForFeature(itemData, tempparentarray, propagateqtychecked, propagateqty, temp_feature_code, tempparentarray[0].HEADER_LINENO, itemms.OPTM_TYPE, input_type, false, "");
       
+    } 
+    // else{
+    //   var tempparentarray = this.feature_accessory_list.filter(function (obj) {
+    //     return  obj['unique_key'] == itemms.nodeid;
+    //   });
+    //   this.setItemDataForFeature(itemData, tempparentarray, propagateqtychecked, propagateqty, temp_feature_code, "", itemms.OPTM_TYPE, input_type, false, "");
+    // }
 
   }
 
