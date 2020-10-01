@@ -97,6 +97,7 @@ export class CwViewOldComponent implements OnInit {
   public navigatenextbtn: boolean = false;
   public validnextbtn: boolean = true;
   public showPrintOptions: boolean = false;
+  public SecondCallAPI: boolean = true;  
   public previousquantity: any = parseFloat("1").toFixed(3);
   public feature_tax_total = [
     { "key": this.language.tax, "value": this.feature_item_tax },
@@ -1908,6 +1909,8 @@ export class CwViewOldComponent implements OnInit {
             return obj['checked'] == true && obj['OPTM_TYPE'] == 2
           })
           if(selecteditem.length > 0 && data.RuleOutputData.length > 0){
+            this.showLookupLoader = false;
+            this.SecondCallAPI = false;
             this.onselectionchange(selecteditem[0], true, 0, true, selecteditem[0].unique_key, false, false, true);
           }
 
@@ -2131,7 +2134,11 @@ export class CwViewOldComponent implements OnInit {
       modelid = 0;
     }
 
+    if(this.SecondCallAPI){
     this.showLookupLoader = true;
+    }else {
+      this.SecondCallAPI = true;
+    }
     let GetDataForSelectedFeatureModelItemData: any = {};
     GetDataForSelectedFeatureModelItemData.selecteddata = [];
     GetDataForSelectedFeatureModelItemData.featurebomdata = [];
@@ -3198,7 +3205,9 @@ export class CwViewOldComponent implements OnInit {
             return obj['checked'] == true && obj['OPTM_TYPE'] == 2 && obj['OPTM_DEFAULT'] == "Y"
           })
         }
-        if(selecteditem.length > 0 && data.RuleOutputData.length > 0 && updateRule == false ){          
+        if(selecteditem.length > 0 && data.RuleOutputData.length > 0 && updateRule == false ){ 
+          this.showLookupLoader = false;
+          this.SecondCallAPI = false;         
           this.onselectionchange(selecteditem[0], true, 0, true, selecteditem[0].unique_key, false, false, true);
           }
       },//end data
