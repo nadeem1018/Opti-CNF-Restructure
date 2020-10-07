@@ -1093,6 +1093,7 @@ export class CwViewOldComponent implements OnInit {
       this.validnextbtn = true;
       this.getSavedModelData = [];
       this.lookupfor = "";
+      console.log("Performance Select Model", new Date());
       this.GetAllDataForModelBomOutput(this.getSavedModelData);
     }
     else if (this.lookupfor == 'Item_Detail_lookup') {
@@ -1702,7 +1703,7 @@ export class CwViewOldComponent implements OnInit {
     //   GUID: sessionStorage.getItem("GUID"),
     //   UsernameForLic: sessionStorage.getItem("loggedInUser")
     // })
-
+    console.log("Performance First Time Call API Start", new Date());
     AllDataForModelBomOutput.getmodelsavedata = getmodelsavedata
     this.feature_itm_list_table = [];
     this.OutputService.GetDataByModelIDForFirstLevel(AllDataForModelBomOutput).subscribe(
@@ -1732,7 +1733,7 @@ export class CwViewOldComponent implements OnInit {
             }
 
           }
-
+          console.log("Performance First Time Call API End", new Date());
           if (data.DeafultWarehouse !== undefined && data.DeafultWarehouse[0] !== undefined) {
             if (data.DeafultWarehouse[0].DEFAULTWAREHOUSE !== undefined) {
               this.warehouse = data.DeafultWarehouse[0].DEFAULTWAREHOUSE;
@@ -1884,8 +1885,9 @@ export class CwViewOldComponent implements OnInit {
             this.getDefaultItems(data.ObjFeatureItemDataWithDfaultY);
           }
 
-
+          console.log("Performance First Time Rule Data Bind Start", new Date());
           this.RuleIntegration(data.RuleOutputData, true, "", false)
+          console.log("Performance First Time Rule Data Bind Start", new Date());
 
           this.ModelLookupFlag = true
 
@@ -1908,6 +1910,7 @@ export class CwViewOldComponent implements OnInit {
           var selecteditem = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
             return obj['checked'] == true && obj['OPTM_TYPE'] == 2
           })
+          console.log("Performance First time Data Bind End", new Date());
           if(selecteditem.length > 0 && data.RuleOutputData.length > 0){
             this.showLookupLoader = false;
             this.SecondCallAPI = false;
@@ -1937,6 +1940,7 @@ export class CwViewOldComponent implements OnInit {
 
   async onselectionchange(feature_model_data, value, id, isSecondLevel, unique_key, isRuleComing, isEnableFeature, updateRule) {
     // this function sets/removes data from right grid on selection/de-selection.
+    console.log("Performance Call on Selection Method", new Date());
     let type = feature_model_data.OPTM_TYPE
     let modelid;
     let featureid;
@@ -2229,6 +2233,7 @@ export class CwViewOldComponent implements OnInit {
      GetDataForSelectedFeatureModelItemData.featurebomdata = this.SelectedFeautrItem;
      GetDataForSelectedFeatureModelItemData.modelbomdata = this.SelectedModelItem;
      console.log("API Calling Sequance", feature_model_data.OPTM_DISPLAYNAME)
+     console.log("Performance Call on Selection API Start", new Date());
     // this.OutputService.GetDataForSelectedFeatureModelItem(type, modelid, featureid, item, parentfeatureid, parentmodelid,selectedvalue,this.FeatureBOMDataForSecondLevel).subscribe(
     var objj = this;
    this.OutputService.GetDataForSelectedFeatureModelItem(GetDataForSelectedFeatureModelItemData).subscribe(
@@ -2242,7 +2247,7 @@ export class CwViewOldComponent implements OnInit {
               return;
             }
           }
-
+          console.log("Performance Call on Selection API End", new Date());
           if (value == true) {
             if (data.DataForSelectedFeatureModelItem.length > 0) {
               if(isRuleComing){
@@ -3048,7 +3053,9 @@ export class CwViewOldComponent implements OnInit {
                }
               if(ruledata.length >0  && isEnableFeature == false){
                 if(feature_model_data.OPTM_TYPE != 2  || isRuleComing == false){
+                 console.log("Performance on Selection Rule Data Bind Start", new Date());
                 this.RuleIntegration(ruledata, value, feature_model_data, isRuleComing);
+                console.log("Performance on Selection Rule Data Bind End", new Date());
                 }
               }else {
                 isEnableFeature = false
@@ -3073,7 +3080,7 @@ export class CwViewOldComponent implements OnInit {
               elementtypeforcheckedfunction = "checkbox"
             }                        
             }
-
+           
             if (isSecondLevel && feature_model_data.isRuleApplied == false) {
               this.checkedFunction(feature_model_data, elementtypeforcheckedfunction, value, true);
             } else {
@@ -3129,7 +3136,9 @@ export class CwViewOldComponent implements OnInit {
               //   }else{
               //     this.enableFeatureModelsItems1();
               //   }            
-              }            
+              } 
+              
+              
             if (data.RuleOutputData.length > 0) {              
                 let ruledata = [];              
                   for(var element in data.RuleOutputData ) {  
@@ -3148,7 +3157,9 @@ export class CwViewOldComponent implements OnInit {
                  }
               if(ruledata.length > 0 && isEnableFeature == false){
                 if(feature_model_data.OPTM_TYPE != 2  || isRuleComing == false){
+                  console.log("Performance on Selection Rule Data Bind Start", new Date());
                 this.RuleIntegration(data.RuleOutputData, value, feature_model_data, isRuleComing);
+                console.log("Performance on Selection Rule Data Bind End", new Date());
                 }
               } else {
                 isEnableFeature = false
@@ -3158,6 +3169,7 @@ export class CwViewOldComponent implements OnInit {
               this.enableFeatureModelsItems();
               this.enableFeatureModelsItems1();
             }
+          
             this.RuleOutputData = data.RuleOutputData;
             this.feature_price_calculate();
             this.ModelHeaderData.sort((a, b) => a.sort_key.localeCompare(b.sort_key));
@@ -3205,6 +3217,7 @@ export class CwViewOldComponent implements OnInit {
             return obj['checked'] == true && obj['OPTM_TYPE'] == 2 && obj['OPTM_DEFAULT'] == "Y"
           })
         }
+        console.log("Performance on Selection Data Bind End", new Date());
         if(selecteditem.length > 0 && data.RuleOutputData.length > 0 && updateRule == false ){ 
           this.showLookupLoader = false;
           this.SecondCallAPI = false;         
@@ -7202,6 +7215,8 @@ export class CwViewOldComponent implements OnInit {
 
   RuleIntegration(RuleOutputData, value, feature_model_data, callingApi) {
     if (RuleOutputData.length > 0) {
+      console.log("Performance  RuleIntegration Start", new Date());
+      console.log("Performance  Feature rule  Start", new Date());
       for (var iItemFeatureTable in this.FeatureBOMDataForSecondLevel) {
         loopRule:
         for (var iItemRule in RuleOutputData) {
@@ -7517,7 +7532,7 @@ export class CwViewOldComponent implements OnInit {
 
         }
       }
-
+      console.log("Performance  Feature rule  End", new Date());
        var ruleapplyitem =  this.FeatureBOMDataForSecondLevel.filter(function (obj) {
         return  obj['isRuleApplied'] == true
         })
@@ -7531,7 +7546,7 @@ export class CwViewOldComponent implements OnInit {
         }
 
 
-      
+        console.log("Performance  Model rule  Start", new Date());
 
       for (var iModelItemTable in this.ModelBOMDataForSecondLevel) {
         loopRule:
@@ -7793,7 +7808,7 @@ export class CwViewOldComponent implements OnInit {
 
         }
       }
-
+      console.log("Performance  Modle rule  End", new Date());
       var ruleapplyitem =  this.ModelBOMDataForSecondLevel.filter(function (obj) {
         return  obj['isRuleApplied'] == true
         })
@@ -7805,7 +7820,7 @@ export class CwViewOldComponent implements OnInit {
               this.selectdefaultFeatureModelsItems(ruleapplyitem[ruleitemIndex]);
             }
         }
-
+        console.log("Performance  Price rule  Start", new Date());
       for (var iFeatureItemaddedTable = 0; iFeatureItemaddedTable < this.feature_itm_list_table.length; iFeatureItemaddedTable++) {
         for (var iItemRule in RuleOutputData) {
           if (this.feature_itm_list_table[iFeatureItemaddedTable].Item == RuleOutputData[iItemRule].OPTM_ITEMKEY && this.feature_itm_list_table[iFeatureItemaddedTable].FeatureId == RuleOutputData[iItemRule].OPTM_APPLICABLEFOR) {
@@ -7913,10 +7928,11 @@ export class CwViewOldComponent implements OnInit {
           }
         }
       }
+      console.log("Performance  Price rule  End", new Date());
     }
     else {
       /* this.isRuleApplied = false */
-
+      console.log("Performance   rule not Apply", new Date());
       for (var iItemFeatureList in this.feature_itm_list_table) {
         this.feature_itm_list_table[iItemFeatureList].isPriceDisabled = true
         this.feature_itm_list_table[iItemFeatureList].pricehide = true
@@ -7960,6 +7976,7 @@ export class CwViewOldComponent implements OnInit {
 
     }
     this.defaultitemflagid = "";
+    console.log("Performance  RuleIntegration End", new Date());
   }
 
 
