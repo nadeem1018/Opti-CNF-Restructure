@@ -14,6 +14,8 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { TreeViewModule } from '@progress/kendo-angular-treeview';
+import { CustomLayoutModule } from './@layout/customLayout.module';
+import { LayoutModule, SplitterModule } from '@progress/kendo-angular-layout';
 
 
 
@@ -36,8 +38,12 @@ import { TreeViewModule } from '@progress/kendo-angular-treeview';
     DateInputsModule,
     TooltipModule,
     InputsModule,
-    TreeViewModule
-  ],
+    TreeViewModule,
+    CustomLayoutModule,
+    LayoutModule,
+    SplitterModule
+
+  ], 
   providers: [],
   bootstrap: [AppComponent]
 })

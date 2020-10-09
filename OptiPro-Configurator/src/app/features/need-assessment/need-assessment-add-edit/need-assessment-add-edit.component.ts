@@ -60,6 +60,7 @@ export class NeedAssessmentAddEditComponent implements OnInit {
   public defaultcheckbox: boolean = false; 
   public is_default: boolean = false;
   public config_params: any;
+  public detailRowGridCollapse: boolean = false;
 
   // modalRef: BsModalRef;
 
@@ -82,6 +83,15 @@ export class NeedAssessmentAddEditComponent implements OnInit {
   public NewModel = "";
 
   getSelectedRowDetail(event) {
+    this.detailRowGridCollapse = true;
+    if (event.selectedRows.length > 0) {
+      this.current_selected_row = event.selectedRows[0].dataItem;
+    } else {
+      this.current_selected_row = [];
+    }
+  }
+  getSelectedRowSecondGrid(event) {
+    //this.detailRowGridCollapse = true;
     if (event.selectedRows.length > 0) {
       this.current_selected_row = event.selectedRows[0].dataItem;
     } else {
