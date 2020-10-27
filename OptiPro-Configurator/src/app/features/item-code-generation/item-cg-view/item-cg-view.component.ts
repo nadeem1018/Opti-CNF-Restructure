@@ -173,6 +173,9 @@ export class ItemCgViewComponent implements OnInit {
     this.current_page = 1;
     this.service_call(this.current_page, this.search_string);
   }
+  getLookupValue($event) {
+
+  }
 
   log(data) {
     console.log(data);

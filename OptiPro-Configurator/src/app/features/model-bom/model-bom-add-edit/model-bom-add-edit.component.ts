@@ -473,6 +473,7 @@ onAddRow() {
     mandatory_item_disabled : false,
     unique_identifer: false,
     isDisplayNameDisabled: false,
+    isBomDescriptionDisabled: true,
     isTypeDisabled: false,
     hide: false,
     CompanyDBId: this.companyName,
@@ -527,6 +528,7 @@ clearData(rowindex) {
   //this.modelbom_data[rowindex].type_value="";
   this.modelbom_data[rowindex].uom = "";
   this.modelbom_data[rowindex].display_name = "";
+  this.modelbom_data[rowindex].bom_description = "";  
   this.modelbom_data[rowindex].quantity = ("0");
   this.modelbom_data[rowindex].min_selected = 1;
   this.modelbom_data[rowindex].max_selected = 1;
@@ -669,6 +671,7 @@ getModelFeatureDetails(feature_code, press_location, index) {
                 this.modelbom_data[i].type_value = data[0].OPTM_FEATUREID.toString();
                 this.modelbom_data[i].type_value_code = data[0].OPTM_FEATURECODE.toString();
                 this.modelbom_data[i].display_name = data[0].OPTM_DISPLAYNAME;
+                this.modelbom_data[i].bom_description = data[0].OPTM_DISPLAYNAME;
                 this.modelbom_data[i].min_selected = data[0].OPTM_MIN_SELECTABLE;
                 this.modelbom_data[i].max_selected = (data[0].OPTM_MAX_SELECTABLE != "" && data[0].OPTM_MAX_SELECTABLE != 0) ? data[0].OPTM_MAX_SELECTABLE : 1;
                 this.modelbom_data[i].feature_min_selected = data[0].OPTM_MIN_SELECTABLE;
@@ -930,6 +933,8 @@ getModelDetails(Model_code, press_location, index) {
                 this.modelbom_data[i].type_value = data[0].OPTM_FEATUREID;
                 this.modelbom_data[i].type_value_code = data[0].OPTM_FEATURECODE;
                 this.modelbom_data[i].display_name = data[0].OPTM_DISPLAYNAME
+                this.modelbom_data[i].bom_description = data[0].OPTM_DISPLAYNAME
+
                 this.live_tree_view_data.push({ "display_name": data[0].OPTM_DISPLAYNAME, "tree_index": this.currentrowindex ,"branchType": 'modal', "icon":'modal'});
               }
             }
@@ -1014,6 +1019,7 @@ getItemDetails(ItemKey) {
       this.modelbom_data[i].type_value = selectedDataDetails[0].ItemKey;
       this.modelbom_data[i].type_value_code = selectedDataDetails[0].ItemKey;
       this.modelbom_data[i].display_name = selectedDataDetails[0].Description
+      this.modelbom_data[i].bom_description = selectedDataDetails[0].Description
       this.modelbom_data[i].uom = selectedDataDetails[0].InvUOM
       this.modelbom_data[i].price_source = selectedDataDetails[0].ListName;
       this.modelbom_data[i].price_source_id = selectedDataDetails[0].PriceListID;

@@ -16,6 +16,8 @@ import { ToFixedPipe } from 'src/app/core/pipe/to-fixed.pipe';
 import { PreferencesComponent } from '../features/preferences/preferences.component';
 import { PanelBarModule } from '@progress/kendo-angular-layout';
 import { PdfpipePipe } from '../core/pipe/pdfpipe.pipe';
+import { SafePipe } from '../core/pipe/safe-url.pipe';
+import { FilterPipe, LookupFilterPipe } from '../core/pipe/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,9 @@ import { PdfpipePipe } from '../core/pipe/pdfpipe.pipe';
   CustomDialogsComponent,
   ToFixedPipe,
   PdfpipePipe,
+  FilterPipe,
+  SafePipe,
+  LookupFilterPipe,
   PreferencesComponent
 ],
   imports: [

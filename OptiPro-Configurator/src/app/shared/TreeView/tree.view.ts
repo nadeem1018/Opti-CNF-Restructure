@@ -13,7 +13,7 @@ import { Component, Input, HostListener, TemplateRef } from '@angular/core';
             </ng-template>
             <ng-template #templateTool>
                 <div class="text-center">
-                    <img *ngIf="!innerelement.modalImage==''" [attr.src]="innerelement.modalImage" height="100" (click)="openModal(template)">
+                    <img *ngIf="!innerelement.modalImage==''" [attr.src]="innerelement.modalImage" height="100" >
                     <div *ngIf="innerelement.modalImage=='' || innerelement.modalImage== undefined " class="no-img-msg">No Image Found</div>
                 </div>
             </ng-template>

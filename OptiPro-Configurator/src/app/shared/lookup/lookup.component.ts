@@ -24,7 +24,7 @@ export class LookupComponent implements OnInit {
   public commonData = new CommonData();
   language = JSON.parse(sessionStorage.getItem('current_lang'));
   popup_title = '';
-
+  public defaultCurrency = sessionStorage.defaultCurrency;
   public dialogOpened = false;
   public isDraggable: boolean = true;
   public current_popup_row: any = "";
@@ -73,6 +73,8 @@ export class LookupComponent implements OnInit {
   public enlargeImage: any;
   public reportDialogOpened: boolean = false;
   public reportBase64String:any;
+  public isColumnFilter: boolean = false;
+  public isColumnFilter1: boolean = false;
   
 
   constructor(

@@ -538,6 +538,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       price_source: "",
       price_source_id: "",
       isDisplayNameDisabled: false,
+      isBomDescriptionDisabled: true,
       isTypeDisabled: false,
       hide: false,
       is_accessory: 'N',
@@ -763,6 +764,7 @@ export class FeatureBomAddEditComponent implements OnInit {
         this.feature_bom_table[i].type_value = "";
         this.feature_bom_table[i].type_value_code = "";
         this.feature_bom_table[i].display_name = ""
+        this.feature_bom_table[i].bom_description = ""
         this.feature_bom_table[i].is_accessory = "N"
         if (selectedvalue == 3) {
           this.feature_bom_table[i].isDisplayNameDisabled = false
@@ -1188,8 +1190,8 @@ export class FeatureBomAddEditComponent implements OnInit {
         this.feature_bom_table[i].type_value_code = selectedDataDetails[0].ItemKey;
         this.feature_bom_table[i].is_accessory = 'N';
         this.feature_bom_table[i].is_accessory_disabled = false;
-        this.feature_bom_table[i].default = false;
-
+        this.feature_bom_table[i].default = false;       
+        this.feature_bom_table[i].bom_description = selectedDataDetails[0].Description;
         this.feature_bom_table[i].display_name = selectedDataDetails[0].Description;
         this.feature_bom_table[i].price_source = selectedDataDetails[0].ListName;
         this.feature_bom_table[i].price_source_id = selectedDataDetails[0].PriceListID;
@@ -1224,7 +1226,7 @@ export class FeatureBomAddEditComponent implements OnInit {
             if (this.lookupfor == 'feature_lookup') {
               // this.feature_bom_data.feature_id = data;
               this.feature_bom_data.feature_name = data[0].OPTM_DISPLAYNAME;
-              this.feature_bom_data.feature_desc = data[0].OPTM_FEATUREDESC;
+              this.feature_bom_data.bom_description = data[0].OPTM_FEATUREDESC;
               this.feature_bom_data.image_path = data[0].OPTM_PHOTO;
               this.feature_bom_data.is_accessory = data[0].OPTM_ACCESSORY;
               if (this.feature_bom_data.is_accessory == 'y' || this.feature_bom_data.is_accessory == 'Y') {
@@ -1273,7 +1275,9 @@ export class FeatureBomAddEditComponent implements OnInit {
                     this.feature_bom_table[i].is_accessory_disabled = false;
                     this.feature_bom_table[i].default = false;
                   }
+                  
                   this.feature_bom_table[i].display_name = data[0].OPTM_DISPLAYNAME;
+                  this.feature_bom_table[i].bom_description = data[0].OPTM_FEATUREDESC;
                   if (data[0].OPTM_PHOTO != null && data[0].OPTM_PHOTO != "") {
                     //this.feature_bom_table[i].preview = this.commonData.get_current_url() + data[0].OPTM_PHOTO;
                     this.feature_bom_table[i].preview = this.config_params.service_url+'/web'+ data[0].OPTM_PHOTO;
