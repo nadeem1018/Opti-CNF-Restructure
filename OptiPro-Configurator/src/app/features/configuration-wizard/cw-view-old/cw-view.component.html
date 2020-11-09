@@ -38,7 +38,8 @@
                             </li>
                         </ul>
                     </div>
-                    <fieldset class="one_step_block" data-block_id="choose_operation">
+                    <fieldset class="one_step_block"  data-block_id="choose_operation" >
+                        <div class="second_step_block">
                         <div class="main-portion" fxFlex fxLayout="column">
                             <div class="wizard_heading_section">
                                 <div class="container-fluid">
@@ -104,8 +105,10 @@
                                 <svg viewBox="0 0 24 24" class="icon arrow-icon"><use xlink:href="#rightArrow"></use></svg>{{language.next}}
                             </button>
                         </div>
+                       </div>
                     </fieldset>
                     <fieldset class="one_step_block" data-block_id="customer_details">
+                        <div class="second_step_block">
                         <div class="main-portion">
                             <div class="wizard_heading_section">
                                 <div class="container-fluid">
@@ -330,8 +333,10 @@
                                 <svg viewBox="0 0 24 24" class="icon arrow-icon"><use xlink:href="#rightArrow"></use></svg>{{language.next}}
                             </button>
                         </div>
+                    </div>
                     </fieldset>            
                     <fieldset class="one_step_block" data-block_id="model_bom_config">
+                        <div class="second_step_block">
                         <div class="main-portion">
                             <div class="wizard_heading_section">
                                 <div class="container-fluid">
@@ -388,7 +393,7 @@
                                             <kendo-panelbar *ngIf="ModelHeaderData.length > 0" [selectable]="false">
                                                 <kendo-panelbar-item [title]="header_data.OPTM_DISPLAYNAME" *ngFor="let header_data of ModelHeaderData; let i = index;" [expanded]="featurePanelToggle">
                                                     <!-- <ng-template kendoPanelBarItemTitle>
-                                                        
+                                                  
                                                     </ng-template> -->
                                                     <ng-template kendoPanelBarContent>
                                                         <table class="parent_table inner-table table table-bordered table-strip table-sm border-0 mb-0">
@@ -714,8 +719,10 @@
                                 </div>
                             </div>
                         </div>
+                        </div>
                     </fieldset>            
                     <fieldset class="one_step_block" data-block_id="accept_bom_so">
+                        <div class="second_step_block">
                         <div class="main-portion">
                             <div class="wizard_heading_section">
                                 <div class="container-fluid">
@@ -1021,8 +1028,10 @@
                                 </button>                                
                             </span>
                         </div>
+                        </div>
                     </fieldset>            
                     <fieldset class="one_step_block" data-block_id="fina_doc_create">
+                        <div class="second_step_block">
                         <div class="main-portion">
                             <div class="wizard_heading_section">
                                 <div class="container-fluid">
@@ -1423,6 +1432,7 @@
                             <button type="button" class="btn btn-sm btn-primary with-icon text-white" (click)="start_new_configuration_click()">
                                 <svg class="icon arrow-icon left-arrow" viewBox="0 0 24 24"><use xlink:href="#rightArrow"></use></svg> {{language.start_new_configuration}}
                             </button>            
+                        </div>
                         </div>
                     </fieldset>            
                 </form>

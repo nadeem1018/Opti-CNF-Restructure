@@ -24,7 +24,7 @@
 }
 .one_step_block{
     max-height:calc(100vh - 195px) !important;
-    height: calc(100vh - 195px) !important;
+    height: calc(100vh - 195px) !important;    
 }
 .main-portion{
     max-height: calc(100vh - 232px) !important;
@@ -172,4 +172,12 @@ hr {
         flex: 0 1 100%;
         height: 100%;
     }
+}
+.second_step_block{
+    max-height:calc(100vh - 195px) !important;
+    height: calc(100vh - 195px) !important;  
+    flex: 0 1 100%; 
+    display: block !important;
+    flex-direction: row;
+    box-sizing: border-box; 
 }
