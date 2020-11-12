@@ -162,6 +162,8 @@ export class CwViewOldComponent implements OnInit {
   public ModelHeaderData = [];
   public ModelBOMDataForSecondLevel = [];
   public FeatureBOMDataForSecondLevel = [];
+  public FeatureBOMDetailAttribute = [];
+  public ModelBOMDetailAttribute = [];  
   public RuleOutputData = [];
   public checked: boolean = false;
   public globalConfigId: any = '';
@@ -1033,6 +1035,59 @@ export class CwViewOldComponent implements OnInit {
     this.step1_data.person_name = this.person;
   }
 
+  openAttributeList(datatitem, type) {
+    this.showLookupLoader = true;
+    this.serviceData = []
+    this.setModelDataFlag = false;
+    let GetModelFeatureBOMAttribute: any = {};
+    GetModelFeatureBOMAttribute.FeatureBOMDetailAttribute = [];
+    GetModelFeatureBOMAttribute.ModelBOMDetailAttribute = [];
+    GetModelFeatureBOMAttribute.FeatureBOMDetailAttribute = this.FeatureBOMDetailAttribute;
+    GetModelFeatureBOMAttribute.ModelBOMDetailAttribute = this.ModelBOMDetailAttribute;
+
+    this.OutputService.GetAttributeResult(this.FeatureBOMDetailAttribute, this.ModelBOMDetailAttribute).subscribe(
+      data => {
+
+        if (data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.showLookupLoader = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.route, 'Sessionout');
+            return;
+          }
+
+          this.lookupfor = 'Attribute_lookup';
+          this.showLookupLoader = false;
+
+          if(type == 1){
+            this.serviceData = this.FeatureBOMDetailAttribute.filter(function (obj) {
+              return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID;
+            });
+            
+          } else {
+            this.serviceData = this.ModelBOMDetailAttribute.filter(function (obj) {
+              return obj['OPTM_MODELID'] == datatitem.model_id;
+            });
+          }
+        }
+        else {
+          this.lookupfor = "";
+          this.showLookupLoader = false;
+          this.serviceData = [];
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      }, error => {
+        this.showLookupLoader = false;
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
+  }
+
   openModalList() {
     this.showLookupLoader = true;
     this.serviceData = []
@@ -1826,7 +1881,8 @@ export class CwViewOldComponent implements OnInit {
               return obj['element_type'] = 'radio';
             }
           });
-
+          this.ModelBOMDetailAttribute =  data.ModelBOMDetailAttribute;
+          this.FeatureBOMDetailAttribute =  data.FeatureBOMDetailAttribute     
           this.FeatureBOMDataForSecondLevel = data.FeatureBOMDataForSecondLevel.filter(function (obj) {
             obj.isManuallyChecked = false
             obj.isSecondIteration = false

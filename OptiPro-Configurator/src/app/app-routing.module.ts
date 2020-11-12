@@ -63,8 +63,8 @@ const routes: Routes = [
     data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
   },
   {
-    path: 'assessment',
-    loadChildren: () => import('./features/model-bom/model-bom.module').then(m => m.ModelBOMModule),    
+    path: 'attribute',
+    loadChildren: () => import('./features/attribute/attribute.module').then(m => m.AttributeModule),    
     data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
   },
   {

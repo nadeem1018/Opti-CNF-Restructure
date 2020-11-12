@@ -216,9 +216,14 @@
                                         </ng-template>
                                     </kendo-grid-column>
                                     
-                                    <kendo-grid-column field="Bom_Remarks" title="{{language.Bom_Remarks}}" filter="text" [minResizableWidth]="113">
+                                    <kendo-grid-column field="Bom_Remarks" title="{{language.Bom_Remarks}}" filter="text" [width]="120" [minResizableWidth]="120">
                                         <ng-template kendoGridCellTemplate let-dataItem>
                                             <input type="text" class="form-control form-control-sm" id="remark" (change)="on_remark_change(remark.value,dataItem.rowindex)" value={{dataItem.remark}} #remark title="{{dataItem.remark}}" />
+                                        </ng-template>
+                                    </kendo-grid-column> <kendo-grid-column field="Bom_Remarks" title="{{language.attribute}}" filter="text" [width]="120" [minResizableWidth]="120">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <button type="button"  class="btn btn-sm btn-info with-icon mr-2">
+                                                {{language.attribute}} </button>
                                         </ng-template>
                                     </kendo-grid-column>
                                     <kendo-grid-column field="propagate_qty" headerClass="text-center" class="text-center" title="{{language.propagate_qty}}" filter="numeric" [width]="120" [minResizableWidth]="120">

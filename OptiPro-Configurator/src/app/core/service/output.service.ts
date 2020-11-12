@@ -37,6 +37,15 @@ export class OutputService {
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetModelForConfigureWizard?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
 
+  GetAttributeResult(FeatureBOMDetailAttributeData,ModelBOMDetailAttributeData): Observable<any> {
+    let cache_control = this.common_params.random_string(40);
+    //JSON Obeject Prepared to be send as a param to API
+    // let jObject = { AddressDetail: JSON.stringify([{ CompanyDBID: CompanyDBID,Customer: Customer,ShipTo:ShipTo }]) };
+    let jObject: any = { GetModelFeatureBOMAttribute: JSON.stringify({ FeatureBOMDetailAttribute: FeatureBOMDetailAttributeData, ModelBOMDetailAttribute: ModelBOMDetailAttributeData }) };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetAttributeResult?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
+  }
+
   getFeatureList(modelid): Observable<any> {
     let cache_control = this.common_params.random_string(40);
     let jObject = { GetFeature: JSON.stringify([{ currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, ModelId: modelid,

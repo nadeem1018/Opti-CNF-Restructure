@@ -204,6 +204,10 @@ export class LookupComponent implements OnInit {
       this.configure_list_lookup();
       return;
     }
+    if (this.popup_lookupfor == "Attribute_lookup") {
+      this.get_attribute_lookup();
+      return;
+    }
     if (this.popup_lookupfor == "ModelBomForWizard_lookup") {
       this.get_ModelWizard_lookup();
       return;
@@ -454,6 +458,40 @@ export class LookupComponent implements OnInit {
         this.dialogOpened = true;
         this.loadServerData(this.serviceData);
       }
+    }
+  }
+
+  get_attribute_lookup() {
+    this.popup_title = this.language.ModelBom;
+    this.LookupDataLoaded = false;
+    this.showLoader = true;
+    this.fill_input_id = 'featureNameId';
+    this.lookup_key = 'OPTM_FEATUREID';
+    this.table_head = [
+      {
+        field: 'OPTM_ATTR_NAME',
+        title: 'Attribute Name',
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+      {
+        field: 'OPTM_ATTR_VALUE',
+        title: 'Attribute Value',
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+    ];
+    this.table_head_hidden_elements = [true, false, false, true, true];
+    this.width_value = ((100 / this.table_head.length) + '%');
+    this.showLoader = false;
+    this.LookupDataLoaded = true;
+    if (this.serviceData !== undefined) {
+      this.dialogOpened = true;
+      // if (this.serviceData.length > 0) {
+      //   this.dialogOpened = true;
+      // }
     }
   }
 
