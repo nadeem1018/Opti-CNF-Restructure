@@ -240,7 +240,7 @@
             <div class="routing-resource-contents">
                    <div class="w-100">                        
                         <div class="d-flex align-items-center mb-2 pl-1">
-                            <button type="button" title="{{language.add_row}}" (click)="insert_new_resource()" class="btn btn-sm btn-primary with-icon mr-2">
+                            <button type="button" title="{{language.add_row}}" (click)="insert_new_attribute()" class="btn btn-sm btn-primary with-icon mr-2">
                               <svg viewBox="0 0 8500 8500" class="icon"><use xlink:href="#add"></use></svg>{{language.add_row}}
                             </button>
                           </div>
@@ -255,63 +255,54 @@
                                 </ng-template>
                             </kendo-grid-column>
     
-                            <kendo-grid-column field="attribute_id" title="{{language.attribute_id}}" filter="text" [width]="140"
+                            <kendo-grid-column field="OPTM_ATTR_CODE" title="{{language.attribute_id}}" filter="text" [width]="140"
                                 [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
-                                    <input type="text" class="form-control  form-control-sm" id="operation_no" value="{{dataItem.operation_no}}"
-                                        [disabled]="dataItem.is_resource_disabled" (change)="on_input_change(operation_no.value,dataItem.rowindex, 'operation_no')"
-                                        #operation_no title="{{dataItem.operation_no}}" />
+                                    <input type="text" class="form-control  form-control-sm" id="attribute_id" value="{{dataItem.attribute_id}}"
+                                        (change)="on_input_change_attribute(attribute_id.value,dataItem.rowindex, 'attribute_id')"
+                                        #attribute_id title="{{dataItem.attribute_id}}" />
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column field="attribute_desc" title="{{language.attribute_desc}}" filter="text"
-                                [width]="155" [minResizableWidth]="155">
-                                <ng-template kendoGridCellTemplate let-dataItem>
-                                    <div class="input-group">
-                                        <input type="hidden" class="form-control  form-control-sm row_resource_id" id="resource_id"
-                                            value={{dataItem.resource_id}} #resource_id title={{dataItem.resource_id}} />
-                                        <input type="text" class="form-control  form-control-sm row_resource_code" id="resource_code"
-                                            (change)="on_input_change(resource_code.value,dataItem.rowindex, 'resource_code')"
-                                            value={{dataItem.resource_code}} #resource_code title={{dataItem.resource_code}} />
-                                        <div class="input-group-append" [hidden]=dataItem.hide>
-                                            <span class="btn btn-sm btn-primary cursor-pointer btn-icon" id="basic-addon2"
-                                                (click)="open_resource_lookup(dataItem.type, dataItem.rowindex)">
-                                                <svg class="icon m-0" viewBox="0 -96 512 512"><use xlink:href="#menu"></use></svg>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </ng-template>
-                            </kendo-grid-column>
-                            <kendo-grid-column field="option" title="{{language.option}}" filter="text"
+                            <kendo-grid-column field="OPTM_ATTR_NAME" title="{{language.attribute_desc}}" filter="text" [width]="140"
+                            [minResizableWidth]="140">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <input type="text" class="form-control  form-control-sm" id="attribute_desc" value="{{dataItem.attribute_desc}}"
+                                    (change)="on_input_change_attribute(attribute_desc.value,dataItem.rowindex, 'attribute_desc')"
+                                    #attribute_desc title="{{dataItem.attribute_desc}}" />
+                            </ng-template>
+                        </kendo-grid-column>
+
+                            <kendo-grid-column field="OPTM_OPTION" title="{{language.option}}" filter="text"
                                 [width]="140" [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
-                                    <input type="text" class="form-control  form-control-sm row_resource_name" id="resource_name"
+                                    <input type="text" class="form-control  form-control-sm row_resource_name" id="option"
                                         value={{dataItem.resource_name}} [disabled]="dataItem.is_resource_disabled"
-                                        (change)="on_input_change(resource_name.value,dataItem.rowindex, 'resource_name')"
-                                        #resource_name title={{dataItem.resource_name}} />
+                                        (change)="on_input_change_attribute(option.value,dataItem.rowindex, 'option')"
+                                        #option title={{dataItem.option}} />
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column field="formula" title="{{language.formula}}" filter="text" [width]="140"
+                            <kendo-grid-column field="OPTM_FORMULA" title="{{language.formula}}" filter="text" [width]="140"
                                 [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
-                                    <input type="text" class="form-control  form-control-sm row_resource_uom" id="resource_uom"
-                                        value={{dataItem.resource_uom}} [disabled]="dataItem.is_resource_disabled" (change)="on_input_change(resource_uom.value,dataItem.rowindex, 'resource_uom')"
-                                        #resource_uom title={{dataItem.resource_uom}} />
+                                    <input type="text" class="form-control  form-control-sm row_resource_uom" id="formula"
+                                        value={{dataItem.formula}}  (change)="on_input_change_attribute(formula.value,dataItem.rowindex, 'formula')"
+                                        #formula title={{dataItem.formula}} />
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column field="function" title="{{language.function}}" filter="text"
+                            <kendo-grid-column field="OPTM_API_FUNCTION" title="{{language.function}}" filter="text"
                                 [width]="140" [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <input type="text" class="form-control  form-control-sm text-right row_resource_consumption"
-                                        id="resource_consumption" value={{dataItem.resource_consumption}} (change)="on_input_change(resource_consumption.value,dataItem.rowindex, 'resource_consumption')"
-                                        #resource_consumption title={{dataItem.resource_consumption}} />
+                                        id="function" value={{dataItem.function}} (change)="on_input_change_attribute(function.value,dataItem.rowindex, 'function')"
+                                        #function title={{dataItem.function}} />
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column field="inputs" title="{{language.inputs}}" filter="text" [width]="140"
+                            <kendo-grid-column field="OPTM_INPUT" title="{{language.inputs}}" filter="text" [width]="140"
                                 [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <input type="text" class="form-control  form-control-sm text-right row_resource_inverse"
-                                        id="resource_inverse" value={{dataItem.resource_inverse}} (change)="on_input_change(resource_inverse.value,dataItem.rowindex, 'resource_inverse')"
-                                        #resource_inverse title={{dataItem.resource_inverse}} />
+                                        id="inputs" value={{dataItem.inputs}} (change)="on_input_change_attribute(inputs.value,dataItem.rowindex, 'inputs')"
+                                        #inputs title={{dataItem.inputs}} />
                                 </ng-template>
                             </kendo-grid-column>
                             <!-- <kendo-grid-column field="no_resource_used" title="{{language.no_resource_used}}" filter="text"
@@ -394,7 +385,7 @@
                     </div>
              
                     <div class="kendo-window-footer pt-2 border-top mt-3 d-flex align-items-center justify-content-end">
-                        <button class="btn btn-sm btn-primary mr-2 with-icon" type="button" (click)="operation_resource_update()">
+                        <button class="btn btn-sm btn-primary mr-2 with-icon" type="button" (click)="attribute_update()">
                             <svg viewBox="0 0 490 490" class="icon"><use xlink:href="#confirm"></use></svg>{{this.language.apply}}
                         </button>
                         <button class="btn btn-sm btn-secondary with-icon" type="button" data-dismiss="modal" (click)="close_kendo_dialog()">

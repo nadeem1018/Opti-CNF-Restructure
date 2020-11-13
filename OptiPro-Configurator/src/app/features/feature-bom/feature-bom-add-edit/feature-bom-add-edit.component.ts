@@ -608,6 +608,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   openAttributeLookup(rowindex){
     this.serviceData = [];
     this.serviceData.rowindex = rowindex; 
+    this.serviceData.feature_id = this.feature_bom_data.feature_id; 
     this.lookupfor = 'add_attribute_lookup';
     this.showLookupLoader = false;
   }
@@ -1032,7 +1033,18 @@ export class FeatureBomAddEditComponent implements OnInit {
 
 
   getLookupValue($event) {
-    if (this.lookupfor == 'feature_lookup') {
+    if(this.lookupfor == 'add_attribute_lookup') {
+      var currentrow = 0;
+      for (let i = 0; i < this.feature_bom_table.length; ++i) {
+        if (this.feature_bom_table[i].rowindex ===   $event[0].OPTM_FEATUREDTLROWID) {
+          currentrow = i;
+          break;
+        }
+      } 
+      this.feature_bom_table[currentrow].ItemAttributeList =  $event;
+      console.log(this.feature_bom_table);
+
+    }else if (this.lookupfor == 'feature_lookup') {
        CommonData.made_changes = true;
       this.feature_bom_data.feature_id = $event[0];
       this.feature_bom_data.feature_code = $event[1];

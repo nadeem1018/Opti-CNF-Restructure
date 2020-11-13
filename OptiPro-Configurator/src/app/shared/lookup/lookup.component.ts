@@ -29,8 +29,7 @@ export class LookupComponent implements OnInit {
   public isDraggable: boolean = true;
   public current_popup_row: any = "";
   public is_operation_popup_lookup_open: boolean = false;
-  public resourceServiceData: any = [];
-  public attributeServiceData: any = [];
+  public resourceServiceData: any = [];  
   public popup_resource: boolean = false;
   public skip: number = 0;
   public popup_lookupfor = "";
@@ -77,8 +76,13 @@ export class LookupComponent implements OnInit {
   public reportBase64String:any;
   public isColumnFilter: boolean = false;
   public isColumnFilter1: boolean = false;
+  public attributeServiceData: any = [];
   public attribute_popup_title = '';
   public add_atttribute_show: boolean = false;
+  public attribute_counter = 0;
+  public itemRowIndex = '';
+  public itemFeatureId = '';
+ 
   constructor(
     private rs: RoutingService,
     private CommonService: CommonService,
@@ -1057,6 +1061,8 @@ export class LookupComponent implements OnInit {
     this.showLoader = false;
     this.LookupDataLoaded = true;
     this.add_atttribute_show = true;
+    this.itemRowIndex =  this.serviceData.rowindex 
+    this.itemFeatureId = this.serviceData.feature_id; 
     this.attributeServiceData = [];
     
   }
@@ -1169,6 +1175,15 @@ export class LookupComponent implements OnInit {
     }
   }
 
+  attribute_update() {   
+    if (this.attributeServiceData.length == 0) {
+      this.CommonService.show_notification(this.language.cannot_submit_empty_resource, 'error');     
+      return;
+    } 
+    this.lookupvalue.emit(this.attributeServiceData);
+    this.close_kendo_dialog();
+  }
+
   operation_resource_update() {
     this.is_operation_popup_lookup_open == false;
     if (this.resourceServiceData.length == 0) {
@@ -1214,6 +1229,29 @@ export class LookupComponent implements OnInit {
   //   }
 
   // }
+
+  insert_new_attribute() {
+    if (this.attributeServiceData == undefined || this.attributeServiceData == null || this.attributeServiceData == "") {
+      this.attributeServiceData = [];
+    }
+    this.attribute_counter = 0;
+    if (this.attributeServiceData.length > 0) {
+      this.attribute_counter = this.attributeServiceData.length
+    }
+    this.attribute_counter++;   
+    this.attributeServiceData.push({      
+      rowindex: this.attribute_counter,
+      OPTM_FEATUREDTLROWID: this.itemRowIndex,
+      OPTM_FEATUREID: this.itemFeatureId,
+      OPTM_ATTR_CODE: '',
+      OPTM_ATTR_NAME: '',
+      OPTM_OPTION: '',
+      OPTM_FORMULA: '',
+      OPTM_API_FUNCTION: '',
+      OPTM_INPUT: ''
+     
+    });
+  }
 
   insert_new_resource() {
     console.log("this.resourceServiceData - ", this.resourceServiceData);
@@ -1376,6 +1414,35 @@ export class LookupComponent implements OnInit {
         }
       }
       )
+  }
+  on_input_change_attribute(value, rowindex, grid_element) {
+    var currentrow = 0;
+    for (let i = 0; i < this.attributeServiceData.length; ++i) {
+      if (this.attributeServiceData[i].rowindex === rowindex) {
+        currentrow = i;
+        break;
+      }
+    } 
+    if (grid_element == 'attribute_id') {
+      this.attributeServiceData[currentrow].OPTM_ATTR_CODE = value;
+    }
+    if (grid_element == 'attribute_desc') {
+      this.attributeServiceData[currentrow].OPTM_ATTR_NAME = value;
+    }
+    if (grid_element == 'option') {
+      this.attributeServiceData[currentrow].OPTM_OPTION = value;
+    }
+    if (grid_element == 'formula') {
+      this.attributeServiceData[currentrow].OPTM_FORMULA = value;
+    }
+    if (grid_element == 'function') {
+      this.attributeServiceData[currentrow].OPTM_API_FUNCTION = value;
+    }
+    if (grid_element == 'inputs') {
+      this.attributeServiceData[currentrow].OPTM_INPUT = value;
+    }
+
+
   }
 
   on_input_change(value, rowindex, grid_element) {
