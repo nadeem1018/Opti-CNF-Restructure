@@ -1356,7 +1356,7 @@ export class RuleWbAddEditComponent implements OnInit {
        console.log("feature_data_default_value");
        console.log(feature_data_default_value);
  
-       if (this.feature_bom_header_details.OPTM_ISMULTISELECT == 'N' && this.feature_bom_header_details.OPTM_MIN_SELECTABLE != '0') {
+       if (this.feature_bom_header_details.OPTM_ISMULTISELECT == 'N' && this.feature_bom_header_details.OPTM_MIN_SELECTABLE != '0' &&  this.isExcluded == false) {
          if (feature_data_default_value.length == 0 || feature_data_default_value == null || feature_data_default_value == undefined) {
            this.CommonService.show_notification(this.language.one_default_required, 'error');
            return false;
@@ -1417,7 +1417,7 @@ export class RuleWbAddEditComponent implements OnInit {
        var feature_data_default_value = this.rule_feature_data.filter(function (obj) {
          return obj.is_default;
        });
-       if (this.feature_bom_header_details.OPTM_ISMULTISELECT == 'N' && this.feature_bom_header_details.OPTM_MIN_SELECTABLE != '0') {
+       if (this.feature_bom_header_details.OPTM_ISMULTISELECT == 'N' && this.feature_bom_header_details.OPTM_MIN_SELECTABLE != '0' &&  this.isExcluded == false ) {
          if (feature_data_default_value.length == 0 || feature_data_default_value == null || feature_data_default_value == undefined) {
            this.CommonService.show_notification(this.language.one_default_required, 'error');
            return false;

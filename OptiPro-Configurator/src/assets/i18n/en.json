@@ -622,6 +622,12 @@
     "cnf_deleted_successfully":"Configurations Deleted successfully",	
     "delete_all":"Delete All",
     "EffectiveTo": "Effective To",  
-    "attribute": "Attribute"    
+    "attribute": "Attribute",
+    "attribute_id": "Attribute Id", 
+    "attribute_desc": "Descrition", 
+    "option": "Option", 
+    "formula": "Formula", 
+    "function": "API/Function", 
+    "inputs": "Inputs" 
 
 }

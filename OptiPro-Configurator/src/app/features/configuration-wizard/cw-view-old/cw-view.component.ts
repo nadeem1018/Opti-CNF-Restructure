@@ -1045,19 +1045,7 @@ export class CwViewOldComponent implements OnInit {
     GetModelFeatureBOMAttribute.FeatureBOMDetailAttribute = this.FeatureBOMDetailAttribute;
     GetModelFeatureBOMAttribute.ModelBOMDetailAttribute = this.ModelBOMDetailAttribute;
 
-    this.OutputService.GetAttributeResult(this.FeatureBOMDetailAttribute, this.ModelBOMDetailAttribute).subscribe(
-      data => {
-
-        if (data.length > 0) {
-          if (data[0].ErrorMsg == "7001") {
-            CommonData.made_changes = false;
-            this.showLookupLoader = false;
-            this.CommonService.RemoveLoggedInUser().subscribe();
-            this.CommonService.signOut(this.route, 'Sessionout');
-            return;
-          }
-
-          this.lookupfor = 'Attribute_lookup';
+       this.lookupfor = 'Attribute_lookup';
           this.showLookupLoader = false;
 
           if(type == 1){
@@ -1070,22 +1058,48 @@ export class CwViewOldComponent implements OnInit {
               return obj['OPTM_MODELID'] == datatitem.model_id;
             });
           }
-        }
-        else {
-          this.lookupfor = "";
-          this.showLookupLoader = false;
-          this.serviceData = [];
-          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
-          return;
-        }
-      }, error => {
-        this.showLookupLoader = false;
-        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
-          this.CommonService.isUnauthorized();
-        }
-        return;
-      }
-    )
+
+    // this.OutputService.GetAttributeResult(this.FeatureBOMDetailAttribute, this.ModelBOMDetailAttribute).subscribe(
+    //   data => {
+
+    //     if (data != undefined) {
+    //       if (data[0].ErrorMsg == "7001") {
+    //         CommonData.made_changes = false;
+    //         this.showLookupLoader = false;
+    //         this.CommonService.RemoveLoggedInUser().subscribe();
+    //         this.CommonService.signOut(this.route, 'Sessionout');
+    //         return;
+    //       }
+
+    //       this.lookupfor = 'Attribute_lookup';
+    //       this.showLookupLoader = false;
+
+    //       if(type == 1){
+    //         this.serviceData = this.FeatureBOMDetailAttribute.filter(function (obj) {
+    //           return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID;
+    //         });
+            
+    //       } else {
+    //         this.serviceData = this.ModelBOMDetailAttribute.filter(function (obj) {
+    //           return obj['OPTM_MODELID'] == datatitem.model_id;
+    //         });
+    //       }
+    //     }
+    //     else {
+    //       this.lookupfor = "";
+    //       this.showLookupLoader = false;
+    //       this.serviceData = [];
+    //       this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+    //       return;
+    //     }
+    //   }, error => {
+    //     this.showLookupLoader = false;
+    //     if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+    //       this.CommonService.isUnauthorized();
+    //     }
+    //     return;
+    //   }
+    // )
   }
 
   openModalList() {

@@ -605,6 +605,12 @@ export class FeatureBomAddEditComponent implements OnInit {
         return;
       })
   }
+  openAttributeLookup(rowindex){
+    this.serviceData = [];
+    this.serviceData.rowindex = rowindex; 
+    this.lookupfor = 'add_attribute_lookup';
+    this.showLookupLoader = false;
+  }
 
   onDeleteRow(rowindex) {
     CommonData.made_changes = true;

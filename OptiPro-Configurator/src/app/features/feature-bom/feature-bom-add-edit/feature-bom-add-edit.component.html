@@ -222,7 +222,7 @@
                                         </ng-template>
                                     </kendo-grid-column> <kendo-grid-column field="Bom_Remarks" title="{{language.attribute}}" filter="text" [width]="120" [minResizableWidth]="120">
                                         <ng-template kendoGridCellTemplate let-dataItem>
-                                            <button type="button"  class="btn btn-sm btn-info with-icon mr-2">
+                                            <button type="button"  class="btn btn-sm btn-info with-icon mr-2" (click)="openAttributeLookup(dataItem.rowindex)">
                                                 {{language.attribute}} </button>
                                         </ng-template>
                                     </kendo-grid-column>

@@ -30,6 +30,7 @@ export class LookupComponent implements OnInit {
   public current_popup_row: any = "";
   public is_operation_popup_lookup_open: boolean = false;
   public resourceServiceData: any = [];
+  public attributeServiceData: any = [];
   public popup_resource: boolean = false;
   public skip: number = 0;
   public popup_lookupfor = "";
@@ -63,6 +64,7 @@ export class LookupComponent implements OnInit {
   public rule_output_data_loaded:boolean = false;
   public rule_output_title: any;
   public resource_popup_title = '';
+
   public resource_basisdd: any[];
   public resourceServiceOper: any = "";
   public resourceServiceOperCM: any = "";
@@ -75,8 +77,8 @@ export class LookupComponent implements OnInit {
   public reportBase64String:any;
   public isColumnFilter: boolean = false;
   public isColumnFilter1: boolean = false;
-  
-
+  public attribute_popup_title = '';
+  public add_atttribute_show: boolean = false;
   constructor(
     private rs: RoutingService,
     private CommonService: CommonService,
@@ -222,9 +224,12 @@ export class LookupComponent implements OnInit {
     //   this.output_invoice_print();
     //   return;
     // }
-
     if (this.popup_lookupfor == 'routing_resource_lookup') {
-        this.routing_resource_lookup();
+      this.routing_resource_lookup();
+      return;
+    }
+    if (this.popup_lookupfor == 'add_attribute_lookup') {
+        this.add_atttribute_lookup();
         return;
       }
 
@@ -1047,6 +1052,14 @@ export class LookupComponent implements OnInit {
       this.popup_lookupfor = "";
     }, 10);
   }
+  add_atttribute_lookup() {
+    this.attribute_popup_title = this.language.attribute;
+    this.showLoader = false;
+    this.LookupDataLoaded = true;
+    this.add_atttribute_show = true;
+    this.attributeServiceData = [];
+    
+  }
 
   routing_resource_lookup() {
     this.resource_popup_title = this.language.routing_resource;
@@ -1612,6 +1625,7 @@ export class LookupComponent implements OnInit {
     this.show_associate_bom_popup = false;
     this.rule_selection_show = false;
     this.routing_resource_show = false;
+    this.add_atttribute_show = false;
     this.reportDialogOpened = false;
   }
 
