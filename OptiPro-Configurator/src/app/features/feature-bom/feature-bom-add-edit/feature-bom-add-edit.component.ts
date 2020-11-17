@@ -77,6 +77,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   public isDuplicateMode:boolean = false;
   public NewFeatureId = "";
   public expandedKeys: any[] = [];
+  public ItemAttributeList: any = []; 
 
   getSelectedRowDetail(event) {
     CommonData.made_changes = true;
@@ -715,7 +716,12 @@ export class FeatureBomAddEditComponent implements OnInit {
     }
     this.showLookupLoader = true;
     console.log(this.feature_bom_table);
-    this.fbom.SaveModelBom(this.feature_bom_table).subscribe(
+    let FeatureBomModelData: any = {};
+    FeatureBomModelData.AddModelBom = [];
+    FeatureBomModelData.ItemAttributeList = [];
+    FeatureBomModelData.AddModelBom = this.feature_bom_table;
+    FeatureBomModelData.ItemAttributeList = this.ItemAttributeList;
+    this.fbom.SaveModelBom(FeatureBomModelData).subscribe(
       data => {
         this.showLookupLoader = false;
         if (data == "7001") {
@@ -1034,14 +1040,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
   getLookupValue($event) {
     if(this.lookupfor == 'add_attribute_lookup') {
-      var currentrow = 0;
-      for (let i = 0; i < this.feature_bom_table.length; ++i) {
-        if (this.feature_bom_table[i].rowindex ===   $event[0].OPTM_FEATUREDTLROWID) {
-          currentrow = i;
-          break;
-        }
-      } 
-      this.feature_bom_table[currentrow].ItemAttributeList =  $event;
+      this.ItemAttributeList =  $event;
       console.log(this.feature_bom_table);
 
     }else if (this.lookupfor == 'feature_lookup') {

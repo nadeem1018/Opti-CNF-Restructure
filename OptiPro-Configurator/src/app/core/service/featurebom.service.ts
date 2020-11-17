@@ -35,10 +35,10 @@ export class FeaturebomService {
       return this.httpclient.post(this.config_params.service_url + "/FeatureBOM/GetItemList", jObject, this.common_params.httpOptions);
   }
 
-  SaveModelBom(SaveData): Observable<any>{
-    SaveData[0]['GUID'] = sessionStorage.getItem("GUID");
-    SaveData[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
-    let jObject: any = { AddModelBom: JSON.stringify(SaveData)};
+  SaveModelBom(FeatureBomModelData): Observable<any>{
+    FeatureBomModelData.AddModelBom[0]['GUID'] = sessionStorage.getItem("GUID");
+    FeatureBomModelData.AddModelBom[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
+    let jObject: any = { FeatureBomModel: JSON.stringify({FeatureBomModelData})};
       return this.httpclient.post(this.config_params.service_url + "/FeatureBOM/AddUpdateFeatureBOMData", jObject, this.common_params.httpOptions);
   }
 

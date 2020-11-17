@@ -695,6 +695,10 @@
                                         <button type="button" class="btn btn-sm with-icon btn-danger" title="{{language.remove_this_modal}}" *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined &&  step2_selected_model_id != '' " (click)="remove_final_modal(step2_selected_model)">
                                             <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg>{{language.delete_model}}
                                         </button>
+                                        <button (click)="onSavePress()" type="button" class="btn btn-sm btn-success with-icon mr-2">
+                                            Calculate Attribute
+                                        </button>
+
                                     </div>                    
                                 </div>
                                 <div class="col-md-7 d-inline-flex align-items-center justify-content-end">  
