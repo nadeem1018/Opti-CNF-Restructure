@@ -716,12 +716,12 @@ export class FeatureBomAddEditComponent implements OnInit {
     }
     this.showLookupLoader = true;
     console.log(this.feature_bom_table);
-    let FeatureBomModelData: any = {};
-    FeatureBomModelData.AddModelBom = [];
-    FeatureBomModelData.ItemAttributeList = [];
-    FeatureBomModelData.AddModelBom = this.feature_bom_table;
-    FeatureBomModelData.ItemAttributeList = this.ItemAttributeList;
-    this.fbom.SaveModelBom(FeatureBomModelData).subscribe(
+    // let FeatureBomModelData: any = {};
+    // FeatureBomModelData.FeatureBom = [];
+    // FeatureBomModelData.ItemAttributeList = [];
+    // FeatureBomModelData.FeatureBom = this.feature_bom_table;
+    // FeatureBomModelData.ItemAttributeList = this.ItemAttributeList;
+    this.fbom.SaveModelBom(this.feature_bom_table, this.ItemAttributeList).subscribe(
       data => {
         this.showLookupLoader = false;
         if (data == "7001") {

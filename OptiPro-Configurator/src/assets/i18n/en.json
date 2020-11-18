@@ -626,8 +626,7 @@
     "attribute_id": "Attribute Id", 
     "attribute_desc": "Descrition", 
     "option": "Option", 
-    "formula": "Formula", 
-    "function": "API/Function", 
+    "optionValue": "Option Value",
     "inputs": "Inputs" 
 
 }

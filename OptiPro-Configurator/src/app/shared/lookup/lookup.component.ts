@@ -1064,7 +1064,7 @@ export class LookupComponent implements OnInit {
     this.itemRowIndex =  this.serviceData.rowindex 
     this.itemFeatureId = this.serviceData.feature_id; 
     this.attributeServiceData = [];
-    
+    this.insert_new_attribute();
   }
 
   routing_resource_lookup() {
@@ -1248,7 +1248,9 @@ export class LookupComponent implements OnInit {
       OPTM_OPTION: '',
       OPTM_FORMULA: '',
       OPTM_API_FUNCTION: '',
-      OPTM_INPUT: ''
+      OPTM_INPUT: '',
+      attribute_desc_disable: true,
+      attribute_option_disable: true,
      
     });
   }
@@ -1327,6 +1329,19 @@ export class LookupComponent implements OnInit {
       unique_key: unqiue_key
     });
   }
+  onDeleteAttributeRow(rowindex) {
+    if (this.attributeServiceData.length > 0) {
+      for (let i = 0; i < this.attributeServiceData.length; ++i) {
+        if (this.attributeServiceData[i].rowindex === rowindex) {
+          this.attributeServiceData.splice(i, 1);
+          i = i - 1;
+        }
+        else {
+          this.attributeServiceData[i].rowindex = i + 1;
+        }
+      }
+    }
+  }
 
   onDeleteRow(rowindex) {
     if (this.resourceServiceData.length > 0) {
@@ -1388,6 +1403,73 @@ export class LookupComponent implements OnInit {
             }];
             this.serviceData = data;
             this.popup_title = this.language.resources;
+            this.dialogOpened = true;
+            this.popup_resource = true;
+            this.routing_resource_show = true;
+          }
+          else {
+            this.dialogOpened = false;
+            this.CommonService.show_notification(this.language.NoDataAvailable, 'error');           
+            return;
+          }
+        } else {
+          this.dialogOpened = false;
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');         
+          return;
+        }
+      },
+      error => {
+        this.dialogOpened = false;
+        this.showLookupLoader = false;
+        if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
+          this.CommonService.isUnauthorized();
+        } else {
+          this.CommonService.show_notification(this.language.server_error, 'error');
+          
+        }
+      }
+      )
+  }
+
+  open_attribute_lookup(type, rowindex) {
+    this.showLookupLoader = true;
+    this.serviceData = []
+    this.rs.getAttributeList(this.itemFeatureId).subscribe(
+      data => {
+        if (data != null && data != undefined) {
+          if (data.length > 0) {
+            if (data[0].ErrorMsg == "7001") {
+              this.CommonService.RemoveLoggedInUser().subscribe();
+              this.CommonService.signOut(this.router, 'Sessionout');             
+              this.showLookupLoader = false;
+              return;
+            }
+
+            this.current_popup_row = rowindex;
+            this.table_head = [
+            {
+              field: 'OPTM_ATTR_CODE',
+              title: this.language.attribute_id,
+              type: 'text',
+              width: '100',
+              attrType: 'text'
+            },
+            {
+              field: 'OPTM_ATTR_NAME',
+              title: this.language.attribute_desc,
+              type: 'text',
+              width: '100',
+              attrType: 'text'
+            },
+            {
+              field: 'Value',
+              title: this.language.value,
+              type: 'text',
+              width: '100',
+              attrType: 'text'
+            }];
+            this.serviceData = data;
+            this.popup_title = this.language.attribute;
             this.dialogOpened = true;
             this.popup_resource = true;
             this.routing_resource_show = true;
