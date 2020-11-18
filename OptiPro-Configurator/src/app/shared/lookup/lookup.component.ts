@@ -7,6 +7,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
 import { ModelbomService } from 'src/app/core/service/modelbom.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { FeaturebomService } from 'src/app/core/service/featurebom.service';
 
 @Component({
   selector: 'app-lookup',
@@ -85,6 +86,7 @@ export class LookupComponent implements OnInit {
  
   constructor(
     private rs: RoutingService,
+    private fbom: FeaturebomService,
     private CommonService: CommonService,
     private router: Router,
     private mbom: ModelbomService, 
@@ -1434,7 +1436,7 @@ export class LookupComponent implements OnInit {
   open_attribute_lookup(type, rowindex) {
     this.showLookupLoader = true;
     this.serviceData = []
-    this.rs.getAttributeList(this.itemFeatureId).subscribe(
+    this.fbom.getAttributeList(this.itemFeatureId).subscribe(
       data => {
         if (data != null && data != undefined) {
           if (data.length > 0) {

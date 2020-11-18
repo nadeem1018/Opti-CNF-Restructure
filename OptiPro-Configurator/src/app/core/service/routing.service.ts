@@ -106,12 +106,7 @@ export class RoutingService {
       GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) };
     return this.httpclient.post(this.config_params.service_url + "/Routing/ResourceList", jObject, this.common_params.httpOptions);
   }
-  getAttributeList(feature_code): Observable<any>{
-    let jObject = { ModelItem: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp, featureCode: feature_code ,
-      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) }
-      return this.httpclient.post(this.config_params.service_url + "/GetAttributeDataByFeatureID", jObject, this.common_params.httpOptions);
-  }
-
+ 
   getResourceDetail(ResourceCode): Observable<any> {
     let jObject = { Resource: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp, ResourceCode: ResourceCode,
       GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) };
