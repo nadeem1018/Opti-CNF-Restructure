@@ -129,8 +129,8 @@ export class FeaturebomService {
     return this.httpclient.post(this.config_params.service_url + "/FeatureBOM/CheckPriceList", jObject, this.common_params.httpOptions);
   }
   getAttributeList(feature_code): Observable<any>{
-    let jObject = { ModelItem: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp, featureCode: feature_code ,
+    let jObject = { ModelItem: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp, FeatureId: feature_code ,
       GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) }
-      return this.httpclient.post(this.config_params.service_url + "/GetAttributeDataByFeatureID", jObject, this.common_params.httpOptions);
+      return this.httpclient.post(this.config_params.service_url + "/FeatureBOM/GetAttributeDataByFeatureID", jObject, this.common_params.httpOptions);
   }
 }

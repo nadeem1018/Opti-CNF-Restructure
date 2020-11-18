@@ -262,7 +262,7 @@
                                     <div class="input-group">
                                       <input type="text" class="form-control  form-control-sm row_resource_code" id="attribute_code"
                                             (change)="on_input_change_attribute(attribute_code.value,dataItem.rowindex, 'attribute_code')"
-                                            value={{dataItem.attribute_code}} #attribute_code title={{dataItem.attribute_code}} />
+                                            value={{dataItem.OPTM_ATTR_CODE}} #attribute_code title={{dataItem.attribute_code}} />
                                         <div class="input-group-append" [hidden]=dataItem.hide>
                                             <span class="btn btn-sm btn-primary cursor-pointer btn-icon" id="basic-addon2"
                                                 (click)="open_attribute_lookup(dataItem.type, dataItem.rowindex)">
@@ -280,7 +280,7 @@
                             <kendo-grid-column field="OPTM_ATTR_NAME" title="{{language.attribute_desc}}" filter="text" [width]="140"
                             [minResizableWidth]="140">
                             <ng-template kendoGridCellTemplate let-dataItem>
-                                <input type="text" class="form-control  form-control-sm" id="attribute_desc" value="{{dataItem.attribute_desc}}"
+                                <input type="text" class="form-control  form-control-sm" id="attribute_desc" value="{{dataItem.OPTM_ATTR_NAME}}"
                                 [disabled]="dataItem.attribute_desc_disable" (change)="on_input_change_attribute(attribute_desc.value,dataItem.rowindex, 'attribute_desc')"
                                     #attribute_desc title="{{dataItem.attribute_desc}}" />
                             </ng-template>
@@ -290,16 +290,16 @@
                                 [width]="140" [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <input type="text" class="form-control  form-control-sm row_resource_name" id="option"
-                                        value={{dataItem.resource_name}} [disabled]="dataItem.attribute_option_disable"
+                                        value={{dataItem.OPTM_OPTION}} [disabled]="dataItem.attribute_option_disable"
                                         (change)="on_input_change_attribute(option.value,dataItem.rowindex, 'option')"
                                         #option title={{dataItem.option}} />
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column field="OPTM_FORMULA" title="{{language.optionValue}}" filter="text" [width]="140"
+                            <kendo-grid-column field="OPTM_OPTION_VALUE" title="{{language.optionValue}}" filter="text" [width]="140"
                                 [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <input type="text" class="form-control  form-control-sm row_resource_uom" id="optionValue"
-                                        value={{dataItem.optionValue}}  (change)="on_input_change_attribute(optionValue.value,dataItem.rowindex, 'optionValue')"
+                                        value={{dataItem.OPTM_OPTION_VALUE}}  (change)="on_input_change_attribute(optionValue.value,dataItem.rowindex, 'optionValue')"
                                         #formula title={{dataItem.optionValue}} />
                                 </ng-template>
                             </kendo-grid-column>                            
@@ -307,15 +307,15 @@
                                 [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <input type="text" class="form-control  form-control-sm text-right row_resource_inverse"
-                                        id="inputs" value={{dataItem.inputs}} (change)="on_input_change_attribute(inputs.value,dataItem.rowindex, 'inputs')"
+                                        id="inputs" value={{dataItem.OPTM_INPUT}} (change)="on_input_change_attribute(inputs.value,dataItem.rowindex, 'inputs')"
                                         #inputs title={{dataItem.inputs}} />
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column field="OPTM_API_FUNCTION" title="{{language.value}}" filter="text"
+                            <kendo-grid-column field="OPTM_VALUE" title="{{language.value}}" filter="text"
                                 [width]="140" [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <input type="text" class="form-control  form-control-sm text-right row_resource_consumption"
-                                        id="valueId" value={{dataItem.valueId}} (change)="on_input_change_attribute(valueId.value,dataItem.rowindex, 'value')"
+                                        id="valueId" value={{dataItem.OPTM_VALUE}} (change)="on_input_change_attribute(valueId.value,dataItem.rowindex, 'value')"
                                         #valueId title={{dataItem.valueId}} />
                                 </ng-template>
                             </kendo-grid-column>

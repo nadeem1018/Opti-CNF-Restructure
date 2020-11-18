@@ -80,6 +80,8 @@ export class LookupComponent implements OnInit {
   public attributeServiceData: any = [];
   public attribute_popup_title = '';
   public add_atttribute_show: boolean = false;
+  public is_attribute_popup_lookup_open: boolean = false;
+  public popup_attribute: boolean = false;
   public attribute_counter = 0;
   public itemRowIndex = '';
   public itemFeatureId = '';
@@ -1037,13 +1039,32 @@ export class LookupComponent implements OnInit {
         }
       }
     }
+    if (this.is_attribute_popup_lookup_open == true) {
+      if (lookup_key.OPTM_ATTR_CODE != undefined && lookup_key.OPTM_ATTR_NAME != undefined) {
+        for (let i = 0; i < this.attributeServiceData.length; ++i) {
+          if (this.attributeServiceData[i].rowindex === this.current_popup_row) {
+            this.attributeServiceData[i].OPTM_ATTR_CODE = lookup_key.OPTM_ATTR_CODE;
+            this.attributeServiceData[i].OPTM_ATTR_NAME = lookup_key.OPTM_ATTR_NAME;
+            this.attributeServiceData[i].OPTM_OPTION = lookup_key.OPTM_OPTION;
+            this.attributeServiceData[i].OPTM_OPTION_VALUE = lookup_key.OPTM_OPTION_VALUE;
+            this.attributeServiceData[i].OPTM_INPUT = lookup_key.OPTM_INPUT;
+            //this.attributeServiceData[i].OPTM_VALUE = lookup_key.DCNum;
+        
+            
+          }
+        }
+      }
+    }
 
-    if (this.popup_resource == false) {
+    if (this.popup_resource == false && this.popup_attribute == false) {
       this.lookupvalue.emit(Object.values(lookup_key));
     }
 
     if (this.popup_resource == true) {
       this.popup_resource = false;
+    }
+    if (this.popup_attribute == true) {
+      this.popup_attribute = false;
     }
     this.serviceData = [];
     selection.selectedRows = [];
@@ -1051,7 +1072,7 @@ export class LookupComponent implements OnInit {
     selection.selected = false;
     this.skip = 0;
     this.dialogOpened = false;
-    if (this.is_operation_popup_lookup_open == false) {
+    if (this.is_operation_popup_lookup_open == false && this.is_attribute_popup_lookup_open == false) {
       this.current_popup_row = "";
     }
     setTimeout(() => {
@@ -1063,6 +1084,7 @@ export class LookupComponent implements OnInit {
     this.showLoader = false;
     this.LookupDataLoaded = true;
     this.add_atttribute_show = true;
+    this.is_attribute_popup_lookup_open = true;
     this.itemRowIndex =  this.serviceData.rowindex 
     this.itemFeatureId = this.serviceData.feature_id; 
     this.attributeServiceData = [];
@@ -1178,6 +1200,7 @@ export class LookupComponent implements OnInit {
   }
 
   attribute_update() {   
+    this.is_attribute_popup_lookup_open = false;
     if (this.attributeServiceData.length == 0) {
       this.CommonService.show_notification(this.language.cannot_submit_empty_resource, 'error');     
       return;
@@ -1187,7 +1210,7 @@ export class LookupComponent implements OnInit {
   }
 
   operation_resource_update() {
-    this.is_operation_popup_lookup_open == false;
+    this.is_operation_popup_lookup_open = false;
     if (this.resourceServiceData.length == 0) {
       this.CommonService.show_notification(this.language.cannot_submit_empty_resource, 'error');     
       return;
@@ -1248,9 +1271,9 @@ export class LookupComponent implements OnInit {
       OPTM_ATTR_CODE: '',
       OPTM_ATTR_NAME: '',
       OPTM_OPTION: '',
-      OPTM_FORMULA: '',
-      OPTM_API_FUNCTION: '',
+      OPTM_OPTION_VALUE: '',     
       OPTM_INPUT: '',
+      OPTM_VALUE: '',
       attribute_desc_disable: true,
       attribute_option_disable: true,
      
@@ -1439,8 +1462,8 @@ export class LookupComponent implements OnInit {
     this.fbom.getAttributeList(this.itemFeatureId).subscribe(
       data => {
         if (data != null && data != undefined) {
-          if (data.length > 0) {
-            if (data[0].ErrorMsg == "7001") {
+          if (data.FeatureAttrData.length > 0) {
+            if (data.FeatureAttrData[0].ErrorMsg == "7001") {
               this.CommonService.RemoveLoggedInUser().subscribe();
               this.CommonService.signOut(this.router, 'Sessionout');             
               this.showLookupLoader = false;
@@ -1464,17 +1487,17 @@ export class LookupComponent implements OnInit {
               attrType: 'text'
             },
             {
-              field: 'Value',
-              title: this.language.value,
+              field: 'OPTM_OPTION',
+              title: this.language.option,
               type: 'text',
               width: '100',
               attrType: 'text'
             }];
-            this.serviceData = data;
+            this.serviceData = data.FeatureAttrData;
             this.popup_title = this.language.attribute;
-            this.dialogOpened = true;
-            this.popup_resource = true;
-            this.routing_resource_show = true;
+            this.popup_attribute = true;
+            this.dialogOpened = true;            
+            this.add_atttribute_show = true;
           }
           else {
             this.dialogOpened = false;
@@ -1516,11 +1539,11 @@ export class LookupComponent implements OnInit {
     if (grid_element == 'option') {
       this.attributeServiceData[currentrow].OPTM_OPTION = value;
     }
-    if (grid_element == 'formula') {
-      this.attributeServiceData[currentrow].OPTM_FORMULA = value;
+    if (grid_element == 'optionValue') {
+      this.attributeServiceData[currentrow].OPTM_OPTION_VALUE = value;
     }
-    if (grid_element == 'function') {
-      this.attributeServiceData[currentrow].OPTM_API_FUNCTION = value;
+    if (grid_element == 'value') {
+      this.attributeServiceData[currentrow].OPTM_VALUE = value;
     }
     if (grid_element == 'inputs') {
       this.attributeServiceData[currentrow].OPTM_INPUT = value;
