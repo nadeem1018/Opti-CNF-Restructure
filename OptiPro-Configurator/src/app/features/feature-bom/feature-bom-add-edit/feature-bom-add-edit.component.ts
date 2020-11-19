@@ -301,6 +301,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
             this.feature_bom_table.push({
               rowindex: this.counter,
+              OPTM_LINENO: data.FeatureDetail[i]. OPTM_LINENO,
               FeatureId: data.FeatureDetail[i].OPTM_FEATUREID,
               type: data.FeatureDetail[i].OPTM_TYPE,
               type_value: this.typevaluefromdatabase.trim(),
@@ -525,6 +526,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
     this.feature_bom_table.push({
       rowindex: this.counter,
+      OPTM_LINENO: this.counter,
       FeatureId: this.feature_bom_data.feature_id,
       type: table_default_type,
       type_value: "",
@@ -607,11 +609,52 @@ export class FeatureBomAddEditComponent implements OnInit {
       })
   }
   openAttributeLookup(rowindex){
-    this.serviceData = [];
+    this.serviceData = {};
+    this.serviceData.attributeList = [];
     this.serviceData.rowindex = rowindex; 
+    this.lookupfor = '';
+    let lineNo = 0;
     this.serviceData.feature_id = this.feature_bom_data.feature_id; 
-    this.lookupfor = 'add_attribute_lookup';
-    this.showLookupLoader = false;
+    if (this.feature_bom_table.length > 0) {
+      for (let i = 0; i < this.feature_bom_table.length; ++i) {
+        if (this.feature_bom_table[i].rowindex === rowindex) {
+          lineNo = this.feature_bom_table[i].OPTM_LINENO;
+          break;
+        }
+      }
+    }
+    
+
+    this.fbom.GetFeatureBOMAttributeListByLine(this.feature_bom_data.feature_id, lineNo).subscribe(
+      data => {
+
+        if (data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.showLookupLoader = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.route, 'Sessionout');
+            return;
+          }
+
+          this.lookupfor = 'add_attribute_lookup';
+          this.showLookupLoader = false;
+          this.serviceData.attributeList  = data;       
+        }
+        else {
+          this.lookupfor = 'add_attribute_lookup';
+          this.showLookupLoader = false;        
+        //  this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+         // return;
+        }
+      }, error => {
+        this.showLookupLoader = false;
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
   }
 
   onDeleteRow(rowindex) {

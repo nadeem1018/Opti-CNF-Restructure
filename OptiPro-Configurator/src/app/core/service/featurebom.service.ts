@@ -133,4 +133,10 @@ export class FeaturebomService {
       GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) }
       return this.httpclient.post(this.config_params.service_url + "/FeatureBOM/GetAttributeDataByFeatureID", jObject, this.common_params.httpOptions);
   }
+
+  GetFeatureBOMAttributeListByLine(featureId, lineNo): Observable<any> {
+    let jObject = { AddModelBom: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp,FeatureId:featureId, OPTM_LINENO:lineNo,
+      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) }
+    return this.httpclient.post(this.config_params.service_url + "/FeatureBOM/GetFeatureBOMAttributeListByLine", jObject, this.common_params.httpOptions);
+  }
 }
