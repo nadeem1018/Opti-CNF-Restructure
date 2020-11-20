@@ -1296,7 +1296,7 @@ export class LookupComponent implements OnInit {
       OPTM_OPTION_VALUE: '',     
       OPTM_INPUT: '',
       OPTM_ATTR_VALUE: '',
-      OPTM_SEQ: '',
+      OPTM_SEQ: 0,
       attribute_desc_disable: true,
       attribute_option_disable: true,
      

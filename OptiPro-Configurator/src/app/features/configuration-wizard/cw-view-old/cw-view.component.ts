@@ -1102,6 +1102,99 @@ export class CwViewOldComponent implements OnInit {
     // )
   }
 
+  onCalculateAttribute(){
+    let SelectedModelFeature = [];
+    let SelectedItems  = [];
+    let SelectedAttributes  = [];
+    let selectAttributesList = [];
+    let selectedItemList = [];
+    let parentarrayObj;
+
+    for(var modelFeatureObject in this.ModelHeaderData) {
+      var modelHeaderDataObj = this.ModelHeaderData[modelFeatureObject];
+      SelectedModelFeature.push(modelHeaderDataObj);
+       if(this.ModelHeaderData[modelFeatureObject].OPTM_TYPE == 1) {
+        selectAttributesList = this.FeatureBOMDetailAttribute.filter(function (obj) {
+          return obj['OPTM_FEATUREID'] == modelHeaderDataObj.OPTM_FEATUREID;
+        });
+        SelectedAttributes.push.apply(SelectedAttributes, selectAttributesList);      
+       } else if (this.ModelHeaderData[modelFeatureObject].OPTM_TYPE == 3){
+        selectAttributesList = this.ModelBOMDetailAttribute.filter(function (obj) {
+          return obj['OPTM_MODELID'] == modelHeaderDataObj.OPTM_MODELID;
+        });
+       }
+       SelectedAttributes.push.apply(SelectedAttributes, selectAttributesList);
+    }
+
+    selectedItemList =  this.feature_itm_list_table.filter(function (obj) {
+      return obj['OPTM_TYPE'] == 2;
+    });
+    for(var selectedItemObject in selectedItemList) {
+      selectAttributesList = [];
+      var selectedItemObj = selectedItemList[selectedItemObject];
+
+      parentarrayObj = this.ModelHeaderData.filter(function (obj) {
+        obj['unique_key'] == selectedItemObj.nodeid
+      });
+      if (parentarrayObj.length > 0) {
+
+        if(parentarrayObj[0].OPTM_TYPE == 1){
+          selectAttributesList = this.FeatureBOMDetailAttribute.filter(function (obj) {
+            return obj['OPTM_FEATUREID'] == parentarrayObj[0].OPTM_FEATUREID && obj['OPTM_FEATUREDTLROWID'] == selectedItemObj.OPTM_LINENO
+          });
+        } else {
+          selectAttributesList = this.ModelBOMDetailAttribute.filter(function (obj) {
+            return obj['OPTM_MODELID'] == parentarrayObj[0].OPTM_MODELID && obj['OPTM_FEATUREDTLROWID'] == selectedItemObj.OPTM_LINENO
+          });
+        }
+       
+      } else {
+        parentarrayObj = this.MainModelDetails.filter(function (obj) {
+          obj['unique_key'] == selectedItemObj.nodeid
+        });
+        if (parentarrayObj.length > 0) {
+          selectAttributesList = this.ModelBOMDetailAttribute.filter(function (obj) {
+            return obj['OPTM_MODELID'] == parentarrayObj[0].OPTM_MODELID && obj['OPTM_FEATUREDTLROWID'] == selectedItemObj.OPTM_LINENO
+          });
+        }                      
+
+      }
+      SelectedAttributes.push.apply(SelectedAttributes, selectAttributesList);     
+      SelectedItems.push(selectedItemList[selectedItemObj]);
+    }
+
+
+
+ this.OutputService.CalculateAttributesonWizard(SelectedModelFeature, SelectedItems, SelectedAttributes).subscribe(
+      data => {
+
+        if (data != undefined) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.showLookupLoader = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.route, 'Sessionout');
+            return;
+          }
+
+          // this.lookupfor = 'Attribute_lookup';
+          // this.showLookupLoader = false;        
+        }
+        else {
+          
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      }, error => {
+        this.showLookupLoader = false;
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
+  }
+
   openModalList() {
     this.showLookupLoader = true;
     this.serviceData = []
@@ -4177,6 +4270,7 @@ export class CwViewOldComponent implements OnInit {
               OPTM_LEVEL: optmLevel,
               OPTM_TYPE: featureModelData.OPTM_TYPE,
               isQuantityDisabled: true,
+              OPTM_LINENO: lineno,
               HEADER_LINENO: lineno,
               unique_key: featureModelData.unique_key,
               nodeid: featureModelData.nodeid,
@@ -4204,6 +4298,7 @@ export class CwViewOldComponent implements OnInit {
               OPTM_LEVEL: parentarray[0].OPTM_LEVEL,
               OPTM_TYPE: ItemData[0].OPTM_TYPE,
               isQuantityDisabled: true,
+              OPTM_LINENO: lineno,
               HEADER_LINENO: lineno,
               parent_featureid: ItemData[0].parent_featureid,
               unique_key: ItemData[0].unique_key,
@@ -6707,6 +6802,7 @@ export class CwViewOldComponent implements OnInit {
             pricehide: isPricehide,
             isQuantityDisabled: false,
             ispropogateqty: ItemData[i].OPTM_PROPOGATEQTY,
+            OPTM_LINENO: isheadercounter,
             HEADER_LINENO: isheadercounter,
             unique_key: unique_key,
             nodeid: nodeid,
@@ -6721,8 +6817,8 @@ export class CwViewOldComponent implements OnInit {
   }
 
 
-  getDefaultItems(DefaultData) {
-    //This function will set default item data in right grid.
+  //This function will set default item data in right grid.
+    getDefaultItems(DefaultData) {
     let isPriceDisabled: boolean = true;
     let isPricehide: boolean = true;
 
@@ -6778,6 +6874,7 @@ export class CwViewOldComponent implements OnInit {
           OPTM_LEVEL: 1,
           OPTM_TYPE: DefaultData[idefault].OPTM_TYPE,
           isQuantityDisabled: true,
+          OPTM_LINENO: DefaultData[idefault].OPTM_LINENO,
           HEADER_LINENO: DefaultData[idefault].HEADER_LINENO,
           parent_featureid: DefaultData[idefault].parent_featureid,
           nodeid: DefaultData[idefault].nodeid,
@@ -6851,6 +6948,7 @@ export class CwViewOldComponent implements OnInit {
           OPTM_LEVEL: 1,
           OPTM_TYPE: ModelData[imodelarray].OPTM_TYPE,
           isQuantityDisabled: true,
+          OPTM_LINENO: ModelData[imodelarray].OPTM_LINENO,
           HEADER_LINENO: ModelData[imodelarray].OPTM_LINENO,
           OPTM_ITEMTYPE: 1,
           unique_key: ModelData[imodelarray].unique_key,
@@ -6914,6 +7012,7 @@ export class CwViewOldComponent implements OnInit {
             OPTM_ITEMTYPE: 1,
             OPTM_TYPE: ModelItemsArray[imodelItemsarray].OPTM_TYPE,
             isQuantityDisabled: true,
+            OPTM_LINENO: ModelItemsArray[imodelItemsarray].OPTM_LINENO,
             HEADER_LINENO: ModelItemsArray[imodelItemsarray].HEADER_LINENO,
             nodeid: ModelItemsArray[imodelItemsarray].nodeid,
             unique_key: ModelItemsArray[imodelItemsarray].unique_key,
@@ -7009,6 +7108,7 @@ export class CwViewOldComponent implements OnInit {
           OPTM_LEVEL: 1,
           OPTM_TYPE: ModelData[imodelarray].OPTM_TYPE,
           isQuantityDisabled: true,
+          OPTM_LINENO: ModelData[imodelarray].OPTM_LINENO,
           HEADER_LINENO: ModelData[imodelarray].OPTM_LINENO,
           OPTM_ITEMTYPE: 1,
           nodeid: nodeid,
@@ -7087,6 +7187,7 @@ export class CwViewOldComponent implements OnInit {
             OPTM_LEVEL: 2,
             OPTM_TYPE: ModelItemsArray[imodelItemsarray].OPTM_TYPE,
             isQuantityDisabled: true,
+            OPTM_LINENO: ModelItemsArray[imodelItemsarray].OPTM_LINENO,
             HEADER_LINENO: ModelItemsArray[imodelItemsarray].HEADER_LINENO,
             nodeid: nodeid,
             unique_key: unique_key,
@@ -7148,6 +7249,7 @@ export class CwViewOldComponent implements OnInit {
           OPTM_LEVEL: 1,
           OPTM_TYPE: ModelItemsData[imodelarray].OPTM_TYPE,
           isQuantityDisabled: true,
+          OPTM_LINENO: ModelItemsData[imodelarray].OPTM_LINENO,
           HEADER_LINENO: ModelItemsData[imodelarray].OPTM_LINENO,
           nodeid: ModelItemsData[imodelarray].nodeid,
           unique_key: ModelItemsData[imodelarray].unique_key,
@@ -7245,6 +7347,7 @@ export class CwViewOldComponent implements OnInit {
           OPTM_LEVEL: 2,
           OPTM_TYPE: DefaultData[idefault].OPTM_TYPE,
           isQuantityDisabled: true,
+          OPTM_LINENO: DefaultData[idefault].OPTM_LINENO,
           HEADER_LINENO: DefaultData[idefault].HEADER_LINENO,
           unique_key: unqiue_key,
           nodeid: nodeid,
@@ -8235,6 +8338,7 @@ export class CwViewOldComponent implements OnInit {
             OPTM_LEVEL: getmodelsavedata[imodelsavedata].OPTM_LEVEL,
             OPTM_TYPE: getmodelsavedata[imodelsavedata].OPTM_TYPE,
             isQuantityDisabled: true,
+            OPTM_LINENO: parseFloat(imodelsavedata) + 1,
             HEADER_LINENO: parseFloat(imodelsavedata) + 1,
             sort_key:getmodelsavedata[imodelsavedata].sort_key
           });
@@ -8277,6 +8381,7 @@ export class CwViewOldComponent implements OnInit {
               OPTM_LEVEL: getmodelsavedata[imodelsavedata].OPTM_LEVEL,
               OPTM_TYPE: getmodelsavedata[imodelsavedata].OPTM_TYPE,
               isQuantityDisabled: true,
+              OPTM_LINENO: parseFloat(imodelsavedata) + 1,
               HEADER_LINENO: parseFloat(imodelsavedata) + 1,
               sort_key:getmodelsavedata[imodelsavedata].sort_key
             });
@@ -8335,6 +8440,7 @@ export class CwViewOldComponent implements OnInit {
               OPTM_LEVEL: getmodelsavedata[imodelsavedata].OPTM_LEVEL,
               OPTM_TYPE: getmodelsavedata[imodelsavedata].OPTM_TYPE,
               isQuantityDisabled: true,
+              OPTM_LINENO: parseFloat(imodelsavedata) + 1,
               HEADER_LINENO: parseFloat(imodelsavedata) + 1,
               sort_key:getmodelsavedata[imodelsavedata].sort_key
             });
