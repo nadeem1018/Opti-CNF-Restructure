@@ -632,8 +632,47 @@
     </div>
 </div>
 
+<!--view attribute dialog -->
+<div class="k-overlay" *ngIf="viewAttributeDialogOpened"></div>
+<div class="custom-window-wrapper" *ngIf="viewAttributeDialogOpened">
+    <div class="custom-window-innner">
+        <kendo-window [draggable]="isDraggable" class="border-0 bg-transparent" (close)="close_inner_kenod_dialog()"
+            [minWidth]="320" [width]="1200">
+            <kendo-window-titlebar>
+                <div class='k-window-title'>{{popup_title}}</div>
+                <button kendoWindowMaximizeAction></button>
+                <button kendoWindowRestoreAction></button>
+                <button kendoWindowCloseAction></button>
+            </kendo-window-titlebar>
+          
+                <kendo-grid [kendoGridBinding]="viewAttributeList" [filterable]="isColumnFilter" [selectable]="true"
+                    [pageable]="true" [pageSize]="50" [resizable]="true" [skip]="skip"
+                    (selectionChange)="on_item_select($event)" style="max-height:400px;"
+                    [sortable]="{  allowUnsort: allowUnsort,  mode: 'single'  }" [sort]="sort"
+                    (sortChange)="sortChange($event)">
+                    <!-- [pageSize]="10" -->
+                    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="1">
+                        <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                        <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                        <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                        <kendo-pager-info></kendo-pager-info>
+                    </ng-template>
+                    <ng-template kendoGridToolbarTemplate>
+                        <label class="custom-checkbox mb-0">
+                            <input type="checkbox" value="" #chkFilter name="columnfilter" id="columnFilter"
+                                [(ngModel)]="isColumnFilter">
+                            <span class="checkbox"></span>
+                            <span class="text-inverse">{{language.enable_filter}}</span>
+                        </label>
+                    </ng-template>
+                    <kendo-grid-column *ngFor="let column of table_head" field="{{column.field}}"
+                        title="{{column.title}}" filter="{{column.type}}" format="{{column.format}}"
+                        width="{{column.width}}" minResizableWidth="{{column.width}}"></kendo-grid-column>
+                </kendo-grid>
 
-
+        </kendo-window>
+    </div>
+</div>
 
 <!-- Enlarge Image -->
 

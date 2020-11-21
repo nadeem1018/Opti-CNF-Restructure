@@ -375,9 +375,13 @@
                         <button type="button" *ngIf="isExplodeButtonVisible" (click)="onExplodeClick('manual')" class="btn btn-sm btn-info with-icon mr-2">
                             <svg class="icon" viewBox="0 0 512 512"><use xlink:href="#treeView"></use></svg> {{language.explode}}
                         </button>
-                        <button type="button" *ngIf="isAssociatedBOMButtonVisible" class="btn btn-sm btn-secondary with-icon" (click)="onAssociatedBOMClick()">
+                        <button type="button" *ngIf="isAssociatedBOMButtonVisible" class="btn btn-sm btn-secondary with-icon mr-2 " (click)="onAssociatedBOMClick()">
                             <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#associate" ></use></svg> {{language.associated_BOM}}
                         </button>
+                        <button type="button"  class="btn btn-sm btn-success with-icon" (click)="onViewAttribute()">
+                             {{language.view_attribute}}
+                        </button>
+
                     </div>
                     <div class="ml-auto d-flex align-items-center flex-wrap">
                         <button type="button" class="btn btn-sm btn-danger mr-2 with-icon" *ngIf="isDeleteButtonVisible" (click)="onDeleteClick()">

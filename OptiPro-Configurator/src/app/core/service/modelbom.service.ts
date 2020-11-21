@@ -192,6 +192,11 @@ export class ModelbomService {
     return this.httpclient.post(this.config_params.service_url + "/ModelBOM/GetMaxSelectableForModel", jObject, this.common_params.httpOptions);
   }
 
+  GetModelBOMAttributeListByLine(modelId, lineNo): Observable<any> {
+    let jObject = { AddModelBom: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp,OPTM_MODELID:modelId, OPTM_MODELDTLROWID:lineNo,
+      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) }
+    return this.httpclient.post(this.config_params.service_url + "/ModelBOM/GetModelBOMAttributeListByLine", jObject, this.common_params.httpOptions);
+  }
   CheckValidPriceListEntered(ItemKey,priceListName): Observable<any> {
     this.logged_in_company = sessionStorage.selectedComp;
     let jObject = { ModelItem: JSON.stringify([{ CompanyDBID: this.logged_in_company,ItemKey:ItemKey, PriceListName:priceListName ,

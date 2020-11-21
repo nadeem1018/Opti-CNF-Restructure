@@ -78,6 +78,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   public NewFeatureId = "";
   public expandedKeys: any[] = [];
   public ItemAttributeList: any = []; 
+  public FeatureAttributeList: any = [];
 
   getSelectedRowDetail(event) {
     CommonData.made_changes = true;
@@ -213,7 +214,7 @@ export class FeatureBomAddEditComponent implements OnInit {
             return;
           }
         }
-
+       this.FeatureAttributeList = data.FeatureAttribute;
         if (data.FeatureDetail.length > 0) {
           for (let i = 0; i < data.FeatureDetail.length; ++i) {
             if (data.FeatureDetail[i].OPTM_TYPE == 1) {
@@ -655,6 +656,35 @@ export class FeatureBomAddEditComponent implements OnInit {
         return;
       }
     )
+  }
+
+  onViewAttribute(){
+    this.serviceData = {};
+    this.serviceData.attributeList = [];
+    let selectAttributesList = [];
+    this.serviceData.type = "FeatureBom"
+    var featureName = this.feature_bom_data.feature_name;
+    var featureCode = this.feature_bom_data.feature_code;
+    for(var modelFeatureObject in this.feature_bom_table) {
+     var featureBomObject = this.feature_bom_table[modelFeatureObject];
+    selectAttributesList = this.FeatureAttributeList.filter(function (obj) {
+      return obj['OPTM_FEATUREID'] == featureBomObject.FeatureId && obj['OPTM_FEATUREDTLROWID'] == featureBomObject.OPTM_LINENO
+    });
+
+    selectAttributesList.filter(function (obj) {
+      obj['OPTM_FEATURE_DISPLAYNAME'] = featureName
+      obj['OPTM_FEATURE_CODE'] = featureCode
+      obj['OPTM_ITEM_DISPLAYNAME'] = featureBomObject.display_name
+      obj['OPTM_ITEM_CODE'] = featureBomObject.OPTM_ITEMKEY
+      return obj;
+    });
+    this.serviceData.attributeList.push.apply(this.serviceData.attributeList, selectAttributesList);
+   
+  }
+
+  this.lookupfor = 'view_attribute_lookup';
+  this.showLookupLoader = false;  
+
   }
 
   onDeleteRow(rowindex) {

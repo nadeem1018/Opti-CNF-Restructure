@@ -79,6 +79,7 @@ export class ModelBomAddEditComponent implements OnInit {
   isPerfectSCrollBar: boolean = false;
   public isDuplicateMode:boolean = false;
   public NewModel = "";
+  public ModelAttributeList: any = [];
 
   getSelectedRowDetail(event) {
     if (event.selectedRows.length > 0) {
@@ -266,7 +267,7 @@ public expandedKeysvalue: any[] = [];
           }
           
         }
-
+        this.ModelAttributeList = data.ModelAttribute; 
         if (data.ModelDetail.length > 0) {
           for (let i = 0; i < data.ModelDetail.length; ++i) {
             let mandatory_item_disabled = false;
@@ -372,6 +373,7 @@ public expandedKeysvalue: any[] = [];
                 price_source: data.ModelDetail[i].ListName,
                 price_source_id: data.ModelDetail[i].OPTM_PRICESOURCE,
                 mandatory: data.ModelDetail[i].OPTM_MANDATORY,
+                OPTM_LINENO: data.ModelDetail[i].OPTM_LINENO,
                 mandatory_item_disabled : mandatory_item_disabled,
                 unique_identifer: data.ModelDetail[i].OPTM_UNIQUEIDNT,
                 isDisplayNameDisabled: false,
@@ -491,6 +493,83 @@ onAddRow() {
   });
   CommonData.made_changes = true;
 };
+
+openAttributeLookup(rowindex){
+  this.serviceData = {};
+  this.serviceData.attributeList = [];
+  this.serviceData.rowindex = rowindex; 
+  this.lookupfor = '';
+  let lineNo = 0;
+  this.serviceData.feature_id = this.modelbom_data.modal_id; 
+  if (this.modelbom_data.length > 0) {
+    for (let i = 0; i < this.modelbom_data.length; ++i) {
+      if (this.modelbom_data[i].rowindex === rowindex) {
+        lineNo = this.modelbom_data[i].OPTM_LINENO;
+        break;
+      }
+    }
+  }
+  
+
+  this.service.GetModelBOMAttributeListByLine(this.modelbom_data.modal_id, lineNo).subscribe(
+    data => {
+
+      if (data.length > 0) {
+        if (data[0].ErrorMsg == "7001") {
+          CommonData.made_changes = false;
+          this.showLookupLoader = false;
+          this.CommonService.RemoveLoggedInUser().subscribe();
+          this.CommonService.signOut(this.route, 'Sessionout');
+          return;
+        }
+
+        this.lookupfor = 'add_attribute_lookup';
+        this.showLookupLoader = false;
+        this.serviceData.attributeList  = data;       
+      }
+      else {
+        this.lookupfor = 'add_attribute_lookup';
+        this.showLookupLoader = false;        
+      //  this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+       // return;
+      }
+    }, error => {
+      this.showLookupLoader = false;
+      if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+        this.CommonService.isUnauthorized();
+      }
+      return;
+    }
+  )
+}
+onViewAttribute(){
+  this.serviceData = {};
+  this.serviceData.attributeList = [];
+  this.serviceData.type = "ModelBom"
+  let selectAttributesList = [];
+  var featureName = this.modelbom_data.feature_name;
+  var featureCode = this.modelbom_data.modal_code;
+  for(var modelFeatureObject in this.modelbom_data) {
+   var featureBomObject = this.modelbom_data[modelFeatureObject];
+  selectAttributesList = this.ModelAttributeList.filter(function (obj) {
+    return obj['OPTM_MODELID'] == featureBomObject.ModelId && obj['OPTM_MODELDTLROWID'] == featureBomObject.OPTM_LINENO
+  });
+
+  selectAttributesList.filter(function (obj) {
+    obj['OPTM_FEATURE_DISPLAYNAME'] = featureName
+    obj['OPTM_FEATURE_CODE'] = featureCode
+    obj['OPTM_ITEM_CODE'] = featureBomObject.bom_description    
+    obj['OPTM_ITEM_DISPLAYNAME'] = featureBomObject.display_name
+    return obj;
+  });
+  this.serviceData.attributeList.push.apply(this.serviceData.attributeList, selectAttributesList);
+ 
+}
+
+this.lookupfor = 'view_attribute_lookup';
+this.showLookupLoader = false;  
+
+}
 
 onDeleteRow(rowindex) {
   CommonData.made_changes = true;
