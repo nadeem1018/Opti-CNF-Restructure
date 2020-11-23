@@ -617,6 +617,7 @@ export class FeatureBomAddEditComponent implements OnInit {
     this.lookupfor = '';
     let lineNo = 0;
     this.serviceData.feature_id = this.feature_bom_data.feature_id; 
+
     if (this.feature_bom_table.length > 0) {
       for (let i = 0; i < this.feature_bom_table.length; ++i) {
         if (this.feature_bom_table[i].rowindex === rowindex) {
@@ -626,7 +627,8 @@ export class FeatureBomAddEditComponent implements OnInit {
       }
     }
     
-
+    this.serviceData.featureCode =this.feature_bom_data.feature_code;
+    this.serviceData.rowId = lineNo; 
     this.fbom.GetFeatureBOMAttributeListByLine(this.feature_bom_data.feature_id, lineNo).subscribe(
       data => {
 

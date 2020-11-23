@@ -510,10 +510,10 @@ openAttributeLookup(rowindex){
         lineNo = this.modelbom_data[i].OPTM_LINENO;
         break;
       }
-    }
+    } 
   }
-  
-this.serviceData.rowId =lineNo; 
+  this.serviceData.modelCode =this.modelbom_data.modal_code;
+   this.serviceData.rowId =lineNo; 
   this.service.GetModelBOMAttributeListByLine(this.modelbom_data.modal_id, lineNo).subscribe(
     data => {
 
