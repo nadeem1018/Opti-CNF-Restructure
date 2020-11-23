@@ -1269,9 +1269,12 @@ export class LookupComponent implements OnInit {
     this.itemRowIndex =  this.serviceData.rowindex 
     this.itemFeatureId = this.serviceData.feature_id; 
     this.attributeServiceData = [];
+   
     if(this.serviceData.attributeList.length >0){
       for (var inx = 0; inx < this.serviceData.attributeList.length; inx++) {
         this.attribute_counter++;
+        if(this.serviceData.type == "FeatureBom")
+        {
         this.attributeServiceData.push({      
           rowindex: this.attribute_counter,
           OPTM_FEATUREDTLROWID: this.serviceData.attributeList[inx]. OPTM_FEATUREDTLROWID,
@@ -1286,6 +1289,22 @@ export class LookupComponent implements OnInit {
           attribute_desc_disable: true,
           attribute_option_disable: true,         
         });
+      }else {
+        this.attributeServiceData.push({      
+          rowindex: this.attribute_counter,
+          OPTM_MODELDTLROWID: this.serviceData.attributeList[inx]. OPTM_MODELDTLROWID,
+          OPTM_MODELID:this.serviceData.attributeList[inx]. OPTM_FEATUREID,
+          OPTM_ATTR_CODE: this.serviceData.attributeList[inx]. OPTM_ATTR_CODE,
+          OPTM_ATTR_NAME: this.serviceData.attributeList[inx]. OPTM_ATTR_NAME,
+          OPTM_OPTION: this.serviceData.attributeList[inx]. OPTM_OPTION,
+          OPTM_OPTION_VALUE: this.serviceData.attributeList[inx]. OPTM_OPTION_VALUE,     
+          OPTM_INPUT: this.serviceData.attributeList[inx]. OPTM_INPUT,
+          OPTM_ATTR_VALUE: this.serviceData.attributeList[inx]. OPTM_ATTR_VALUE,
+          OPTM_SEQ: this.serviceData.attributeList[inx]. OPTM_SEQ,
+          attribute_desc_disable: true,
+          attribute_option_disable: true,         
+        });
+      }
       }
     }else{
       this.insert_new_attribute();

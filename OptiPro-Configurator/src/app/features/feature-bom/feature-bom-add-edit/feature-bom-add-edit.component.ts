@@ -613,6 +613,7 @@ export class FeatureBomAddEditComponent implements OnInit {
     this.serviceData = {};
     this.serviceData.attributeList = [];
     this.serviceData.rowindex = rowindex; 
+    this.serviceData.type = "FeatureBom";
     this.lookupfor = '';
     let lineNo = 0;
     this.serviceData.feature_id = this.feature_bom_data.feature_id; 

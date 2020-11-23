@@ -499,6 +499,7 @@ openAttributeLookup(rowindex){
   this.serviceData = {};
   this.serviceData.attributeList = [];
   this.serviceData.rowindex = rowindex; 
+  this.serviceData.type = "ModelBom"; 
   this.lookupfor = '';
   let lineNo = 0;
   this.serviceData.feature_id = this.modelbom_data.modal_id; 
@@ -2059,6 +2060,7 @@ onExplodeClick(type) {
       let objDataset: any = {};
       objDataset.ModelData =[];
       objDataset.RuleData = [];
+      objDataset.ItemAttributeList = [];
       var temp_model_data = new Array();      
       if(this.isDuplicateMode)
       {
@@ -2132,8 +2134,9 @@ onExplodeClick(type) {
       }
       objDataset.ModelData = temp_model_data;
       objDataset.RuleData = this.rule_data;
+      objDataset.ItemAttributeList = this.ItemAttributeList;
       console.log(JSON.stringify(objDataset));
-      this.service.SaveModelBom(objDataset, this.ItemAttributeList).subscribe(
+      this.service.SaveModelBom(objDataset).subscribe(
         data => {
           this.showLookupLoader = false;
           if (data == "7001") {
