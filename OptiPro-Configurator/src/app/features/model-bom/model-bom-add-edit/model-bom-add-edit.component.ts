@@ -80,6 +80,7 @@ export class ModelBomAddEditComponent implements OnInit {
   public isDuplicateMode:boolean = false;
   public NewModel = "";
   public ModelAttributeList: any = [];
+  public ItemAttributeList: any = [];
 
   getSelectedRowDetail(event) {
     if (event.selectedRows.length > 0) {
@@ -968,6 +969,8 @@ getLookupValue($event) {
     CommonData.made_changes = true;
     this.serviceData = []
     this.getItemDetails($event[0]);
+  } else if(this.lookupfor == 'add_attribute_lookup') {
+    this.ItemAttributeList =  $event;  
   }
 }
 
@@ -2130,7 +2133,7 @@ onExplodeClick(type) {
       objDataset.ModelData = temp_model_data;
       objDataset.RuleData = this.rule_data;
       console.log(JSON.stringify(objDataset));
-      this.service.SaveModelBom(objDataset).subscribe(
+      this.service.SaveModelBom(objDataset, this.ItemAttributeList).subscribe(
         data => {
           this.showLookupLoader = false;
           if (data == "7001") {

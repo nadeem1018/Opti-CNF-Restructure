@@ -144,10 +144,10 @@
                             <input type="text" [disabled]="dataItem.isUOMDisabled" class="form-control  form-control-sm" id="uom" value={{dataItem.uom}} (change)="on_uom_change(uom.value,dataItem.rowindex)" #uom title={{dataItem.uom}} />
                           </ng-template>
                         </kendo-grid-column>
-                        <kendo-grid-column field="uom" title="{{language.attribute}}" filter="text" [width]="120" [minResizableWidth]="120">
+                        <kendo-grid-column field="attribute"  headerClass="text-center" class="text-center"title="{{language.attribute}}" filter="text" [width]="120" [minResizableWidth]="120">
                           <ng-template kendoGridCellTemplate let-dataItem>
-                            <button type="button" (click)="openAttributeLookup(dataItem.rowindex)"  class="btn btn-sm  with-icon mr-2">
-                              <!-- <svg class="icon" viewBox="0 0 107.07 122.88"><use xlink:href="#attribute"></use></svg>  -->  {{language.attribute}}
+                            <button type="button" (click)="openAttributeLookup(dataItem.rowindex)"  class="btn btn-sm btn-icon mr-2 btn-primary">
+                               <svg class="icon" viewBox="0 0 107.07 122.88"><use xlink:href="#attribute"></use></svg>  
                             </button>  
                           </ng-template>
                         </kendo-grid-column>
