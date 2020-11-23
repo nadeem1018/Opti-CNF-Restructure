@@ -500,6 +500,7 @@ openAttributeLookup(rowindex){
   this.serviceData.attributeList = [];
   this.serviceData.rowindex = rowindex; 
   this.serviceData.type = "ModelBom"; 
+
   this.lookupfor = '';
   let lineNo = 0;
   this.serviceData.feature_id = this.modelbom_data.modal_id; 
@@ -512,7 +513,7 @@ openAttributeLookup(rowindex){
     }
   }
   
-
+this.serviceData.rowId =lineNo; 
   this.service.GetModelBOMAttributeListByLine(this.modelbom_data.modal_id, lineNo).subscribe(
     data => {
 

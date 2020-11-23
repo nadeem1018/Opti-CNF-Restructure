@@ -1292,7 +1292,7 @@ export class LookupComponent implements OnInit {
       }else {
         this.attributeServiceData.push({      
           rowindex: this.attribute_counter,
-          OPTM_MODELDTLROWID: this.serviceData.attributeList[inx]. OPTM_MODELDTLROWID,
+          OPTM_MODELDTLROWID: this.serviceData.rowId,
           OPTM_MODELID:this.serviceData.attributeList[inx]. OPTM_FEATUREID,
           OPTM_ATTR_CODE: this.serviceData.attributeList[inx]. OPTM_ATTR_CODE,
           OPTM_ATTR_NAME: this.serviceData.attributeList[inx]. OPTM_ATTR_NAME,
