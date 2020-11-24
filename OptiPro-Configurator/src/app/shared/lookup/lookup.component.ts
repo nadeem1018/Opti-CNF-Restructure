@@ -87,6 +87,7 @@ export class LookupComponent implements OnInit {
   public itemFeatureId = '';
   public viewAttributeDialogOpened = false;
   public viewAttributeList: any = [];
+  public viewDialogWidth = 400;
 ;  constructor(
     private rs: RoutingService,
     private fbom: FeaturebomService,
@@ -995,6 +996,7 @@ export class LookupComponent implements OnInit {
     this.lookup_key = 'OPTM_FEATUREID';
     this.viewAttributeList = this.serviceData.attributeList;
     if(this.serviceData.type == "FeatureBom"){
+    this.viewDialogWidth = 1200
     this.table_head = [
     {
       field: 'OPTM_FEATURE_CODE',
@@ -1069,7 +1071,8 @@ export class LookupComponent implements OnInit {
       attrType: 'text'
     },
     ];
-  }  else {
+  }  else if (this.serviceData.type == "ModelBom"){
+    this.viewDialogWidth = 1200
     this.table_head = [
       {
         field: 'OPTM_FEATURE_CODE',
@@ -1138,6 +1141,81 @@ export class LookupComponent implements OnInit {
       },
       {
         field: 'OPTM_ATTR_VALUE',
+        title: this.language.value,
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+      ];
+  } else {
+    this.table_head = [
+      // {
+      //   field: 'OPTM_FEATUREID',
+      //   title: this.language.Model_Code,
+      //   type: 'text',
+      //   width: '100',
+      //   attrType: 'text'
+      // },
+      // {
+      //   field: 'OPTM_FEATURECODE',
+      //   title: this.language.Model_Name,
+      //   type: 'text',
+      //   width: '100',
+      //   attrType: 'text'
+      // },
+      // {
+      //   field: 'OPTM_ITEM_CODE',
+      //   title: this.language.item_code,
+      //   type: 'text',
+      //   width: '100',
+      //   attrType: 'text'
+      // },
+      // {
+      //   field: 'OPTM_ITEM_DISPLAYNAME',
+      //   title: this.language.item_name,
+      //   type: 'text',
+      //   width: '100',
+      //   attrType: 'text'
+      // },
+      // {
+      //   field: 'OPTM_ATTR_CODE',
+      //   title: this.language.attribute_id,
+      //   type: 'text',
+      //   width: '120',
+      //   attrType: 'text'
+      // },
+  
+      {
+        field: 'OPTM_ATTR_NAME',
+        title: this.language.Attribute_name,
+        type: 'text',
+        width: '150',
+        attrType: 'text'
+      },
+      // {
+      //   field: 'OPTM_OPTION',
+      //   title: this.language.option,
+      //   type: 'text',
+      //   width: '120',
+      //   attrType: 'text'
+      // },
+  
+      // {
+      //   field: 'OPTM_OPTION_VALUE',
+      //   title: this.language.optionValue,
+      //   type: 'text',
+      //   width: '150',
+      //   attrType: 'text'
+      // },
+      // {
+      //   field: 'OPTM_INPUT',
+      //   title: this.language.inputs,
+      //   type: 'text',
+      //   width: '100',
+      //   attrType: 'text'
+      // },
+      {
+        field: 'OPTM_VALUE',
         title: this.language.value,
         type: 'text',
         width: '100',
@@ -1271,6 +1349,7 @@ export class LookupComponent implements OnInit {
     this.attributeServiceData = [];
    
     if(this.serviceData.attributeList.length >0){
+      this.attribute_counter = 0;
       for (var inx = 0; inx < this.serviceData.attributeList.length; inx++) {
         this.attribute_counter++;
         if(this.serviceData.type == "FeatureBom")

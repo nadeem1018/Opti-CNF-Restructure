@@ -246,7 +246,7 @@
                           </div>
 
                         <kendo-grid [kendoGridBinding]="attributeServiceData" [selectable]="false" [pageable]="false"
-                            [resizable]="true">
+                            [resizable]="true" style="max-height:400px;">
                             <kendo-grid-column field="seqrowno" title="{{language.hash}}" filter="text" [width]="50"
                                 [minResizableWidth]="50">
                                 <ng-template kendoGridCellTemplate let-dataItem>
@@ -299,7 +299,7 @@
                                 [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <input type="text" class="form-control  form-control-sm row_resource_uom" id="optionValue"
-                                        value={{dataItem.OPTM_OPTION_VALUE}}  (change)="on_input_change_attribute(optionValue.value,dataItem.rowindex, 'optionValue')"
+                                        value={{dataItem.OPTM_OPTION_VALUE}} [disabled]="dataItem.OPTM_OPTION == 'USER DEFINED'"  (change)="on_input_change_attribute(optionValue.value,dataItem.rowindex, 'optionValue')"
                                         #optionValue title={{dataItem.optionValue}} />
                                 </ng-template>
                             </kendo-grid-column>                            
@@ -307,7 +307,7 @@
                                 [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <input type="text" class="form-control  form-control-sm text-right row_resource_inverse"
-                                        id="inputs" value={{dataItem.OPTM_INPUT}} (change)="on_input_change_attribute(inputs.value,dataItem.rowindex, 'inputs')"
+                                        id="inputs" value={{dataItem.OPTM_INPUT}} [disabled]="dataItem.OPTM_OPTION == 'USER DEFINED'" (change)="on_input_change_attribute(inputs.value,dataItem.rowindex, 'inputs')"
                                         #inputs title={{dataItem.inputs}} />
                                 </ng-template>
                             </kendo-grid-column>
@@ -637,7 +637,7 @@
 <div class="custom-window-wrapper" *ngIf="viewAttributeDialogOpened">
     <div class="custom-window-innner">
         <kendo-window [draggable]="isDraggable" class="border-0 bg-transparent" (close)="close_inner_kenod_dialog()"
-            [minWidth]="320" [width]="1200">
+            [minWidth]="320" [width]="viewDialogWidth">
             <kendo-window-titlebar>
                 <div class='k-window-title'>{{popup_title}}</div>
                 <button kendoWindowMaximizeAction></button>

@@ -357,9 +357,12 @@
                                             <div class="form-group row clearfix no-gutters">
                                                 <label class="col-sm-2 col-form-label required" for="model">{{language.model}}</label>
                                                 <span class="col-sm-2 col-form-label" >
-                                                    <button (click)="openAttributeList(step2_data, '3')" type="button" class="btn btn-sm btn-success with-icon mr-2">
+                                                    <!-- <button (click)="openAttributeList(step2_data, '3')" type="button" class="btn btn-sm btn-success with-icon mr-2">
                                                          {{language.attribute}}
-                                                    </button>
+                                                    </button> -->
+                                                    <button type="button" (click)="openAttributeList(step2_data, '3')"  class="btn btn-sm btn-icon mr-2 btn-primary">
+                                                        <svg class="icon" viewBox="0 0 107.07 122.88"><use xlink:href="#attribute"></use></svg>  
+                                                     </button>
                                                 </span>
                                                 <input type="hidden" ngValue="" class="form-control  form-control-sm" [(ngModel)]="step2_data.modal_id"
                                                         name="modelName" id="modelNameId">
@@ -401,9 +404,12 @@
                                                         <!-- <h1>hello </h1> -->
                                                         <span class="output_final_screen_save_button d-inline-flex" style="
                                                         margin-left: auto;">
-                                                            <button (click)="openAttributeList(header_data, header_data.OPTM_TYPE)" type="button" class="btn btn-sm btn-success with-icon mr-2">
+                                                            <!-- <button (click)="openAttributeList(header_data, header_data.OPTM_TYPE)" type="button" class="btn btn-sm btn-success with-icon mr-2">
                                                                  {{language.attribute}}
-                                                            </button>
+                                                            </button> -->
+                                                            <button type="button" (click)="openAttributeList(header_data, header_data.OPTM_TYPE)"  class="btn btn-sm btn-icon mr-2 btn-primary">
+                                                                <svg class="icon" viewBox="0 0 107.07 122.88"><use xlink:href="#attribute"></use></svg>  
+                                                             </button>
                                                         </span>
                                                         </ng-template>
                                                     <ng-template kendoPanelBarContent>
@@ -678,7 +684,7 @@
                         </div>
                         <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2 w-100">
                             <div class="no-gutters w-100 align-items-start d-flex">
-                                <div class="col-md-5 d-inline-flex align-items-center justify-content-start">
+                                <div class="col-md-7 d-inline-flex align-items-center justify-content-start">
                                     <button type="button" class="btn btn-sm btn-secondary mr-2 with-icon" (click)="onclearselection(1)">
                                         <svg viewBox="0 0 489 489" class="icon"><use xlink:href="#cancel"></use></svg> {{language.clear_selection}}
                                     </button>                                        
@@ -692,7 +698,7 @@
                                         </button>
                                         <button type="button" [disabled]="multiple_model_disabled_status" class="btn with-icon btn-sm btn-info mr-2 add-update-btn update-btn multiple_model_click_btn" (click)="update_added_model()" *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined &&  step2_selected_model_id != '' "> <svg viewBox="0 0 8500 8500" class="icon"><use xlink:href="#add"></use></svg>{{language.update_model}}
                                         </button>
-                                        <button type="button" class="btn btn-sm with-icon btn-danger" title="{{language.remove_this_modal}}" *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined &&  step2_selected_model_id != '' " (click)="remove_final_modal(step2_selected_model)">
+                                        <button type="button" class="btn btn-sm with-icon btn-danger mr-2" title="{{language.remove_this_modal}}" *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined &&  step2_selected_model_id != '' " (click)="remove_final_modal(step2_selected_model)">
                                             <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg>{{language.delete_model}}
                                         </button>
                                         <button (click)="onCalculateAttribute()" type="button" class="btn btn-sm btn-success with-icon mr-2">
@@ -701,7 +707,7 @@
 
                                     </div>                    
                                 </div>
-                                <div class="col-md-7 d-inline-flex align-items-center justify-content-end">  
+                                <div class="col-md-5 d-inline-flex align-items-center justify-content-end">  
                                     <div class="input-group d-inline-flex w-auto mr-2" *ngIf="showPrintOptions">
                                         <select class="form-control form-control-sm d-inline-flex" name="print-operation-type" id="print-operation-type" #printOperationType>
                                             <option value="">{{language.print_option}}</option>
@@ -1013,6 +1019,9 @@
                         </div>
                 
                         <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
+                            <button (click)="onViewAttribute()" type="button" class="btn btn-sm btn-success with-icon mr-2">
+                                {{language.view_attribute}}
+                            </button>
                             <div class="input-group d-inline-flex w-auto mr-2" *ngIf="showPrintOptions">
                                 <select class="form-control form-control-sm d-inline-flex" name="print-operation-type" id="print-operation-type" #printOperationType>
                                     <option value="">{{language.print_option}}</option>

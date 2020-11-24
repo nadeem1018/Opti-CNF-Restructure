@@ -192,6 +192,9 @@ export class CwViewOldComponent implements OnInit {
   public SelectedFeautrItem = [];
   public SelectedModelItem = [];
   public firsttimecalling: boolean = false;
+  public SelectedAttributes: any  = [];
+  public SelectedModelFeature: any = [];
+  public SelectedItems: any  = [];    
   
   constructor(private ActivatedRouter: ActivatedRoute,
     private route: Router,
@@ -1102,28 +1105,54 @@ export class CwViewOldComponent implements OnInit {
     // )
   }
 
-  onCalculateAttribute(){
-    let SelectedModelFeature = [];
-    let SelectedItems  = [];
-    let SelectedAttributes  = [];
+  onCalculateAttributeItem(){
     let selectAttributesList = [];
     let selectedItemList = [];
     let parentarrayObj;
-
+    let attributeValues = [
+      {OPTM_VALUE: 168 },
+      {OPTM_VALUE: 168},
+      {OPTM_VALUE: 54},
+      {OPTM_VALUE: 0},
+      {OPTM_VALUE: 763},
+      {OPTM_VALUE: 1750.324862},
+      {OPTM_VALUE: 63.61116667 },
+      {OPTM_VALUE:132.1840043 },
+      {OPTM_VALUE: 1618.141  },
+      {OPTM_VALUE:12.86764706 },
+      {OPTM_VALUE:125.7527  },
+      {OPTM_VALUE:13.9188 },
+    ];
+    for(var valuesObject in attributeValues) {
+      if(this.ModelBOMDetailAttribute.length >= attributeValues.length){
+      this.ModelBOMDetailAttribute[valuesObject].OPTM_VALUE = attributeValues[valuesObject].OPTM_VALUE
+      }
+    }
+    var mainModelId = this.MainModelDetails[0].OPTM_MODELID;
+    selectAttributesList = this.ModelBOMDetailAttribute.filter(function (obj) {
+      return obj['OPTM_MODELID'] == mainModelId;
+    }); 
+    selectAttributesList.filter(function (obj) {
+       if( obj['OPTM_MODELID'] == mainModelId){
+        obj['OPTM_FEATUREID'] = mainModelId
+        obj['OPTM_FEATURECODE'] =  obj['OPTM_MODELCODE']
+       }
+    });         
+    this.SelectedAttributes.push.apply(this.SelectedAttributes, selectAttributesList);
     for(var modelFeatureObject in this.ModelHeaderData) {
       var modelHeaderDataObj = this.ModelHeaderData[modelFeatureObject];
-      SelectedModelFeature.push(modelHeaderDataObj);
+      this.SelectedModelFeature.push(modelHeaderDataObj);
        if(this.ModelHeaderData[modelFeatureObject].OPTM_TYPE == 1) {
         selectAttributesList = this.FeatureBOMDetailAttribute.filter(function (obj) {
           return obj['OPTM_FEATUREID'] == modelHeaderDataObj.OPTM_FEATUREID;
         });
-        SelectedAttributes.push.apply(SelectedAttributes, selectAttributesList);      
+        this.SelectedAttributes.push.apply(this.SelectedAttributes, selectAttributesList);      
        } else if (this.ModelHeaderData[modelFeatureObject].OPTM_TYPE == 3){
         selectAttributesList = this.ModelBOMDetailAttribute.filter(function (obj) {
           return obj['OPTM_MODELID'] == modelHeaderDataObj.OPTM_MODELID;
         });
        }
-       SelectedAttributes.push.apply(SelectedAttributes, selectAttributesList);
+       this.SelectedAttributes.push.apply(this.SelectedAttributes, selectAttributesList);
     }
 
     selectedItemList =  this.feature_itm_list_table.filter(function (obj) {
@@ -1159,13 +1188,16 @@ export class CwViewOldComponent implements OnInit {
         }                      
 
       }
-      SelectedAttributes.push.apply(SelectedAttributes, selectAttributesList);     
-      SelectedItems.push(selectedItemList[selectedItemObj]);
+      this.SelectedAttributes.push.apply(this.SelectedAttributes, selectAttributesList);     
+      this.SelectedItems.push(selectedItemList[selectedItemObj]);
     }
+  }
 
+  onCalculateAttribute(){    
+    
+   this.onCalculateAttributeItem();
 
-
- this.OutputService.CalculateAttributesonWizard(SelectedModelFeature, SelectedItems, SelectedAttributes).subscribe(
+   this.OutputService.CalculateAttributesonWizard(this.SelectedModelFeature, this.SelectedItems, this.SelectedAttributes).subscribe(
       data => {
 
         if (data != undefined) {
@@ -1194,6 +1226,16 @@ export class CwViewOldComponent implements OnInit {
       }
     )
   }
+
+  onViewAttribute(){
+    this.onCalculateAttributeItem();
+    this.serviceData = {};   
+    this.serviceData.attributeList = [];
+    this.serviceData.type = "Wizard"
+    this.serviceData.attributeList = this.SelectedAttributes;
+    this.lookupfor = 'view_attribute_lookup';
+    this.showLookupLoader = false;  
+   }
 
   openModalList() {
     this.showLookupLoader = true;

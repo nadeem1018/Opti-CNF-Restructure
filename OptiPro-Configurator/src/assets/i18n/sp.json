@@ -611,6 +611,7 @@
     "optionValue": "API/Function/SP", 
     "inputs": "Inputs",
     "view_attribute": "View Attribute", 
-    "item_name": "Item Name"
+    "item_name": "Item Name",
+    "Attribute_name": "Attribute Name"
 
 }
