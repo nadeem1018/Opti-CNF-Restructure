@@ -311,11 +311,11 @@
                                         #inputs title={{dataItem.inputs}} />
                                 </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column field="OPTM_ATTR_VALUE" title="{{language.value}}" filter="text"
+                            <kendo-grid-column field="OPTM_VALUE" title="{{language.value}}" filter="text"
                                 [width]="140" [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <input type="text" class="form-control  form-control-sm text-right row_resource_consumption"
-                                        id="valueId" value={{dataItem.OPTM_ATTR_VALUE}} (change)="on_input_change_attribute(valueId.value,dataItem.rowindex, 'value')"
+                                        id="valueId" value={{dataItem.OPTM_VALUE}} (change)="on_input_change_attribute(valueId.value,dataItem.rowindex, 'value')"
                                         #valueId title={{dataItem.valueId}} />
                                 </ng-template>
                             </kendo-grid-column>

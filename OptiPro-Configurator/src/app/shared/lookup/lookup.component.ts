@@ -1229,7 +1229,7 @@ export class LookupComponent implements OnInit {
             this.attributeServiceData[i].OPTM_OPTION = lookup_key.OPTM_OPTION;
             this.attributeServiceData[i].OPTM_OPTION_VALUE = lookup_key.OPTM_OPTION_VALUE;
             this.attributeServiceData[i].OPTM_INPUT = lookup_key.OPTM_INPUT;
-            //this.attributeServiceData[i].OPTM_VALUE = lookup_key.DCNum;
+            this.attributeServiceData[i].OPTM_VALUE = lookup_key.OPTM_VALUE;
         
             
           }

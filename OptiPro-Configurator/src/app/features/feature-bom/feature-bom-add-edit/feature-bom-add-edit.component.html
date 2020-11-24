@@ -220,10 +220,10 @@
                                         <ng-template kendoGridCellTemplate let-dataItem>
                                             <input type="text" class="form-control form-control-sm" id="remark" (change)="on_remark_change(remark.value,dataItem.rowindex)" value={{dataItem.remark}} #remark title="{{dataItem.remark}}" />
                                         </ng-template>
-                                    </kendo-grid-column> <kendo-grid-column field="Bom_Remarks" title="{{language.attribute}}" filter="text" [width]="120" [minResizableWidth]="120">
+                                    </kendo-grid-column> <kendo-grid-column field="Bom_Remarks"  headerClass="text-center" class="text-center" title="{{language.attribute}}" filter="text" [width]="120" [minResizableWidth]="120">
                                         <ng-template kendoGridCellTemplate let-dataItem>
-                                            <button type="button"  class="btn btn-sm btn-info with-icon mr-2" (click)="openAttributeLookup(dataItem.rowindex)">
-                                                {{language.attribute}} </button>
+                                            <button type="button"  class="btn btn-sm btn-info with-icon" (click)="openAttributeLookup(dataItem.rowindex)">
+                                                <svg class="icon" viewBox="0 0 107.07 122.88"><use xlink:href="#attribute"></use></svg>   </button>
                                         </ng-template>
                                     </kendo-grid-column>
                                     <kendo-grid-column field="propagate_qty" headerClass="text-center" class="text-center" title="{{language.propagate_qty}}" filter="numeric" [width]="120" [minResizableWidth]="120">
