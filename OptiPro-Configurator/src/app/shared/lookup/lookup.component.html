@@ -300,7 +300,7 @@
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <input type="text" class="form-control  form-control-sm row_resource_uom" id="optionValue"
                                         value={{dataItem.OPTM_OPTION_VALUE}}  (change)="on_input_change_attribute(optionValue.value,dataItem.rowindex, 'optionValue')"
-                                        #formula title={{dataItem.optionValue}} />
+                                        #optionValue title={{dataItem.optionValue}} />
                                 </ng-template>
                             </kendo-grid-column>                            
                             <kendo-grid-column field="OPTM_INPUT" title="{{language.inputs}}" filter="text" [width]="140"
