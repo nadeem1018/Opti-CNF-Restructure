@@ -612,6 +612,10 @@
     "inputs": "Inputs",
     "view_attribute": "View Attribute", 
     "item_name": "Item Name",
-    "Attribute_name": "Attribute Name"
+    "Attribute_name": "Attribute Name",
+    "add_attribute": "Add Attribute",
+    "userDefine": "User Define",
+    "api": "API",
+    "function": "Function"
 
 }

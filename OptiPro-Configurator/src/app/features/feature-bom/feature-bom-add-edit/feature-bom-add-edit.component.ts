@@ -683,11 +683,40 @@ export class FeatureBomAddEditComponent implements OnInit {
     });
     this.serviceData.attributeList.push.apply(this.serviceData.attributeList, selectAttributesList);
    
+    this.fbom.ViewAttributes(this.feature_bom_data.feature_id).subscribe(
+      data => {
+
+        if (data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.showLookupLoader = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.route, 'Sessionout');
+            return;
+          }
+
+          this.lookupfor = 'view_attribute_lookup';
+          this.showLookupLoader = false;          
+          this.serviceData.attributeList  = data;       
+        }
+        else {
+          this.lookupfor = 'view_attribute_lookup';
+          this.showLookupLoader = false;  
+               
+        //  this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+         // return;
+        }
+      }, error => {
+        this.showLookupLoader = false;
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
   }
 
-  this.lookupfor = 'view_attribute_lookup';
-  this.showLookupLoader = false;  
-
+  
   }
 
   onDeleteRow(rowindex) {

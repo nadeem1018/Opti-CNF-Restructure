@@ -78,6 +78,7 @@ export class FeatureModelAddEditComponent implements OnInit {
   public featureMasterImage: any;
   public addImageBlock: boolean = false;
   public config_params: any;
+  public ItemAttributeList: any = []; 
 
   canDeactivate() {
     if(CommonData.made_changes == true){
@@ -310,6 +311,11 @@ export class FeatureModelAddEditComponent implements OnInit {
       this.IsAccessoryVisible = true;
     }
 
+  }
+  addAttribute(){   
+    this.lookupfor = 'add_attribute_master_lookup';
+    this.showLookupLoader = false;
+     
   }
   onSaveClick() {
     this.showLookupLoader = true;
@@ -710,6 +716,10 @@ export class FeatureModelAddEditComponent implements OnInit {
   }
 
   getLookupValue($event) {
+    if($event.length == 0){
+      this.lookupfor = "";
+      return;
+    }
     if (this.lookupfor != "") {
       if (this.lookupfor == "model_template") {
         this.featureBom.ItemName = $event[0];
@@ -718,6 +728,10 @@ export class FeatureModelAddEditComponent implements OnInit {
       if (this.lookupfor == "model_item_generation") {
         this.featureBom.Ref = $event[0];
         //  this.featureBom.RefCode = $event[1];
+      }
+      if(this.lookupfor == 'add_attribute_master_lookup') {
+        this.ItemAttributeList =  $event;       
+  
       }
     }
   }

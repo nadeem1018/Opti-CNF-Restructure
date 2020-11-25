@@ -8,6 +8,7 @@ import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
 import { ModelbomService } from 'src/app/core/service/modelbom.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { FeaturebomService } from 'src/app/core/service/featurebom.service';
+import { FeaturemodelService } from 'src/app/core/service/featuremodel.service';
 
 @Component({
   selector: 'app-lookup',
@@ -78,11 +79,16 @@ export class LookupComponent implements OnInit {
   public isColumnFilter: boolean = false;
   public isColumnFilter1: boolean = false;
   public attributeServiceData: any = [];
+  public attributeMasterServiceData: any = [];
   public attribute_popup_title = '';
   public add_atttribute_show: boolean = false;
+  public add_atttribute_master: boolean = false;  
   public is_attribute_popup_lookup_open: boolean = false;
+  public is_attribute_master_popup_lookup_open: boolean = false;
   public popup_attribute: boolean = false;
   public attribute_counter = 0;
+  public attribute_master_counter = 0;
+  public detail_select_options: any = '';
   public itemRowIndex = '';
   public itemFeatureId = '';
   public viewAttributeDialogOpened = false;
@@ -94,7 +100,7 @@ export class LookupComponent implements OnInit {
     private CommonService: CommonService,
     private router: Router,
     private mbom: ModelbomService, 
-
+    private fms: FeaturemodelService
   ) { 
   }
 
@@ -240,6 +246,10 @@ export class LookupComponent implements OnInit {
     }
     if (this.popup_lookupfor == 'add_attribute_lookup') {
         this.add_atttribute_lookup();
+        return;
+      }
+      if (this.popup_lookupfor == 'add_attribute_master_lookup') {
+        this.add_atttribute_master_lookup();
         return;
       }
       if (this.popup_lookupfor == 'view_attribute_lookup') {
@@ -1314,6 +1324,21 @@ export class LookupComponent implements OnInit {
         }
       }
     }
+    if (this.is_attribute_master_popup_lookup_open== true) {
+      if (lookup_key.OPTM_ATTR_CODE != undefined && lookup_key.OPTM_ATTR_NAME != undefined) {
+        for (let i = 0; i < this.attributeMasterServiceData.length; ++i) {
+          if (this.attributeMasterServiceData[i].rowindex === this.current_popup_row) {
+            this.attributeMasterServiceData[i].OPTM_ATTR_CODE = lookup_key.OPTM_ATTR_CODE;
+            this.attributeMasterServiceData[i].OPTM_ATTR_NAME = lookup_key.OPTM_ATTR_NAME;
+            this.attributeMasterServiceData[i].OPTM_OPTION = lookup_key.OPTM_OPTION;
+            this.attributeMasterServiceData[i].OPTM_OPTION_VALUE = lookup_key.OPTM_OPTION_VALUE;
+            this.attributeMasterServiceData[i].OPTM_INPUT = lookup_key.OPTM_INPUT;
+            this.attributeMasterServiceData[i].OPTM_VALUE = lookup_key.OPTM_VALUE;        
+            
+          }
+        }
+      }
+    }
 
     if (this.popup_resource == false && this.popup_attribute == false) {
       this.lookupvalue.emit(Object.values(lookup_key));
@@ -1331,12 +1356,26 @@ export class LookupComponent implements OnInit {
     selection.selected = false;
     this.skip = 0;
     this.dialogOpened = false;
-    if (this.is_operation_popup_lookup_open == false && this.is_attribute_popup_lookup_open == false) {
+    if (this.is_operation_popup_lookup_open == false && this.is_attribute_popup_lookup_open == false 
+        && this.is_attribute_master_popup_lookup_open == false ) {
       this.current_popup_row = "";
     }
     setTimeout(() => {
       this.popup_lookupfor = "";
     }, 10);
+  }
+  add_atttribute_master_lookup() {
+    this.attribute_popup_title = this.language.attribute;
+    this.detail_select_options = this.commonData.option_type();
+    this.showLoader = false;
+    this.LookupDataLoaded = true;
+    this.add_atttribute_master = true;
+    this.is_attribute_master_popup_lookup_open = true;
+    if( this.attributeMasterServiceData.length == 0)
+    {
+      this.insert_new_attribute_master();
+    }
+    
   }
   add_atttribute_lookup() {
     this.attribute_popup_title = this.language.attribute;
@@ -1503,6 +1542,15 @@ export class LookupComponent implements OnInit {
       }
     }
   }
+  attribute_master_update() {   
+    this.is_attribute_master_popup_lookup_open = false;
+    if (this.attributeMasterServiceData.length == 0) {
+      this.CommonService.show_notification(this.language.cannot_submit_empty_resource, 'error');     
+      return;
+    } 
+    this.lookupvalue.emit(this.attributeMasterServiceData);
+    this.close_kendo_dialog();
+  }
 
   attribute_update() {   
     this.is_attribute_popup_lookup_open = false;
@@ -1559,6 +1607,29 @@ export class LookupComponent implements OnInit {
   //   }
 
   // }
+  insert_new_attribute_master() {
+    if (this.attributeMasterServiceData == undefined || this.attributeMasterServiceData == null || this.attributeMasterServiceData == "") {
+      this.attributeMasterServiceData = [];
+    }
+    this.attribute_master_counter = 0;
+    if (this.attributeMasterServiceData.length > 0) {
+      this.attribute_master_counter = this.attributeMasterServiceData.length
+    }
+    this.attribute_master_counter++;   
+    this.attributeMasterServiceData.push({      
+      rowindex: this.attribute_master_counter,
+      OPTM_FEATUREDTLROWID: this.itemRowIndex,
+      OPTM_FEATUREID: this.itemFeatureId,
+      OPTM_ATTR_CODE: '',
+      OPTM_ATTR_NAME: '',
+      OPTM_OPTION: '',
+      OPTM_OPTION_VALUE: '',     
+      OPTM_INPUT: '',
+      OPTM_ATTR_VALUE: '',
+      OPTM_SEQ: 0
+         
+    });
+  }
 
   insert_new_attribute() {
     if (this.attributeServiceData == undefined || this.attributeServiceData == null || this.attributeServiceData == "") {
@@ -1661,14 +1732,14 @@ export class LookupComponent implements OnInit {
     });
   }
   onDeleteAttributeRow(rowindex) {
-    if (this.attributeServiceData.length > 0) {
-      for (let i = 0; i < this.attributeServiceData.length; ++i) {
-        if (this.attributeServiceData[i].rowindex === rowindex) {
-          this.attributeServiceData.splice(i, 1);
+    if (this.attributeMasterServiceData.length > 0) {
+      for (let i = 0; i < this.attributeMasterServiceData.length; ++i) {
+        if (this.attributeMasterServiceData[i].rowindex === rowindex) {
+          this.attributeMasterServiceData.splice(i, 1);
           i = i - 1;
         }
         else {
-          this.attributeServiceData[i].rowindex = i + 1;
+          this.attributeMasterServiceData[i].rowindex = i + 1;
         }
       }
     }
@@ -1765,7 +1836,7 @@ export class LookupComponent implements OnInit {
   open_attribute_lookup(type, rowindex) {
     this.showLookupLoader = true;
     this.serviceData = []
-    this.fbom.getAttributeList(this.itemFeatureId).subscribe(
+    this.fms.GetModelFeatureAttributeList().subscribe(
       data => {
         if (data != null && data != undefined) {
           if (data.FeatureAttrData.length > 0) {
@@ -1803,7 +1874,7 @@ export class LookupComponent implements OnInit {
             this.popup_title = this.language.attribute;
             this.popup_attribute = true;
             this.dialogOpened = true;            
-            this.add_atttribute_show = true;
+            this.add_atttribute_master= true;
           }
           else {
             this.dialogOpened = false;
@@ -1827,6 +1898,36 @@ export class LookupComponent implements OnInit {
         }
       }
       )
+  }
+
+  on_input_change_attribute_master(value, rowindex, grid_element) {
+    var currentrow = 0;
+    for (let i = 0; i < this.attributeMasterServiceData.length; ++i) {
+      if (this.attributeMasterServiceData[i].rowindex === rowindex) {
+        currentrow = i;
+        break;
+      }
+    } 
+    if (grid_element == 'attribute_id') {
+      this.attributeMasterServiceData[currentrow].OPTM_ATTR_CODE = value;
+    }
+    if (grid_element == 'attribute_desc') {
+      this.attributeMasterServiceData[currentrow].OPTM_ATTR_NAME = value;
+    }
+    if (grid_element == 'option') {
+      this.attributeMasterServiceData[currentrow].OPTM_OPTION = value;
+    }
+    // if (grid_element == 'optionValue') {
+    //   this.attributeMasterServiceData[currentrow].OPTM_OPTION_VALUE = value;
+    // }
+    // if (grid_element == 'value') {
+    //   this.attributeMasterServiceData[currentrow].OPTM_VALUE = value;
+    // }
+    // if (grid_element == 'inputs') {
+    //   this.attributeMasterServiceData[currentrow].OPTM_INPUT = value;
+    // }
+
+
   }
   on_input_change_attribute(value, rowindex, grid_element) {
     var currentrow = 0;
@@ -2100,12 +2201,14 @@ export class LookupComponent implements OnInit {
   }
 
   public close_kendo_dialog() {
+    this.lookupvalue.emit('');
     this.dialogOpened = false;
     this.current_popup_row = "";
     this.show_associate_bom_popup = false;
     this.rule_selection_show = false;
     this.routing_resource_show = false;
     this.add_atttribute_show = false;
+    this.add_atttribute_master = false;
     this.reportDialogOpened = false;
   }
 

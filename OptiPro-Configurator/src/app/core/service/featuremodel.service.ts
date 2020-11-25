@@ -125,4 +125,14 @@ export class FeaturemodelService {
       return this.httpclient.request(req);
       
     }
+
+    GetModelFeatureAttributeList():Observable<any>{     
+        //JSON Obeject Prepared to be send as a param to API
+        let jObject = { GetRecord: JSON.stringify([{ UID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
+        
+      //Return the response form the API  
+      return this.httpclient.post(this.config_params.service_url + "/FeatureHeader/GetModelFeatureAttributeList", jObject, this.common_params.httpOptions);
+  
+      }
+      
 }

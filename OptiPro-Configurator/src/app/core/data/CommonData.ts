@@ -73,6 +73,14 @@ export class CommonData {
         { "value": 3, "Name": language.value }
         ];
     }
+       option_type(){
+        let language = JSON.parse(sessionStorage.getItem('current_lang'));
+        return [
+        { "value": 1, "Name": language.userDefine },
+        { "value": 2, "Name": language.api },
+        { "value": 3, "Name": language.function }
+        ];
+    }
 
     less_feature_bom_type(){
         let language = JSON.parse(sessionStorage.getItem('current_lang'));
