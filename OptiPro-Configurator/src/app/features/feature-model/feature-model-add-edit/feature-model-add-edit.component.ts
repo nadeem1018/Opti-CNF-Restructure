@@ -316,6 +316,8 @@ export class FeatureModelAddEditComponent implements OnInit {
    
    if (this.codekey == "" || this.codekey == null) {
     this.serviceData = [] 
+    this.lookupfor = 'add_attribute_master_lookup';
+    this.showLookupLoader = false;
    } else {
     this.fms.GetModelFeatureAttributeListByFeatureID(this.codekey).subscribe(
       data => {
@@ -378,6 +380,12 @@ export class FeatureModelAddEditComponent implements OnInit {
         CreatedUser: this.username,
         Accessory: this.featureBom.Accessory
       })
+      var featureCode = this.featureBom.Code.trim();
+      if(this.ItemAttributeList.length >0){
+        this.ItemAttributeList.filter(function (obj) {         
+            obj['OPTM_FEATURECODE'] =  featureCode         
+       })      
+      }  
 
       this.fms.saveData(this.featureModel, this.ItemAttributeList).subscribe(
         data => {
@@ -765,12 +773,7 @@ export class FeatureModelAddEditComponent implements OnInit {
         //  this.featureBom.RefCode = $event[1];
       }
       if(this.lookupfor == 'add_attribute_master_lookup') {
-        this.ItemAttributeList =  $event; 
-        if(this.ItemAttributeList.length >0){
-          this.ItemAttributeList.filter(function (obj) {         
-              obj['OPTM_FEATURECODE'] = this.featureBom.Code.trim()           
-         })      
-        }      
+        this.ItemAttributeList =  $event;             
   
       }
     }
