@@ -78,7 +78,8 @@ export class CommonData {
         return [
         { "value": 1, "Name": language.userDefine },
         { "value": 2, "Name": language.api },
-        { "value": 3, "Name": language.function }
+        { "value": 3, "Name": language.Formula },
+        { "value": 3, "Name": language.sp }
         ];
     }
 

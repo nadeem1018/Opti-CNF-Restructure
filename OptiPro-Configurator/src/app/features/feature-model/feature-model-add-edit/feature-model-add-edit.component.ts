@@ -312,9 +312,44 @@ export class FeatureModelAddEditComponent implements OnInit {
     }
 
   }
-  addAttribute(){   
-    this.lookupfor = 'add_attribute_master_lookup';
-    this.showLookupLoader = false;
+  addAttribute(){ 
+   
+   if (this.codekey == "" || this.codekey == null) {
+    this.serviceData = [] 
+   } else {
+    this.fms.GetModelFeatureAttributeListByFeatureID(this.codekey).subscribe(
+      data => {
+
+        if (data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.showLookupLoader = false;
+            this.commanService.RemoveLoggedInUser().subscribe();
+            this.commanService.signOut(this.router, 'Sessionout');
+            return;
+          }
+
+          this.lookupfor = 'add_attribute_master_lookup';
+          this.showLookupLoader = false;
+          this.serviceData = data;       
+        }
+        else {
+          this.lookupfor = 'add_attribute_master_lookup';
+          this.showLookupLoader = false;  
+        //  this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+         // return;
+        }
+      }, error => {
+        this.showLookupLoader = false;
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.commanService.isUnauthorized();
+        }
+        return;
+      }
+    )
+    }
+
+   
      
   }
   onSaveClick() {
@@ -344,7 +379,7 @@ export class FeatureModelAddEditComponent implements OnInit {
         Accessory: this.featureBom.Accessory
       })
 
-      this.fms.saveData(this.featureModel).subscribe(
+      this.fms.saveData(this.featureModel, this.ItemAttributeList).subscribe(
         data => {
           this.showLookupLoader = false;
           if (data == "7001") {
@@ -557,7 +592,7 @@ export class FeatureModelAddEditComponent implements OnInit {
         PicturePath: this.featureBom.Image,
         CreatedUser: this.username,
         Accessory: this.featureBom.Accessory
-      })
+      })    
 
       this.fms.updateData(this.featureModel).subscribe(
         data => {
@@ -730,7 +765,12 @@ export class FeatureModelAddEditComponent implements OnInit {
         //  this.featureBom.RefCode = $event[1];
       }
       if(this.lookupfor == 'add_attribute_master_lookup') {
-        this.ItemAttributeList =  $event;       
+        this.ItemAttributeList =  $event; 
+        if(this.ItemAttributeList.length >0){
+          this.ItemAttributeList.filter(function (obj) {         
+              obj['OPTM_FEATURECODE'] = this.featureBom.Code.trim()           
+         })      
+        }      
   
       }
     }

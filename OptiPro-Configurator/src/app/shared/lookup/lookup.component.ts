@@ -1333,7 +1333,8 @@ export class LookupComponent implements OnInit {
             this.attributeMasterServiceData[i].OPTM_OPTION = lookup_key.OPTM_OPTION;
             this.attributeMasterServiceData[i].OPTM_OPTION_VALUE = lookup_key.OPTM_OPTION_VALUE;
             this.attributeMasterServiceData[i].OPTM_INPUT = lookup_key.OPTM_INPUT;
-            this.attributeMasterServiceData[i].OPTM_VALUE = lookup_key.OPTM_VALUE;        
+            this.attributeMasterServiceData[i].OPTM_VALUE = lookup_key.OPTM_VALUE;  
+            this.attributeMasterServiceData[i].OPTM_FEATUREID = lookup_key.OPTM_FEATUREID;        
             
           }
         }
@@ -1365,16 +1366,35 @@ export class LookupComponent implements OnInit {
     }, 10);
   }
   add_atttribute_master_lookup() {
-    this.attribute_popup_title = this.language.attribute;
+    this.attribute_popup_title = this.language.attach_attribute;
     this.detail_select_options = this.commonData.option_type();
     this.showLoader = false;
     this.LookupDataLoaded = true;
     this.add_atttribute_master = true;
     this.is_attribute_master_popup_lookup_open = true;
-    if( this.attributeMasterServiceData.length == 0)
-    {
+    this.attributeMasterServiceData = [];
+    if(this.serviceData.length >0) {
+      this.attribute_counter = 0;
+      for (var inx = 0; inx < this.serviceData.length; inx++) {
+        this.attribute_counter++;       
+        this.attributeMasterServiceData.push({      
+          rowindex: this.attribute_counter,          
+          OPTM_FEATURECODE: this.serviceData.attributeList[inx]. OPTM_FEATURECODE,
+          OPTM_FEATUREID:this.serviceData.attributeList[inx]. OPTM_FEATUREID,
+          OPTM_ATTR_CODE: this.serviceData.attributeList[inx]. OPTM_ATTR_CODE,
+          OPTM_ATTR_NAME: this.serviceData.attributeList[inx]. OPTM_ATTR_NAME,
+          OPTM_OPTION: this.serviceData.attributeList[inx]. OPTM_OPTION,
+          OPTM_OPTION_VALUE: this.serviceData.attributeList[inx]. OPTM_OPTION_VALUE,     
+          OPTM_INPUT: this.serviceData.attributeList[inx]. OPTM_INPUT,
+          OPTM_ATTR_VALUE: this.serviceData.attributeList[inx]. OPTM_ATTR_VALUE,
+          OPTM_VALUE: this.serviceData.attributeList[inx]. OPTM_VALUE,
+          OPTM_SEQ: this.serviceData.attributeList[inx]. OPTM_SEQ,                
+        });
+     
+      }
+    }else{
       this.insert_new_attribute_master();
-    }
+    }  
     
   }
   add_atttribute_lookup() {
@@ -1549,7 +1569,7 @@ export class LookupComponent implements OnInit {
       return;
     } 
     this.lookupvalue.emit(this.attributeMasterServiceData);
-    this.close_kendo_dialog();
+    this.add_atttribute_master = false;
   }
 
   attribute_update() {   
@@ -1839,8 +1859,8 @@ export class LookupComponent implements OnInit {
     this.fms.GetModelFeatureAttributeList().subscribe(
       data => {
         if (data != null && data != undefined) {
-          if (data.FeatureAttrData.length > 0) {
-            if (data.FeatureAttrData[0].ErrorMsg == "7001") {
+          if (data.length > 0) {
+            if (data[0].ErrorMsg == "7001") {
               this.CommonService.RemoveLoggedInUser().subscribe();
               this.CommonService.signOut(this.router, 'Sessionout');             
               this.showLookupLoader = false;
@@ -1870,7 +1890,7 @@ export class LookupComponent implements OnInit {
               width: '100',
               attrType: 'text'
             }];
-            this.serviceData = data.FeatureAttrData;
+            this.serviceData = data;
             this.popup_title = this.language.attribute;
             this.popup_attribute = true;
             this.dialogOpened = true;            
@@ -1915,7 +1935,7 @@ export class LookupComponent implements OnInit {
       this.attributeMasterServiceData[currentrow].OPTM_ATTR_NAME = value;
     }
     if (grid_element == 'option') {
-      this.attributeMasterServiceData[currentrow].OPTM_OPTION = value;
+      this.attributeMasterServiceData[currentrow].OPTM_OPTION = this.detail_select_options[value-1].Name;
     }
     // if (grid_element == 'optionValue') {
     //   this.attributeMasterServiceData[currentrow].OPTM_OPTION_VALUE = value;

@@ -286,7 +286,7 @@
                                 [width]="140" [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <select class="form-control  form-control-sm" #selectedvalue (change)="on_input_change_attribute_master(selectedvalue.value,dataItem.rowindex, 'option')">
-                                        <option *ngFor="let v of detail_select_options " [value]="v.value" [selected]="dataItem.type==v.value">{{v.Name}}</option>
+                                        <option *ngFor="let v of detail_select_options " [value]="v.value" [selected]="dataItem.OPTM_OPTION == v.Name">{{v.Name}}</option>
                                     </select>
                                     <!-- <input type="text" class="form-control  form-control-sm row_resource_name" id="option"
                                         value={{dataItem.OPTM_OPTION}} [disabled]="dataItem.attribute_option_disable"

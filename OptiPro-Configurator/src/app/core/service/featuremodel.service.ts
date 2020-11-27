@@ -16,12 +16,13 @@ export class FeaturemodelService {
 
    
   //Submit feature bom data
-  saveData(featureBom):Observable<any>{
+  saveData(featureBom, itemAttributeList):Observable<any>{
     featureBom[0]['GUID'] = sessionStorage.getItem("GUID");
     featureBom[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
     //JSON Obeject Prepared to be send as a param to API
       //JSON Obeject Prepared to be send as a param to API
-    let jObject: any = { Feature: JSON.stringify(featureBom) };
+   // let jObject: any = { Feature: JSON.stringify(featureBom) };   
+    let jObject: any = { FeatureAttribute: JSON.stringify({Feature: featureBom, AttributeList: itemAttributeList})};
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/FeatureHeader/AddFeatures", jObject, this.common_params.httpOptions);
     }
@@ -134,5 +135,9 @@ export class FeaturemodelService {
       return this.httpclient.post(this.config_params.service_url + "/FeatureHeader/GetModelFeatureAttributeList", jObject, this.common_params.httpOptions);
   
       }
-      
+      GetModelFeatureAttributeListByFeatureID(featureId): Observable<any> {
+        let jObject = { GetRecord: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp,FeatureId:featureId,
+          GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) }
+        return this.httpclient.post(this.config_params.service_url + "/FeatureHeader/GetModelFeatureAttributeListByFeatureID", jObject, this.common_params.httpOptions);
+      } 
 }

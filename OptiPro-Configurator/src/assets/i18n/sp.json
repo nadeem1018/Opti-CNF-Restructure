@@ -614,8 +614,10 @@
     "item_name": "Item Name",
     "Attribute_name": "Attribute Name",
     "add_attribute": "Add Attribute",
-    "userDefine": "User Define",
+    "userDefine": "USER DEFINED",
     "api": "API",
-    "function": "Function"
+    "Formula": "Formula",
+    "sp": "SP",
+    "attach_attribute": "Attach Attribute"
 
 }
