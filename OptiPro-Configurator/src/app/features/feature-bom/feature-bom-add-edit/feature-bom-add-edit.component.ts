@@ -682,7 +682,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       return obj;
     });
     this.serviceData.attributeList.push.apply(this.serviceData.attributeList, selectAttributesList);
-   
+    }
     this.fbom.ViewAttributes(this.feature_bom_data.feature_id).subscribe(
       data => {
 
@@ -714,7 +714,7 @@ export class FeatureBomAddEditComponent implements OnInit {
         return;
       }
     )
-  }
+ 
 
   
   }
