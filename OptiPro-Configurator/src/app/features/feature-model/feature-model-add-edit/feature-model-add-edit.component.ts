@@ -601,8 +601,13 @@ export class FeatureModelAddEditComponent implements OnInit {
         CreatedUser: this.username,
         Accessory: this.featureBom.Accessory
       })    
-
-      this.fms.updateData(this.featureModel).subscribe(
+      var featureCode = this.featureBom.Code.trim();
+      if(this.ItemAttributeList.length >0){
+        this.ItemAttributeList.filter(function (obj) {         
+            obj['OPTM_FEATURECODE'] =  featureCode         
+       })      
+      }
+      this.fms.updateData(this.featureModel, this.ItemAttributeList).subscribe(
         data => {
           this.showLookupLoader = false;
           console.log(data);

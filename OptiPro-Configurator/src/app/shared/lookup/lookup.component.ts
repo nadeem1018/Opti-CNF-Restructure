@@ -1379,16 +1379,16 @@ export class LookupComponent implements OnInit {
         this.attribute_counter++;       
         this.attributeMasterServiceData.push({      
           rowindex: this.attribute_counter,          
-          OPTM_FEATURECODE: this.serviceData.attributeList[inx]. OPTM_FEATURECODE,
-          OPTM_FEATUREID:this.serviceData.attributeList[inx]. OPTM_FEATUREID,
-          OPTM_ATTR_CODE: this.serviceData.attributeList[inx]. OPTM_ATTR_CODE,
-          OPTM_ATTR_NAME: this.serviceData.attributeList[inx]. OPTM_ATTR_NAME,
-          OPTM_OPTION: this.serviceData.attributeList[inx]. OPTM_OPTION,
-          OPTM_OPTION_VALUE: this.serviceData.attributeList[inx]. OPTM_OPTION_VALUE,     
-          OPTM_INPUT: this.serviceData.attributeList[inx]. OPTM_INPUT,
-          OPTM_ATTR_VALUE: this.serviceData.attributeList[inx]. OPTM_ATTR_VALUE,
-          OPTM_VALUE: this.serviceData.attributeList[inx]. OPTM_VALUE,
-          OPTM_SEQ: this.serviceData.attributeList[inx]. OPTM_SEQ,                
+          OPTM_FEATURECODE: this.serviceData[inx]. OPTM_FEATURECODE,
+          OPTM_FEATUREID:this.serviceData[inx]. OPTM_FEATUREID,
+          OPTM_ATTR_CODE: this.serviceData[inx]. OPTM_ATTR_CODE,
+          OPTM_ATTR_NAME: this.serviceData[inx]. OPTM_ATTR_NAME,
+          OPTM_OPTION: this.serviceData[inx]. OPTM_OPTION,
+          OPTM_OPTION_VALUE: this.serviceData[inx]. OPTM_OPTION_VALUE,     
+          OPTM_INPUT: this.serviceData[inx]. OPTM_INPUT,
+          OPTM_ATTR_VALUE: this.serviceData[inx]. OPTM_ATTR_VALUE,
+          OPTM_VALUE: this.serviceData[inx]. OPTM_VALUE,
+          OPTM_SEQ: this.serviceData[inx]. OPTM_SEQ,                
         });
      
       }

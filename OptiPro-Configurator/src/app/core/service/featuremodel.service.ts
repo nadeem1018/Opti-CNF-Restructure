@@ -66,14 +66,14 @@ export class FeaturemodelService {
       }
 
       //Submit feature bom data
-    updateData(featureBom):Observable<any>{
+    updateData(featureBom, itemAttributeList):Observable<any>{
 
       featureBom[0]['GUID'] = sessionStorage.getItem("GUID");
       featureBom[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
 
     //JSON Obeject Prepared to be send as a param to API
       //JSON Obeject Prepared to be send as a param to API
-      let jObject: any = { UpdateFeature: JSON.stringify(featureBom)};
+      let jObject: any = { UpdateFeature: JSON.stringify({FeatureAttribute: featureBom, AttributeList: itemAttributeList})};
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/FeatureHeader/UpdateFeatures", jObject, this.common_params.httpOptions);
     }
