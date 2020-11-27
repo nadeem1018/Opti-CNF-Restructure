@@ -22,7 +22,7 @@ export class FeaturemodelService {
     //JSON Obeject Prepared to be send as a param to API
       //JSON Obeject Prepared to be send as a param to API
    // let jObject: any = { Feature: JSON.stringify(featureBom) };   
-    let jObject: any = { FeatureAttribute: JSON.stringify({Feature: featureBom, AttributeList: itemAttributeList})};
+    let jObject: any = { Feature : JSON.stringify({FeatureAttribute: featureBom, AttributeList: itemAttributeList})};
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/FeatureHeader/AddFeatures", jObject, this.common_params.httpOptions);
     }
