@@ -215,8 +215,8 @@ onDelete() {
 
   save_data() {
     this.addAttributeList.push({
-      AttributeCode: this.attributeCode,
-      AttributeName: this.attributeName
+      OPTM_ATTR_CODE: this.attributeCode,
+      OPTM_ATTR_NAME: this.attributeName
     });
   
   
