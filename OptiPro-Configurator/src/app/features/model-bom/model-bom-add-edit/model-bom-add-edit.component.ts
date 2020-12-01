@@ -2154,7 +2154,7 @@ onExplodeClick(type) {
       objDataset.RuleData = this.rule_data;
       objDataset.ItemAttributeList = this.ItemAttributeList;
       console.log(JSON.stringify(objDataset));
-      this.service.SaveModelBom(objDataset, this.ItemAttributeList).subscribe(
+      this.service.SaveModelBom(objDataset).subscribe(
         data => {
           this.showLookupLoader = false;
           if (data == "7001") {
