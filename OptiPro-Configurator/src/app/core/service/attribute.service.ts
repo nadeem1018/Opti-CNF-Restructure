@@ -22,9 +22,13 @@ export class AttributeService {
     UsernameForLic: sessionStorage.getItem("loggedInUser")}]) }
     return this.httpclient.post(this.config_params.service_url + "/Attribute/GetAttributeList", jObject, this.common_params.httpOptions);
   }
-   AddAttribute(attributeCode, attributeName): Observable<any>{
-    let jObject = { ModelItem: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp, GUID: sessionStorage.getItem("GUID"),
-    UsernameForLic: sessionStorage.getItem("loggedInUser"), AttributeCode: attributeCode, AttributeName: attributeName  }]) }
+   AddAttribute(SaveData): Observable<any>{
+    SaveData[0]['GUID'] = sessionStorage.getItem("GUID");
+    SaveData[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
+    SaveData[0]['CompanyDBID'] = sessionStorage.selectedComp;
+    let jObject: any = { Attribute: JSON.stringify({AddAttribute: SaveData})};
+   // let jObject = {Attribute: JSON.stringify({ CompanyDBID: sessionStorage.selectedComp, GUID: sessionStorage.getItem("GUID"),
+  //  UsernameForLic: sessionStorage.getItem("loggedInUser"), AttributeCode: attributeCode, AttributeName: attributeName  }) }
      return this.httpclient.post(this.config_params.service_url + "/Attribute/AddAttribute", jObject, this.common_params.httpOptions);
   }
 

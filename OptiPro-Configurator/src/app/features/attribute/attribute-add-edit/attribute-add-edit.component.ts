@@ -33,7 +33,7 @@ export class AttributeAddEditComponent implements OnInit {
   public update_id: string = "";
   public attributeCode: string = "";
   public attributeName: string = "";
-
+  public addAttributeList: any = [];
 
   
   
@@ -214,8 +214,13 @@ onDelete() {
 
 
   save_data() {
+    this.addAttributeList.push({
+      AttributeCode: this.attributeCode,
+      AttributeName: this.attributeName
+    });
   
-      this.service.AddAttribute(this.attributeCode, this.attributeName).subscribe(
+  
+      this.service.AddAttribute( this.addAttributeList).subscribe(
         data => {
           this.showLookupLoader = false;
           if (data == "7001") {
