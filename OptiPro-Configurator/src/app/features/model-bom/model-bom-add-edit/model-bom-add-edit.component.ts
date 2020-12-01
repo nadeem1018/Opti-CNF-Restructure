@@ -80,7 +80,7 @@ export class ModelBomAddEditComponent implements OnInit {
   public isDuplicateMode:boolean = false;
   public NewModel = "";
   public ModelAttributeList: any = [];
-  public ItemAttributeList: any = [];
+  public itemAttributeList: any = [];
 
   getSelectedRowDetail(event) {
     if (event.selectedRows.length > 0) {
@@ -922,6 +922,10 @@ on_defualt_change(value, rowindex) {
 }
 
 getLookupValue($event) {
+  if($event.length == 0){
+    this.lookupfor = "";
+    return;
+  }
  
   if (this.lookupfor == "feature_Detail_lookup" || this.lookupfor == "ModelBom_Detail_lookup" || this.lookupfor == "Item_Detail_lookup") {
     console.log("in here - selection ");
@@ -989,7 +993,7 @@ getLookupValue($event) {
     this.serviceData = []
     this.getItemDetails($event[0]);
   } else if(this.lookupfor == 'add_attribute_lookup') {
-    this.ItemAttributeList =  $event;  
+    this.itemAttributeList =  $event;  
   }
 }
 
@@ -2152,7 +2156,7 @@ onExplodeClick(type) {
       }
       objDataset.ModelData = temp_model_data;
       objDataset.RuleData = this.rule_data;
-      objDataset.ItemAttributeList = this.ItemAttributeList;
+      objDataset.ItemAttributeList = this.itemAttributeList;
       console.log(JSON.stringify(objDataset));
       this.service.SaveModelBom(objDataset).subscribe(
         data => {
