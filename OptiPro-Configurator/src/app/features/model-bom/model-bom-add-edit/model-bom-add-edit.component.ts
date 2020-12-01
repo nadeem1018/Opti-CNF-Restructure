@@ -553,11 +553,11 @@ onViewAttribute(){
   this.serviceData.type = "FeatureBom"    
   var featureName = this.modelbom_data.feature_name; 
   this.serviceData.featureName = featureName;  
-  this.service.ViewAttributes(this.modelbom_data.feature_id).subscribe(
+  this.service.ViewAttributes(this.modelbom_data.modal_id).subscribe(
     data => {
 
-      if (data.ViewAttributes.length > 0) {
-        if (data.ViewAttributes[0].ErrorMsg == "7001") {
+      if (data.ModelViewAttributes.length > 0) {
+        if (data.ModelViewAttributes[0].ErrorMsg == "7001") {
           CommonData.made_changes = false;
           this.showLookupLoader = false;
           this.CommonService.RemoveLoggedInUser().subscribe();
@@ -567,8 +567,8 @@ onViewAttribute(){
 
         this.lookupfor = 'view_attribute_lookup';
         this.showLookupLoader = false;          
-        this.serviceData.attributeList  = data.ViewAttributes;  
-        this.serviceData.atttributeColumn   = data.FeatureAttribute;     
+        this.serviceData.attributeList  = data.ModelViewAttributes;  
+        this.serviceData.atttributeColumn   = data.ModelAttribute;     
       }
       else {
         this.lookupfor = 'view_attribute_lookup';

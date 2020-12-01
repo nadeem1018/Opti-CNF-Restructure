@@ -618,6 +618,7 @@
     "api": "API",
     "Formula": "Formula",
     "sp": "SP",
-    "attach_attribute": "Attach Attribute"
+    "attach_attribute": "Attach Attribute",
+    "Attribute_code": "Attribute Code"
 
 }

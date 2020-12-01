@@ -205,9 +205,9 @@ export class ModelbomService {
   }
 
   ViewAttributes(modelId): Observable<any> {
-    let jObject = {ModelItem: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp,ModelId:modelId,
+    let jObject = {GetData: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp,OPTM_MODELID:modelId,
       GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) }
-    return this.httpclient.post(this.config_params.service_url + "/ModelBOM/ViewAttributes", jObject, this.common_params.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/ModelBOM/ModelViewAttributes", jObject, this.common_params.httpOptions);
   }
 
 }
