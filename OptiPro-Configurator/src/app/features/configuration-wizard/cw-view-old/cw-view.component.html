@@ -1019,9 +1019,19 @@
                         </div>
                 
                         <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
-                            <button (click)="onViewAttribute()" type="button" class="btn btn-sm btn-success with-icon mr-2">
-                                {{language.view_attribute}}
-                            </button>
+                          
+                            <div class="input-group d-inline-flex w-auto mr-2" *ngIf="showPrintOptions">
+                                <select class="form-control form-control-sm d-inline-flex" name="print-operation-type" id="print-operation-type" #viewAttributeType>
+                                    <option value="">{{language.print_option}}</option>
+                                    <option value="1">{{language.summary}}</option>
+                                    <option value="2">{{language.detail}}</option>
+                                </select>
+                                <div class="input-group-append">
+                                    <button class="btn btn-sm btn-success btn-icon" (click)="onViewAttribute(viewAttributeType.value)" title="Print">
+                                        <svg viewBox="0 0 107.07 122.88" class=""><use xlink:href="#attribute"></use></svg>
+                                    </button>
+                                </div>
+                            </div>
                             <div class="input-group d-inline-flex w-auto mr-2" *ngIf="showPrintOptions">
                                 <select class="form-control form-control-sm d-inline-flex" name="print-operation-type" id="print-operation-type" #printOperationType>
                                     <option value="">{{language.print_option}}</option>

@@ -54,10 +54,11 @@ export class ModelbomService {
       return this.httpclient.post(this.config_params.service_url + "/FeatureBOM/GetItemList", jObject, this.common_params.httpOptions);
   }
 
-  SaveModelBom(SaveData): Observable<any>{
+  SaveModelBom(SaveData,itemAttributeList): Observable<any>{
     SaveData["ModelData"][0]['GUID'] =  sessionStorage.getItem("GUID");
     SaveData["ModelData"][0]['UsernameForLic'] =  sessionStorage.getItem("loggedInUser");
-    var jObject = { AddModel: JSON.stringify(SaveData) };
+   // var jObject = { AddModel: JSON.stringify(SaveData) };
+    let jObject: any = { AddModel: JSON.stringify({ModelBom: SaveData, ItemAttributeList: itemAttributeList})};
     return this.httpclient.post(this.config_params.service_url + "/ModelBOM/AddUpdateModelBOM", jObject, this.common_params.httpOptions);
   }
 
@@ -203,4 +204,11 @@ export class ModelbomService {
       UsernameForLic: sessionStorage.getItem("loggedInUser")}]) }
     return this.httpclient.post(this.config_params.service_url + "/FeatureBOM/CheckPriceList", jObject, this.common_params.httpOptions);
   }
+
+  ViewAttributes(modelId): Observable<any> {
+    let jObject = {ModelItem: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp,ModelId:modelId,
+      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) }
+    return this.httpclient.post(this.config_params.service_url + "/ModelBOM/ViewAttributes", jObject, this.common_params.httpOptions);
+  }
+
 }

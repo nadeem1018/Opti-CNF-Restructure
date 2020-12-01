@@ -664,30 +664,17 @@ export class FeatureBomAddEditComponent implements OnInit {
   onViewAttribute(){
     this.serviceData = {};
     this.serviceData.attributeList = [];
+    this.serviceData.atttributeColumn = [];
     let selectAttributesList = [];
-    this.serviceData.type = "FeatureBom"
+    this.serviceData.type = "FeatureBom"    
     var featureName = this.feature_bom_data.feature_name;
     var featureCode = this.feature_bom_data.feature_code;
-    for(var modelFeatureObject in this.feature_bom_table) {
-     var featureBomObject = this.feature_bom_table[modelFeatureObject];
-    selectAttributesList = this.FeatureAttributeList.filter(function (obj) {
-      return obj['OPTM_FEATUREID'] == featureBomObject.FeatureId && obj['OPTM_FEATUREDTLROWID'] == featureBomObject.OPTM_LINENO
-    });
-
-    selectAttributesList.filter(function (obj) {
-      obj['OPTM_FEATURE_DISPLAYNAME'] = featureName
-      obj['OPTM_FEATURE_CODE'] = featureCode
-      obj['OPTM_ITEM_DISPLAYNAME'] = featureBomObject.display_name
-      obj['OPTM_ITEM_CODE'] = featureBomObject.OPTM_ITEMKEY
-      return obj;
-    });
-    this.serviceData.attributeList.push.apply(this.serviceData.attributeList, selectAttributesList);
-    }
+    this.serviceData.featureName = featureName;  
     this.fbom.ViewAttributes(this.feature_bom_data.feature_id).subscribe(
       data => {
 
-        if (data.length > 0) {
-          if (data[0].ErrorMsg == "7001") {
+        if (data.ViewAttributes.length > 0) {
+          if (data.ViewAttributes[0].ErrorMsg == "7001") {
             CommonData.made_changes = false;
             this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
@@ -697,7 +684,8 @@ export class FeatureBomAddEditComponent implements OnInit {
 
           this.lookupfor = 'view_attribute_lookup';
           this.showLookupLoader = false;          
-          this.serviceData.attributeList  = data;       
+          this.serviceData.attributeList  = data.ViewAttributes;  
+          this.serviceData.atttributeColumn   = data.FeatureAttribute;     
         }
         else {
           this.lookupfor = 'view_attribute_lookup';
@@ -1144,6 +1132,10 @@ export class FeatureBomAddEditComponent implements OnInit {
 
 
   getLookupValue($event) {
+    if($event.length == 0){
+      this.lookupfor = "";
+      return;
+    }
     if(this.lookupfor == 'add_attribute_lookup') {
       this.ItemAttributeList =  $event;
       console.log(this.feature_bom_table);

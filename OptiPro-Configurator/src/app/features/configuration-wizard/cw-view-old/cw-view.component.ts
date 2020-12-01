@@ -194,7 +194,8 @@ export class CwViewOldComponent implements OnInit {
   public firsttimecalling: boolean = false;
   public SelectedAttributes: any  = [];
   public SelectedModelFeature: any = [];
-  public SelectedItems: any  = [];    
+  public SelectedItems: any  = [];  
+  public selectModelAttribute : any  = [];
   
   constructor(private ActivatedRouter: ActivatedRoute,
     private route: Router,
@@ -1108,7 +1109,7 @@ export class CwViewOldComponent implements OnInit {
   onCalculateAttributeItem(){
     let selectAttributesList = [];
     let selectedItemList = [];
-    let parentarrayObj;
+    let parentarrayObj;   
     let attributeValues = [
       {OPTM_VALUE: 168 },
       {OPTM_VALUE: 168},
@@ -1137,7 +1138,8 @@ export class CwViewOldComponent implements OnInit {
         obj['OPTM_FEATUREID'] = mainModelId
         obj['OPTM_FEATURECODE'] =  obj['OPTM_MODELCODE']
        }
-    });         
+    }); 
+    this.selectModelAttribute  = selectAttributesList;        
     this.SelectedAttributes.push.apply(this.SelectedAttributes, selectAttributesList);
     for(var modelFeatureObject in this.ModelHeaderData) {
       var modelHeaderDataObj = this.ModelHeaderData[modelFeatureObject];
@@ -1227,12 +1229,20 @@ export class CwViewOldComponent implements OnInit {
     )
   }
 
-  onViewAttribute(){
+  onViewAttribute(view_attribute_type){
+    if (view_attribute_type == "") {
+      this.CommonService.show_notification(this.language.operation_type_required, 'error');       
+        return;
+    }
     this.onCalculateAttributeItem();
     this.serviceData = {};   
     this.serviceData.attributeList = [];
     this.serviceData.type = "Wizard"
-    this.serviceData.attributeList = this.SelectedAttributes;
+    if(view_attribute_type == 1){
+      this.serviceData.attributeList = this.selectModelAttribute;
+    }else{
+      this.serviceData.attributeList = this.SelectedAttributes;
+    }    
     this.lookupfor = 'view_attribute_lookup';
     this.showLookupLoader = false;  
    }

@@ -545,34 +545,51 @@ openAttributeLookup(rowindex){
     }
   )
 }
+
 onViewAttribute(){
   this.serviceData = {};
   this.serviceData.attributeList = [];
-  this.serviceData.type = "ModelBom"
-  let selectAttributesList = [];
-  var featureName = this.modelbom_data.feature_name;
-  var featureCode = this.modelbom_data.modal_code;
-  for(var modelFeatureObject in this.modelbom_data) {
-   var featureBomObject = this.modelbom_data[modelFeatureObject];
-  selectAttributesList = this.ModelAttributeList.filter(function (obj) {
-    return obj['OPTM_MODELID'] == featureBomObject.ModelId && obj['OPTM_MODELDTLROWID'] == featureBomObject.OPTM_LINENO
-  });
+  this.serviceData.atttributeColumn = [];  
+  this.serviceData.type = "FeatureBom"    
+  var featureName = this.modelbom_data.feature_name; 
+  this.serviceData.featureName = featureName;  
+  this.service.ViewAttributes(this.modelbom_data.feature_id).subscribe(
+    data => {
 
-  selectAttributesList.filter(function (obj) {
-    obj['OPTM_FEATURE_DISPLAYNAME'] = featureName
-    obj['OPTM_FEATURE_CODE'] = featureCode
-    obj['OPTM_ITEM_CODE'] = featureBomObject.bom_description    
-    obj['OPTM_ITEM_DISPLAYNAME'] = featureBomObject.display_name
-    return obj;
-  });
-  this.serviceData.attributeList.push.apply(this.serviceData.attributeList, selectAttributesList);
- 
+      if (data.ViewAttributes.length > 0) {
+        if (data.ViewAttributes[0].ErrorMsg == "7001") {
+          CommonData.made_changes = false;
+          this.showLookupLoader = false;
+          this.CommonService.RemoveLoggedInUser().subscribe();
+          this.CommonService.signOut(this.route, 'Sessionout');
+          return;
+        }
+
+        this.lookupfor = 'view_attribute_lookup';
+        this.showLookupLoader = false;          
+        this.serviceData.attributeList  = data.ViewAttributes;  
+        this.serviceData.atttributeColumn   = data.FeatureAttribute;     
+      }
+      else {
+        this.lookupfor = 'view_attribute_lookup';
+        this.showLookupLoader = false;  
+             
+      //  this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+       // return;
+      }
+    }, error => {
+      this.showLookupLoader = false;
+      if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+        this.CommonService.isUnauthorized();
+      }
+      return;
+    }
+  )
+
+
+
 }
 
-this.lookupfor = 'view_attribute_lookup';
-this.showLookupLoader = false;  
-
-}
 
 onDeleteRow(rowindex) {
   CommonData.made_changes = true;
@@ -2137,7 +2154,7 @@ onExplodeClick(type) {
       objDataset.RuleData = this.rule_data;
       objDataset.ItemAttributeList = this.ItemAttributeList;
       console.log(JSON.stringify(objDataset));
-      this.service.SaveModelBom(objDataset).subscribe(
+      this.service.SaveModelBom(objDataset, this.ItemAttributeList).subscribe(
         data => {
           this.showLookupLoader = false;
           if (data == "7001") {
