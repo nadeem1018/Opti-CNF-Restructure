@@ -1110,25 +1110,7 @@ export class CwViewOldComponent implements OnInit {
     let selectAttributesList = [];
     let selectedItemList = [];
     let parentarrayObj;   
-    let attributeValues = [
-      {OPTM_VALUE: 168 },
-      {OPTM_VALUE: 168},
-      {OPTM_VALUE: 54},
-      {OPTM_VALUE: 0},
-      {OPTM_VALUE: 763},
-      {OPTM_VALUE: 1750.324862},
-      {OPTM_VALUE: 63.61116667 },
-      {OPTM_VALUE:132.1840043 },
-      {OPTM_VALUE: 1618.141  },
-      {OPTM_VALUE:12.86764706 },
-      {OPTM_VALUE:125.7527  },
-      {OPTM_VALUE:13.9188 },
-    ];
-    for(var valuesObject in attributeValues) {
-      if(this.ModelBOMDetailAttribute.length >= attributeValues.length){
-      this.ModelBOMDetailAttribute[valuesObject].OPTM_VALUE = attributeValues[valuesObject].OPTM_VALUE
-      }
-    }
+  
     var mainModelId = this.MainModelDetails[0].OPTM_MODELID;
     selectAttributesList = this.ModelBOMDetailAttribute.filter(function (obj) {
       return obj['OPTM_MODELID'] == mainModelId;
@@ -3215,7 +3197,7 @@ export class CwViewOldComponent implements OnInit {
                 if (parentarray[0].OPTM_PROPOGATEQTY == "Y") {
                   if (data.DataForSelectedFeatureModelItem[0].OPTM_PROPOGATEQTY == "Y") {
                     propagateqtychecked = "Y"
-                    parentarray[0].OPTM_QUANTITY = parseFloat(parentarray[0].OPTM_QUANTITY).toFixed(3)
+                    //parentarray[0].OPTM_QUANTITY = parseFloat(parentarray[0].OPTM_QUANTITY).toFixed(3)
                     propagateqty = parentarray[0].OPTM_QUANTITY * data.DataForSelectedFeatureModelItem[0].OPTM_QUANTITY
 
                     propagateqty = propagateqty * this.getPropagateQuantity(parentarray[0].nodeid);
