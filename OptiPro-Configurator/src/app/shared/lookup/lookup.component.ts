@@ -508,7 +508,7 @@ export class LookupComponent implements OnInit {
         attrType: 'text'
       },
       {
-        field: 'OPTM_ATTR_VALUE',
+        field: 'OPTM_VALUE',
         title: 'Attribute Value',
         type: 'text',
         width: '100',

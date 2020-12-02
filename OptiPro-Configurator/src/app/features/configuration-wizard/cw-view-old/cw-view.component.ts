@@ -1049,7 +1049,7 @@ export class CwViewOldComponent implements OnInit {
     GetModelFeatureBOMAttribute.FeatureBOMDetailAttribute = this.FeatureBOMDetailAttribute;
     GetModelFeatureBOMAttribute.ModelBOMDetailAttribute = this.ModelBOMDetailAttribute;
 
-       this.lookupfor = 'Attribute_lookup';
+          this.lookupfor = 'Attribute_lookup';
           this.showLookupLoader = false;
 
           if(type == 1){
@@ -1104,6 +1104,26 @@ export class CwViewOldComponent implements OnInit {
     //     return;
     //   }
     // )
+  }
+
+  openAttributeListForModel() {
+    this.showLookupLoader = true;
+    this.serviceData = []
+    this.setModelDataFlag = false;
+    let GetModelFeatureBOMAttribute: any = {};
+    GetModelFeatureBOMAttribute.FeatureBOMDetailAttribute = [];
+    GetModelFeatureBOMAttribute.ModelBOMDetailAttribute = [];
+    GetModelFeatureBOMAttribute.FeatureBOMDetailAttribute = this.FeatureBOMDetailAttribute;
+    GetModelFeatureBOMAttribute.ModelBOMDetailAttribute = this.ModelBOMDetailAttribute;
+
+          this.lookupfor = 'Attribute_lookup';
+          this.showLookupLoader = false;
+        
+          var mainModelId = this.MainModelDetails[0].OPTM_MODELID;
+            this.serviceData = this.ModelBOMDetailAttribute.filter(function (obj) {
+              return obj['OPTM_MODELID'] == mainModelId;
+            });
+      
   }
 
   onCalculateAttributeItem(){
@@ -1180,21 +1200,23 @@ export class CwViewOldComponent implements OnInit {
   onCalculateAttribute(){    
     
    this.onCalculateAttributeItem();
-
+   this.showLookupLoader = true;
    this.OutputService.CalculateAttributesonWizard(this.SelectedModelFeature, this.SelectedItems, this.SelectedAttributes).subscribe(
       data => {
 
         if (data != undefined) {
-          if (data[0].ErrorMsg == "7001") {
+          if (data.SelectedAttributes[0].ErrorMsg == "7001") {
             CommonData.made_changes = false;
             this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
           }
-
-          // this.lookupfor = 'Attribute_lookup';
-          // this.showLookupLoader = false;        
+          this.showLookupLoader = false;
+          this.ModelBOMDetailAttribute = data.SelectedAttributes;
+          this.FeatureBOMDetailAttribute = data.SelectedAttributes;
+          this.openAttributeListForModel();
+              
         }
         else {
           
