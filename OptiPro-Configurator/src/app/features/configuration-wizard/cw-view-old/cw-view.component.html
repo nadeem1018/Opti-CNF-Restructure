@@ -356,7 +356,7 @@
                                         <div class="pr-2 pt-2 third-step-left-part" >
                                             <div class="form-group row clearfix no-gutters">
                                                 <label class="col-sm-2 col-form-label required" for="model">{{language.model}}</label>
-                                                <span class="col-sm-2 col-form-label" >
+                                                <span class="col-sm-1 col-form-label" >
                                                     <!-- <button (click)="openAttributeList(step2_data, '3')" type="button" class="btn btn-sm btn-success with-icon mr-2">
                                                          {{language.attribute}}
                                                     </button> -->
@@ -366,7 +366,7 @@
                                                 </span>
                                                 <input type="hidden" ngValue="" class="form-control  form-control-sm" [(ngModel)]="step2_data.modal_id"
                                                         name="modelName" id="modelNameId">
-                                                <div class="col-sm-8 input-group" style="margin-top: 8px;">                                                
+                                                <div class="col-sm-9 input-group" style="margin-top: 8px;">                                                
                                                     <input type="text" ngValue="" class="form-control  form-control-sm" name="model" id="model"
                                                         placeholder="{{language.model}}" [(ngModel)]="step2_data.model_code" #modelcode (change)="onModelCodeChange(modelcode.value)">
                                                     <div class="input-group-append">
@@ -1020,18 +1020,7 @@
                 
                         <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
                           
-                            <div class="input-group d-inline-flex w-auto mr-2" *ngIf="showPrintOptions">
-                                <select class="form-control form-control-sm d-inline-flex" name="print-operation-type" id="print-operation-type" #viewAttributeType>
-                                    <option value="">{{language.print_option}}</option>
-                                    <option value="1">{{language.summary}}</option>
-                                    <option value="2">{{language.detail}}</option>
-                                </select>
-                                <div class="input-group-append">
-                                    <button class="btn btn-sm btn-success btn-icon" (click)="onViewAttribute(viewAttributeType.value)" title="Print">
-                                        <svg viewBox="0 0 107.07 122.88" class=""><use xlink:href="#attribute"></use></svg>
-                                    </button>
-                                </div>
-                            </div>
+                            
                             <div class="input-group d-inline-flex w-auto mr-2" *ngIf="showPrintOptions">
                                 <select class="form-control form-control-sm d-inline-flex" name="print-operation-type" id="print-operation-type" #printOperationType>
                                     <option value="">{{language.print_option}}</option>

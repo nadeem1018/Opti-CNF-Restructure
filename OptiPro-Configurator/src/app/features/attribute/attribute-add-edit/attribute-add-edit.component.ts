@@ -34,7 +34,7 @@ export class AttributeAddEditComponent implements OnInit {
   public attributeCode: string = "";
   public attributeName: string = "";
   public addAttributeList: any = [];
-
+  public seq: string = "";
   
   
   public showLoader: boolean = true;
@@ -111,6 +111,11 @@ export class AttributeAddEditComponent implements OnInit {
    
       this.service.currentAttributeData.subscribe((data) => {
        console.log(data);
+       if(data != undefined){
+         this.attributeCode = data.OPTM_ATTR_CODE;
+         this.attributeName = data.OPTM_ATTR_NAME;
+         this.seq = data.OPTM_SEQ;
+       }
     });
 
     if (this.update_id === "" || this.update_id === null) {
@@ -119,8 +124,11 @@ export class AttributeAddEditComponent implements OnInit {
       this.isDeleteButtonVisible = false;      
       this._el.nativeElement.focus();
       this.showLoader = false;
+      this.attributeCode = '';
+      this.attributeName = '';
     }
     else {
+      this.showLoader = false;
       CommonData.made_changes = false;
       this.isUpdateButtonVisible = true;
       this.isSaveButtonVisible = false;
@@ -129,7 +137,7 @@ export class AttributeAddEditComponent implements OnInit {
       if(this.ActivatedRouter.snapshot.url[0].path == "edit") {
         this.isUpdateButtonVisible = true;
         this.isSaveButtonVisible = false;
-        this.isDeleteButtonVisible = true; 
+        this.isDeleteButtonVisible = false; 
          
       } else if(this.ActivatedRouter.snapshot.url[0].path == "add"){ 
         this.isUpdateButtonVisible = false;
@@ -142,7 +150,7 @@ export class AttributeAddEditComponent implements OnInit {
         this.isDeleteButtonVisible = false; 
        
       }
-      this.get_modelbom_details(this.update_id, false);
+    //  this.get_modelbom_details(this.update_id, false);
     }
   }
 
@@ -236,7 +244,7 @@ onDelete() {
           if (data == "True") {
             
             this.CommonService.show_notification(this.language.DataSaved, 'success');
-            this.route.navigateByUrl('Attribute/view');
+            this.route.navigateByUrl('attribute/view');
             return;
           }
           else if (data == "AlreadyExist") {
@@ -244,13 +252,7 @@ onDelete() {
             this.CommonService.show_notification(this.language.DuplicateCode, 'error');
             return;
           }
-          else if (JSON.stringify(data).includes("Invalid Selection for Max Selectable for") || 
-                   JSON.stringify(data).includes("invalid Default Selection for")) {
-            //this.toastr.error('', this.language.MoreDefaultThanMaxSelectable, this.commonData.toast_config);
-            this.CommonService.show_notification(JSON.stringify(data), 'error');
-            return;
-          }
-          else {
+         else {
             
             this.CommonService.show_notification(this.language.DataNotSaved, 'error');
             return;
@@ -266,5 +268,48 @@ onDelete() {
   }
 
   
+  onUpdate() {
+    this.addAttributeList.push({
+      OPTM_ATTR_CODE: this.attributeCode,
+      OPTM_ATTR_NAME: this.attributeName,
+      OPTM_SEQ: this.seq
+    });
+  
+  
+      this.service.UpdateAttribute( this.addAttributeList).subscribe(
+        data => {
+          this.showLookupLoader = false;
+          if (data == "7001") {
+                 CommonData.made_changes = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.route, 'Sessionout');
+            return;
+          }
+
+          if (data == "True") {
+            
+            this.CommonService.show_notification(this.language.DataSaved, 'success');
+            this.route.navigateByUrl('attribute/view');
+            return;
+          }
+          else if (data == "AlreadyExist") {
+            
+            this.CommonService.show_notification(this.language.DuplicateCode, 'error');
+            return;
+          }       
+          else {
+            
+            this.CommonService.show_notification(this.language.DataNotSaved, 'error');
+            return;
+          }
+        },error => {
+          this.showLookupLoader = false
+         if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
+           this.CommonService.isUnauthorized();
+         }
+         return;
+       })
+    
+  }
 
 }

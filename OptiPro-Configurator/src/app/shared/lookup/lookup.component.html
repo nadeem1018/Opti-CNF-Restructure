@@ -672,9 +672,14 @@
                     <kendo-grid-column *ngFor="let column of table_head" field="{{column.field}}"
                         title="{{column.title}}" filter="{{column.type}}" format="{{column.format}}"
                         width="{{column.width}}" minResizableWidth="{{column.width}}">   
-                        <ng-container *ngIf="column.attrType == 'number'">        
-                            <div class="text-right" >{{dataItem[column.field]}}</div>        
-                        </ng-container>                    
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <ng-container *ngIf="column.attrType == 'text'">        
+                                <div >{{dataItem[column.field]}}</div>        
+                            </ng-container>        
+                            <ng-container *ngIf="column.attrType == 'number'">        
+                                <div class="text-right" >{{dataItem[column.field]}}</div>        
+                            </ng-container>  
+                        </ng-template>                    
                     </kendo-grid-column>
                 </kendo-grid>
 

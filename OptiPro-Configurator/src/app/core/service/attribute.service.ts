@@ -36,9 +36,14 @@ export class AttributeService {
     SaveData[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
     SaveData[0]['CompanyDBID'] = sessionStorage.selectedComp;
     let jObject: any = { Attribute: JSON.stringify({AddAttribute: SaveData})};
-   // let jObject = {Attribute: JSON.stringify({ CompanyDBID: sessionStorage.selectedComp, GUID: sessionStorage.getItem("GUID"),
-  //  UsernameForLic: sessionStorage.getItem("loggedInUser"), AttributeCode: attributeCode, AttributeName: attributeName  }) }
      return this.httpclient.post(this.config_params.service_url + "/Attribute/AddAttribute", jObject, this.common_params.httpOptions);
+  }
+  UpdateAttribute(SaveData): Observable<any>{
+    SaveData[0]['GUID'] = sessionStorage.getItem("GUID");
+    SaveData[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
+    SaveData[0]['CompanyDBID'] = sessionStorage.selectedComp;
+    let jObject: any = { Attribute: JSON.stringify({AddAttribute: SaveData})};   
+     return this.httpclient.post(this.config_params.service_url + "/Attribute/UpdateAttribute", jObject, this.common_params.httpOptions);
   }
 
   GetAttributeList (search:string,PageNumber:any,record_per_page:any): Observable<any> {

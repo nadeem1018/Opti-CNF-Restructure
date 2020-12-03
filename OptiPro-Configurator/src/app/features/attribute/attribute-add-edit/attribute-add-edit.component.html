@@ -68,10 +68,10 @@
                 <button type="button" (click)="onSave()" *ngIf="isSaveButtonVisible" class="btn btn-sm btn-success with-icon mr-2">
                   <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.save}}
                 </button>
-                <!-- <button type="button" *ngIf="isUpdateButtonVisible" (click)="onSave()" class="btn btn-sm btn-success with-icon mr-2">
+                <button type="button" *ngIf="isUpdateButtonVisible" (click)="onUpdate()" class="btn btn-sm btn-success with-icon mr-2">
                   <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.update}}
                 </button>
-                <button type="button" (click)="onExplodeClick('manual')" *ngIf="isExplodeButtonVisible" class="btn btn-sm btn-info with-icon mr-2">
+                <!-- <button type="button" (click)="onExplodeClick('manual')" *ngIf="isExplodeButtonVisible" class="btn btn-sm btn-info with-icon mr-2">
                   <svg class="icon" viewBox="0 0 512 512"><use xlink:href="#treeView"></use></svg> {{language.explode}}
                 </button>        
                 <button type="button" (click)="onVerifyOutput()" *ngIf="isVerifyButtonVisible" class="btn btn-sm btn-primary with-icon mr-2">

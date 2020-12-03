@@ -237,8 +237,8 @@ export class AttributeViewComponent implements OnInit {
   }
 
   button_click1(data) {
-    this.service.setAttributeData(data[0]);
-    this.router.navigateByUrl('attribute/edit/' + data.OPTM_MODELID);
+    this.service.setAttributeData(data);
+    this.router.navigateByUrl('attribute/edit/' + data.OPTM_SEQ);
   }
   button_click2(data) {
     this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.DeleteConfimation });
