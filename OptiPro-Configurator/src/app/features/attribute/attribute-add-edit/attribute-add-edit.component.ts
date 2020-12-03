@@ -108,7 +108,10 @@ export class AttributeAddEditComponent implements OnInit {
         }
         return;
       });
-    // check screen authorisation - end
+   
+      this.service.currentAttributeData.subscribe((data) => {
+       console.log(data);
+    });
 
     if (this.update_id === "" || this.update_id === null) {
      // CommonData.made_changes = true;

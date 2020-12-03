@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { CommonData } from '../data/CommonData';
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,15 @@ export class AttributeService {
   constructor(private httpclient: HttpClient) { 
     this.config_params = JSON.parse(sessionStorage.getItem('system_config'));
   }
+
+  // set menu data global
+  public attributeData = new BehaviorSubject<any>([]);
+  currentAttributeData = this.attributeData.asObservable();
+
+  public setAttributeData(attributeItem){
+    this.attributeData.next(attributeItem);
+  }
+
 
   getAttributeList(): Observable<any> {
     console.log(' in  service');

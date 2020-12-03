@@ -69,14 +69,14 @@ export class AttributeViewComponent implements OnInit {
 
   public columns: ColumnSetting[] = [
     {
-      field: 'OPTM_FEATURECODE',
+      field: 'OPTM_ATTR_CODE',
       title: this.language.Attribute_code,
       type: 'text',
       width: '200',
       attrType: 'link'
     },
     {
-      field: 'OPTM_DISPLAYNAME',
+      field: 'OPTM_ATTR_NAME',
       title: this.language.Attribute_name,
       type: 'text',
       width: '200',
@@ -237,7 +237,7 @@ export class AttributeViewComponent implements OnInit {
   }
 
   button_click1(data) {
-
+    this.service.setAttributeData(data[0]);
     this.router.navigateByUrl('attribute/edit/' + data.OPTM_MODELID);
   }
   button_click2(data) {
@@ -398,49 +398,49 @@ export class AttributeViewComponent implements OnInit {
 
   delete_multi_row() {
 
-    if (this.CheckedData.length > 0) {
-      this.showLoader = true
-      this.service.DeleteData(this.CheckedData).subscribe(
-        data => {
-          this.showLoader = false
-          this.CheckedData = [];
-          this.isMultiDelete = false;
-          if (data != undefined && data.length > 0) {
-            if (data[0].ErrorMsg == "7001") {
-              this.commonservice.RemoveLoggedInUser().subscribe();
-              this.commonservice.signOut(this.router, 'Sessionout');
-              return;
-            }
-          }
+    // if (this.CheckedData.length > 0) {
+    //   this.showLoader = true
+    //   this.service.DeleteData(this.CheckedData).subscribe(
+    //     data => {
+    //       this.showLoader = false
+    //       this.CheckedData = [];
+    //       this.isMultiDelete = false;
+    //       if (data != undefined && data.length > 0) {
+    //         if (data[0].ErrorMsg == "7001") {
+    //           this.commonservice.RemoveLoggedInUser().subscribe();
+    //           this.commonservice.signOut(this.router, 'Sessionout');
+    //           return;
+    //         }
+    //       }
 
-          for (var i = 0; i < data.length; i++) {
-            if (data[i].IsDeleted == "0" && data[i].Message == "ReferenceExists") {
-              this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[i].ModelCode, 'error');
-            }
-            else if (data[i].IsDeleted == "1") {
-              this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[i].ModelCode, 'success');
-              this.CheckedData = [];
-              this.service_call(this.current_page, this.search_string);
-              this.router.navigateByUrl('attribute/view');
-            }
-            else {
-              this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[i].ModelCode, 'error');
-            }
-          }
+    //       for (var i = 0; i < data.length; i++) {
+    //         if (data[i].IsDeleted == "0" && data[i].Message == "ReferenceExists") {
+    //           this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[i].ModelCode, 'error');
+    //         }
+    //         else if (data[i].IsDeleted == "1") {
+    //           this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[i].ModelCode, 'success');
+    //           this.CheckedData = [];
+    //           this.service_call(this.current_page, this.search_string);
+    //           this.router.navigateByUrl('attribute/view');
+    //         }
+    //         else {
+    //           this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[i].ModelCode, 'error');
+    //         }
+    //       }
 
-          this.CheckedData = [];
-          this.selectall = false;
-          this.commonData.clearChildCheckbox();
-        }, error => {
-          this.showLoader = false
-          if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
-            this.commonservice.isUnauthorized();
-          }
-          return;
-        })
-    } else {
-      this.commonservice.show_notification(this.language.Norowselected, 'error');
-    }
+    //       this.CheckedData = [];
+    //       this.selectall = false;
+    //       this.commonData.clearChildCheckbox();
+    //     }, error => {
+    //       this.showLoader = false
+    //       if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+    //         this.commonservice.isUnauthorized();
+    //       }
+    //       return;
+    //     })
+    // } else {
+    //   this.commonservice.show_notification(this.language.Norowselected, 'error');
+    // }
 
   }
 

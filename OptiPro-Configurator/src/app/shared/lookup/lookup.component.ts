@@ -512,7 +512,7 @@ export class LookupComponent implements OnInit {
         title: 'Attribute Value',
         type: 'text',
         width: '100',
-        attrType: 'text'
+        attrType: 'number'
       },
     ];
     this.table_head_hidden_elements = [true, false, false, true, true];
