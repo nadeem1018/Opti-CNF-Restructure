@@ -32,7 +32,15 @@ export class AttributeService {
      return this.httpclient.post(this.config_params.service_url + "/Attribute/AddAttribute", jObject, this.common_params.httpOptions);
   }
 
+  GetAttributeList (search:string,PageNumber:any,record_per_page:any): Observable<any> {
 
+    //JSON Obeject Prepared to be send as a param to API
+    this.logged_in_company = sessionStorage.selectedComp;
+    let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company, SearchString:search,PageNumber:PageNumber, PageLimit:record_per_page,
+      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Attribute/GetAttributeList", jObject, this.common_params.httpOptions);
+  }
   
 
 }

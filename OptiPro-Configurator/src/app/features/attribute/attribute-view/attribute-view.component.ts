@@ -5,6 +5,7 @@ import { CommonData, ColumnSetting } from 'src/app/core/data/CommonData';
 import { orderBy, SortDescriptor } from '@progress/kendo-data-query';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { ModelbomService } from 'src/app/core/service/modelbom.service';
+import { AttributeService } from 'src/app/core/service/attribute.service';
 
 @Component({
   selector: 'app-attribute-view',
@@ -55,7 +56,7 @@ export class AttributeViewComponent implements OnInit {
   table_title = this.page_main_title;
   table_head_foot = [this.language.select, this.language.hash, this.language.ModelId, this.language.model_ModelCode, this.language.Name, this.language.description, this.language.action];
   public table_hidden_elements = [false, true, true, false, false, false, false];
-  constructor(private router: Router, private service: ModelbomService, private commonservice: CommonService) { }
+  constructor(private router: Router, private service: AttributeService, private commonservice: CommonService) { }
 
   isMobile: boolean = false;
   isIpad: boolean = false;
@@ -187,7 +188,7 @@ export class AttributeViewComponent implements OnInit {
       this.record_per_page = this.commonData.default_count;
       sessionStorage.setItem('defaultRecords', this.record_per_page);
     }
-    var dataset = this.service.getAllViewDataForModelBom(search, page_number, this.record_per_page).subscribe(
+    var dataset = this.service.GetAttributeList (search, page_number, this.record_per_page).subscribe(
       data => {
 
         console.log(data);
@@ -276,43 +277,43 @@ export class AttributeViewComponent implements OnInit {
       GUID: sessionStorage.getItem("GUID"),
       UsernameForLic: sessionStorage.getItem("loggedInUser")
     });
-    this.service.DeleteData(this.GetItemData).subscribe(
-      data => {
-        this.CheckedData = [];
-        this.isMultiDelete = false;
-        if (data != undefined && data.length > 0) {
-          if (data[0].ErrorMsg == "7001") {
-            this.commonservice.RemoveLoggedInUser().subscribe();
-            this.commonservice.signOut(this.router, 'Sessionout');
-            return;
-          }
-        }
-        if (data[0].IsDeleted == "0" && data[0].Message == "ReferenceExists") {
-          this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[0].ModelCode, 'error');
-          this.CheckedData = [];
-          this.selectall = false;
-          this.commonData.clearChildCheckbox();
-        }
-        else if (data[0].IsDeleted == "1") {
-          this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[0].ModelCode, 'success');
-          this.service_call(this.current_page, this.search_string);
-          this.router.navigateByUrl('attribute/view');
-          this.CheckedData = [];
-          this.selectall = false;
-          this.commonData.clearChildCheckbox();
-        }
-        else {
-          this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[0].ModelCode, 'error');
-        }
-        this.CheckedData = [];
-        this.selectall = false;
-        this.commonData.clearChildCheckbox();
-      }, error => {
-        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
-          this.commonservice.isUnauthorized();
-        }
-        return;
-      });
+    // this.service.DeleteData(this.GetItemData).subscribe(
+    //   data => {
+    //     this.CheckedData = [];
+    //     this.isMultiDelete = false;
+    //     if (data != undefined && data.length > 0) {
+    //       if (data[0].ErrorMsg == "7001") {
+    //         this.commonservice.RemoveLoggedInUser().subscribe();
+    //         this.commonservice.signOut(this.router, 'Sessionout');
+    //         return;
+    //       }
+    //     }
+    //     if (data[0].IsDeleted == "0" && data[0].Message == "ReferenceExists") {
+    //       this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[0].ModelCode, 'error');
+    //       this.CheckedData = [];
+    //       this.selectall = false;
+    //       this.commonData.clearChildCheckbox();
+    //     }
+    //     else if (data[0].IsDeleted == "1") {
+    //       this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[0].ModelCode, 'success');
+    //       this.service_call(this.current_page, this.search_string);
+    //       this.router.navigateByUrl('attribute/view');
+    //       this.CheckedData = [];
+    //       this.selectall = false;
+    //       this.commonData.clearChildCheckbox();
+    //     }
+    //     else {
+    //       this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[0].ModelCode, 'error');
+    //     }
+    //     this.CheckedData = [];
+    //     this.selectall = false;
+    //     this.commonData.clearChildCheckbox();
+    //   }, error => {
+    //     if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+    //       this.commonservice.isUnauthorized();
+    //     }
+    //     return;
+    //   });
   }
 
   on_checkbox_checked(checkedvalue, row_data) {
