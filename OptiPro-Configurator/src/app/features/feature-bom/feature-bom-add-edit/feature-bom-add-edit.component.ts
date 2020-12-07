@@ -873,6 +873,13 @@ export class FeatureBomAddEditComponent implements OnInit {
         }
       }
     }
+    var featureId = this.feature_bom_data.feature_id;
+    var featureCode = this.feature_bom_data.feature_code;
+    this.CustomeAttributeList.filter(function (obj) {
+      obj['OPTM_FEATUREID'] = featureId;
+      obj['OPTM_FEATURECODE'] = featureCode;
+      return obj;
+    });
     this.showLookupLoader = true;
     console.log(this.feature_bom_table);
     // let FeatureBomModelData: any = {};
