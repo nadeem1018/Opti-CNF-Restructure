@@ -35,10 +35,10 @@ export class FeaturebomService {
       return this.httpclient.post(this.config_params.service_url + "/FeatureBOM/GetItemList", jObject, this.common_params.httpOptions);
   }
 
-  SaveModelBom(SaveData, itemAttributeList): Observable<any>{
+  SaveModelBom(SaveData, itemAttributeList, customViewAttrList): Observable<any>{
     SaveData[0]['GUID'] = sessionStorage.getItem("GUID");
     SaveData[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
-    let jObject: any = { AddModelBom: JSON.stringify({FeatureBom: SaveData, ItemAttributeList: itemAttributeList})};
+    let jObject: any = { AddModelBom: JSON.stringify({FeatureBom: SaveData, ItemAttributeList: itemAttributeList, CustomViewAttrList: customViewAttrList})};
       return this.httpclient.post(this.config_params.service_url + "/FeatureBOM/AddUpdateFeatureBOMData", jObject, this.common_params.httpOptions);
   }
 
@@ -144,5 +144,10 @@ export class FeaturebomService {
       GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) }
     return this.httpclient.post(this.config_params.service_url + "/FeatureBOM/ViewAttributes", jObject, this.common_params.httpOptions);
   }
+  GetModelFeatureAttributeListByFeatureID(featureId): Observable<any> {
+    let jObject = { ModelItem: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp,FeatureId:featureId,
+      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) }
+    return this.httpclient.post(this.config_params.service_url + "/FeatureBOM/GetCustomAttrByFeatureID", jObject, this.common_params.httpOptions);
+  } 
 
 }

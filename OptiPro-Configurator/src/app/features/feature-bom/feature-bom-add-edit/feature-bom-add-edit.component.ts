@@ -77,7 +77,8 @@ export class FeatureBomAddEditComponent implements OnInit {
   public isDuplicateMode:boolean = false;
   public NewFeatureId = "";
   public expandedKeys: any[] = [];
-  public ItemAttributeList: any = []; 
+  public ItemAttributeList: any = [];
+  public CustomeAttributeList: any = []; 
   public FeatureAttributeList: any = [];
 
   getSelectedRowDetail(event) {
@@ -159,6 +160,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       this._el.nativeElement.focus();
       this.showLoader = false;
       this.feature_bom_data.multi_select = 'false';
+      this.feature_bom_data.custview_select = 'false';
       this.feature_bom_data.multi_select_disabled = true;
       this.feature_bom_data.feature_min_selectable = 1;
       this.feature_bom_data.feature_max_selectable = 1;
@@ -360,6 +362,12 @@ export class FeatureBomAddEditComponent implements OnInit {
             this.feature_bom_data.multi_select_disabled = true;
           }
 
+          if (data.FeatureHeader[0].OPTM_ISCUSTOMVIEW == 'y' || data.FeatureHeader[0].OPTM_ISCUSTOMVIEW == 'Y') {
+            this.feature_bom_data.custview_select = 'true';            
+          } else {
+            this.feature_bom_data.custview_select = 'false';            
+          }
+
           this.feature_bom_data.feature_min_selectable = data.FeatureHeader[0].OPTM_MIN_SELECTABLE;
 
           if (this.feature_bom_data.feature_min_selectable == null && this.feature_bom_data.feature_min_selectable == undefined) {
@@ -401,21 +409,72 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   on_multiple_model_change() {
-     CommonData.made_changes = true;
-    if (this.feature_bom_data.multi_select == 'false') {
-      this.feature_bom_data.multi_select_disabled = true;
-    } else if (this.feature_bom_data.multi_select == 'true') {
-      this.feature_bom_data.multi_select_disabled = false;
-    }
-    this.feature_bom_data.feature_min_selectable = 1;
-    if (this.feature_bom_table.length > 0) {
-      this.feature_bom_table.filter(function (obj) {
-        return obj.default = false;
-      });
+    CommonData.made_changes = true;
+   if (this.feature_bom_data.multi_select == 'false') {
+     this.feature_bom_data.multi_select_disabled = true;
+   } else if (this.feature_bom_data.multi_select == 'true') {
+     this.feature_bom_data.multi_select_disabled = false;
+   }
+   this.feature_bom_data.feature_min_selectable = 1;
+   if (this.feature_bom_table.length > 0) {
+     this.feature_bom_table.filter(function (obj) {
+       return obj.default = false;
+     });
 
-    }
-    this.feature_bom_data.feature_max_selectable = 1;
+   }
+   this.feature_bom_data.feature_max_selectable = 1;
+ }
+
+  on_custome_view_change() {
+     CommonData.made_changes = true;
+     if (this.feature_bom_data.custview_select == 'true') {
+      this.addAttribute();
+     }
+  
   }
+
+  addAttribute(){ 
+   
+    if (this.update_id == "" || this.update_id == null) {
+     this.serviceData = [] 
+     this.lookupfor = 'customeview_lookup';
+     this.showLookupLoader = false;
+    } else {
+     this.fbom.GetModelFeatureAttributeListByFeatureID(this.update_id).subscribe(
+       data => {
+ 
+         if (data.length > 0) {
+           if (data[0].ErrorMsg == "7001") {
+             CommonData.made_changes = false;
+             this.showLookupLoader = false;
+             this.CommonService.RemoveLoggedInUser().subscribe();
+             this.CommonService.signOut(this.router, 'Sessionout');
+             return;
+           }
+ 
+           this.lookupfor = 'customeview_lookup';
+           this.showLookupLoader = false;
+           this.serviceData = data;       
+         }
+         else {
+           this.lookupfor = 'customeview_lookup';
+           this.showLookupLoader = false;  
+         //  this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          // return;
+         }
+       }, error => {
+         this.showLookupLoader = false;
+         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+           this.CommonService.isUnauthorized();
+         }
+         return;
+       }
+     )
+     }
+ 
+    
+      
+   }
 
   validate_min_values(value, input_id) {
      CommonData.made_changes = true;
@@ -774,6 +833,13 @@ export class FeatureBomAddEditComponent implements OnInit {
           this.feature_bom_table[i].FeatureId = this.NewFeatureId;
         }
 
+        if (this.feature_bom_data.custview_select == 'false') {
+          this.feature_bom_table[i].OPTM_ISCUSTOMVIEW  = "N"
+        }
+        else {
+          this.feature_bom_table[i].OPTM_ISCUSTOMVIEW  = "Y"
+        }
+
         if (this.feature_bom_data.multi_select == 'false') {
           this.feature_bom_table[i].multi_select = "N"
         }
@@ -814,7 +880,7 @@ export class FeatureBomAddEditComponent implements OnInit {
     // FeatureBomModelData.ItemAttributeList = [];
     // FeatureBomModelData.FeatureBom = this.feature_bom_table;
     // FeatureBomModelData.ItemAttributeList = this.ItemAttributeList;
-    this.fbom.SaveModelBom(this.feature_bom_table, this.ItemAttributeList).subscribe(
+    this.fbom.SaveModelBom(this.feature_bom_table, this.ItemAttributeList, this.CustomeAttributeList).subscribe(
       data => {
         this.showLookupLoader = false;
         if (data == "7001") {
@@ -1138,6 +1204,10 @@ export class FeatureBomAddEditComponent implements OnInit {
     }
     if(this.lookupfor == 'add_attribute_lookup') {
       this.ItemAttributeList =  $event;
+      console.log(this.feature_bom_table);
+
+    }else if(this.lookupfor == 'customeview_lookup') {
+      this.CustomeAttributeList =  $event;
       console.log(this.feature_bom_table);
 
     }else if (this.lookupfor == 'feature_lookup') {
@@ -1917,6 +1987,7 @@ export class FeatureBomAddEditComponent implements OnInit {
           this.feature_bom_data.feature_desc = "";
           this.feature_bom_data.is_accessory = "N";
           this.feature_bom_data.multi_select = 'false';
+          this.feature_bom_data.custview_select = 'false';
           this.feature_bom_data.multi_select_disabled = true;
           this.feature_bom_data.feature_min_selectable = 1;
           this.feature_bom_data.feature_max_selectable = 1;

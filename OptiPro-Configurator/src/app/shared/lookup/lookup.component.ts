@@ -249,6 +249,10 @@ export class LookupComponent implements OnInit {
         this.add_atttribute_lookup();
         return;
       }
+      if (this.popup_lookupfor == 'customeview_lookup') {
+        this.customeview_lookup();
+        return;
+      }
       if (this.popup_lookupfor == 'add_attribute_master_lookup') {
         this.add_atttribute_master_lookup();
         return;
@@ -1251,6 +1255,39 @@ export class LookupComponent implements OnInit {
     }, 10);
   }
   add_atttribute_master_lookup() {
+    this.attribute_popup_title = this.language.attach_attribute;
+    this.detail_select_options = this.commonData.option_type();
+    this.showLoader = false;
+    this.LookupDataLoaded = true;
+    this.add_atttribute_master = true;
+    this.is_attribute_master_popup_lookup_open = true;
+    this.attributeMasterServiceData = [];
+    if(this.serviceData.length >0) {
+      this.attribute_counter = 0;
+      for (var inx = 0; inx < this.serviceData.length; inx++) {
+        this.attribute_counter++;       
+        this.attributeMasterServiceData.push({      
+          rowindex: this.attribute_counter,          
+          OPTM_FEATURECODE: this.serviceData[inx]. OPTM_FEATURECODE,
+          OPTM_FEATUREID:this.serviceData[inx]. OPTM_FEATUREID,
+          OPTM_ATTR_CODE: this.serviceData[inx]. OPTM_ATTR_CODE,
+          OPTM_ATTR_NAME: this.serviceData[inx]. OPTM_ATTR_NAME,
+          OPTM_OPTION: this.serviceData[inx]. OPTM_OPTION,
+          OPTM_OPTION_VALUE: this.serviceData[inx]. OPTM_OPTION_VALUE,     
+          OPTM_INPUT: this.serviceData[inx]. OPTM_INPUT,
+          OPTM_ATTR_VALUE: this.serviceData[inx]. OPTM_ATTR_VALUE,
+          OPTM_VALUE: this.serviceData[inx]. OPTM_VALUE,
+          OPTM_SEQ: this.serviceData[inx]. OPTM_SEQ,                
+        });
+     
+      }
+    }else{
+      this.insert_new_attribute_master();
+    }  
+    
+  }
+
+  customeview_lookup() {
     this.attribute_popup_title = this.language.attach_attribute;
     this.detail_select_options = this.commonData.option_type();
     this.showLoader = false;

@@ -132,6 +132,43 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                     <div class="form-group row clearfix mb-2">
+                                        <div class="col-sm-6 row">
+                                            <label class="col-sm-6 col-form-label" for="customizedview">{{language.Customized_view}}</label>
+                                            <div class="col-sm-6 d-flex align-items-center">
+                                                <div class="custom-control custom-radio custom-control-inline mr-3">
+                                                    <input type="radio" id="customizedview_yes" name="customizedview" class="custom-control-input" value="true" #multipleselectcheck tabindex="5"
+                                                        [(ngModel)]="feature_bom_data.custview_select" title="{{this.language.YES}}" [checked]="feature_bom_data.custview_select == 'true'"
+                                                        (change)="on_custome_view_change()">
+                                                    <label class="custom-control-label" for="customizedview_yes">{{this.language.YES}}</label>
+                                                </div>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input type="radio" id="customizedview_no" name="customizedview" class="custom-control-input" value="false" #multipleselectcheck tabindex="5" [(ngModel)]="feature_bom_data.custview_select" title="{{this.language.NO}}" [checked]="feature_bom_data.custview_select == 'false'" (change)="on_custome_view_change()">
+                                                    <label class="custom-control-label" for="customizedview_no">{{this.language.NO}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- <div class="form-group row clearfix mb-2">
+                                        <div class="col-sm-6 row">
+                                            <label class="col-sm-6 col-form-label" for="customizedview">{{language.Customized_view}}</label>
+                                            <div class="col-sm-6 d-flex align-items-center">
+                                                <div class="custom-control custom-radio custom-control-inline mr-3">
+                                                    <input type="radio" id="customized_view_yes" name="customizedview" class="custom-control-input" value="true" #customizedviewcheck 
+                                                        [(ngModel)]="feature_bom_data.custview_select" title="{{this.language.YES}}" [checked]="feature_bom_data.custview_select == 'true'"
+                                                        (change)="on_custome_view_change()">
+                                                    <label class="custom-control-label" for="multiple_select_yes">{{this.language.YES}}</label>
+                                                </div>
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                    <input type="radio" id="customized_view_no" name="customizedview" class="custom-control-input" value="false" #customizedviewcheck  [(ngModel)]="feature_bom_data.custview_select" title="{{this.language.NO}}" [checked]="feature_bom_data.custview_select == 'false'" (change)="on_custome_view_change()">
+                                                    <label class="custom-control-label" for="customized_view_no">{{this.language.NO}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
                                 </div>
                             </div>
 

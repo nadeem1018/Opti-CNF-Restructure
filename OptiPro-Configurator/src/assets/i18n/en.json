@@ -637,7 +637,9 @@
     "Formula": "Formula",
     "sp": "SP",
     "attach_attribute": "Attach Attribute",
-    "Attribute_code": "Attribute Code"
+    "Attribute_code": "Attribute Code",
+    "Customized_view": "Customized View",
+    "Select_view": "Select View"
      
 
 }
