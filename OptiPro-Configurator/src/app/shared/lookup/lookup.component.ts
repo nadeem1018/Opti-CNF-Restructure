@@ -95,6 +95,7 @@ export class LookupComponent implements OnInit {
   public viewAttributeList: any = [];
   public viewAttributeColumn: any = [];
   public viewDialogWidth = 400;
+  public hiddenColumn: boolean = false;
 ;  constructor(
     private rs: RoutingService,
     private fbom: FeaturebomService,
@@ -1293,6 +1294,7 @@ export class LookupComponent implements OnInit {
     this.showLoader = false;
     this.LookupDataLoaded = true;
     this.add_atttribute_master = true;
+    this.hiddenColumn = true;
     this.is_attribute_master_popup_lookup_open = true;
     this.attributeMasterServiceData = [];
     if(this.serviceData.length >0) {

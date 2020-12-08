@@ -443,8 +443,8 @@ export class FeatureBomAddEditComponent implements OnInit {
      this.fbom.GetModelFeatureAttributeListByFeatureID(this.update_id).subscribe(
        data => {
  
-         if (data.length > 0) {
-           if (data[0].ErrorMsg == "7001") {
+         if (data.FeatureCustomAttribute.length > 0) {
+           if (data.FeatureCustomAttribute[0].ErrorMsg == "7001") {
              CommonData.made_changes = false;
              this.showLookupLoader = false;
              this.CommonService.RemoveLoggedInUser().subscribe();
@@ -454,7 +454,7 @@ export class FeatureBomAddEditComponent implements OnInit {
  
            this.lookupfor = 'customeview_lookup';
            this.showLookupLoader = false;
-           this.serviceData = data;       
+           this.serviceData = data.FeatureCustomAttribute;       
          }
          else {
            this.lookupfor = 'customeview_lookup';

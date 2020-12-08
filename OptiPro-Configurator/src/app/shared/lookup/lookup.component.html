@@ -283,7 +283,7 @@
                         </kendo-grid-column>
 
                             <kendo-grid-column field="OPTM_OPTION" title="{{language.option}}" filter="text"
-                                [width]="140" [minResizableWidth]="140">
+                                [width]="140" [minResizableWidth]="140" [hidden] = hiddenColumn>
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <select class="form-control  form-control-sm" #selectedvalue (change)="on_input_change_attribute_master(selectedvalue.value,dataItem.rowindex, 'option')">
                                         <option *ngFor="let v of detail_select_options " [value]="v.value" [selected]="dataItem.OPTM_OPTION == v.Name">{{v.Name}}</option>
