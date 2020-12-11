@@ -192,10 +192,10 @@ export class CwViewOldComponent implements OnInit {
   public SelectedFeautrItem = [];
   public SelectedModelItem = [];
   public firsttimecalling: boolean = false;
-  public SelectedAttributes: any  = [];
+  public SelectedFeatureAttributes: any  = [];
   public SelectedModelFeature: any = [];
   public SelectedItems: any  = [];  
-  public selectModelAttribute : any  = [];
+  public SelectModelAttributes : any  = [];
   
   constructor(private ActivatedRouter: ActivatedRoute,
     private route: Router,
@@ -1141,23 +1141,9 @@ export class CwViewOldComponent implements OnInit {
         obj['OPTM_FEATURECODE'] =  obj['OPTM_MODELCODE']
        }
     }); 
-    this.selectModelAttribute  = selectAttributesList;        
-    this.SelectedAttributes.push.apply(this.SelectedAttributes, selectAttributesList);
-    for(var modelFeatureObject in this.ModelHeaderData) {
-      var modelHeaderDataObj = this.ModelHeaderData[modelFeatureObject];
-      this.SelectedModelFeature.push(modelHeaderDataObj);
-       if(this.ModelHeaderData[modelFeatureObject].OPTM_TYPE == 1) {
-        selectAttributesList = this.FeatureBOMDetailAttribute.filter(function (obj) {
-          return obj['OPTM_FEATUREID'] == modelHeaderDataObj.OPTM_FEATUREID;
-        });
-        this.SelectedAttributes.push.apply(this.SelectedAttributes, selectAttributesList);      
-       } else if (this.ModelHeaderData[modelFeatureObject].OPTM_TYPE == 3){
-        selectAttributesList = this.ModelBOMDetailAttribute.filter(function (obj) {
-          return obj['OPTM_MODELID'] == modelHeaderDataObj.OPTM_MODELID;
-        });
-       }
-       this.SelectedAttributes.push.apply(this.SelectedAttributes, selectAttributesList);
-    }
+    this.SelectModelAttributes  = selectAttributesList;        
+    this.SelectedModelFeature = this.ModelHeaderData;
+    
 
     selectedItemList =  this.feature_itm_list_table.filter(function (obj) {
       return obj['OPTM_TYPE'] == 2;
@@ -1167,33 +1153,34 @@ export class CwViewOldComponent implements OnInit {
       var selectedItemObj = selectedItemList[selectedItemObject];
 
       parentarrayObj = this.ModelHeaderData.filter(function (obj) {
-        obj['unique_key'] == selectedItemObj.nodeid
+        return obj['unique_key'] == selectedItemObj.nodeid
       });
       if (parentarrayObj.length > 0) {
 
         if(parentarrayObj[0].OPTM_TYPE == 1){
           selectAttributesList = this.FeatureBOMDetailAttribute.filter(function (obj) {
-            return obj['OPTM_FEATUREID'] == parentarrayObj[0].OPTM_FEATUREID && obj['OPTM_FEATUREDTLROWID'] == selectedItemObj.OPTM_LINENO
+            return obj['OPTM_FEATUREID'] == parentarrayObj[0].OPTM_FEATUREID && (obj['OPTM_FEATUREDTLROWID'] == selectedItemObj.OPTM_LINENO || obj['OPTM_FEATUREDTLROWID'] == '0')
           });
+          this.SelectedFeatureAttributes.push.apply(this.SelectedFeatureAttributes, selectAttributesList);
         } else {
           selectAttributesList = this.ModelBOMDetailAttribute.filter(function (obj) {
-            return obj['OPTM_MODELID'] == parentarrayObj[0].OPTM_MODELID && obj['OPTM_FEATUREDTLROWID'] == selectedItemObj.OPTM_LINENO
+            return obj['OPTM_MODELID'] == parentarrayObj[0].OPTM_MODELID && (obj['OPTM_FEATUREDTLROWID'] == selectedItemObj.OPTM_LINENO || obj['OPTM_FEATUREDTLROWID'] == '0')
           });
+          this.SelectModelAttributes.push.apply(this.SelectModelAttributes, selectAttributesList);
         }
        
       } else {
         parentarrayObj = this.MainModelDetails.filter(function (obj) {
-          obj['unique_key'] == selectedItemObj.nodeid
+          return obj['UNIQUE_KEY'] == selectedItemObj.nodeid
         });
         if (parentarrayObj.length > 0) {
           selectAttributesList = this.ModelBOMDetailAttribute.filter(function (obj) {
             return obj['OPTM_MODELID'] == parentarrayObj[0].OPTM_MODELID && obj['OPTM_FEATUREDTLROWID'] == selectedItemObj.OPTM_LINENO
           });
         }                      
-
-      }
-      this.SelectedAttributes.push.apply(this.SelectedAttributes, selectAttributesList);     
-      this.SelectedItems.push(selectedItemList[selectedItemObj]);
+        this.SelectModelAttributes.push.apply(this.SelectModelAttributes, selectAttributesList);
+      }       
+      this.SelectedItems.push(selectedItemObj);
     }
   }
 
@@ -1201,7 +1188,7 @@ export class CwViewOldComponent implements OnInit {
     
    this.onCalculateAttributeItem();
    this.showLookupLoader = true;
-   this.OutputService.CalculateAttributesonWizard(this.SelectedModelFeature, this.SelectedItems, this.SelectedAttributes).subscribe(
+   this.OutputService.CalculateAttributesonWizard(this.SelectedModelFeature, this.SelectedItems, this.SelectedFeatureAttributes, this.SelectModelAttributes).subscribe(
       data => {
 
         if (data != undefined) {
@@ -1233,23 +1220,23 @@ export class CwViewOldComponent implements OnInit {
     )
   }
 
-  onViewAttribute(view_attribute_type){
-    if (view_attribute_type == "") {
-      this.CommonService.show_notification(this.language.operation_type_required, 'error');       
-        return;
-    }
-    this.onCalculateAttributeItem();
-    this.serviceData = {};   
-    this.serviceData.attributeList = [];
-    this.serviceData.type = "Wizard"
-    if(view_attribute_type == 1){
-      this.serviceData.attributeList = this.selectModelAttribute;
-    }else{
-      this.serviceData.attributeList = this.SelectedAttributes;
-    }    
-    this.lookupfor = 'view_attribute_lookup';
-    this.showLookupLoader = false;  
-   }
+  // onViewAttribute(view_attribute_type){
+  //   if (view_attribute_type == "") {
+  //     this.CommonService.show_notification(this.language.operation_type_required, 'error');       
+  //       return;
+  //   }
+  //   this.onCalculateAttributeItem();
+  //   this.serviceData = {};   
+  //   this.serviceData.attributeList = [];
+  //   this.serviceData.type = "Wizard"
+  //   if(view_attribute_type == 1){
+  //     this.serviceData.attributeList = this.selectModelAttribute;
+  //   }else{
+  //     this.serviceData.attributeList = this.SelectedAttributes;
+  //   }    
+  //   this.lookupfor = 'view_attribute_lookup';
+  //   this.showLookupLoader = false;  
+  //  }
 
   openModalList() {
     this.showLookupLoader = true;
@@ -4326,7 +4313,7 @@ export class CwViewOldComponent implements OnInit {
               OPTM_LEVEL: optmLevel,
               OPTM_TYPE: featureModelData.OPTM_TYPE,
               isQuantityDisabled: true,
-              OPTM_LINENO: lineno,
+              OPTM_LINENO: featureModelData.OPTM_LINENO,
               HEADER_LINENO: lineno,
               unique_key: featureModelData.unique_key,
               nodeid: featureModelData.nodeid,
@@ -4354,8 +4341,8 @@ export class CwViewOldComponent implements OnInit {
               OPTM_LEVEL: parentarray[0].OPTM_LEVEL,
               OPTM_TYPE: ItemData[0].OPTM_TYPE,
               isQuantityDisabled: true,
-              OPTM_LINENO: lineno,
-              HEADER_LINENO: lineno,
+              OPTM_LINENO: ItemData[0].OPTM_LINENO,
+              HEADER_LINENO: ItemData[0].OPTM_LINENO,
               parent_featureid: ItemData[0].parent_featureid,
               unique_key: ItemData[0].unique_key,
               nodeid: ItemData[0].nodeid,

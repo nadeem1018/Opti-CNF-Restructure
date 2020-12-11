@@ -249,11 +249,11 @@ export class OutputService {
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetReportData?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
 
-  CalculateAttributesonWizard(SelectedModelFeatureData, SelectedItemsData, SelectedAttributesData): Observable<any> {
+  CalculateAttributesonWizard(SelectedModelFeatureData, SelectedItemsData, SelectedFeatureAttributesData, SelectedModelAttributesData): Observable<any> {
     let cache_control = this.common_params.random_string(40);
     //JSON Obeject Prepared to be send as a param to API
     // let jObject = { AddressDetail: JSON.stringify([{ CompanyDBID: CompanyDBID,Customer: Customer,ShipTo:ShipTo }]) };
-    let jObject: any = { GetData: JSON.stringify({ SelectedModelFeature: SelectedModelFeatureData, SelectedItems: SelectedItemsData, SelectedAttributes: SelectedAttributesData }) };
+    let jObject: any = { GetData: JSON.stringify({ SelectedModelFeature: SelectedModelFeatureData, SelectedItems: SelectedItemsData, SelectedFeatureAttributes: SelectedFeatureAttributesData, SelectedModelAttributes: SelectedModelAttributesData }) };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/CalculateAttributesonWizard?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
