@@ -1222,7 +1222,7 @@ export class CwViewOldComponent implements OnInit {
               
         }
         else {
-          
+          this.showLookupLoader = false;
           this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
           return;
         }
