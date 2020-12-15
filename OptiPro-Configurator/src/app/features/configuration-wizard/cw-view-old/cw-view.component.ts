@@ -1151,9 +1151,12 @@ export class CwViewOldComponent implements OnInit {
           this.showLookupLoader = false;
         
           var mainModelId = this.MainModelDetails[0].OPTM_MODELID;
+            // this.serviceData = this.ModelBOMDetailAttribute.filter(function (obj) {
+            //   return obj['OPTM_MODELID'] == mainModelId;
+            // });
             this.serviceData = this.ModelBOMDetailAttribute.filter(function (obj) {
-              return obj['OPTM_MODELID'] == mainModelId;
-            });
+              return obj['OPTM_MODELID'] == mainModelId && obj['OPTM_MODELDTLROWID'] == 0 && obj['OPTM_OPTION'] != "USER_DEFINED"  ;
+            }); 
       
   }
 
