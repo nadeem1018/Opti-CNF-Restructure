@@ -1266,7 +1266,10 @@ export class LookupComponent implements OnInit {
     if(this.serviceData.length >0) {
       this.attribute_counter = 0;
       for (var inx = 0; inx < this.serviceData.length; inx++) {
-        this.attribute_counter++;       
+        this.attribute_counter++; 
+        if(this.serviceData[inx]. OPTM_OPTION == null || this.serviceData[inx]. OPTM_OPTION == "" ){
+          this.serviceData[inx]. OPTM_OPTION = "USER DEFINED";
+        }      
         this.attributeMasterServiceData.push({      
           rowindex: this.attribute_counter,          
           OPTM_FEATURECODE: this.serviceData[inx]. OPTM_FEATURECODE,

@@ -52,7 +52,7 @@ export class AttributeViewComponent implements OnInit {
   public showLookupLoader: boolean = false;
   //table_head_foot = ['Select','#', 'Model Id', 'Name', 'Action'];
   language = JSON.parse(sessionStorage.getItem('current_lang'));
-  page_main_title = this.language.attribute;
+  page_main_title = this.language.attribute_master;
   table_title = this.page_main_title;
   table_head_foot = [this.language.select, this.language.hash, this.language.ModelId, this.language.model_ModelCode, this.language.Name, this.language.description, this.language.action];
   public table_hidden_elements = [false, true, true, false, false, false, false];

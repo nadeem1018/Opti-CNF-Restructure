@@ -30,7 +30,7 @@
                         <div class="form-group row clearfix">
                           <label class="col-sm-3 col-form-label" for="featureDisplay">{{language.Attribute_code}}</label>
                           <div class="col-sm-5">
-                            <input type="text" name="attribute_code" class="form-control  form-control-sm" id="attributeCode" placeholder="{{language.Attribute_code}}"  [(ngModel)]="attributeCode"   #Modelinputbox title="{{attributeCode}}">
+                            <input type="text" name="attribute_code"  [disabled] = isDisableAttributeCode class="form-control  form-control-sm" id="attributeCode" placeholder="{{language.Attribute_code}}"  [(ngModel)]="attributeCode"   #Modelinputbox title="{{attributeCode}}">
                           </div>
                          
                         </div>

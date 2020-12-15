@@ -197,6 +197,7 @@ export class CwViewOldComponent implements OnInit {
   public SelectedModelFeature: any = [];
   public SelectedItems: any  = [];  
   public SelectModelAttributes : any  = [];
+  public SelectedModelFeatureAttributeDataForSecondLevel = [];
   
   constructor(private ActivatedRouter: ActivatedRoute,
     private route: Router,
@@ -1060,8 +1061,37 @@ export class CwViewOldComponent implements OnInit {
             
           } else {
             this.serviceData = this.ModelBOMDetailAttribute.filter(function (obj) {
-              return obj['OPTM_MODELID'] == datatitem.model_id;
-            });
+              return obj['OPTM_MODELID'] == datatitem.model_id && obj['OPTM_MODELDTLROWID'] == 0 && obj['OPTM_OPTION'] != "USER_DEFINED"  ;
+            });            
+
+           
+            // for (var index in  this.serviceData ){
+            //   if(this.serviceData[index].OPTM_ATTR_NAME == "Open Weight"){
+            //     this.serviceData[index].OPTM_VALUE = 67.41;
+            //   }
+            //   if(this.serviceData[index].OPTM_ATTR_NAME == "Remaining Torque"){
+            //     this.serviceData[index].OPTM_VALUE = 139.06;
+            //   }
+            //   if(this.serviceData[index].OPTM_ATTR_NAME == "Torque Per Cycle"){
+            //     this.serviceData[index].OPTM_VALUE = 1376.40;
+            //   }
+            //   if(this.serviceData[index].OPTM_ATTR_NAME == "Horizontal Portion"){
+            //     this.serviceData[index].OPTM_VALUE = 114.00;
+            //   }
+            //   if(this.serviceData[index].OPTM_ATTR_NAME == "Total Revolutions to Open Door"){
+            //     this.serviceData[index].OPTM_VALUE = 12.96;
+            //   }
+            //   if(this.serviceData[index].OPTM_ATTR_NAME == "inch pounds per turn"){
+            //     this.serviceData[index].OPTM_VALUE = 106.17;
+            //   }
+            //   if(this.serviceData[index].OPTM_ATTR_NAME == "Total Torque"){
+            //     this.serviceData[index].OPTM_VALUE = 1515.45;
+            //   }
+            //   if(this.serviceData[index].OPTM_ATTR_NAME == "Turns to Wind Spring"){
+            //     this.serviceData[index].OPTM_VALUE = 14.27;
+            //   }
+            // }
+
           }
 
     // this.OutputService.GetAttributeResult(this.FeatureBOMDetailAttribute, this.ModelBOMDetailAttribute).subscribe(
@@ -1201,14 +1231,17 @@ export class CwViewOldComponent implements OnInit {
   }
 
   onCalculateAttribute(){    
-    
+    this.SelectedModelFeature = [];
+    this.SelectedItems = [];
+    this.SelectedFeatureAttributes = [];
+    this.SelectModelAttributes = [];
    this.onCalculateAttributeItem();
    this.showLookupLoader = true;
    this.OutputService.CalculateAttributesonWizard(this.SelectedModelFeature, this.SelectedItems, this.SelectedFeatureAttributes, this.SelectModelAttributes).subscribe(
       data => {
 
         if (data != undefined) {
-          if (data.SelectedAttributes[0].ErrorMsg == "7001") {
+          if (data.SelectedFeatureAttributes[0].ErrorMsg == "7001") {
             CommonData.made_changes = false;
             this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
@@ -1216,8 +1249,8 @@ export class CwViewOldComponent implements OnInit {
             return;
           }
           this.showLookupLoader = false;
-          this.ModelBOMDetailAttribute = data.SelectedAttributes;
-          this.FeatureBOMDetailAttribute = data.SelectedAttributes;
+          this.ModelBOMDetailAttribute = data.SelectedModelAttributes;
+          this.FeatureBOMDetailAttribute = data.SelectedFeatureAttributes;
           this.openAttributeListForModel();
               
         }
@@ -2482,6 +2515,7 @@ export class CwViewOldComponent implements OnInit {
                   return;
                 }
               }
+             // this.removeAttrributeForSelection(feature_model_data);
               if (parentarray[0].element_type == "radio" && isRuleComing == false) {
 
                 if (parentarray[0].OPTM_TYPE == 1) {
@@ -3251,6 +3285,8 @@ export class CwViewOldComponent implements OnInit {
                   this.setDefaultByRule(data.RuleOutputData, data.DataForSelectedFeatureModelItem[0].nodeid);
                 } */
               }
+              //this.SelectedModelFeatureAttributeDataForSecondLevel = data.SelectedModelFeatureAttributeDataForSecondLevel;
+             // this.addAttributeForSelection(feature_model_data); 
 
             }//end data length
             if(isRuleComing == false && isEnableFeature == false){
@@ -3337,7 +3373,7 @@ export class CwViewOldComponent implements OnInit {
                 this.removeModelfeaturesbyuncheck(feature_model_data.parentmodelid, feature_model_data.feature_code, feature_model_data.nodeid, feature_model_data.unique_key)
               }
             }
-
+           // this.removeAttrributeForSelection(feature_model_data);
             for (let i = 0; i < this.feature_itm_list_table.length; i++) {
               if (this.feature_itm_list_table[i].FeatureId == feature_model_data.OPTM_FEATUREID && this.feature_itm_list_table[i].Item == feature_model_data.OPTM_ITEMKEY && this.feature_itm_list_table[i].nodeid == feature_model_data.nodeid) {
                 this.feature_itm_list_table.splice(i, 1);
@@ -3483,6 +3519,40 @@ export class CwViewOldComponent implements OnInit {
     this.feature_price_calculate();
     this.ModelHeaderData.sort((a, b) => a.sort_key.localeCompare(b.sort_key));
   } //end selection
+
+  addAttributeForSelection(selecteditem){
+    var parentarray = this.ModelHeaderData.filter(function (obj) {
+      return obj['unique_key'] == selecteditem.nodeid;
+    });
+    if(parentarray[0].OPTM_TYPE == 1){
+      for(var selectedItemObject in this.SelectedModelFeatureAttributeDataForSecondLevel) {
+        this.FeatureBOMDetailAttribute.push(this.SelectedModelFeatureAttributeDataForSecondLevel[selectedItemObject])
+      }
+    } else {
+      for(var selectedItemObject in this.SelectedModelFeatureAttributeDataForSecondLevel) {
+        this.ModelBOMDetailAttribute.push(this.SelectedModelFeatureAttributeDataForSecondLevel[selectedItemObject])
+      }
+    }
+  }
+
+  removeAttrributeForSelection(selecteditem){
+    var parentarray = this.ModelHeaderData.filter(function (obj) {
+      return obj['unique_key'] == selecteditem.nodeid;
+    });
+    
+    if(parentarray[0].OPTM_TYPE == 1){
+      var FeatureBOMDetailAttributeList = this.FeatureBOMDetailAttribute.filter(function (obj) {
+        return obj['OPTM_FEATUREID'] != parentarray[0].OPTM_FEATUREID;
+      });
+
+     this.FeatureBOMDetailAttribute = FeatureBOMDetailAttributeList;
+    } else {
+      var ModelBOMDetailAttributeList = this.ModelBOMDetailAttribute.filter(function (obj) {
+        return obj['OPTM_MODELID'] != parentarray[0].OPTM_MODELID;
+      });
+      this.ModelBOMDetailAttribute = ModelBOMDetailAttributeList;
+    }
+  }
 
   getPropagateQuantity(nodeId) {
     //Logic to calculate total quantity based on propagate quantity for an item at different level in Model tree.

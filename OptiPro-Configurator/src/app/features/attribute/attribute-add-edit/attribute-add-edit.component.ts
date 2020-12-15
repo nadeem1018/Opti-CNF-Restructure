@@ -28,6 +28,7 @@ export class AttributeAddEditComponent implements OnInit {
   public isUpdateButtonVisible: boolean = true;
   public isSaveButtonVisible: boolean = true;
   public isDeleteButtonVisible: boolean = false;
+  public isDisableAttributeCode: boolean = false;
   public showImageBlock: boolean = false;
   public showheaderImageBlock: boolean = false;
   public update_id: string = "";
@@ -51,7 +52,7 @@ export class AttributeAddEditComponent implements OnInit {
   constructor(private ActivatedRouter: ActivatedRoute, private route: Router, private service: AttributeService, private CommonService: CommonService, private DialogService: DialogService) { }
 
   companyName: string;
-  page_main_title = this.language.attribute
+  page_main_title = this.language.attribute_master
   public username: string = "";
   serviceData: any;
 
@@ -126,6 +127,7 @@ export class AttributeAddEditComponent implements OnInit {
       this.showLoader = false;
       this.attributeCode = '';
       this.attributeName = '';
+      this. isDisableAttributeCode = false;
     }
     else {
       this.showLoader = false;
@@ -138,6 +140,7 @@ export class AttributeAddEditComponent implements OnInit {
         this.isUpdateButtonVisible = true;
         this.isSaveButtonVisible = false;
         this.isDeleteButtonVisible = false; 
+        this. isDisableAttributeCode = true;
          
       } else if(this.ActivatedRouter.snapshot.url[0].path == "add"){ 
         this.isUpdateButtonVisible = false;

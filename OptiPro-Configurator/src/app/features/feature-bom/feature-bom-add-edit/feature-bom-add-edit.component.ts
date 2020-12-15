@@ -1210,7 +1210,22 @@ export class FeatureBomAddEditComponent implements OnInit {
       return;
     }
     if(this.lookupfor == 'add_attribute_lookup') {
+     
+      if(this.ItemAttributeList.length > 0){
+       var itemAttributeList =  $event;
+      var ItemAttributeDataList = this.ItemAttributeList.filter(function (obj) {
+        return obj['OPTM_FEATUREDTLROWID'] != itemAttributeList[0].OPTM_FEATUREDTLROWID;
+      });
+   
+     this.ItemAttributeList = ItemAttributeDataList;     
+     for(var index in itemAttributeList){
+      this.ItemAttributeList.push(itemAttributeList[index]);
+     }
+    } else {
       this.ItemAttributeList =  $event;
+    }
+
+     
       console.log(this.feature_bom_table);
 
     }else if(this.lookupfor == 'customeview_lookup') {

@@ -621,6 +621,7 @@
     "attach_attribute": "Attach Attribute",
     "Attribute_code": "Attribute Code",
     "Customized_view": "Customized View",
-    "Select_view": "Select View"
+    "Select_view": "Select View",
+    "attribute_master": "Attribute Master"
 
 }
