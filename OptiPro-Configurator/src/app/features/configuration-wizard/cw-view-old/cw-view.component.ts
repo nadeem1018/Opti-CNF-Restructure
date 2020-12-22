@@ -1554,6 +1554,9 @@ export class CwViewOldComponent implements OnInit {
       this.step2_data.quantity = value
     }
   }
+  set_report_attribute(checkitem){
+    this.report_attribute = checkitem.checked;
+  }
 
   feature_price_calculate() {
     let igrandtotal = 0;
@@ -1604,13 +1607,19 @@ export class CwViewOldComponent implements OnInit {
         this.CommonService.show_notification(this.language.operation_type_required, 'error');       
           return;
       }
+      this.onCalculateAttributeItem()
       let invoice_output_data:any = {};
       // invoice_output_data.product_grand_details = [];
       invoice_output_data.header = [];
       invoice_output_data.model_details = [];
       invoice_output_data.feature = [];
-      invoice_output_data.locale_obj = [];
-
+      invoice_output_data.locale_obj = [];   
+      if(this.report_attribute)  {
+      invoice_output_data.ModelBOMDetailAttribute = [];
+      invoice_output_data.FeatureBOMDetailAttribute = [];
+      invoice_output_data.FeatureBOMDetailAttribute = this.SelectedFeatureAttributes;
+      invoice_output_data.ModelBOMDetailAttribute = this.SelectModelAttributes;
+      }
       let description = (this.step1_data.description!= "" && this.step1_data.description!= null) ? this.step1_data.description : "";
       let document = (this.step1_data.document!= "" && this.step1_data.document!= null) ? this.step1_data.document : "";
       let document_name = (this.step1_data.document_name!= "" && this.step1_data.document_name!= null) ? this.step1_data.document_name : "";
