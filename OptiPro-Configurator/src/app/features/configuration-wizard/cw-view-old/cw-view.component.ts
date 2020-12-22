@@ -201,6 +201,8 @@ export class CwViewOldComponent implements OnInit {
   public table_head : any  = []; 
   public cutstomeViewEnable: boolean = false;
   public FeatureBOMCustomAttr:  any = [];
+  public report_attribute: boolean = false;
+  
    
   constructor(private ActivatedRouter: ActivatedRoute,
     private route: Router,
@@ -1059,9 +1061,31 @@ export class CwViewOldComponent implements OnInit {
           this.showLookupLoader = false;
 
           if(type == 1){
-            this.serviceData = this.FeatureBOMDetailAttribute.filter(function (obj) {
-              return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID;
+            var selectedItemList =  this.feature_itm_list_table.filter(function (obj) {
+              return obj['nodeid'] == datatitem.unique_key;
             });
+            for(var selectedItemObject in selectedItemList) {
+              var SelectedAttributes  = this.FeatureBOMDetailAttribute.filter(function (obj) {
+                return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID && obj['OPTM_FEATUREDTLROWID'] == selectedItemList[selectedItemObject].OPTM_LINENO;
+              });
+              this.serviceData.push.apply(this.serviceData, SelectedAttributes);
+            }
+           
+            var selectedValueList =  this.feature_value_list_table.filter(function (obj) {
+              return obj['nodeid'] == datatitem.unique_key;
+            });
+            for(var selectedValueObject in selectedValueList) {
+              var SelectedAttributes  = this.FeatureBOMDetailAttribute.filter(function (obj) {
+                return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID && obj['OPTM_FEATUREDTLROWID'] == selectedValueList[selectedValueObject].OPTM_LINENO;
+              });
+              this.serviceData.push.apply(this.serviceData, SelectedAttributes);
+            }
+
+            if(selectedItemList.length == 0 && selectedValueList.length == 0){
+              this.serviceData = this.FeatureBOMDetailAttribute.filter(function (obj) {
+                return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID; 
+              });
+            }
             
           } else {
             this.serviceData = this.ModelBOMDetailAttribute.filter(function (obj) {
@@ -2546,7 +2570,7 @@ export class CwViewOldComponent implements OnInit {
                   return;
                 }
               }
-             // this.removeAttrributeForSelection(feature_model_data);
+              this.removeAttrributeForSelection(feature_model_data);
               if (parentarray[0].element_type == "radio" && isRuleComing == false) {
 
                 if (parentarray[0].OPTM_TYPE == 1) {
@@ -3316,8 +3340,8 @@ export class CwViewOldComponent implements OnInit {
                   this.setDefaultByRule(data.RuleOutputData, data.DataForSelectedFeatureModelItem[0].nodeid);
                 } */
               }
-              //this.SelectedModelFeatureAttributeDataForSecondLevel = data.SelectedModelFeatureAttributeDataForSecondLevel;
-             // this.addAttributeForSelection(feature_model_data); 
+              this.SelectedModelFeatureAttributeDataForSecondLevel = data.SelectedModelFeatureAttributeDataForSecondLevel;
+              this.addAttributeForSelection(feature_model_data); 
 
             }//end data length
             if(isRuleComing == false && isEnableFeature == false){
@@ -4456,7 +4480,7 @@ export class CwViewOldComponent implements OnInit {
               OPTM_TYPE: featureModelData.OPTM_TYPE,
               isQuantityDisabled: true,
               OPTM_LINENO: featureModelData.OPTM_LINENO,
-              HEADER_LINENO: lineno,
+              HEADER_LINENO: featureModelData.HEADER_LINENO,
               unique_key: featureModelData.unique_key,
               nodeid: featureModelData.nodeid,
               sort_key: featureModelData.sort_key,
@@ -4484,7 +4508,7 @@ export class CwViewOldComponent implements OnInit {
               OPTM_TYPE: ItemData[0].OPTM_TYPE,
               isQuantityDisabled: true,
               OPTM_LINENO: ItemData[0].OPTM_LINENO,
-              HEADER_LINENO: ItemData[0].OPTM_LINENO,
+              HEADER_LINENO: ItemData[0].HEADER_LINENO,
               parent_featureid: ItemData[0].parent_featureid,
               unique_key: ItemData[0].unique_key,
               nodeid: ItemData[0].nodeid,
@@ -4515,7 +4539,7 @@ export class CwViewOldComponent implements OnInit {
             OPTM_VALUE: ItemData[0].OPTM_VALUE,
             isQuantityDisabled: true,
             OPTM_LINENO: ItemData[0].OPTM_LINENO,
-            HEADER_LINENO: ItemData[0].OPTM_LINENO,
+            HEADER_LINENO: ItemData[0].HEADER_LINENO,
             parent_featureid: ItemData[0].parent_featureid,
             unique_key: ItemData[0].unique_key,
             nodeid: ItemData[0].nodeid,

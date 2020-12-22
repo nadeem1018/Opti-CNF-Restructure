@@ -788,7 +788,13 @@
 
                                     </div>                    
                                 </div>
-                                <div class="col-md-5 d-inline-flex align-items-center justify-content-end">  
+                                <div class="col-md-5 d-inline-flex align-items-center justify-content-end"> 
+                                    <div class="input-group d-inline-flex w-auto mr-2">
+                                        <label class="custom-checkbox mb-0 without-label">
+                                            <input type="checkbox" id="attribute" value={{report_attribute}} (change)="set_report_attribute(attribute, dataItem.rowindex)" [(checked)]=report_attribute  #attribute >
+                                            <span class="checkbox"></span>
+                                        </label>
+                                    </div>  
                                     <div class="input-group d-inline-flex w-auto mr-2" *ngIf="showPrintOptions">
                                         <select class="form-control form-control-sm d-inline-flex" name="print-operation-type" id="print-operation-type" #printOperationType>
                                             <option value="">{{language.print_option}}</option>
@@ -1101,7 +1107,12 @@
                 
                         <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
                           
-                            
+                            <div class="input-group d-inline-flex w-auto mr-2">
+                                <label class="custom-checkbox mb-0 without-label">
+                                    <input type="checkbox" id="attribute" value={{report_attribute}} (change)="set_report_attribute(attribute, dataItem.rowindex)" [(checked)]=report_attribute  #attribute >
+                                    <span class="checkbox"></span>
+                                </label>
+                            </div>
                             <div class="input-group d-inline-flex w-auto mr-2" *ngIf="showPrintOptions">
                                 <select class="form-control form-control-sm d-inline-flex" name="print-operation-type" id="print-operation-type" #printOperationType>
                                     <option value="">{{language.print_option}}</option>
