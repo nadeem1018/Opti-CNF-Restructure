@@ -993,7 +993,21 @@ getLookupValue($event) {
     this.serviceData = []
     this.getItemDetails($event[0]);
   } else if(this.lookupfor == 'add_attribute_lookup') {
-    this.itemAttributeList =  $event;  
+
+    if(this.itemAttributeList.length > 0){
+      var itemAttributeList =  $event;
+     var ItemAttributeDataList = this.itemAttributeList.filter(function (obj) {
+       return obj['OPTM_FEATUREDTLROWID'] != itemAttributeList[0].OPTM_FEATUREDTLROWID;
+     });
+  
+    this.itemAttributeList = ItemAttributeDataList;     
+    for(var index in itemAttributeList){
+     this.itemAttributeList.push(itemAttributeList[index]);
+    }
+   } else {
+     this.itemAttributeList =  $event;
+   }  
+    
   }
 }
 

@@ -2249,7 +2249,17 @@ export class CwViewOldComponent implements OnInit {
       var itemAttributeRowWise = this.FeatureBOMDetailAttribute.filter(function (obj) {  
         return obj['OPTM_FEATUREID'] == customeFeature[customft].OPTM_FEATUREID &&  obj['OPTM_FEATUREDTLROWID'] == featureItems[itemindex].OPTM_LINENO ;
       });
-
+         
+      if(itemAttributeRowWise.length > 0){
+      var itemAttributeValue = itemAttributeRowWise.filter(function (obj) {  
+        return obj['OPTM_VALUE'] != "0"; 
+      });
+         if(itemAttributeValue.length == 0){
+          featureItems[itemindex].disable = true;
+         } else {
+          featureItems[itemindex].disable = false;
+         }
+       }
       for(var attributeindex in itemAttributeRowWise){
         var  itemObj = featureItems[itemindex];
         itemObj[itemAttributeRowWise[attributeindex].OPTM_ATTR_CODE] = itemAttributeRowWise[attributeindex].OPTM_VALUE
@@ -2259,6 +2269,58 @@ export class CwViewOldComponent implements OnInit {
 
    
   }
+   getCustomeAttributeValue(){
+    this.SelectedModelFeature = [];
+    this.SelectedItems = [];
+    this.SelectedFeatureAttributes = [];
+    this.SelectModelAttributes = [];
+    var customeFeature = this.ModelHeaderData.filter(function (obj) {  
+      return obj['OPTM_ISCUSTOMVIEW'] == "Y";
+    });
+
+    for(var index in customeFeature){
+    var featureItem  =   this.FeatureBOMDataForSecondLevel.filter(function (obj) {  
+        return obj['nodeid'] == customeFeature[index].unique_key;
+      }); 
+      this.SelectedItems.push.apply(this.SelectedItems, featureItem);
+      
+      var featureItemAttribuete  =   this.FeatureBOMDetailAttribute.filter(function (obj) {  
+        return obj['OPTM_FEATUREID'] == customeFeature[index].OPTM_FEATUREID;
+      }); 
+      this.SelectedFeatureAttributes.push.apply(this.SelectedFeatureAttributes, featureItemAttribuete);
+    }  
+   
+   this.showLookupLoader = true;
+   this.OutputService.CalculateAttributesonWizard(this.SelectedModelFeature, this.SelectedItems, this.SelectedFeatureAttributes, this.SelectModelAttributes).subscribe(
+      data => {
+
+        if (data != undefined) {
+          if (data.SelectedFeatureAttributes[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.showLookupLoader = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.route, 'Sessionout');
+            return;
+          }
+          this.showLookupLoader = false;
+          this.SelectedFeatureAttributes.push.apply(this.SelectedFeatureAttributes, data.SelectedFeatureAttributes);                
+          this.setCustomAttributeValue (); 
+        }
+        else {
+          this.showLookupLoader = false;
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      }, error => {
+        this.showLookupLoader = false;
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
+
+   }
 
   async onselectionchange(feature_model_data, value, id, isSecondLevel, unique_key, isRuleComing, isEnableFeature, updateRule) {
     // this function sets/removes data from right grid on selection/de-selection.
@@ -3551,7 +3613,7 @@ export class CwViewOldComponent implements OnInit {
         }//end data null
         this.ModelHeaderData.sort((a, b) => a.sort_key.localeCompare(b.sort_key));
         this.showLookupLoader = false;
-
+        this.getCustomeAttributeValue();
         var selecteditem = this.ModelBOMDataForSecondLevel.filter(function (obj) {
           return obj['checked'] == true && obj['OPTM_TYPE'] == 2 && obj['OPTM_DEFAULT'] == "Y"
         })
