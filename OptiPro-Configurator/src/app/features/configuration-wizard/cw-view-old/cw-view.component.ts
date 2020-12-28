@@ -2274,16 +2274,24 @@ export class CwViewOldComponent implements OnInit {
     this.SelectedItems = [];
     this.SelectedFeatureAttributes = [];
     this.SelectModelAttributes = [];
+    this.onCalculateAttributeItem();
     var customeFeature = this.ModelHeaderData.filter(function (obj) {  
       return obj['OPTM_ISCUSTOMVIEW'] == "Y";
     });
 
     for(var index in customeFeature){
-    var featureItem  =   this.FeatureBOMDataForSecondLevel.filter(function (obj) {  
+      this.SelectedItems = this.SelectedItems.filter(function (obj) {  
+        return obj['OPTM_FEATUREID'] != customeFeature[index].OPTM_FEATUREID;
+      }); 
+      
+     var featureItem  =   this.FeatureBOMDataForSecondLevel.filter(function (obj) {  
         return obj['nodeid'] == customeFeature[index].unique_key;
       }); 
       this.SelectedItems.push.apply(this.SelectedItems, featureItem);
       
+      this.SelectedFeatureAttributes  =   this.SelectedFeatureAttributes.filter(function (obj) {  
+        return obj['OPTM_FEATUREID'] != customeFeature[index].OPTM_FEATUREID;
+      }); 
       var featureItemAttribuete  =   this.FeatureBOMDetailAttribute.filter(function (obj) {  
         return obj['OPTM_FEATUREID'] == customeFeature[index].OPTM_FEATUREID;
       }); 
@@ -2303,7 +2311,9 @@ export class CwViewOldComponent implements OnInit {
             return;
           }
           this.showLookupLoader = false;
-          this.SelectedFeatureAttributes.push.apply(this.SelectedFeatureAttributes, data.SelectedFeatureAttributes);                
+         // this.SelectedFeatureAttributes.push.apply(this.SelectedFeatureAttributes, data.SelectedFeatureAttributes); 
+          this.ModelBOMDetailAttribute = data.SelectedModelAttributes;
+          this.FeatureBOMDetailAttribute = data.SelectedFeatureAttributes;               
           this.setCustomAttributeValue (); 
         }
         else {
