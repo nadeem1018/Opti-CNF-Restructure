@@ -1066,7 +1066,7 @@ export class CwViewOldComponent implements OnInit {
             });
             for(var selectedItemObject in selectedItemList) {
               var SelectedAttributes  = this.FeatureBOMDetailAttribute.filter(function (obj) {
-                return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID && obj['OPTM_FEATUREDTLROWID'] == selectedItemList[selectedItemObject].OPTM_LINENO;
+                return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID && obj['OPTM_FEATUREDTLROWID'] == selectedItemList[selectedItemObject].OPTM_LINENO && obj['OPTM_OPTION'] != "USER_DEFINED" ;
               });
               this.serviceData.push.apply(this.serviceData, SelectedAttributes);
             }
@@ -1076,14 +1076,14 @@ export class CwViewOldComponent implements OnInit {
             });
             for(var selectedValueObject in selectedValueList) {
               var SelectedAttributes  = this.FeatureBOMDetailAttribute.filter(function (obj) {
-                return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID && obj['OPTM_FEATUREDTLROWID'] == selectedValueList[selectedValueObject].OPTM_LINENO;
+                return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID && obj['OPTM_FEATUREDTLROWID'] == selectedValueList[selectedValueObject].OPTM_LINENO && obj['OPTM_OPTION'] != "USER_DEFINED" ;
               });
               this.serviceData.push.apply(this.serviceData, SelectedAttributes);
             }
 
             if(selectedItemList.length == 0 && selectedValueList.length == 0){
               this.serviceData = this.FeatureBOMDetailAttribute.filter(function (obj) {
-                return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID; 
+                return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID && obj['OPTM_OPTION'] != "USER_DEFINED" ; 
               });
             }
             
@@ -2315,6 +2315,7 @@ export class CwViewOldComponent implements OnInit {
           this.ModelBOMDetailAttribute = data.SelectedModelAttributes;
           this.FeatureBOMDetailAttribute = data.SelectedFeatureAttributes;               
           this.setCustomAttributeValue (); 
+          this.addDefaultAttributeItemRightGrid(data.ModelOptionItems);
         }
         else {
           this.showLookupLoader = false;
@@ -2331,6 +2332,68 @@ export class CwViewOldComponent implements OnInit {
     )
 
    }
+
+   addDefaultAttributeItemRightGrid(itemDataList)
+   {
+    let isPriceDisabled: boolean = false;
+    let isPricehide: boolean = false;
+    let price: any;
+    let price_list: any;
+     if(itemDataList != undefined){
+        if(itemDataList.length > 0) {
+          var feature_item_list = this.feature_itm_list_table.filter(function (obj) {
+            return obj['isCustomeItem'] != true;
+          });
+          this.feature_itm_list_table = feature_item_list;
+          for(var index in itemDataList ){
+           var ItemData = itemDataList[index];
+           if (ItemData.Price == null || ItemData.Price == undefined || ItemData.Price == "") {
+            ItemData.Price = parseFloat("0").toFixed(3)
+          }
+          price = ItemData.Price;
+          price_list = ItemData.ListName;
+
+          var parentarray = this.ModelHeaderData.filter(function (obj) {
+            return obj['OPTM_FEATUREID'] == ItemData.OPTM_FEATUREID;
+          });
+            var featureCode = "";
+           if(parentarray.length > 0){
+             featureCode = parentarray[0].OPTM_DISPLAYNAME
+           } 
+
+           this.feature_itm_list_table.push({
+            FeatureId: ItemData.OPTM_FEATUREID,
+            featureName:featureCode,
+            Item: ItemData.OPTM_ITEMKEY,
+            discount: 0,
+            ItemNumber: ItemData.DocEntry,
+            Description: ItemData.OPTM_DISPLAYNAME,
+            progateqty: parseFloat(ItemData.OPTM_QUANTITY).toFixed(3),
+            quantity: parseFloat(ItemData.OPTM_QUANTITY).toFixed(3),
+            original_quantity: parseFloat(ItemData.OPTM_QUANTITY).toFixed(3),
+            price: price_list,
+            Actualprice: parseFloat(price).toFixed(3),
+            pricextn: parseFloat(price).toFixed(3),
+            is_accessory: "N",
+            isPriceDisabled: isPriceDisabled,
+            pricehide: isPricehide,
+            isQuantityDisabled: false,
+            ispropogateqty: ItemData.OPTM_PROPOGATEQTY,
+            isCustomeItem: true,
+            OPTM_LINENO: ItemData.OPTM_LINENO,
+            HEADER_LINENO: 0,
+            unique_key: ItemData.unique_key,
+            nodeid: ItemData.nodeid,
+            sort_key:"999999"
+          });
+          }
+
+          }
+        }
+     
+
+   }
+
 
   async onselectionchange(feature_model_data, value, id, isSecondLevel, unique_key, isRuleComing, isEnableFeature, updateRule) {
     // this function sets/removes data from right grid on selection/de-selection.
