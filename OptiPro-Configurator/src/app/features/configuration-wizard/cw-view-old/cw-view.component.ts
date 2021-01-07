@@ -1838,6 +1838,20 @@ export class CwViewOldComponent implements OnInit {
             }
           });
 
+          this.FeatureBOMDataForSecondLevel = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+            obj.parentfeatureid = "" ;
+            return obj;         
+          });
+          this.ModelHeaderData = this.ModelHeaderData.filter(function (obj) {
+            obj.parentfeatureid = "" ;
+            return obj;         
+          });
+
+          this.ModelBOMDataForSecondLevel = this.ModelBOMDataForSecondLevel.filter(function (obj) {
+            obj.parentfeatureid = "" ;
+            return obj;         
+          });
+
           this.Accessoryarray = [];
           this.Accessoryarray = data.ModelHeaderData.filter(function (obj) {
             return obj['ACCESSORY'] == "Y";
