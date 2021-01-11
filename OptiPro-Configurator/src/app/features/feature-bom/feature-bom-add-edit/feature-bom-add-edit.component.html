@@ -259,7 +259,7 @@
                                         </ng-template>
                                     </kendo-grid-column> <kendo-grid-column field="Bom_Remarks"  headerClass="text-center" class="text-center" title="{{language.attribute}}" filter="text" [width]="120" [minResizableWidth]="120">
                                         <ng-template kendoGridCellTemplate let-dataItem>
-                                            <button type="button"  class="btn btn-sm btn-icon mr-2 btn-primary" (click)="openAttributeLookup(dataItem.rowindex)">
+                                            <button type="button"  class="btn btn-sm btn-icon mr-2 btn-primary" (click)="openAttributeLookup(dataItem.rowindex)" title="{{this.language.attribute}}">
                                                 <svg class="icon" viewBox="0 0 107.07 122.88"><use xlink:href="#attribute"></use></svg>   </button>
                                         </ng-template>
                                     </kendo-grid-column>

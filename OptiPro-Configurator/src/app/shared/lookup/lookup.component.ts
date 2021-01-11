@@ -499,7 +499,7 @@ export class LookupComponent implements OnInit {
   }
 
   get_attribute_lookup() {
-    this.popup_title = this.language.ModelBom;
+    this.popup_title = this.language.attribute;
     this.LookupDataLoaded = false;
     this.showLoader = true;
     this.fill_input_id = 'featureNameId';
@@ -1492,7 +1492,7 @@ export class LookupComponent implements OnInit {
   attribute_master_update() {   
     this.is_attribute_master_popup_lookup_open = false;
     if (this.attributeMasterServiceData.length == 0) {
-      this.CommonService.show_notification(this.language.cannot_submit_empty_resource, 'error');     
+      this.CommonService.show_notification(this.language.atleast_one_row_required, 'error');     
       return;
     } 
     this.lookupvalue.emit(this.attributeMasterServiceData);
@@ -1798,7 +1798,7 @@ export class LookupComponent implements OnInit {
             this.table_head = [
             {
               field: 'OPTM_ATTR_CODE',
-              title: this.language.attribute_id,
+              title: this.language.Attribute_code,
               type: 'text',
               width: '100',
               attrType: 'text'

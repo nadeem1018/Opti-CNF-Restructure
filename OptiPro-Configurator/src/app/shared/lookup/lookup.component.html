@@ -255,7 +255,7 @@
                                 </ng-template>
                             </kendo-grid-column>
     
-                            <kendo-grid-column field="OPTM_ATTR_CODE" title="{{language.attribute_id}}" filter="text" [width]="140"
+                            <kendo-grid-column field="OPTM_ATTR_CODE" title="{{language.Attribute_code}}" filter="text" [width]="140"
                                 [minResizableWidth]="140">
 
                                  <ng-template kendoGridCellTemplate let-dataItem>
@@ -410,7 +410,7 @@
                                 [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <input type="text" class="form-control  form-control-sm row_resource_uom" id="optionValue"
-                                        value={{dataItem.OPTM_OPTION_VALUE}} [disabled]="dataItem.OPTM_OPTION == 'USER DEFINED'"  (change)="on_input_change_attribute(optionValue.value,dataItem.rowindex, 'optionValue')"
+                                        value={{dataItem.OPTM_OPTION_VALUE}} [disabled]="dataItem.OPTM_OPTION == 'USER DEFINED' || dataItem.OPTM_OPTION == 'USER_DEFINED'"  (change)="on_input_change_attribute(optionValue.value,dataItem.rowindex, 'optionValue')"
                                         #optionValue title={{dataItem.optionValue}} />
                                 </ng-template>
                             </kendo-grid-column>                            
@@ -418,7 +418,7 @@
                                 [minResizableWidth]="140">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <input type="text" class="form-control  form-control-sm text-right row_resource_inverse"
-                                        id="inputs" value={{dataItem.OPTM_INPUT}} [disabled]="dataItem.OPTM_OPTION == 'USER DEFINED'" (change)="on_input_change_attribute(inputs.value,dataItem.rowindex, 'inputs')"
+                                        id="inputs" value={{dataItem.OPTM_INPUT}} [disabled]="dataItem.OPTM_OPTION == 'USER DEFINED' || dataItem.OPTM_OPTION == 'USER_DEFINED'" (change)="on_input_change_attribute(inputs.value,dataItem.rowindex, 'inputs')"
                                         #inputs title={{dataItem.inputs}} />
                                 </ng-template>
                             </kendo-grid-column>

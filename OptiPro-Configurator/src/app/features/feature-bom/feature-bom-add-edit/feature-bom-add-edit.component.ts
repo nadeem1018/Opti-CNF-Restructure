@@ -748,10 +748,9 @@ export class FeatureBomAddEditComponent implements OnInit {
         }
         else {
           this.lookupfor = 'view_attribute_lookup';
-          this.showLookupLoader = false;  
-               
-        //  this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
-         // return;
+          this.showLookupLoader = false;                
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
         }
       }, error => {
         this.showLookupLoader = false;

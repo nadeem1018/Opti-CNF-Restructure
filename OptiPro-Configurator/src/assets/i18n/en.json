@@ -641,7 +641,7 @@
     "Customized_view": "Customized View",
     "Select_view": "Select View",
     "attribute_master": "Attribute Master",
-    "print_attribute": "Print Attribute"
-     
+    "print_attribute": "Print Attribute",
+    "atleast_one_row_required":"Atleast one row is required."
 
 }
