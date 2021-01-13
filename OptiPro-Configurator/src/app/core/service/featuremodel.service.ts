@@ -140,4 +140,13 @@ export class FeaturemodelService {
           GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) }
         return this.httpclient.post(this.config_params.service_url + "/FeatureHeader/GetModelFeatureAttributeListByFeatureID", jObject, this.common_params.httpOptions);
       } 
+
+      CheckValidAttribute(attributeCode):Observable<any>{     
+        //JSON Obeject Prepared to be send as a param to API
+        let jObject = { ModelFeatureAttr: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp, GUID: sessionStorage.getItem("GUID"), 
+        UsernameForLic: sessionStorage.getItem("loggedInUser"), OPTM_ATTR_CODE: attributeCode}]) };         
+      //Return the response form the API  
+      return this.httpclient.post(this.config_params.service_url + "/FeatureHeader/CheckValidAttributeEnteredForModelFeatureAttr", jObject, this.common_params.httpOptions);
+           }
+      
 }

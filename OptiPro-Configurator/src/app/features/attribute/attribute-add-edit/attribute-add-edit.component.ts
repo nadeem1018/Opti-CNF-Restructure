@@ -204,12 +204,12 @@ onSave() {
  
   if (this.attributeCode == "" || this.attributeCode == null) {
     
-    this.CommonService.show_notification(this.language.ModelCodeBlank, 'error');
+    this.CommonService.show_notification(this.language.attribute_code_blank, 'error');
    return false;
  }
  if (this.attributeName == "" || this.attributeName == null) {
     
-  this.CommonService.show_notification(this.language.ModelCodeBlank, 'error');
+  this.CommonService.show_notification(this.language.attribute_name_blank, 'error');
  return false;
 }
   this.showLookupLoader = true;

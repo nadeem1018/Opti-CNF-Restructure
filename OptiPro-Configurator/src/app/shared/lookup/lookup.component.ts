@@ -80,6 +80,7 @@ export class LookupComponent implements OnInit {
   public isColumnFilter1: boolean = false;
   public attributeServiceData: any = [];
   public attributeMasterServiceData: any = [];
+  public deletedAttributeMasterServiceData: any = [];
   public attribute_popup_title = '';
   public add_atttribute_show: boolean = false;
   public add_atttribute_master: boolean = false;  
@@ -1495,6 +1496,7 @@ export class LookupComponent implements OnInit {
       this.CommonService.show_notification(this.language.atleast_one_row_required, 'error');     
       return;
     } 
+    this.attributeMasterServiceData.push.apply(this.attributeMasterServiceData, this.deletedAttributeMasterServiceData);   
     this.lookupvalue.emit(this.attributeMasterServiceData);
     this.add_atttribute_master = false;
   }
@@ -1682,6 +1684,10 @@ export class LookupComponent implements OnInit {
     if (this.attributeMasterServiceData.length > 0) {
       for (let i = 0; i < this.attributeMasterServiceData.length; ++i) {
         if (this.attributeMasterServiceData[i].rowindex === rowindex) {
+          if(this.attributeMasterServiceData[i].OPTM_SEQ > 0){
+            this.attributeMasterServiceData[i].isDeleted = true;   
+           this.deletedAttributeMasterServiceData.push(this.attributeMasterServiceData[i])
+          }
           this.attributeMasterServiceData.splice(i, 1);
           i = i - 1;
         }
@@ -1863,6 +1869,53 @@ export class LookupComponent implements OnInit {
     }
     if (grid_element == 'option') {
       this.attributeMasterServiceData[currentrow].OPTM_OPTION = this.detail_select_options[value-1].Name;
+    }
+
+    if(grid_element == 'attribute_code'){
+      this.showLookupLoader = true; 
+      this.fms.CheckValidAttribute(value).subscribe(
+        data => {
+          console.log(data);
+          if (data != null && data != undefined) {
+            if (data.length > 0) {
+              if (data[0].ErrorMsg == "7001") {
+                this.CommonService.RemoveLoggedInUser().subscribe();
+                this.CommonService.signOut(this.router, 'Sessionout');
+                this.showLookupLoader = false;
+                return;
+              }
+              this.attributeMasterServiceData[currentrow].OPTM_ATTR_CODE = data[0].OPTM_ATTR_CODE;
+              this.attributeMasterServiceData[currentrow].OPTM_ATTR_NAME = data[0].OPTM_ATTR_NAME;
+              this.attributeMasterServiceData[currentrow].OPTM_OPTION = data[0].OPTM_OPTION;
+              this.attributeMasterServiceData[currentrow].OPTM_OPTION_VALUE = data[0].OPTM_OPTION_VALUE;
+              this.attributeMasterServiceData[currentrow].OPTM_INPUT = data[0].OPTM_INPUT;
+              this.attributeMasterServiceData[currentrow].OPTM_VALUE = data[0].OPTM_VALUE;  
+              this.attributeMasterServiceData[currentrow].OPTM_FEATUREID = data[0].OPTM_FEATUREID;      
+              this.showLookupLoader = false;
+            } else {
+              this.CommonService.show_notification(this.language.invalidrescodeRow + ' ' + rowindex, 'error');              
+              this.showLookupLoader = false;
+              return;
+            }
+          } else {
+            this.CommonService.show_notification(this.language.invalidrescodeRow + ' ' + rowindex, 'error');            
+           
+            this.showLookupLoader = false;
+            return;
+          }
+        }, error => {
+          this.showLookupLoader = false;
+          if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
+            this.CommonService.isUnauthorized();
+          } else {
+            this.CommonService.show_notification(this.language.invalidrescodeRow + ' ' + rowindex, 'error');
+            this.clearInvalidRes(currentrow);
+
+          }
+          return;
+        }
+        );
+      
     }
     // if (grid_element == 'optionValue') {
     //   this.attributeMasterServiceData[currentrow].OPTM_OPTION_VALUE = value;
