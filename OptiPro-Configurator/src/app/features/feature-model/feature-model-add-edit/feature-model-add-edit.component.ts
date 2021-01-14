@@ -626,6 +626,9 @@ export class FeatureModelAddEditComponent implements OnInit {
           else if (data == "Record Already Exist") {
             this.commanService.show_notification(this.language.DuplicateCode, 'error'); 
             return;
+          } else if(data.includes("Reference Already Exist for Attribute code")){
+            this.commanService.show_notification(data, 'error'); 
+            return;
           }
           else {
             this.commanService.show_notification(this.language.DataNotUpdate, 'error');            

@@ -1264,6 +1264,7 @@ export class LookupComponent implements OnInit {
     this.add_atttribute_master = true;
     this.is_attribute_master_popup_lookup_open = true;
     this.attributeMasterServiceData = [];
+    this.deletedAttributeMasterServiceData = [];
     if(this.serviceData.length >0) {
       this.attribute_counter = 0;
       for (var inx = 0; inx < this.serviceData.length; inx++) {
@@ -1497,7 +1498,7 @@ export class LookupComponent implements OnInit {
       return;
     } 
     this.attributeMasterServiceData.push.apply(this.attributeMasterServiceData, this.deletedAttributeMasterServiceData);   
-    this.lookupvalue.emit(this.attributeMasterServiceData);
+    this.lookupvalue.emit(this.attributeMasterServiceData);   
     this.add_atttribute_master = false;
   }
 
