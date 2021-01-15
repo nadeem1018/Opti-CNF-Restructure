@@ -147,7 +147,17 @@
                                                     <input type="radio" id="customizedview_no" name="customizedview" class="custom-control-input" value="false" #multipleselectcheck tabindex="5" [(ngModel)]="feature_bom_data.custview_select" title="{{this.language.NO}}" [checked]="feature_bom_data.custview_select == 'false'" (change)="on_custome_view_change()">
                                                     <label class="custom-control-label" for="customizedview_no">{{this.language.NO}}</label>
                                                 </div>
+                                                <div class="col-sm-6" [hidden] = "feature_bom_data.custview_select == 'false'">
+
+                                                    <!-- <a class="cursor-pointer ml-1 d-flex align-items-cente" (click)="addAttribute()" >
+                                                        <svg viewBox="0 0 24 24" class="icon icon-dark"><use xlink:href="#info"></use></svg>
+                                                    </a> -->
+                                                    <button type="button" class="btn btn-sm btn-icon mr-2 btn-primary" (click)="addAttribute()" title="Custome Attribute">
+                                                        <svg viewBox="0 0 24 24" class="icon"><use xlink:href="#info" ></use></svg>
+                                                    </button>
+                                                    </div>
                                             </div>
+                                            
                                         </div>
                                     </div>
 
