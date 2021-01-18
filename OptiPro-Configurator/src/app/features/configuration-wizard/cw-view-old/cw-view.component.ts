@@ -1615,10 +1615,10 @@ export class CwViewOldComponent implements OnInit {
       invoice_output_data.feature = [];
       invoice_output_data.locale_obj = [];   
       if(this.report_attribute)  {
-      invoice_output_data.ModelBOMDetailAttribute = [];
-      invoice_output_data.FeatureBOMDetailAttribute = [];
-      invoice_output_data.FeatureBOMDetailAttribute = this.SelectedFeatureAttributes;
-      invoice_output_data.ModelBOMDetailAttribute = this.SelectModelAttributes;
+      invoice_output_data.ModelBOMDetailAttribute = [];     
+      invoice_output_data.ModelBOMDetailAttribute = this.SelectModelAttributes.filter(function (obj) {
+        return obj['OPTM_MODELDTLROWID'] == 0;
+      });
       }
       let description = (this.step1_data.description!= "" && this.step1_data.description!= null) ? this.step1_data.description : "";
       let document = (this.step1_data.document!= "" && this.step1_data.document!= null) ? this.step1_data.document : "";
