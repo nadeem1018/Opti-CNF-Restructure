@@ -42,6 +42,8 @@ export class AttributeViewComponent implements OnInit {
   public show_dialog: boolean = false;
   public dialog_box_value: any;
   public row_id: any;
+  public attributeCode: any;
+  public attributeSeq: any;
   public CheckedData: any = [];
   public selectall: boolean = false;
   public GetItemData: any = [];
@@ -243,7 +245,8 @@ export class AttributeViewComponent implements OnInit {
   button_click2(data) {
     this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.DeleteConfimation });
     this.show_dialog = true;
-    this.row_id = data.OPTM_MODELID;
+    this.attributeCode = data.OPTM_ATTR_CODE;
+    this.attributeSeq = data.OPTM_SEQ;
   }
 
   duplicate_record(data) {
@@ -273,47 +276,48 @@ export class AttributeViewComponent implements OnInit {
     this.GetItemData = []
     this.GetItemData.push({
       CompanyDBId: this.companyName,
-      ModelId: this.row_id,
+      OPTM_SEQ: this.attributeSeq,
+      OPTM_ATTR_CODE: this.attributeCode,
       GUID: sessionStorage.getItem("GUID"),
       UsernameForLic: sessionStorage.getItem("loggedInUser")
     });
-    // this.service.DeleteData(this.GetItemData).subscribe(
-    //   data => {
-    //     this.CheckedData = [];
-    //     this.isMultiDelete = false;
-    //     if (data != undefined && data.length > 0) {
-    //       if (data[0].ErrorMsg == "7001") {
-    //         this.commonservice.RemoveLoggedInUser().subscribe();
-    //         this.commonservice.signOut(this.router, 'Sessionout');
-    //         return;
-    //       }
-    //     }
-    //     if (data[0].IsDeleted == "0" && data[0].Message == "ReferenceExists") {
-    //       this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[0].ModelCode, 'error');
-    //       this.CheckedData = [];
-    //       this.selectall = false;
-    //       this.commonData.clearChildCheckbox();
-    //     }
-    //     else if (data[0].IsDeleted == "1") {
-    //       this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[0].ModelCode, 'success');
-    //       this.service_call(this.current_page, this.search_string);
-    //       this.router.navigateByUrl('attribute/view');
-    //       this.CheckedData = [];
-    //       this.selectall = false;
-    //       this.commonData.clearChildCheckbox();
-    //     }
-    //     else {
-    //       this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[0].ModelCode, 'error');
-    //     }
-    //     this.CheckedData = [];
-    //     this.selectall = false;
-    //     this.commonData.clearChildCheckbox();
-    //   }, error => {
-    //     if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
-    //       this.commonservice.isUnauthorized();
-    //     }
-    //     return;
-    //   });
+    this.service.DeleteData(this.GetItemData).subscribe(
+      data => {
+        this.CheckedData = [];
+        this.isMultiDelete = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            this.commonservice.RemoveLoggedInUser().subscribe();
+            this.commonservice.signOut(this.router, 'Sessionout');
+            return;
+          }
+        }
+        if (data[0].IsDeleted == "0" && data[0].Message == "ReferenceExists") {
+          this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[0].ModelCode, 'error');
+          this.CheckedData = [];
+          this.selectall = false;
+          this.commonData.clearChildCheckbox();
+        }
+        else if (data[0].IsDeleted == "1") {
+          this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[0].ModelCode, 'success');
+          this.service_call(this.current_page, this.search_string);
+          this.router.navigateByUrl('attribute/view');
+          this.CheckedData = [];
+          this.selectall = false;
+          this.commonData.clearChildCheckbox();
+        }
+        else {
+          this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[0].ModelCode, 'error');
+        }
+        this.CheckedData = [];
+        this.selectall = false;
+        this.commonData.clearChildCheckbox();
+      }, error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.commonservice.isUnauthorized();
+        }
+        return;
+      });
   }
 
   on_checkbox_checked(checkedvalue, row_data) {

@@ -56,5 +56,11 @@ export class AttributeService {
     return this.httpclient.post(this.config_params.service_url + "/Attribute/GetAttributeList", jObject, this.common_params.httpOptions);
   }
   
+  DeleteData(clicked_attribute_id): Observable<any> {
+    //JSON Obeject Prepared to be send as a param to API
+    let jObject = { Attribute: JSON.stringify(clicked_attribute_id) };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Attribute/DeleteMasterAttribute", jObject, this.common_params.httpOptions);
+  }
 
 }
