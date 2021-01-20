@@ -250,7 +250,7 @@ onDelete() {
             this.route.navigateByUrl('attribute/view');
             return;
           }
-          else if (data == "AlreadyExist") {
+          else if (data == "Record Already Exis") {
             
             this.CommonService.show_notification(this.language.DuplicateCode, 'error');
             return;
@@ -272,6 +272,11 @@ onDelete() {
 
   
   onUpdate() {
+
+    if (this.attributeName == "" || this.attributeName == null) {    
+      this.CommonService.show_notification(this.language.attribute_name_blank, 'error');
+       return false;
+    }
     this.addAttributeList.push({
       OPTM_ATTR_CODE: this.attributeCode,
       OPTM_ATTR_NAME: this.attributeName,
