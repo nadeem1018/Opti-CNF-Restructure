@@ -12,7 +12,7 @@ import { AttributeService } from 'src/app/core/service/attribute.service';
 })
 export class AttributeAddEditComponent implements OnInit {
 
-  @ViewChild("Modelinputbox", { static: true }) _el: ElementRef;
+  @ViewChild("Attributeinputbox", { static: true }) _el: ElementRef;
   @ViewChild("button", { static: true }) _ele: ElementRef;
   public commonData = new CommonData();
   public view_route_link = '/attribute/view';
@@ -199,6 +199,15 @@ ngAfterViewInit() {
     //this._ele.nativeElement.focus();
   }
 }
+
+validate_special_char(){
+  var Code = this.attributeCode;
+  if(Code !== "" && this.commonData.excludeSpecialCharRegex.test(Code) === true) {
+    CommonData.made_changes = true;
+    this.attributeCode = "";     
+    this.CommonService.show_notification(this.language.ValidString, 'error');
+  }
+}
 onSave() {
   var obj = this;
  
@@ -250,7 +259,7 @@ onDelete() {
             this.route.navigateByUrl('attribute/view');
             return;
           }
-          else if (data == "Record Already Exis") {
+          else if (data == "Record Already Exist") {
             
             this.CommonService.show_notification(this.language.DuplicateCode, 'error');
             return;
