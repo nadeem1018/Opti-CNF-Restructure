@@ -1221,10 +1221,10 @@ export class LookupComponent implements OnInit {
           if (this.attributeMasterServiceData[i].rowindex === this.current_popup_row) {
             this.attributeMasterServiceData[i].OPTM_ATTR_CODE = lookup_key.OPTM_ATTR_CODE;
             this.attributeMasterServiceData[i].OPTM_ATTR_NAME = lookup_key.OPTM_ATTR_NAME;
-            this.attributeMasterServiceData[i].OPTM_OPTION = lookup_key.OPTM_OPTION;
-            this.attributeMasterServiceData[i].OPTM_OPTION_VALUE = lookup_key.OPTM_OPTION_VALUE;
-            this.attributeMasterServiceData[i].OPTM_INPUT = lookup_key.OPTM_INPUT;
-            this.attributeMasterServiceData[i].OPTM_VALUE = lookup_key.OPTM_VALUE;  
+            this.attributeMasterServiceData[i].OPTM_SEQ = lookup_key.OPTM_SEQ;
+            this.attributeMasterServiceData[i].OPTM_OPTION_VALUE = '';
+            this.attributeMasterServiceData[i].OPTM_INPUT = '';
+            this.attributeMasterServiceData[i].OPTM_VALUE = '';  
             this.attributeMasterServiceData[i].OPTM_FEATUREID = lookup_key.OPTM_FEATUREID;        
             
           }
@@ -1572,7 +1572,7 @@ export class LookupComponent implements OnInit {
       OPTM_FEATUREID: this.itemFeatureId,
       OPTM_ATTR_CODE: '',
       OPTM_ATTR_NAME: '',
-      OPTM_OPTION: '',
+      OPTM_OPTION:  "USER DEFINED",
       OPTM_OPTION_VALUE: '',     
       OPTM_INPUT: '',
       OPTM_ATTR_VALUE: '',
@@ -1887,11 +1887,11 @@ export class LookupComponent implements OnInit {
               }
               this.attributeMasterServiceData[currentrow].OPTM_ATTR_CODE = data[0].OPTM_ATTR_CODE;
               this.attributeMasterServiceData[currentrow].OPTM_ATTR_NAME = data[0].OPTM_ATTR_NAME;
-              this.attributeMasterServiceData[currentrow].OPTM_OPTION = data[0].OPTM_OPTION;
-              this.attributeMasterServiceData[currentrow].OPTM_OPTION_VALUE = data[0].OPTM_OPTION_VALUE;
-              this.attributeMasterServiceData[currentrow].OPTM_INPUT = data[0].OPTM_INPUT;
-              this.attributeMasterServiceData[currentrow].OPTM_VALUE = data[0].OPTM_VALUE;  
-              this.attributeMasterServiceData[currentrow].OPTM_FEATUREID = data[0].OPTM_FEATUREID;      
+              this.attributeMasterServiceData[currentrow].OPTM_SEQ = data[0].OPTM_SEQ
+              this.attributeMasterServiceData[currentrow].OPTM_OPTION_VALUE ='';
+              this.attributeMasterServiceData[currentrow].OPTM_INPUT ='';
+              this.attributeMasterServiceData[currentrow].OPTM_VALUE = '';  
+              this.attributeMasterServiceData[currentrow].OPTM_FEATUREID = '';      
               this.showLookupLoader = false;
             } else {
               this.CommonService.show_notification(this.language.invalidrescodeRow + ' ' + rowindex, 'error');              

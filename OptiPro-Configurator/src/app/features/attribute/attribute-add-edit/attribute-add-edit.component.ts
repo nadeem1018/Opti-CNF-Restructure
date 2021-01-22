@@ -222,6 +222,7 @@ onSave() {
  return false;
 }
   this.showLookupLoader = true;
+  this.addAttributeList = [];
   obj.save_data();
   
 }
