@@ -292,13 +292,15 @@ export class AttributeViewComponent implements OnInit {
             return;
           }
         }
-        if (data.includes("Reference Already Exist for Attribute code")) {
-          this.commonservice.show_notification(data , 'error');
+
+        
+        if (data[0].IsDeleted == "0" && data[0].Message.includes("Reference Already Exist")) {
+          this.commonservice.show_notification(data[0].Message, 'error');
           this.CheckedData = [];
           this.selectall = false;
           this.commonData.clearChildCheckbox();
         }
-        else if (data == "True") {
+        else if (data[0].IsDeleted == "1") {
           this.commonservice.show_notification(this.language.DataDeleteSuccesfully , 'success');
           this.service_call(this.current_page, this.search_string);
           this.router.navigateByUrl('attribute/view');
@@ -328,7 +330,8 @@ export class AttributeViewComponent implements OnInit {
           isExist = 1;
           if (checkedvalue == true) {
             this.CheckedData.push({
-              ModelId: row_data.OPTM_MODELID,
+              OPTM_SEQ: row_data.OPTM_SEQ,
+              OPTM_ATTR_CODE: row_data.OPTM_ATTR_CODE,
               CompanyDBId: this.companyName,
               GUID: sessionStorage.getItem("GUID"),
               UsernameForLic: sessionStorage.getItem("loggedInUser")
@@ -341,7 +344,8 @@ export class AttributeViewComponent implements OnInit {
       }
       if (isExist == 0) {
         this.CheckedData.push({
-          ModelId: row_data.OPTM_MODELID,
+          OPTM_SEQ: row_data.OPTM_SEQ,
+          OPTM_ATTR_CODE: row_data.OPTM_ATTR_CODE,
           CompanyDBId: this.companyName,
           GUID: sessionStorage.getItem("GUID"),
           UsernameForLic: sessionStorage.getItem("loggedInUser")
@@ -350,7 +354,8 @@ export class AttributeViewComponent implements OnInit {
     }
     else {
       this.CheckedData.push({
-        ModelId: row_data.OPTM_MODELID,
+        OPTM_SEQ: row_data.OPTM_SEQ,
+        OPTM_ATTR_CODE: row_data.OPTM_ATTR_CODE,
         CompanyDBId: this.companyName,
         GUID: sessionStorage.getItem("GUID"),
         UsernameForLic: sessionStorage.getItem("loggedInUser")
@@ -376,7 +381,8 @@ export class AttributeViewComponent implements OnInit {
         for (let i = 0; i < this.dataArray.length; ++i) {
           this.commonData.checkedChildCheckbox();
           this.CheckedData.push({
-            ModelId: this.dataArray[i].OPTM_MODELID,
+            OPTM_SEQ: this.dataArray[i].OPTM_SEQ,
+            OPTM_ATTR_CODE: this.dataArray[i].OPTM_ATTR_CODE,
             CompanyDBId: this.companyName,
             GUID: sessionStorage.getItem("GUID"),
             UsernameForLic: sessionStorage.getItem("loggedInUser")
@@ -402,49 +408,49 @@ export class AttributeViewComponent implements OnInit {
 
   delete_multi_row() {
 
-    // if (this.CheckedData.length > 0) {
-    //   this.showLoader = true
-    //   this.service.DeleteData(this.CheckedData).subscribe(
-    //     data => {
-    //       this.showLoader = false
-    //       this.CheckedData = [];
-    //       this.isMultiDelete = false;
-    //       if (data != undefined && data.length > 0) {
-    //         if (data[0].ErrorMsg == "7001") {
-    //           this.commonservice.RemoveLoggedInUser().subscribe();
-    //           this.commonservice.signOut(this.router, 'Sessionout');
-    //           return;
-    //         }
-    //       }
+    if (this.CheckedData.length > 0) {
+      this.showLoader = true
+      this.service.DeleteData(this.CheckedData).subscribe(
+        data => {
+          this.showLoader = false
+          this.CheckedData = [];
+          this.isMultiDelete = false;
+          if (data != undefined && data.length > 0) {
+            if (data[0].ErrorMsg == "7001") {
+              this.commonservice.RemoveLoggedInUser().subscribe();
+              this.commonservice.signOut(this.router, 'Sessionout');
+              return;
+            }
+          }
 
-    //       for (var i = 0; i < data.length; i++) {
-    //         if (data[i].IsDeleted == "0" && data[i].Message == "ReferenceExists") {
-    //           this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[i].ModelCode, 'error');
-    //         }
-    //         else if (data[i].IsDeleted == "1") {
-    //           this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[i].ModelCode, 'success');
-    //           this.CheckedData = [];
-    //           this.service_call(this.current_page, this.search_string);
-    //           this.router.navigateByUrl('attribute/view');
-    //         }
-    //         else {
-    //           this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[i].ModelCode, 'error');
-    //         }
-    //       }
+          for (var i = 0; i < data.length; i++) {
+            if (data[i].IsDeleted == "0" && data[i].Message.includes("Reference Already Exist")) {
+              this.commonservice.show_notification(data[i].Message, 'error');
+            }
+            else if (data[i].IsDeleted == "1") {
+              this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Attribute Code : ' + data[i].AttributeCode, 'success');
+              this.CheckedData = [];
+              this.service_call(this.current_page, this.search_string);
+              this.router.navigateByUrl('attribute/view');
+            }
+            else {
+              this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[i].ModelCode, 'error');
+            }
+          }
 
-    //       this.CheckedData = [];
-    //       this.selectall = false;
-    //       this.commonData.clearChildCheckbox();
-    //     }, error => {
-    //       this.showLoader = false
-    //       if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
-    //         this.commonservice.isUnauthorized();
-    //       }
-    //       return;
-    //     })
-    // } else {
-    //   this.commonservice.show_notification(this.language.Norowselected, 'error');
-    // }
+          this.CheckedData = [];
+          this.selectall = false;
+          this.commonData.clearChildCheckbox();
+        }, error => {
+          this.showLoader = false
+          if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+            this.commonservice.isUnauthorized();
+          }
+          return;
+        })
+    } else {
+      this.commonservice.show_notification(this.language.Norowselected, 'error');
+    }
 
   }
 

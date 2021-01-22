@@ -712,14 +712,14 @@
                         <kendo-pager-next-buttons></kendo-pager-next-buttons>
                         <kendo-pager-info></kendo-pager-info>
                     </ng-template>
-                    <ng-template kendoGridToolbarTemplate>
+                    <!-- <ng-template kendoGridToolbarTemplate>
                         <label class="custom-checkbox mb-0">
                             <input type="checkbox" value="" #chkFilter name="columnfilter" id="columnFilter"
                                 [(ngModel)]="isColumnFilter">
                             <span class="checkbox"></span>
                             <span class="text-inverse">{{language.enable_filter}}</span>
                         </label>
-                    </ng-template>
+                    </ng-template> -->
                     <kendo-grid-column *ngFor="let column of table_head" field="{{column.field}}"
                         title="{{column.title}}" filter="{{column.type}}" format="{{column.format}}"
                         width="{{column.width}}" minResizableWidth="{{column.width}}">

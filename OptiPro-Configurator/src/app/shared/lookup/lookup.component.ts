@@ -1225,7 +1225,7 @@ export class LookupComponent implements OnInit {
             this.attributeMasterServiceData[i].OPTM_OPTION_VALUE = '';
             this.attributeMasterServiceData[i].OPTM_INPUT = '';
             this.attributeMasterServiceData[i].OPTM_VALUE = '';  
-            this.attributeMasterServiceData[i].OPTM_FEATUREID = lookup_key.OPTM_FEATUREID;        
+            this.attributeMasterServiceData[i].OPTM_FEATUREID = null;        
             
           }
         }
@@ -1891,7 +1891,7 @@ export class LookupComponent implements OnInit {
               this.attributeMasterServiceData[currentrow].OPTM_OPTION_VALUE ='';
               this.attributeMasterServiceData[currentrow].OPTM_INPUT ='';
               this.attributeMasterServiceData[currentrow].OPTM_VALUE = '';  
-              this.attributeMasterServiceData[currentrow].OPTM_FEATUREID = '';      
+              this.attributeMasterServiceData[currentrow].OPTM_FEATUREID = null;      
               this.showLookupLoader = false;
             } else {
               this.CommonService.show_notification(this.language.invalidrescodeRow + ' ' + rowindex, 'error');              

@@ -1191,7 +1191,7 @@ export class CwViewOldComponent implements OnInit {
   onCalculateAttributeItem(){
     let selectAttributesList = [];
     let selectedItemList = [];
-    let parentarrayObj;   
+    let parentarrayObj;     
   
     var mainModelId = this.MainModelDetails[0].OPTM_MODELID;
     selectAttributesList = this.ModelBOMDetailAttribute.filter(function (obj) {
@@ -1266,6 +1266,10 @@ export class CwViewOldComponent implements OnInit {
     this.SelectedItems = [];
     this.SelectedFeatureAttributes = [];
     this.SelectModelAttributes = [];
+    if(this.ModelHeaderData.length == 0) {
+      this.CommonService.show_notification("Please select model", 'error');
+      return;
+    }
    this.onCalculateAttributeItem();
    this.showLookupLoader = true;
    this.OutputService.CalculateAttributesonWizard(this.SelectedModelFeature, this.SelectedItems, this.SelectedFeatureAttributes, this.SelectModelAttributes).subscribe(
