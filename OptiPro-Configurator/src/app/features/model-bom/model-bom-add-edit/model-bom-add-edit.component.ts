@@ -269,6 +269,7 @@ public expandedKeysvalue: any[] = [];
           
         }
         this.ModelAttributeList = data.ModelAttribute; 
+        this.ItemAttributeList = data.ModelAttribute; 
         if (data.ModelDetail.length > 0) {
           for (let i = 0; i < data.ModelDetail.length; ++i) {
             let mandatory_item_disabled = false;
