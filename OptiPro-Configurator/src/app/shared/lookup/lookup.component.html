@@ -261,8 +261,8 @@
                                  <ng-template kendoGridCellTemplate let-dataItem>
                                     <div class="input-group">
                                       <input type="text" class="form-control  form-control-sm row_resource_code" id="attribute_code"
-                                            (change)="on_input_change_attribute_master(attribute_code.value,dataItem.rowindex, 'attribute_code')"
-                                            value={{dataItem.OPTM_ATTR_CODE}} #attribute_code title={{dataItem.attribute_code}} />
+                                            (change)="on_input_change_attribute_master(attribute_code.value,dataItem.rowindex, 'attribute_code', attribute_code)"
+                                             value={{dataItem.OPTM_ATTR_CODE}} #attribute_code title={{dataItem.attribute_code}} />
                                         <div class="input-group-append" [hidden]=dataItem.hide>
                                             <span class="btn btn-sm btn-primary cursor-pointer btn-icon" id="basic-addon2"
                                                 (click)="open_attribute_lookup(dataItem.type, dataItem.rowindex)">
@@ -277,7 +277,7 @@
                             [minResizableWidth]="140">
                             <ng-template kendoGridCellTemplate let-dataItem>
                                 <input type="text" class="form-control  form-control-sm" id="attribute_desc" value="{{dataItem.OPTM_ATTR_NAME}}"
-                                 (change)="on_input_change_attribute_master(attribute_desc.value,dataItem.rowindex, 'attribute_desc')"
+                                 (change)="on_input_change_attribute_master(attribute_desc.value,dataItem.rowindex, 'attribute_desc','')"
                                     #attribute_desc title="{{dataItem.attribute_desc}}" />
                             </ng-template>
                         </kendo-grid-column>
@@ -285,7 +285,7 @@
                             <kendo-grid-column field="OPTM_OPTION" title="{{language.option}}" filter="text"
                                 [width]="140" [minResizableWidth]="140" [hidden] = hiddenColumn>
                                 <ng-template kendoGridCellTemplate let-dataItem>
-                                    <select class="form-control  form-control-sm" #selectedvalue (change)="on_input_change_attribute_master(selectedvalue.value,dataItem.rowindex, 'option')">
+                                    <select class="form-control  form-control-sm" #selectedvalue (change)="on_input_change_attribute_master(selectedvalue.value,dataItem.rowindex, 'option', '')">
                                         <option *ngFor="let v of detail_select_options " [value]="v.value" [selected]="dataItem.OPTM_OPTION == v.Name">{{v.Name}}</option>
                                     </select>
                                     <!-- <input type="text" class="form-control  form-control-sm row_resource_name" id="option"

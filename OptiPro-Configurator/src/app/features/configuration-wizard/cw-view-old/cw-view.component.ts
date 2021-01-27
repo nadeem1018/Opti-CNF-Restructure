@@ -2218,6 +2218,8 @@ export class CwViewOldComponent implements OnInit {
             this.showLookupLoader = false;
             this.SecondCallAPI = false;
             this.onselectionchange(selecteditem[0], true, 0, true, selecteditem[0].unique_key, false, false, true);
+          } else {
+            this.getCustomeAttributeValue();
           }
 
         }

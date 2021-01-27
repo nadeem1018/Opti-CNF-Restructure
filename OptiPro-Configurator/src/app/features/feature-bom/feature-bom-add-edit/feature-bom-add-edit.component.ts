@@ -217,6 +217,7 @@ export class FeatureBomAddEditComponent implements OnInit {
           }
         }
        this.FeatureAttributeList = data.FeatureAttribute;
+       this.ItemAttributeList = data.FeatureAttribute
         if (data.FeatureDetail.length > 0) {
           for (let i = 0; i < data.FeatureDetail.length; ++i) {
             if (data.FeatureDetail[i].OPTM_TYPE == 1) {
@@ -789,6 +790,11 @@ export class FeatureBomAddEditComponent implements OnInit {
           }
           this.feature_bom_table.splice(i, 1);
           i = i - 1;
+          var removeItem = this.feature_bom_table[i];
+          var ItemAttributeDataList = this.ItemAttributeList.filter(function (obj) {
+            return obj['OPTM_FEATUREDTLROWID'] != removeItem.OPTM_LINENO;
+          });
+          this.ItemAttributeList = ItemAttributeDataList;
         }
         else {
           this.feature_bom_table[i].rowindex = i + 1;

@@ -644,6 +644,7 @@
     "print_attribute": "Print Attribute",
     "atleast_one_row_required":"Atleast one row is required.",
     "attribute_code_blank":"Attribute code cannot be blank",
-    "attribute_name_blank":"Attribute name cannot be blank"
+    "attribute_name_blank":"Attribute name cannot be blank",
+    "SelectAttribute": "Select Attribute code at row index: "
     
 }

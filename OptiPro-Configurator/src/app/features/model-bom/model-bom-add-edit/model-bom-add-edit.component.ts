@@ -80,7 +80,7 @@ export class ModelBomAddEditComponent implements OnInit {
   public isDuplicateMode:boolean = false;
   public NewModel = "";
   public ModelAttributeList: any = [];
-  public itemAttributeList: any = [];
+  public ItemAttributeList: any = [];
 
   getSelectedRowDetail(event) {
     if (event.selectedRows.length > 0) {
@@ -610,6 +610,11 @@ onDeleteRow(rowindex) {
         }
         this.modelbom_data.splice(i, 1);
         i = i - 1;
+        var removeItem = this.modelbom_data[i];
+        var ItemAttributeDataList = this.ItemAttributeList.filter(function (obj) {
+          return obj['OPTM_MODELDTLROWID'] != removeItem.OPTM_LINENO;
+        });
+        this.ItemAttributeList = ItemAttributeDataList;
       }
       else {
         this.modelbom_data[i].rowindex = i + 1;
@@ -993,18 +998,18 @@ getLookupValue($event) {
     this.getItemDetails($event[0]);
   } else if(this.lookupfor == 'add_attribute_lookup') {
 
-    if(this.itemAttributeList.length > 0){
+    if(this.ItemAttributeList.length > 0){
       var itemAttributeList =  $event;
-     var ItemAttributeDataList = this.itemAttributeList.filter(function (obj) {
-       return obj['OPTM_FEATUREDTLROWID'] != itemAttributeList[0].OPTM_FEATUREDTLROWID;
+     var ItemAttributeDataList = this.ItemAttributeList.filter(function (obj) {
+       return obj['OPTM_MODELDTLROWID'] != itemAttributeList[0].OPTM_MODELDTLROWID;
      });
   
-    this.itemAttributeList = ItemAttributeDataList;     
+    this.ItemAttributeList = ItemAttributeDataList;     
     for(var index in itemAttributeList){
-     this.itemAttributeList.push(itemAttributeList[index]);
+     this.ItemAttributeList.push(itemAttributeList[index]);
     }
    } else {
-     this.itemAttributeList =  $event;
+     this.ItemAttributeList =  $event;
    }  
     
   }
@@ -2169,7 +2174,7 @@ onExplodeClick(type) {
       }
       objDataset.ModelData = temp_model_data;
       objDataset.RuleData = this.rule_data;
-      objDataset.ItemAttributeList = this.itemAttributeList;
+      objDataset.ItemAttributeList = this.ItemAttributeList;
       console.log(JSON.stringify(objDataset));
       this.service.SaveModelBom(objDataset).subscribe(
         data => {

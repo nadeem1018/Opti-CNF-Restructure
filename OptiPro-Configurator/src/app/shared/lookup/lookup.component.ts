@@ -97,6 +97,8 @@ export class LookupComponent implements OnInit {
   public viewAttributeColumn: any = [];
   public viewDialogWidth = 400;
   public hiddenColumn: boolean = false;
+  public Attribute_code_value = '';
+  
 ;  constructor(
     private rs: RoutingService,
     private fbom: FeaturebomService,
@@ -1492,11 +1494,21 @@ export class LookupComponent implements OnInit {
     }
   }
   attribute_master_update() {   
-    this.is_attribute_master_popup_lookup_open = false;
+    
     if (this.attributeMasterServiceData.length == 0) {
       this.CommonService.show_notification(this.language.atleast_one_row_required, 'error');     
       return;
-    } 
+    } else{
+      for (let i = 0; i < this.attributeMasterServiceData.length; ++i) {
+        let currentrow = i + 1;
+        if (this.attributeMasterServiceData[i].OPTM_ATTR_CODE == "") {
+          // this.toastr.error('', this.language.SelectFeature + currentrow, this.commonData.toast_config);
+          this.CommonService.show_notification(this.language.SelectAttribute + currentrow, 'error');
+          return ;
+        }
+      }
+    }
+    this.is_attribute_master_popup_lookup_open = false;
     this.attributeMasterServiceData.push.apply(this.attributeMasterServiceData, this.deletedAttributeMasterServiceData);   
     this.lookupvalue.emit(this.attributeMasterServiceData);   
     this.add_atttribute_master = false;
@@ -1854,7 +1866,7 @@ export class LookupComponent implements OnInit {
       )
   }
 
-  on_input_change_attribute_master(value, rowindex, grid_element) {
+  on_input_change_attribute_master(value, rowindex, grid_element, attributeCode) {
     var currentrow = 0;
     for (let i = 0; i < this.attributeMasterServiceData.length; ++i) {
       if (this.attributeMasterServiceData[i].rowindex === rowindex) {
@@ -1894,13 +1906,14 @@ export class LookupComponent implements OnInit {
               this.attributeMasterServiceData[currentrow].OPTM_FEATUREID = null;      
               this.showLookupLoader = false;
             } else {
-              this.CommonService.show_notification(this.language.invalidrescodeRow + ' ' + rowindex, 'error');              
+              this.CommonService.show_notification(this.language.invalidrescodeRow + ' ' + rowindex, 'error');   
+              attributeCode.value = ""           
               this.showLookupLoader = false;
               return;
             }
           } else {
             this.CommonService.show_notification(this.language.invalidrescodeRow + ' ' + rowindex, 'error');            
-           
+            attributeCode.value = ""        
             this.showLookupLoader = false;
             return;
           }
@@ -2219,9 +2232,15 @@ export class LookupComponent implements OnInit {
     this.dialogOpened = false;
   }
   public close_inner_kenod_dialog(){
-    this.lookupvalue.emit('');
-    this.dialogOpened = false;
-    this.viewAttributeDialogOpened = false;
+
+    if (this.popup_lookupfor == 'add_attribute_master_lookup') {
+      this.dialogOpened = false;
+      this.viewAttributeDialogOpened = false;
+     } else {
+      this.lookupvalue.emit('');
+      this.dialogOpened = false;
+      this.viewAttributeDialogOpened = false;
+    }
   }
   public sortChange(sort: SortDescriptor[]): void {
     this.sort = sort;
