@@ -788,13 +788,14 @@ export class FeatureBomAddEditComponent implements OnInit {
               }
             }
           }
-          this.feature_bom_table.splice(i, 1);
-          i = i - 1;
           var removeItem = this.feature_bom_table[i];
           var ItemAttributeDataList = this.ItemAttributeList.filter(function (obj) {
             return obj['OPTM_FEATUREDTLROWID'] != removeItem.OPTM_LINENO;
           });
           this.ItemAttributeList = ItemAttributeDataList;
+          this.feature_bom_table.splice(i, 1);
+          i = i - 1;
+         
         }
         else {
           this.feature_bom_table[i].rowindex = i + 1;

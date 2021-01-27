@@ -608,13 +608,14 @@ onDeleteRow(rowindex) {
             }
           }
         }
-        this.modelbom_data.splice(i, 1);
-        i = i - 1;
         var removeItem = this.modelbom_data[i];
         var ItemAttributeDataList = this.ItemAttributeList.filter(function (obj) {
           return obj['OPTM_MODELDTLROWID'] != removeItem.OPTM_LINENO;
         });
         this.ItemAttributeList = ItemAttributeDataList;
+        this.modelbom_data.splice(i, 1);
+        i = i - 1;
+       
       }
       else {
         this.modelbom_data[i].rowindex = i + 1;
