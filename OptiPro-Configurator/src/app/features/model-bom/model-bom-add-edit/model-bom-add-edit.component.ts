@@ -2173,6 +2173,13 @@ onExplodeClick(type) {
         else {
           temp_model_data[i].default = "N"
         }
+        var modelBomItem = temp_model_data[i];
+        this.ItemAttributeList = this.ItemAttributeList.filter(function (obj) {
+          if (obj['OPTM_MODELDTLROWID'] == modelBomItem.OPTM_LINENO) {
+              obj['rowindex'] = modelBomItem.rowindex
+          }         
+          return obj;
+        })
       }
       objDataset.ModelData = temp_model_data;
       objDataset.RuleData = this.rule_data;
