@@ -587,7 +587,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
     this.feature_bom_table.push({
       rowindex: this.counter,
-      OPTM_LINENO: this.counter,
+      OPTM_LINENO: 0,
       FeatureId: this.feature_bom_data.feature_id,
       type: table_default_type,
       type_value: "",
@@ -877,6 +877,14 @@ export class FeatureBomAddEditComponent implements OnInit {
         else {
           this.feature_bom_table[i].print_on_report = "Y"
         }
+        var featureBomItem = this.feature_bom_table[i];
+        this.ItemAttributeList = this.ItemAttributeList.filter(function (obj) {
+          if (obj['OPTM_FEATUREDTLROWID'] == featureBomItem.OPTM_LINENO) {
+              obj['rowindex'] = featureBomItem.rowindex
+          }         
+          return obj;
+        })
+
       }
     }
     var featureId = this.feature_bom_data.feature_id;
