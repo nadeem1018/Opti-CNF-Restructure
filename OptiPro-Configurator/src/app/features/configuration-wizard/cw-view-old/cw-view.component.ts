@@ -2309,7 +2309,7 @@ export class CwViewOldComponent implements OnInit {
       data => {
 
         if (data != undefined) {
-          if (data.SelectedFeatureAttributes[0].ErrorMsg == "7001") {
+          if (data.SelectedFeatureAttributes.length > 0 && data.SelectedFeatureAttributes[0].ErrorMsg == "7001") {
             CommonData.made_changes = false;
             this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
