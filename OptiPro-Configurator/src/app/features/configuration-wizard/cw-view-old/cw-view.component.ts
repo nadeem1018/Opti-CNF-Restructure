@@ -4889,11 +4889,13 @@ export class CwViewOldComponent implements OnInit {
     final_dataset_to_save.OPConfig_OUTPUTHDR = [];
     final_dataset_to_save.OPConfig_OUTPUTDTL = [];
     final_dataset_to_save.OPConfig_OUTPUTLOG = [];
+    final_dataset_to_save.OPConfig_OUTPUT_ATTR = [];
     final_dataset_to_save.ConnectionDetails = [];
     final_dataset_to_save.apidata = [];
     final_dataset_to_save.routing_model = [];
     final_dataset_to_save.routing_model_feature_data = [];
     final_dataset_to_save.routing_user_selection = [];
+    
 
     // modify /duplocate / view data  set  - start 
     final_dataset_to_save.ModelHeaderData = [];
@@ -4905,6 +4907,17 @@ export class CwViewOldComponent implements OnInit {
     final_dataset_to_save.MainModelDetails = [];
     // modify /duplocate / view data  set  - end
 
+
+    // selected attribute add
+    this.onCalculateAttributeItem();
+    let final_SelectedAttributes = this.SelectedFeatureAttributes;
+    if(final_SelectedAttributes.length > 0){
+      final_SelectedAttributes.push.apply(final_SelectedAttributes, this.SelectModelAttributes);
+    } else {
+      final_SelectedAttributes = this.SelectModelAttributes;
+    }
+    final_dataset_to_save.OPConfig_OUTPUT_ATTR = final_SelectedAttributes;
+    // end attribute
 
     let total_discount = (Number(this.feature_discount_percent) + Number(this.accessory_discount_percent));
 

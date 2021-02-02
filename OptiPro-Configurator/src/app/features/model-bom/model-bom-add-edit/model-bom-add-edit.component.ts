@@ -455,6 +455,7 @@ onAddRow() {
 
   this.modelbom_data.push({
     rowindex: this.counter,
+    OPTM_LINENO: 0,
     ModelId: this.modelbom_data.modal_id,
     ModelCode: this.modelbom_data.modal_code,
     description: this.modelbom_data.feature_desc,
