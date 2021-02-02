@@ -1223,7 +1223,7 @@ export class LookupComponent implements OnInit {
           if (this.attributeMasterServiceData[i].rowindex === this.current_popup_row) {
             this.attributeMasterServiceData[i].OPTM_ATTR_CODE = lookup_key.OPTM_ATTR_CODE;
             this.attributeMasterServiceData[i].OPTM_ATTR_NAME = lookup_key.OPTM_ATTR_NAME;
-            this.attributeMasterServiceData[i].OPTM_SEQ = lookup_key.OPTM_SEQ;
+           // this.attributeMasterServiceData[i].OPTM_SEQ = lookup_key.OPTM_SEQ;
             this.attributeMasterServiceData[i].OPTM_OPTION_VALUE = '';
             this.attributeMasterServiceData[i].OPTM_INPUT = '';
             this.attributeMasterServiceData[i].OPTM_VALUE = '';  
