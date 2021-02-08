@@ -519,11 +519,10 @@ onAddRowChild() {
   let print_on_report_disabled_flag = true;
 
   this.selected_dependent_assessment_data.push({
-    rowindex: this.counter2, 
-    OPTM_Options: '',  
-    OPTM_OptionsID: '',
-    OPTM_DEP_AssessmentID: this.needsassessment_mas.assessment_id,
-    OPTM_Dep_Question: this.needsassessment_mas.question,
+    rowindex: this.counter2,
+    OPTM_AssessmentID:  this.needsassessment_mas.assessment_id,
+    OPTM_DEP_AssessmentID: '',
+    OPTM_Dep_Options:'',
     OPTM_PARENTLINENO: this.parentlineno,
     OPTM_LINENO: this.counter2   
   });
@@ -1265,7 +1264,7 @@ on_optionid_change_child(value, rowindex) {
   CommonData.made_changes = true;
   for (let i = 0; i < this.selected_dependent_assessment_data.length; ++i) {
     if (this.selected_dependent_assessment_data[i].rowindex === this.currentrowindex) {      
-        this.selected_dependent_assessment_data[i].OPTM_OptionsID = value;
+        this.selected_dependent_assessment_data[i].OPTM_DEP_AssessmentID = value;
      // this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
     }
   }
@@ -1276,7 +1275,7 @@ on_option_change_child(value, rowindex) {
   CommonData.made_changes = true;
   for (let i = 0; i < this.selected_dependent_assessment_data.length; ++i) {
     if (this.selected_dependent_assessment_data[i].rowindex === this.currentrowindex) {      
-        this.selected_dependent_assessment_data[i].OPTM_Options = value;
+        this.selected_dependent_assessment_data[i].OPTM_Dep_Options = value;
      // this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
     }
   }

@@ -251,14 +251,14 @@
                             </div>
                           </ng-template>
                         </kendo-grid-column>
-                        <kendo-grid-column field="OPTM_OptionsID" title="{{language.Id}}" filter="text" [width]="30" [minResizableWidth]="30">
+                        <kendo-grid-column field="OPTM_DEP_AssessmentID" title="{{language.Id}}" filter="text" [width]="30" [minResizableWidth]="30">
                             <ng-template kendoGridCellTemplate let-dataItem>
-                              <input type="text" class="form-control  form-control-sm" id="OPTM_OptionsID" value={{dataItem.OPTM_OptionsID}} (change)="on_optionid_change_child(OPTM_OptionsID.value,dataItem.rowindex)" #OPTM_OptionsID title={{dataItem.OPTM_OptionsID}} />
+                              <input type="text" class="form-control  form-control-sm" id="OPTM_DEP_AssessmentID" value={{dataItem.OPTM_DEP_AssessmentID}} (change)="on_optionid_change_child(OPTM_DEP_AssessmentID.value,dataItem.rowindex)" #OPTM_DEP_AssessmentID title={{dataItem.OPTM_DEP_AssessmentID}} />
                             </ng-template>
                           </kendo-grid-column>
-                          <kendo-grid-column field="OPTM_Options" title="{{language.option}}" filter="text" [width]="110" [minResizableWidth]="110">
+                          <kendo-grid-column field="OPTM_Dep_Options" title="{{language.option}}" filter="text" [width]="110" [minResizableWidth]="110">
                             <ng-template kendoGridCellTemplate let-dataItem>
-                              <input type="text" class="form-control  form-control-sm" id="OPTM_Options" value={{dataItem.OPTM_Options}} (change)="on_option_change_child(OPTM_Options.value,dataItem.rowindex)" #OPTM_Options title={{dataItem.OPTM_Options}} />
+                              <input type="text" class="form-control  form-control-sm" id="OPTM_Dep_Options" value={{dataItem.OPTM_Dep_Options}} (change)="on_option_change_child(OPTM_Dep_Options.value,dataItem.rowindex)" #OPTM_Dep_Options title={{dataItem.OPTM_Dep_Options}} />
                             </ng-template>
                           </kendo-grid-column>
                           <kendo-grid-column field="OPTM_DEP_AssessmentID" title="{{language.assessment_id}}" filter="text" [width]="110" [minResizableWidth]="110">
