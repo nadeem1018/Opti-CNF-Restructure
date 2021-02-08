@@ -2093,16 +2093,16 @@ onExplodeClick(type) {
 
   onSave_assessment_data(){
     let final_dataset_to_save: any = {};
-    final_dataset_to_save.OPCONFIG_NeedsAssessment = [];
-    final_dataset_to_save.OPCONFIG_Options = [];
-    final_dataset_to_save.OPCONFIG_DependentAssessment = [];
+    final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT = [];
+    final_dataset_to_save.OPCONFIG_OPTIONS = [];
+    final_dataset_to_save.OPCONFIG_DEPENDENT_ASSESSMENT = [];
    
-    final_dataset_to_save.OPCONFIG_NeedsAssessment.push({
+    final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT.push({
       "OPTM_AssessmentID": this.needsassessment_mas.assessment_id,
       "OPTM_Question":this.needsassessment_mas.question,
       "OPTM_ID": 0    
     });
-    final_dataset_to_save.OPCONFIG_Options = this.assessment_data;  
+    final_dataset_to_save.OPCONFIG_OPTIONS = this.assessment_data;  
     
     if(this.selected_dependent_assessment_data.length > 0){
       var selectlineno = this.parentlineno;
@@ -2111,7 +2111,7 @@ onExplodeClick(type) {
       });
       this.dependent_assessment_data.push.apply(this.dependent_assessment_data, this.selected_dependent_assessment_data);
     }
-    final_dataset_to_save.OPCONFIG_DependentAssessment = this.dependent_assessment_data;
+    final_dataset_to_save.OPCONFIG_DEPENDENT_ASSESSMENT = this.dependent_assessment_data;
     this.showLookupLoader = true;
     this.AssessmentService.AddUpdateNeedAssessmentData(final_dataset_to_save).subscribe(
       data => {
