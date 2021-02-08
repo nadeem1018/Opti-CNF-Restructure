@@ -68,6 +68,11 @@ const routes: Routes = [
     data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
   },
   {
+    path: 'need-assessment',
+    loadChildren: () => import('./features/need-assessment/need-assessment.module').then(m => m.NeedAssessmentModule),    
+    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
+  },
+  {
     path: 'assessment-template',
     loadChildren: () => import('./features/rule-work-bench/rule-work-bench.module').then(m => m.RuleWorkBenchModule),    
     data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }

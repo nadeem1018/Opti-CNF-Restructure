@@ -627,6 +627,10 @@
     "atleast_one_row_required":"Atleast one row is required.",
     "attribute_code_blank":"Attribute code cannot be blank",
     "attribute_name_blank":"Attribute name cannot be blank",
-    "SelectAttribute": "Select Attribute code at row index: "
+    "SelectAttribute": "Select Attribute code at row index: ",
+    "need_assessment": "Need Assessment",
+    "assessment_id": "Assessment Id",    
+    "question": "Question",
+    "AssessmentIdBlank": "Assessment Id cannot be blank" 
 
 }
