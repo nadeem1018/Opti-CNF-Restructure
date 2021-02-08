@@ -2093,13 +2093,14 @@ onExplodeClick(type) {
 
   onSave_assessment_data(){
     let final_dataset_to_save: any = {};
-    final_dataset_to_save.OPCONFIG_NeedsAssessment_MAS = [];
+    final_dataset_to_save.OPCONFIG_NeedsAssessment = [];
     final_dataset_to_save.OPCONFIG_Options = [];
     final_dataset_to_save.OPCONFIG_DependentAssessment = [];
    
-    final_dataset_to_save.OPCONFIG_NeedsAssessment_MAS.push({
+    final_dataset_to_save.OPCONFIG_NeedsAssessment.push({
       "OPTM_AssessmentID": this.needsassessment_mas.assessment_id,
-      "OPTM_Question":this.needsassessment_mas.question     
+      "OPTM_Question":this.needsassessment_mas.question,
+      "OPTM_ID": 0    
     });
     final_dataset_to_save.OPCONFIG_Options = this.assessment_data;  
     

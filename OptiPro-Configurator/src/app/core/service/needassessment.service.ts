@@ -28,7 +28,8 @@ export class NeedassessmentService {
     AddUpdateNeedAssessmentData(final_dataset_to_save): Observable<any> {
       let cache_control = this.common_params.random_string(40);
       var jObject = { GetData: JSON.stringify(final_dataset_to_save) };
-  
+      final_dataset_to_save.OPCONFIG_NeedsAssessment[0]['GUID'] = sessionStorage.getItem("GUID");
+      final_dataset_to_save.OPCONFIG_NeedsAssessment[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser")
       //Return the response form the API  
       return this.httpclient.post(this.config_params.service_url + "/NeedsAssessment/AddUpdateNeedsAssessment?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
     }
