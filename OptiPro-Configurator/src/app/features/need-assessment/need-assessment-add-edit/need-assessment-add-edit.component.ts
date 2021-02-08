@@ -2111,6 +2111,7 @@ onExplodeClick(type) {
       this.dependent_assessment_data.push.apply(this.dependent_assessment_data, this.selected_dependent_assessment_data);
     }
     final_dataset_to_save.OPCONFIG_DependentAssessment = this.dependent_assessment_data;
+    this.showLookupLoader = true;
     this.AssessmentService.AddUpdateNeedAssessmentData(final_dataset_to_save).subscribe(
       data => {
         this.showLookupLoader = false;
