@@ -261,9 +261,9 @@
                               <input type="text" class="form-control  form-control-sm" id="OPTM_Dep_Options" value={{dataItem.OPTM_Dep_Options}} (change)="on_option_change_child(OPTM_Dep_Options.value,dataItem.rowindex)" #OPTM_Dep_Options title={{dataItem.OPTM_Dep_Options}} />
                             </ng-template>
                           </kendo-grid-column>
-                          <kendo-grid-column field="OPTM_DEP_AssessmentID" title="{{language.assessment_id}}" filter="text" [width]="110" [minResizableWidth]="110">
+                          <kendo-grid-column field="OPTM_AssessmentID" title="{{language.assessment_id}}" filter="text" [width]="110" [minResizableWidth]="110">
                             <ng-template kendoGridCellTemplate let-dataItem>
-                              <input type="text" [disabled] = true class="form-control  form-control-sm" id="OPTM_DEP_AssessmentID" value={{dataItem.OPTM_DEP_AssessmentID}} (change)="on_display_name_change(display_name.value,dataItem.rowindex)" #OPTM_DEP_AssessmentID title={{dataItem.OPTM_DEP_AssessmentID}} />
+                              <input type="text" [disabled] = true class="form-control  form-control-sm" id="OPTM_AssessmentID" value={{dataItem.OPTM_AssessmentID}} (change)="on_display_name_change(display_name.value,dataItem.rowindex)" #OPTM_AssessmentID title={{dataItem.OPTM_AssessmentID}} />
                             </ng-template>
                           </kendo-grid-column>
                           <kendo-grid-column field="OPTM_Dep_Question" title="{{language.question}}" filter="text" [width]="110" [minResizableWidth]="110">

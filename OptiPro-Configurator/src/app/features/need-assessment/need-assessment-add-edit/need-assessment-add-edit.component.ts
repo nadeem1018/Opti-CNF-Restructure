@@ -523,6 +523,7 @@ onAddRowChild() {
     OPTM_AssessmentID:  this.needsassessment_mas.assessment_id,
     OPTM_DEP_AssessmentID: '',
     OPTM_Dep_Options:'',
+    OPTM_Dep_Question: this.needsassessment_mas.question, 
     OPTM_PARENTLINENO: this.parentlineno,
     OPTM_LINENO: this.counter2   
   });
