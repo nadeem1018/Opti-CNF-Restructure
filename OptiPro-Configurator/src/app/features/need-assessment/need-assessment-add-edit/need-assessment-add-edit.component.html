@@ -30,7 +30,7 @@
                         <div class="form-group row clearfix">
                           <label class="col-sm-3 col-form-label" for="featureDisplay">{{language.assessment_id}}</label>
                           <div class="col-sm-5">
-                            <input type="text" name="assessment_id" class="form-control  form-control-sm" id="assessmentid" placeholder="{{language.assessment_id}}"  [(ngModel)]="needsassessment_mas.assessment_id" #assignmentidinputbox title="{{needsassessment_mas.assessment_id}}">
+                            <input type="text" [disabled] = "needsassessment_mas.disableid" name="assessment_id" class="form-control  form-control-sm" id="assessmentid" placeholder="{{language.assessment_id}}"  [(ngModel)]="needsassessment_mas.assessment_id" #assignmentidinputbox title="{{needsassessment_mas.assessment_id}}">
                           </div>
                           
                         </div>
@@ -300,7 +300,7 @@
                 <button type="button" (click)="onSave_assessment_data()" *ngIf="isSaveButtonVisible" class="btn btn-sm btn-success with-icon mr-2">
                   <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.save}}
                 </button>
-                <button type="button" *ngIf="isUpdateButtonVisible" (click)="onSave()" class="btn btn-sm btn-success with-icon mr-2">
+                <button type="button" *ngIf="isUpdateButtonVisible" (click)="onSave_assessment_data()" class="btn btn-sm btn-success with-icon mr-2">
                   <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.update}}
                 </button>
                 <button type="button" (click)="onExplodeClick('manual')" *ngIf="isExplodeButtonVisible" class="btn btn-sm btn-info with-icon mr-2" [hidden]="true" >

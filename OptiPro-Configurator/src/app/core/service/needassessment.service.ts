@@ -49,7 +49,7 @@ export class NeedassessmentService {
 
 		//JSON Obeject Prepared to be send as a param to API
 		this.logged_in_company = sessionStorage.selectedComp;
-		let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company,ModelId:id,
+		let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company,OPTM_ASSESSMENTID:id,
 		  GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
 		//Return the response form the API  
 		return this.httpclient.post(this.config_params.service_url + "/NeedsAssessment/GetDataByAssesmentID", jObject, this.common_params.httpOptions);

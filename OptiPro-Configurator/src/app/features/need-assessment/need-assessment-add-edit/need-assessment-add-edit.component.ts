@@ -197,6 +197,7 @@ public expandedKeysvalue: any[] = [];
     this.update_id = this.ActivatedRouter.snapshot.paramMap.get('id');
     this.needsassessment_mas.assessment_id = '';
     this.needsassessment_mas.question = '';
+    this.needsassessment_mas.disableid = false;
 
     if (this.image_data.length > 0) {
       this.showImageBlock = true;
@@ -278,25 +279,26 @@ public expandedKeysvalue: any[] = [];
             return;
           } 
         }
-        
-
-        if (data.ModelDetail.length > 0) {
-          for (let i = 0; i < data.ModelDetail.length; ++i) {
-           
+        if (data.NeedsAssessment.length > 0) {
+          this.needsassessment_mas.assessment_id = data.NeedsAssessment[0].OPTM_ASSESSMENTID
+          this.needsassessment_mas.question = data.NeedsAssessment[0].OPTM_QUESTIONS
+          this.needsassessment_mas.disableid = true;
+        }
+        if (data.Options.length > 0) {
+          for (let i = 0; i < data.Options.length; ++i) {          
 
               this.counter++;
               this.assessment_data.push({
-                rowindex: this.counter1,
-                OPTM_LINENO: this.counter1,
-                OPTM_AssessmentID:  this.needsassessment_mas.assessment_id,
-                OPTM_OptionsID: '',
-                OPTM_Options: ''
-               
+                rowindex: this.counter,
+                OPTM_LINENO: data.Options[i].OPTM_LINENO,
+                OPTM_AssessmentID:  data.Options[i].OPTM_ASSESSMENTID,
+                OPTM_OptionsID: data.Options[i].OPTM_OPTIONSID,
+                OPTM_Options: data.Options[i].OPTM_OPTIONS,
+                OPTM_ID: data.Options[i].OPTM_ID
                  });
 
             }
-          }
-          
+          }       
 
          
           this.showLoader = false;
@@ -545,8 +547,8 @@ onAddRowParent() {
     OPTM_LINENO: this.counter1,
     OPTM_AssessmentID:  this.needsassessment_mas.assessment_id,
     OPTM_OptionsID: '',
-    OPTM_Options: ''
-   
+    OPTM_Options: '',
+    OPTM_ID: 0
      });
   CommonData.made_changes = true;
 };
