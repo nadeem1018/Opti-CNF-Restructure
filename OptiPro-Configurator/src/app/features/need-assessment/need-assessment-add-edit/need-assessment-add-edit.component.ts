@@ -197,6 +197,7 @@ public expandedKeysvalue: any[] = [];
     this.update_id = this.ActivatedRouter.snapshot.paramMap.get('id');
     this.needsassessment_mas.assessment_id = '';
     this.needsassessment_mas.question = '';
+    this.needsassessment_mas.id = 0;
     this.needsassessment_mas.disableid = false;
 
     if (this.image_data.length > 0) {
@@ -282,6 +283,7 @@ public expandedKeysvalue: any[] = [];
         if (data.NeedsAssessment.length > 0) {
           this.needsassessment_mas.assessment_id = data.NeedsAssessment[0].OPTM_ASSESSMENTID
           this.needsassessment_mas.question = data.NeedsAssessment[0].OPTM_QUESTIONS
+          this.needsassessment_mas.id = data.NeedsAssessment[0].OPTM_ID
           this.needsassessment_mas.disableid = true;
         }
         if (data.Options.length > 0) {
@@ -2148,7 +2150,7 @@ onExplodeClick(type) {
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT.push({
       "OPTM_AssessmentID": this.needsassessment_mas.assessment_id,
       "OPTM_Question":this.needsassessment_mas.question,
-      "OPTM_ID": 0    
+      "OPTM_ID": this.needsassessment_mas.id    
     });
     for (let i = 0; i < this.assessment_data.length; ++i) {
       let currentrow = i + 1;
