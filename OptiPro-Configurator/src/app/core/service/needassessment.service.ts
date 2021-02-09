@@ -34,5 +34,24 @@ export class NeedassessmentService {
      
       //Return the response form the API  
       return this.httpclient.post(this.config_params.service_url + "/NeedsAssessment/AddUpdateNeedsAssessment?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
-    }
+	}
+	
+	getAllViewDataForNeedsAssessment(search:string,PageNumber:any,record_per_page:any): Observable<any> {
+
+		//JSON Obeject Prepared to be send as a param to API
+		this.logged_in_company = sessionStorage.selectedComp;
+		let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company, SearchString:search,PageNumber:PageNumber, PageLimit:record_per_page,
+		  GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) };
+		//Return the response form the API  
+		return this.httpclient.post(this.config_params.service_url + "/NeedsAssessment/GetDataForNeedsAssessment", jObject, this.common_params.httpOptions);
+	}
+	GetDataByAssesmentID(id): Observable<any> {
+
+		//JSON Obeject Prepared to be send as a param to API
+		this.logged_in_company = sessionStorage.selectedComp;
+		let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company,ModelId:id,
+		  GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
+		//Return the response form the API  
+		return this.httpclient.post(this.config_params.service_url + "/NeedsAssessment/GetDataByAssesmentID", jObject, this.common_params.httpOptions);
+	  }
 }

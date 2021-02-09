@@ -5,6 +5,7 @@ import { CommonData, ColumnSetting } from 'src/app/core/data/CommonData';
 import { orderBy, SortDescriptor } from '@progress/kendo-data-query';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { ModelbomService } from 'src/app/core/service/modelbom.service';
+import { NeedassessmentService } from 'src/app/core/service/needassessment.service';
 
 
 @Component({
@@ -56,7 +57,7 @@ export class NeedAssessmentViewComponent implements OnInit {
   table_title = this.page_main_title;
   table_head_foot = [this.language.select, this.language.hash, this.language.ModelId, this.language.model_ModelCode, this.language.Name, this.language.description, this.language.action];
   public table_hidden_elements = [false, true, true, false, false, false, false];
-  constructor(private router: Router, private service: ModelbomService, private commonservice: CommonService) { }
+  constructor(private router: Router, private service: ModelbomService, private AssessmentService: NeedassessmentService, private commonservice: CommonService) { }
 
   isMobile: boolean = false;
   isIpad: boolean = false;
@@ -69,7 +70,7 @@ export class NeedAssessmentViewComponent implements OnInit {
 
   public columns: ColumnSetting[] = [
     {
-      field: 'OPTM_FEATURECODE',
+      field: 'OPTM_ASSESSMENTID',
       //field: 'OPTM_ASSESSMENTID',
       title: this.language.assessment_id,
       type: 'text',
@@ -77,7 +78,7 @@ export class NeedAssessmentViewComponent implements OnInit {
       attrType: 'link'
     },
     {
-      field: 'OPTM_DISPLAYNAME',
+      field: 'OPTM_QUESTIONS',
      // field: 'OPTM_QUESTION',
       title: this.language.question,
       type: 'text',
@@ -190,7 +191,7 @@ export class NeedAssessmentViewComponent implements OnInit {
       this.record_per_page = this.commonData.default_count;
       sessionStorage.setItem('defaultRecords', this.record_per_page);
     }
-    var dataset = this.service.getAllViewDataForModelBom(search, page_number, this.record_per_page).subscribe(
+    var dataset = this.AssessmentService.getAllViewDataForNeedsAssessment(search, page_number, this.record_per_page).subscribe(
       data => {
 
         console.log(data);
@@ -240,7 +241,7 @@ export class NeedAssessmentViewComponent implements OnInit {
 
   button_click1(data) {
 
-    this.router.navigateByUrl('need-assessment/edit/' + data.OPTM_MODELID);
+    this.router.navigateByUrl('need-assessment/edit/' + data.OPTM_ASSESSMENTID);
   }
   button_click2(data) {
     this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.DeleteConfimation });

@@ -261,8 +261,54 @@ public expandedKeysvalue: any[] = [];
         this.isDeleteButtonVisible = false; 
         this.isDuplicateMode = false;
       }
-      this.get_modelbom_details(this.update_id, false);
+      this.get_need_assessment_details(this.update_id, false);
     }
+  }
+
+  get_need_assessment_details(id, navigat_to_header){
+    this.showLoader = true;
+
+    this.AssessmentService.GetDataByAssesmentID(id).subscribe(
+      data => {
+        if(data != undefined && data.LICDATA != undefined){
+          if (data.LICDATA[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.route, 'Sessionout');
+            return;
+          } 
+        }
+        
+
+        if (data.ModelDetail.length > 0) {
+          for (let i = 0; i < data.ModelDetail.length; ++i) {
+           
+
+              this.counter++;
+              this.assessment_data.push({
+                rowindex: this.counter1,
+                OPTM_LINENO: this.counter1,
+                OPTM_AssessmentID:  this.needsassessment_mas.assessment_id,
+                OPTM_OptionsID: '',
+                OPTM_Options: ''
+               
+                 });
+
+            }
+          }
+          
+
+         
+          this.showLoader = false;
+          
+        },error => {
+          this.showLoader = false;
+          if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
+            this.CommonService.isUnauthorized();
+          }
+          return;
+        }
+        )
   }
 
   get_modelbom_details(id, navigat_to_header) {
@@ -2095,23 +2141,36 @@ onExplodeClick(type) {
     let final_dataset_to_save: any = {};
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT = [];
     final_dataset_to_save.OPCONFIG_OPTIONS = [];
-    final_dataset_to_save.OPCONFIG_DEPENDENT_ASSESSMENT = [];
+    //final_dataset_to_save.OPCONFIG_DEPENDENT_ASSESSMENT = [];
    
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT.push({
       "OPTM_AssessmentID": this.needsassessment_mas.assessment_id,
       "OPTM_Question":this.needsassessment_mas.question,
       "OPTM_ID": 0    
     });
+    for (let i = 0; i < this.assessment_data.length; ++i) {
+      let currentrow = i + 1;
+      if (this.assessment_data[i].OPTM_OptionsID == "" || this.assessment_data[i].OPTM_OptionsID == " ") {     
+        this.CommonService.show_notification(this.language.OptionIdRequired + currentrow, 'error');
+        this.showLookupLoader = false;
+        return;
+      }
+      if (this.assessment_data[i].OPTM_Options == "" || this.assessment_data[i].OPTM_Options == " ") {     
+        this.CommonService.show_notification(this.language.OptionRequired + currentrow, 'error');
+        this.showLookupLoader = false;
+        return;
+      }
+    }
     final_dataset_to_save.OPCONFIG_OPTIONS = this.assessment_data;  
     
-    if(this.selected_dependent_assessment_data.length > 0){
-      var selectlineno = this.parentlineno;
-      this.dependent_assessment_data = this.dependent_assessment_data.filter(function (obj) {
-        return obj['OPTM_PARENTLINENO'] != selectlineno;
-      });
-      this.dependent_assessment_data.push.apply(this.dependent_assessment_data, this.selected_dependent_assessment_data);
-    }
-    final_dataset_to_save.OPCONFIG_DEPENDENT_ASSESSMENT = this.dependent_assessment_data;
+    // if(this.selected_dependent_assessment_data.length > 0){
+    //   var selectlineno = this.parentlineno;
+    //   this.dependent_assessment_data = this.dependent_assessment_data.filter(function (obj) {
+    //     return obj['OPTM_PARENTLINENO'] != selectlineno;
+    //   });
+    //   this.dependent_assessment_data.push.apply(this.dependent_assessment_data, this.selected_dependent_assessment_data);
+    // }
+    // final_dataset_to_save.OPCONFIG_DEPENDENT_ASSESSMENT = this.dependent_assessment_data;
     this.showLookupLoader = true;
     this.AssessmentService.AddUpdateNeedAssessmentData(final_dataset_to_save).subscribe(
       data => {
@@ -2124,7 +2183,7 @@ onExplodeClick(type) {
         }
 
         if (data == "True") {
-          
+          CommonData.made_changes = false;
           this.CommonService.show_notification(this.language.DataSaved, 'success');
           this.route.navigateByUrl('need-assessment/view');
           return;
