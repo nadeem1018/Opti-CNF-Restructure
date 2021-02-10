@@ -73,10 +73,11 @@ const routes: Routes = [
     data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
   },
   {
-    path: 'assessment-template',
-    loadChildren: () => import('./features/rule-work-bench/rule-work-bench.module').then(m => m.RuleWorkBenchModule),    
+    path: 'need-assessment-template',
+    loadChildren: () => import('./features/need-assessment-template/need-assessment-template.module').then(m => m.NeedAssessmentTemplateModule),    
     data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
-  },
+  }
+ 
 ];
 
 const config: ExtraOptions = {
