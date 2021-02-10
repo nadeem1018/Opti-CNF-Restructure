@@ -636,6 +636,8 @@
     "OptionRequired":"Enter optione at row index: ",
     "ID":"ID",
     "need_assessment_template": "Need Assessment Template",
-    "template_id":"Template ID"
+    "template_id":"Template ID",
+    "TemplateIdBlank": "Template Id cannot be blank",
+    "AssessmentidRequired":"Enter assessment id at row index: "
 
 }

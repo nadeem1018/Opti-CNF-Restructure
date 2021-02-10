@@ -30,21 +30,21 @@
                         <div class="form-group row clearfix">
                           <label class="col-sm-3 col-form-label" for="featureDisplay">{{language.template_id}}</label>
                           <div class="col-sm-5">
-                            <input type="text" name="feature_name" class="form-control  form-control-sm" id="featuredisplayname" placeholder="{{language.template_id}}" #Templateinputbox [(ngModel)]="modelbom_data.feature_name" title="{{modelbom_data.feature_name}}">
+                            <input type="text" [disabled] = "needsassessment_template.disableid" name="feature_name" class="form-control  form-control-sm" id="templateId" placeholder="{{language.template_id}}" #Templateinputbox [(ngModel)]="needsassessment_template.templateid" title="{{needsassessment_template.templateid}}">
                           </div>                          
                         </div>
                         <div class="form-group row clearfix">
-                          <label class="col-sm-3 col-form-label" for="featureDesc">{{language.description}}</label>
+                          <label class="col-sm-3 col-form-label" for="assessmentDesc">{{language.description}}</label>
                           <div class="col-sm-5">
-                            <input type="text" name="feature_desc" class="form-control  form-control-sm" id="featureDesc" placeholder="{{language.description}}"  [(ngModel)]="modelbom_data.feature_desc" title="{{modelbom_data.feature_desc}}">
+                            <input type="text" name="feature_desc" class="form-control  form-control-sm" id="assessmentDesc" placeholder="{{language.description}}"  [(ngModel)]="needsassessment_template.description" title="{{needsassessment_template.description}}">
                           </div>
                         </div>  
                         <div class="form-group row clearfix mb-2">
                           <label class="col-sm-3 col-form-label" for="featureDisplay">{{language.Model_Active}}</label>
                           <div class="col-sm-5 mt-3px">
                             <label class="custom-checkbox mb-0 wihtout-label">
-                              <input type="checkbox" id="yes" name="discontinued" [(ngModel)]="modelbom_data.is_ready_to_use"
-                                class="custom-control-input" value="1" title="{{modelbom_data.is_ready_to_use}}" tabindex="5">
+                              <input type="checkbox" id="yes" name="discontinued" [(ngModel)]="needsassessment_template.active"
+                                class="custom-control-input" value="1" title="{{needsassessment_template.active}}" tabindex="5">
                                 <span class="checkbox"></span>
                               </label>
                           </div>
@@ -66,7 +66,7 @@
 
                     <!-- Add Row Grid -->             
                     <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
-                      <kendo-grid [kendoGridBinding]="modelbom_data" [reorderable]="true" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"  [kendoGridSelectBy]="'rowindex'"  [ngStyle]="{'height':'100%', 'max-width':'100%'}" [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
+                      <kendo-grid [kendoGridBinding]="needsassessment_template_detail" [reorderable]="true" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"  [kendoGridSelectBy]="'rowindex'"  [ngStyle]="{'height':'100%', 'max-width':'100%'}" [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
                         <ng-template kendoGridToolbarTemplate>
                           <div class="d-flex align-items-center">
                               <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" title="{{language.add_row}}" (click)="onAddRow()" #button class="btn btn-sm btn-primary with-icon mr-2"><svg viewBox="0 0 8500 8500" class="icon"><use xlink:href="#add"></use></svg> {{language.add_row}}
@@ -92,13 +92,13 @@
                           </ng-template>
                         </kendo-grid-column>
                        
-                        <kendo-grid-column field="assessment_id" title="{{language.assessment_id}}" headerClass = "required" filter="text" [width]="80" [minResizableWidth]="80">
+                        <kendo-grid-column field="OPTM_ASSESSMENTID" title="{{language.assessment_id}}" headerClass = "required" filter="text" [width]="80" [minResizableWidth]="80">
                             <ng-template kendoGridCellTemplate let-dataItem>
                               <div class="input-group">
                                 <input [disabled]="dataItem.isTypeDisabled" type="hidden" class="form-control  form-control-sm row_type_value_id" id="type_value" (change)="on_typevalue_change(type_value.value,dataItem.rowindex, type_value_code.value, type_value_code)"
                                 value={{dataItem.type_value}} #type_value title={{dataItem.type_value}} />
-                                <input [disabled]="dataItem.isTypeDisabled" type="text" class="form-control  form-control-sm row_type_value_code" id="type_value_code" (change)="on_typevalue_change(type_value.value,dataItem.rowindex, type_value_code.value, type_value_code)"
-                                value={{dataItem.type_value_code}} #type_value_code title={{dataItem.type_value_code}} />
+                                <input [disabled]="dataItem.isTypeDisabled" type="text" class="form-control  form-control-sm row_type_value_code" id="OPTM_ASSESSMENTID" (change)="on_typevalue_change(OPTM_ASSESSMENTID.value,dataItem.rowindex, type_value_code.value, type_value_code)"
+                                value={{dataItem.OPTM_ASSESSMENTID}} #OPTM_ASSESSMENTID title={{dataItem.OPTM_ASSESSMENTID}} />
                                 <div class="input-group-append" [hidden]=dataItem.hide>
                                   <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="openAssessmentLookUp(dataItem, dataItem.rowindex)">
                                       <svg class="icon m-0" viewBox="0 -96 512 512"><use xlink:href="#menu"></use></svg>
@@ -107,15 +107,15 @@
                               </div>
                             </ng-template>
                           </kendo-grid-column>
-                        <kendo-grid-column field="question" title="{{language.question}}" filter="text" [width]="230" [minResizableWidth]="230">
+                        <kendo-grid-column field="OPTM_QUESTIONS" title="{{language.question}}" filter="text" [width]="230" [minResizableWidth]="230">
                           <ng-template kendoGridCellTemplate let-dataItem>
-                              <input [disabled]="dataItem.isBomDescriptionDisabled" type="text" class="form-control  form-control-sm" id="bom_description" (change)="on_description_change(bom_description.value,dataItem.rowindex)" value={{dataItem.bom_description}} #bom_description title="{{dataItem.bom_description}}" />
+                              <input [disabled]="dataItem.isQuestionsDisable" type="text" class="form-control  form-control-sm" id="OPTM_QUESTIONS" (change)="on_description_change(bom_description.value,dataItem.rowindex)" value={{dataItem.OPTM_QUESTIONS}} #OPTM_QUESTIONS title="{{dataItem.OPTM_QUESTIONS}}" />
                           </ng-template>
                       </kendo-grid-column>
-                      <kendo-grid-column field="mandatory" headerClass="text-center" title="{{language.mandatory}}" [width]="40" [minResizableWidth]="40">
+                      <kendo-grid-column field="OPTM_MANDATORY" headerClass="text-center" title="{{language.mandatory}}" [width]="40" [minResizableWidth]="40">
                         <ng-template kendoGridCellTemplate let-dataItem>
                           <label class="custom-checkbox mb-0 wihtout-label mx-auto curser-pointer">
-                            <input type="checkbox" id="mandatory_{{dataItem.rowindex}}" [disabled]="dataItem.isAccessory || dataItem.mandatory_item_disabled" value={{dataItem.mandatory}} (change)="on_mandatory_change(mandatory,dataItem.rowindex)" #mandatory [(checked)]="dataItem.mandatory" title="{{dataItem.mandatory}}">
+                            <input type="checkbox" id="mandatory_{{dataItem.rowindex}}" [disabled]="dataItem.isAccessory || dataItem.mandatory_item_disabled" value={{dataItem.OPTM_MANDATORY}} (change)="on_mandatory_change(OPTM_MANDATORY,dataItem.rowindex)" #OPTM_MANDATORY [(checked)]="dataItem.OPTM_MANDATORY" title="{{dataItem.OPTM_MANDATORY}}">
                             <span class="checkbox"></span>
                           </label>  
                         </ng-template>
@@ -317,10 +317,10 @@
             </div>
             <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
               <div class="mr-auto d-flex align-items-center flex-wrap">
-                <button type="button" (click)="onSave()" *ngIf="isSaveButtonVisible" class="btn btn-sm btn-success with-icon mr-2">
+                <button type="button" (click)="onSave_assessment_data()" *ngIf="isSaveButtonVisible" class="btn btn-sm btn-success with-icon mr-2">
                   <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.save}}
                 </button>
-                <button type="button" *ngIf="isUpdateButtonVisible" (click)="onSave()" class="btn btn-sm btn-success with-icon mr-2">
+                <button type="button" *ngIf="isUpdateButtonVisible" (click)="onSave_assessment_data()" class="btn btn-sm btn-success with-icon mr-2">
                   <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.update}}
                 </button>
                 <button type="button" (click)="onExplodeClick('manual')" *ngIf="isExplodeButtonVisible" class="btn btn-sm btn-info with-icon mr-2">

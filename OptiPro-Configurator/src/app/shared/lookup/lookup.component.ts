@@ -623,7 +623,7 @@ export class LookupComponent implements OnInit {
     this.table_head = [
     {
       field: 'OPTM_ASSESSMENTID',
-      title: this.language.assessmentid,
+      title: this.language.assessment_id,
       type: 'text',
       width: '100',
       attrType: 'text'

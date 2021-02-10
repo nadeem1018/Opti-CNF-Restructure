@@ -32,5 +32,16 @@ export class NeedsAssessmentTemplateService {
         GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
       //Return the response form the API  
       return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentTemplate/GetNeedsAssessmentList", jObject, this.common_params.httpOptions);
-      }
+	  }
+	  
+	  AddUpdateNeedAssessmentTemplateData(final_dataset_to_save): Observable<any> {
+		let cache_control = this.common_params.random_string(40);
+		final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATE[0]['GUID'] = sessionStorage.getItem("GUID");
+		final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATE[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
+		final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATE[0]['CompanyDBID'] = sessionStorage.selectedComp;      
+		var jObject = { GetData: JSON.stringify(final_dataset_to_save) };
+	   
+		//Return the response form the API  
+		return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentTemplate/AddUpdateNeedsAssessmentTemplate?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
+	  }
   }
