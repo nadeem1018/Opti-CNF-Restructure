@@ -5,6 +5,7 @@ import { CommonData, ColumnSetting } from 'src/app/core/data/CommonData';
 import { orderBy, SortDescriptor } from '@progress/kendo-data-query';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { ModelbomService } from 'src/app/core/service/modelbom.service';
+import { NeedsAssessmentTemplateService } from 'src/app/core/service/needs-assessment-template.service';
 
 @Component({
   selector: 'app-need-assessment-template-view',
@@ -55,7 +56,7 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
   table_title = this.page_main_title;
   table_head_foot = [this.language.select, this.language.hash, this.language.ModelId, this.language.model_ModelCode, this.language.Name, this.language.description, this.language.action];
   public table_hidden_elements = [false, true, true, false, false, false, false];
-  constructor(private router: Router, private service: ModelbomService, private commonservice: CommonService) { }
+  constructor(private router: Router, private service: ModelbomService,private assessmentService: NeedsAssessmentTemplateService, private commonservice: CommonService) { }
 
   isMobile: boolean = false;
   isIpad: boolean = false;
@@ -68,7 +69,7 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
 
   public columns: ColumnSetting[] = [
     {
-      field: 'OPTM_FEATURECODE',
+      field: 'OPTM_TEMPLATEID',
       //field: 'OPTM_ASSESSMENTID',
       title: this.language.template_id,
       type: 'text',
@@ -84,7 +85,7 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
     //   attrType: 'text'
     // },
     {
-      field: 'OPTM_FEATUREDESC',
+      field: 'OPTM_DESCRIPTION',
       title: this.language.description,
       type: 'text',
       width: '100',
@@ -189,7 +190,7 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
       this.record_per_page = this.commonData.default_count;
       sessionStorage.setItem('defaultRecords', this.record_per_page);
     }
-    var dataset = this.service.getAllViewDataForModelBom(search, page_number, this.record_per_page).subscribe(
+    var dataset = this.assessmentService.getAllViewDataForNeedsAssessmentTemplate(search, page_number, this.record_per_page).subscribe(
       data => {
 
         console.log(data);
@@ -239,7 +240,7 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
 
   button_click1(data) {
 
-    this.router.navigateByUrl('need-assessment-template/edit/' + data.OPTM_MODELID);
+    this.router.navigateByUrl('need-assessment-template/edit/' + data.OPTM_TEMPLATEID);
   }
   button_click2(data) {
     this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.DeleteConfimation });
@@ -248,7 +249,7 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
   }
 
   duplicate_record(data) {
-    this.router.navigateByUrl('need-assessment-template/add/' + data.OPTM_MODELID);
+    this.router.navigateByUrl('need-assessment-template/add/' + data.OPTM_TEMPLATEID);
   }
 
   show_association(data) {

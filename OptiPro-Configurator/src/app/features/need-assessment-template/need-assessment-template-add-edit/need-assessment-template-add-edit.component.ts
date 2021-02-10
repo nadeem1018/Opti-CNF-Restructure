@@ -227,8 +227,60 @@ public expandedKeysvalue: any[] = [];
         this.isDeleteButtonVisible = false; 
         this.isDuplicateMode = false;
       }
-      this.get_modelbom_details(this.update_id, false);
+      this.get_need_assessment_template_details(this.update_id, false);
     }
+  }
+
+  get_need_assessment_template_details(id, navigat_to_header){
+    this.showLoader = true;
+
+    this.assessmentService.GetDataByAssesmentTemplateID(id).subscribe(
+      data => {
+        if(data != undefined && data.LICDATA != undefined){
+          if (data.LICDATA[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.route, 'Sessionout');
+            return;
+          } 
+        }
+        if (data.NEEDASSESSMENTTEMPLATE.length > 0) {
+          this.needsassessment_template.templateid = data.NEEDASSESSMENTTEMPLATE[0].OPTM_ASSESSMENTID
+          this.needsassessment_template.description = data.NEEDASSESSMENTTEMPLATE[0].OPTM_QUESTIONS
+          this.needsassessment_template.active = data.NEEDASSESSMENTTEMPLATE[0].OPTM_QUESTIONS
+          this.needsassessment_template.id = data.NEEDASSESSMENTTEMPLATE[0].OPTM_ID
+          this.needsassessment_template.disableid = true;
+        }
+        if (data.Options.length > 0) {
+          for (let i = 0; i < data.NEEDASSESSMENTTEMPLATE.length; ++i) {          
+
+              this.counter++;
+              this.needsassessment_template_detail.push({
+                rowindex: this.counter,
+                OPTM_LINENO: this.counter,
+                OPTM_TEMPLATEID: '',
+                OPTM_MANDATORY: false,
+                OPTM_ASSESSMENTID: '',
+                OPTM_QUESTIONS: '',  
+                OPTM_ID: 0,    
+                isQuestionsDisable: false
+               
+              });
+
+            }
+          }       
+
+         
+          this.showLoader = false;
+          
+        },error => {
+          this.showLoader = false;
+          if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
+            this.CommonService.isUnauthorized();
+          }
+          return;
+        }
+        )
   }
 
   get_modelbom_details(id, navigat_to_header) {
@@ -956,19 +1008,17 @@ on_typevalue_change(value, rowindex) {
                 return;
               } 
             }
-            if (data === "False") {
+            if (data.length == 0) {
               
-              this.CommonService.show_notification(this.language.Invalid_feature_item_value, 'error');
-              this.modelbom_data[iIndex].type_value = "";
-              this.modelbom_data[iIndex].type_value_code = "";
-              this.modelbom_data[iIndex].display_name = "";
-              this.modelbom_data[iIndex].price_source = ""; 
-              this.modelbom_data[iIndex].price_source_id = ""; 
+              this.CommonService.show_notification(this.language.Invalid_assessment_id, 'error');
+              this.needsassessment_template_detail[i].OPTM_ASSESSMENTID  = '';
+              this.needsassessment_template_detail[i].OPTM_QUESTIONS  = '';
               return;
             }
             else {
               this.lookupfor = "";
-              this.modelbom_data[iIndex].type_value = data;
+              this.needsassessment_template_detail[i].OPTM_ASSESSMENTID  = data[0].OPTM_ASSESSMENTID;
+              this.needsassessment_template_detail[i].OPTM_QUESTIONS  = data[0].OPTM_QUESTIONS;
               // this.getItemDetails(this.modelbom_data[iIndex].type_value);
               this.getItemDetailsOnChange(this.modelbom_data[iIndex].type_value);
             }
@@ -1415,11 +1465,11 @@ delete_record() {
   let GetItemData = []
   GetItemData.push({
     CompanyDBId: this.companyName,
-    ModelId: this.modelbom_data.modal_id,
+    OPTM_TEMPLATEID: this.needsassessment_template.templateid,
     GUID: sessionStorage.getItem("GUID"),
     UsernameForLic: sessionStorage.getItem("loggedInUser")
   });
-  this.service.DeleteData(GetItemData).subscribe(
+  this.assessmentService.DeleteData(GetItemData).subscribe(
     data => {
       if(data != undefined && data.length > 0){
         if (data[0].ErrorMsg == "7001") {

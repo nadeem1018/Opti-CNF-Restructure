@@ -47,10 +47,34 @@ export class NeedsAssessmentTemplateService {
 	  CheckValidAssessmentIDForNeedsAssessmentTemplate(id): Observable<any> {
 		//JSON Obeject Prepared to be send as a param to API
 		this.logged_in_company = sessionStorage.selectedComp;
-		let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company,OPTM_ASSESSMENTID: id,
+		let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company,OPTM_ASSESSMENTID: id,OPTM_ID: 0, 
 		  GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
 		//Return the response form the API  
 		return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentTemplate/CheckValidAssessmentIDForNeedsAssessmentTemplate", jObject, this.common_params.httpOptions);
 		}
-	  
+
+		getAllViewDataForNeedsAssessmentTemplate(search:string,PageNumber:any,record_per_page:any): Observable<any> {
+			//JSON Obeject Prepared to be send as a param to API
+			this.logged_in_company = sessionStorage.selectedComp;
+			let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company, SearchString:search,PageNumber:PageNumber, PageLimit:record_per_page,
+			  GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) };
+			//Return the response form the API  
+			return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentTemplate/GetListOfNeedsAssessmentTemplate", jObject, this.common_params.httpOptions);
+		}
+		GetDataByAssesmentTemplateID(id): Observable<any> {
+			//JSON Obeject Prepared to be send as a param to API
+			this.logged_in_company = sessionStorage.selectedComp;
+			let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company,OPTM_ASSESSMENTID:id,
+			  GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
+			//Return the response form the API  
+			return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentTemplate/GetNeedsAssessmentTemplateDataByID", jObject, this.common_params.httpOptions);
+		  }
+	
+		  DeleteData(id): Observable<any> {
+			//JSON Obeject Prepared to be send as a param to API
+			let jObject = { GetData:  JSON.stringify(id)  };
+			//Return the response form the API  
+			return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentTemplate/DeleteNeedsAssessmentTemplateByTemplateID  ", jObject, this.common_params.httpOptions);
+		  }
+		
   }

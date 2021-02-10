@@ -54,4 +54,11 @@ export class NeedassessmentService {
 		//Return the response form the API  
 		return this.httpclient.post(this.config_params.service_url + "/NeedsAssessment/GetDataByAssesmentID", jObject, this.common_params.httpOptions);
 	  }
+
+	  DeleteData(id): Observable<any> {
+		//JSON Obeject Prepared to be send as a param to API
+		let jObject = { GetData:  JSON.stringify(id)  };
+		//Return the response form the API  
+		return this.httpclient.post(this.config_params.service_url + "/NeedsAssessment/DeleteNeedsAssessmentByAssesmentID", jObject, this.common_params.httpOptions);
+	  }
 }
