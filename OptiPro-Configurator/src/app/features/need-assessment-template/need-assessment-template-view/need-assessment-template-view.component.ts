@@ -240,7 +240,7 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
 
   button_click1(data) {
 
-    this.router.navigateByUrl('need-assessment-template/edit/' + data.OPTM_TEMPLATEID);
+    this.router.navigateByUrl('need-assessment-template/edit/' + data.OPTM_ID);
   }
   button_click2(data) {
     this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.DeleteConfimation });
@@ -249,7 +249,7 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
   }
 
   duplicate_record(data) {
-    this.router.navigateByUrl('need-assessment-template/add/' + data.OPTM_TEMPLATEID);
+    this.router.navigateByUrl('need-assessment-template/add/' + data.OPTM_ID);
   }
 
   show_association(data) {

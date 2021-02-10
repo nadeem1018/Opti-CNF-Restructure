@@ -1730,11 +1730,11 @@ delete_record() {
   let GetItemData = []
   GetItemData.push({
     CompanyDBId: this.companyName,
-    ModelId: this.modelbom_data.modal_id,
+    OPTM_AssessmentID: this.needsassessment_mas.assessment_id,
     GUID: sessionStorage.getItem("GUID"),
     UsernameForLic: sessionStorage.getItem("loggedInUser")
   });
-  this.service.DeleteData(GetItemData).subscribe(
+  this.AssessmentService.DeleteData(GetItemData).subscribe(
     data => {
       if(data != undefined && data.length > 0){
         if (data[0].ErrorMsg == "7001") {
@@ -1745,21 +1745,28 @@ delete_record() {
           return;
         } 
       }
-
-      if(data[0].IsDeleted == "0" && data[0].Message == "ReferenceExists"){
-        
-         this.CommonService.show_notification(this.language.Refrence + ' at: ' + data[0].ModelCode, 'error');
-      }
-      else if(data[0].IsDeleted == "1"){
-        
-         this.CommonService.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[0].ModelCode, 'success');
+       if(data == "True"){
+       this.CommonService.show_notification(this.language.DataDeleteSuccesfully, 'success');
         CommonData.made_changes = false;
         this.route.navigateByUrl('need-assessment/view');
-      }
-      else{
+       } else {
+        this.CommonService.show_notification(this.language.DataNotDelete, 'error');
+       }
+
+      // if(data[0].IsDeleted == "0" && data[0].Message == "ReferenceExists"){
         
-         this.CommonService.show_notification(this.language.DataNotDelete + ' : ' + data[0].ModelCode, 'error');
-      }
+      //    this.CommonService.show_notification(this.language.Refrence + ' at: ' + data[0].ModelCode, 'error');
+      // }
+      // else if(data[0].IsDeleted == "1"){
+        
+      //    this.CommonService.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[0].ModelCode, 'success');
+      //   CommonData.made_changes = false;
+      //   this.route.navigateByUrl('need-assessment/view');
+      // }
+      // else{
+        
+      //    this.CommonService.show_notification(this.language.DataNotDelete + ' : ' + data[0].ModelCode, 'error');
+      // }
 
     },error => {
       if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){

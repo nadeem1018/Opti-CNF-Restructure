@@ -244,27 +244,26 @@ public expandedKeysvalue: any[] = [];
             return;
           } 
         }
-        if (data.NEEDASSESSMENTTEMPLATE.length > 0) {
-          this.needsassessment_template.templateid = data.NEEDASSESSMENTTEMPLATE[0].OPTM_ASSESSMENTID
-          this.needsassessment_template.description = data.NEEDASSESSMENTTEMPLATE[0].OPTM_QUESTIONS
-          this.needsassessment_template.active = data.NEEDASSESSMENTTEMPLATE[0].OPTM_QUESTIONS
-          this.needsassessment_template.id = data.NEEDASSESSMENTTEMPLATE[0].OPTM_ID
+        if (data.NeedsAssessmentTemplate.length > 0) {
+          this.needsassessment_template.templateid = data.NeedsAssessmentTemplate[0].OPTM_TEMPLATEID
+          this.needsassessment_template.description = data.NeedsAssessmentTemplate[0].OPTM_DESCRIPTION
+          this.needsassessment_template.active = data.NeedsAssessmentTemplate[0].OPTM_ACTIVE
+          this.needsassessment_template.id = data.NeedsAssessmentTemplate[0].OPTM_ID
           this.needsassessment_template.disableid = true;
         }
-        if (data.Options.length > 0) {
-          for (let i = 0; i < data.NEEDASSESSMENTTEMPLATE.length; ++i) {          
+        if (data.NeedsAssessmentTemplateDTL.length > 0) {
+          for (let i = 0; i < data.NeedsAssessmentTemplateDTL.length; ++i) {          
 
               this.counter++;
               this.needsassessment_template_detail.push({
                 rowindex: this.counter,
-                OPTM_LINENO: this.counter,
-                OPTM_TEMPLATEID: '',
-                OPTM_MANDATORY: false,
-                OPTM_ASSESSMENTID: '',
-                OPTM_QUESTIONS: '',  
-                OPTM_ID: 0,    
-                isQuestionsDisable: false
-               
+                OPTM_LINENO: data.NeedsAssessmentTemplateDTL[i].OPTM_LINENO,
+                OPTM_TEMPLATEID: data.NeedsAssessmentTemplateDTL[i].OPTM_TEMPLATEID,
+                OPTM_MANDATORY: data.NeedsAssessmentTemplateDTL[i].OPTM_MANDATORY,
+                OPTM_ASSESSMENTID: data.NeedsAssessmentTemplateDTL[i].OPTM_ASSESSMENTID,
+                OPTM_QUESTIONS: data.NeedsAssessmentTemplateDTL[i].OPTM_QUESTIONS,  
+                OPTM_ID: data.NeedsAssessmentTemplateDTL[i].OPTM_ID,    
+                isQuestionsDisable: true               
               });
 
             }
@@ -1459,9 +1458,7 @@ onDelete() {
 }
 
 //delete record will be execute from here
-delete_record() {
-  console.log('this.modelbom_data.modal_id');
-  console.log(this.modelbom_data.modal_id);
+delete_record() {  
   let GetItemData = []
   GetItemData.push({
     CompanyDBId: this.companyName,
@@ -1480,21 +1477,28 @@ delete_record() {
           return;
         } 
       }
-
-      if(data[0].IsDeleted == "0" && data[0].Message == "ReferenceExists"){
-        
-         this.CommonService.show_notification(this.language.Refrence + ' at: ' + data[0].ModelCode, 'error');
-      }
-      else if(data[0].IsDeleted == "1"){
-        
-         this.CommonService.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[0].ModelCode, 'success');
+      if(data == "True"){
+        this.CommonService.show_notification(this.language.DataDeleteSuccesfully , 'success');
         CommonData.made_changes = false;
         this.route.navigateByUrl('need-assessment-template/view');
+      }else{
+        this.CommonService.show_notification(this.language.DataNotDelete, 'error');
       }
-      else{
+
+      // if(data[0].IsDeleted == "0" && data[0].Message == "ReferenceExists"){
         
-         this.CommonService.show_notification(this.language.DataNotDelete + ' : ' + data[0].ModelCode, 'error');
-      }
+      //    this.CommonService.show_notification(this.language.Refrence + ' at: ' + data[0].ModelCode, 'error');
+      // }
+      // else if(data[0].IsDeleted == "1"){
+        
+      //    this.CommonService.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[0].ModelCode, 'success');
+      //   CommonData.made_changes = false;
+      //   this.route.navigateByUrl('need-assessment-template/view');
+      // }
+      // else{
+        
+      //    this.CommonService.show_notification(this.language.DataNotDelete + ' : ' + data[0].ModelCode, 'error');
+      // }
 
     },error => {
       if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
