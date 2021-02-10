@@ -467,7 +467,8 @@ onAddRow() {
     OPTM_TEMPLATEID: this.needsassessment_template.templateid,
     OPTM_MANDATORY: false,
     OPTM_ASSESSMENTID: '',
-    OPTM_QUESTIONS: '',      
+    OPTM_QUESTIONS: '',  
+    OPTM_ID: 0,    
     isQuestionsDisable: false
    
   });
@@ -934,55 +935,17 @@ getItemDetails(ItemKey) {
 
 
 
-on_typevalue_change(value, rowindex, code, type_value_code) {
+on_typevalue_change(value, rowindex) {
   this.currentrowindex = rowindex
   var iIndex = this.currentrowindex - 1;
  
   CommonData.made_changes = true;
-  for (let i = 0; i < this.modelbom_data.length; ++i) {
-    if (this.modelbom_data[i].rowindex === this.currentrowindex) {
-      this.modelbom_data[i].type_value = value.toString()
-      this.modelbom_data[i].type_value_code = code.toString()
-      if (this.modelbom_data[i].type == 1) {
-        // this.service.GetNeedsAssessmentList(this.modelbom_data[i].type_value_code).subscribe(
-        //   data => {
-
-        //     if(data != undefined && data.length > 0){
-        //       if (data[0].ErrorMsg == "7001") {
-        //         CommonData.made_changes = false;
-        //         this.CommonService.RemoveLoggedInUser().subscribe();
-        //         this.CommonService.signOut(this.route, 'Sessionout');
-        //         return;
-        //       } 
-        //     }
-        //     if (data === "False") {
-              
-        //       this.CommonService.show_notification(this.language.InvalidFeatureId, 'error');
-        //       this.modelbom_data[iIndex].type_value = "";
-        //       this.modelbom_data[iIndex].type_value_code = "";
-        //       this.modelbom_data[iIndex].display_name = "";
-        //       this.modelbom_data[i].min_selected = 1;
-        //       this.modelbom_data[i].max_selected = 1;
-        //       this.modelbom_data[i].feature_min_selected = 1;
-        //       this.modelbom_data[i].feature_max_selected = 1;
-        //       this.modelbom_data[i].is_feature_multiselect = 'N';
-        //       this.modelbom_data[i].feature_default_count = 0;
-        //       return;
-        //     }
-        //     else {
-        //       this.lookupfor = ""
-        //       this.modelbom_data[iIndex].type_value = data;
-        //       this.getModelFeatureDetails(this.modelbom_data[iIndex].type_value, "Header", iIndex)
-        //     }
-        //   },error => {
-        //     if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
-        //       this.CommonService.isUnauthorized();
-        //     }
-        //     return;
-        //   })
-      }
-      else if (this.modelbom_data[i].type == 2) {
-        this.service.onItemIdChangeModelBom(this.modelbom_data[i].type_value_code).subscribe(
+  for (let i = 0; i < this.needsassessment_template_detail.length; ++i) {
+    if (this.needsassessment_template_detail[i].rowindex === this.currentrowindex) {
+      this.needsassessment_template_detail[i].OPTM_ASSESSMENTID = value;
+      
+       
+        this.assessmentService.CheckValidAssessmentIDForNeedsAssessmentTemplate(value).subscribe(
           data => {
             console.log(data);
             if(data != undefined && data.length > 0){
@@ -1015,11 +978,8 @@ on_typevalue_change(value, rowindex, code, type_value_code) {
             }
             return;
           })
-      }
-      else {
-        //First we will check the conflicts
-        this.checkModelAlreadyAddedinParent(value, code, i, "change");
-      }
+      
+     
     }
   }
 }
