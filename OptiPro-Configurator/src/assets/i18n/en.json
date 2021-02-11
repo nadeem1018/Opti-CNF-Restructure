@@ -241,6 +241,7 @@
     "selectoperand1": "Select operand 1 at row index: ",
     "selectoperand2": "Select operand 2 at row index: ",
     "config_wizard": "Configuration Wizard",
+    "config_need_assesment":"Configuration Need's Assessment",
     "configuration_id": "Configuration ID",
     "select_customer": "Select Customer and related document Details ",
     "select_customer_document": "Customer and Document Details ",

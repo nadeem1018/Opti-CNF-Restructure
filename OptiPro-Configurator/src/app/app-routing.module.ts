@@ -7,77 +7,84 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full'    
-  },  
+    pathMatch: 'full'
+  },
   {
     path: 'login',
-    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),    
-    data: { showHeader: false, showSidebar: false, showFooter:false, compactLayout:false }
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+    data: { showHeader: false, showSidebar: false, showFooter: false, compactLayout: false }
   },
-  { path: 'home',
+  {
+    path: 'home',
     component: HomeComponent,
-    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
-  }, 
-  { path: 'preferences',
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
+  },
+  {
+    path: 'preferences',
     component: PreferencesComponent,
-    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
-  },   
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
+  },
   {
     path: 'item-code-generation',
-    loadChildren: () => import('./features/item-code-generation/item-code-generation.module').then(m => m.ItemCodeGenerationModule),    
-    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
+    loadChildren: () => import('./features/item-code-generation/item-code-generation.module').then(m => m.ItemCodeGenerationModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
     path: 'feature',
-    loadChildren: () => import('./features/feature-model/feature-model.module').then(m => m.FeatureModelModule),    
-    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
+    loadChildren: () => import('./features/feature-model/feature-model.module').then(m => m.FeatureModelModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
     path: 'feature-bom',
-    loadChildren: () => import('./features/feature-bom/feature-bom.module').then(m => m.FeatureBOMModule),    
-    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
+    loadChildren: () => import('./features/feature-bom/feature-bom.module').then(m => m.FeatureBOMModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
     path: 'model-bom',
-    loadChildren: () => import('./features/model-bom/model-bom.module').then(m => m.ModelBOMModule),    
-    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
+    loadChildren: () => import('./features/model-bom/model-bom.module').then(m => m.ModelBOMModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
     path: 'routing',
-    loadChildren: () => import('./features/op-routing/op-routing.module').then(m => m.OpRoutingModule),    
-    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
+    loadChildren: () => import('./features/op-routing/op-routing.module').then(m => m.OpRoutingModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
     path: 'rule-work-bench',
-    loadChildren: () => import('./features/rule-work-bench/rule-work-bench.module').then(m => m.RuleWorkBenchModule),    
-    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
+    loadChildren: () => import('./features/rule-work-bench/rule-work-bench.module').then(m => m.RuleWorkBenchModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
     path: 'archive',
-    loadChildren: () => import('./features/archiving/archiving.module').then(m => m.ArchivingModule),    
-    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
+    loadChildren: () => import('./features/archiving/archiving.module').then(m => m.ArchivingModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
     path: 'configuration-wizard',
-    loadChildren: () => import('./features/configuration-wizard/configuration-wizard.module').then(m => m.ConfigurationWizardModule),    
-    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
+    loadChildren: () => import('./features/configuration-wizard/configuration-wizard.module').then(m => m.ConfigurationWizardModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
     path: 'attribute',
-    loadChildren: () => import('./features/attribute/attribute.module').then(m => m.AttributeModule),    
-    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
+    loadChildren: () => import('./features/attribute/attribute.module').then(m => m.AttributeModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
     path: 'need-assessment',
-    loadChildren: () => import('./features/need-assessment/need-assessment.module').then(m => m.NeedAssessmentModule),    
-    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
+    loadChildren: () => import('./features/need-assessment/need-assessment.module').then(m => m.NeedAssessmentModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
     path: 'need-assessment-template',
-    loadChildren: () => import('./features/need-assessment-template/need-assessment-template.module').then(m => m.NeedAssessmentTemplateModule),    
-    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
-  }
- 
+    loadChildren: () => import('./features/need-assessment-template/need-assessment-template.module').then(m => m.NeedAssessmentTemplateModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
+  },
+  {
+    path: 'configuration-needAssesment',
+    loadChildren: () => import('./features/configuration-needAssesments/Configuration-needAssesment.module').then(m => m.ConfigurationNeedAssesmentModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
+  },
+
 ];
 
 const config: ExtraOptions = {
