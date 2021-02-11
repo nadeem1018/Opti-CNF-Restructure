@@ -18,12 +18,8 @@ export class ConfigureNeedAssesmentService {
     getNeedAssesmentTemplateList(): Observable<any> {
         console.log(' in  service');
 
-        let jObject = {
-            ModelItem: JSON.stringify([{
-                CompanyDBID: sessionStorage.selectedComp, GUID: sessionStorage.getItem("GUID"),
-                UsernameForLic: sessionStorage.getItem("loggedInUser")
-            }])
-        }
+        let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company, GUID: sessionStorage.getItem("GUID"),
+        UsernameForLic: sessionStorage.getItem("loggedInUser") }]) }
         return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentConfiguration/GetNeedsAssessmentTemplateList", jObject, this.common_params.httpOptions);
     }
 
