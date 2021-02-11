@@ -288,6 +288,11 @@ export class LookupComponent implements OnInit {
         this.template_routing_list();
       }
 
+      if (this.popup_lookupfor == "configure_need_assesment") {
+        this.get_Configure_Need_Assesment_lookup();
+        return;
+      }
+
     //   if(this.popup_lookupfor == "help_popup"){
 
     //     this.show_help_popup();
@@ -2288,6 +2293,46 @@ export class LookupComponent implements OnInit {
   public sortChange(sort: SortDescriptor[]): void {
     this.sort = sort;
     this.loadServerData(this.serviceData);
+  }
+
+  get_Configure_Need_Assesment_lookup() {
+    this.popup_title = this.language.needAsssesmentTemplate;
+    this.LookupDataLoaded = false;
+    this.showLoader = true;
+    this.fill_input_id = 'needAsssesmentTemplate';
+    this.lookup_key = 'needAsssesmentTemplateID';
+    // this.table_head = [this.language.price_source, this.language.price_list_name];
+
+    console.log(this.serviceData);
+    this.table_head = [
+    {
+      field: 'TemplateID',
+      title: this.language.needAsssesmentTemplate,
+      type: 'text',
+      width: '100',
+      attrType: 'text'
+    },
+    {
+      field: 'TemplateName',
+      title: this.language.needAsssesmentTemplateID,
+      type: 'text',
+      width: '100',
+      attrType: 'text'
+    },
+
+    ];
+    this.table_head_hidden_elements = [false];
+    this.width_value = ((100 / this.table_head.length) + '%');
+
+    this.showLoader = false;
+    this.LookupDataLoaded = true;
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+        this.loadServerData(this.serviceData);
+        // $("#lookup_modal").modal('show');
+      }
+    }
   }
 
 }

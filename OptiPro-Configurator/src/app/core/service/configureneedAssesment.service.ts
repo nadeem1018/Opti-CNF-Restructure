@@ -25,7 +25,7 @@ export class ConfigureNeedAssesmentService {
 
     getNeedAssementConfigureDetails(): Observable<any> {
         let jObject = {
-            ModelItem: JSON.stringify([{
+            GetData: JSON.stringify([{
                 CompanyDBID: sessionStorage.selectedComp,
                 GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
             }])
@@ -36,7 +36,7 @@ export class ConfigureNeedAssesmentService {
     SaveConfigurationNeedAssesment(SaveData): Observable<any> {
         SaveData[0]['GUID'] = sessionStorage.getItem("GUID");
         SaveData[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
-        let jObject: any = { AddModelBom: JSON.stringify(SaveData) };
+        let jObject: any = {GetData : JSON.stringify(SaveData) };
         return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentConfiguration/AddUpdateNeedsAssessmentConfiguration", jObject, this.common_params.httpOptions);
     }
 
