@@ -2296,25 +2296,25 @@ export class LookupComponent implements OnInit {
   }
 
   get_Configure_Need_Assesment_lookup() {
-    this.popup_title = this.language.needAsssesmentTemplate;
+    this.popup_title = this.language.needAsssesmentTitle;
     this.LookupDataLoaded = false;
     this.showLoader = true;
     this.fill_input_id = 'needAsssesmentTemplate';
-    this.lookup_key = 'needAsssesmentTemplateID';
+    this.lookup_key = 'OPTM_TEMPLATEID';
     // this.table_head = [this.language.price_source, this.language.price_list_name];
 
     console.log(this.serviceData);
     this.table_head = [
     {
-      field: 'TemplateID',
-      title: this.language.needAsssesmentTemplate,
+      field: 'OPTM_TEMPLATEID',
+      title: this.language.needAsssesmentTemplateID,
       type: 'text',
       width: '100',
       attrType: 'text'
     },
     {
-      field: 'TemplateName',
-      title: this.language.needAsssesmentTemplateID,
+      field: 'OPTM_DESCRIPTION',
+      title: this.language.needAsssesmentTemplateDescription,
       type: 'text',
       width: '100',
       attrType: 'text'

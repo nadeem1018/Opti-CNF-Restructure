@@ -156,4 +156,9 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
 
   }
 
+  // function for Navigate URL 
+  navigateURL() {
+    this.router.navigateByUrl('/need-assessment-template');
+  }
+
 }
