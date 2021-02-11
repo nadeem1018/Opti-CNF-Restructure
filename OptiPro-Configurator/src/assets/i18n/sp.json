@@ -628,17 +628,18 @@
     "attribute_code_blank":"Attribute code cannot be blank",
     "attribute_name_blank":"Attribute name cannot be blank",
     "SelectAttribute": "Select Attribute code at row index: ",
-    "need_assessment": "Need Assessment",
+    "need_assessment": "Need's Assessment",
     "assessment_id": "Assessment Id",    
     "question": "Question",
     "AssessmentIdBlank": "Assessment Id cannot be blank",
     "OptionIdRequired":"Enter option id at row index: ",
     "OptionRequired":"Enter optione at row index: ",
     "ID":"ID",
-    "need_assessment_template": "Need Assessment Template",
+    "need_assessment_template": "Need's Assessment Template",
     "template_id":"Template ID",
     "TemplateIdBlank": "Template Id cannot be blank",
     "AssessmentidRequired":"Enter assessment id at row index: ",
-    "Invalid_assessment_id": "Invalid value in 'Assessment Id'"
+    "Invalid_assessment_id": "Invalid value in 'Assessment Id'",
+    "need_assessment_rule": "Need's Assessment Rule"
 
 }

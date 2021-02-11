@@ -245,7 +245,7 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
   button_click2(data) {
     this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.DeleteConfimation });
     this.show_dialog = true;
-    this.row_id = data.OPTM_MODELID;
+    this.row_id = data.OPTM_TEMPLATEID;
   }
 
   duplicate_record(data) {
@@ -275,11 +275,11 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
     this.GetItemData = []
     this.GetItemData.push({
       CompanyDBId: this.companyName,
-      ModelId: this.row_id,
+      OPTM_TEMPLATEID: this.row_id,
       GUID: sessionStorage.getItem("GUID"),
       UsernameForLic: sessionStorage.getItem("loggedInUser")
     });
-    this.service.DeleteData(this.GetItemData).subscribe(
+    this.assessmentService.DeleteData(this.GetItemData).subscribe(
       data => {
         this.CheckedData = [];
         this.isMultiDelete = false;
@@ -290,23 +290,33 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
             return;
           }
         }
-        if (data[0].IsDeleted == "0" && data[0].Message == "ReferenceExists") {
-          this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[0].ModelCode, 'error');
-          this.CheckedData = [];
-          this.selectall = false;
-          this.commonData.clearChildCheckbox();
-        }
-        else if (data[0].IsDeleted == "1") {
-          this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[0].ModelCode, 'success');
+        if(data == "True"){
+          this.commonservice.show_notification(this.language.DataDeleteSuccesfully , 'success');
           this.service_call(this.current_page, this.search_string);
           this.router.navigateByUrl('need-assessment-template/view');
           this.CheckedData = [];
           this.selectall = false;
-          this.commonData.clearChildCheckbox();
+          this.commonData.clearChildCheckbox();           
+        }else{
+          this.commonservice.show_notification(this.language.DataNotDelete, 'error');
         }
-        else {
-          this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[0].ModelCode, 'error');
-        }
+        // if (data[0].IsDeleted == "0" && data[0].Message == "ReferenceExists") {
+        //   this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[0].ModelCode, 'error');
+        //   this.CheckedData = [];
+        //   this.selectall = false;
+        //   this.commonData.clearChildCheckbox();
+        // }
+        // else if (data[0].IsDeleted == "1") {
+        //   this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[0].ModelCode, 'success');
+        //   this.service_call(this.current_page, this.search_string);
+        //   this.router.navigateByUrl('need-assessment-template/view');
+        //   this.CheckedData = [];
+        //   this.selectall = false;
+        //   this.commonData.clearChildCheckbox();
+        // }
+        // else {
+        //   this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[0].ModelCode, 'error');
+        // }
         this.CheckedData = [];
         this.selectall = false;
         this.commonData.clearChildCheckbox();
@@ -322,11 +332,11 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
     var isExist = 0;
     if (this.CheckedData.length > 0) {
       for (let i = this.CheckedData.length - 1; i >= 0; --i) {
-        if (this.CheckedData[i].ModelId == row_data.OPTM_MODELID) {
+        if (this.CheckedData[i].OPTM_TEMPLATEID == row_data.OPTM_TEMPLATEID) {
           isExist = 1;
           if (checkedvalue == true) {
             this.CheckedData.push({
-              ModelId: row_data.OPTM_MODELID,
+             OPTM_TEMPLATEID: row_data.OPTM_TEMPLATEID,
               CompanyDBId: this.companyName,
               GUID: sessionStorage.getItem("GUID"),
               UsernameForLic: sessionStorage.getItem("loggedInUser")
@@ -339,7 +349,7 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
       }
       if (isExist == 0) {
         this.CheckedData.push({
-          ModelId: row_data.OPTM_MODELID,
+          OPTM_TEMPLATEID: row_data.OPTM_TEMPLATEID,
           CompanyDBId: this.companyName,
           GUID: sessionStorage.getItem("GUID"),
           UsernameForLic: sessionStorage.getItem("loggedInUser")
@@ -348,7 +358,7 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
     }
     else {
       this.CheckedData.push({
-        ModelId: row_data.OPTM_MODELID,
+        OPTM_TEMPLATEID: row_data.OPTM_TEMPLATEID,
         CompanyDBId: this.companyName,
         GUID: sessionStorage.getItem("GUID"),
         UsernameForLic: sessionStorage.getItem("loggedInUser")
@@ -374,7 +384,7 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
         for (let i = 0; i < this.dataArray.length; ++i) {
           this.commonData.checkedChildCheckbox();
           this.CheckedData.push({
-            ModelId: this.dataArray[i].OPTM_MODELID,
+            OPTM_TEMPLATEID: this.dataArray[i].OPTM_TEMPLATEID,           
             CompanyDBId: this.companyName,
             GUID: sessionStorage.getItem("GUID"),
             UsernameForLic: sessionStorage.getItem("loggedInUser")
@@ -402,7 +412,7 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
 
     if (this.CheckedData.length > 0) {
       this.showLoader = true
-      this.service.DeleteData(this.CheckedData).subscribe(
+      this.assessmentService.DeleteData(this.CheckedData).subscribe(
         data => {
           this.showLoader = false
           this.CheckedData = [];
@@ -414,21 +424,29 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
               return;
             }
           }
-
-          for (var i = 0; i < data.length; i++) {
-            if (data[i].IsDeleted == "0" && data[i].Message == "ReferenceExists") {
-              this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[i].ModelCode, 'error');
-            }
-            else if (data[i].IsDeleted == "1") {
-              this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[i].ModelCode, 'success');
+          if(data == "True"){
+            this.commonservice.show_notification(this.language.DataDeleteSuccesfully , 'success');
               this.CheckedData = [];
               this.service_call(this.current_page, this.search_string);
-              this.router.navigateByUrl('need-assessment-template/view');
-            }
-            else {
-              this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[i].ModelCode, 'error');
-            }
+              this.router.navigateByUrl('need-assessment-template/view');            
+          }else{
+            this.commonservice.show_notification(this.language.DataNotDelete, 'error');
           }
+
+          // for (var i = 0; i < data.length; i++) {
+          //   if (data[i].IsDeleted == "0" && data[i].Message == "ReferenceExists") {
+          //     this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[i].ModelCode, 'error');
+          //   }
+          //   else if (data[i].IsDeleted == "1") {
+          //     this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[i].ModelCode, 'success');
+          //     this.CheckedData = [];
+          //     this.service_call(this.current_page, this.search_string);
+          //     this.router.navigateByUrl('need-assessment-template/view');
+          //   }
+          //   else {
+          //     this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[i].ModelCode, 'error');
+          //   }
+          // }
 
           this.CheckedData = [];
           this.selectall = false;

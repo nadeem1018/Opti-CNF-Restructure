@@ -76,6 +76,11 @@ const routes: Routes = [
     path: 'need-assessment-template',
     loadChildren: () => import('./features/need-assessment-template/need-assessment-template.module').then(m => m.NeedAssessmentTemplateModule),    
     data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
+  },
+  {
+    path: 'need-assessment-rule',
+    loadChildren: () => import('./features/need-assessment-rule/need-assessment-rule.module').then(m => m.NeedAssessmentRuleModule),    
+    data: { showHeader: true, showSidebar: true, showFooter:false, compactLayout:false }
   }
  
 ];
