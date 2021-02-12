@@ -662,7 +662,6 @@
     "TemplateIdBlank": "Template Id cannot be blank",
     "AssessmentidRequired":"Enter assessment id at row index: ",
     "Invalid_assessment_id": "Invalid value in 'Assessment Id'",
-    "need_assessment_rule": "Need's Assessment Rule",
-    "AssessmentidRequired": "Enter assessment id at row index: ",
-    "Invalid_assessment_id": "Invalid value in 'Assessment Id'"
+    "need_assessment_rule": "Need's Assessment Rule"
+    
 }

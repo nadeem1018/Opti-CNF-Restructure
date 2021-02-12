@@ -83,7 +83,7 @@ const routes: Routes = [
     path: 'configuration-needAssesment',
     loadChildren: () => import('./features/configuration-needAssesments/Configuration-needAssesment.module').then(m => m.ConfigurationNeedAssesmentModule),
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
-  },
+  }
 
 ];
 
