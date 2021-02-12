@@ -165,4 +165,10 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
     this.router.navigateByUrl('/need-assessment-template');
   }
 
+  // function for on cancel click
+
+  onCancel() {
+    this.router.navigateByUrl('/home');
+  }
+
 }
