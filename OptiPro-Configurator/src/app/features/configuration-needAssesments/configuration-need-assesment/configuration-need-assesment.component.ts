@@ -17,12 +17,12 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
   public showLookupLoader: any = false;
   pageTitle: any = "Configuration Need's Assesment";
   public applyNeedAssesment: any = false;
-  // public showLoader: boolean = true;
+  public showLoader: boolean = true;
   public customerWiseAssesment: any = false;
   public defaultAssesmentTemplate: any = "";
   public selectedImage = "";
   public OPTM_DEFAULT_TEMPLATE = "";
-  public OPTM_ID = "1";
+  public OPTM_ID = "0";
   public needAssementConfigureModel = [];
   language = JSON.parse(sessionStorage.getItem('current_lang'));
   public lookupfor: string = "configure_need_assesment";
@@ -33,7 +33,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
 
   ngOnInit() {
 
-    // this.getNeedAssesmentConfigurationDetails();
+    this.getNeedAssesmentConfigurationDetails();
   }
 
   // function for get Need Assestment Configuration details 
@@ -43,22 +43,22 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
 
     this.service.getNeedAssementConfigureDetails().subscribe(data => {
       if (data != undefined && data.length > 0) {
+        this.showLoader = false;
         if (data[0].ErrorMsg == "7001") {
           CommonData.made_changes = false;
-          // this.showLoader = false;
           this.CommonService.RemoveLoggedInUser().subscribe();
           this.CommonService.signOut(this.router, 'Sessionout');
           return;
         }
+
+        this.applyNeedAssesment = data[0].OPTM_ISAPPLICABLE == "Y" ? true : false;
+        this.customerWiseAssesment = data[0].OPTM_ISAPPLICABLE_CUST == "Y" ? true : false;
+        this.OPTM_ID = data[0].OPTM_ID;
+        this.OPTM_DEFAULT_TEMPLATE = data[0].OPTM_DEFAULT_TEMPLATE;
       }
       else {
-        //   this.showLoader = false;
+        this.showLoader = false;
         return;
-      }
-      if (data.length > 0) {
-
-        this.applyNeedAssesment = data[0].OPTM_ISAPPLICABLE == "Y" ? "true" : "false";
-        this.customerWiseAssesment = data[0].OPTM_ISAPPLICABLE_CUST == "Y" ? "true" : "false";
       }
     })
   }
