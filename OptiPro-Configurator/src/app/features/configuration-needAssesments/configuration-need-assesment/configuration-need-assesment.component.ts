@@ -108,7 +108,11 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
 
   // function for saving Configuration Need's Assesment
   onSaveClick() {
-
+    if (this.OPTM_DEFAULT_TEMPLATE == "") {
+      this.CommonService.show_notification(this.language.noSelectDefaultTemplate, 'error');
+      return;
+    }
+    this.needAssementConfigureModel = [];
     let OPTM_ISAPPLICABLE = this.applyNeedAssesment == true ? "Y" : "N";
     let OPTM_ISAPPLICABLE_CUST = this.customerWiseAssesment == true ? "Y" : "N";
     this.needAssementConfigureModel.push({

@@ -36,6 +36,8 @@ export class ConfigureNeedAssesmentService {
     SaveConfigurationNeedAssesment(SaveData): Observable<any> {
         SaveData[0]['GUID'] = sessionStorage.getItem("GUID");
         SaveData[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
+        SaveData[0]['CompanyDBID'] = sessionStorage.getItem("selectedComp");
+
         let jObject: any = {GetData : JSON.stringify(SaveData) };
         return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentConfiguration/AddUpdateNeedsAssessmentConfiguration", jObject, this.common_params.httpOptions);
     }
