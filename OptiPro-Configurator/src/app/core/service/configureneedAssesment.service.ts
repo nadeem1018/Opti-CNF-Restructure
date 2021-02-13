@@ -18,8 +18,12 @@ export class ConfigureNeedAssesmentService {
     getNeedAssesmentTemplateList(): Observable<any> {
         console.log(' in  service');
 
-        let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company, GUID: sessionStorage.getItem("GUID"),
-        UsernameForLic: sessionStorage.getItem("loggedInUser") }]) }
+        let jObject = {
+            GetData: JSON.stringify([{
+                CompanyDBID: this.logged_in_company, GUID: sessionStorage.getItem("GUID"),
+                UsernameForLic: sessionStorage.getItem("loggedInUser")
+            }])
+        }
         return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentConfiguration/GetNeedsAssessmentTemplateList", jObject, this.common_params.httpOptions);
     }
 
@@ -36,7 +40,9 @@ export class ConfigureNeedAssesmentService {
     SaveConfigurationNeedAssesment(SaveData): Observable<any> {
         SaveData[0]['GUID'] = sessionStorage.getItem("GUID");
         SaveData[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
-        let jObject: any = {GetData : JSON.stringify(SaveData) };
+        SaveData[0]['CompanyDBID'] = sessionStorage.getItem("selectedComp");
+
+        let jObject: any = {GetData: JSON.stringify({ needAssisment: SaveData })};
         return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentConfiguration/AddUpdateNeedsAssessmentConfiguration", jObject, this.common_params.httpOptions);
     }
 
