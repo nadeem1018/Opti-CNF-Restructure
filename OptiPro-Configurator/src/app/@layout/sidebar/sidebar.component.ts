@@ -34,6 +34,7 @@ export class SidebarComponent implements OnInit {
       { "itemCode": "205", "itemName": this.language.attribute, "itemNav": "/attribute", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission":true},        
       { "itemCode": "205", "itemName": this.language.need_assessment, "itemNav": "/need-assessment", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission":true},
       { "itemCode": "205", "itemName": this.language.need_assessment_template, "itemNav": "/need-assessment-template", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission":true},
+      { "itemCode": "205", "itemName": this.language.need_assessment_rule, "itemNav": "/need-assessment-rule", "itemIcon": "#ruleWorkBench", "itemIconSize": "0 0 504.123 504.123", "permission":true},
       { "itemCode": "205", "itemName": this.language.config_need_assesment, "itemNav": "/configuration-needAssesment", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission":true}
     ];
     let allowed_menus_ids =["0"];

@@ -80,6 +80,11 @@ const routes: Routes = [
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
+    path: 'need-assessment-rule',
+    loadChildren: () => import('./features/need-assessment-rule/need-assessment-rule.module').then(m => m.NeedAssessmentRuleModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
+  },
+  {
     path: 'configuration-needAssesment',
     loadChildren: () => import('./features/configuration-needAssesments/Configuration-needAssesment.module').then(m => m.ConfigurationNeedAssesmentModule),
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
