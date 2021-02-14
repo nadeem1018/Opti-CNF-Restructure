@@ -216,7 +216,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
 
      
       var obj = this;
-      this.service.GetDataByRuleID(this.update_id).subscribe(
+      this.assessmentRuleService.GetDataByRuleID(this.update_id).subscribe(
         data => {
           if (data != undefined && data.LICDATA != undefined) {
             if (data.LICDATA[0].ErrorMsg == "7001") {
@@ -1947,7 +1947,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
        single_data_set.OPCONFIG_NS_RWB_INPUT = [];
        single_data_set.OPCONFIG_NS_RWB_HEADER.push({
          id:  this.NewRuleId,
-         ModelId: this.rule_wb_data.rule_code,
+         OPTM_RULECODE: this.rule_wb_data.rule_code,
          description: this.rule_wb_data.description,
          effective_from: this.rule_wb_data.effective_from,
          effective_to: this.rule_wb_data.effective_to,

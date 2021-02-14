@@ -5,6 +5,7 @@ import { CommonService } from 'src/app/core/service/common.service';
 import { Router } from '@angular/router';
 import { ColumnSetting, CommonData } from 'src/app/core/data/CommonData';
 import { GridDataResult } from '@progress/kendo-angular-grid';
+import { NeedassessmentruleService } from 'src/app/core/service/needassessmentrule.service';
 
 
 @Component({
@@ -108,7 +109,7 @@ export class NeedAssessmentRuleViewComponent implements OnInit {
     public table_hidden_elements = [false, true, true, false, false, false, false, false, false, false, false];
     page_main_title = this.language.need_assessment_rule;
     table_title = this.page_main_title;
-    constructor(private router: Router, private service: RulewbService, private commonservice:CommonService) { }
+    constructor(private router: Router, private service: RulewbService, private assessmentRuleService: NeedassessmentruleService, private commonservice:CommonService) { }
 
 
     isMobile:boolean=false;
@@ -209,7 +210,7 @@ export class NeedAssessmentRuleViewComponent implements OnInit {
             this.record_per_page = this.commonData.default_count;
             sessionStorage.setItem('defaultRecords', this.record_per_page);
         }
-        var dataset = this.service.GetRuleList(search, page_number, this.record_per_page).subscribe(
+        var dataset = this.assessmentRuleService.GetRuleList(search, page_number, this.record_per_page).subscribe(
             data => {
 
                 console.log(data);
