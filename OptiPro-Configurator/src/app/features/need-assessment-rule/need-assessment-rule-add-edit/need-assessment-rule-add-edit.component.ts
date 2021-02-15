@@ -380,15 +380,15 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
                 lineno: lineno,
                 rowindex: fetch_data.OPTM_ROWID,
                 seq_count: fetch_data.OPTM_SEQID,
-                type_value_code: this.typevaluecodefromdatabase,
+                type_value_code: fetch_data.OPTM_NASS_ID,
                 operator: fetch_data.OPTM_OPERATOR,
                 type: fetch_data.OPTM_TYPE,
                 braces: fetch_data.OPTM_BRACES,
                 type_value: fetch_data.OPTM_NASS_ID,
                 condition: fetch_data.OPTM_CONDITION,
-                operand_1: fetch_data.OPTM_OPERAND1,
+                operand_1: fetch_data.OPTM_OP1CODE,
                 operand_1_code: fetch_data.OPTM_OP1CODE,
-                operand_2: fetch_data.OPTM_OPERAND2,
+                operand_2: fetch_data.OPTM_OP2CODE,
                 operand_2_code: fetch_data.OPTM_OP2CODE,
                 isTypeDisabled: type_disabled,
                 is_operand1_disable: operand1_disabled,
@@ -860,11 +860,13 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
       // this.getFeatureDetailsForOutput();
     }
     if (this.lookupfor == 'assessment_lookup') {
-      
+
       for (let i = 0; i < this.rule_sequence_data.length; ++i) {
         if (this.rule_sequence_data[i].rowindex === this.currentrowindex) {
           this.rule_sequence_data[i].OPTM_ASSESSMENTID = $event[0].toString();
           this.rule_sequence_data[i].OPTM_QUESTION = $event[1].toString();
+          this.rule_sequence_data[i].type_value = $event[0].toString();
+          this.rule_sequence_data[i].type_value_code = $event[0].toString();
           this.rule_sequence_data[i]['is_operand1_disable'] = false;
         }
       }
@@ -882,10 +884,10 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
       for (let i = 0; i < this.rule_sequence_data.length; ++i) {
         if (this.rule_sequence_data[i].rowindex === this.currentrowindex) {
           if (this.operand_type == 'operand_1') {
-            this.rule_sequence_data[i].operand_1 = $event[0];
+            this.rule_sequence_data[i].operand_1 = $event[1];
             this.rule_sequence_data[i].operand_1_code = $event[1];
           } else if (this.operand_type == 'operand_2') {
-            this.rule_sequence_data[i].operand_2 = $event[0];
+            this.rule_sequence_data[i].operand_2 = $event[1];
             this.rule_sequence_data[i].operand_2_code = $event[1];
           }
         }
@@ -1267,7 +1269,6 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
         } else if (this.update_sequence_mode == true) {
           this.showUpdateSequenceBtn = false;
         }
-
         console.log("key - " + key);
         console.log("value - " + value);
         console.log("rowindex - " + rowindex);
@@ -1927,7 +1928,13 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
       this.rule_wb_data.RuleId = "";
     }
     else {
-      this.NewRuleId = this.update_id;
+      if (this.update_id == null) {
+        this.NewRuleId = "";
+      }
+      else {
+        this.NewRuleId = this.update_id;
+      }
+
     }
 
 
