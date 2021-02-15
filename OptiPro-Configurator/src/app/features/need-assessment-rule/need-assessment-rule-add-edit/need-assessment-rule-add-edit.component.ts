@@ -330,7 +330,8 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
               if (data.NeedsAssessmentRuleInput[i].OPTM_TYPE == 2) {
                 this.rule_expression_data[current_count].expression += fetch_data.OPTM_OPERATOR + ' ' + fetch_data.OPTM_BRACES + ' ' + 'Model' + ' ' + fetch_data.OPTM_CONDITION + ' ' + this.typevaluecodefromdatabase;
               } else {
-                this.rule_expression_data[current_count].expression += " " + fetch_data.OPTM_OPERATOR + ' ' + fetch_data.OPTM_BRACES + ' ' + fetch_data.OPTM_NASS_ID + ' ' + fetch_data.OPTM_CONDITION + ' ' + fetch_data.OPTM_OP1CODE + ' ' + fetch_data.OPTM_OP2CODE;
+
+                this.rule_expression_data[current_count].expression += " " + fetch_data.OPTM_OPERATOR + ' ' + fetch_data.OPTM_BRACES + ' ' + fetch_data.OPTM_NASS_ID + ' ' + fetch_data.OPTM_CONDITION + ' ' + fetch_data.OPTM_OPERAND1 + ' ' + fetch_data.OPTM_OPERAND2;
               }
 
               if (this.rule_expression_data[current_count].row_data == undefined) {
@@ -859,10 +860,12 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
       // this.getFeatureDetailsForOutput();
     }
     if (this.lookupfor == 'assessment_lookup') {
+      
       for (let i = 0; i < this.rule_sequence_data.length; ++i) {
         if (this.rule_sequence_data[i].rowindex === this.currentrowindex) {
           this.rule_sequence_data[i].OPTM_ASSESSMENTID = $event[0].toString();
           this.rule_sequence_data[i].OPTM_QUESTION = $event[1].toString();
+          this.rule_sequence_data[i]['is_operand1_disable'] = false;
         }
       }
     }

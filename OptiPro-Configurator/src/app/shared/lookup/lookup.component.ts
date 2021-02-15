@@ -1020,19 +1020,19 @@ export class LookupComponent implements OnInit {
     this.popup_title = this.language.ModelBom;
     this.LookupDataLoaded = false;
     this.showLoader = true;
-    this.fill_input_id = 'featureNameId';
-    this.lookup_key = 'OPTM_FEATUREID';
+    this.fill_input_id = 'OPTM_ASSESSMENTID';
+    this.lookup_key = 'OPTM_ASSESSMENTID';
     this.table_head = [
     {
-      field: 'OPTM_FEATURECODE',
-      title: this.language.code,
+      field: 'OPTM_ASSESSMENTID',
+      title: this.language.OPTM_ASSESSMENTID,
       type: 'text',
       width: '100',
       attrType: 'text'
     },
     {
-      field: 'OPTM_DISPLAYNAME',
-      title: this.language.Name,
+      field: 'OPTM_OPTIONS',
+      title: this.language.OPTM_OPTIONS,
       type: 'text',
       width: '100',
       attrType: 'text'

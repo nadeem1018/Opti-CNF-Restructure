@@ -185,7 +185,7 @@
                             <div class="input-group">
                               <input type="hidden" class="form-control form-control-sm " id="opeand_1" #operand_1 name="operand_1" value="{{dataItem.operand_1}}" title="{{dataItem.operand_1}}"
                                 (change)="on_input_change(dataItem.rowindex, 'operand_1', operand_1.value,operand_1_code )" />
-                              <input type="text"  class="form-control form-control-sm" id="opeand_1" #operand_1_code name="operand_1_code" value="{{dataItem.operand_1_code}}" title="{{dataItem.operand_1_code}}" (change)="on_input_change(dataItem.rowindex, 'operand_1_code', operand_1_code.value,operand_1_code )" />
+                              <input type="text" [disabled]="dataItem.is_operand1_disable"  class="form-control form-control-sm" id="opeand_1" #operand_1_code name="operand_1_code" value="{{dataItem.operand_1_code}}" title="{{dataItem.operand_1_code}}" (change)="on_input_change(dataItem.rowindex, 'operand_1_code', operand_1_code.value,operand_1_code )" />
                               <div class="input-group-append">
                                 <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="show_operand_lookup(dataItem.type, dataItem.OPTM_ASSESSMENTID, dataItem.rowindex,'operand_1')">
                                     <svg class="icon m-0" viewBox="0 -96 512 512"><use xlink:href="#menu"></use></svg>
