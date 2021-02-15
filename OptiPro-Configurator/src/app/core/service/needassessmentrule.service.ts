@@ -58,6 +58,20 @@ export class NeedassessmentruleService {
       //Return the response form the API  
       return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentRule/GetDataByRuleID", jObject, this.common_params.httpOptions);
     }
+    
+    get_model_feature_options(id): Observable<any> {
+      let jObject: any = '';
+    
+        jObject = { GetData: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp, OPTM_ASSESSMENTID: id, 
+          GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
+      
+  
+      //Return the response form the API  
+      return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentRule/GetNAssOptionDataByBAssID", jObject, this.common_params.httpOptions);
+    }
+  
+
+
 
     
 }
