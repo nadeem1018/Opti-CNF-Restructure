@@ -53,7 +53,7 @@ export class NeedassessmentruleService {
     GetDataByRuleID(id): Observable<any> {
 
       //JSON Obeject Prepared to be send as a param to API
-      let jObject = { FeatureList: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp, RuleId: id,
+      let jObject = { GetData: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp, RuleId: id,
         GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
       //Return the response form the API  
       return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentRule/GetDataByRuleID", jObject, this.common_params.httpOptions);
