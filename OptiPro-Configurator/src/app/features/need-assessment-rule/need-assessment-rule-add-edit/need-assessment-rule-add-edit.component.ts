@@ -401,56 +401,59 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
           console.log("seq_counter_array - ");
           console.log(seq_counter_array);
 
-          // if (data.NeedsAssessmentRuleOutput.length > 0) {
-          //   let typefromdatabase: any;
-          //   for (let i = 0; i < data.NeedsAssessmentRuleOutput.length; ++i) {
-          //     if (data.NeedsAssessmentRuleOutput[i].OPTM_FEATUREID != "" || data.NeedsAssessmentRuleOutput[i].OPTM_FEATUREID != null) {
-          //       typefromdatabase = 1;
+          if (data.NeedsAssessmentRuleOutput.length > 0) {
+            //   let typefromdatabase: any;
+            for (let i = 0; i < data.NeedsAssessmentRuleOutput.length; ++i) {
+              //     if (data.NeedsAssessmentRuleOutput[i].OPTM_FEATUREID != "" || data.NeedsAssessmentRuleOutput[i].OPTM_FEATUREID != null) {
+              //       typefromdatabase = 1;
 
-          //     }
-          //     else {
-          //       typefromdatabase = 2;
+              //     }
+              //     else {
+              //       typefromdatabase = 2;
 
-          //     }
+              //     }
 
-          //     var fetch_data = data.NeedsAssessmentRuleOutput[i];
-          //     this.seq_count = fetch_data.OPTM_SEQID;
-          //     let current_count = (this.seq_count - 1);
-          //     // current counter for sequence not in a direct sequence 
-          //     current_count = seq_counter_array[this.seq_count];
-          //     let checked_child = (fetch_data.OPTM_ISINCLUDED.trim().toLowerCase() == 'true');
-          //     let default_checked = (fetch_data.OPTM_DEFAULT.trim().toLowerCase() == 'true');
+              var fetch_data = data.NeedsAssessmentRuleOutput[i];
+              //     this.seq_count = fetch_data.OPTM_SEQID;
+              //     let current_count = (this.seq_count - 1);
+              //     // current counter for sequence not in a direct sequence 
+              //     current_count = seq_counter_array[this.seq_count];
+              //     let checked_child = (fetch_data.OPTM_ISINCLUDED.trim().toLowerCase() == 'true');
+              //     let default_checked = (fetch_data.OPTM_DEFAULT.trim().toLowerCase() == 'true');
 
-          //     if (this.rule_expression_data[current_count] != undefined) {
-          //       this.rule_expression_data[current_count].output_data.push({
-          //         rowindex: i,
-          //         check_child: checked_child,
-          //         seq_number: this.seq_count,
-          //         feature: fetch_data.OPTM_FEATUREID.toString(),
-          //         featureCode: fetch_data.OPTM_FEATURECODE,
-          //         item: fetch_data.OPTM_ITEMKEY,
-          //         item_description: fetch_data.Description,
-          //         value: fetch_data.OPTM_VALUE,
-          //         uom: fetch_data.OPTM_UOM,
-          //         quantity: parseFloat(fetch_data.OPTM_QUANTITY).toFixed(3),
-          //         edit_quantity: fetch_data.OPTM_ISQTYEDIT,
-          //         price_source: fetch_data.OPTM_PRICESOURCE,
-          //         edit_price: fetch_data.OPTM_ISPRICEEDIT,
-          //         default: default_checked,
-          //         is_default: default_checked,
-          //         type: typefromdatabase
+              if (this.rule_expression_data[i] != undefined) {
+                this.rule_expression_data[i].output_data.push({
+                  //         rowindex: i,
+                  //         check_child: checked_child,
+                  //         seq_number: this.seq_count,
+                  //         feature: fetch_data.OPTM_FEATUREID.toString(),
+                  //         featureCode: fetch_data.OPTM_FEATURECODE,
+                  //         item: fetch_data.OPTM_ITEMKEY,
+                  //         item_description: fetch_data.Description,
+                  //         value: fetch_data.OPTM_VALUE,
+                  //         uom: fetch_data.OPTM_UOM,
+                  //         quantity: parseFloat(fetch_data.OPTM_QUANTITY).toFixed(3),
+                  //         edit_quantity: fetch_data.OPTM_ISQTYEDIT,
+                  //         price_source: fetch_data.OPTM_PRICESOURCE,
+                  //         edit_price: fetch_data.OPTM_ISPRICEEDIT,
+                  //         default: default_checked,
+                  //         is_default: default_checked,
+                  //         type: typefromdatabase
+                  ModelId: fetch_data.OPTM_MODELID,
+                  OPTM_MODELCODE: fetch_data.OPTM_MODELCODE,
+                  OPTM_DISPLAYNAME: fetch_data.OPTM_DISPLAYNAME
 
-          //       });
-          //       this.rule_expression_data[current_count].output_data.filter(function (Arr) {
-          //         if (Arr.price_source === "NaN") {
-          //           var default_value = 0;
-          //           Arr.price_source = default_value.toFixed(3);
-          //           return Arr;
-          //         }
-          //       });
-          //     }
-          //   }
-          // }
+                });
+                //       this.rule_expression_data[current_count].output_data.filter(function (Arr) {
+                //         if (Arr.price_source === "NaN") {
+                //           var default_value = 0;
+                //           Arr.price_source = default_value.toFixed(3);
+                //           return Arr;
+                //         }
+                //       });
+              }
+            }
+          }
 
           console.log(this.rule_expression_data);
           this.showLoader = false;
