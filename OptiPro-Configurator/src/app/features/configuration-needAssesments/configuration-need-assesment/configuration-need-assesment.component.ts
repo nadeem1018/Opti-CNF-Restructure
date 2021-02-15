@@ -106,6 +106,26 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
 
   }
 
+  // function for check proper Default template 
+
+  onCheckDefaultTemplate() {
+    CommonData.made_changes = true;
+    this.service.onDefaultTemplateCheck(this.OPTM_DEFAULT_TEMPLATE).subscribe(
+      data => {
+        if (data === "False") {
+
+          this.CommonService.show_notification(this.language.InvalidDefaultTemplate, 'error');
+          this.OPTM_DEFAULT_TEMPLATE = "";
+          return;
+        }
+      }, error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      })
+  }
+
   // function for saving Configuration Need's Assesment
   onSaveClick() {
     if (this.OPTM_DEFAULT_TEMPLATE == "") {
@@ -154,6 +174,10 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
 
   // function for geeting default template output from look up component
   getLookupValue($event) {
+    if ($event.length == 0) {
+      this.lookupfor = "";
+      return;
+    }
     CommonData.made_changes = true;
     this.OPTM_DEFAULT_TEMPLATE = $event[0];
     this.defaultAssesmentTemplate = $event[1];

@@ -663,6 +663,11 @@
     "TemplateIdBlank": "Template Id cannot be blank",
     "AssessmentidRequired":"Enter assessment id at row index: ",
     "Invalid_assessment_id": "Invalid value in 'Assessment Id'",
-    "need_assessment_rule": "Need's Assessment Rule"
+    "need_assessment_rule": "Need's Assessment Rule",
+    "need_Customer_mapping":"Customer-Need's Assesment Template Mapping",
+    "need_customer" : "Customer",
+    "need_assesment_template":"Needs Assesment Template",
+    "InvalidDefaultTemplate":"Invalid Needs Assesment Template"
+   
     
 }

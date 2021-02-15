@@ -2296,7 +2296,7 @@ export class LookupComponent implements OnInit {
   }
 
   get_Configure_Need_Assesment_lookup() {
-    this.popup_title = this.language.needAsssesmentTitle;
+    this.popup_title = this.language.need_assessment_template;
     this.LookupDataLoaded = false;
     this.showLoader = true;
     this.fill_input_id = 'needAsssesmentTemplate';

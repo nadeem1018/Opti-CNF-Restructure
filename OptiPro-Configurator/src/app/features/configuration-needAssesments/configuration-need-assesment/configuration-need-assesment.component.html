@@ -51,7 +51,7 @@
                             [(ngModel)]="defaultAssesmentTemplate">
                         <div class="col-sm-3 input-group">
                             <input type="text" class="form-control  form-control-sm" name="OPTM_DEFAULT_TEMPLATE"
-                                [(ngModel)]="OPTM_DEFAULT_TEMPLATE">
+                                [(ngModel)]="OPTM_DEFAULT_TEMPLATE" (change)="onCheckDefaultTemplate()">
                             <div class="input-group-append">
                                 <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getListDefaultNeedAssementTemplate()">
                                     <svg class="icon m-0" viewBox="0 -96 512 512">
