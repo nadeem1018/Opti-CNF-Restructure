@@ -33,13 +33,21 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   public skip: number = 0;
   private data: Object[];
   public gridView: GridDataResult;
+  record_per_page: any;
+  current_page: any = 1;
+  public listItems: Array<string> = this.commonData.default_limits;
 
 
   constructor(private router: Router, private httpclient: HttpClient, private CommonService: CommonService, private service: CustomerTemplateMappingService) { }
 
   ngOnInit() {
 
-
+    this.record_per_page = sessionStorage.getItem('defaultRecords');
+    if (sessionStorage.getItem('defaultRecords') !== undefined && sessionStorage.getItem('defaultRecords') != "") {
+      this.selectedValue = Number(sessionStorage.getItem('defaultRecords'));
+    } else {
+      this.selectedValue = Number(this.commonData.default_count);
+    }
     if (sessionStorage.isFilterEnabled == "true") {
       this.isColumnFilter = true;
     } else {
@@ -51,8 +59,21 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
 
   public pageChange(event: PageChangeEvent): void {
     this.skip = event.skip;
+    this.selectedValue = event.take;
     this.loadItems();
   }
+
+  // on_selection(grid_event) {
+  //   grid_event.selectedRows = [];
+  // }
+
+  // dataStateChanged(event) {
+  //   // console.log(event);
+  //   event.filter = [];
+  //   this.record_per_page = sessionStorage.getItem('defaultRecords');
+  //   this.selectedValue = event.take;
+  //   this.skip = event.skip;
+  // }
 
 
   public loadItems(): void {
@@ -60,6 +81,14 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
       data: this.need_customer_table.slice(this.skip, this.skip + this.selectedValue),
       total: this.need_customer_table.length
     };
+  }
+
+  getcurrentPageSize(grid_value) {
+    sessionStorage.setItem('defaultRecords', grid_value);
+    console.log('=sessionStorage=======', sessionStorage.defaultRecords);
+    this.skip = 0;
+    this.selectedValue = grid_value;
+    this.record_per_page = sessionStorage.getItem('defaultRecords');
   }
 
 
@@ -181,7 +210,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
       OPTM_ID: 0,
       CustID: this.need_customer_table[this.currentrowIndex].CustID,
       OPTM_TEMPLATEID: $event[0]
-      
+
     });
   }
 
@@ -205,7 +234,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
             OPTM_ID: 0,
             CustID: this.need_customer_table[this.currentrowIndex].CustID,
             OPTM_TEMPLATEID: TemplateID
-            
+
           });
           return;
         }
@@ -234,6 +263,12 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
       if (data === "True") {
         CommonData.made_changes = false
         this.CommonService.show_notification(this.language.DataSaved, 'success');
+        this.cusomerChangeTemplateMapping = [];
+        return;
+      }
+      else if (data == "AlreadyExist") {
+
+        this.CommonService.show_notification(this.language.DuplicateCode, 'error');
         return;
       }
       else {
