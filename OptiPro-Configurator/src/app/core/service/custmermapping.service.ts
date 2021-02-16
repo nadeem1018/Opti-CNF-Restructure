@@ -42,7 +42,7 @@ export class CustomerTemplateMappingService {
         SaveData[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
         SaveData[0]['CompanyDBID'] = sessionStorage.getItem("selectedComp");
 
-        let jObject: any = { GetData: JSON.stringify({ needAssisment: SaveData }) };
+        let jObject: any = { GetData: JSON.stringify({ OPCONFIG_CUSTOMER_NASS_TEMPLATEMAPPING: SaveData }) };
         return this.httpclient.post(this.config_params.service_url + "/CustomerNAssTemplateMapping/AddUpdateCustomerNAssTemplateMapping", jObject, this.common_params.httpOptions);
     }
 
@@ -50,7 +50,7 @@ export class CustomerTemplateMappingService {
         let jObject = {
             GetData: JSON.stringify([{
                 CompanyDBID: sessionStorage.selectedComp,
-                GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),OPTM_DEFAULT_TEMPLATE:TemplateID
+                GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"), OPTM_DEFAULT_TEMPLATE: TemplateID
             }])
         }
         return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentConfiguration/CheckValidTemplateForNeedsAssessmentConfiguration", jObject, this.common_params.httpOptions);

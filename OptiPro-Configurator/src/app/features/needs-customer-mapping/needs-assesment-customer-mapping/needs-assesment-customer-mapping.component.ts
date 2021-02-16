@@ -4,7 +4,9 @@ import { CommonService } from 'src/app/core/service/common.service';
 import { HttpClient } from '@angular/common/http';
 import { CommonData } from 'src/app/core/data/CommonData';
 import { CustomerTemplateMappingService } from 'src/app/core/service/custmermapping.service';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
+
+
 
 @Component({
   selector: 'app-needs-assesment-customer-mapping',
@@ -25,25 +27,16 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   public cusomerChangeTemplateMapping = [];
   public need_customer_table = [];
   public isColumnFilter: boolean = false;
-  // record_per_page_list: any = [10, 25, 50, 100]
-  // record_per_page: any;
-  // search_string: any = "";
-  // current_page: any = 1;
-  // page_numbers: any = "";
-  //public gridView: GridDataResult;
   public selectedValue: number = 10;
   public skip: number = 0;
+  private data: Object[];
+  public gridView: GridDataResult;
 
   constructor(private router: Router, private httpclient: HttpClient, private CommonService: CommonService, private service: CustomerTemplateMappingService) { }
 
   ngOnInit() {
 
-    // this.record_per_page = sessionStorage.getItem('defaultRecords');
-    // if (sessionStorage.getItem('defaultRecords') !== undefined && sessionStorage.getItem('defaultRecords') != "") {
-    //   this.selectedValue = Number(sessionStorage.getItem('defaultRecords'));
-    // } else {
-    //   this.selectedValue = Number(this.commonData.default_count);
-    // }
+
     if (sessionStorage.isFilterEnabled == "true") {
       this.isColumnFilter = true;
     } else {
@@ -53,33 +46,24 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
 
   }
 
-  // dataStateChanged(event) {
-  //   // console.log(event);
-  //   event.filter = [];
-  //   this.record_per_page = sessionStorage.getItem('defaultRecords');
-  //   this.selectedValue = event.take;
-  //   this.skip = event.skip;
-  // }
+  public pageChange(event: PageChangeEvent): void {
+    this.skip = event.skip;
+    this.loadItems();
+  }
 
-  // on_selection(grid_event) {
-  //   grid_event.selectedRows = [];
-  // }
+  public loadItems(): void {
+    this.gridView = {
+      data: this.need_customer_table.slice(this.skip, this.skip + this.selectedValue),
+      total: this.need_customer_table.length
+    };
+  }
 
-  
+
+
   saveFilterState() {
     sessionStorage.setItem('isFilterEnabled', this.isColumnFilter.toString());
   }
 
-  // on_page_limit_change() {
-  //   this.current_page = 1;
-  // }
-
-  // getPageValue() {
-  //   if (this.selectedValue == null) {
-  //     this.selectedValue = 10;
-  //   }
-  //   return this.selectedValue;
-  // }
 
 
   // function for getting customer template list 
@@ -113,6 +97,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
 
             });
           }
+          this.loadItems();
         }
         else {
           this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
