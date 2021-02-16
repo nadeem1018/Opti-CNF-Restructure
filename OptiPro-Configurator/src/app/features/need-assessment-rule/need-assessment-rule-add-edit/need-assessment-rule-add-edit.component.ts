@@ -364,7 +364,9 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
                   operand2_disabled = true;
                 }
               }
-
+              if (fetch_data.OPTM_OPERAND1 != "") {
+                this.rule_expression_data[current_count]["is_operand1_disable"] = false;
+              }
               let operand1_disabled = true;
 
               // if (data.NeedsAssessmentRuleInput[i].OPTM_TYPE == 2 || data.NeedsAssessmentRuleInput[i].OPTM_TYPE == "") {
@@ -385,6 +387,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
                 type: fetch_data.OPTM_TYPE,
                 braces: fetch_data.OPTM_BRACES,
                 type_value: fetch_data.OPTM_NASS_ID,
+                OPTM_ASSESSMENTID: fetch_data.OPTM_NASS_ID,
                 condition: fetch_data.OPTM_CONDITION,
                 operand_1: fetch_data.OPTM_OP1CODE,
                 operand_1_code: fetch_data.OPTM_OP1CODE,
