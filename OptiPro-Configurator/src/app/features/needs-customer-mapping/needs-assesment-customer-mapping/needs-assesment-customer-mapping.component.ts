@@ -126,7 +126,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
               template_ID: data[i].OPTM_TEMPLATEID,
               rowindex: i,
               CustID: data[i].CustID,
-              OPTM_ID: 0,
+              OPTM_ID: data[i].OPTM_ID,
 
             });
           }
