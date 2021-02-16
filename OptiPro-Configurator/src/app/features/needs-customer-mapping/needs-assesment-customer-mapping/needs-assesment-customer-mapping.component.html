@@ -29,19 +29,29 @@
                         <div class="col-md-12 d-flex flex-column" id="left-table-section">
                             <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
                                 <kendo-grid [kendoGridBinding]="need_customer_table" [reorderable]="true" [resizable]="true"
-                                    [sortable]="false" [groupable]="false" [filterable]="false"  [kendoGridSelectBy]="'rowindex'" [ngStyle]="{'height':'100%', 'max-width':'100%'}">
+                                    [sortable]="false"  [filterable]="isColumnFilter"  [kendoGridSelectBy]="'rowindex'"
+                                    [ngStyle]="{'height':'100%', 'max-width':'100%'}"  [pageable]="true">
+                                    <ng-template kendoGridToolbarTemplate> 
+                                        <label class="custom-checkbox mb-0">
+                                            <input  #chkFilter type="checkbox" id="columnFilter" [(ngModel)]="isColumnFilter" (change)="saveFilterState()" name="columnfilter">
+                                            <span class="checkbox"></span>
+                                            <span class="text-inverse">{{language.enable_filter}}</span>
+                                        </label>
+                                    </ng-template>
                                     <kendo-grid-column field="Customer" title="{{language.need_customer}}" filter="text"
-                                        [width]="145" [minResizableWidth]="145">
+                                        [width]="145" [minResizableWidth]="145" [filterable]="true">
                                         <ng-template kendoGridCellTemplate let-dataItem>
-                                            <input type="text" class="form-control  form-control-sm" #customer_name (change)="on_customerName_change(customer_name.value,dataItem.rowindex)" value={{dataItem.customer_name}} />
+                                            <input type="text" [disabled]="customerDisable" class="form-control  form-control-sm"
+                                                #customer_name value={{dataItem.customer_name}} />
                                         </ng-template>
                                     </kendo-grid-column>
                                     <kendo-grid-column field="Need_Assement_Template" title="{{language.need_assesment_template}}"
-                                        headerClass="required" filter="text" [width]="145" [minResizableWidth]="145">
+                                     filter="text" [width]="145" [minResizableWidth]="145">
                                         <ng-template kendoGridCellTemplate let-dataItem>
                                             <input type="hidden" class="form-control  form-control-sm" />
                                             <div class="input-group">
-                                                <input type="text" value={{dataItem.template_ID}} class="form-control form-control-sm" (change) ="onCheckDefaultTemplate(dataItem.template_ID,dataItem.rowindex)" />
+                                                <input type="text" value={{dataItem.template_ID}} class="form-control form-control-sm"
+                                                    (change)="onCheckDefaultTemplate(dataItem.template_ID,dataItem.rowindex)" />
                                                 <div class="input-group-append">
                                                     <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
                                                         (click)="getListDefaultNeedAssementTemplate(dataItem.rowindex)">

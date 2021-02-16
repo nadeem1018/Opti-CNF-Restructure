@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { CommonService } from 'src/app/core/service/common.service';
 import { HttpClient } from '@angular/common/http';
 import { CommonData } from 'src/app/core/data/CommonData';
-import { ConfigureNeedAssesmentService } from 'src/app/core/service/configureneedAssesment.service';
+import { CustomerTemplateMappingService } from 'src/app/core/service/custmermapping.service';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 @Component({
   selector: 'app-needs-assesment-customer-mapping',
@@ -20,12 +21,113 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   public showLookupLoader = false;
   public serviceData = [];
   public currentrowIndex = 0;
-  public need_customer_table = [{ customer_name: "sanyam", template_ID: "T1", rowindex: 0 }, { customer_name: "sam", template_ID: "T2", rowindex: 1 }, { customer_name: "san", template_ID: "T3", rowindex: 2 }];
+  public customerDisable = true;
+  public cusomerChangeTemplateMapping = [];
+  public need_customer_table = [];
+  public isColumnFilter: boolean = false;
+  // record_per_page_list: any = [10, 25, 50, 100]
+  // record_per_page: any;
+  // search_string: any = "";
+  // current_page: any = 1;
+  // page_numbers: any = "";
+  //public gridView: GridDataResult;
+  public selectedValue: number = 10;
+  public skip: number = 0;
 
-  constructor(private router: Router, private httpclient: HttpClient, private CommonService: CommonService, private service: ConfigureNeedAssesmentService) { }
+  constructor(private router: Router, private httpclient: HttpClient, private CommonService: CommonService, private service: CustomerTemplateMappingService) { }
 
   ngOnInit() {
+
+    // this.record_per_page = sessionStorage.getItem('defaultRecords');
+    // if (sessionStorage.getItem('defaultRecords') !== undefined && sessionStorage.getItem('defaultRecords') != "") {
+    //   this.selectedValue = Number(sessionStorage.getItem('defaultRecords'));
+    // } else {
+    //   this.selectedValue = Number(this.commonData.default_count);
+    // }
+    if (sessionStorage.isFilterEnabled == "true") {
+      this.isColumnFilter = true;
+    } else {
+      this.isColumnFilter = false;
+    }
+    this.getCustomerTemplateList();
+
   }
+
+  // dataStateChanged(event) {
+  //   // console.log(event);
+  //   event.filter = [];
+  //   this.record_per_page = sessionStorage.getItem('defaultRecords');
+  //   this.selectedValue = event.take;
+  //   this.skip = event.skip;
+  // }
+
+  // on_selection(grid_event) {
+  //   grid_event.selectedRows = [];
+  // }
+
+  
+  saveFilterState() {
+    sessionStorage.setItem('isFilterEnabled', this.isColumnFilter.toString());
+  }
+
+  // on_page_limit_change() {
+  //   this.current_page = 1;
+  // }
+
+  // getPageValue() {
+  //   if (this.selectedValue == null) {
+  //     this.selectedValue = 10;
+  //   }
+  //   return this.selectedValue;
+  // }
+
+
+  // function for getting customer template list 
+
+  getCustomerTemplateList() {
+
+    this.showLookupLoader = true;
+    CommonData.made_changes = true;
+    this.need_customer_table = []
+    this.service.getCustomerTemplateMappingList().subscribe(
+      data => {
+        this.showLookupLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.showLookupLoader = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.router, 'Sessionout');
+            return;
+          }
+        }
+        if (data.length > 0) {
+
+          for (let i = 0; i < data.length; i++) {
+            this.need_customer_table.push({
+              customer_name: data[i].CUSTOMER_NAME,
+              template_ID: data[i].OPTM_TEMPLATEID,
+              rowindex: i,
+              CustID: data[i].CustID,
+              OPTM_ID: 0,
+
+            });
+          }
+        }
+        else {
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
+  }
+
+
 
   getListDefaultNeedAssementTemplate(rowindex: any) {
     this.currentrowIndex = rowindex;
@@ -68,14 +170,14 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
 
   // function for customer number change 
 
-  on_customerName_change(customerName: any, rowNumber: any) {
-    this.currentrowIndex = rowNumber;
-    for (let i = 0; i < this.need_customer_table.length; i++) {
-      if (i == this.currentrowIndex) {
-        this.need_customer_table[i].customer_name = customerName;
-      }
-    }
-  }
+  // on_customerName_change(customerName: any, rowNumber: any) {
+  //   this.currentrowIndex = rowNumber;
+  //   for (let i = 0; i < this.need_customer_table.length; i++) {
+  //     if (i == this.currentrowIndex) {
+  //       this.need_customer_table[i].customer_name = customerName;
+  //     }
+  //   }
+  // }
 
   // function for geeting default template output from look up component
   getLookupValue($event) {
@@ -85,6 +187,12 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
     }
     CommonData.made_changes = true;
     this.need_customer_table[this.currentrowIndex].template_ID = $event[0];
+    this.cusomerChangeTemplateMapping.push({
+      // CUSTOMER_NAME: this.need_customer_table[this.currentrowIndex].customer_name,
+      OPTM_TEMPLATEID: $event[0],
+      CustID: this.need_customer_table[this.currentrowIndex].CustID,
+      OPTM_ID: 0
+    });
   }
 
 
@@ -102,6 +210,12 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
         }
         else {
           this.need_customer_table[rowIndex].template_ID = TemplateID;
+          this.cusomerChangeTemplateMapping.push({
+            // CUSTOMER_NAME: this.need_customer_table[this.currentrowIndex].customer_name,
+            OPTM_TEMPLATEID: TemplateID,
+            CustID: this.need_customer_table[this.currentrowIndex].CustID,
+            OPTM_ID: 0
+          });
           return;
         }
       }, error => {
@@ -117,7 +231,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   onSaveClick() {
     console.log(this.need_customer_table);
     this.showLookupLoader = true;
-    this.service.SaveConfigurationNeedAssesment(this.need_customer_table).subscribe(data => {
+    this.service.SaveCustomerTemplate(this.cusomerChangeTemplateMapping).subscribe(data => {
       this.showLookupLoader = false;
       if (data == "7001") {
         CommonData.made_changes = false
