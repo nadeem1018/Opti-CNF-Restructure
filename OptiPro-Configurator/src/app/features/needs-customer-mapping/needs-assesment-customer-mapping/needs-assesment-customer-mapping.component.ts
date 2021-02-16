@@ -8,6 +8,7 @@ import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 
 
 
+
 @Component({
   selector: 'app-needs-assesment-customer-mapping',
   templateUrl: './needs-assesment-customer-mapping.component.html',
@@ -24,6 +25,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   public serviceData = [];
   public currentrowIndex = 0;
   public customerDisable = true;
+  public currentPage = 1;
   public cusomerChangeTemplateMapping = [];
   public need_customer_table = [];
   public isColumnFilter: boolean = false;
@@ -31,6 +33,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   public skip: number = 0;
   private data: Object[];
   public gridView: GridDataResult;
+
 
   constructor(private router: Router, private httpclient: HttpClient, private CommonService: CommonService, private service: CustomerTemplateMappingService) { }
 
@@ -50,6 +53,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
     this.skip = event.skip;
     this.loadItems();
   }
+
 
   public loadItems(): void {
     this.gridView = {
@@ -173,10 +177,10 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
     CommonData.made_changes = true;
     this.need_customer_table[this.currentrowIndex].template_ID = $event[0];
     this.cusomerChangeTemplateMapping.push({
-      // CUSTOMER_NAME: this.need_customer_table[this.currentrowIndex].customer_name,
+      // CUSTOMER_NAME: this.need_customer_table[this.currentrowIndex].customer_name
+      OPTM_ID: 0,
       OPTM_TEMPLATEID: $event[0],
       CustID: this.need_customer_table[this.currentrowIndex].CustID,
-      OPTM_ID: 0
     });
   }
 
@@ -197,9 +201,9 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
           this.need_customer_table[rowIndex].template_ID = TemplateID;
           this.cusomerChangeTemplateMapping.push({
             // CUSTOMER_NAME: this.need_customer_table[this.currentrowIndex].customer_name,
+            OPTM_ID: 0,
             OPTM_TEMPLATEID: TemplateID,
             CustID: this.need_customer_table[this.currentrowIndex].CustID,
-            OPTM_ID: 0
           });
           return;
         }
