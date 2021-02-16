@@ -179,8 +179,9 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
     this.cusomerChangeTemplateMapping.push({
       // CUSTOMER_NAME: this.need_customer_table[this.currentrowIndex].customer_name
       OPTM_ID: 0,
-      OPTM_TEMPLATEID: $event[0],
       CustID: this.need_customer_table[this.currentrowIndex].CustID,
+      OPTM_TEMPLATEID: $event[0]
+      
     });
   }
 
@@ -202,8 +203,9 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
           this.cusomerChangeTemplateMapping.push({
             // CUSTOMER_NAME: this.need_customer_table[this.currentrowIndex].customer_name,
             OPTM_ID: 0,
-            OPTM_TEMPLATEID: TemplateID,
             CustID: this.need_customer_table[this.currentrowIndex].CustID,
+            OPTM_TEMPLATEID: TemplateID
+            
           });
           return;
         }
