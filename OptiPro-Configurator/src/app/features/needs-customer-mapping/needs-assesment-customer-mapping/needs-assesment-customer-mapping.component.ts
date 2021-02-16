@@ -207,7 +207,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
     this.need_customer_table[this.currentrowIndex].template_ID = $event[0];
     this.cusomerChangeTemplateMapping.push({
       // CUSTOMER_NAME: this.need_customer_table[this.currentrowIndex].customer_name
-      OPTM_ID: 0,
+      OPTM_ID: this.need_customer_table[this.currentrowIndex].OPTM_ID,
       CustID: this.need_customer_table[this.currentrowIndex].CustID,
       OPTM_TEMPLATEID: $event[0]
 
@@ -231,7 +231,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
           this.need_customer_table[rowIndex].template_ID = TemplateID;
           this.cusomerChangeTemplateMapping.push({
             // CUSTOMER_NAME: this.need_customer_table[this.currentrowIndex].customer_name,
-            OPTM_ID: 0,
+            OPTM_ID: this.need_customer_table[this.currentrowIndex].OPTM_ID,
             CustID: this.need_customer_table[this.currentrowIndex].CustID,
             OPTM_TEMPLATEID: TemplateID
 
@@ -264,6 +264,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
         CommonData.made_changes = false
         this.CommonService.show_notification(this.language.DataSaved, 'success');
         this.cusomerChangeTemplateMapping = [];
+        this.getCustomerTemplateList();
         return;
       }
       else if (data == "AlreadyExist") {
