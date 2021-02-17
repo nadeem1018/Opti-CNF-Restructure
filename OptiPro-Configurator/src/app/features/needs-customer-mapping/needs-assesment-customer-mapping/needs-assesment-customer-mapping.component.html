@@ -24,77 +24,76 @@
     <div class="card" fxFlex>
         <div class="card-body pb-2" fxFlex fxLayout="column">
             <!-- <form name="bom_feature_form" class="form-horizontal" fxFlex="0 1 100%" fxLayout="column"> -->
-                <div class="main-portion">
-                    <div class="row h-100">
-                        <div class="col-md-12 d-flex flex-column" id="left-table-section">
-                            <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
-                                <kendo-grid [data]="gridView" [reorderable]="true" [resizable]="true" (pageChange)="pageChange($event)"
-                                    [selectable]="true" [skip]="skip" [sortable]="false" [filterable]="isColumnFilter"
-                                    [ngStyle]="{'height':'100%', 'max-width':'100%'}" [pageSize]="selectedValue"
-                                    [pageable]="true">
-                                    <ng-template kendoGridToolbarTemplate>
-                                        <label class="custom-checkbox mb-0">
-                                            <input #chkFilter type="checkbox" id="columnFilter" [(ngModel)]="isColumnFilter"
-                                                (change)="saveFilterState()" name="columnfilter">
-                                            <span class="checkbox"></span>
-                                            <span class="text-inverse">{{language.enable_filter}}</span>
-                                        </label>
+            <div class="main-portion">
+                <div class="row h-100">
+                    <div class="col-md-12 d-flex flex-column" id="left-table-section">
+                        <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
+                            <kendo-grid [data]="gridView" [reorderable]="true" [resizable]="true" (pageChange)="pageChange($event)"
+                                [selectable]="true" [skip]="skip" [sortable]="false" [filterable]="isColumnFilter"
+                                [filter]="text" [ngStyle]="{'height':'100%', 'max-width':'100%'}" [pageSize]="selectedValue"
+                                [pageable]="true"  (dataStateChange)="dataStateChanged($event)">
+                                <ng-template kendoGridToolbarTemplate>
+                                    <label class="custom-checkbox mb-0">
+                                        <input #chkFilter type="checkbox" id="columnFilter" [(ngModel)]="isColumnFilter"
+                                            (change)="saveFilterState()" name="columnfilter">
+                                        <span class="checkbox"></span>
+                                        <span class="text-inverse">{{language.enable_filter}}</span>
+                                    </label>
+                                </ng-template>
+                                <kendo-grid-column field="customer_name" title="{{language.need_customer}}" filter="text"
+                                    [width]="145" [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="customerDisable" class="form-control  form-control-sm"
+                                            #customer_name value={{dataItem.customer_name}} />
                                     </ng-template>
-                                    <kendo-grid-column field="Customer" title="{{language.need_customer}}" filter="text"
-                                        [width]="145" [minResizableWidth]="145" [filterable]="true">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <input type="text" [disabled]="customerDisable" class="form-control  form-control-sm"
-                                                #customer_name value={{dataItem.customer_name}} />
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="Need_Assement_Template" title="{{language.need_assesment_template}}"
-                                        filter="text" [width]="145" [minResizableWidth]="145">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <input type="hidden" class="form-control  form-control-sm" />
-                                            <div class="input-group">
-                                                <input type="text" value={{dataItem.template_ID}} class="form-control form-control-sm"
-                                                    (change)="onCheckDefaultTemplate(dataItem.template_ID,dataItem.rowindex)" />
-                                                <div class="input-group-append">
-                                                    <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
-                                                        (click)="getListDefaultNeedAssementTemplate(dataItem.rowindex)">
-                                                        <svg class="icon m-0" viewBox="0 -96 512 512">
-                                                            <use xlink:href="#menu"></use>
-                                                        </svg>
-                                                    </span>
-                                                </div>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="template_ID" title="{{language.need_assesment_template}}"
+                                    filter="text" [width]="145" [minResizableWidth]="145">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="hidden" class="form-control  form-control-sm" />
+                                        <div class="input-group">
+                                            <input type="text" value={{dataItem.template_ID}} class="form-control form-control-sm"
+                                                (change)="onCheckDefaultTemplate(dataItem.template_ID,dataItem.rowindex)" />
+                                            <div class="input-group-append">
+                                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getListDefaultNeedAssementTemplate(dataItem.rowindex)">
+                                                    <svg class="icon m-0" viewBox="0 -96 512 512">
+                                                        <use xlink:href="#menu"></use>
+                                                    </svg>
+                                                </span>
                                             </div>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
-                                        <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
-                                        <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
-                                        <kendo-pager-next-buttons></kendo-pager-next-buttons>
-                                        <kendo-dropdownlist [data]="listItems" class="form-control-sm ml-3 form-control d-inline-flex w-auto"
-                                            (selectionChange)="getcurrentPageSize($event)" [(ngModel)]="selectedValue"></kendo-dropdownlist>
-                                        <kendo-pager-info></kendo-pager-info>
+                                        </div>
                                     </ng-template>
-                                </kendo-grid>
-                            </div>
+                                </kendo-grid-column>
+                                <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                                    <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                                    <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
+                                    <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                                    <kendo-dropdownlist [data]="listItems" class="form-control-sm ml-3 form-control d-inline-flex w-auto"
+                                        (selectionChange)="getcurrentPageSize($event)" [(ngModel)]="selectedValue"></kendo-dropdownlist>
+                                    <kendo-pager-info></kendo-pager-info>
+                                </ng-template>
+                            </kendo-grid>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
-                    <div class="mr-auto d-flex align-items-center flex-wrap">
-                        <button type="button" (click)="onSaveClick()" class="btn btn-sm btn-success with-icon mr-2 ">
-                            <svg viewBox="0 0 512 512" class="icon">
-                                <use xlink:href="#saveDisk"></use>
-                            </svg> {{language.save}}
-                        </button>
-                    </div>
-                    <div class="ml-auto d-flex align-items-center flex-wrap">
-                        <button type="button" routerLink="{{view_route_link}}" class="btn btn-sm btn-secondary with-icon">
-                            <svg viewBox="0 0 489 489" class="icon">
-                                <use xlink:href="#cancel"></use>
-                            </svg>{{language.cancel}}
-                        </button>
-                    </div>
+            <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
+                <div class="mr-auto d-flex align-items-center flex-wrap">
+                    <button type="button" (click)="onSaveClick()" class="btn btn-sm btn-success with-icon mr-2 ">
+                        <svg viewBox="0 0 512 512" class="icon">
+                            <use xlink:href="#saveDisk"></use>
+                        </svg> {{language.save}}
+                    </button>
                 </div>
+                <div class="ml-auto d-flex align-items-center flex-wrap">
+                    <button type="button" routerLink="{{view_route_link}}" class="btn btn-sm btn-secondary with-icon">
+                        <svg viewBox="0 0 489 489" class="icon">
+                            <use xlink:href="#cancel"></use>
+                        </svg>{{language.cancel}}
+                    </button>
+                </div>
+            </div>
             <!-- </form> -->
         </div>
     </div>

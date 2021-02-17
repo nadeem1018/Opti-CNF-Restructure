@@ -4,7 +4,8 @@ import { CommonService } from 'src/app/core/service/common.service';
 import { HttpClient } from '@angular/common/http';
 import { CommonData } from 'src/app/core/data/CommonData';
 import { CustomerTemplateMappingService } from 'src/app/core/service/custmermapping.service';
-import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, PageChangeEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
+import { process, State } from '@progress/kendo-data-query';
 
 
 
@@ -36,6 +37,10 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   record_per_page: any;
   current_page: any = 1;
   public listItems: Array<string> = this.commonData.default_limits;
+  public state: State = {
+    skip: 0,
+    take: 5,
+   }
 
 
   constructor(private router: Router, private httpclient: HttpClient, private CommonService: CommonService, private service: CustomerTemplateMappingService) { }
@@ -63,17 +68,25 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
     this.loadItems();
   }
 
+
+
   // on_selection(grid_event) {
   //   grid_event.selectedRows = [];
   // }
 
-  // dataStateChanged(event) {
-  //   // console.log(event);
-  //   event.filter = [];
-  //   this.record_per_page = sessionStorage.getItem('defaultRecords');
-  //   this.selectedValue = event.take;
-  //   this.skip = event.skip;
-  // }
+  dataStateChanged(event: DataStateChangeEvent): void {
+    // console.log(event);
+    this.record_per_page = sessionStorage.getItem('defaultRecords');
+    this.selectedValue = event.take;
+    this.skip = event.skip;
+    let gridData = process(this.need_customer_table, event);
+    this.gridView = 
+    {
+      data : gridData.data.slice(this.skip, this.skip + this.selectedValue),
+      total: gridData.data.length
+    }
+
+  }
 
 
   public loadItems(): void {
@@ -89,6 +102,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
     this.skip = 0;
     this.selectedValue = grid_value;
     this.record_per_page = sessionStorage.getItem('defaultRecords');
+    this.loadItems();
   }
 
 
