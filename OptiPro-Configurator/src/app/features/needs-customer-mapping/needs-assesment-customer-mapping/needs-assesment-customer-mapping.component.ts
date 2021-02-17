@@ -4,8 +4,9 @@ import { CommonService } from 'src/app/core/service/common.service';
 import { HttpClient } from '@angular/common/http';
 import { CommonData } from 'src/app/core/data/CommonData';
 import { CustomerTemplateMappingService } from 'src/app/core/service/custmermapping.service';
-import { GridDataResult, PageChangeEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
-import { process, State } from '@progress/kendo-data-query';
+import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { filterBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
+
 
 
 
@@ -16,6 +17,8 @@ import { process, State } from '@progress/kendo-data-query';
   styleUrls: ['./needs-assesment-customer-mapping.component.scss']
 })
 export class NeedsAssesmentCustomerMappingComponent implements OnInit {
+
+  //varibales define of NeedsAssesmentCustomerMappingComponent class
 
   language = JSON.parse(sessionStorage.getItem('current_lang'));
   public commonData = new CommonData();
@@ -36,14 +39,14 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   public gridView: GridDataResult;
   record_per_page: any;
   current_page: any = 1;
+  public filter: CompositeFilterDescriptor;
   public listItems: Array<string> = this.commonData.default_limits;
-  public state: State = {
-    skip: 0,
-    take: 5,
-   }
+
 
 
   constructor(private router: Router, private httpclient: HttpClient, private CommonService: CommonService, private service: CustomerTemplateMappingService) { }
+
+  // hook cycle of componnent ,, 
 
   ngOnInit() {
 
@@ -62,6 +65,8 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
 
   }
 
+  // function for page change in grid.
+
   public pageChange(event: PageChangeEvent): void {
     this.skip = event.skip;
     this.selectedValue = event.take;
@@ -69,25 +74,20 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   }
 
 
+  // function for filter column and get filter data in grid .
 
-  // on_selection(grid_event) {
-  //   grid_event.selectedRows = [];
-  // }
-
-  dataStateChanged(event: DataStateChangeEvent): void {
-    // console.log(event);
-    this.record_per_page = sessionStorage.getItem('defaultRecords');
-    this.selectedValue = event.take;
-    this.skip = event.skip;
-    let gridData = process(this.need_customer_table, event);
-    this.gridView = 
-    {
-      data : gridData.data.slice(this.skip, this.skip + this.selectedValue),
-      total: gridData.data.length
-    }
-
+  public filterChange(filter: CompositeFilterDescriptor): void {
+    this.filter = filter;
+    let gridData = filterBy(this.need_customer_table, filter);
+    this.gridView =
+      {
+        data: gridData.slice(this.skip, this.skip + this.selectedValue),
+        total: gridData.length
+      }
   }
 
+
+  // function for load items  in grid .
 
   public loadItems(): void {
     this.gridView = {
@@ -95,6 +95,8 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
       total: this.need_customer_table.length
     };
   }
+
+  // function for get current page of grid .
 
   getcurrentPageSize(grid_value) {
     sessionStorage.setItem('defaultRecords', grid_value);
@@ -106,7 +108,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   }
 
 
-
+  // function for set default state for filter
   saveFilterState() {
     sessionStorage.setItem('isFilterEnabled', this.isColumnFilter.toString());
   }
@@ -160,6 +162,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   }
 
 
+  // function for get customer template list Api .
 
   getListDefaultNeedAssementTemplate(rowindex: any) {
     this.currentrowIndex = rowindex;
@@ -200,18 +203,8 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
     )
   }
 
-  // function for customer number change 
-
-  // on_customerName_change(customerName: any, rowNumber: any) {
-  //   this.currentrowIndex = rowNumber;
-  //   for (let i = 0; i < this.need_customer_table.length; i++) {
-  //     if (i == this.currentrowIndex) {
-  //       this.need_customer_table[i].customer_name = customerName;
-  //     }
-  //   }
-  // }
-
   // function for geeting default template output from look up component
+
   getLookupValue($event) {
     if ($event.length == 0) {
       this.lookupfor = "";

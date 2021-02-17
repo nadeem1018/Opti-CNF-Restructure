@@ -23,15 +23,14 @@
     </div>
     <div class="card" fxFlex>
         <div class="card-body pb-2" fxFlex fxLayout="column">
-            <!-- <form name="bom_feature_form" class="form-horizontal" fxFlex="0 1 100%" fxLayout="column"> -->
             <div class="main-portion">
                 <div class="row h-100">
                     <div class="col-md-12 d-flex flex-column" id="left-table-section">
                         <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
                             <kendo-grid [data]="gridView" [reorderable]="true" [resizable]="true" (pageChange)="pageChange($event)"
                                 [selectable]="true" [skip]="skip" [sortable]="false" [filterable]="isColumnFilter"
-                                [filter]="text" [ngStyle]="{'height':'100%', 'max-width':'100%'}" [pageSize]="selectedValue"
-                                [pageable]="true"  (dataStateChange)="dataStateChanged($event)">
+                                [filter]="filter" [ngStyle]="{'height':'100%', 'max-width':'100%'}" [pageSize]="selectedValue"
+                                [pageable]="true" (filterChange)="filterChange($event)">
                                 <ng-template kendoGridToolbarTemplate>
                                     <label class="custom-checkbox mb-0">
                                         <input #chkFilter type="checkbox" id="columnFilter" [(ngModel)]="isColumnFilter"
@@ -94,7 +93,6 @@
                     </button>
                 </div>
             </div>
-            <!-- </form> -->
         </div>
     </div>
 </div>
