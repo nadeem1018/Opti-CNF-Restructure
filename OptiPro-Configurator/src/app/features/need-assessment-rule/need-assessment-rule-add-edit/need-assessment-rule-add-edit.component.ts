@@ -442,7 +442,8 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
                   OPTM_MODELCODE: fetch_data_output.OPTM_MODELCODE,
                   OPTM_DISPLAYNAME: fetch_data_output.OPTM_DISPLAYNAME,
                   OPTM_RULEID: fetch_data_output.OPTM_RULEID,
-                  OPTM_SEQID: fetch_data_output.OPTM_SEQID
+                  OPTM_SEQID: fetch_data_output.OPTM_SEQID,
+                  OPTM_SEQUENCENO: fetch_data_output.OPTM_SEQUENCENO
 
                 });
                 //       this.rule_expression_data[current_count].output_data.filter(function (Arr) {
@@ -551,7 +552,8 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
             this.CheckedData.push({
               ModelId: row_data.OPTM_MODELID,
               OPTM_MODELCODE: row_data.OPTM_MODELCODE,
-              OPTM_DISPLAYNAME: row_data.OPTM_DISPLAYNAME
+              OPTM_DISPLAYNAME: row_data.OPTM_DISPLAYNAME,
+              OPTM_SEQUENCENO: 0
             })
           }
           else {
@@ -563,7 +565,8 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
         this.CheckedData.push({
           ModelId: row_data.OPTM_MODELID,
           OPTM_MODELCODE: row_data.OPTM_MODELCODE,
-          OPTM_DISPLAYNAME: row_data.OPTM_DISPLAYNAME
+          OPTM_DISPLAYNAME: row_data.OPTM_DISPLAYNAME,
+          OPTM_SEQUENCENO: 0
         })
       }
     }
@@ -571,7 +574,8 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
       this.CheckedData.push({
         ModelId: row_data.OPTM_MODELID,
         OPTM_MODELCODE: row_data.OPTM_MODELCODE,
-        OPTM_DISPLAYNAME: row_data.OPTM_DISPLAYNAME
+        OPTM_DISPLAYNAME: row_data.OPTM_DISPLAYNAME,
+        OPTM_SEQUENCENO: 0
       })
     }
 
@@ -596,7 +600,8 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
           this.CheckedData.push({
             ModelId: this.dataArray[i].OPTM_MODELID,
             OPTM_MODELCODE: this.dataArray[i].OPTM_MODELCODE,
-            OPTM_DISPLAYNAME: this.dataArray[i].OPTM_DISPLAYNAME
+            OPTM_DISPLAYNAME: this.dataArray[i].OPTM_DISPLAYNAME,
+            OPTM_SEQUENCENO: 0
           })
         }
       }
@@ -1579,7 +1584,8 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
           OPTM_SEQID: this.rule_sequence_data[0].seq_count,
           OPTM_MODELID: this.CheckedData[i].ModelId,
           OPTM_MODELCODE: this.CheckedData[i].OPTM_MODELCODE,
-          OPTM_DISPLAYNAME: this.CheckedData[i].OPTM_DISPLAYNAME
+          OPTM_DISPLAYNAME: this.CheckedData[i].OPTM_DISPLAYNAME,
+          OPTM_SEQUENCENO: this.CheckedData[i].OPTM_SEQUENCENO
         });
       }
       this.CheckedData = []
@@ -1664,7 +1670,8 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
           OPTM_SEQID: seqId,
           OPTM_MODELID: this.CheckedData[i].ModelId,
           OPTM_MODELCODE: this.CheckedData[i].OPTM_MODELCODE,
-          OPTM_DISPLAYNAME: this.CheckedData[i].OPTM_DISPLAYNAME
+          OPTM_DISPLAYNAME: this.CheckedData[i].OPTM_DISPLAYNAME,
+          OPTM_SEQUENCENO:this.CheckedData[i].OPTM_SEQUENCENO
         });
       }
       this.CheckedData = []
@@ -1704,7 +1711,8 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
         this.CheckedData.push({
           ModelId: this.rule_feature_data[i].OPTM_MODELID,
           OPTM_MODELCODE: this.rule_feature_data[i].OPTM_MODELCODE,
-          OPTM_DISPLAYNAME: this.rule_feature_data[i].OPTM_DISPLAYNAME
+          OPTM_DISPLAYNAME: this.rule_feature_data[i].OPTM_DISPLAYNAME,
+          OPTM_SEQUENCENO: this.rule_feature_data[i].OPTM_SEQUENCENO
         })
         this.checkedChildCheckbox(this.rule_feature_data[i].OPTM_MODELID);
       }

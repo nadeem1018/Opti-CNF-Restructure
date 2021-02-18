@@ -297,7 +297,7 @@ export class NeedAssessmentRuleViewComponent implements OnInit {
             GUID: sessionStorage.getItem("GUID"),
             UsernameForLic: sessionStorage.getItem("loggedInUser")
         });
-        this.service.DeleteData(this.GetItemData).subscribe(
+        this.assessmentRuleService.DeleteData(this.GetItemData).subscribe(
             data => {
                 if(data != undefined && data.length > 0){
                     if (data[0].ErrorMsg == "7001") {
@@ -414,7 +414,7 @@ export class NeedAssessmentRuleViewComponent implements OnInit {
     delete_multi_row() {
         if (this.CheckedData.length > 0) {
         this.showLoader = true
-        this.service.DeleteData(this.CheckedData).subscribe(
+        this.assessmentRuleService.DeleteData(this.CheckedData).subscribe(
             data => {
                 this.showLoader = false
                 this.isMultiDelete = false;
