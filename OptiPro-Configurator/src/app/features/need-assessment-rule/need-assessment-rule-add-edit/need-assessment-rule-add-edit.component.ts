@@ -390,39 +390,35 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
                 OPTM_ASSESSMENTID: fetch_data.OPTM_NASS_ID,
                 condition: fetch_data.OPTM_CONDITION,
                 operand_1: fetch_data.OPTM_OP1CODE,
-                operand_1_code: fetch_data.OPTM_OP1CODE,
+                operand_1_code: fetch_data.OPTM_OPERAND1,
                 operand_2: fetch_data.OPTM_OP2CODE,
-                operand_2_code: fetch_data.OPTM_OP2CODE,
+                operand_2_code: fetch_data.OPTM_OPERAND2,
                 isTypeDisabled: type_disabled,
-                is_operand1_disable: operand1_disabled,
+                is_operand1_disable: false,
                 is_operand2_disable: operand2_disabled,
                 row_expression: expression,
               });
               input_loop_counter++;
-            }
-          }
+            
+          
           console.log("seq_counter_array - ");
           console.log(seq_counter_array);
 
           if (data.NeedsAssessmentRuleOutput.length > 0) {
             //   let typefromdatabase: any;
-            for (let i = 0; i < data.NeedsAssessmentRuleOutput.length; ++i) {
-              //     if (data.NeedsAssessmentRuleOutput[i].OPTM_FEATUREID != "" || data.NeedsAssessmentRuleOutput[i].OPTM_FEATUREID != null) {
-              //       typefromdatabase = 1;
+            var needsAssessmentRuleOutput = [];
+            needsAssessmentRuleOutput = data.NeedsAssessmentRuleOutput.filter(function (obj) {
+              return obj['OPTM_SEQID'] == fetch_data.OPTM_SEQID
+            });
+            for (let j = 0; j < needsAssessmentRuleOutput.length; ++j) {              
 
-              //     }
-              //     else {
-              //       typefromdatabase = 2;
-
-              //     }
-
-              var fetch_data = data.NeedsAssessmentRuleOutput[i];
+              var fetch_data_output = needsAssessmentRuleOutput[j];
               //     this.seq_count = fetch_data.OPTM_SEQID;
               //     let current_count = (this.seq_count - 1);
               //     // current counter for sequence not in a direct sequence 
               //     current_count = seq_counter_array[this.seq_count];
               //     let checked_child = (fetch_data.OPTM_ISINCLUDED.trim().toLowerCase() == 'true');
-              //     let default_checked = (fetch_data.OPTM_DEFAULT.trim().toLowerCase() == 'true');
+              //     let default_checked = (fetch_data.OPTM_DEFAULT.trim().toLowerCase() == 'true');            
 
               if (this.rule_expression_data[i] != undefined) {
                 this.rule_expression_data[i].output_data.push({
@@ -442,9 +438,11 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
                   //         default: default_checked,
                   //         is_default: default_checked,
                   //         type: typefromdatabase
-                  ModelId: fetch_data.OPTM_MODELID,
-                  OPTM_MODELCODE: fetch_data.OPTM_MODELCODE,
-                  OPTM_DISPLAYNAME: fetch_data.OPTM_DISPLAYNAME
+                  OPTM_MODELID: fetch_data_output.OPTM_MODELID,
+                  OPTM_MODELCODE: fetch_data_output.OPTM_MODELCODE,
+                  OPTM_DISPLAYNAME: fetch_data_output.OPTM_DISPLAYNAME,
+                  OPTM_RULEID: fetch_data_output.OPTM_RULEID,
+                  OPTM_SEQID: fetch_data_output.OPTM_SEQID
 
                 });
                 //       this.rule_expression_data[current_count].output_data.filter(function (Arr) {
@@ -457,6 +455,9 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
               }
             }
           }
+
+        }
+      }
 
           console.log(this.rule_expression_data);
           this.showLoader = false;
@@ -1646,12 +1647,29 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
       }
 
       let row_auto_index: any = '';
+      let seqId: any = '';
       for (let i = 0; i < this.rule_expression_data.length; ++i) {
         if (this.rule_expression_data[i].rowindex === this.editing_row) {
           row_auto_index = i;
+          seqId = this.rule_expression_data[i].seq_count;
         }
       }
+      this.rule_feature_data = this.rule_feature_data.filter(function (obj) {
+        return obj['OPTM_SEQID'] != seqId
+      });
 
+      for (let i = 0; i < this.CheckedData.length; ++i) {
+        this.rule_feature_data.push({
+          OPTM_RULEID: this.rule_wb_data.rule_code,
+          OPTM_SEQID: seqId,
+          OPTM_MODELID: this.CheckedData[i].ModelId,
+          OPTM_MODELCODE: this.CheckedData[i].OPTM_MODELCODE,
+          OPTM_DISPLAYNAME: this.CheckedData[i].OPTM_DISPLAYNAME
+        });
+      }
+      this.CheckedData = []
+      this.selectall = false
+      this.commonData.clearChildCheckbox();
       this.rule_expression_data[row_auto_index]['rowindex'] = this.editing_row;
       this.rule_expression_data[row_auto_index]['seq_count'] = this.rule_sequence_data[0].seq_count;
       this.rule_expression_data[row_auto_index]['expression'] = this.generated_expression_value;
@@ -1669,6 +1687,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
     this.add_sequence_mode = false;
     this.update_sequence_mode = true;
     this.rule_sequence_data = [];
+    this.commonData.clearChildCheckbox();
     if (row.row_data.length > 0) {
       let edit_expression_data = row.row_data;
       for (var data in edit_expression_data) {
