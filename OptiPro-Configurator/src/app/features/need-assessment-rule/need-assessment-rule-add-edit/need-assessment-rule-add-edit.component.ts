@@ -1580,7 +1580,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
       }
       for (let i = 0; i < this.CheckedData.length; ++i) {
         this.rule_feature_data.push({
-          OPTM_RULEID: this.rule_wb_data.rule_code,
+          OPTM_RULEID: this.rule_wb_data.RuleId,
           OPTM_SEQID: this.rule_sequence_data[0].seq_count,
           OPTM_MODELID: this.CheckedData[i].ModelId,
           OPTM_MODELCODE: this.CheckedData[i].OPTM_MODELCODE,
@@ -1666,7 +1666,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
 
       for (let i = 0; i < this.CheckedData.length; ++i) {
         this.rule_feature_data.push({
-          OPTM_RULEID: this.rule_wb_data.rule_code,
+          OPTM_RULEID: this.rule_wb_data.RuleId,
           OPTM_SEQID: seqId,
           OPTM_MODELID: this.CheckedData[i].ModelId,
           OPTM_MODELCODE: this.CheckedData[i].OPTM_MODELCODE,

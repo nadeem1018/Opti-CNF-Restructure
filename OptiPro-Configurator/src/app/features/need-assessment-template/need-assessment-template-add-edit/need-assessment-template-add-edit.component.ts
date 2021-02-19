@@ -1726,7 +1726,7 @@ onExplodeClick(type) {
     //this.ruleselected=this.rule_data;
     this.serviceData = [];
     this.showLookupLoader = true;
-    this.service.getRuleLookupList(this.modelbom_data.modal_id).subscribe(
+    this.assessmentService.getRuleLookupList(this.needsassessment_template.templateid).subscribe(
       data => {
         this.showLookupLoader = false;
         console.log(data);
