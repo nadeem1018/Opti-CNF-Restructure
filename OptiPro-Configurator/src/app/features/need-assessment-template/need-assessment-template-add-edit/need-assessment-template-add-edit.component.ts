@@ -780,9 +780,12 @@ on_defualt_change(value, rowindex) {
 }
 
 getLookupValue($event) {
- 
+  if($event.length == 0){
+    this.lookupfor = "";
+    return;
+  }
   if (this.lookupfor == "feature_Detail_lookup" || this.lookupfor == "ModelBom_Detail_lookup" || this.lookupfor == "Item_Detail_lookup") {
-    console.log("in here - selection ");
+   console.log("in here - selection ");
     for (let j = 0; j < this.modelbom_data.length; j++) {
       var psTypeCode = this.modelbom_data[j].type_value_code;
       var result = false;
@@ -838,7 +841,7 @@ getLookupValue($event) {
     CommonData.made_changes = true;
     this.getAssessmentDetails($event[0],$event[1],this.currentrowindex);
   }
-  else if (this.lookupfor == 'rule_section_lookup') {
+  else if (this.lookupfor == 'assessment_rule_section_lookup') {
     CommonData.made_changes = true;
     this.rule_data = $event;
   }
@@ -1894,7 +1897,7 @@ onExplodeClick(type) {
     let final_dataset_to_save: any = {};
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATE  = [];
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL = [];
-    //final_dataset_to_save.OPCONFIG_DEPENDENT_ASSESSMENT = [];
+    final_dataset_to_save.RuleData = [];
    
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATE.push({
       "OPTM_TEMPLATEID": this.needsassessment_template.templateid,
@@ -1912,7 +1915,7 @@ onExplodeClick(type) {
       
     }
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL = this.needsassessment_template_detail;  
-    
+    final_dataset_to_save.RuleData = this.rule_data;
   
     this.showLookupLoader = true;
     this.assessmentService.AddUpdateNeedAssessmentTemplateData(final_dataset_to_save).subscribe(

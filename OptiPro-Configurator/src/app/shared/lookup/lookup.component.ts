@@ -40,6 +40,7 @@ export class LookupComponent implements OnInit {
   public showLoader: boolean = false;
   public LookupDataLoaded: boolean = false;
   public RuleOutputLookupDataLoaded: boolean = false;
+  public AssessmentRuleOutputLookupDataLoaded: boolean = false;
   public show_associate_bom_popup: boolean = false;
   public showruleOutputLoader: boolean = false;
   public lookup_key = "";
@@ -64,6 +65,7 @@ export class LookupComponent implements OnInit {
   public rule_output_table_head = [];
   public rule_output_table_head_hidden_elements = [];
   public rule_output_data_loaded:boolean = false;
+  public assessment_rule_output_data_loaded:boolean = false;
   public rule_output_title: any;
   public resource_popup_title = '';
 
@@ -906,15 +908,16 @@ export class LookupComponent implements OnInit {
   }
 
   get_rule_output(rule_id, seq_id) {
-    this.rule_output_title = this.language.rule_output_title;
-    this.showruleOutputLoader = true;
-    this.RuleOutputLookupDataLoaded = false;
+    this.rule_output_title = this.language.rule_output_title;   
     this.rule_output_table_head = ['#', this.language.feature, this.language.description];
     this.rule_output_table_head_hidden_elements = [false, false, false];
-    this.rule_output_data_loaded = true;
+    this.showruleOutputLoader = true;
      
     let obj = this;
     if (this.popup_lookupfor == "assessment_rule_section_lookup") {
+      this.assessment_rule_output_data_loaded = true;
+      this.AssessmentRuleOutputLookupDataLoaded = false;
+      
       this.assessmentService.getRuleOutput(rule_id, seq_id).subscribe(
         data => {
           console.log(data);
@@ -929,10 +932,14 @@ export class LookupComponent implements OnInit {
             this.CommonService.isUnauthorized();
           }
         })
-
+       
+        this.AssessmentRuleOutputLookupDataLoaded = true;
     }
     else {
-    this.mbom.getRuleOutput(rule_id, seq_id).subscribe(
+     
+      this.rule_output_data_loaded = true;
+      this.RuleOutputLookupDataLoaded = false;
+      this.mbom.getRuleOutput(rule_id, seq_id).subscribe(
       data => {
         console.log(data);
         if (data !== '' && data !== undefined && data !== null) {
@@ -945,15 +952,16 @@ export class LookupComponent implements OnInit {
         if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
           this.CommonService.isUnauthorized();
         }
-      })
+      })    
+    this.RuleOutputLookupDataLoaded = true;
     }
     this.showruleOutputLoader = false;
-    this.RuleOutputLookupDataLoaded = true;
 
   }
   
   close_rule_window() {
     this.rule_output_data_loaded = false; 
+    this.assessment_rule_output_data_loaded = false; 
   }
 
   on_checkbox_checked(checkedvalue, row_data) {

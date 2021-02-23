@@ -225,6 +225,51 @@
     </div>
 </div>
 
+<div class="k-overlay" *ngIf="assessment_rule_output_data_loaded" [ngStyle]="{'z-index':'100000' }"></div>
+<div class="custom-window-wrapper" *ngIf="assessment_rule_output_data_loaded">
+    <div class="custom-window-innner">
+        <kendo-window [draggable]="isDraggable" class="border-0 bg-transparent" (close)="close_rule_window()"
+            [minWidth]="300" [ngStyle]="{'max-width':'1380px' }">
+            <kendo-window-titlebar>
+                <div class='k-window-title'>{{rule_output_title}}</div>
+                <button kendoWindowCloseAction></button>
+            </kendo-window-titlebar>
+            <div>
+                    <div class="lookup_data" *ngIf="AssessmentRuleOutputLookupDataLoaded">
+                            <kendo-grid [kendoGridBinding]="outputServiceData" [resizable]="true" [sortable]="false"
+                                [groupable]="false" [filterable]="false">
+                                <kendo-grid-column field="OPTM_MODELCODE" title="" template="" [width]="120" [minResizableWidth]="120">
+                                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                        {{language.model_ModelCode}}
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-row>
+                                        {{row.OPTM_MODELCODE}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_DISPLAYNAME" title="" template="" [width]="120" [minResizableWidth]="120">
+                                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                        {{language.Bom_Displayname}}
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-row>
+                                        {{row.OPTM_DISPLAYNAME}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SEQID" title="" template="" [width]="120" [minResizableWidth]="120">
+                                    <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                        {{language.sequence_number}}
+                                    </ng-template>
+                                    <ng-template kendoGridCellTemplate let-row>
+                                        {{row.OPTM_SEQID}}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                                                
+                            </kendo-grid>
+                        </div>
+            </div>
+        </kendo-window>
+    </div>
+</div>
+
 <!-- add attribute in master feature popup with kendo-->
 <div class="k-overlay" *ngIf="add_atttribute_master"></div>
 <div class="custom-window-wrapper" *ngIf="add_atttribute_master">
