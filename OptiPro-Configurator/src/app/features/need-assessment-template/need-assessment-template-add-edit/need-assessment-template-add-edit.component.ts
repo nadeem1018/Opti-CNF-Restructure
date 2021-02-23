@@ -1727,6 +1727,8 @@ onExplodeClick(type) {
     //this.ruleselected=this.rule_data;
     this.serviceData = [];
     this.showLookupLoader = true;
+    let final_dataset_to_save: any = {};    
+    final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL = [];    
 
     for(var i = 0; i < this.needsassessment_template_detail.length; i++) 
     {
@@ -1734,8 +1736,8 @@ onExplodeClick(type) {
         OPTM_ASSESSMENTID: this.needsassessment_template_detail[i].OPTM_ASSESSMENTID        
        });
     }
-
-    this.assessmentService.getRuleLookupList(this.assessmentIdList).subscribe(
+    final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL = this.assessmentIdList;
+    this.assessmentService.getRuleLookupList(final_dataset_to_save).subscribe(
       data => {
         this.showLookupLoader = false;
         console.log(data);

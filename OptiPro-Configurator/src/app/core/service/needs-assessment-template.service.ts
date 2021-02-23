@@ -77,13 +77,12 @@ export class NeedsAssessmentTemplateService {
 			return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentTemplate/DeleteNeedsAssessmentTemplateByTemplateID  ", jObject, this.common_params.httpOptions);
 		  }
 
-		  getRuleLookupList(assessmentIdList): Observable<any>{
-			let current_date = new Date();
-			let formatted_date: any = (current_date.getFullYear()) + '/' + (current_date.getMonth() + 1) + '/' + current_date.getDate();
-			this.logged_in_company = sessionStorage.selectedComp;
-			let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company,  OPTM_NASS_ID: assessmentIdList, currentDate: formatted_date ,
-			  GUID: sessionStorage.getItem("GUID"),
-			  UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
+		  getRuleLookupList(final_dataset_to_save): Observable<any>{
+			let cache_control = this.common_params.random_string(40);
+			final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL[0]['GUID'] = sessionStorage.getItem("GUID");
+			final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
+			final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL[0]['CompanyDBID'] = sessionStorage.selectedComp;      
+			var jObject = { GetData: JSON.stringify(final_dataset_to_save) };
 			//Return the response form the API  
 			return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentTemplate/GetAllRulesByAssessmentID", jObject, this.common_params.httpOptions);
 		  }
