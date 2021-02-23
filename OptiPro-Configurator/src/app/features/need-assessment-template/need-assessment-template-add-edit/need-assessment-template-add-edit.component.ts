@@ -83,6 +83,7 @@ export class NeedAssessmentTemplateAddEditComponent implements OnInit {
   public NewModel = "";
   public needsassessment_template: any = [];
   public needsassessment_template_detail: any = [];
+  public assessmentIdList: any = [];
 
   getSelectedRowDetail(event) {
     if (event.selectedRows.length > 0) {
@@ -1726,7 +1727,15 @@ onExplodeClick(type) {
     //this.ruleselected=this.rule_data;
     this.serviceData = [];
     this.showLookupLoader = true;
-    this.assessmentService.getRuleLookupList(this.needsassessment_template.templateid).subscribe(
+
+    for(var i = 0; i < this.needsassessment_template_detail.length; i++) 
+    {
+      this.assessmentIdList.push({       
+        OPTM_ASSESSMENTID: this.needsassessment_template_detail[i].OPTM_ASSESSMENTID        
+       });
+    }
+
+    this.assessmentService.getRuleLookupList(this.assessmentIdList).subscribe(
       data => {
         this.showLookupLoader = false;
         console.log(data);

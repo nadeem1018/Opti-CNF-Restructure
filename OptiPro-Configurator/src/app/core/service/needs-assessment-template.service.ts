@@ -77,11 +77,11 @@ export class NeedsAssessmentTemplateService {
 			return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentTemplate/DeleteNeedsAssessmentTemplateByTemplateID  ", jObject, this.common_params.httpOptions);
 		  }
 
-		  getRuleLookupList(id): Observable<any>{
+		  getRuleLookupList(assessmentIdList): Observable<any>{
 			let current_date = new Date();
 			let formatted_date: any = (current_date.getFullYear()) + '/' + (current_date.getMonth() + 1) + '/' + current_date.getDate();
 			this.logged_in_company = sessionStorage.selectedComp;
-			let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company,  OPTM_TEMPLATEID: id, currentDate: formatted_date ,
+			let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company,  OPTM_NASS_ID: assessmentIdList, currentDate: formatted_date ,
 			  GUID: sessionStorage.getItem("GUID"),
 			  UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
 			//Return the response form the API  
