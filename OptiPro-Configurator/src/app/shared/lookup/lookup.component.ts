@@ -9,6 +9,7 @@ import { ModelbomService } from 'src/app/core/service/modelbom.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { FeaturebomService } from 'src/app/core/service/featurebom.service';
 import { FeaturemodelService } from 'src/app/core/service/featuremodel.service';
+import { NeedsAssessmentTemplateService } from 'src/app/core/service/needs-assessment-template.service';
 
 @Component({
   selector: 'app-lookup',
@@ -105,6 +106,7 @@ export class LookupComponent implements OnInit {
     private CommonService: CommonService,
     private router: Router,
     private mbom: ModelbomService, 
+    private assessmentService: NeedsAssessmentTemplateService,
     private fms: FeaturemodelService
   ) { 
   }
@@ -195,6 +197,10 @@ export class LookupComponent implements OnInit {
       }
       if (this.popup_lookupfor == "rule_section_lookup") {
         this.ruleSelection();
+        return;
+      }
+      if (this.popup_lookupfor == "assessment_rule_section_lookup") {
+        this.ruleSelectionAssessment();
         return;
       }
 
@@ -808,6 +814,66 @@ export class LookupComponent implements OnInit {
     }
   }
 
+  ruleSelectionAssessment() {
+    this.popup_title = this.language.rule_selection;
+    this.LookupDataLoaded = false;
+    this.showLoader = true;
+    this.lookup_key = 'code';
+    this.table_head = [this.language.select, this.language.rule, this.language.description];
+    console.log(this.serviceData);
+
+    this.table_head_hidden_elements = [false, false, false];
+    this.width_value = ((100 / this.table_head.length) + '%');
+
+    this.showLoader = false;
+    this.LookupDataLoaded = true;
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.checked_rules = [];
+        for (var i = 0; i < this.serviceData.length; i++) {
+          if (this.serviceData[i].Selected == "Y") {
+            this.serviceData[i].Selected = true;
+            this.checked_rules.push(this.serviceData[i]);
+          }
+          else {
+            this.serviceData[i].Selected = false;
+          }
+
+        }
+        this.rule_selection_show = true;
+      }
+    }
+  }
+
+  get_rule_output_assessment(rule_id, seq_id) {
+    this.rule_output_title = this.language.rule_output_title;
+    this.showruleOutputLoader = true;
+    this.RuleOutputLookupDataLoaded = false;
+    this.rule_output_table_head = ['#', this.language.feature, this.language.description];
+    this.rule_output_table_head_hidden_elements = [false, false, false];
+    this.rule_output_data_loaded = true;
+     
+    let obj = this;
+    this.mbom.getRuleOutput(rule_id, seq_id).subscribe(
+      data => {
+        console.log(data);
+        if (data !== '' && data !== undefined && data !== null) {
+          obj.outputServiceData = data
+        } else {
+         this.CommonService.show_notification(this.language.incorrectfile, 'error');
+        }
+
+      }, error => {
+        if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
+          this.CommonService.isUnauthorized();
+        }
+      })
+
+    this.showruleOutputLoader = false;
+    this.RuleOutputLookupDataLoaded = true;
+
+  }
+
   ruleSelection() {
     this.popup_title = this.language.rule_selection;
     this.LookupDataLoaded = false;
@@ -848,6 +914,24 @@ export class LookupComponent implements OnInit {
     this.rule_output_data_loaded = true;
      
     let obj = this;
+    if (this.popup_lookupfor == "assessment_rule_section_lookup") {
+      this.assessmentService.getRuleOutput(rule_id, seq_id).subscribe(
+        data => {
+          console.log(data);
+          if (data !== '' && data !== undefined && data !== null) {
+            obj.outputServiceData = data
+          } else {
+           this.CommonService.show_notification(this.language.incorrectfile, 'error');
+          }
+  
+        }, error => {
+          if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
+            this.CommonService.isUnauthorized();
+          }
+        })
+
+    }
+    else {
     this.mbom.getRuleOutput(rule_id, seq_id).subscribe(
       data => {
         console.log(data);
@@ -862,7 +946,7 @@ export class LookupComponent implements OnInit {
           this.CommonService.isUnauthorized();
         }
       })
-
+    }
     this.showruleOutputLoader = false;
     this.RuleOutputLookupDataLoaded = true;
 

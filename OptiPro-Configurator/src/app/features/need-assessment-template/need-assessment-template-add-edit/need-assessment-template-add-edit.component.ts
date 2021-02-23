@@ -1722,7 +1722,7 @@ onExplodeClick(type) {
   }
 
   on_rule_click() {
-    this.lookupfor = "rule_section_lookup";
+    this.lookupfor = "assessment_rule_section_lookup";
     this.ruleselected = [];
     //this.ruleselected=this.rule_data;
     this.serviceData = [];
