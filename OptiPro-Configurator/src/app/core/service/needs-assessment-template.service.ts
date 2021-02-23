@@ -90,7 +90,7 @@ export class NeedsAssessmentTemplateService {
 		  getRuleOutput(rule_id, seq_id): Observable<any> {
 			this.logged_in_company = sessionStorage.selectedComp;
 			let jObject = { GetData: JSON.stringify([{ CompanyDBId: this.logged_in_company, RuleId: rule_id, SeqId: seq_id }]) };
-			return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentTemplate/GetOutputDataForRule", jObject, this.common_params.httpOptions);
+			return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentTemplate/GetModelDataForRuleByRuleIDSEQID", jObject, this.common_params.httpOptions);
 		  }
 		
   }
