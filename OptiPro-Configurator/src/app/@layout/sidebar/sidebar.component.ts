@@ -38,7 +38,7 @@ export class SidebarComponent implements OnInit {
       { "itemCode": "205", "itemName": this.language.need_assessment_template, "itemNav": "/need-assessment-template", "itemIcon": "#assessmentTemplate", "itemIconSize": "0 0 512 512", "permission": true },
       { "itemCode": "205", "itemName": this.language.need_assessment_rule, "itemNav": "/need-assessment-rule", "itemIcon": "#assessmentRule", "itemIconSize": "0 0 512 512", "permission": true },
       { "itemCode": "205", "itemName": this.language.config_need_assesment, "itemNav": "/configuration-needAssesment", "itemIcon": "#configurationAssesment", "itemIconSize": "0 0 512 512", "permission": true },
-      { "itemCode": "205", "itemName": this.language.need_Customer_mapping, "itemNav": "/needAssesment-customer-mapping", "itemIcon": "#assessmentTemplateMapping", "itemIconSize": "0 0 512 512", "permission": true }
+      { "itemCode": "205", "itemName": this.language.need_Customer_mapping, "itemNav": "/needAssesment-customer-mapping", "itemIcon": "#assessmentTemplateMapping", "itemIconSize": "0 0 400 512", "permission": true }
     ];
     let allowed_menus_ids = ["0"];
     this.CommonService.getMenuRecord().subscribe(
