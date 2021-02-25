@@ -202,7 +202,8 @@ export class CwViewOldComponent implements OnInit {
   public cutstomeViewEnable: boolean = false;
   public FeatureBOMCustomAttr:  any = [];
   public report_attribute: boolean = false;
-  
+  public customerNeedsAssessmentHeader: any = [];
+  public option: any = [];
    
   constructor(private ActivatedRouter: ActivatedRoute,
     private route: Router,
@@ -539,16 +540,18 @@ export class CwViewOldComponent implements OnInit {
 
     this.OutputService.GetNeedsAssessmentOptionByCustomerId(this.step1_data.customer).subscribe(
       data => {
-        if (data != undefined && data.length > 0) {
+        if (data != undefined && data.CustomerNeedsAssessmentHeader.length > 0) {
           this.showLookupLoader = false;
 
-          if (data[0].ErrorMsg == "7001") {
+          if (data.CustomerNeedsAssessmentHeader[0].ErrorMsg == "7001") {
             CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
           }
           this.navigation_in_steps(1, 2);
+          this.customerNeedsAssessmentHeader = data.CustomerNeedsAssessmentHeader
+          this.option = data.Option
           this.serviceData = data;
         }
         else {
@@ -6824,6 +6827,14 @@ export class CwViewOldComponent implements OnInit {
     }, 500);
 
   }
+   get_option(header_feature_table){
+    var array = [];
+    array = this.option.filter(function (obj) {
+      return obj['OPTM_ASSESSMENTID'] == header_feature_table['OPTM_ASSESSMENTID'] ;
+    });
+
+    return array;
+   }
 
   get_feature_elements(header_feature_table, feature_child_datatable, model_child_datatable) {
     //This function is used to render feature & model data with their respective BOM in left grid.

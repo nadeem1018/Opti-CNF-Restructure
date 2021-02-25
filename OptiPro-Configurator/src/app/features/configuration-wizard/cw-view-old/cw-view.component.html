@@ -352,13 +352,41 @@
                                 </div>
                                 <hr>
                             </div>            
-                            <div class="col-sm-4 mt-3px">
-                                <label class="custom-checkbox mb-0 w-100 curser-pointer">
+                            
+                            <label class="custom-checkbox mb-0 w-100 curser-pointer">
                                   <input type="checkbox"  id="ReadyToUse" name="ReadyToUse" >
                                   <span class="checkbox"></span>
                                   <span>{{language.skip}}</span>
-                                </label>
-                              </div>
+                             </label>
+                             <hr>
+
+                              <kendo-panelbar *ngIf="customerNeedsAssessmentHeader.length > 0" [selectable]="false">
+                                <kendo-panelbar-item [title]="header_data.OPTM_QUESTIONS" *ngFor="let header_data of customerNeedsAssessmentHeader; let i = index;" [expanded]="true">
+                                    <ng-template kendoPanelBarItemTitle>                                       
+                                        </ng-template>
+                                    <ng-template kendoPanelBarContent>                                        
+                                       
+                                            <table class="parent_table inner-table table table-bordered table-strip table-sm border-0 mb-0">                                               
+                                                <tbody *ngIf="get_option(header_data).length > 0">
+                                                    <tr *ngFor="let option_data of get_option(header_data); let i= index;" >
+                                                        <td class="text-center" [ngStyle]=" {'width': '30px'}">  
+                                                            
+                                                            <label class="custom-{{header_data.element_type}} mb-0 wihtout-label" >
+                                                                <input type="radio" id="radio_{{option_data.OPTM_ASSESSMENTID}}_{{option_data.OPTM_OPTIONSID}}_{{option_data.OPTM_LINENO}}_{{i}}" #selectionchecked name="radio_{{option_data.OPTM_ASSESSMENTID}}_{{option_data.OPTM_OPTIONSID}}_{{option_data.OPTM_LINENO}}_{{i}}" (change)="onselectionchange(feature_model_data,selectionchecked.checked,selectionchecked.id,false, header_data.unique_key, false, false, false)" [(checked)]="option_data.checked" >
+                                                                <span class="radio"></span>
+                                                            </label> 
+                                                        </td>                                                       
+                                                        <td>{{option_data.OPTM_OPTIONS}}</td>                                                   
+                                                                                                                                                                        
+                                                    </tr>
+                                                </tbody>
+                                              
+                                            </table>
+                                            
+
+                                    </ng-template>
+                                </kendo-panelbar-item>
+                            </kendo-panelbar>
                         </div>
 
                         <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2" *ngIf="isNextButtonVisible">
