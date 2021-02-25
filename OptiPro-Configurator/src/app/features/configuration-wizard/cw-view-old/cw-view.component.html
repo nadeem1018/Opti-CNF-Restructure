@@ -24,6 +24,10 @@
                                 <span class="icon"><svg viewBox="0 0 31.939 31.939" class="icon"><use xlink:href="#userDetail"></use></svg></span>
                                 <span class="step-name">{{language.select_customer_document}}</span>
                             </li>
+                            <li class="steps-info" id="customer_details">
+                                <span class="icon"><svg viewBox="0 0 107.07 122.88" class="icon"><use xlink:href="#attribute"></use></svg></span>
+                                <span class="step-name">{{language.need_assessment}}</span>
+                            </li>
                             <li class="steps-info" id="model_bom_config">
                                 <span class="icon"><svg viewBox="0 0 512 512" class="icon"><use xlink:href="#hierarchy"></use></svg></span>
                                 <span class="step-name">{{language.select_model_bom_config_short}}</span>
@@ -46,7 +50,7 @@
                                     <div class="row bg-primary py-1 text-white">
                                         <div class="col-md-10">
                                             <svg viewBox="0 0 474.565 474.565" class="icon fill-white mr-2"><use xlink:href="#userOperation"></use></svg> {{language.choose_one_action}} </div>
-                                        <div class="col-md-2 text-right"> {{language.step_1_5}} </div>
+                                        <div class="col-md-2 text-right"> {{language.step_1_6}} </div>
                                     </div>
                                 </div>
                                 <hr>
@@ -115,7 +119,7 @@
                                     <div class="row bg-primary py-1 text-white">
                                         <div class="col-md-10 pull-left d-inline-flex align-items-center">
                                             <svg viewBox="0 0 31.939 31.939" class="icon fill-white mr-2"><use xlink:href="#userDetail"></use></svg> {{language.customer_doc_detail}} </div>
-                                        <div class="col-md-2 pull-right text-right"> {{language.step_2_5}} </div>
+                                        <div class="col-md-2 pull-right text-right"> {{language.step_2_6}} </div>
                                     </div>
                                 </div>
                                 <hr>
@@ -334,6 +338,87 @@
                             </button>
                         </div>
                     </div>
+                    </fieldset> 
+                    <fieldset class="one_step_block" data-block_id="need_assessment">
+                        <div class="second_step_block">
+                        <div class="main-portion">
+                            <div class="wizard_heading_section">
+                                <div class="container-fluid">
+                                    <div class="row bg-primary py-1 text-white">
+                                        <div class="col-md-10 pull-left d-inline-flex align-items-center">
+                                            <svg viewBox="0 0 107.07 122.88" class="icon fill-white mr-2"><use xlink:href="#attribute"></use></svg> {{language.need_assessment}} </div>
+                                        <div class="col-md-2 pull-right text-right"> {{language.step_3_6}} </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>            
+                            
+                            <label class="custom-checkbox mb-0 w-100 curser-pointer">
+                                  <input type="checkbox"  id="ReadyToUse" name="ReadyToUse" >
+                                  <span class="checkbox"></span>
+                                  <span>{{language.skip}}</span>
+                             </label>
+                             <hr>
+
+                              <kendo-panelbar *ngIf="customerNeedsAssessmentHeader.length > 0" [selectable]="false">
+                                <kendo-panelbar-item [title]="header_data.OPTM_QUESTIONS" *ngFor="let header_data of customerNeedsAssessmentHeader; let i = index;" [expanded]="true">
+                                    <ng-template kendoPanelBarItemTitle>                                       
+                                        </ng-template>
+                                    <ng-template kendoPanelBarContent>                                        
+                                       
+                                            <table class="parent_table inner-table table table-bordered table-strip table-sm border-0 mb-0">                                               
+                                                <tbody *ngIf="get_option(header_data).length > 0">
+                                                    <tr *ngFor="let option_data of get_option(header_data); let i= index;" >
+                                                        <td class="text-center" [ngStyle]=" {'width': '30px'}">  
+                                                            
+                                                            <label class="custom-{{header_data.element_type}} mb-0 wihtout-label" >
+                                                                <input type="radio" id="radio_{{option_data.OPTM_ASSESSMENTID}}_{{option_data.OPTM_OPTIONSID}}_{{option_data.OPTM_LINENO}}_{{i}}" #selectionchecked name="radio_{{option_data.OPTM_ASSESSMENTID}}_{{option_data.OPTM_OPTIONSID}}_{{option_data.OPTM_LINENO}}_{{i}}" (change)="onselectionchange(feature_model_data,selectionchecked.checked,selectionchecked.id,false, header_data.unique_key, false, false, false)" [(checked)]="option_data.checked" >
+                                                                <span class="radio"></span>
+                                                            </label> 
+                                                        </td>                                                       
+                                                        <td>{{option_data.OPTM_OPTIONS}}</td>                                                   
+                                                                                                                                                                        
+                                                    </tr>
+                                                </tbody>
+                                              
+                                            </table>
+                                            
+
+                                    </ng-template>
+                                </kendo-panelbar-item>
+                            </kendo-panelbar>
+                        </div>
+
+                        <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2" *ngIf="isNextButtonVisible">
+                            <div class="input-group d-inline-flex w-auto mr-2" *ngIf="showPrintOptions">
+                                <select class="form-control form-control-sm d-inline-flex" name="print-operation-type" id="print-operation-type" #printOperationType>
+                                    <option value="">{{language.print_option}}</option>
+                                    <option value="1">{{language.summary}}</option>
+                                    <option value="2">{{language.detail}}</option>
+                                </select>
+                                <div class="input-group-append">
+                                    <button class="btn btn-sm btn-success btn-icon" (click)="output_new_invoice(printOperationType.value)" title="Print">
+                                        <svg viewBox="0 0 512 512" class=""><use xlink:href="#printer"></use></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <span class="output_final_screen_save_button">
+                                <button (click)="onSavePress()" *ngIf="isNextButtonVisible" type="button" class="btn btn-sm btn-success with-icon mr-2">
+                                    <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.save}}
+                                </button>
+                            </span>
+                            <button type="button" class="btn btn-sm btn-secondary with-icon btn-previous mr-2" (click)="navigation_in_steps(2, 1)" data-previous-block="choose_operation">
+                                <svg viewBox="0 0 24 24" class="icon left-arrow arrow-icon"><use xlink:href="#rightArrow"></use></svg> {{language.previous}}
+                            </button>
+                            <button type="button" *ngIf="isNextButtonVisible" class="btn btn-sm btn-primary with-icon" (click)="step3_next_click_validation()">
+                                <svg viewBox="0 0 24 24" class="icon arrow-icon"><use xlink:href="#rightArrow"></use></svg> {{language.next}}
+                            </button>                
+                            <button type="button" [ngStyle]=" {'display': 'none'}" *ngIf="isNextButtonVisible" class="btn btn-sm btn-primary with-icon btn-next step_2_redirect ml-2"
+                            data-next-block="model_bom_config">
+                                <svg viewBox="0 0 24 24" class="icon arrow-icon"><use xlink:href="#rightArrow"></use></svg>{{language.next}}
+                            </button>
+                        </div>
+                    </div>
                     </fieldset>            
                     <fieldset class="one_step_block" data-block_id="model_bom_config">
                         <div class="second_step_block">
@@ -344,7 +429,7 @@
                                         <div class="col-md-10 pull-left d-inline-flex align-items-center">
                                             <svg viewBox="0 0 512 512" class="icon fill-white mr-2"><use xlink:href="#hierarchy"></use></svg> {{language.model_bill_ofm}}
                                         </div>
-                                        <div class="col-md-2 text-right"> {{language.step_3_5}} </div>
+                                        <div class="col-md-2 text-right"> {{language.step_4_6}} </div>
                                     </div>
                                 </div>
                                 <hr>
@@ -814,7 +899,7 @@
                                         </button>
                                     </span>
                     
-                                    <button type="button" class="btn btn-sm btn-secondary with-icon btn-previous mr-2" data-previous-block="customer_details" (click)="navigation_in_steps(2, 1)">
+                                    <button type="button" class="btn btn-sm btn-secondary with-icon btn-previous mr-2" data-previous-block="customer_details" (click)="navigation_in_steps(3, 2)">
                                         <svg viewBox="0 0 24 24" class="icon left-arrow arrow-icon"><use xlink:href="#rightArrow"></use></svg>{{language.previous}}
                                     </button>
                     
@@ -838,7 +923,7 @@
                                     <div class="row bg-primary py-1 text-white">
                                         <div class="col-md-10">
                                             <svg viewBox="0 0 496.121 496.121" class="icon fill-white mr-2"><use xlink:href="#verifiedDocument"></use></svg> {{language.verify_select_final}} </div>
-                                        <div class="col-md-2 text-right"> {{language.step_4_5}} </div>
+                                        <div class="col-md-2 text-right"> {{language.step_5_6}} </div>
                                     </div>
                                 </div>
                                 <hr>
@@ -1133,7 +1218,7 @@
                                 </button>
                             </span>
                 
-                            <button type="button" class="btn btn-sm btn-secondary with-icon btn-previous mr-2" data-previous-block="model_bom_config" (click)="navigation_in_steps(3, 2)">
+                            <button type="button" class="btn btn-sm btn-secondary with-icon btn-previous mr-2" data-previous-block="model_bom_config" (click)="navigation_in_steps(4, 3)">
                                 <svg viewBox="0 0 24 24" class="icon left-arrow arrow-icon"><use xlink:href="#rightArrow"></use></svg> {{language.previous}}
                             </button>
                 
@@ -1155,7 +1240,7 @@
                                     <div class="row bg-primary py-1 text-white">
                                         <div class="col-md-10 pull-left d-inline-flex align-items-center">
                                             <svg viewBox="-24 0 480 480" class="icon fill-white mr-2"><use xlink:href="#finalDocument"></use></svg>{{language.sales_order_creation}} </div>
-                                        <div class="col-md-2 pull-right text-right"> {{language.step_5_5}} </div>
+                                        <div class="col-md-2 pull-right text-right"> {{language.step_6_6}} </div>
                                     </div>
                                 </div>
                                 <hr>
