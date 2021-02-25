@@ -533,6 +533,39 @@ export class CwViewOldComponent implements OnInit {
     )
   }
 
+  GetNeedsAssessmentByCustomerId() {
+    CommonData.made_changes = true;   
+    this.showLookupLoader = true;
+
+    this.OutputService.GetNeedsAssessmentOptionByCustomerId(this.step1_data.customer).subscribe(
+      data => {
+        if (data != undefined && data.length > 0) {
+          this.showLookupLoader = false;
+
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.route, 'Sessionout');
+            return;
+          }
+          this.navigation_in_steps(1, 2);
+          this.serviceData = data;
+        }
+        else {
+         
+          this.showLookupLoader = false;         
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      }, error => {
+        this.showLookupLoader = false;
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+      }
+    )
+  }
+
   getAllDetails(operationType, logid, description) {
     this.OutputService.GetAllOutputData(operationType, logid, description).subscribe(
       data => {
@@ -1886,6 +1919,9 @@ export class CwViewOldComponent implements OnInit {
 
     }
   }
+  step3_next_click_validation() {
+    this.navigation_in_steps(2, 3);
+  }
 
   step2_next_click_validation() {
     if (this.step1_data.document == "draft") {
@@ -1915,7 +1951,8 @@ export class CwViewOldComponent implements OnInit {
         this.CommonService.show_notification(this.language.required_fields_direct + " - " + required_fields, 'error');
         return false;
       } else {
-        this.navigation_in_steps(1, 2);
+        this.GetNeedsAssessmentByCustomerId();
+       
       }
     }
   }
@@ -5295,7 +5332,7 @@ export class CwViewOldComponent implements OnInit {
             this.CommonService.show_notification(this.language.OperCompletedSuccess, 'success');
 
             if (button_press == 'finishPress') {
-              this.navigation_in_steps(3, 4);
+              this.navigation_in_steps(4, 5);
               setTimeout(function () {
                 obj.getFinalBOMStatus();
               }, 100);
@@ -5811,7 +5848,7 @@ export class CwViewOldComponent implements OnInit {
     this.navigatenextbtn = false;
     this.validnextbtn = true;
     if (navigte == true && this.step3_data_final.length > 0) {
-      this.navigation_in_steps(2, 3);
+      this.navigation_in_steps(3, 4);
       return;
     }
 
@@ -5948,7 +5985,7 @@ export class CwViewOldComponent implements OnInit {
 
     this.navigatenextbtn = true;
     if (navigte == true) {
-      this.navigation_in_steps(2, 3);
+      this.navigation_in_steps(3, 4);
       if (this.step3_data_final.length == 0) {
         this.fill_step3_data_array('add', '0');
         this.step2_selected_model = this.step3_data_final[0];
