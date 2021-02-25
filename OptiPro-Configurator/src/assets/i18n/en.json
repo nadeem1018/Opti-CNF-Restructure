@@ -670,5 +670,9 @@
     "InvalidDefaultTemplate": "Invalid Needs Assesment Template",
     "OPTM_ASSESSMENTID": "OPTM ASSESSMENT ID",
     "OPTM_OPTIONS" : "OPTM OPTIONS",
-    "sequence_number" : "Sequence Number"
+    "sequence_number" : "Sequence Number",
+    "NOOPTM_ASSESSMENTID": "Select Assesment ID at Row",
+    "Nooperand_1": "Select Operand1 at Row",
+    "Nooperator": "Select Operator at Row",
+    "Notype" : "Select Condition at Row"
 }

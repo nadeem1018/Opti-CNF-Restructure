@@ -768,11 +768,36 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
     )
   }
 
+  validateForAddRow() {
+    let isValid = true
+    this.rule_sequence_data.forEach(element => {
+      if (element.OPTM_ASSESSMENTID == "" || element.OPTM_ASSESSMENTID == null) {
+        this.CommonService.show_notification(this.language.NOOPTM_ASSESSMENTID + " " + element.seq_count, 'error');
+        isValid = false;
+        return isValid;
+      }
+      else if (element.operand_1 == "" || element.operand_1 == null) {
+        this.CommonService.show_notification(this.language.Nooperand_1 + " " + element.seq_count, 'error');
+        isValid = false;
+        return isValid;
+      }
+      else if (element.condition == "" || element.condition == null) {
+        this.CommonService.show_notification(this.language.Notype + " " + element.seq_count, 'error');
+        isValid = false;
+        return isValid;
+      }
+    });
+    return isValid;
+  }
+
   onAddRow() {
     if (this.validation("AddRow") == false)
       return;
     this.counter = 0;
     if (this.rule_sequence_data.length > 0) {
+      if (!this.validateForAddRow()) {
+        return;
+      }
       this.counter = this.rule_sequence_data.length
     }
     this.counter++;
@@ -795,7 +820,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
       is_operand2_disable: true,
       row_expression: ''
     });
-    CommonData.made_changes = true;
+    CommonData.made_changes = true; 
   }
 
   getFetureListLookup(status) {
