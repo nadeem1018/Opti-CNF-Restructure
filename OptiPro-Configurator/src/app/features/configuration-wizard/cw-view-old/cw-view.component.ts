@@ -1391,6 +1391,14 @@ export class CwViewOldComponent implements OnInit {
     this.showLookupLoader = true;
     this.serviceData = []
     this.setModelDataFlag = false;
+    var UserDetail = [];    
+     
+    UserDetail.push({
+      GUID: sessionStorage.getItem("GUID"),
+      UsernameForLic: sessionStorage.getItem("loggedInUser"),
+      CompanyDBID: sessionStorage.selectedComp,    
+      IsSkip: this.skip_assessment
+    })
 
      var needassessmentheader = this.customerNeedsAssessmentHeader;
      needassessmentheader.filter(function (obj) {      
@@ -1404,7 +1412,7 @@ export class CwViewOldComponent implements OnInit {
       return obj['OPTM_OUTPUT_NASSOPTIONSID'] = 0;     
     })
 
-    this.OutputService.GetModelList(needassessmentheader,needassessmentoption).subscribe(
+    this.OutputService.GetModelList(UserDetail,needassessmentheader,needassessmentoption).subscribe(
       data => {
 
         if (data.length > 0) {
