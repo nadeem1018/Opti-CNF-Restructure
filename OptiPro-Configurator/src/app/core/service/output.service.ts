@@ -31,7 +31,7 @@ export class OutputService {
 
   GetModelList(UserDetail,needassessmentheader,needassessmentoption): Observable<any> {
     let cache_control = this.common_params.random_string(40);
-    let jObject = { GetModel: JSON.stringify([{ USERDETAIL: UserDetail, NEEDSASSESSMENTHEADER: needassessmentheader ,NEEDSASSESSMENT_OPTIONS: needassessmentoption }]) }
+    let jObject = { GetModel: JSON.stringify({ USERDETAIL: UserDetail, NEEDSASSESSMENTHEADER: needassessmentheader ,NEEDSASSESSMENT_OPTIONS: needassessmentoption }) }
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetModelForConfigureWizard?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
 
