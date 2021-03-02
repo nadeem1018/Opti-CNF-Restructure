@@ -29,11 +29,11 @@ export class OutputService {
     })
   }
 
-  GetModelList(): Observable<any> {
+  GetModelList(needassessmentheader,needassessmentoption): Observable<any> {
     let cache_control = this.common_params.random_string(40);
     let jObject = { GetModel: JSON.stringify([{ currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp,
       GUID: sessionStorage.getItem("GUID"),
-      UsernameForLic: sessionStorage.getItem("loggedInUser") }]) }
+      UsernameForLic: sessionStorage.getItem("loggedInUser"), NEEDSASSESSMENTHEADER: needassessmentheader ,NEEDSASSESSMENT_OPTIONS: needassessmentoption }]) }
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetModelForConfigureWizard?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
 
@@ -266,5 +266,14 @@ export class OutputService {
       GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetNeedsAssessmentOptionByCustomerId?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
+  }
+
+  GetAllModelByAssessmentIDOptionID(Customer: string): Observable<any> {
+    let cache_control = this.common_params.random_string(40);
+    //JSON Obeject Prepared to be send as a param to API
+    let jObject = { GetData: JSON.stringify([{ currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, CustID: Customer,
+      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetAllModelByAssessmentIDOptionID?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
 }

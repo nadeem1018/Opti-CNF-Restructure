@@ -354,7 +354,7 @@
                             </div>            
                             
                             <label class="custom-checkbox mb-0 w-100 curser-pointer">
-                                  <input type="checkbox"  id="ReadyToUse" name="ReadyToUse" >
+                                  <input type="checkbox"  id="skip_assessment" name="skip_assessment" (change)="on_skip_assessment_change(skipassessment)" #skipassessment >
                                   <span class="checkbox"></span>
                                   <span>{{language.skip}}</span>
                              </label>
@@ -372,7 +372,7 @@
                                                         <td class="text-center" [ngStyle]=" {'width': '30px'}">  
                                                             
                                                             <label class="custom-{{header_data.element_type}} mb-0 wihtout-label" >
-                                                                <input type="radio" id="radio_{{option_data.OPTM_ASSESSMENTID}}_{{option_data.OPTM_OPTIONSID}}_{{option_data.OPTM_LINENO}}_{{i}}" #selectionchecked name="radio_{{option_data.OPTM_ASSESSMENTID}}_{{option_data.OPTM_OPTIONSID}}_{{option_data.OPTM_LINENO}}_{{i}}" (change)="onselectionchange(feature_model_data,selectionchecked.checked,selectionchecked.id,false, header_data.unique_key, false, false, false)" [(checked)]="option_data.checked" >
+                                                                <input type="radio" id="radio_{{option_data.OPTM_ASSESSMENTID}}_{{option_data.OPTM_OPTIONSID}}_{{option_data.OPTM_LINENO}}_{{i}}" #selectionchecked name="radio_{{option_data.OPTM_ASSESSMENTID}}_{{option_data.OPTM_OPTIONSID}}_{{option_data.OPTM_LINENO}}_{{i}}" (change)="onoptionchange(option_data,selectionchecked.checked,selectionchecked.id)" [(checked)]="option_data.checked" >
                                                                 <span class="radio"></span>
                                                             </label> 
                                                         </td>                                                       

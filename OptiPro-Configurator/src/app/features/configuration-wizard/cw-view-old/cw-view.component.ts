@@ -204,7 +204,8 @@ export class CwViewOldComponent implements OnInit {
   public report_attribute: boolean = false;
   public customerNeedsAssessmentHeader: any = [];
   public option: any = [];
-   
+  public skip_assessment: boolean = false;
+
   constructor(private ActivatedRouter: ActivatedRoute,
     private route: Router,
     private OutputService: OutputService,
@@ -550,8 +551,14 @@ export class CwViewOldComponent implements OnInit {
             return;
           }
           this.navigation_in_steps(1, 2);
-          this.customerNeedsAssessmentHeader = data.CustomerNeedsAssessmentHeader
+          this.customerNeedsAssessmentHeader = data.CustomerNeedsAssessmentHeader         
+          
           this.option = data.Option
+          this.option =  this.option.filter(function (obj) {
+            obj['checked'] =  false
+            return obj; 
+          })
+
           this.serviceData = data;
         }
         else {
@@ -567,6 +574,28 @@ export class CwViewOldComponent implements OnInit {
         }
       }
     )
+  }
+  on_skip_assessment_change(skipassessment){
+    console.log(skipassessment);
+    this.skip_assessment = skipassessment.checked;
+  }
+
+  onoptionchange(option_data,checkValue,id){
+    this.option = this.option.filter(function (obj) {
+    if (obj['OPTM_ASSESSMENTID'] == option_data.OPTM_ASSESSMENTID ) {
+      obj['checked'] = false;
+    } 
+    return obj; 
+  })
+  this.option = this.option.filter(function (obj) {
+    if (obj['OPTM_ASSESSMENTID'] == option_data.OPTM_ASSESSMENTID &&
+        obj['OPTM_OPTIONSID'] == option_data.OPTM_OPTIONSID && 
+        obj['OPTM_LINENO'] == option_data.OPTM_LINENO) {
+      obj['checked'] = checkValue;
+    } 
+    return obj; 
+  })
+  
   }
 
   getAllDetails(operationType, logid, description) {
@@ -1362,7 +1391,20 @@ export class CwViewOldComponent implements OnInit {
     this.showLookupLoader = true;
     this.serviceData = []
     this.setModelDataFlag = false;
-    this.OutputService.GetModelList().subscribe(
+
+     var needassessmentheader = this.customerNeedsAssessmentHeader;
+     needassessmentheader.filter(function (obj) {      
+      return obj['OPTM_OUTPUT_NASSID'] = 0;     
+    })
+
+    var needassessmentoption =  this.option.filter(function (obj) {      
+      return obj['checked'] == true;     
+    })
+    needassessmentoption.filter(function (obj) {      
+      return obj['OPTM_OUTPUT_NASSOPTIONSID'] = 0;     
+    })
+
+    this.OutputService.GetModelList(needassessmentheader,needassessmentoption).subscribe(
       data => {
 
         if (data.length > 0) {
@@ -4930,6 +4972,8 @@ export class CwViewOldComponent implements OnInit {
     final_dataset_to_save.OPConfig_OUTPUTDTL = [];
     final_dataset_to_save.OPConfig_OUTPUTLOG = [];
     final_dataset_to_save.OPConfig_OUTPUT_ATTR = [];
+    final_dataset_to_save.OPCONFIG_OUTPUT_NEEDSASSESSMENTHEADER = [];
+    final_dataset_to_save.OPCONFIG_OUTPUT_NEEDSASSESSMENT_OPTIONS = [];
     final_dataset_to_save.ConnectionDetails = [];
     final_dataset_to_save.apidata = [];
     final_dataset_to_save.routing_model = [];
@@ -4946,7 +4990,18 @@ export class CwViewOldComponent implements OnInit {
     final_dataset_to_save.RuleOutputData = [];
     final_dataset_to_save.MainModelDetails = [];
     // modify /duplocate / view data  set  - end
+    final_dataset_to_save.OPCONFIG_OUTPUT_NEEDSASSESSMENTHEADER = this.customerNeedsAssessmentHeader;
+    final_dataset_to_save.OPCONFIG_OUTPUT_NEEDSASSESSMENTHEADER.filter(function (obj) {      
+      return obj['OPTM_OUTPUT_NASSID'] = 0;     
+    })
 
+
+    final_dataset_to_save.OPCONFIG_OUTPUT_NEEDSASSESSMENT_OPTIONS =  this.option.filter(function (obj) {      
+      return obj['checked'] == true;     
+    })
+    final_dataset_to_save.OPCONFIG_OUTPUT_NEEDSASSESSMENT_OPTIONS.filter(function (obj) {      
+      return obj['OPTM_OUTPUT_NASSOPTIONSID'] = 0;     
+    })
 
     // selected attribute add
     this.onCalculateAttributeItem();
@@ -5302,7 +5357,8 @@ export class CwViewOldComponent implements OnInit {
       ScreenData: screen_name,
       OperationType: this.step1_data.main_operation_type,
       Button: button_press,
-      currentDate: this.submit_date
+      currentDate: this.submit_date,
+      ISSkip: this.skip_assessment
       //ConfigType: this.step1_data.main_operation_type
     })
 
