@@ -1915,6 +1915,13 @@ onExplodeClick(type) {
       
     }
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL = this.needsassessment_template_detail;  
+    this.rule_data.filter(function (obj) {
+      if(obj['Selected'] == true)
+        obj['ISSELECTED'] = "Y";
+        else
+        obj['ISSELECTED'] = "N";
+        return obj;
+      });
     final_dataset_to_save.RuleData = this.rule_data;
   
     this.showLookupLoader = true;

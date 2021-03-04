@@ -359,9 +359,19 @@
                                   <span>{{language.skip}}</span>
                              </label>
                              <hr>
-
+                             <div class="form-group d-flex align-items-center justify-content-between mb-2" *ngIf="customerNeedsAssessmentHeader.length > 0" >
+                                <div class="h5 m-0 text-muted">{{language.need_assessment}}</div>
+                                <div class="">
+                                    <button class="btn btn-sm btn-icon btn-info mr-2" type="button" (click)="assessmentPanelToggleAll(true)" title="Expand All">
+                                        <svg viewBox="0 0 1024 1024" class="icon"><use xlink:href="#expandAll"></use></svg>
+                                    </button>
+                                    <button class="btn btn-sm btn-icon btn-success" type="button" (click)="assessmentPanelToggleAll(false)" title="Collapse All">
+                                        <svg viewBox="0 0 1024 1024" class="icon"><use xlink:href="#collapseAll"></use></svg>
+                                    </button>
+                                </div>
+                            </div>
                               <kendo-panelbar *ngIf="customerNeedsAssessmentHeader.length > 0" [selectable]="false">
-                                <kendo-panelbar-item [title]="header_data.OPTM_QUESTIONS" *ngFor="let header_data of customerNeedsAssessmentHeader; let i = index;" [expanded]="true">
+                                <kendo-panelbar-item [title]="header_data.OPTM_QUESTIONS" *ngFor="let header_data of customerNeedsAssessmentHeader; let i = index;" [expanded]="assessmentPanelToggle">
                                     <ng-template kendoPanelBarItemTitle>                                       
                                         </ng-template>
                                     <ng-template kendoPanelBarContent>                                        

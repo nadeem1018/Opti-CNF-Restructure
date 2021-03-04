@@ -833,7 +833,7 @@ export class LookupComponent implements OnInit {
       if (this.serviceData.length > 0) {
         this.checked_rules = [];
         for (var i = 0; i < this.serviceData.length; i++) {
-          if (this.serviceData[i].Selected == "Y") {
+          if (this.serviceData[i].ISSELECTED == "Y") {
             this.serviceData[i].Selected = true;
             this.checked_rules.push(this.serviceData[i]);
           }

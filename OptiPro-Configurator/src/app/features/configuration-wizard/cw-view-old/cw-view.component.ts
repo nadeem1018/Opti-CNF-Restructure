@@ -187,6 +187,7 @@ export class CwViewOldComponent implements OnInit {
   public min:any = [];
   public featurePanelToggle:boolean = false;
   public accessoriesPanelToggle:boolean = false;
+  public assessmentPanelToggle:boolean = true;
   public stepsEl = document.getElementsByClassName("one_step_block") as HTMLCollectionOf<HTMLElement>;
   public stepsElLI = document.getElementsByClassName("steps-info") as HTMLCollectionOf<HTMLElement>;
   public config_params: any;
@@ -10426,6 +10427,9 @@ export class CwViewOldComponent implements OnInit {
       }
     }
 
+  }
+  assessmentPanelToggleAll(status){    
+    this.assessmentPanelToggle = status;
   }
 
   featurePanelToggleAll(status){    
