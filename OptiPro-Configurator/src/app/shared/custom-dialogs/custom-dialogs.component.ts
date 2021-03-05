@@ -52,6 +52,6 @@ export class CustomDialogsComponent implements OnInit {
   //To close the dialog
   close_confirmation_dialog(){
       this.dialogOpened = false;
-      this.userSelectionValue.emit("true")
+     // this.userSelectionValue.emit("true")
   }
 }

@@ -660,4 +660,5 @@
     "Nooperand_1": "Select Operand1 at Row",
     "Nooperator": "Select Operator at Row",
     "Notype" : "Select Condition at Row",
+    "SaveConfirmation" : "Rule is not Exist for this template.Do you want to continue ?" 
 }

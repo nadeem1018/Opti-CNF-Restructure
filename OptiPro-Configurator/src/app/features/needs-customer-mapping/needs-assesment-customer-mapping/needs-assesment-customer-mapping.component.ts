@@ -41,7 +41,9 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   current_page: any = 1;
   public filter: CompositeFilterDescriptor;
   public listItems: Array<string> = this.commonData.default_limits;
-
+  public dialog_params: any = [];
+  public show_dialog: boolean = false;
+  public defaultYesNO: any;
 
 
   constructor(private router: Router, private httpclient: HttpClient, private CommonService: CommonService, private service: CustomerTemplateMappingService) { }
@@ -253,10 +255,30 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
       })
   }
 
+  saveConfirmation(data) {
+    this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.SaveConfirmation });
+    this.show_dialog = true;   
+  }
+
+  get_dialog_value(userSelectionValue) { 
+   
+    if (userSelectionValue == true) {
+      this.defaultYesNO = "Y";
+     }else{
+      this.defaultYesNO = "N";
+     }
+    this.show_dialog = false;
+    this.onSaveClick()
+  }
   // function for Update data 
 
   onSaveClick() {
     console.log(this.need_customer_table);
+    var defaultValue = this.defaultYesNO;
+    this.cusomerChangeTemplateMapping.filter(function (obj) {
+      obj['DefaultYesNO'] = defaultValue
+      return obj;
+    });
     this.showLookupLoader = true;
     this.service.SaveCustomerTemplate(this.cusomerChangeTemplateMapping).subscribe(data => {
       this.showLookupLoader = false;

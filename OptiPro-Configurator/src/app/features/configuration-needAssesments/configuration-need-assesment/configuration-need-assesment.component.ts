@@ -28,7 +28,9 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
   public lookupfor: string = "configure_need_assesment";
   public serviceData: any;
   public commonData = new CommonData();
-
+  public dialog_params: any = [];
+  public show_dialog: boolean = false;
+  public defaultYesNO: any;
   constructor(private httpclient: HttpClient, private router: Router, private CommonService: CommonService, private DialogService: DialogService, private service: ConfigureNeedAssesmentService) { }
 
   ngOnInit() {
@@ -126,6 +128,22 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
       })
   }
 
+  saveConfirmation(data) {
+    this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.SaveConfirmation });
+    this.show_dialog = true;   
+  }
+
+  get_dialog_value(userSelectionValue) { 
+   
+    if (userSelectionValue == true) {
+      this.defaultYesNO = "Y";
+     }else{
+      this.defaultYesNO = "N";
+     }
+    this.show_dialog = false;
+    this.onSaveClick()
+  }
+
   // function for saving Configuration Need's Assesment
   onSaveClick() {
     if (this.OPTM_DEFAULT_TEMPLATE == "") {
@@ -139,8 +157,9 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
       OPTM_ID: this.OPTM_ID,
       OPTM_ISAPPLICABLE: OPTM_ISAPPLICABLE,
       OPTM_ISAPPLICABLE_CUST: OPTM_ISAPPLICABLE_CUST,
-      OPTM_DEFAULT_TEMPLATE: this.OPTM_DEFAULT_TEMPLATE
-    });
+      OPTM_DEFAULT_TEMPLATE: this.OPTM_DEFAULT_TEMPLATE,
+      DefaultYesNO: this.defaultYesNO
+    });   
     this.showLookupLoader = true;
     this.service.SaveConfigurationNeedAssesment(this.needAssementConfigureModel).subscribe(data => {
       this.showLookupLoader = false;
