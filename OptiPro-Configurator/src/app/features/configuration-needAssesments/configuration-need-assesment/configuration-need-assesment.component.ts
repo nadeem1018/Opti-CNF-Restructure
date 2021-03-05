@@ -128,7 +128,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
       })
   }
 
-  saveConfirmation(data) {
+  saveConfirmation() {
     this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.SaveConfirmation });
     this.show_dialog = true;   
   }
@@ -141,11 +141,11 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
       this.defaultYesNO = "N";
      }
     this.show_dialog = false;
-    this.onSaveClick()
+    this.onSaveClick(this.defaultYesNO)
   }
 
   // function for saving Configuration Need's Assesment
-  onSaveClick() {
+  onSaveClick(defaultValue) {
     if (this.OPTM_DEFAULT_TEMPLATE == "") {
       this.CommonService.show_notification(this.language.noSelectDefaultTemplate, 'error');
       return;
@@ -158,7 +158,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
       OPTM_ISAPPLICABLE: OPTM_ISAPPLICABLE,
       OPTM_ISAPPLICABLE_CUST: OPTM_ISAPPLICABLE_CUST,
       OPTM_DEFAULT_TEMPLATE: this.OPTM_DEFAULT_TEMPLATE,
-      DefaultYesNO: this.defaultYesNO
+      DefaultYesNO: defaultValue
     });   
     this.showLookupLoader = true;
     this.service.SaveConfigurationNeedAssesment(this.needAssementConfigureModel).subscribe(data => {
@@ -174,7 +174,9 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
         CommonData.made_changes = false
         this.CommonService.show_notification(this.language.DataSaved, 'success');
         return;
-      }
+      } else if(data === "Rule is not Exist for this template"){
+        this.saveConfirmation();
+     }
       else {
         this.CommonService.show_notification(this.language.DataNotSaved, 'error');
         return;

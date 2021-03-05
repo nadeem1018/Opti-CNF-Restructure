@@ -255,7 +255,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
       })
   }
 
-  saveConfirmation(data) {
+  saveConfirmation() {
     this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.SaveConfirmation });
     this.show_dialog = true;   
   }
@@ -268,13 +268,12 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
       this.defaultYesNO = "N";
      }
     this.show_dialog = false;
-    this.onSaveClick()
+    this.onSaveClick(this.defaultYesNO)
   }
   // function for Update data 
 
-  onSaveClick() {
-    console.log(this.need_customer_table);
-    var defaultValue = this.defaultYesNO;
+  onSaveClick(defaultValue) {
+    console.log(this.need_customer_table);    
     this.cusomerChangeTemplateMapping.filter(function (obj) {
       obj['DefaultYesNO'] = defaultValue
       return obj;
@@ -295,8 +294,9 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
         this.cusomerChangeTemplateMapping = [];
         this.getCustomerTemplateList();
         return;
-      }
-      else if (data == "AlreadyExist") {
+      }else if(data === "Rule is not Exist for this template"){
+        this.saveConfirmation();
+     } else if (data == "AlreadyExist") {
 
         this.CommonService.show_notification(this.language.DuplicateCode, 'error');
         return;

@@ -290,33 +290,33 @@ export class NeedAssessmentTemplateViewComponent implements OnInit {
             return;
           }
         }
-        if(data == "True"){
-          this.commonservice.show_notification(this.language.DataDeleteSuccesfully , 'success');
-          this.service_call(this.current_page, this.search_string);
-          this.router.navigateByUrl('need-assessment-template/view');
-          this.CheckedData = [];
-          this.selectall = false;
-          this.commonData.clearChildCheckbox();           
-        }else{
-          this.commonservice.show_notification(this.language.DataNotDelete, 'error');
-        }
-        // if (data[0].IsDeleted == "0" && data[0].Message == "ReferenceExists") {
-        //   this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[0].ModelCode, 'error');
-        //   this.CheckedData = [];
-        //   this.selectall = false;
-        //   this.commonData.clearChildCheckbox();
-        // }
-        // else if (data[0].IsDeleted == "1") {
-        //   this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[0].ModelCode, 'success');
+        // if(data == "True"){
+        //   this.commonservice.show_notification(this.language.DataDeleteSuccesfully , 'success');
         //   this.service_call(this.current_page, this.search_string);
         //   this.router.navigateByUrl('need-assessment-template/view');
         //   this.CheckedData = [];
         //   this.selectall = false;
-        //   this.commonData.clearChildCheckbox();
+        //   this.commonData.clearChildCheckbox();           
+        // }else{
+        //   this.commonservice.show_notification(this.language.DataNotDelete, 'error');
         // }
-        // else {
-        //   this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[0].ModelCode, 'error');
-        // }
+        if (data[0].IsDeleted == "0" && data[0].Message == "Template Used") {
+          this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[0].TemplateID, 'error');
+          this.CheckedData = [];
+          this.selectall = false;
+          this.commonData.clearChildCheckbox();
+        }
+        else if (data[0].IsDeleted == "1") {
+          this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Template Id : ' + data[0].TemplateID, 'success');
+          this.service_call(this.current_page, this.search_string);
+          this.router.navigateByUrl('need-assessment-template/view');
+          this.CheckedData = [];
+          this.selectall = false;
+          this.commonData.clearChildCheckbox();
+        }
+        else {
+          this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[0].TemplateID, 'error');
+        }
         this.CheckedData = [];
         this.selectall = false;
         this.commonData.clearChildCheckbox();
