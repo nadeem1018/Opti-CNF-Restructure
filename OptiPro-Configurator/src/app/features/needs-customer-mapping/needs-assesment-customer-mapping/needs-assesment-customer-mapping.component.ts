@@ -264,11 +264,12 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
    
     if (userSelectionValue == true) {
       this.defaultYesNO = "Y";
+      this.onSaveClick(this.defaultYesNO)
      }else{
       this.defaultYesNO = "N";
      }
     this.show_dialog = false;
-    this.onSaveClick(this.defaultYesNO)
+   
   }
   // function for Update data 
 

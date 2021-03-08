@@ -260,7 +260,7 @@ public expandedKeysvalue: any[] = [];
                 rowindex: this.counter,
                 OPTM_LINENO: data.NeedsAssessmentTemplateDTL[i].OPTM_LINENO,
                 OPTM_TEMPLATEID: data.NeedsAssessmentTemplateDTL[i].OPTM_TEMPLATEID,
-                OPTM_MANDATORY: data.NeedsAssessmentTemplateDTL[i].OPTM_MANDATORY,
+                OPTM_MANDATORY: data.NeedsAssessmentTemplateDTL[i].OPTM_MANDATORY == 'Y'? true : false ,
                 OPTM_ASSESSMENTID: data.NeedsAssessmentTemplateDTL[i].OPTM_ASSESSMENTID,
                 OPTM_QUESTIONS: data.NeedsAssessmentTemplateDTL[i].OPTM_QUESTIONS,  
                 OPTM_ID: data.NeedsAssessmentTemplateDTL[i].OPTM_ID,    
@@ -1912,6 +1912,11 @@ onExplodeClick(type) {
         this.showLookupLoader = false;
         return;
       }
+      if(this.needsassessment_template_detail[i].OPTM_MANDATORY == true){
+        this.needsassessment_template_detail[i].OPTM_MANDATORY = "Y"
+       } else{
+        this.needsassessment_template_detail[i].OPTM_MANDATORY = "N" 
+       }
       
     }
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL = this.needsassessment_template_detail;  

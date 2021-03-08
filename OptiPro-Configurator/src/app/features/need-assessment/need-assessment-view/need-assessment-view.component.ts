@@ -327,7 +327,7 @@ export class NeedAssessmentViewComponent implements OnInit {
           isExist = 1;
           if (checkedvalue == true) {
             this.CheckedData.push({
-              ModelId: row_data.OPTM_MODELID,
+              OPTM_ASSESSMENTID: row_data.OPTM_ASSESSMENTID,
               CompanyDBId: this.companyName,
               GUID: sessionStorage.getItem("GUID"),
               UsernameForLic: sessionStorage.getItem("loggedInUser")
@@ -340,7 +340,7 @@ export class NeedAssessmentViewComponent implements OnInit {
       }
       if (isExist == 0) {
         this.CheckedData.push({
-          ModelId: row_data.OPTM_MODELID,
+          OPTM_ASSESSMENTID: row_data.OPTM_ASSESSMENTID,
           CompanyDBId: this.companyName,
           GUID: sessionStorage.getItem("GUID"),
           UsernameForLic: sessionStorage.getItem("loggedInUser")
@@ -349,7 +349,7 @@ export class NeedAssessmentViewComponent implements OnInit {
     }
     else {
       this.CheckedData.push({
-        ModelId: row_data.OPTM_MODELID,
+        OPTM_ASSESSMENTID: row_data.OPTM_ASSESSMENTID,
         CompanyDBId: this.companyName,
         GUID: sessionStorage.getItem("GUID"),
         UsernameForLic: sessionStorage.getItem("loggedInUser")
@@ -375,7 +375,7 @@ export class NeedAssessmentViewComponent implements OnInit {
         for (let i = 0; i < this.dataArray.length; ++i) {
           this.commonData.checkedChildCheckbox();
           this.CheckedData.push({
-            ModelId: this.dataArray[i].OPTM_MODELID,
+             OPTM_ASSESSMENTID: this.dataArray[i].OPTM_ASSESSMENTID,
             CompanyDBId: this.companyName,
             GUID: sessionStorage.getItem("GUID"),
             UsernameForLic: sessionStorage.getItem("loggedInUser")
@@ -417,17 +417,17 @@ export class NeedAssessmentViewComponent implements OnInit {
           }
 
           for (var i = 0; i < data.length; i++) {
-            if (data[i].IsDeleted == "0" && data[i].Message == "ReferenceExists") {
-              this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[i].ModelCode, 'error');
+            if (data[i].IsDeleted == "0" && data[i].Message == "AssessmentID Used") {
+              this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[i].OPTM_ASSESSMENTID, 'error');
             }
             else if (data[i].IsDeleted == "1") {
-              this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Model Id : ' + data[i].ModelCode, 'success');
+              this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Assessment Id : ' + data[i].OPTM_ASSESSMENTID, 'success');
               this.CheckedData = [];
               this.service_call(this.current_page, this.search_string);
               this.router.navigateByUrl('need-assessment/view');
             }
             else {
-              this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[i].ModelCode, 'error');
+              this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[i].OPTM_ASSESSMENTID, 'error');
             }
           }
 
