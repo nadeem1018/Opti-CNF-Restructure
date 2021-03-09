@@ -10,6 +10,7 @@ import { CommonService } from 'src/app/core/service/common.service';
 })
 export class SidebarComponent implements OnInit {
   navList: Array<Object> = [];
+  navNeedAssesmentList: Array<Object> = [];
 
   constructor(
     private router: Router,
@@ -25,6 +26,7 @@ export class SidebarComponent implements OnInit {
           { "itemCode": "0", "itemName": this.language.dashboard, "itemNav": "/home", "itemIcon": "#home", "itemIconSize": "0 0 512 512", "permission": true },
           { "itemCode": "207", "itemName": this.language.archiving, "itemNav": "/archive", "itemIcon": "#archive", "itemIconSize": "0 0 58 58", "permission": true }]
       },
+      { "itemCode": "211", "itemName": this.language.config_need_assesment, "itemNav": "/configuration-needAssesment", "itemIcon": "#configurationAssesment", "itemIconSize": "0 0 512 512", "permission": true },
       { "itemCode": "200", "itemName": this.language.itemcodegeneration, "itemNav": "/item-code-generation", "itemIcon": "#code", "itemIconSize": "0 0 612 619.2", "permission": true },
       { "itemCode": "201", "itemName": this.language.model_feature_master, "itemNav": "/feature", "itemIcon": "#featureModal", "itemIconSize": "0 0 512 512", "permission": true },
       { "itemCode": "202", "itemName": this.language.feature_Bom, "itemNav": "/feature-bom", "itemIcon": "#featureBom", "itemIconSize": "0 0 395.636 395.636", "permission": true },
@@ -34,11 +36,10 @@ export class SidebarComponent implements OnInit {
       { "itemCode": "207", "itemName": this.language.archiving, "itemNav": "/archive", "itemIcon": "#archive", "itemIconSize": "0 0 58 58", "permission": true },
       { "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true },
       { "itemCode": "205", "itemName": this.language.attribute, "itemNav": "/attribute", "itemIcon": "#attributeMaster", "itemIconSize": "0 0 512 512", "permission": true },
-      { "itemCode": "205", "itemName": this.language.need_assessment, "itemNav": "/need-assessment", "itemIcon": "#assessmentScreen", "itemIconSize": "0 0 512 512", "permission": true },
-      { "itemCode": "205", "itemName": this.language.need_assessment_template, "itemNav": "/need-assessment-template", "itemIcon": "#assessmentTemplate", "itemIconSize": "0 0 512 512", "permission": true },
-      { "itemCode": "205", "itemName": this.language.need_assessment_rule, "itemNav": "/need-assessment-rule", "itemIcon": "#assessmentRule", "itemIconSize": "0 0 512 512", "permission": true },
-      { "itemCode": "205", "itemName": this.language.config_need_assesment, "itemNav": "/configuration-needAssesment", "itemIcon": "#configurationAssesment", "itemIconSize": "0 0 512 512", "permission": true },
-      { "itemCode": "205", "itemName": this.language.need_Customer_mapping, "itemNav": "/needAssesment-customer-mapping", "itemIcon": "#assessmentTemplateMapping", "itemIconSize": "0 0 400 512", "permission": true }
+      { "itemCode": "208", "itemName": this.language.need_assessment, "itemNav": "/need-assessment", "itemIcon": "#assessmentScreen", "itemIconSize": "0 0 512 512", "permission": true },
+      { "itemCode": "209", "itemName": this.language.need_assessment_template, "itemNav": "/need-assessment-template", "itemIcon": "#assessmentTemplate", "itemIconSize": "0 0 512 512", "permission": true },
+      { "itemCode": "210", "itemName": this.language.need_assessment_rule, "itemNav": "/need-assessment-rule", "itemIcon": "#assessmentRule", "itemIconSize": "0 0 512 512", "permission": true },
+      { "itemCode": "212", "itemName": this.language.need_Customer_mapping, "itemNav": "/needAssesment-customer-mapping", "itemIcon": "#assessmentTemplateMapping", "itemIconSize": "0 0 400 512", "permission": true }
     ];
     let allowed_menus_ids = ["0"];
     this.CommonService.getMenuRecord().subscribe(
@@ -48,7 +49,18 @@ export class SidebarComponent implements OnInit {
         }
         for (let menu_data of temp_menu_data) {
           if (allowed_menus_ids.indexOf(menu_data.itemCode) !== -1) {
-            this.navList.push(menu_data);
+            if (menu_data.itemCode >= "208" && menu_data.itemCode <= "212") {
+              if (menu_data.itemCode == "211") {
+                this.navList.push(menu_data);
+              }
+              else {
+                this.navNeedAssesmentList.push(menu_data);
+              }
+            }
+            else {
+              this.navList.push(menu_data);
+            }
+
           }
         }
       }, error => {
