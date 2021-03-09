@@ -28,8 +28,16 @@
                     </a>
                 </li>
             </ng-container>
+            <li (click)="changNeedToggle()" *ngFor="let item of needMenuData" [class.active]="needIsToggled" class="need-assment-box">
+                <a class="dropdown-toggle">
+                    <svg [attr.viewBox]="item.itemIconSize" class="sidebar-link-icon">
+                        <use [attr.xlink:href]="item.itemIcon"></use>
+                    </svg>
+                    <span>{{item.itemName}}</span><b class="caret"></b></a>
+            </li>
+
             <ng-container *ngFor="let item of navNeedAssesmentList">
-                <li *ngIf="item.permission" routerLinkActive="active">
+                <li class="list-box" *ngIf="item.permission" routerLinkActive="active" [style.display]="needIsToggled ? 'block' : 'none'">
                     <a *ngIf="item.itemNav && !item.refresh" [attr.title]="item.itemName" [routerLink]="item.itemNav"
                         routerLinkActive="active" class="sidebar-link" (click)="sidebarCloseMobile()">
                         <svg [attr.viewBox]="item.itemIconSize" class="sidebar-link-icon">
@@ -45,7 +53,13 @@
                         <span>{{item.itemName}}</span>
                     </a>
                 </li>
+
             </ng-container>
+
+
+
+
+
         </ul>
     </nav>
 </div>
