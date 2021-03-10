@@ -17,6 +17,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
   public showLookupLoader: any = false;
   pageTitle: any = "Configuration Need's Assesment";
   public applyNeedAssesment: any = false;
+  public applyAttributeMaster : any = false;
   public showLoader: boolean = true;
   public customerWiseAssesment: any = false;
   public defaultAssesmentTemplate: any = "";
@@ -31,8 +32,9 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
   public dialog_params: any = [];
   public show_dialog: boolean = false;
   public defaultYesNO: any;
+  
   constructor(private httpclient: HttpClient, private router: Router, private CommonService: CommonService, private DialogService: DialogService, private service: ConfigureNeedAssesmentService) { }
-
+ 
   ngOnInit() {
 
     this.getNeedAssesmentConfigurationDetails();
@@ -54,6 +56,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
         }
 
         this.applyNeedAssesment = data[0].OPTM_ISAPPLICABLE == "Y" ? true : false;
+        this.applyAttributeMaster = data[0].OPTM_ISATTR_MASTER == "Y" ? true : false;
         this.customerWiseAssesment = data[0].OPTM_ISAPPLICABLE_CUST == "Y" ? true : false;
         this.OPTM_ID = data[0].OPTM_ID;
         this.OPTM_DEFAULT_TEMPLATE = data[0].OPTM_DEFAULT_TEMPLATE;
@@ -154,14 +157,17 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
     this.needAssementConfigureModel = [];
     let OPTM_ISAPPLICABLE = this.applyNeedAssesment == true ? "Y" : "N";
     let OPTM_ISAPPLICABLE_CUST = this.customerWiseAssesment == true ? "Y" : "N";
+    let OPTM_ISATTR_MASTER = this.applyAttributeMaster == true ? "Y" : "N";
     this.needAssementConfigureModel.push({
       OPTM_ID: this.OPTM_ID,
       OPTM_ISAPPLICABLE: OPTM_ISAPPLICABLE,
       OPTM_ISAPPLICABLE_CUST: OPTM_ISAPPLICABLE_CUST,
       OPTM_DEFAULT_TEMPLATE: this.OPTM_DEFAULT_TEMPLATE,
+      OPTM_ISATTR_MASTER : OPTM_ISATTR_MASTER,
       DefaultYesNO: defaultValue
     });   
     this.showLookupLoader = true;
+    this.CommonService.needAssesmentMenu = this.applyNeedAssesment;
     this.service.SaveConfigurationNeedAssesment(this.needAssementConfigureModel).subscribe(data => {
       this.showLookupLoader = false;
       if (data == "7001") {

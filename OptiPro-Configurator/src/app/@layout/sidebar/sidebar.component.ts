@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonData } from 'src/app/core/data/CommonData';
 import { CommonService } from 'src/app/core/service/common.service';
@@ -8,7 +8,7 @@ import { CommonService } from 'src/app/core/service/common.service';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, DoCheck {
   navList: Array<Object> = [];
   navNeedAssesmentList: Array<Object> = [];
   needIsToggled = false;
@@ -20,6 +20,7 @@ export class SidebarComponent implements OnInit {
   ) { }
   public commonData = new CommonData();
   public language = JSON.parse(sessionStorage.getItem('current_lang'));
+  public needassesmentMenu = this.CommonService.needAssesmentMenu;
   needMenuData = [{ "itemCode": "208", "itemName": "Need's Assesment", "itemNav": "/need-assessment", "itemIcon": "#assessmentScreen", "itemIconSize": "0 0 512 512", "permission": true }];
   ngOnInit() {
     let temp_menu_data = [
@@ -66,6 +67,7 @@ export class SidebarComponent implements OnInit {
 
           }
         }
+        this.menuSettings();
       }, error => {
         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
           this.CommonService.isUnauthorized();
@@ -76,6 +78,25 @@ export class SidebarComponent implements OnInit {
       });
 
 
+  }
+
+  menuSettings() {
+    this.CommonService.getMenuSettings().subscribe(
+      data => {
+
+      }, error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        } else {
+          this.CommonService.show_notification(this.language.server_error, 'error');
+        }
+        return
+      });
+
+  }
+
+  ngDoCheck() {
+    this.needassesmentMenu = this.CommonService.needAssesmentMenu;
   }
 
   // Close sidebar when siderbar item clicked in case of mobile/tablet devices
