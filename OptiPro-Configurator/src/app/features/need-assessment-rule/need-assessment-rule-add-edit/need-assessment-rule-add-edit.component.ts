@@ -425,8 +425,8 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
               //     let checked_child = (fetch_data.OPTM_ISINCLUDED.trim().toLowerCase() == 'true');
               //     let default_checked = (fetch_data.OPTM_DEFAULT.trim().toLowerCase() == 'true');            
 
-              if (this.rule_expression_data[i] != undefined) {
-                this.rule_expression_data[i].output_data.push({
+              if (this.rule_expression_data[current_count] != undefined) {
+                this.rule_expression_data[current_count].output_data.push({
                   //         rowindex: i,
                   //         check_child: checked_child,
                   //         seq_number: this.seq_count,
