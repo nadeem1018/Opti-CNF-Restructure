@@ -102,7 +102,7 @@
                 </button>
               </div>
               <kendo-splitter  class="w-100 h-100 slim-scroll">
-                <kendo-splitter-pane class="slim-scroll" [collapsible]="true">  
+                <kendo-splitter-pane class="slim-scroll" [collapsible]="collapsiblePanelFirst">  
               <div class="row">
                 <div class="col-sm-12">
                     <!-- top table start -->
@@ -457,8 +457,8 @@
                 </div>
             </div>
                 </kendo-splitter-pane>
-                <kendo-splitter-pane class="slim-scroll" [collapsible]="true"  size = "25%">
-                  <div class="main-portion">
+                <kendo-splitter-pane class="slim-scroll" [collapsible]="collapsiblePanelSecond" [resizable] = "resizablePanel" [(size)]="sidebarSize">
+                  <div class="main-portion"  > 
                     <kendo-grid [kendoGridBinding]="this.dataArray" [reorderable]="true" class="primary-grid height-restricted" [filterable]="isColumnFilter" [selectable]="true"  [resizable]="true" (selectionChange)="on_selection($event)" [sortable]="{  allowUnsort: allowUnsort,  mode: 'single'}" [height]="50" [sort]="sort" (sortChange)="sortChange($event)">
                         <ng-template kendoGridToolbarTemplate> 
                             <label class="custom-checkbox mb-0">
