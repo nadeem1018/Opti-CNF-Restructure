@@ -56,7 +56,12 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
   public is_applicable_for_disabled: boolean = false;
   public made_changes: boolean = false;
   public assesment_ID = "";
-
+  public sidebarSize = "0%";
+  public resizablePanel: boolean = false;
+  public collapsiblePanelFirst: boolean = false;
+  public collapsiblePanelSecond: boolean = false;
+  
+  collapsible
   //public rule_wb_data_header: any = [];
   public ruleWorkBenchData = new Array();
   public defaultCurrency = sessionStorage.defaultCurrency;
@@ -420,8 +425,8 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
               //     let checked_child = (fetch_data.OPTM_ISINCLUDED.trim().toLowerCase() == 'true');
               //     let default_checked = (fetch_data.OPTM_DEFAULT.trim().toLowerCase() == 'true');            
 
-              if (this.rule_expression_data[i] != undefined) {
-                this.rule_expression_data[i].output_data.push({
+              if (this.rule_expression_data[current_count] != undefined) {
+                this.rule_expression_data[current_count].output_data.push({
                   //         rowindex: i,
                   //         check_child: checked_child,
                   //         seq_number: this.seq_count,
@@ -714,6 +719,10 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
     this.add_sequence_mode = false;
     this.update_sequence_mode = false;
     this.isOutputTable = false;
+    this.sidebarSize = "0%";
+    this.resizablePanel = false;
+    this.collapsiblePanelFirst = false;
+    this.collapsiblePanelSecond = false;
   }
 
   hide_show_output() {
@@ -801,7 +810,10 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
       this.counter = this.rule_sequence_data.length
     }
     this.counter++;
-
+    this.sidebarSize = "25%";
+    this.resizablePanel = true;
+    this.collapsiblePanelFirst = true;
+    this.collapsiblePanelSecond = true;
     this.rule_sequence_data.push({
       lineno: this.counter,
       rowindex: this.counter,
@@ -1720,6 +1732,10 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
     this.update_sequence_mode = true;
     this.rule_sequence_data = [];
     this.commonData.clearChildCheckbox();
+    this.sidebarSize = "25%";
+    this.resizablePanel = true;
+    this.collapsiblePanelFirst = true;
+    this.collapsiblePanelSecond = true;
     if (row.row_data.length > 0) {
       let edit_expression_data = row.row_data;
       for (var data in edit_expression_data) {
