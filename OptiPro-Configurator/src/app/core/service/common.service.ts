@@ -16,53 +16,53 @@ export class CommonService {
   common_params = new CommonData();
   public logged_in_company = sessionStorage.selectedComp;
   public config_params: any = "";
-  public needAssesmentMenu : any = false;
-  public attributeMenu : any = false;
+  public needAssesmentMenu: any = false;
+  public attributeMenu: any = false;
   config_parameter;
 
   // Declaration
   private commonData = new Subject<any>();
   commonData$ = this.commonData.asObservable();
 
-  constructor(private httpclient: HttpClient, private router: Router,private notificationService:NotificationService,) { }
+  constructor(private httpclient: HttpClient, private router: Router, private notificationService: NotificationService, ) { }
 
   // Methods
   public ShareData(data: any) {
     this.commonData.next(data);
   }
 
-  public show_notification(message, style_type){
+  public show_notification(message, style_type) {
 
     this.notificationService.show({
-        content: message,
-        animation: { type: 'fade', duration: 400 },
-        position: { horizontal: 'right', vertical: 'top' },
-        type: { style: style_type, icon: true },
-        hideAfter: 3000
-    }); 
+      content: message,
+      animation: { type: 'fade', duration: 400 },
+      position: { horizontal: 'right', vertical: 'top' },
+      type: { style: style_type, icon: true },
+      hideAfter: 3000
+    });
   }
 
 
   async get_config(callback) {
     /*let config_call = await fetch( this.common_params.get_current_url() +  "/assets/data/json/config.json");*/
-    let config_call = await fetch( this.common_params.get_current_url() +  "/assets/config.json");
+    let config_call = await fetch(this.common_params.get_current_url() + "/assets/config.json");
     let config_data = await config_call.json();
     console.log("config_call - ", config_data[0]);
-    if(callback != undefined && callback !== ""){
+    if (callback != undefined && callback !== "") {
       sessionStorage.setItem('system_config', JSON.stringify(config_data[0]));
-      callback(config_data[0]);      
+      callback(config_data[0]);
     }
   }
 
-  async set_language(config_data, callback){
-  /*  let language_call = await fetch(this.common_params.get_current_url() + "/assets/data/json/i18n/" + config_data['locale'] + ".json");*/
-  
+  async set_language(config_data, callback) {
+    /*  let language_call = await fetch(this.common_params.get_current_url() + "/assets/data/json/i18n/" + config_data['locale'] + ".json");*/
+
     let language_call = await fetch(this.common_params.get_current_url() + "/assets/i18n/" + config_data['locale'] + ".json");
     let language_data = await language_call.json();
 
     sessionStorage.setItem('current_lang', JSON.stringify(language_data));
     this.config_params = JSON.parse(sessionStorage.getItem('system_config'));
-    if(callback != undefined && callback !== ""){
+    if (callback != undefined && callback !== "") {
       sessionStorage.setItem('system_config', JSON.stringify(config_data));
       callback();
     }
@@ -78,30 +78,30 @@ export class CommonService {
   //   return this.httpclient.post(sessionStorage.getItem('psURL') + "/api/login/GetMenuRecord", jObject, this.common_params.httpOptions);
   // }
 
-  getMenuRecord(): Observable<any>{
+  getMenuRecord(): Observable<any> {
     //this.config_params.product_code = 'CNF';
     if (this.config_params == undefined || this.config_params == "") {
       this.config_params = JSON.parse(sessionStorage.getItem('system_config'));
     }
-    let jObject = { Menus: JSON.stringify([{ CompanyDBID: this.config_params.admin_db_name ,Product: this.config_params.product_code ,UserCode:  sessionStorage.getItem('loggedInUser') }]) }
+    let jObject = { Menus: JSON.stringify([{ CompanyDBID: this.config_params.admin_db_name, Product: this.config_params.product_code, UserCode: sessionStorage.getItem('loggedInUser') }]) }
     return this.httpclient.post(this.config_params.service_url + "/login/GetMenuRecord", jObject, this.common_params.httpOptions);
   }
 
 
-  getMenuSettings(): Observable<any>{
+  getMenuSettings(): Observable<any> {
     //this.config_params.product_code = 'CNF';
     if (this.config_params == undefined || this.config_params == "") {
       this.config_params = JSON.parse(sessionStorage.getItem('system_config'));
     }
-    let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.config_params.admin_db_name ,Product: this.config_params.product_code ,UserCode:  sessionStorage.getItem('loggedInUser') }]) }
+    let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.config_params.admin_db_name, GUID: sessionStorage.getItem("GUID"), Product: this.config_params.product_code, UsernameForLic: sessionStorage.getItem('loggedInUser') }]) }
     return this.httpclient.post(this.config_params.service_url + "/Settings/GetDataForconfiguration", jObject, this.common_params.httpOptions);
   }
 
 
 
   //This will get he service according to user settings done on Admin Portal
-  getPermissionDetails(): Observable<any>{
-    let jObject = { Permission: JSON.stringify([{ CompanyDBID: this.config_params.admin_db_name ,Product: this.config_params.product_code ,UserCode:  sessionStorage.getItem('loggedInUser') , MenuId:  sessionStorage.getItem('currentMenu') }]) }
+  getPermissionDetails(): Observable<any> {
+    let jObject = { Permission: JSON.stringify([{ CompanyDBID: this.config_params.admin_db_name, Product: this.config_params.product_code, UserCode: sessionStorage.getItem('loggedInUser'), MenuId: sessionStorage.getItem('currentMenu') }]) }
     return this.httpclient.post(sessionStorage.getItem('psURL') + "/api/login/GetPermissionDetails", jObject, this.common_params.httpOptions);
   }
 
@@ -117,7 +117,7 @@ export class CommonService {
   public menuItem = new BehaviorSubject<any>([]);
   currentmenuItemData = this.menuItem.asObservable();
 
-  public setMenuItem(menuItemArr){
+  public setMenuItem(menuItemArr) {
     this.menuItem.next(menuItemArr);
   }
 
@@ -125,23 +125,23 @@ export class CommonService {
     var jObject = { GUID: sessionStorage.getItem("GUID"), LoginId: sessionStorage.getItem("loggedInUser") };
     sessionStorage.removeItem('authToken');
     return this.httpclient.post(this.config_params.service_url + "/Login/RemoveLoggedInUser", jObject, this.common_params.httpOptions);
-  } 
+  }
 
-  signOut(router: Router, Logoutvar){
-    let language:any = JSON.parse(sessionStorage.getItem('current_lang'));  
+  signOut(router: Router, Logoutvar) {
+    let language: any = JSON.parse(sessionStorage.getItem('current_lang'));
 
-    if(Logoutvar == 'Logout'){      
-        this.show_notification(language.session_logout, 'error');
+    if (Logoutvar == 'Logout') {
+      this.show_notification(language.session_logout, 'error');
     }
-    else {      
-        this.show_notification(language.session_stopped, 'error');
+    else {
+      this.show_notification(language.session_stopped, 'error');
     }
-    
+
     sessionStorage.removeItem('isLoggedIn');
     sessionStorage.removeItem('selectedComp');
     sessionStorage.removeItem('loggedInUser');
-    
-    setTimeout(()=>{   
+
+    setTimeout(() => {
       this.setisLoggedInData();
       router.navigateByUrl('/login');
     }, 1000);
@@ -166,7 +166,7 @@ export class CommonService {
   }
   isUnauthorized() {
     this.RemoveLoggedInUser().subscribe();
-    this.signOut(this.router, 'Sessionout');    
+    this.signOut(this.router, 'Sessionout');
     return;
   }
 
