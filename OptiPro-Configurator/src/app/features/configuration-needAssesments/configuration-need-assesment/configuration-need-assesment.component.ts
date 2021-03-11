@@ -17,7 +17,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
   public showLookupLoader: any = false;
   pageTitle: any = "Configuration Need's Assesment";
   public applyNeedAssesment: any = false;
-  public applyAttributeMaster : any = false;
+  public applyAttributeMaster: any = false;
   public showLoader: boolean = true;
   public customerWiseAssesment: any = false;
   public defaultAssesmentTemplate: any = "";
@@ -32,9 +32,9 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
   public dialog_params: any = [];
   public show_dialog: boolean = false;
   public defaultYesNO: any;
-  
+
   constructor(private httpclient: HttpClient, private router: Router, private CommonService: CommonService, private DialogService: DialogService, private service: ConfigureNeedAssesmentService) { }
- 
+
   ngOnInit() {
 
     this.getNeedAssesmentConfigurationDetails();
@@ -133,19 +133,19 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
 
   saveConfirmation() {
     this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.SaveConfirmation });
-    this.show_dialog = true;   
+    this.show_dialog = true;
   }
 
-  get_dialog_value(userSelectionValue) { 
-   
+  get_dialog_value(userSelectionValue) {
+
     if (userSelectionValue == true) {
       this.defaultYesNO = "Y";
       this.onSaveClick(this.defaultYesNO)
-     }else{
+    } else {
       this.defaultYesNO = "N";
-     }
+    }
     this.show_dialog = false;
-   
+
   }
 
   // function for saving Configuration Need's Assesment
@@ -157,8 +157,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
     this.needAssementConfigureModel = [];
     let OPTM_ISAPPLICABLE = this.applyNeedAssesment == true ? "Y" : "N";
     let OPTM_ISAPPLICABLE_CUST = this.customerWiseAssesment == true ? "Y" : "N";
-    if(this.applyNeedAssesment == false)
-    {
+    if (this.applyNeedAssesment == false) {
       OPTM_ISAPPLICABLE_CUST = "N";
       this.OPTM_DEFAULT_TEMPLATE = "";
     }
@@ -168,11 +167,10 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
       OPTM_ISAPPLICABLE: OPTM_ISAPPLICABLE,
       OPTM_ISAPPLICABLE_CUST: OPTM_ISAPPLICABLE_CUST,
       OPTM_DEFAULT_TEMPLATE: this.OPTM_DEFAULT_TEMPLATE,
-      OPTM_ISATTR_MASTER : OPTM_ISATTR_MASTER,
+      OPTM_ISATTR_MASTER: OPTM_ISATTR_MASTER,
       DefaultYesNO: defaultValue
-    });   
+    });
     this.showLookupLoader = true;
-    this.CommonService.needAssesmentMenu = this.applyNeedAssesment;
     this.service.SaveConfigurationNeedAssesment(this.needAssementConfigureModel).subscribe(data => {
       this.showLookupLoader = false;
       if (data == "7001") {
@@ -184,11 +182,13 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
 
       if (data === "True") {
         CommonData.made_changes = false
+        this.CommonService.needAssesmentMenu = this.applyNeedAssesment;
+        this.CommonService.attributeMenu = this.applyAttributeMaster;
         this.CommonService.show_notification(this.language.DataSaved, 'success');
         return;
-      } else if(data === "Rule is not Exist for this template"){
+      } else if (data === "Rule is not Exist for this template") {
         this.saveConfirmation();
-     }
+      }
       else {
         this.CommonService.show_notification(this.language.DataNotSaved, 'error');
         return;

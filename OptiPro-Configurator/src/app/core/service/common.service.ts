@@ -18,6 +18,7 @@ export class CommonService {
   public config_params: any = "";
   public needAssesmentMenu: any = false;
   public attributeMenu: any = false;
+  public navMenuList: Array<Object> = [];
   config_parameter;
 
   // Declaration
@@ -93,7 +94,7 @@ export class CommonService {
     if (this.config_params == undefined || this.config_params == "") {
       this.config_params = JSON.parse(sessionStorage.getItem('system_config'));
     }
-    let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.config_params.admin_db_name, GUID: sessionStorage.getItem("GUID"), Product: this.config_params.product_code, UsernameForLic: sessionStorage.getItem('loggedInUser') }]) }
+    let jObject = { GetData: JSON.stringify([{ CompanyDBID: sessionStorage.selectedComp, GUID: sessionStorage.getItem("GUID"), Product: this.config_params.product_code, UsernameForLic: sessionStorage.getItem('loggedInUser') }]) }
     return this.httpclient.post(this.config_params.service_url + "/Settings/GetDataForconfiguration", jObject, this.common_params.httpOptions);
   }
 

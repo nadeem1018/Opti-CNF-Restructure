@@ -10,7 +10,7 @@
     </a>
     <nav class="main-nav">
         <ul class="colored-scrollbar">
-            <ng-container *ngFor="let item of navList">
+            <ng-container *ngFor="let item of menuList">
                 <li *ngIf="item.permission" routerLinkActive="active">
                     <a *ngIf="item.itemNav && !item.refresh" [attr.title]="item.itemName" [routerLink]="item.itemNav"
                         routerLinkActive="active" class="sidebar-link" (click)="sidebarCloseMobile()">

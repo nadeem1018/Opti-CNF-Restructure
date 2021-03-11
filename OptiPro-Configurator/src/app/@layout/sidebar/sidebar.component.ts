@@ -12,6 +12,8 @@ export class SidebarComponent implements OnInit, DoCheck {
   navList: Array<Object> = [];
   navNeedAssesmentList: Array<Object> = [];
   needIsToggled = false;
+  menuList: Array<Object> = [];
+  menuSettingFirst: any = true;
 
 
   constructor(
@@ -21,8 +23,13 @@ export class SidebarComponent implements OnInit, DoCheck {
   public commonData = new CommonData();
   public language = JSON.parse(sessionStorage.getItem('current_lang'));
   public needassesmentMenu = this.CommonService.needAssesmentMenu;
+  public attributemenu = this.CommonService.attributeMenu;
   needMenuData = [{ "itemCode": "208", "itemName": "Need's Assesment", "itemNav": "/need-assessment", "itemIcon": "#assessmentScreen", "itemIconSize": "0 0 512 512", "permission": true }];
   ngOnInit() {
+    this.loadMenuData();
+  }
+
+  loadMenuData() {
     let temp_menu_data = [
       {
         "itemCode": "0", "itemName": this.language.dashboard, "itemNav": "/home", "itemIcon": "#home", "itemIconSize": "0 0 512 512", "permission": true,
@@ -46,6 +53,7 @@ export class SidebarComponent implements OnInit, DoCheck {
       { "itemCode": "212", "itemName": this.language.need_Customer_mapping, "itemNav": "/needAssesment-customer-mapping", "itemIcon": "#assessmentTemplateMapping", "itemIconSize": "0 0 400 512", "permission": true }
     ];
     let allowed_menus_ids = ["0"];
+    this.CommonService.navMenuList = [];
     this.CommonService.getMenuRecord().subscribe(
       menu_items => {
         for (let menu_item of menu_items) {
@@ -55,6 +63,7 @@ export class SidebarComponent implements OnInit, DoCheck {
           if (allowed_menus_ids.indexOf(menu_data.itemCode) !== -1) {
             if (menu_data.itemCode >= "208" && menu_data.itemCode <= "212") {
               if (menu_data.itemCode == "211") {
+                this.CommonService.navMenuList.push(menu_data);
                 this.navList.push(menu_data);
               }
               else {
@@ -63,11 +72,17 @@ export class SidebarComponent implements OnInit, DoCheck {
             }
             else {
               this.navList.push(menu_data);
+              this.CommonService.navMenuList.push(menu_data);
             }
 
           }
         }
-        this.menuSettings();
+
+        this.menuList = this.navList;
+        if (this.menuSettingFirst) {
+          this.menuSettings();
+          this.menuSettingFirst = false;
+        }
       }, error => {
         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
           this.CommonService.isUnauthorized();
@@ -77,13 +92,16 @@ export class SidebarComponent implements OnInit, DoCheck {
         return
       });
 
-
   }
 
   menuSettings() {
     this.CommonService.getMenuSettings().subscribe(
       data => {
-
+        this.CommonService.needAssesmentMenu = data[0].OPTM_ISAPPLICABLE == "Y" ? true : false;
+        this.CommonService.attributeMenu = data[0].OPTM_ISATTR_MASTER == "Y" ? true : false;
+        if (this.CommonService.attributeMenu == false) {
+          this.CheckMenuCondition();
+        }
       }, error => {
         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
           this.CommonService.isUnauthorized();
@@ -97,6 +115,31 @@ export class SidebarComponent implements OnInit, DoCheck {
 
   ngDoCheck() {
     this.needassesmentMenu = this.CommonService.needAssesmentMenu;
+    if (this.CommonService.attributeMenu == false) {
+      this.CheckMenuCondition();
+    }
+    else {
+      console.log(this.CommonService.navMenuList);
+      this.menuList = [];
+      let list = [];
+      this.CommonService.navMenuList.forEach(element => {
+        list.push(element);
+      });
+      this.menuList = list;
+    }
+  }
+
+  CheckMenuCondition() {
+
+    let array = this.menuList;
+    let AttributeMenu = this.language.attribute;
+    array.forEach((element: any, index) => {
+      if (element.itemName == AttributeMenu) {
+        array.splice(index, 1);
+      }
+    });
+    this.menuList = array;
+
   }
 
   // Close sidebar when siderbar item clicked in case of mobile/tablet devices
