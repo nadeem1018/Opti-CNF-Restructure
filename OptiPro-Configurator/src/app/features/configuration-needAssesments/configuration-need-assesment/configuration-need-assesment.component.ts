@@ -157,6 +157,11 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
     this.needAssementConfigureModel = [];
     let OPTM_ISAPPLICABLE = this.applyNeedAssesment == true ? "Y" : "N";
     let OPTM_ISAPPLICABLE_CUST = this.customerWiseAssesment == true ? "Y" : "N";
+    if(this.applyNeedAssesment == false)
+    {
+      OPTM_ISAPPLICABLE_CUST = "N";
+      this.OPTM_DEFAULT_TEMPLATE = "";
+    }
     let OPTM_ISATTR_MASTER = this.applyAttributeMaster == true ? "Y" : "N";
     this.needAssementConfigureModel.push({
       OPTM_ID: this.OPTM_ID,
