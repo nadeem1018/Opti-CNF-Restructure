@@ -301,7 +301,13 @@ public expandedKeysvalue: any[] = [];
 
             }
           }       
-
+          if(this.isDuplicateMode)
+          { 
+            this.needsassessment_mas.assessment_id = ""
+            this.needsassessment_mas.question = ""
+            this.needsassessment_mas.id = ""
+            this.needsassessment_mas.disableid = false;
+          }
          
           this.showLoader = false;
           
@@ -2153,12 +2159,21 @@ onExplodeClick(type) {
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT = [];
     final_dataset_to_save.OPCONFIG_OPTIONS = [];
     //final_dataset_to_save.OPCONFIG_DEPENDENT_ASSESSMENT = [];
-   
+    if (this.needsassessment_mas.assessment_id.trim() == "" || this.needsassessment_mas.assessment_id == null) {    
+      this.CommonService.show_notification(this.language.AssessmentIdBlank, 'error');
+        return ;
+ }
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT.push({
       "OPTM_AssessmentID": this.needsassessment_mas.assessment_id,
       "OPTM_Question":this.needsassessment_mas.question,
       "OPTM_ID": this.needsassessment_mas.id    
     });
+    
+    if (this.assessment_data.length == 0) {
+      // this.toastr.error('', this.language.Addrow, this.commonData.toast_config);
+      this.CommonService.show_notification(this.language.Addrow, 'error');
+      return ;
+    }
     for (let i = 0; i < this.assessment_data.length; ++i) {
       let currentrow = i + 1;
       if (this.assessment_data[i].OPTM_OptionsID == "" || this.assessment_data[i].OPTM_OptionsID == " ") {     

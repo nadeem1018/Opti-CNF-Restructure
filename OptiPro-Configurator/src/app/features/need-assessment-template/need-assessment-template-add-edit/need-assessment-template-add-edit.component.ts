@@ -270,7 +270,15 @@ public expandedKeysvalue: any[] = [];
             }
           }       
 
-         
+          if(this.isDuplicateMode)
+          { 
+            this.needsassessment_template.templateid = ""
+            this.needsassessment_template.description = "";
+            this.needsassessment_template.active = false;
+            this.needsassessment_template.id = "";
+            this.needsassessment_template.disableid = false;
+            
+          }
           this.showLoader = false;
           
         },error => {
@@ -1898,13 +1906,21 @@ onExplodeClick(type) {
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATE  = [];
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL = [];
     final_dataset_to_save.RuleData = [];
-   
+    if (this.needsassessment_template.templateid.trim() == "" || this.needsassessment_template.templateid == null) {    
+      this.CommonService.show_notification(this.language.TemplateIdBlank, 'error');
+     return false;
+  }
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATE.push({
       "OPTM_TEMPLATEID": this.needsassessment_template.templateid,
       "OPTM_DESCRIPTION":this.needsassessment_template.description,
       "OPTM_ACTIVE":this.needsassessment_template.active,
       "OPTM_ID": this.needsassessment_template.id 
     });
+    if (this.needsassessment_template_detail.length == 0) {
+      // this.toastr.error('', this.language.Addrow, this.commonData.toast_config);
+      this.CommonService.show_notification(this.language.Addrow, 'error');
+      return ;
+    }
     for (let i = 0; i < this.needsassessment_template_detail.length; ++i) {
       let currentrow = i + 1;
       if (this.needsassessment_template_detail[i].OPTM_ASSESSMENTID == "" || this.needsassessment_template_detail[i].OPTM_ASSESSMENTID == " ") {     

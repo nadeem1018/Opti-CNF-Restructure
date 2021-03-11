@@ -785,7 +785,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
         isValid = false;
         return isValid;
       }
-      else if (element.operand_1 == "" || element.operand_1 == null) {
+      else if (element.operand_1_code == "" || element.operand_1_code == null) {
         this.CommonService.show_notification(this.language.Nooperand_1 + " " + element.seq_count, 'error');
         isValid = false;
         return isValid;
@@ -990,6 +990,9 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
         if (this.rule_sequence_data[i].rowindex === rowindex) {
           this.rule_sequence_data.splice(i, 1);
           i = i - 1;
+          this.generated_expression_value = "";
+          this.showAddSequenceBtn = false;
+          this.showUpdateSequenceBtn = false;
         }
         else {
           this.rule_sequence_data[i].rowindex = i + 1;
@@ -1172,7 +1175,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
 
 
       if (index != "0") {
-        if (type != "" && operator == "") {
+        if (operator == "") {
           this.generated_expression_value = "";
           this.CommonService.show_notification(this.language.operator_cannotbe_blank_with_type + (parseInt(index) + 1), 'error');
           this.showAddSequenceBtn = false;
@@ -1200,7 +1203,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
           return false;
         }
 
-        if (operand_1_code == "" && type == 1) {
+        if (operand_1_code == "" ) {
           this.CommonService.show_notification(this.language.required_fields + (parseInt(index) + 1) + " - " + this.language.operand_1, 'error');
           this.showAddSequenceBtn = false;
           this.showUpdateSequenceBtn == false;
@@ -1212,7 +1215,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
 
       if (type != "") {
 
-        if (type == "" || type_value_code == "" || condition == "" || (operand_1_code == "" && type == 1)) {
+        if (type == "" || type_value_code == "" || condition == "" || (operand_1_code == "" )) {
 
           let error_fields = '';
           if (type == "") {
@@ -1236,7 +1239,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
             error_fields += " " + this.language.condition;
           }
 
-          if (operand_1_code == "" && type == 1) {
+          if (operand_1_code == "" ) {
             if (error_fields != "") {
               error_fields += ", ";
             }
@@ -1249,7 +1252,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
           return false;
         }
 
-        if (condition == "Between" && operand_2 == "" && type == 1) {
+        if (condition == "Between" && operand_2 == "") {
           this.generated_expression_value = "";
           this.CommonService.show_notification(this.language.required_fields + (parseInt(index) + 1) + " - " + this.language.operand_2, 'error');
           this.showAddSequenceBtn = false;
