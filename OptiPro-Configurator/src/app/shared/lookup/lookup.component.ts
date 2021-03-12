@@ -231,7 +231,7 @@ export class LookupComponent implements OnInit {
     }
 
     if (this.popup_lookupfor == "operand_model_lookup") {
-      this.get_Model_lookup();
+      this.get_assessment_lookup();
       return;
     }
 
@@ -1104,12 +1104,52 @@ export class LookupComponent implements OnInit {
       }
     }
 
-  }  
-
+  } 
   get_Model_lookup() {
 
 
     this.popup_title = this.language.ModelBom;
+    this.LookupDataLoaded = false;
+    this.showLoader = true;
+    this.fill_input_id = 'featureNameId';
+    this.lookup_key = 'OPTM_FEATUREID';
+    this.table_head = [
+    {
+      field: 'OPTM_FEATURECODE',
+      title: this.language.code,
+      type: 'text',
+      width: '100',
+      attrType: 'text'
+    },
+    {
+      field: 'OPTM_DISPLAYNAME',
+      title: this.language.Name,
+      type: 'text',
+      width: '100',
+      attrType: 'text'
+    },
+
+    ];
+
+
+    this.table_head_hidden_elements = [true, false, false];
+    this.width_value = ((100 / this.table_head.length) + '%');
+
+    this.showLoader = false;
+    this.LookupDataLoaded = true;
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+        this.loadServerData(this.serviceData);
+      }
+    }
+
+  } 
+
+  get_assessment_lookup() {
+
+
+    this.popup_title = this.language.need_assessment;
     this.LookupDataLoaded = false;
     this.showLoader = true;
     this.fill_input_id = 'OPTM_ASSESSMENTID';
