@@ -675,14 +675,16 @@
     "need_assesment_template": "Assesment Template",
     "InvalidDefaultTemplate": "Invalid Needs Assesment Template",
     "OPTM_ASSESSMENTID": "OPTM ASSESSMENT ID",
-    "OPTM_OPTIONS" : "OPTM OPTIONS",
-    "sequence_number" : "Sequence Number",
-    "skip" : "Skip Assessment",
+    "OPTM_OPTIONS": "OPTM OPTIONS",
+    "sequence_number": "Sequence Number",
+    "skip": "Skip Assessment",
     "NOOPTM_ASSESSMENTID": "Select Assesment ID at Row",
     "Nooperand_1": "Select Operand1 at Row",
     "Nooperator": "Select Operator at Row",
-    "Notype" : "Select Condition at Row",  
-    "SaveConfirmation" : "Rule is not Exist for this template.Do you want to continue ?" 
-
-   
+    "Notype": "Select Condition at Row",
+    "SaveConfirmation": "Rule is not Exist for this template.Do you want to continue ?",
+    "ConfigAttribute": "Apply Attribute Master",
+    "ConfigAssesment": "Apply Need's Assesment",
+    "ConfigUserApply": "Use Customerwise Need's Assesment",
+    "ConfigDefaultTemplate": "Default Need's Assesment Template"
 }
