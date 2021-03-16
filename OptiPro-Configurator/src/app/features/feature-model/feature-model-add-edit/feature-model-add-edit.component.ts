@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, DoCheck } from '@angular/core';
 import { CommonData } from 'src/app/core/data/CommonData';
 import { FormGroup } from '@angular/forms';
 import { FeaturemodelService } from 'src/app/core/service/featuremodel.service';
@@ -12,7 +12,7 @@ import { DialogService } from 'src/app/core/service/dialog.service';
   templateUrl: './feature-model-add-edit.component.html',
   styleUrls: ['./feature-model-add-edit.component.scss']
 })
-export class FeatureModelAddEditComponent implements OnInit {
+export class FeatureModelAddEditComponent implements OnInit,DoCheck {
 
   @ViewChild("inputBox", {static :true}) _el: ElementRef;
   @ViewChild("select",  {static :true}) _ele: ElementRef;
@@ -78,7 +78,8 @@ export class FeatureModelAddEditComponent implements OnInit {
   public featureMasterImage: any;
   public addImageBlock: boolean = false;
   public config_params: any;
-  public ItemAttributeList: any = []; 
+  public ItemAttributeList: any = [];
+  public isAttribute = this.commanService.attributeMenu; 
 
   canDeactivate() {
     if(CommonData.made_changes == true){
@@ -270,6 +271,10 @@ export class FeatureModelAddEditComponent implements OnInit {
     else {
       this._ele.nativeElement.focus();
     }
+  }
+
+  ngDoCheck() {
+    this.isAttribute = this.commanService.attributeMenu;
   }
 
   validate_special_char(code){

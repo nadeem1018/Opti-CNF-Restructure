@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, DoCheck } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonService } from 'src/app/core/service/common.service';
 import { HttpClient } from '@angular/common/http';
@@ -11,7 +11,7 @@ import { DialogService } from 'src/app/core/service/dialog.service';
   templateUrl: './feature-bom-add-edit.component.html',
   styleUrls: ['./feature-bom-add-edit.component.scss']
 })
-export class FeatureBomAddEditComponent implements OnInit {
+export class FeatureBomAddEditComponent implements OnInit, DoCheck {
   @ViewChild("featureinputbox", { static: true }) _el: ElementRef;
   @ViewChild("button", { static: true }) _ele: ElementRef;
   // modalRef: BsModalRef;
@@ -74,12 +74,13 @@ export class FeatureBomAddEditComponent implements OnInit {
   isPerfectSCrollBar: boolean = false;
   public menu_auth_index: string = "202";
   public made_changes: boolean = false;
-  public isDuplicateMode:boolean = false;
+  public isDuplicateMode: boolean = false;
   public NewFeatureId = "";
   public expandedKeys: any[] = [];
   public ItemAttributeList: any = [];
-  public CustomeAttributeList: any = []; 
+  public CustomeAttributeList: any = [];
   public FeatureAttributeList: any = [];
+  public isAttribute = this.CommonService.attributeMenu;
 
   getSelectedRowDetail(event) {
     CommonData.made_changes = true;
@@ -91,14 +92,14 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   canDeactivate() {
-    if(CommonData.made_changes == true){
+    if (CommonData.made_changes == true) {
       return this.DialogService.confirm('');
     } else {
       return true;
     }
   }
 
- 
+
   navigateToFeatureOrModelBom(id) {
     this.route.navigateByUrl("feature-bom/add-edit/" + id);
     this.feature_bom_data = [];
@@ -117,7 +118,7 @@ export class FeatureBomAddEditComponent implements OnInit {
     this.selectableSettings = {
       mode: 'single'
     };
-  
+
     element.classList.add('add-feature-bom');
 
     this.commonData.checkSession();
@@ -173,17 +174,17 @@ export class FeatureBomAddEditComponent implements OnInit {
       this.isFeatureIdEnable = true;
       this.FeatureLookupBtnhide = true;
 
-      if(this.ActivatedRouter.snapshot.url[0].path == "edit") {
+      if (this.ActivatedRouter.snapshot.url[0].path == "edit") {
         this.isUpdateButtonVisible = true;
         this.isSaveButtonVisible = false;
         this.isDeleteButtonVisible = true;
         this.isFeatureIdEnable = true;
         this.FeatureLookupBtnhide = true;
         this.isDuplicateMode = false;
-      } else if(this.ActivatedRouter.snapshot.url[0].path == "add"){ 
+      } else if (this.ActivatedRouter.snapshot.url[0].path == "add") {
         this.isUpdateButtonVisible = false;
         this.isSaveButtonVisible = true;
-        this.isDeleteButtonVisible = false; 
+        this.isDeleteButtonVisible = false;
         this.isDuplicateMode = true;
         this.isFeatureIdEnable = false;
         this.FeatureLookupBtnhide = false;
@@ -200,10 +201,13 @@ export class FeatureBomAddEditComponent implements OnInit {
 
   }
 
+  ngDoCheck() {
+    this.isAttribute = this.CommonService.attributeMenu;
+  }
+
   getFeatureBomDetail(id) {
     this.showLoader = true;
-    if(this.isDuplicateMode)
-    {
+    if (this.isDuplicateMode) {
       this.NewFeatureId = this.update_id;
     }
     this.fbom.GetDataByFeatureId(id).subscribe(
@@ -216,8 +220,8 @@ export class FeatureBomAddEditComponent implements OnInit {
             return;
           }
         }
-       this.FeatureAttributeList = data.FeatureAttribute;
-       this.ItemAttributeList = data.FeatureAttribute
+        this.FeatureAttributeList = data.FeatureAttribute;
+        this.ItemAttributeList = data.FeatureAttribute
         if (data.FeatureDetail.length > 0) {
           for (let i = 0; i < data.FeatureDetail.length; ++i) {
             if (data.FeatureDetail[i].OPTM_TYPE == 1) {
@@ -279,7 +283,7 @@ export class FeatureBomAddEditComponent implements OnInit {
             }
 
             //this.row_image_data = this.commonData.get_current_url() + data.FeatureDetail[i].OPTM_ATTACHMENT
-            this.row_image_data = this.config_params.service_url+'/web'+ data.FeatureDetail[i].OPTM_ATTACHMENT;
+            this.row_image_data = this.config_params.service_url + '/web' + data.FeatureDetail[i].OPTM_ATTACHMENT;
 
             this.counter = 0;
             if (this.feature_bom_table.length > 0) {
@@ -305,7 +309,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
             this.feature_bom_table.push({
               rowindex: this.counter,
-              OPTM_LINENO: data.FeatureDetail[i]. OPTM_LINENO,
+              OPTM_LINENO: data.FeatureDetail[i].OPTM_LINENO,
               FeatureId: data.FeatureDetail[i].OPTM_FEATUREID,
               type: data.FeatureDetail[i].OPTM_TYPE,
               type_value: this.typevaluefromdatabase.trim(),
@@ -364,9 +368,9 @@ export class FeatureBomAddEditComponent implements OnInit {
           }
 
           if (data.FeatureHeader[0].OPTM_ISCUSTOMVIEW == 'y' || data.FeatureHeader[0].OPTM_ISCUSTOMVIEW == 'Y') {
-            this.feature_bom_data.custview_select = 'true';            
+            this.feature_bom_data.custview_select = 'true';
           } else {
-            this.feature_bom_data.custview_select = 'false';            
+            this.feature_bom_data.custview_select = 'false';
           }
 
           this.feature_bom_data.feature_min_selectable = data.FeatureHeader[0].OPTM_MIN_SELECTABLE;
@@ -383,20 +387,20 @@ export class FeatureBomAddEditComponent implements OnInit {
 
           if (this.feature_bom_data.image_path != "") {
             if (this.feature_bom_data.image_path != null) {
-             // this.header_image_data = this.commonData.get_current_url() + this.feature_bom_data.image_path
-              this.header_image_data = this.config_params.service_url+'/web'+ this.feature_bom_data.image_path;
+              // this.header_image_data = this.commonData.get_current_url() + this.feature_bom_data.image_path
+              this.header_image_data = this.config_params.service_url + '/web' + this.feature_bom_data.image_path;
               this.showImageBlock = true;
             }
           }
-     //     this.onExplodeClick('auto');
+          //     this.onExplodeClick('auto');
         }
         this.showLoader = false;
-        if(this.isDuplicateMode) {
-          this.feature_bom_data.feature_code = ""; 
+        if (this.isDuplicateMode) {
+          this.feature_bom_data.feature_code = "";
           this.feature_bom_data.feature_name = "";
           this.feature_bom_data.feature_desc = "";
           this.feature_bom_data.feature_id = "";
-          }
+        }
       },
       error => {
         this.showLoader = false;
@@ -411,74 +415,74 @@ export class FeatureBomAddEditComponent implements OnInit {
 
   on_multiple_model_change() {
     CommonData.made_changes = true;
-   if (this.feature_bom_data.multi_select == 'false') {
-     this.feature_bom_data.multi_select_disabled = true;
-   } else if (this.feature_bom_data.multi_select == 'true') {
-     this.feature_bom_data.multi_select_disabled = false;
-   }
-   this.feature_bom_data.feature_min_selectable = 1;
-   if (this.feature_bom_table.length > 0) {
-     this.feature_bom_table.filter(function (obj) {
-       return obj.default = false;
-     });
+    if (this.feature_bom_data.multi_select == 'false') {
+      this.feature_bom_data.multi_select_disabled = true;
+    } else if (this.feature_bom_data.multi_select == 'true') {
+      this.feature_bom_data.multi_select_disabled = false;
+    }
+    this.feature_bom_data.feature_min_selectable = 1;
+    if (this.feature_bom_table.length > 0) {
+      this.feature_bom_table.filter(function (obj) {
+        return obj.default = false;
+      });
 
-   }
-   this.feature_bom_data.feature_max_selectable = 1;
- }
-
-  on_custome_view_change() {
-     CommonData.made_changes = true;
-     if (this.feature_bom_data.custview_select == 'true') {
-      this.addAttribute();
-     }
-  
+    }
+    this.feature_bom_data.feature_max_selectable = 1;
   }
 
-  addAttribute(){ 
-   
+  on_custome_view_change() {
+    CommonData.made_changes = true;
+    if (this.feature_bom_data.custview_select == 'true') {
+      this.addAttribute();
+    }
+
+  }
+
+  addAttribute() {
+
     if (this.update_id == "" || this.update_id == null) {
-     this.serviceData = [] 
-     this.lookupfor = 'customeview_lookup';
-     this.showLookupLoader = false;
+      this.serviceData = []
+      this.lookupfor = 'customeview_lookup';
+      this.showLookupLoader = false;
     } else {
-     this.fbom.GetModelFeatureAttributeListByFeatureID(this.update_id).subscribe(
-       data => {
- 
-         if (data.FeatureCustomAttribute.length > 0) {
-           if (data.FeatureCustomAttribute[0].ErrorMsg == "7001") {
-             CommonData.made_changes = false;
-             this.showLookupLoader = false;
-             this.CommonService.RemoveLoggedInUser().subscribe();
-             this.CommonService.signOut(this.router, 'Sessionout');
-             return;
-           }
- 
-           this.lookupfor = 'customeview_lookup';
-           this.showLookupLoader = false;
-           this.serviceData = data.FeatureCustomAttribute;       
-         }
-         else {
-           this.lookupfor = 'customeview_lookup';
-           this.showLookupLoader = false;  
-         //  this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
-          // return;
-         }
-       }, error => {
-         this.showLookupLoader = false;
-         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
-           this.CommonService.isUnauthorized();
-         }
-         return;
-       }
-     )
-     }
- 
-    
-      
-   }
+      this.fbom.GetModelFeatureAttributeListByFeatureID(this.update_id).subscribe(
+        data => {
+
+          if (data.FeatureCustomAttribute.length > 0) {
+            if (data.FeatureCustomAttribute[0].ErrorMsg == "7001") {
+              CommonData.made_changes = false;
+              this.showLookupLoader = false;
+              this.CommonService.RemoveLoggedInUser().subscribe();
+              this.CommonService.signOut(this.router, 'Sessionout');
+              return;
+            }
+
+            this.lookupfor = 'customeview_lookup';
+            this.showLookupLoader = false;
+            this.serviceData = data.FeatureCustomAttribute;
+          }
+          else {
+            this.lookupfor = 'customeview_lookup';
+            this.showLookupLoader = false;
+            //  this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+            // return;
+          }
+        }, error => {
+          this.showLookupLoader = false;
+          if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+            this.CommonService.isUnauthorized();
+          }
+          return;
+        }
+      )
+    }
+
+
+
+  }
 
   validate_min_values(value, input_id) {
-     CommonData.made_changes = true;
+    CommonData.made_changes = true;
     if (this.feature_bom_data.multi_select == 'true') {
 
       var rgexp = /^\d+$/;
@@ -522,7 +526,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   validate_max_values(value, input_id) {
-     CommonData.made_changes = true;
+    CommonData.made_changes = true;
     if (value == 0) {
       value = 1;
       this.feature_bom_data[input_id] = (value);
@@ -637,7 +641,7 @@ export class FeatureBomAddEditComponent implements OnInit {
           for (let i = 0; i < this.feature_bom_table.length; ++i) {
             if (this.feature_bom_table[i].rowindex === rowindex) {
               this.feature_bom_table[i].attachment = data.body;
-              this.feature_bom_table[i].preview = this.config_params.service_url+'/web'+ data.body;
+              this.feature_bom_table[i].preview = this.config_params.service_url + '/web' + data.body;
               console.log(this.feature_bom_table[i].preview);
               //this.feature_bom_table[i].preview = this.commonData.get_current_url() + data.body
               // this.detail_image_data.push(this.feature_bom_table[i].attachment)  
@@ -669,14 +673,14 @@ export class FeatureBomAddEditComponent implements OnInit {
         return;
       })
   }
-  openAttributeLookup(rowindex){
+  openAttributeLookup(rowindex) {
     this.serviceData = {};
     this.serviceData.attributeList = [];
-    this.serviceData.rowindex = rowindex; 
+    this.serviceData.rowindex = rowindex;
     this.serviceData.type = "FeatureBom";
     this.lookupfor = '';
     let lineNo = 0;
-    this.serviceData.feature_id = this.feature_bom_data.feature_id; 
+    this.serviceData.feature_id = this.feature_bom_data.feature_id;
 
     if (this.feature_bom_table.length > 0) {
       for (let i = 0; i < this.feature_bom_table.length; ++i) {
@@ -686,9 +690,9 @@ export class FeatureBomAddEditComponent implements OnInit {
         }
       }
     }
-    
-    this.serviceData.featureCode =this.feature_bom_data.feature_code;
-    this.serviceData.rowId = lineNo; 
+
+    this.serviceData.featureCode = this.feature_bom_data.feature_code;
+    this.serviceData.rowId = lineNo;
     this.fbom.GetFeatureBOMAttributeListByLine(this.feature_bom_data.feature_id, lineNo).subscribe(
       data => {
 
@@ -703,13 +707,13 @@ export class FeatureBomAddEditComponent implements OnInit {
 
           this.lookupfor = 'add_attribute_lookup';
           this.showLookupLoader = false;
-          this.serviceData.attributeList  = data;       
+          this.serviceData.attributeList = data;
         }
         else {
           this.lookupfor = 'add_attribute_lookup';
-          this.showLookupLoader = false;        
-        //  this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
-         // return;
+          this.showLookupLoader = false;
+          //  this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          // return;
         }
       }, error => {
         this.showLookupLoader = false;
@@ -721,15 +725,15 @@ export class FeatureBomAddEditComponent implements OnInit {
     )
   }
 
-  onViewAttribute(){
+  onViewAttribute() {
     this.serviceData = {};
     this.serviceData.attributeList = [];
     this.serviceData.atttributeColumn = [];
     let selectAttributesList = [];
-    this.serviceData.type = "FeatureBom"    
+    this.serviceData.type = "FeatureBom"
     var featureName = this.feature_bom_data.feature_name;
     var featureCode = this.feature_bom_data.feature_code;
-    this.serviceData.featureName = featureName;  
+    this.serviceData.featureName = featureName;
     this.fbom.ViewAttributes(this.feature_bom_data.feature_id).subscribe(
       data => {
 
@@ -743,13 +747,13 @@ export class FeatureBomAddEditComponent implements OnInit {
           }
 
           this.lookupfor = 'view_attribute_lookup';
-          this.showLookupLoader = false;          
-          this.serviceData.attributeList  = data.ViewAttributes;  
-          this.serviceData.atttributeColumn   = data.FeatureAttribute;     
+          this.showLookupLoader = false;
+          this.serviceData.attributeList = data.ViewAttributes;
+          this.serviceData.atttributeColumn = data.FeatureAttribute;
         }
         else {
           this.lookupfor = 'view_attribute_lookup';
-          this.showLookupLoader = false;                
+          this.showLookupLoader = false;
           this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
           return;
         }
@@ -761,9 +765,9 @@ export class FeatureBomAddEditComponent implements OnInit {
         return;
       }
     )
- 
 
-  
+
+
   }
 
   onDeleteRow(rowindex) {
@@ -795,7 +799,7 @@ export class FeatureBomAddEditComponent implements OnInit {
           this.ItemAttributeList = ItemAttributeDataList;
           this.feature_bom_table.splice(i, 1);
           i = i - 1;
-         
+
         }
         else {
           this.feature_bom_table[i].rowindex = i + 1;
@@ -813,15 +817,13 @@ export class FeatureBomAddEditComponent implements OnInit {
     }
 
     if (this.feature_bom_table.length > 0) {
-      if(this.isDuplicateMode)
-      {
-        this.feature_bom_table[0].id =  0; 
+      if (this.isDuplicateMode) {
+        this.feature_bom_table[0].id = 0;
 
       }
-      else
-      {
+      else {
         this.feature_bom_table[0].id = this.update_id;
-      }      
+      }
       for (let i = 0; i < this.feature_bom_table.length; ++i) {
         if (this.feature_bom_table[i].display_name == "" || this.feature_bom_table[i].display_name == " ") {
           let currentrow = i + 1;
@@ -833,17 +835,16 @@ export class FeatureBomAddEditComponent implements OnInit {
       }
 
       for (let i = 0; i < this.feature_bom_table.length; ++i) {
-        if(this.isDuplicateMode)
-        {
-          this.NewFeatureId =  this.feature_bom_data.feature_id;
+        if (this.isDuplicateMode) {
+          this.NewFeatureId = this.feature_bom_data.feature_id;
           this.feature_bom_table[i].FeatureId = this.NewFeatureId;
         }
 
         if (this.feature_bom_data.custview_select == 'false') {
-          this.feature_bom_table[i].OPTM_ISCUSTOMVIEW  = "N"
+          this.feature_bom_table[i].OPTM_ISCUSTOMVIEW = "N"
         }
         else {
-          this.feature_bom_table[i].OPTM_ISCUSTOMVIEW  = "Y"
+          this.feature_bom_table[i].OPTM_ISCUSTOMVIEW = "Y"
         }
 
         if (this.feature_bom_data.multi_select == 'false') {
@@ -880,8 +881,8 @@ export class FeatureBomAddEditComponent implements OnInit {
         var featureBomItem = this.feature_bom_table[i];
         this.ItemAttributeList = this.ItemAttributeList.filter(function (obj) {
           if (obj['OPTM_FEATUREDTLROWID'] == featureBomItem.OPTM_LINENO) {
-              obj['rowindex'] = featureBomItem.rowindex
-          }         
+            obj['rowindex'] = featureBomItem.rowindex
+          }
           return obj;
         })
 
@@ -1069,7 +1070,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   on_displayname_change(value, rowindex) {
-   CommonData.made_changes = true;
+    CommonData.made_changes = true;
     this.currentrowindex = rowindex
     for (let i = 0; i < this.feature_bom_table.length; ++i) {
       if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
@@ -1081,15 +1082,15 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
   on_description_change(value, rowindex) {
     CommonData.made_changes = true;
-     this.currentrowindex = rowindex
-     for (let i = 0; i < this.feature_bom_table.length; ++i) {
-       if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
-         this.feature_bom_table[i].bom_description = value
- 
-       //  this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
-       }
-     }
-   }
+    this.currentrowindex = rowindex
+    for (let i = 0; i < this.feature_bom_table.length; ++i) {
+      if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
+        this.feature_bom_table[i].bom_description = value
+
+        //  this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
+      }
+    }
+  }
 
   on_typevalue_change(value, rowindex, code, type_value_code) {
     var iIndex;
@@ -1100,7 +1101,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       var psTypeCode = this.feature_bom_table[j].type_value_code;
       if (psTypeCode != undefined && psTypeCode != "") {
         if (psTypeCode.toUpperCase() == code.toUpperCase()) {
-          this.CommonService.show_notification(this.language.DuplicateId, 'error');          
+          this.CommonService.show_notification(this.language.DuplicateId, 'error');
           type_value_code.value = "";
           return;
         }
@@ -1148,7 +1149,7 @@ export class FeatureBomAddEditComponent implements OnInit {
                 if (data[0].ErrorMsg == "7001") {
                   CommonData.made_changes = false;
                   this.CommonService.RemoveLoggedInUser().subscribe();
-                 
+
                   return;
                 }
               }
@@ -1194,7 +1195,7 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
 
   on_defualt_change(value, rowindex) {
-     CommonData.made_changes = true;
+    CommonData.made_changes = true;
     this.currentrowindex = rowindex
     for (let i = 0; i < this.feature_bom_table.length; ++i) {
       if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
@@ -1219,49 +1220,49 @@ export class FeatureBomAddEditComponent implements OnInit {
 
 
   getLookupValue($event) {
-    if($event.length == 0){
+    if ($event.length == 0) {
       this.lookupfor = "";
       return;
     }
-    if(this.lookupfor == 'add_attribute_lookup') {
-     
-      if(this.ItemAttributeList.length > 0){
-       var itemAttributeList =  $event;
-      var ItemAttributeDataList = this.ItemAttributeList.filter(function (obj) {
-        return obj['OPTM_FEATUREDTLROWID'] != itemAttributeList[0].OPTM_FEATUREDTLROWID;
-      });
-   
-     this.ItemAttributeList = ItemAttributeDataList;     
-     for(var index in itemAttributeList){
-      this.ItemAttributeList.push(itemAttributeList[index]);
-     }
-    } else {
-      this.ItemAttributeList =  $event;
-    }
+    if (this.lookupfor == 'add_attribute_lookup') {
 
-     
+      if (this.ItemAttributeList.length > 0) {
+        var itemAttributeList = $event;
+        var ItemAttributeDataList = this.ItemAttributeList.filter(function (obj) {
+          return obj['OPTM_FEATUREDTLROWID'] != itemAttributeList[0].OPTM_FEATUREDTLROWID;
+        });
+
+        this.ItemAttributeList = ItemAttributeDataList;
+        for (var index in itemAttributeList) {
+          this.ItemAttributeList.push(itemAttributeList[index]);
+        }
+      } else {
+        this.ItemAttributeList = $event;
+      }
+
+
       console.log(this.feature_bom_table);
 
-    }else if(this.lookupfor == 'customeview_lookup') {
-      this.CustomeAttributeList =  $event;
+    } else if (this.lookupfor == 'customeview_lookup') {
+      this.CustomeAttributeList = $event;
       console.log(this.feature_bom_table);
 
-    }else if (this.lookupfor == 'feature_lookup') {
-       CommonData.made_changes = true;
+    } else if (this.lookupfor == 'feature_lookup') {
+      CommonData.made_changes = true;
       this.feature_bom_data.feature_id = $event[0];
       this.feature_bom_data.feature_code = $event[1];
       this.getFeatureDetails($event[0], "Header", 0);
     }
     else if (this.lookupfor == 'Item_Detail_lookup') {
       this.lookupfor = 'Item_Detail_lookup';
-       CommonData.made_changes = true;
+      CommonData.made_changes = true;
       for (let j = 0; j < this.feature_bom_table.length; j++) {
         var psTypeCode = this.feature_bom_table[j].type_value_code;
         if (psTypeCode != undefined && psTypeCode != "") {
           if (psTypeCode.toUpperCase() == $event[0].toUpperCase()) {
             //  this.toastr.error('', this.language.DuplicateId, this.commonData.toast_config);
             this.CommonService.show_notification(this.language.DuplicateId, 'error');
-          //  $($event[0]).val("");
+            //  $($event[0]).val("");
             return;
           }
         }
@@ -1272,14 +1273,14 @@ export class FeatureBomAddEditComponent implements OnInit {
     }
     else if (this.lookupfor == 'feature_Detail_lookup') {
       //call the method cyclic chk
-       CommonData.made_changes = true;
+      CommonData.made_changes = true;
       for (let j = 0; j < this.feature_bom_table.length; j++) {
         var psTypeCode = this.feature_bom_table[j].type_value_code;
         if (psTypeCode != undefined && psTypeCode != "") {
           if (psTypeCode.toUpperCase() == $event[1].toUpperCase()) {
             // this.toastr.error('', this.language.DuplicateId, this.commonData.toast_config);
             this.CommonService.show_notification(this.language.DuplicateId, 'error');
-          //  $($event[1]).val("");
+            //  $($event[1]).val("");
             return;
           }
         }
@@ -1289,7 +1290,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       this.checkFeaturesAlreadyAddedinParent($event[0], "", this.currentrowindex - 1, "lookup");
     }
     else if (this.lookupfor == 'Price_lookup') {
-       CommonData.made_changes = true;
+      CommonData.made_changes = true;
       this.getPriceDetails($event[1], $event[0], this.currentrowindex);
     }
 
@@ -1306,7 +1307,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
   openFeatureLookUp() {
     this.showLookupLoader = true;
-     CommonData.made_changes = true;
+    CommonData.made_changes = true;
     console.log('inopen feature');
     this.serviceData = []
     this.lookupfor = 'feature_lookup';
@@ -1314,7 +1315,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       data => {
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-             CommonData.made_changes = false;
+            CommonData.made_changes = false;
             this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
@@ -1360,7 +1361,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       data => {
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-             CommonData.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
@@ -1410,7 +1411,7 @@ export class FeatureBomAddEditComponent implements OnInit {
         this.feature_bom_table[i].type_value_code = selectedDataDetails[0].ItemKey;
         this.feature_bom_table[i].is_accessory = 'N';
         this.feature_bom_table[i].is_accessory_disabled = false;
-        this.feature_bom_table[i].default = false;       
+        this.feature_bom_table[i].default = false;
         this.feature_bom_table[i].bom_description = selectedDataDetails[0].Description;
         this.feature_bom_table[i].display_name = selectedDataDetails[0].Description;
         this.feature_bom_table[i].price_source = selectedDataDetails[0].ListName;
@@ -1433,7 +1434,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-             CommonData.made_changes = false;
+            CommonData.made_changes = false;
             this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
@@ -1471,15 +1472,14 @@ export class FeatureBomAddEditComponent implements OnInit {
               if (this.feature_bom_data.image_path != null) {
                 if (this.feature_bom_data.image_path != "") {
                   //this.header_image_data = this.commonData.get_current_url() + this.feature_bom_data.image_path;
-                  this.header_image_data = this.config_params.service_url+'/web'+ this.feature_bom_data.image_path;
+                  this.header_image_data = this.config_params.service_url + '/web' + this.feature_bom_data.image_path;
                   this.showImageBlock = true;
                 }
               }
               if (this.feature_bom_table.length > 0) {
-                if(!this.isDuplicateMode)
-                {
+                if (!this.isDuplicateMode) {
                   this.feature_bom_table = [];
-                }               
+                }
               }
             }
             else {
@@ -1495,12 +1495,12 @@ export class FeatureBomAddEditComponent implements OnInit {
                     this.feature_bom_table[i].is_accessory_disabled = false;
                     this.feature_bom_table[i].default = false;
                   }
-                  
+
                   this.feature_bom_table[i].display_name = data[0].OPTM_DISPLAYNAME;
                   this.feature_bom_table[i].bom_description = data[0].OPTM_FEATUREDESC;
                   if (data[0].OPTM_PHOTO != null && data[0].OPTM_PHOTO != "") {
                     //this.feature_bom_table[i].preview = this.commonData.get_current_url() + data[0].OPTM_PHOTO;
-                    this.feature_bom_table[i].preview = this.config_params.service_url+'/web'+ data[0].OPTM_PHOTO;
+                    this.feature_bom_table[i].preview = this.config_params.service_url + '/web' + data[0].OPTM_PHOTO;
 
                     this.feature_bom_table[i].attachment = data[0].OPTM_PHOTO;
                   }
@@ -1545,12 +1545,12 @@ export class FeatureBomAddEditComponent implements OnInit {
     this.showLookupLoader = true;
     this.serviceData = []
     this.currentrowindex = rowindex;
-  CommonData.made_changes = true;
+    CommonData.made_changes = true;
     this.fbom.GetPriceList(ItemKey).subscribe(
       data => {
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-          CommonData.made_changes = false;
+            CommonData.made_changes = false;
             this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
@@ -1584,7 +1584,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
   enlage_image(image) {
     this.showLookupLoader = true;
-    if(image){
+    if (image) {
       this.lookupfor = 'large_image_view';
       this.selectedImage = image;
       this.showLookupLoader = false;
@@ -1722,7 +1722,7 @@ export class FeatureBomAddEditComponent implements OnInit {
               if (data[0].ErrorMsg == "7001") {
                 CommonData.made_changes = false;
                 this.CommonService.RemoveLoggedInUser().subscribe();
-                this.CommonService.signOut(this.route, 'Sessionout');                
+                this.CommonService.signOut(this.route, 'Sessionout');
                 return;
               }
             }
@@ -1970,46 +1970,46 @@ export class FeatureBomAddEditComponent implements OnInit {
   }
   public data1: any[] = [];
   public unflatten(arr) {
-   let tree = [],
-       mappedArr = {},
-       arrElem,
-       mappedElem;
- 
-   // First map the nodes of the array to an object -> create a hash table.
-   for(var i = 0, len = arr.length; i < len; i++) {
-     arrElem = arr[i];
-     mappedArr[arrElem.unique_key] = arrElem;
-     mappedArr[arrElem.unique_key]['children'] = [];
-   }
- 
- 
-   for (let unique_key in mappedArr) {
-     if (mappedArr.hasOwnProperty(unique_key)) {
-       mappedElem = mappedArr[unique_key];
-       // If the element is not at the root level, add it to its parent array of children.
-       if (mappedElem.node_id) {
-         mappedArr[mappedElem['node_id']]['children'].push(mappedElem);
-       }
-       // If the element is at the root level, add it to first level elements array.
-       else {
-         tree.push(mappedElem);
-       }
-     }
-   }
-   return tree;
- }
+    let tree = [],
+      mappedArr = {},
+      arrElem,
+      mappedElem;
+
+    // First map the nodes of the array to an object -> create a hash table.
+    for (var i = 0, len = arr.length; i < len; i++) {
+      arrElem = arr[i];
+      mappedArr[arrElem.unique_key] = arrElem;
+      mappedArr[arrElem.unique_key]['children'] = [];
+    }
+
+
+    for (let unique_key in mappedArr) {
+      if (mappedArr.hasOwnProperty(unique_key)) {
+        mappedElem = mappedArr[unique_key];
+        // If the element is not at the root level, add it to its parent array of children.
+        if (mappedElem.node_id) {
+          mappedArr[mappedElem['node_id']]['children'].push(mappedElem);
+        }
+        // If the element is at the root level, add it to first level elements array.
+        else {
+          tree.push(mappedElem);
+        }
+      }
+    }
+    return tree;
+  }
 
   onFeatureIdChange() {
-      CommonData.made_changes = true;
+    CommonData.made_changes = true;
     this.fbom.onFeatureIdChange(this.feature_bom_data.feature_code).subscribe(
       data => {
         console.log(data);
 
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-              CommonData.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
-            this.CommonService.signOut(this.route, 'Sessionout');    
+            this.CommonService.signOut(this.route, 'Sessionout');
             return;
           }
         }
@@ -2050,7 +2050,7 @@ export class FeatureBomAddEditComponent implements OnInit {
       data => {
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
-              CommonData.made_changes = false;
+            CommonData.made_changes = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
@@ -2158,19 +2158,19 @@ export class FeatureBomAddEditComponent implements OnInit {
       id.parentNode.parentNode.childNodes[4].classList.add("d-block");
     } else {
       id.parentNode.parentNode.childNodes[4].classList.remove("d-block");
-      id.parentNode.parentNode.childNodes[4].classList.add("d-none");      
+      id.parentNode.parentNode.childNodes[4].classList.add("d-none");
     }
   }
 
   getAllId(arr, key) {
     arr.forEach(item => {
       for (let keys in item) {
-        if (keys === key) { 
+        if (keys === key) {
           this.expandedKeys.push(item[key])
         } else if (Array.isArray(item[keys])) {
           this.getAllId(item[keys], key);
         }
-      }  
+      }
     });
   }
 
@@ -2186,7 +2186,7 @@ export class FeatureBomAddEditComponent implements OnInit {
 
   resequence_operation(type) {  // type = 1 : up & type = 2 : down
 
-      CommonData.made_changes = true;
+    CommonData.made_changes = true;
     let row_c_select = this.current_selected_row.rowindex;
     let current_row_index = this.feature_bom_table.findIndex(function (obj) {
       return obj.rowindex == row_c_select;
