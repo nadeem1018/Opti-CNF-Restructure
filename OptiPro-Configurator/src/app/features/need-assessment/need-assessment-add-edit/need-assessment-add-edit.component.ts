@@ -1294,7 +1294,19 @@ on_description_change(value, rowindex) {
 }
 on_optionid_change(value, rowindex) {
 
-  this.currentrowindex = rowindex
+  this.currentrowindex = rowindex;
+  var iIndex = this.currentrowindex - 1;
+
+  if(this.assessment_data.length > 0){
+    var isExist = this.assessment_data.filter(function (obj) {
+       return  obj.OPTM_OptionsID == value;
+     }) 
+     if(isExist.length > 0) {  
+      this.assessment_data[iIndex].OPTM_OptionsID = "";  
+      this.CommonService.show_notification(this.language.DuplicateId, 'error');
+       return;
+     }   
+   }
   CommonData.made_changes = true;
   for (let i = 0; i < this.assessment_data.length; ++i) {
     if (this.assessment_data[i].rowindex === this.currentrowindex) {      
