@@ -219,6 +219,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   }
 
   public isAttribute = this.CommonService.attributeMenu;
+  public isNeedAssesment = this.CommonService.needAssesmentMenu;
   detectDevice() {
     let getDevice = UIHelper.isDevice();
     this.isMobile = getDevice[0];
@@ -288,6 +289,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
 
   ngDoCheck() {
     this.isAttribute = this.CommonService.attributeMenu;
+    this.isNeedAssesment = this.CommonService.needAssesmentMenu;
   }
 
   navigation_in_steps(hide_index, show_index) {
@@ -496,6 +498,16 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     this.navigation_in_steps(1, 0);
   }
 
+
+  previousBomScreen() {
+    if (this.isNeedAssesment) {
+      this.navigation_in_steps(3, 2);
+    }
+    else {
+      this.navigation_in_steps(3, 1);
+    }
+  }
+
   onSavePress() {
     if (this.step3_data_final.length == 0) {
       var this_obj = this;
@@ -559,7 +571,13 @@ export class CwViewOldComponent implements OnInit, DoCheck {
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
           }
-          this.navigation_in_steps(1, 2);
+          if (this.isNeedAssesment) {
+            this.navigation_in_steps(1, 2);
+          }
+          else {
+            this.navigation_in_steps(1, 3);
+          }
+
           this.customerNeedsAssessmentHeader = data.CustomerNeedsAssessmentHeader
 
           this.option = data.Option
@@ -1993,7 +2011,12 @@ export class CwViewOldComponent implements OnInit, DoCheck {
 
   step2_next_click_validation() {
     if (this.step1_data.document == "draft") {
-      this.navigation_in_steps(1, 2);
+      if (this.isNeedAssesment) {
+        this.navigation_in_steps(1, 2);
+      }
+      else {
+        this.navigation_in_steps(1, 3);
+      }
     } else {
       let required_fields = '';
       if (this.step1_data.customer == "" || this.step1_data.customer == undefined || this.step1_data.customer == null) {
@@ -2019,9 +2042,10 @@ export class CwViewOldComponent implements OnInit, DoCheck {
         this.CommonService.show_notification(this.language.required_fields_direct + " - " + required_fields, 'error');
         return false;
       } else {
-        this.GetNeedsAssessmentByCustomerId();
-
-      }
+        if (this.isNeedAssesment) {
+          this.GetNeedsAssessmentByCustomerId();
+        }
+ }
     }
   }
 
@@ -5685,7 +5709,12 @@ export class CwViewOldComponent implements OnInit, DoCheck {
 
   step4_edit_model(model_data) {
     this.onAddedModelChange(model_data.rowIndex, () => {
-      this.navigation_in_steps(3, 2);
+      if (this.isNeedAssesment) {
+        this.navigation_in_steps(3, 2);
+      }
+      else {
+        this.navigation_in_steps(3, 1);
+      }
     });
   }
 

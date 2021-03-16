@@ -28,7 +28,7 @@
                                     </svg></span>
                                 <span class="step-name">{{language.select_customer_document}}</span>
                             </li>
-                            <li class="steps-info" id="customer_details">
+                            <li *ngIf="isNeedAssesment" class="steps-info" id="customer_details">
                                 <span class="icon"><svg viewBox="0 0 107.07 122.88" class="icon">
                                         <use xlink:href="#attribute"></use>
                                     </svg></span>
@@ -404,7 +404,7 @@
                             </div>
                         </div>
                     </fieldset>
-                    <fieldset class="one_step_block" data-block_id="need_assessment">
+                    <fieldset  class="one_step_block" data-block_id="need_assessment">
                         <div class="second_step_block">
                             <div class="main-portion">
                                 <div class="wizard_heading_section">
@@ -449,7 +449,7 @@
                                         [expanded]="assessmentPanelToggle">
                                         <ng-template kendoPanelBarItemTitle>
                                             <span id="{{header_data.OPTM_QUESTIONS}}">
-                                                {{header_data.OPTM_QUESTIONS}} &nbsp; &nbsp; 
+                                                {{header_data.OPTM_QUESTIONS}} &nbsp; &nbsp;
                                                 <span class="{{header_data.OPTM_QUESTIONS}}">
                                                 </span>
                                             </span>
@@ -558,8 +558,9 @@
                                                         <!-- <button (click)="openAttributeList(step2_data, '3')" type="button" class="btn btn-sm btn-success with-icon mr-2">
                                                          {{language.attribute}}
                                                     </button> -->
-                                                        <button [style.display]="isAttribute ? 'block' : 'none'" type="button" (click)="openAttributeList(step2_data, '3')"
-                                                            class="btn btn-sm btn-icon mr-2 btn-primary" title="{{this.language.attribute}}">
+                                                        <button [style.display]="isAttribute ? 'block' : 'none'" type="button"
+                                                            (click)="openAttributeList(step2_data, '3')" class="btn btn-sm btn-icon mr-2 btn-primary"
+                                                            title="{{this.language.attribute}}">
                                                             <svg class="icon" viewBox="0 0 107.07 122.88">
                                                                 <use xlink:href="#attribute"></use>
                                                             </svg>
@@ -1101,7 +1102,8 @@
                                                     <use xlink:href="#bin"></use>
                                                 </svg>{{language.delete_model}}
                                             </button>
-                                            <button [style.display]="isAttribute ? 'block' : 'none'" (click)="onCalculateAttribute()" type="button" class="btn btn-sm btn-success with-icon mr-2">
+                                            <button [style.display]="isAttribute ? 'block' : 'none'" (click)="onCalculateAttribute()"
+                                                type="button" class="btn btn-sm btn-success with-icon mr-2">
                                                 Calculate Attribute
                                             </button>
 
@@ -1142,10 +1144,10 @@
                                         </span>
 
                                         <button type="button" class="btn btn-sm btn-secondary with-icon btn-previous mr-2"
-                                            data-previous-block="customer_details" (click)="navigation_in_steps(3, 2)">
+                                            data-previous-block="customer_details" (click)="previousBomScreen()">
                                             <svg viewBox="0 0 24 24" class="icon left-arrow arrow-icon">
                                                 <use xlink:href="#rightArrow"></use>
-                                            </svg>{{language.previous}}
+                                            </svg>{{language.previous}}s
                                         </button>
 
                                         <button [ngStyle]=" {'display': 'none'}" id="modelbom_next_click_id" type="button"
