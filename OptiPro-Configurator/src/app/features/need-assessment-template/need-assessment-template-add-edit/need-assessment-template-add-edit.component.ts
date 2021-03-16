@@ -861,6 +861,15 @@ getLookupValue($event) {
 }
 
 getAssessmentDetails(assessmentId, question, index) {
+  if(this.needsassessment_template_detail.length > 0){
+    var isExist = this.needsassessment_template_detail.filter(function (obj) {
+       return  obj.OPTM_ASSESSMENTID == assessmentId;
+     }) 
+     if(isExist.length > 0) {       
+       this.CommonService.show_notification(this.language.DuplicateId, 'error');
+       return;
+     }   
+   }
   for (let i = 0; i < this.needsassessment_template_detail.length; ++i) {
     if (this.needsassessment_template_detail[i].rowindex === index) {
       this.needsassessment_template_detail[i].OPTM_ASSESSMENTID = assessmentId;
@@ -1001,6 +1010,19 @@ getItemDetails(ItemKey) {
 on_typevalue_change(value, rowindex) {
   this.currentrowindex = rowindex
   var iIndex = this.currentrowindex - 1;
+
+  if(this.needsassessment_template_detail.length > 0){
+    var isExist = this.needsassessment_template_detail.filter(function (obj) {
+       return  obj.OPTM_ASSESSMENTID == value;
+     }) 
+     if(isExist.length > 0) {  
+      this.needsassessment_template_detail[iIndex].OPTM_ASSESSMENTID = "";
+      this.needsassessment_template_detail[iIndex].OPTM_QUESTIONS = "";
+      this.needsassessment_template_detail[iIndex].isQuestionsDisable  = false;  
+       this.CommonService.show_notification(this.language.DuplicateId, 'error');
+       return;
+     }   
+   }
  
   CommonData.made_changes = true;
   for (let i = 0; i < this.needsassessment_template_detail.length; ++i) {
@@ -1024,12 +1046,14 @@ on_typevalue_change(value, rowindex) {
               this.CommonService.show_notification(this.language.Invalid_assessment_id, 'error');
               this.needsassessment_template_detail[i].OPTM_ASSESSMENTID  = '';
               this.needsassessment_template_detail[i].OPTM_QUESTIONS  = '';
+              this.needsassessment_template_detail[i].isQuestionsDisable  = false;
               return;
             }
             else {
               this.lookupfor = "";
               this.needsassessment_template_detail[i].OPTM_ASSESSMENTID  = data[0].OPTM_ASSESSMENTID;
               this.needsassessment_template_detail[i].OPTM_QUESTIONS  = data[0].OPTM_QUESTIONS;
+              this.needsassessment_template_detail[i].isQuestionsDisable  = true;              
               // this.getItemDetails(this.modelbom_data[iIndex].type_value);
               this.getItemDetailsOnChange(this.modelbom_data[iIndex].type_value);
             }
@@ -1489,28 +1513,28 @@ delete_record() {
           return;
         } 
       }
-      if(data == "True"){
-        this.CommonService.show_notification(this.language.DataDeleteSuccesfully , 'success');
-        CommonData.made_changes = false;
-        this.route.navigateByUrl('need-assessment-template/view');
-      }else{
-        this.CommonService.show_notification(this.language.DataNotDelete, 'error');
-      }
-
-      // if(data[0].IsDeleted == "0" && data[0].Message == "ReferenceExists"){
-        
-      //    this.CommonService.show_notification(this.language.Refrence + ' at: ' + data[0].ModelCode, 'error');
-      // }
-      // else if(data[0].IsDeleted == "1"){
-        
-      //    this.CommonService.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[0].ModelCode, 'success');
+      // if(data == "True"){
+      //   this.CommonService.show_notification(this.language.DataDeleteSuccesfully , 'success');
       //   CommonData.made_changes = false;
       //   this.route.navigateByUrl('need-assessment-template/view');
+      // }else{
+      //   this.CommonService.show_notification(this.language.DataNotDelete, 'error');
       // }
-      // else{
+
+      if(data[0].IsDeleted == "0" && data[0].Message == "Template Used"){
         
-      //    this.CommonService.show_notification(this.language.DataNotDelete + ' : ' + data[0].ModelCode, 'error');
-      // }
+         this.CommonService.show_notification(this.language.Refrence + ' at: ' + data[0].TemplateID, 'error');
+      }
+      else if(data[0].IsDeleted == "1"){
+        
+         this.CommonService.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[0].TemplateID, 'success');
+        CommonData.made_changes = false;
+        this.route.navigateByUrl('need-assessment-template/view');
+      }
+      else{
+        
+         this.CommonService.show_notification(this.language.DataNotDelete + ' : ' + data[0].TemplateID, 'error');
+      }
 
     },error => {
       if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){

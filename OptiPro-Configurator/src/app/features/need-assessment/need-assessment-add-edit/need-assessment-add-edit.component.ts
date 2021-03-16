@@ -1751,28 +1751,28 @@ delete_record() {
           return;
         } 
       }
-       if(data == "True"){
-       this.CommonService.show_notification(this.language.DataDeleteSuccesfully, 'success');
-        CommonData.made_changes = false;
-        this.route.navigateByUrl('need-assessment/view');
-       } else {
-        this.CommonService.show_notification(this.language.DataNotDelete, 'error');
-       }
-
-      // if(data[0].IsDeleted == "0" && data[0].Message == "ReferenceExists"){
-        
-      //    this.CommonService.show_notification(this.language.Refrence + ' at: ' + data[0].ModelCode, 'error');
-      // }
-      // else if(data[0].IsDeleted == "1"){
-        
-      //    this.CommonService.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[0].ModelCode, 'success');
+      //  if(data == "True"){
+      //  this.CommonService.show_notification(this.language.DataDeleteSuccesfully, 'success');
       //   CommonData.made_changes = false;
       //   this.route.navigateByUrl('need-assessment/view');
-      // }
-      // else{
+      //  } else {
+      //   this.CommonService.show_notification(this.language.DataNotDelete, 'error');
+      //  }
+
+      if(data[0].IsDeleted == "0" && data[0].Message == "AssessmentID Used"){
         
-      //    this.CommonService.show_notification(this.language.DataNotDelete + ' : ' + data[0].ModelCode, 'error');
-      // }
+         this.CommonService.show_notification(this.language.Refrence + ' at: ' + data[0].AssesmentID, 'error');
+      }
+      else if(data[0].IsDeleted == "1"){
+        
+         this.CommonService.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[0].AssesmentID, 'success');
+        CommonData.made_changes = false;
+        this.route.navigateByUrl('need-assessment/view');
+      }
+      else{
+        
+         this.CommonService.show_notification(this.language.DataNotDelete + ' : ' + data[0].AssesmentID, 'error');
+      }
 
     },error => {
       if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){

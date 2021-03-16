@@ -418,16 +418,16 @@ export class NeedAssessmentViewComponent implements OnInit {
 
           for (var i = 0; i < data.length; i++) {
             if (data[i].IsDeleted == "0" && data[i].Message == "AssessmentID Used") {
-              this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[i].OPTM_ASSESSMENTID, 'error');
+              this.commonservice.show_notification(this.language.Refrence + ' at: ' + data[i].AssesmentID, 'error');
             }
             else if (data[i].IsDeleted == "1") {
-              this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Assessment Id : ' + data[i].OPTM_ASSESSMENTID, 'success');
+              this.commonservice.show_notification(this.language.DataDeleteSuccesfully + ' with Assessment Id : ' + data[i].AssesmentID, 'success');
               this.CheckedData = [];
               this.service_call(this.current_page, this.search_string);
               this.router.navigateByUrl('need-assessment/view');
             }
             else {
-              this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[i].OPTM_ASSESSMENTID, 'error');
+              this.commonservice.show_notification(this.language.DataNotDelete + ' : ' + data[i].AssesmentID, 'error');
             }
           }
 
