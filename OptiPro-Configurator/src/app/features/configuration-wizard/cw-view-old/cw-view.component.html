@@ -558,7 +558,7 @@
                                                         <!-- <button (click)="openAttributeList(step2_data, '3')" type="button" class="btn btn-sm btn-success with-icon mr-2">
                                                          {{language.attribute}}
                                                     </button> -->
-                                                        <button type="button" (click)="openAttributeList(step2_data, '3')"
+                                                        <button [style.display]="isAttribute ? 'block' : 'none'" type="button" (click)="openAttributeList(step2_data, '3')"
                                                             class="btn btn-sm btn-icon mr-2 btn-primary" title="{{this.language.attribute}}">
                                                             <svg class="icon" viewBox="0 0 107.07 122.88">
                                                                 <use xlink:href="#attribute"></use>
@@ -1101,14 +1101,14 @@
                                                     <use xlink:href="#bin"></use>
                                                 </svg>{{language.delete_model}}
                                             </button>
-                                            <button (click)="onCalculateAttribute()" type="button" class="btn btn-sm btn-success with-icon mr-2">
+                                            <button [style.display]="isAttribute ? 'block' : 'none'" (click)="onCalculateAttribute()" type="button" class="btn btn-sm btn-success with-icon mr-2">
                                                 Calculate Attribute
                                             </button>
 
                                         </div>
                                     </div>
                                     <div class="col-md-5 d-inline-flex align-items-center justify-content-end">
-                                        <div class="input-group d-inline-flex w-auto mr-2">
+                                        <div class="input-group d-inline-flex w-auto mr-2" *ngIf="isAttribute">
                                             <label class="custom-checkbox mb-0 without-label">
                                                 <input type="checkbox" id="attribute" value={{report_attribute}}
                                                     (change)="set_report_attribute(attributecheckbox)" [(checked)]=report_attribute

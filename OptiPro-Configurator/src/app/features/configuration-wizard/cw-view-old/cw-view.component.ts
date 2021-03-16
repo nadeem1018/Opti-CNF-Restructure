@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, DoCheck } from '@angular/core';
 import { CommonData } from 'src/app/core/data/CommonData';
 import { UIHelper } from 'src/app/core/helper/ui.helpers';
 import { DialogService } from 'src/app/core/service/dialog.service';
@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './cw-view.component.html',
   styleUrls: ['./cw-view.component.scss']
 })
-export class CwViewOldComponent implements OnInit {
+export class CwViewOldComponent implements OnInit, DoCheck {
   public selectedImage = "";
   @ViewChild("printOperationType", { static: true }) printOperationTypeEL_: ElementRef;
   @ViewChild("modelcode", { static: true }) _el: ElementRef;
@@ -217,6 +217,8 @@ export class CwViewOldComponent implements OnInit {
     private CommonService: CommonService,
     private DialogService: DialogService) {
   }
+
+  public isAttribute = this.CommonService.attributeMenu;
   detectDevice() {
     let getDevice = UIHelper.isDevice();
     this.isMobile = getDevice[0];
@@ -282,6 +284,10 @@ export class CwViewOldComponent implements OnInit {
     this.config_params = JSON.parse(sessionStorage.getItem('system_config'));
     this.cutstomeViewEnable = false;
 
+  }
+
+  ngDoCheck() {
+    this.isAttribute = this.CommonService.attributeMenu;
   }
 
   navigation_in_steps(hide_index, show_index) {
