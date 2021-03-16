@@ -95,7 +95,7 @@
                         <kendo-grid-column field="OPTM_ASSESSMENTID" title="{{language.assessment_id}}" headerClass = "required" filter="text" [width]="80" [minResizableWidth]="80">
                             <ng-template kendoGridCellTemplate let-dataItem>
                               <div class="input-group">
-                                <input [disabled]="dataItem.isTypeDisabled" type="hidden" class="form-control  form-control-sm row_type_value_id" id="type_value" (change)="on_typevalue_change(type_value.value,dataItem.rowindex, type_value_code.value, type_value_code)"
+                                <input [disabled]="dataItem.isTypeDisabled" type="hidden" class="form-control  form-control-sm row_type_value_id" id="type_value" 
                                 value={{dataItem.type_value}} #type_value title={{dataItem.type_value}} />
                                 <input [disabled]="dataItem.isTypeDisabled" type="text" class="form-control  form-control-sm row_type_value_code" id="OPTM_ASSESSMENTID" (change)="on_typevalue_change(OPTM_ASSESSMENTID.value,dataItem.rowindex)"
                                 value={{dataItem.OPTM_ASSESSMENTID}} #OPTM_ASSESSMENTID title={{dataItem.OPTM_ASSESSMENTID}} />
