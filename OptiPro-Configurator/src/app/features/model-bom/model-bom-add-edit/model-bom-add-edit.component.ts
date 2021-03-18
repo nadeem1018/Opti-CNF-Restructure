@@ -1052,7 +1052,8 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               this.modelbom_data.feature_desc = data[0].OPTM_FEATUREDESC;
               this.modelbom_data.image_path = data[0].OPTM_PHOTO;
               if (this.modelbom_data.image_path != null && this.modelbom_data.image_path != "") {
-                this.header_image_data = this.commonData.get_current_url() + this.modelbom_data.image_path;
+                this.header_image_data = this.config_params.service_url + '/web' + this.modelbom_data.image_path;
+              //  this.header_image_data = this.commonData.get_current_url() + this.modelbom_data.image_path;
                 this.showImageBlock = true;
               }
             }

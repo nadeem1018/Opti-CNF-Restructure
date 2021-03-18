@@ -1149,22 +1149,22 @@ export class LookupComponent implements OnInit {
   get_assessment_lookup() {
 
 
-    this.popup_title = this.language.need_assessment;
+    this.popup_title = this.language.need_option;
     this.LookupDataLoaded = false;
     this.showLoader = true;
-    this.fill_input_id = 'OPTM_ASSESSMENTID';
-    this.lookup_key = 'OPTM_ASSESSMENTID';
+    this.fill_input_id = 'OPTM_OPTIONSID';
+    this.lookup_key = 'OPTM_OPTIONSID';
     this.table_head = [
     {
-      field: 'OPTM_ASSESSMENTID',
-      title: this.language.OPTM_ASSESSMENTID,
+      field: 'OPTM_OPTIONSID',
+      title: this.language.need_option_id,
       type: 'text',
       width: '100',
       attrType: 'text'
     },
     {
       field: 'OPTM_OPTIONS',
-      title: this.language.OPTM_OPTIONS,
+      title: this.language.option,
       type: 'text',
       width: '100',
       attrType: 'text'

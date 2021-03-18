@@ -88,7 +88,7 @@
                         </kendo-grid-column>
                         <kendo-grid-column field="OPTM_OptionsID" title="{{language.ID}}" filter="text" [width]="30" [minResizableWidth]="30">
                             <ng-template kendoGridCellTemplate let-dataItem>
-                              <input type="text" class="form-control  form-control-sm" id="OPTM_OptionsID" value={{dataItem.OPTM_OptionsID}} (change)="on_optionid_change(OPTM_OptionsID.value,dataItem.rowindex)" #OPTM_OptionsID title={{dataItem.OPTM_OptionsID}} />
+                              <input type="text" class="form-control  form-control-sm" id= "OptionsID" value={{dataItem.OPTM_OptionsID}} (change)="on_optionid_change(OptionsID.value,dataItem.rowindex)" #OptionsID title={{dataItem.OPTM_OptionsID}} />
                             </ng-template>
                           </kendo-grid-column>
                           <kendo-grid-column field="OPTM_Options" title="{{language.option}}" filter="text" [width]="340" [minResizableWidth]="140">

@@ -686,5 +686,7 @@
     "ConfigAttribute": "Apply Attribute Master",
     "ConfigAssesment": "Apply Need's Assesment",
     "ConfigUserApply": "Use Customerwise Need's Assesment",
-    "ConfigDefaultTemplate": "Default Need's Assesment Template"
+    "ConfigDefaultTemplate": "Default Need's Assesment Template",
+    "need_option": "Options",
+    "need_option_id": "Option ID"
 }

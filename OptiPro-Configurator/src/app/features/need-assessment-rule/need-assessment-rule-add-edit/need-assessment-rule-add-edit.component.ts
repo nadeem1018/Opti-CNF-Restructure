@@ -1369,7 +1369,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
 
           this.rule_sequence_data[i]['is_operand2_disable'] = true;
           console.log("type - " + this.rule_sequence_data[i].type);
-          if (this.rule_sequence_data[i].type == 1) {
+         
             this.rule_sequence_data[i]['condition'] = '';
             this.rule_sequence_data[i]['is_operand1_disable'] = false;
             this.service.onFeatureIdChange(this.rule_sequence_data[i].type_value).subscribe(
@@ -1400,37 +1400,38 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
                 }
                 return;
               });
-          } else if (this.rule_sequence_data[i].type == 2) {
-            this.rule_sequence_data[i]['is_operand1_disable'] = true;
-            this.service.onModelIdChange(this.rule_sequence_data[i].type_value).subscribe(
-              data => {
+          
+          // else if (this.rule_sequence_data[i].type == 2) {
+          //   this.rule_sequence_data[i]['is_operand1_disable'] = true;
+          //   this.service.onModelIdChange(this.rule_sequence_data[i].type_value).subscribe(
+          //     data => {
 
-                if (data != undefined && data.length > 0) {
-                  if (data[0].ErrorMsg == "7001") {
-                    CommonData.made_changes = false;
-                    this.CommonService.RemoveLoggedInUser().subscribe();
-                    this.CommonService.signOut(this.route, 'Sessionout');
-                    return;
-                  }
-                }
+          //       if (data != undefined && data.length > 0) {
+          //         if (data[0].ErrorMsg == "7001") {
+          //           CommonData.made_changes = false;
+          //           this.CommonService.RemoveLoggedInUser().subscribe();
+          //           this.CommonService.signOut(this.route, 'Sessionout');
+          //           return;
+          //         }
+          //       }
 
-                if (data === "False") {
-                  this.CommonService.show_notification(this.language.InvalidModelId, 'error');
+          //       if (data === "False") {
+          //         this.CommonService.show_notification(this.language.InvalidModelId, 'error');
 
-                  actualvalue.value = "";
-                  return;
-                }
-                else {
-                  this.rule_sequence_data[i].type_value = data;
-                  this.rule_sequence_data[i].type_value_code = value;
-                }
-              }, error => {
-                if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
-                  this.CommonService.isUnauthorized();
-                }
-                return;
-              });
-          }
+          //         actualvalue.value = "";
+          //         return;
+          //       }
+          //       else {
+          //         this.rule_sequence_data[i].type_value = data;
+          //         this.rule_sequence_data[i].type_value_code = value;
+          //       }
+          //     }, error => {
+          //       if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          //         this.CommonService.isUnauthorized();
+          //       }
+          //       return;
+          //     });
+          // }
         }
 
         if (key === 'operand_1_code' || key === 'operand_2_code') {
@@ -1540,6 +1541,9 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
       })
   }
 
+  on_selection(grid_event) {
+    grid_event.selectedRows = [];
+}
   show_operand_lookup(type, type_value, rowindex, operand_value) {
     CommonData.made_changes = true;
     this.showLookupLoader = true;
