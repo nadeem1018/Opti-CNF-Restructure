@@ -2049,6 +2049,9 @@ export class CwViewOldComponent implements OnInit, DoCheck {
         if (this.isNeedAssesment) {
           this.GetNeedsAssessmentByCustomerId();
         }
+        else {
+          this.navigation_in_steps(1, 3);
+        }
       }
     }
   }
