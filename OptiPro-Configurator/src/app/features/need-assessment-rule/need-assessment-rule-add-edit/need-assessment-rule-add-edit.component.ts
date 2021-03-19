@@ -1439,7 +1439,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
 
         if (key === 'operand_1_code' || key === 'operand_2_code') {
           if (this.rule_sequence_data[i].type == 1) {
-            this.assessmentRuleService.CheckValidOptionsForNeedsAssessment(this.rule_sequence_data[i].OPTM_ASSESSMENTID,, value).subscribe(
+            this.assessmentRuleService.CheckValidOptionsForNeedsAssessment(this.rule_sequence_data[i].OPTM_ASSESSMENTID, value).subscribe(
               data => {
 
                 if (data != undefined && data.length > 0) {
