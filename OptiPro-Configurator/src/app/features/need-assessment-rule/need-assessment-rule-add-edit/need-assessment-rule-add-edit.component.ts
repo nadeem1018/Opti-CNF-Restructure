@@ -1372,34 +1372,37 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
          
             this.rule_sequence_data[i]['condition'] = '';
             this.rule_sequence_data[i]['is_operand1_disable'] = false;
-            this.service.onFeatureIdChange(this.rule_sequence_data[i].type_value).subscribe(
-              data => {
-
-                if (data != undefined && data.length > 0) {
-                  if (data[0].ErrorMsg == "7001") {
-                    CommonData.made_changes = false;
-                    this.CommonService.RemoveLoggedInUser().subscribe();
-                    this.CommonService.signOut(this.route, 'Sessionout');
-                    return;
-                  }
-                }
-
-
-                if (data === "False") {
-                  this.CommonService.show_notification(this.language.InvalidFeatureId, 'error');
-                  // $(actualvalue).val("");
-                  return;
-                }
-                else {
-                  this.rule_sequence_data[i].type_value = data;
-                  this.rule_sequence_data[i].type_value_code = value;
-                }
-              }, error => {
-                if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
-                  this.CommonService.isUnauthorized();
-                }
+            this.rule_sequence_data[i].OPTM_ASSESSMENTID = value;
+         this.assessmentRuleService.CheckValidAssessmentIDForNeedsAssessment(value).subscribe(
+          data => {
+            console.log(data);
+            if(data != undefined && data.length > 0){
+              if (data[0].ErrorMsg == "7001") {
+                CommonData.made_changes = false;
+                this.CommonService.RemoveLoggedInUser().subscribe();
+                this.CommonService.signOut(this.route, 'Sessionout');
                 return;
-              });
+              } 
+            }
+            if (data.length == 0) {              
+              this.CommonService.show_notification(this.language.Invalid_assessment_id, 'error');            
+              this.rule_sequence_data[i].OPTM_ASSESSMENTID = "";
+              return;
+            }
+            else {
+               this.lookupfor = "";             
+               this.rule_sequence_data[i].OPTM_ASSESSMENTID  = data[0].OPTM_ASSESSMENTID;
+               this.rule_sequence_data[i].OPTM_QUESTIONS  = data[0].OPTM_QUESTIONS;                  
+             
+            }
+          },error => {
+            if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
+              this.CommonService.isUnauthorized();
+            }
+            return;
+          })
+
+          
           
           // else if (this.rule_sequence_data[i].type == 2) {
           //   this.rule_sequence_data[i]['is_operand1_disable'] = true;
@@ -1436,7 +1439,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
 
         if (key === 'operand_1_code' || key === 'operand_2_code') {
           if (this.rule_sequence_data[i].type == 1) {
-            this.service.onChildFeatureIdChange(this.rule_sequence_data[i].type, this.rule_sequence_data[i].type_value, value).subscribe(
+            this.assessmentRuleService.CheckValidOptionsForNeedsAssessment(this.rule_sequence_data[i].OPTM_ASSESSMENTID,value).subscribe(
               data => {
 
                 if (data != undefined && data.length > 0) {

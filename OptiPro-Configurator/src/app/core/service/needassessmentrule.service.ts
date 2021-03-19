@@ -77,6 +77,21 @@ export class NeedassessmentruleService {
       return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentRule/DeleteNeedsAssessmentRule", jObject, this.common_params.httpOptions);
     }
   
-
+    CheckValidAssessmentIDForNeedsAssessment(id): Observable<any> {
+      //JSON Obeject Prepared to be send as a param to API
+      this.logged_in_company = sessionStorage.selectedComp;
+      let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company,OPTM_ASSESSMENTID: id,OPTM_ID: 0, 
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
+      //Return the response form the API  
+      return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentRule/CheckValidAssessmentIDForNeedsAssessment", jObject, this.common_params.httpOptions);
+      }
+      CheckValidOptionsForNeedsAssessment(assessmentId, option): Observable<any> {
+        //JSON Obeject Prepared to be send as a param to API
+        this.logged_in_company = sessionStorage.selectedComp;
+        let jObject = { GetData: JSON.stringify([{ CompanyDBID: this.logged_in_company,OPTM_ASSESSMENTID: assessmentId,OPTM_OPTIONS: option, OPTM_ID: 0, 
+          GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
+        //Return the response form the API  
+        return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentRule/CheckValidOptionsForNeedsAssessment", jObject, this.common_params.httpOptions);
+        }
     
 }
