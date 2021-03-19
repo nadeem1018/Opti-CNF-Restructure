@@ -38,6 +38,7 @@ export class DelarCustomerMappingComponent implements OnInit {
   public isCustomerDisable = true;
   public isDelarCodeDisable = true;
   public isDelarNameDisable = true;
+  public delarModelData = [];
 
 
 
@@ -80,6 +81,57 @@ export class DelarCustomerMappingComponent implements OnInit {
         total: gridData.length
       }
   }
+
+  // function for Delar Model Data 
+
+  delaCustomerrModelData(datalist) {
+    if (this.delarModelData.length > 0) {
+      let data = this.delarModelData;
+      let data1 = this.delarModelData;
+      data.forEach(element => {
+        data1.forEach(elementList => {
+          if (element[0].OPTM_DEALERCODE == elementList[0].OPTM_DEALERCODE) {
+
+          }
+        });
+      });
+    }
+    else {
+      let arr = this.changeBooleanToString(datalist);
+      this.delarModelData.push(arr);
+    }
+  }
+
+  // function for Change String to Boolean
+
+  changeStringTOBoolean(datalist) {
+    datalist.forEach(element => {
+      if (element.s == "Y") {
+        element.s = true;
+      }
+      else {
+        element.s = false;
+      }
+    });
+
+    return datalist;
+  }
+
+  // function for Change Boolean to String 
+
+  changeBooleanToString(datalist) {
+    datalist.forEach(element => {
+      if (element.s == true) {
+        element.s = "Y";
+      }
+      else {
+        element.s = "N";
+      }
+    });
+
+    return datalist;
+  }
+
 
 
   // function for load items  in grid .
@@ -179,6 +231,8 @@ export class DelarCustomerMappingComponent implements OnInit {
               OPTM_OPTM_CUSTNAME: data[i].OPTM_CUSTNAME,
               OPTM_PRICELISTCODE: data[i].OPTM_PRICELISTCODE,
               OPTM_REPORTNAME: data[i].OPTM_REPORTNAME,
+              OPTM_PRICELISTNAME: data[i].OPTM_PRICELISTNAME,
+              OPTM_ID: 0,
               rowindex: i,
             });
           }
@@ -196,6 +250,15 @@ export class DelarCustomerMappingComponent implements OnInit {
       }
     )
   }
+
+  // function for ON Reoport Column Changes 
+
+  on_report_change(value, rowindex) {
+    CommonData.made_changes = true;
+    this.currentrowIndex = rowindex
+    this.delarList[this.currentrowIndex].OPTM_REPORTNAME = value;
+  }
+
 
   // function for get customer template list Api .
 
@@ -291,11 +354,11 @@ export class DelarCustomerMappingComponent implements OnInit {
       let data = $event[0];
       let ModelList = [];
       data.forEach(element => {
-        if (data.select == true) {
-          ModelList.push(data.model_Id);
+        if (element.select == true) {
+          ModelList.push(element);
         }
       });
-      this.delarList[this.currentrowIndex].modelID = ModelList;
+      this.delaCustomerrModelData(ModelList);
     }
     else if (this.lookupfor == "delar_Price_List") {
       this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = $event[1];
