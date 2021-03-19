@@ -87,14 +87,18 @@ export class DelarCustomerMappingComponent implements OnInit {
   delaCustomerrModelData(datalist) {
     if (this.delarModelData.length > 0) {
       let data = this.delarModelData;
-      let data1 = this.delarModelData;
-      data.forEach(element => {
-        data1.forEach((elementList: any, index) => {
-          if (element[0].OPTM_DEALERCODE == elementList[0].OPTM_DEALERCODE) {
-//data1.splice()
-          }
-        });
+      data.forEach((elementList: any, index) => {
+        if (elementList[0].OPTM_DEALERCODE == datalist[0].OPTM_DEALERCODE) {
+          data.splice(index, 1);
+          data.push(datalist);
+        }
+        else {
+          data.push(datalist);
+        }
       });
+
+      this.delarModelData = [];
+      this.delarModelData = data;
     }
     else {
       let arr = this.changeBooleanToString(datalist);
@@ -106,11 +110,11 @@ export class DelarCustomerMappingComponent implements OnInit {
 
   changeStringTOBoolean(datalist) {
     datalist.forEach(element => {
-      if (element.s == "Y") {
-        element.s = true;
+      if (element.ISSELECTED == "Y") {
+        element.ISSELECTED = true;
       }
       else {
-        element.s = false;
+        element.ISSELECTED = false;
       }
     });
 
@@ -121,11 +125,11 @@ export class DelarCustomerMappingComponent implements OnInit {
 
   changeBooleanToString(datalist) {
     datalist.forEach(element => {
-      if (element.s == true) {
-        element.s = "Y";
+      if (element.ISSELECTED == true) {
+        element.ISSELECTED = "Y";
       }
       else {
-        element.s = "N";
+        element.ISSELECTED = "N";
       }
     });
 
@@ -181,7 +185,7 @@ export class DelarCustomerMappingComponent implements OnInit {
         }
         if (data.length > 0) {
           this.showLookupLoader = false;
-          this.serviceData = data;
+          this.serviceData = this.changeStringTOBoolean(data);
           console.log(this.serviceData);
         }
         else {
@@ -351,16 +355,17 @@ export class DelarCustomerMappingComponent implements OnInit {
     }
     CommonData.made_changes = true;
     if (this.lookupfor == "delar_Customer_Mapping") {
-      let data = $event[0];
+      let data = $event;
       let ModelList = [];
       data.forEach(element => {
-        if (element.select == true) {
+        if (element.ISSELECTED == true) {
           ModelList.push(element);
         }
       });
       this.delaCustomerrModelData(ModelList);
     }
     else if (this.lookupfor == "delar_Price_List") {
+      this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = $event[0];
       this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = $event[1];
     }
     else if (this.lookupfor == "delar_Customer_List") {

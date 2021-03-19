@@ -42,7 +42,7 @@ export class DelarCustomerMappingService {
             GetData: JSON.stringify([{
                 CompanyDBID: sessionStorage.selectedComp,
                 GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
-                OPTM_DELARCODE : data
+                OPTM_DEALERCODE : data
             }])
         }
         return this.httpclient.post(this.config_params.service_url + "/DealerCustomerMapping/GetModelList", jObject, this.common_params.httpOptions);
