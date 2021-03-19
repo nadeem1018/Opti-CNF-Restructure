@@ -89,9 +89,9 @@ export class DelarCustomerMappingComponent implements OnInit {
       let data = this.delarModelData;
       let data1 = this.delarModelData;
       data.forEach(element => {
-        data1.forEach(elementList => {
+        data1.forEach((elementList: any, index) => {
           if (element[0].OPTM_DEALERCODE == elementList[0].OPTM_DEALERCODE) {
-
+//data1.splice()
           }
         });
       });
