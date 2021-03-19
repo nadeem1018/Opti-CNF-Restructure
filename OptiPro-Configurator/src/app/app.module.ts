@@ -22,10 +22,12 @@ import { TreeViewModule } from '@progress/kendo-angular-treeview';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+
  ],
   imports: [
     BrowserModule,

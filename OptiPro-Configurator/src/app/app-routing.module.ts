@@ -94,6 +94,12 @@ const routes: Routes = [
     path: 'needAssesment-customer-mapping',
     loadChildren: () => import('./features/needs-customer-mapping/needs-customer-mapping.module').then(m => m.NeedsCustomerMappingModule),
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
+  },
+
+  {
+    path: 'delar-customer-mapping',
+    loadChildren: () => import('./features/delar-customer-mapping/delar-customer-mapping.module').then(m => m.DelarCustomerMappingModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   }
 
 ];

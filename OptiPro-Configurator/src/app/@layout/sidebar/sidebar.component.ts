@@ -50,7 +50,8 @@ export class SidebarComponent implements OnInit, DoCheck {
       { "itemCode": "208", "itemName": this.language.need_assessment, "itemNav": "/need-assessment", "itemIcon": "#assessmentScreen", "itemIconSize": "0 0 512 512", "permission": true },
       { "itemCode": "209", "itemName": this.language.need_assessment_template, "itemNav": "/need-assessment-template", "itemIcon": "#assessmentTemplate", "itemIconSize": "0 0 512 512", "permission": true },
       { "itemCode": "210", "itemName": this.language.need_assessment_rule, "itemNav": "/need-assessment-rule", "itemIcon": "#assessmentRule", "itemIconSize": "0 0 512 512", "permission": true },
-      { "itemCode": "212", "itemName": this.language.need_Customer_mapping, "itemNav": "/needAssesment-customer-mapping", "itemIcon": "#assessmentTemplateMapping", "itemIconSize": "0 0 400 512", "permission": true }
+      { "itemCode": "212", "itemName": this.language.need_Customer_mapping, "itemNav": "/needAssesment-customer-mapping", "itemIcon": "#assessmentTemplateMapping", "itemIconSize": "0 0 400 512", "permission": true },
+      { "itemCode": "205", "itemName": this.language.DelarCustomerMapping, "itemNav": "/delar-customer-mapping", "itemIcon": "#assessmentTemplateMapping", "itemIconSize": "0 0 400 512", "permission": true }
     ];
     let allowed_menus_ids = ["0"];
     this.CommonService.navMenuList = [];
