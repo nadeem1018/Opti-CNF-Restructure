@@ -19,7 +19,7 @@ export class SidebarComponent implements OnInit, DoCheck {
   constructor(
     private router: Router,
     private CommonService: CommonService
-  ) { }
+  ) { }  
   public commonData = new CommonData();
   public language = JSON.parse(sessionStorage.getItem('current_lang'));
   public needassesmentMenu = this.CommonService.needAssesmentMenu;

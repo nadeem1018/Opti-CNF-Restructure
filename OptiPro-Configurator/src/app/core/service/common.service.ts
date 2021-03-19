@@ -12,7 +12,7 @@ import { NotificationService } from '@progress/kendo-angular-notification';
 })
 export class CommonService {
 
-  common_params = new CommonData();
+  common_params = new CommonData();  
   public logged_in_company = sessionStorage.selectedComp;
   public config_params: any = "";
   public needAssesmentMenu: any = false;
