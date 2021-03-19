@@ -687,6 +687,13 @@
     "ConfigAssesment": "Apply Need's Assesment",
     "ConfigUserApply": "Use Customerwise Need's Assesment",
     "ConfigDefaultTemplate": "Default Need's Assesment Template",
-    "need_option": "Options",
-    "need_option_id": "Option ID"
+    "DelarCustomerMapping":"Delar Customer Mapping",
+    "Models" :"Models",
+    "qutotation_report" :"Quotation Report",
+    "price_list" :"Price List",
+    "customerName" :"Customer Name",
+    "Customer" :"Customer",
+    "delar_name":"Delar Name",
+    "delar" :"Delar"
+
 }

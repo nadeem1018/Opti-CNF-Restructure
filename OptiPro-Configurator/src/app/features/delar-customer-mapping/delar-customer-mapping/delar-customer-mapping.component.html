@@ -1,0 +1,144 @@
+<!-- loader start -->
+<!-- <div class="loader-sm" *ngIf="showLoader">
+    <svg viewBox="0 0 218.2 218.8" class="loader2">
+        <use xlink:href="#loader2"></use>
+    </svg>
+</div> -->
+<!-- loader end -->
+
+<!-- loader start for lookup -->
+<div class="loader-sm" *ngIf="showLookupLoader">
+    <svg viewBox="0 0 218.2 218.8" class="loader2">
+        <use xlink:href="#loader2"></use>
+    </svg>
+</div>
+<!-- loader end for lookup -->
+
+
+
+
+<div class="layout-mode" fxFlex fxLayout="column">
+    <div class="page-header">
+        <h4>{{language.DelarCustomerMapping}}</h4>
+    </div>
+    <div class="card" fxFlex>
+        <div class="card-body pb-2" fxFlex fxLayout="column">
+            <div class="main-portion">
+                <div class="row h-100">
+                    <div class="col-md-12 d-flex flex-column" id="left-table-section">
+                        <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
+                            <kendo-grid [data]="gridView" [reorderable]="true" [resizable]="true" (pageChange)="pageChange($event)"
+                                [selectable]="true" [skip]="skip" [sortable]="false" [filterable]="isColumnFilter"
+                                [filter]="filter" [ngStyle]="{'height':'100%', 'max-width':'100%'}" [pageSize]="selectedValue"
+                                [pageable]="true" (filterChange)="filterChange($event)">
+                                <ng-template kendoGridToolbarTemplate>
+                                    <label class="custom-checkbox mb-0">
+                                        <input #chkFilter type="checkbox" id="columnFilter" [(ngModel)]="isColumnFilter"
+                                            (change)="saveFilterState()" name="columnfilter">
+                                        <span class="checkbox"></span>
+                                        <span class="text-inverse">{{language.enable_filter}}</span>
+                                    </label>
+                                </ng-template>
+                                <kendo-grid-column field="OPTM_DEALERCODE" title="{{language.delar}}" filter="text"
+                                    [width]="145" [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="isDelarCodeDisable" class="form-control  form-control-sm"
+                                            #OPTM_DEALERCODE value={{dataItem.OPTM_DEALERCODE}} />
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_DEALERNAME" title="{{language.delar_name}}" filter="text"
+                                    [width]="145" [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="isDelarNameDisable" class="form-control  form-control-sm"
+                                            #OPTM_DEALERNAME value={{dataItem.OPTM_DEALERNAME}} />
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_CUSTCODE" title="{{language.Customer}}" filter="text"
+                                    [width]="145" [minResizableWidth]="145">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="hidden" class="form-control  form-control-sm" />
+                                        <div class="input-group">
+                                            <input type="text" #OPTM_CUSTCODE value={{dataItem.OPTM_CUSTCODE}} class="form-control form-control-sm" />
+                                            <div class="input-group-append">
+                                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getCustomerList(dataItem.rowindex)">
+                                                    <svg class="icon m-0" viewBox="0 -96 512 512">
+                                                        <use xlink:href="#menu"></use>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_CUSTNAME" title="{{language.customerName}}" filter="text"
+                                    [width]="145" [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="isCustomerDisable" class="form-control  form-control-sm"
+                                            #OPTM_CUSTNAME value={{dataItem.OPTM_CUSTNAME}} />
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_PRICELISTCODE" title="{{language.price_list}}" filter="text"
+                                    [width]="145" [minResizableWidth]="145">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="hidden" class="form-control  form-control-sm" />
+                                        <div class="input-group">
+                                            <input type="text" #OPTM_PRICELISTCODE value={{dataItem.OPTM_PRICELISTCODE}}
+                                                class="form-control form-control-sm" />
+                                            <div class="input-group-append">
+                                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getPriceList(dataItem.rowindex)">
+                                                    <svg class="icon m-0" viewBox="0 -96 512 512">
+                                                        <use xlink:href="#menu"></use>
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_REPORTNAME" title="{{language.qutotation_report}}"
+                                    filter="text" [width]="145" [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" class="form-control  form-control-sm" #OPTM_REPORTNAME value={{dataItem.OPTM_REPORTNAME}} />
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="Models" title="{{language.Models}}" filter="text" [width]="145"
+                                    [minResizableWidth]="145">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getModelList(dataItem.OPTM_DEALERCODE)">
+                                            <svg class="icon m-0" viewBox="0 -96 512 512">
+                                                <use xlink:href="#menu"></use>
+                                            </svg>
+                                        </span>
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                                    <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                                    <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
+                                    <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                                    <kendo-dropdownlist [data]="listItems" class="form-control-sm ml-3 form-control d-inline-flex w-auto"
+                                        (selectionChange)="getcurrentPageSize($event)" [(ngModel)]="selectedValue"></kendo-dropdownlist>
+                                    <kendo-pager-info></kendo-pager-info>
+                                </ng-template>
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
+                <button type="button" (click)="onSaveClick()" class="btn btn-sm btn-success with-icon mr-2 "><svg
+                        viewBox="0 0 512 512" class="icon">
+                        <use xlink:href="#saveDisk"></use>
+                    </svg> {{language.save}}</button>
+                <button type="button" routerLink="{{view_route_link}}" class="btn btn-sm btn-sm btn-secondary with-icon"><svg
+                        viewBox="0 0 489 489" class="icon">
+                        <use xlink:href="#cancel"></use>
+                    </svg> {{language.cancel}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)"></app-custom-dialogs>
+
+<span [hidden]="showLookupLoader">
+    <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' [selectedImage]="selectedImage" (lookupvalue)="getLookupValue($event)"
+        (lookupvalues)="getLookupValues($event)"></app-lookup>
+</span>
