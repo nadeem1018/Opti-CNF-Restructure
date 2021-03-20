@@ -39,7 +39,7 @@ export class DelarCustomerMappingComponent implements OnInit {
   public isDelarCodeDisable = true;
   public isDelarNameDisable = true;
   public delarModelData = [];
-
+  public delar_Code = "";
 
 
 
@@ -86,23 +86,46 @@ export class DelarCustomerMappingComponent implements OnInit {
 
   delaCustomerrModelData(datalist) {
     if (this.delarModelData.length > 0) {
+      let arr = this.changeBooleanToString(datalist);
       let data = this.delarModelData;
       data.forEach((elementList: any, index) => {
-        if (elementList[0].OPTM_DEALERCODE == datalist[0].OPTM_DEALERCODE) {
+        if (elementList.OPTM_DEALERCODE == this.delar_Code) {
           data.splice(index, 1);
-          data.push(datalist);
-        }
-        else {
-          data.push(datalist);
         }
       });
-
+      if (arr.length > 0) {
+        arr.forEach(element => {
+          let arr1 = [];
+          arr1.push(element);
+          arr1[0]["OPTM_DEALERCODE"] = this.delar_Code;
+          arr1[0]["OPTM_ID"] = 0;
+          data.push(arr1[0]);
+        });
+      }
+      else {
+        arr[0]["OPTM_DEALERCODE"] = this.delar_Code;
+        arr[0]["OPTM_ID"] = 0;
+        data.push(arr[0]);
+      }
       this.delarModelData = [];
       this.delarModelData = data;
     }
     else {
       let arr = this.changeBooleanToString(datalist);
-      this.delarModelData.push(arr);
+      if (arr.length > 0) {
+        arr.forEach(element => {
+          let arr1 = [];
+          arr1.push(element);
+          arr1[0]["OPTM_DEALERCODE"] = this.delar_Code;
+          arr1[0]["OPTM_ID"] = 0;
+          this.delarModelData.push(arr1[0]);
+        });
+      }
+      else {
+        arr[0]["OPTM_DEALERCODE"] = this.delar_Code;
+        arr[0]["OPTM_ID"] = 0;
+        this.delarModelData.push(arr[0]);
+      }
     }
   }
 
@@ -167,11 +190,11 @@ export class DelarCustomerMappingComponent implements OnInit {
   // function for get Model List API 
 
   getModelList(delarCode: any) {
+    this.delar_Code = delarCode;
     this.showLookupLoader = true;
     CommonData.made_changes = true;
     this.serviceData = []
     this.lookupfor = 'delar_Customer_Mapping';
-    this.showLookupLoader = false;
     this.service.getModelList(delarCode).subscribe(
       data => {
         if (data != undefined && data.length > 0) {
@@ -232,7 +255,7 @@ export class DelarCustomerMappingComponent implements OnInit {
               OPTM_DEALERNAME: data[i].OPTM_DEALERNAME,
               OPTM_USERTYPE: data[i].OPTM_USERTYPE,
               OPTM_CUSTCODE: data[i].OPTM_CUSTCODE,
-              OPTM_OPTM_CUSTNAME: data[i].OPTM_CUSTNAME,
+              OPTM_CUSTNAME: data[i].OPTM_CUSTNAME,
               OPTM_PRICELISTCODE: data[i].OPTM_PRICELISTCODE,
               OPTM_REPORTNAME: data[i].OPTM_REPORTNAME,
               OPTM_PRICELISTNAME: data[i].OPTM_PRICELISTNAME,
@@ -365,8 +388,8 @@ export class DelarCustomerMappingComponent implements OnInit {
       this.delaCustomerrModelData(ModelList);
     }
     else if (this.lookupfor == "delar_Price_List") {
-      this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = $event[0];
-      this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = $event[1];
+      this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = $event[1];
+      this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = $event[0];
     }
     else if (this.lookupfor == "delar_Customer_List") {
       this.delarList[this.currentrowIndex].OPTM_CUSTCODE = $event[0];
@@ -377,7 +400,10 @@ export class DelarCustomerMappingComponent implements OnInit {
   // function for Save data delar 
   onSaveClick() {
     this.showLookupLoader = true;
-    this.service.SaveDelarDetailsList(this.delarList).subscribe(data => {
+    let finalData: any = {};
+    finalData.OPCONFIG_DEALER_CUST_MAP = this.delarList;
+    finalData.OPCONFIG_DEALER_CUST_MODELMAP = this.delarModelData;
+    this.service.SaveDelarDetailsList(finalData).subscribe(data => {
       this.showLookupLoader = false;
       if (data == "7001") {
         CommonData.made_changes = false

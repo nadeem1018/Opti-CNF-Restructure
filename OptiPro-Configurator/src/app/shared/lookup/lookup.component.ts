@@ -2488,7 +2488,7 @@ export class LookupComponent implements OnInit {
   }
 
   getDelarCustomerMapping() {
-    this.popup_title = this.language.delarCustomerMapping;
+    this.popup_title = this.language.ModelBom;
     this.LookupDataLoaded = false;
     this.showLoader = true;
     this.fill_input_id = 'OPTM_MODELID';
