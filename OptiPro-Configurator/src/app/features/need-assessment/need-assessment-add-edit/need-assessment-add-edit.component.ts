@@ -2176,6 +2176,10 @@ onExplodeClick(type) {
       this.CommonService.show_notification(this.language.AssessmentIdBlank, 'error');
         return ;
  }
+ if (this.needsassessment_mas.question.trim() == "" || this.needsassessment_mas.question == null) {    
+  this.CommonService.show_notification(this.language.QuestionIdBlank, 'error');
+    return ;
+}
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT.push({
       "OPTM_AssessmentID": this.needsassessment_mas.assessment_id,
       "OPTM_Question":this.needsassessment_mas.question,

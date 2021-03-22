@@ -24,7 +24,7 @@ export class NeedAssessmentTemplateAddEditComponent implements OnInit {
   public lookupfor: string = '';
   public counter = 0;
   public currentrowindex: number;
-  public isExplodeButtonVisible: boolean = true;
+  public isExplodeButtonVisible: boolean = false;
   public isVerifyButtonVisible: boolean = true;
   public isUpdateButtonVisible: boolean = true;
   public isSaveButtonVisible: boolean = true;

@@ -1491,6 +1491,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
       }
     }
   }
+}
 
   getModelDetails() {
     this.showLookupLoader = true;

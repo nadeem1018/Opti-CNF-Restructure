@@ -1164,8 +1164,7 @@ export class LookupComponent implements OnInit {
   }
 
   get_assessment_lookup() {
-    this.popup_title = this.language.need_option;
-    this.popup_title = this.language.need_assessment;
+    this.popup_title = this.language.need_option;    
     this.LookupDataLoaded = false;
     this.showLoader = true;
     this.fill_input_id = 'OPTM_OPTIONSID';
