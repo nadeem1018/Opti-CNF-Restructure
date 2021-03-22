@@ -15,7 +15,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
 
   // Variables define for input parameters
   public showLookupLoader: any = false;
-  pageTitle: any = "Configuration Need's Assesment";
+  pageTitle: any = "Configuration";
   public applyNeedAssesment: any = false;
   public applyAttributeMaster: any = false;
   public showLoader: boolean = true;
