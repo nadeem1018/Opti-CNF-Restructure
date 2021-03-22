@@ -658,6 +658,7 @@
     "noSelectDefaultTemplate": "Default Template can not be blank",
     "question": "Question",
     "AssessmentIdBlank": "Assessment Id cannot be blank",
+    "QuestionIdBlank": "Question cannot be blank",
     "OptionIdRequired": "Enter option id at row index: ",
     "OptionRequired": "Enter optione at row index: ",
     "ID": "ID",

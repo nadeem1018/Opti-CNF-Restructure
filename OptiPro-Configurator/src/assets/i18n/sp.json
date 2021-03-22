@@ -638,6 +638,7 @@
     "assessment_id": "Assessment Id",
     "question": "Question",
     "AssessmentIdBlank": "Assessment Id cannot be blank",
+    "QuestionIdBlank": "Question cannot be blank",
     "OptionIdRequired": "Enter option id at row index: ",
     "OptionRequired": "Enter optione at row index: ",
     "ID": "ID",
