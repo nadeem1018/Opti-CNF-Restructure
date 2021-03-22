@@ -24,7 +24,7 @@ export class SidebarComponent implements OnInit, DoCheck {
   public language = JSON.parse(sessionStorage.getItem('current_lang'));
   public needassesmentMenu = this.CommonService.needAssesmentMenu;
   public attributemenu = this.CommonService.attributeMenu;
-  needMenuData = [{ "itemCode": "208", "itemName": "Need's Assesment", "itemNav": "/need-assessment", "itemIcon": "#assessmentScreen", "itemIconSize": "0 0 512 512", "permission": true }];
+  needMenuData = [{ "itemCode": "208", "itemName": "Need's Assessment", "itemNav": "/need-assessment", "itemIcon": "#assessmentScreen", "itemIconSize": "0 0 512 512", "permission": true }];
   ngOnInit() {
     this.loadMenuData();
   }
