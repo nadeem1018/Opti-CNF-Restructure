@@ -1438,8 +1438,8 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
         }
 
         if (key === 'operand_1_code' || key === 'operand_2_code') {
-          if (this.rule_sequence_data[i].type == 1) {
-            this.assessmentRuleService.CheckValidOptionsForNeedsAssessment(this.rule_sequence_data[i].OPTM_ASSESSMENTID,, value).subscribe(
+          
+            this.assessmentRuleService.CheckValidOptionsForNeedsAssessment(this.rule_sequence_data[i].OPTM_ASSESSMENTID,value).subscribe(
               data => {
 
                 if (data != undefined && data.length > 0) {
@@ -1451,7 +1451,7 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
                   }
                 }
 
-                if (data === "False") {
+                if (data === "False" || data.length == 0) {
                   if (key == "operand_1_code") {
                     this.CommonService.show_notification(this.language.InvalidOperand1, 'error');
                     this.rule_sequence_data[i]['operand_1'] = '';
@@ -1483,36 +1483,9 @@ export class NeedAssessmentRuleAddEditComponent implements OnInit {
                 }
                 return;
               });
-          }
+        
 
-          else {
-            this.service.onChildModelIdChange(this.rule_sequence_data[i].type, this.rule_sequence_data[i].type_value, value).subscribe(
-              data => {
-
-                if (data != undefined && data.length > 0) {
-                  if (data[0].ErrorMsg == "7001") {
-                    CommonData.made_changes = false;
-                    this.CommonService.RemoveLoggedInUser().subscribe();
-                    this.CommonService.signOut(this.route, 'Sessionout');
-                    return;
-                  }
-                }
-
-                if (data === "False") {
-                  this.CommonService.show_notification(this.language.InvalidModelId, 'error');
-                  actualvalue.value = "";
-                  return;
-                }
-                else {
-                  this.rule_sequence_data[i].type_value = data;
-                }
-              }, error => {
-                if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
-                  this.CommonService.isUnauthorized();
-                }
-                return;
-              });
-          }
+         
         }
         console.log(this.rule_sequence_data[i]);
       }
