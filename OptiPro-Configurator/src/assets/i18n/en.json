@@ -691,13 +691,13 @@
     "need_option": "Options",
     "need_option_id": "Option ID",
     "ConfigAssessment": "Apply Need's Assessment",  
-    "DelarCustomerMapping":"Delar Customer Mapping",
+    "DelarCustomerMapping":"Dealer Customer Mapping",
     "Models" :"Models",
     "qutotation_report" :"Quotation Report",
     "price_list" :"Price List",
     "customerName" :"Customer Name",
     "Customer" :"Customer",
-    "delar_name":"Delar Name",
-    "delar" :"Delar"
+    "delar_name":"Dealer Name",
+    "delar" :"Dealer"
 
 }
