@@ -64,7 +64,7 @@ export class DelarCustomerMappingService {
         SaveData['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
         SaveData['CompanyDBID'] = sessionStorage.selectedComp; 
 
-        let jObject: any = { GetData: JSON.stringify({SaveData }) };
+        let jObject: any = { GetData: JSON.stringify(SaveData) };
         return this.httpclient.post(this.config_params.service_url + "/DealerCustomerMapping/AddUpdateDealerCustomerMapping", jObject, this.common_params.httpOptions);
     }
 
