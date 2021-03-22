@@ -38,7 +38,8 @@ export class DelarCustomerMappingComponent implements OnInit {
   public isCustomerDisable = true;
   public isDelarCodeDisable = true;
   public isDelarNameDisable = true;
-
+  public delarModelData = [];
+  public delar_Code = "";
 
 
 
@@ -81,6 +82,84 @@ export class DelarCustomerMappingComponent implements OnInit {
       }
   }
 
+  // function for Delar Model Data 
+
+  delaCustomerrModelData(datalist) {
+    if (this.delarModelData.length > 0) {
+      let arr = this.changeBooleanToString(datalist);
+      let data = this.delarModelData;
+      data.forEach((elementList: any, index) => {
+        if (elementList.OPTM_DEALERCODE == this.delar_Code) {
+          data.splice(index, 1);
+        }
+      });
+      if (arr.length > 0) {
+        arr.forEach(element => {
+          let arr1 = [];
+          arr1.push(element);
+          arr1[0]["OPTM_DEALERCODE"] = this.delar_Code;
+          arr1[0]["OPTM_ID"] = 0;
+          data.push(arr1[0]);
+        });
+      }
+      else {
+        arr[0]["OPTM_DEALERCODE"] = this.delar_Code;
+        arr[0]["OPTM_ID"] = 0;
+        data.push(arr[0]);
+      }
+      this.delarModelData = [];
+      this.delarModelData = data;
+    }
+    else {
+      let arr = this.changeBooleanToString(datalist);
+      if (arr.length > 0) {
+        arr.forEach(element => {
+          let arr1 = [];
+          arr1.push(element);
+          arr1[0]["OPTM_DEALERCODE"] = this.delar_Code;
+          arr1[0]["OPTM_ID"] = 0;
+          this.delarModelData.push(arr1[0]);
+        });
+      }
+      else {
+        arr[0]["OPTM_DEALERCODE"] = this.delar_Code;
+        arr[0]["OPTM_ID"] = 0;
+        this.delarModelData.push(arr[0]);
+      }
+    }
+  }
+
+  // function for Change String to Boolean
+
+  changeStringTOBoolean(datalist) {
+    datalist.forEach(element => {
+      if (element.ISSELECTED == "Y") {
+        element.ISSELECTED = true;
+      }
+      else {
+        element.ISSELECTED = false;
+      }
+    });
+
+    return datalist;
+  }
+
+  // function for Change Boolean to String 
+
+  changeBooleanToString(datalist) {
+    datalist.forEach(element => {
+      if (element.ISSELECTED == true) {
+        element.ISSELECTED = "Y";
+      }
+      else {
+        element.ISSELECTED = "N";
+      }
+    });
+
+    return datalist;
+  }
+
+
 
   // function for load items  in grid .
 
@@ -111,11 +190,11 @@ export class DelarCustomerMappingComponent implements OnInit {
   // function for get Model List API 
 
   getModelList(delarCode: any) {
+    this.delar_Code = delarCode;
     this.showLookupLoader = true;
     CommonData.made_changes = true;
     this.serviceData = []
     this.lookupfor = 'delar_Customer_Mapping';
-    this.showLookupLoader = false;
     this.service.getModelList(delarCode).subscribe(
       data => {
         if (data != undefined && data.length > 0) {
@@ -129,7 +208,7 @@ export class DelarCustomerMappingComponent implements OnInit {
         }
         if (data.length > 0) {
           this.showLookupLoader = false;
-          this.serviceData = data;
+          this.serviceData = this.changeStringTOBoolean(data);
           console.log(this.serviceData);
         }
         else {
@@ -176,9 +255,11 @@ export class DelarCustomerMappingComponent implements OnInit {
               OPTM_DEALERNAME: data[i].OPTM_DEALERNAME,
               OPTM_USERTYPE: data[i].OPTM_USERTYPE,
               OPTM_CUSTCODE: data[i].OPTM_CUSTCODE,
-              OPTM_OPTM_CUSTNAME: data[i].OPTM_CUSTNAME,
+              OPTM_CUSTNAME: data[i].OPTM_CUSTNAME,
               OPTM_PRICELISTCODE: data[i].OPTM_PRICELISTCODE,
               OPTM_REPORTNAME: data[i].OPTM_REPORTNAME,
+              OPTM_PRICELISTNAME: data[i].OPTM_PRICELISTNAME,
+              OPTM_ID: 0,
               rowindex: i,
             });
           }
@@ -196,6 +277,15 @@ export class DelarCustomerMappingComponent implements OnInit {
       }
     )
   }
+
+  // function for ON Reoport Column Changes 
+
+  on_report_change(value, rowindex) {
+    CommonData.made_changes = true;
+    this.currentrowIndex = rowindex
+    this.delarList[this.currentrowIndex].OPTM_REPORTNAME = value;
+  }
+
 
   // function for get customer template list Api .
 
@@ -288,17 +378,18 @@ export class DelarCustomerMappingComponent implements OnInit {
     }
     CommonData.made_changes = true;
     if (this.lookupfor == "delar_Customer_Mapping") {
-      let data = $event[0];
+      let data = $event;
       let ModelList = [];
       data.forEach(element => {
-        if (data.select == true) {
-          ModelList.push(data.model_Id);
+        if (element.ISSELECTED == true) {
+          ModelList.push(element);
         }
       });
-      this.delarList[this.currentrowIndex].modelID = ModelList;
+      this.delaCustomerrModelData(ModelList);
     }
     else if (this.lookupfor == "delar_Price_List") {
-      this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = $event[1];
+      this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = $event[1];
+      this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = $event[0];
     }
     else if (this.lookupfor == "delar_Customer_List") {
       this.delarList[this.currentrowIndex].OPTM_CUSTCODE = $event[0];
@@ -309,7 +400,10 @@ export class DelarCustomerMappingComponent implements OnInit {
   // function for Save data delar 
   onSaveClick() {
     this.showLookupLoader = true;
-    this.service.SaveDelarDetailsList(this.delarList).subscribe(data => {
+    let finalData: any = {};
+    finalData.OPCONFIG_DEALER_CUST_MAP = this.delarList;
+    finalData.OPCONFIG_DEALER_CUST_MODELMAP = this.delarModelData;
+    this.service.SaveDelarDetailsList(finalData).subscribe(data => {
       this.showLookupLoader = false;
       if (data == "7001") {
         CommonData.made_changes = false

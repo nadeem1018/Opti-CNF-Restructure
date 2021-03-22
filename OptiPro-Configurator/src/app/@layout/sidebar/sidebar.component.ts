@@ -19,7 +19,7 @@ export class SidebarComponent implements OnInit, DoCheck {
   constructor(
     private router: Router,
     private CommonService: CommonService
-  ) { }
+  ) { }  
   public commonData = new CommonData();
   public language = JSON.parse(sessionStorage.getItem('current_lang'));
   public needassesmentMenu = this.CommonService.needAssesmentMenu;
@@ -37,7 +37,7 @@ export class SidebarComponent implements OnInit, DoCheck {
           { "itemCode": "0", "itemName": this.language.dashboard, "itemNav": "/home", "itemIcon": "#home", "itemIconSize": "0 0 512 512", "permission": true },
           { "itemCode": "207", "itemName": this.language.archiving, "itemNav": "/archive", "itemIcon": "#archive", "itemIconSize": "0 0 58 58", "permission": true }]
       },
-      { "itemCode": "211", "itemName": this.language.config_need_assesment, "itemNav": "/configuration-needAssesment", "itemIcon": "#configurationAssesment", "itemIconSize": "0 0 512 512", "permission": true },
+      { "itemCode": "211", "itemName": this.language.config_need_Assessment, "itemNav": "/configuration-needAssesment", "itemIcon": "#configurationAssesment", "itemIconSize": "0 0 512 512", "permission": true },
       { "itemCode": "200", "itemName": this.language.itemcodegeneration, "itemNav": "/item-code-generation", "itemIcon": "#code", "itemIconSize": "0 0 612 619.2", "permission": true },
       { "itemCode": "205", "itemName": this.language.attribute, "itemNav": "/attribute", "itemIcon": "#attributeMaster", "itemIconSize": "0 0 512 512", "permission": true },
       { "itemCode": "201", "itemName": this.language.model_feature_master, "itemNav": "/feature", "itemIcon": "#featureModal", "itemIconSize": "0 0 512 512", "permission": true },

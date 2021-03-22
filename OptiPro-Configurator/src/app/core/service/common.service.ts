@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { parse } from 'querystring';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject, BehaviorSubject } from 'rxjs';
@@ -13,7 +12,7 @@ import { NotificationService } from '@progress/kendo-angular-notification';
 })
 export class CommonService {
 
-  common_params = new CommonData();
+  common_params = new CommonData();  
   public logged_in_company = sessionStorage.selectedComp;
   public config_params: any = "";
   public needAssesmentMenu: any = false;

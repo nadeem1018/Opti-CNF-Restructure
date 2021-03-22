@@ -76,12 +76,12 @@
                                             #OPTM_CUSTNAME value={{dataItem.OPTM_CUSTNAME}} />
                                     </ng-template>
                                 </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_PRICELISTCODE" title="{{language.price_list}}" filter="text"
+                                <kendo-grid-column field="OPTM_PRICELISTNAME" title="{{language.price_list}}" filter="text"
                                     [width]="145" [minResizableWidth]="145">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="hidden" class="form-control  form-control-sm" />
                                         <div class="input-group">
-                                            <input type="text" #OPTM_PRICELISTCODE value={{dataItem.OPTM_PRICELISTCODE}}
+                                            <input type="text" #OPTM_PRICELISTCODE value={{dataItem.OPTM_PRICELISTNAME}}
                                                 class="form-control form-control-sm" />
                                             <div class="input-group-append">
                                                 <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getPriceList(dataItem.rowindex)">
@@ -96,7 +96,7 @@
                                 <kendo-grid-column field="OPTM_REPORTNAME" title="{{language.qutotation_report}}"
                                     filter="text" [width]="145" [minResizableWidth]="145" [filterable]="true">
                                     <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" class="form-control  form-control-sm" #OPTM_REPORTNAME value={{dataItem.OPTM_REPORTNAME}} />
+                                        <input type="text" class="form-control  form-control-sm" #OPTM_REPORTNAME (change) = "on_report_change(OPTM_REPORTNAME.value,dataItem.rowindex)" value={{dataItem.OPTM_REPORTNAME}} />
                                     </ng-template>
                                 </kendo-grid-column>
                                 <kendo-grid-column field="Models" title="{{language.Models}}" filter="text" [width]="145"

@@ -117,7 +117,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
     CommonData.made_changes = true;
     this.service.onDefaultTemplateCheck(this.OPTM_DEFAULT_TEMPLATE).subscribe(
       data => {
-        if (data === "False") {
+        if (data.length == 0) {
 
           this.CommonService.show_notification(this.language.InvalidDefaultTemplate, 'error');
           this.OPTM_DEFAULT_TEMPLATE = "";

@@ -870,7 +870,7 @@
                     <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                         <label class="custom-checkbox mb-0 wihtout-label">
                             <input type="checkbox" name="child_checkbox" class="child_checkbox" #checkedvalue (change)="on_checkbox_checkeddelarModelRow(checkedvalue.checked,dataItem)"
-                                [checked]=dataItem.s id="child_checkbox_{{rowIndex}}">
+                                [checked]=dataItem.ISSELECTED id="child_checkbox_{{rowIndex}}">
                             <span class="checkbox"></span>
                         </label>
                     </ng-template>

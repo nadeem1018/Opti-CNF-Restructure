@@ -617,13 +617,14 @@
                                                         [expanded]="featurePanelToggle">
                                                         <ng-template kendoPanelBarItemTitle>
                                                             <!-- <h1>hello </h1> -->
-                                                            <span class="output_final_screen_save_button d-inline-flex"
+                                                            <span 
+                                                                class="output_final_screen_save_button d-inline-flex"
                                                                 style="
                                                         margin-left: auto;">
                                                                 <!-- <button (click)="openAttributeList(header_data, header_data.OPTM_TYPE)" type="button" class="btn btn-sm btn-success with-icon mr-2">
                                                                  {{language.attribute}}
                                                             </button> -->
-                                                                <button type="button" (click)="openAttributeList(header_data, header_data.OPTM_TYPE)"
+                                                                <button [style.display]="isAttribute ? 'block' : 'none'" type="button" (click)="openAttributeList(header_data, header_data.OPTM_TYPE)"
                                                                     class="btn btn-sm btn-icon mr-2 btn-primary" title="{{this.language.attribute}}">
                                                                     <svg class="icon" viewBox="0 0 107.07 122.88">
                                                                         <use xlink:href="#attribute"></use>

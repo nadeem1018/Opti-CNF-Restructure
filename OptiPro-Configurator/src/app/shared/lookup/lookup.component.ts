@@ -2488,25 +2488,25 @@ export class LookupComponent implements OnInit {
   }
 
   getDelarCustomerMapping() {
-    this.popup_title = this.language.delarCustomerMapping;
+    this.popup_title = this.language.ModelBom;
     this.LookupDataLoaded = false;
     this.showLoader = true;
-    this.fill_input_id = 'Model_ID';
-    this.lookup_key = 'Model_ID';
+    this.fill_input_id = 'OPTM_MODELID';
+    this.lookup_key = 'OPTM_MODELID';
 
 
     console.log(this.serviceData);
     this.table_head = [
       {
-        field: 'Model_ID',
+        field: 'OPTM_MODELID',
         title: "Model ID'",
         type: 'text',
         width: '100',
         attrType: 'text'
       },
       {
-        field: 'Name',
-        title: "Name",
+        field: 'OPTM_DISPLAYNAME',
+        title: "Model Name",
         type: 'text',
         width: '100',
         attrType: 'text'
@@ -2529,8 +2529,8 @@ export class LookupComponent implements OnInit {
 
   on_checkbox_checkeddelarModelRow(checkedvalue, row_data) {
     this.serviceData.forEach(element => {
-      if (element.Model_ID == row_data.Model_ID) {
-        element.s = checkedvalue;
+      if (element.OPTM_MODELID == row_data.OPTM_MODELID) {
+        element.ISSELECTED = checkedvalue;
       }
     });
     console.log(this.serviceData)
@@ -2539,7 +2539,7 @@ export class LookupComponent implements OnInit {
   on_checkbox_checkedAlldelarModelRow(checkedvalue, row_data) {
     this.isdelarAllChecked = checkedvalue;
     this.serviceData.forEach(element => {
-      element.s = checkedvalue;
+      element.ISSELECTED = checkedvalue;
     });
     console.log(this.serviceData)
   }
