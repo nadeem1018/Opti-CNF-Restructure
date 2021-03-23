@@ -1047,7 +1047,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
           }
 
           if (press_location == "Header") {
-            if (this.lookupfor == 'ModelBom_lookup') {
+            if (this.lookupfor == 'ModelBom_lookup'||this.lookupfor == 'ModelBom_Change') {
               this.modelbom_data.feature_name = data[0].OPTM_DISPLAYNAME;
               this.modelbom_data.feature_desc = data[0].OPTM_FEATUREDESC;
               this.modelbom_data.image_path = data[0].OPTM_PHOTO;
@@ -1929,7 +1929,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
           return;
         }
         else {
-          this.lookupfor = "ModelBom_lookup"
+          this.lookupfor = "ModelBom_Change"
           this.modelbom_data.modal_id = data;
           this.getModelDetails(this.modelbom_data.modal_id, "Header", 0);
 
