@@ -221,7 +221,8 @@ export class DelarCustomerMappingComponent implements OnInit {
         }
         if (data.length > 0) {
           this.showLookupLoader = false;
-          this.serviceData = this.changeStringTOBoolean(data);
+         // this.serviceData = this.changeStringTOBoolean(data);
+         this.serviceData = data;
           console.log(this.serviceData);
         }
         else {
