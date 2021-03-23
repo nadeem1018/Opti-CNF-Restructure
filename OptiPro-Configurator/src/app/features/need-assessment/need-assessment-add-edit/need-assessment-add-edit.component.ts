@@ -2203,7 +2203,12 @@ onExplodeClick(type) {
         this.showLookupLoader = false;
         return;
       }
-    }
+    }   
+    var assessment_id  = this.needsassessment_mas.assessment_id
+    this.assessment_data.filter(function (obj) {
+      return obj['OPTM_AssessmentID'] = assessment_id;
+    });
+   
     final_dataset_to_save.OPCONFIG_OPTIONS = this.assessment_data;  
     
     // if(this.selected_dependent_assessment_data.length > 0){

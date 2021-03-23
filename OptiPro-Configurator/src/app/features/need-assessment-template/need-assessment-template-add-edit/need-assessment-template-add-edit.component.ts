@@ -1959,6 +1959,11 @@ onExplodeClick(type) {
        }
       
     }
+    var templateid  = this.needsassessment_template.templateid
+    this.needsassessment_template_detail.filter(function (obj) {
+      return obj['OPTM_TEMPLATEID'] = templateid;
+    });
+   
     final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL = this.needsassessment_template_detail;  
     this.rule_data.filter(function (obj) {
       if(obj['Selected'] == true)
