@@ -97,15 +97,21 @@ export class DelarCustomerMappingComponent implements OnInit {
       if (arr.length > 0) {
         arr.forEach(element => {
           let arr1 = [];
+          if (element.OPTM_ID == null) {
+            element.OPTM_ID = 0;
+          }
           arr1.push(element);
           arr1[0]["OPTM_DEALERCODE"] = this.delar_Code;
-          arr1[0]["OPTM_ID"] = 0;
+          //arr1[0]["OPTM_ID"] = 0;
           data.push(arr1[0]);
         });
       }
       else {
+        if (arr[0].OPTM_ID == null) {
+          arr[0].OPTM_ID = 0;
+        }
         arr[0]["OPTM_DEALERCODE"] = this.delar_Code;
-        arr[0]["OPTM_ID"] = 0;
+        //  arr[0]["OPTM_ID"] = 0;
         data.push(arr[0]);
       }
       this.delarModelData = [];
@@ -116,15 +122,21 @@ export class DelarCustomerMappingComponent implements OnInit {
       if (arr.length > 0) {
         arr.forEach(element => {
           let arr1 = [];
+          if (element.OPTM_ID == null) {
+            element.OPTM_ID = 0;
+          }
           arr1.push(element);
           arr1[0]["OPTM_DEALERCODE"] = this.delar_Code;
-          arr1[0]["OPTM_ID"] = 0;
+          //arr1[0]["OPTM_ID"] = 0;
           this.delarModelData.push(arr1[0]);
         });
       }
       else {
+        if (arr[0].OPTM_ID == null) {
+          arr[0].OPTM_ID = 0;
+        }
         arr[0]["OPTM_DEALERCODE"] = this.delar_Code;
-        arr[0]["OPTM_ID"] = 0;
+        // arr[0]["OPTM_ID"] = 0;
         this.delarModelData.push(arr[0]);
       }
     }
