@@ -40,6 +40,7 @@ export class DelarCustomerMappingComponent implements OnInit {
   public isDelarNameDisable = true;
   public delarModelData = [];
   public delar_Code = "";
+  public setFinalData = [];
 
 
 
@@ -284,6 +285,7 @@ export class DelarCustomerMappingComponent implements OnInit {
     CommonData.made_changes = true;
     this.currentrowIndex = rowindex
     this.delarList[this.currentrowIndex].OPTM_REPORTNAME = value;
+    this.setFinalDelarMappingData();
   }
 
 
@@ -390,18 +392,42 @@ export class DelarCustomerMappingComponent implements OnInit {
     else if (this.lookupfor == "delar_Price_List") {
       this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = $event[1];
       this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = $event[0];
+      this.setFinalDelarMappingData();
     }
     else if (this.lookupfor == "delar_Customer_List") {
       this.delarList[this.currentrowIndex].OPTM_CUSTCODE = $event[0];
       this.delarList[this.currentrowIndex].OPTM_CUSTNAME = $event[1];
+      this.setFinalDelarMappingData();
     }
+  }
+
+  // function for set final data for Delar Mapping
+
+  setFinalDelarMappingData() {
+    let indexNumber = this.currentrowIndex;
+    if (this.setFinalData.length > 0) {
+      let data = this.setFinalData;
+      data.forEach((element, index) => {
+        if (indexNumber == element.rowindex) {
+          data.splice(index, 1);
+          return;
+        }
+      });
+      this.setFinalData = data;
+      this.setFinalData.push(this.delarList[this.currentrowIndex]);
+    }
+    else {
+      this.setFinalData.push(this.delarList[this.currentrowIndex]);
+    }
+
   }
 
   // function for Save data delar 
   onSaveClick() {
     this.showLookupLoader = true;
     let finalData: any = {};
-    finalData.OPCONFIG_DEALER_CUST_MAP = this.delarList;
+    finalData.OPCONFIG_DEALER_CUST_MAP = this.setFinalData;
+    finalData.OPCONFIG_USERLIST = [];
     finalData.OPCONFIG_DEALER_CUST_MODELMAP = this.delarModelData;
     this.service.SaveDelarDetailsList(finalData).subscribe(data => {
       this.showLookupLoader = false;

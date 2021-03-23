@@ -2351,7 +2351,9 @@ export class CwViewOldComponent implements OnInit, DoCheck {
             this.SecondCallAPI = false;
             this.onselectionchange(selecteditem[0], true, 0, true, selecteditem[0].unique_key, false, false, true);
           } else {
-            this.getCustomeAttributeValue();
+            if (this.isAttribute) {
+              this.getCustomeAttributeValue();
+            }
           }
 
         }
@@ -3822,7 +3824,9 @@ export class CwViewOldComponent implements OnInit, DoCheck {
         }//end data null
         this.ModelHeaderData.sort((a, b) => a.sort_key.localeCompare(b.sort_key));
         this.showLookupLoader = false;
-        this.getCustomeAttributeValue();
+        if (this.isAttribute) {
+          this.getCustomeAttributeValue();
+        }
         var selecteditem = this.ModelBOMDataForSecondLevel.filter(function (obj) {
           return obj['checked'] == true && obj['OPTM_TYPE'] == 2 && obj['OPTM_DEFAULT'] == "Y"
         })

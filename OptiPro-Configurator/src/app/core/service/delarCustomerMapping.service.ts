@@ -42,7 +42,7 @@ export class DelarCustomerMappingService {
             GetData: JSON.stringify([{
                 CompanyDBID: sessionStorage.selectedComp,
                 GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
-                OPTM_DEALERCODE : data
+                OPTM_DEALERCODE: data
             }])
         }
         return this.httpclient.post(this.config_params.service_url + "/DealerCustomerMapping/GetModelList", jObject, this.common_params.httpOptions);
@@ -59,10 +59,12 @@ export class DelarCustomerMappingService {
     }
 
     SaveDelarDetailsList(SaveData): Observable<any> {
-     //   let cache_control = this.common_params.random_string(40);
-        SaveData['GUID'] = sessionStorage.getItem("GUID");
-        SaveData['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
-        SaveData['CompanyDBID'] = sessionStorage.selectedComp; 
+
+        SaveData.OPCONFIG_USERLIST = [{
+            CompanyDBID: sessionStorage.selectedComp,
+            GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+        }];
+
 
         let jObject: any = { GetData: JSON.stringify(SaveData) };
         return this.httpclient.post(this.config_params.service_url + "/DealerCustomerMapping/AddUpdateDealerCustomerMapping", jObject, this.common_params.httpOptions);
