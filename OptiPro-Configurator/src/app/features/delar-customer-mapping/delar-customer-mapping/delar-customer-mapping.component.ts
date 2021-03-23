@@ -87,7 +87,8 @@ export class DelarCustomerMappingComponent implements OnInit {
 
   delaCustomerrModelData(datalist) {
     if (this.delarModelData.length > 0) {
-      let arr = this.changeBooleanToString(datalist);
+     // let arr = this.changeBooleanToString(datalist);
+     let arr = datalist;
       let data = this.delarModelData;
       for (var i = data.length - 1; i >= 0; i--) {
         if (data[i].OPTM_DEALERCODE == this.delar_Code) {
@@ -118,7 +119,8 @@ export class DelarCustomerMappingComponent implements OnInit {
       this.delarModelData = data;
     }
     else {
-      let arr = this.changeBooleanToString(datalist);
+      //let arr = this.changeBooleanToString(datalist);
+      let arr = datalist;
       if (arr.length > 0) {
         arr.forEach(element => {
           let arr1 = [];
