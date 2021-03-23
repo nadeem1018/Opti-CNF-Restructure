@@ -19,12 +19,14 @@ export class SidebarComponent implements OnInit, DoCheck {
   constructor(
     private router: Router,
     private CommonService: CommonService
-  ) { }  
+  ) { }
   public commonData = new CommonData();
   public language = JSON.parse(sessionStorage.getItem('current_lang'));
   public needassesmentMenu = this.CommonService.needAssesmentMenu;
   public attributemenu = this.CommonService.attributeMenu;
+  public dealarMenu = this.CommonService.delarMappingMenu;
   needMenuData = [{ "itemCode": "208", "itemName": "Need's Assessment", "itemNav": "/need-assessment", "itemIcon": "#assessmentScreen", "itemIconSize": "0 0 512 512", "permission": true }];
+  delarMappingData = [{ "itemCode": "205", "itemName": this.language.DelarCustomerMapping, "itemNav": "/delar-customer-mapping", "itemIcon": "#configure", "itemIconSize": "0 0 400 512", "permission": true }];
   ngOnInit() {
     this.loadMenuData();
   }
@@ -50,8 +52,7 @@ export class SidebarComponent implements OnInit, DoCheck {
       { "itemCode": "208", "itemName": this.language.need_assessment, "itemNav": "/need-assessment", "itemIcon": "#assessmentScreen", "itemIconSize": "0 0 512 512", "permission": true },
       { "itemCode": "209", "itemName": this.language.need_assessment_template, "itemNav": "/need-assessment-template", "itemIcon": "#assessmentTemplate", "itemIconSize": "0 0 512 512", "permission": true },
       { "itemCode": "210", "itemName": this.language.need_assessment_rule, "itemNav": "/need-assessment-rule", "itemIcon": "#assessmentRule", "itemIconSize": "0 0 512 512", "permission": true },
-      { "itemCode": "212", "itemName": this.language.need_Customer_mapping, "itemNav": "/needAssesment-customer-mapping", "itemIcon": "#assessmentTemplateMapping", "itemIconSize": "0 0 400 512", "permission": true },
-      { "itemCode": "205", "itemName": this.language.DelarCustomerMapping, "itemNav": "/delar-customer-mapping", "itemIcon": "#assessmentTemplateMapping", "itemIconSize": "0 0 400 512", "permission": true }
+      { "itemCode": "212", "itemName": this.language.need_Customer_mapping, "itemNav": "/needAssesment-customer-mapping", "itemIcon": "#assessmentTemplateMapping", "itemIconSize": "0 0 400 512", "permission": true }
     ];
     let allowed_menus_ids = ["0"];
     this.CommonService.navMenuList = [];
@@ -100,6 +101,7 @@ export class SidebarComponent implements OnInit, DoCheck {
       data => {
         this.CommonService.needAssesmentMenu = data[0].OPTM_ISAPPLICABLE == "Y" ? true : false;
         this.CommonService.attributeMenu = data[0].OPTM_ISATTR_MASTER == "Y" ? true : false;
+        this.CommonService.delarMappingMenu = data[0].OPTM_ISDEALER_CUST_MAP == "Y" ? true : false;
         if (this.CommonService.attributeMenu == false) {
           this.CheckMenuCondition();
         }
@@ -116,6 +118,7 @@ export class SidebarComponent implements OnInit, DoCheck {
 
   ngDoCheck() {
     this.needassesmentMenu = this.CommonService.needAssesmentMenu;
+    this.dealarMenu = this.CommonService.delarMappingMenu;
     if (this.CommonService.attributeMenu == false) {
       this.CheckMenuCondition();
     }
