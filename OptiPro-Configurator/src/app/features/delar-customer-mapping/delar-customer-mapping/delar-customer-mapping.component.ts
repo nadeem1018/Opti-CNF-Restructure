@@ -424,7 +424,9 @@ export class DelarCustomerMappingComponent implements OnInit {
           ModelList.push(element);
         }
       });
-      this.delaCustomerrModelData(ModelList);
+      if (ModelList.length > 0) {
+        this.delaCustomerrModelData(ModelList);
+      }
       this.setFinalDelarMappingData();
     }
     else if (this.lookupfor == "delar_Price_List") {

@@ -9,7 +9,19 @@ import { NgForm } from '@angular/forms';
 export class DelarCustomerMapComponent implements OnInit {
 
   @ViewChild('delarCustomerForm', { static: false }) delarCustomerForm: NgForm
+  delarList: DelarVaribleList;
 
+
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
+
+
+export class DelarVaribleList {
   public addressID = "";
   public addressID1 = "";
   public addressID2 = "";
@@ -22,10 +34,4 @@ export class DelarCustomerMapComponent implements OnInit {
   public name = "";
   public contactPerson = "";
   public customerCode = "";
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
 }
