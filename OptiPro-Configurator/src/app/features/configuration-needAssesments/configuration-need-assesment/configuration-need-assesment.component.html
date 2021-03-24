@@ -22,13 +22,20 @@
         <div class="card-body pb-2" fxFlex fxLayout="column">
             <form name="configuration-needAssesment" class="form-horizontal" fxFlex="0 1 100%" fxLayout="column">
                 <div class="main-portion">
-                        <div class="form-group row clearfix">
-                                <label class="k-label col-sm-4 col-form-label">{{language.ConfigAttribute}}
-                                </label>
-                                <div class="col-sm-6">
-                                    <input type="checkbox" name="applyAttributeMaster" kendoCheckBox [(ngModel)]="applyAttributeMaster" />
-                                </div>
-                            </div>
+                    <div class="form-group row clearfix">
+                        <label class="k-label col-sm-4 col-form-label">{{language.ConfigAttribute}}
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" name="applyAttributeMaster" kendoCheckBox [(ngModel)]="applyAttributeMaster" />
+                        </div>
+                    </div>
+                    <div class="form-group row clearfix">
+                        <label class="k-label col-sm-4 col-form-label">{{language.DealerApply}}
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="checkbox" name="applyDealarMapping" kendoCheckBox [(ngModel)]="applyDealarMapping" />
+                        </div>
+                    </div>
                     <div class="form-group row clearfix">
                         <label class="k-label col-sm-4 col-form-label">{{language.ConfigAssessment}}
                         </label>

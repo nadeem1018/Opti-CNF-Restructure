@@ -848,17 +848,17 @@
             </kendo-window-titlebar>
 
             <kendo-grid [kendoGridBinding]="serviceData" [reorderable]="true" class="primary-grid height-restricted"
-                [filterable]="isColumnFilter" [selectable]="true" [resizable]="true" style="max-height:400px;">
+                [filterable]="isColumnFilter" [selectable]="true" [resizable]="true" [height]="500">
                 <ng-template kendoGridToolbarTemplate>
                     <label class="custom-checkbox mb-0">
-                        <input #chkFilter type="checkbox" id="columnFilter" [(ngModel)]="isColumnFilter" (change)="saveFilterState()"
+                        <input #chkFilter type="checkbox" id="columnFilter" [(ngModel)]="isColumnFilter"
                             name="columnfilter">
                         <span class="checkbox"></span>
                         <span class="text-inverse">{{language.enable_filter}}</span>
                     </label>
                 </ng-template>
-                <kendo-grid-column field="checkbox" [sortable]="false" title="checkbox" [width]="30"
-                    [minResizableWidth]="30" class="text-center" headerClass="text-center">
+                <kendo-grid-column field="checkbox" [sortable]="false" title="checkbox" [width]="25"
+                    [minResizableWidth]="25" [filterable]="false" class="text-center" headerClass="text-center">
                     <ng-template kendoGridHeaderTemplate let-column let-rowIndex="rowIndex">
                         <label class="custom-checkbox mb-0 wihtout-label">
                             <input type="checkbox" name="parent_checkbox" class="parent_checkbox"

@@ -28,8 +28,22 @@
                     </a>
                 </li>
             </ng-container>
-            
-            <li (click)="changNeedToggle()" [style.display]="needassesmentMenu ? 'block' : 'none'" *ngFor="let item of needMenuData" [class.active]="needIsToggled" class="need-assment-box">
+
+
+            <li *ngFor="let item of delarMappingData" routerLinkActive="active" [style.display]="dealarMenu ? 'block' : 'none'">
+                <a [attr.title]="item.itemName" [routerLink]="item.itemNav" routerLinkActive="active" class="sidebar-link"
+                    (click)="sidebarCloseMobileWithRefresh()">
+                    <svg [attr.viewBox]="item.itemIconSize" class="sidebar-link-icon">
+                        <use [attr.xlink:href]="item.itemIcon"></use>
+                    </svg>
+                    <span>{{item.itemName}}</span>
+                </a>
+            </li>
+
+
+
+            <li (click)="changNeedToggle()" [style.display]="needassesmentMenu ? 'block' : 'none'" *ngFor="let item of needMenuData"
+                [class.active]="needIsToggled" class="need-assment-box">
                 <a class="dropdown-toggle">
                     <svg [attr.viewBox]="item.itemIconSize" class="sidebar-link-icon">
                         <use [attr.xlink:href]="item.itemIcon"></use>
@@ -56,7 +70,7 @@
                 </li>
 
             </ng-container>
-        
+
 
 
 

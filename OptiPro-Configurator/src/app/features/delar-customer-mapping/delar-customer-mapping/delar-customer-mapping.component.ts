@@ -6,6 +6,7 @@ import { CommonData } from 'src/app/core/data/CommonData';
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { filterBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { DelarCustomerMappingService } from 'src/app/core/service/delarCustomerMapping.service';
+import { filter } from 'minimatch';
 
 
 @Component({
@@ -87,44 +88,58 @@ export class DelarCustomerMappingComponent implements OnInit {
 
   delaCustomerrModelData(datalist) {
     if (this.delarModelData.length > 0) {
-      let arr = this.changeBooleanToString(datalist);
+      // let arr = this.changeBooleanToString(datalist);
+      let arr = datalist;
       let data = this.delarModelData;
-      data.forEach((elementList: any, index) => {
-        if (elementList.OPTM_DEALERCODE == this.delar_Code) {
-          data.splice(index, 1);
+      for (var i = data.length - 1; i >= 0; i--) {
+        if (data[i].OPTM_DEALERCODE == this.delar_Code) {
+          data.splice(i, 1);
         }
-      });
+      }
       if (arr.length > 0) {
         arr.forEach(element => {
           let arr1 = [];
+          if (element.OPTM_ID == null) {
+            element.OPTM_ID = 0;
+          }
           arr1.push(element);
           arr1[0]["OPTM_DEALERCODE"] = this.delar_Code;
-          arr1[0]["OPTM_ID"] = 0;
+          //arr1[0]["OPTM_ID"] = 0;
           data.push(arr1[0]);
         });
       }
       else {
+        if (arr[0].OPTM_ID == null) {
+          arr[0].OPTM_ID = 0;
+        }
         arr[0]["OPTM_DEALERCODE"] = this.delar_Code;
-        arr[0]["OPTM_ID"] = 0;
+        //  arr[0]["OPTM_ID"] = 0;
         data.push(arr[0]);
       }
       this.delarModelData = [];
       this.delarModelData = data;
     }
     else {
-      let arr = this.changeBooleanToString(datalist);
+      //let arr = this.changeBooleanToString(datalist);
+      let arr = datalist;
       if (arr.length > 0) {
         arr.forEach(element => {
           let arr1 = [];
+          if (element.OPTM_ID == null) {
+            element.OPTM_ID = 0;
+          }
           arr1.push(element);
           arr1[0]["OPTM_DEALERCODE"] = this.delar_Code;
-          arr1[0]["OPTM_ID"] = 0;
+          //arr1[0]["OPTM_ID"] = 0;
           this.delarModelData.push(arr1[0]);
         });
       }
       else {
+        if (arr[0].OPTM_ID == null) {
+          arr[0].OPTM_ID = 0;
+        }
         arr[0]["OPTM_DEALERCODE"] = this.delar_Code;
-        arr[0]["OPTM_ID"] = 0;
+        // arr[0]["OPTM_ID"] = 0;
         this.delarModelData.push(arr[0]);
       }
     }
@@ -190,7 +205,8 @@ export class DelarCustomerMappingComponent implements OnInit {
 
   // function for get Model List API 
 
-  getModelList(delarCode: any) {
+  getModelList(delarCode: any, rowindex) {
+    this.currentrowIndex = rowindex;
     this.delar_Code = delarCode;
     this.showLookupLoader = true;
     CommonData.made_changes = true;
@@ -209,7 +225,28 @@ export class DelarCustomerMappingComponent implements OnInit {
         }
         if (data.length > 0) {
           this.showLookupLoader = false;
-          this.serviceData = this.changeStringTOBoolean(data);
+          let dataList = [];
+          // this.serviceData = this.changeStringTOBoolean(data);
+          if (this.delarModelData.length > 0) {
+            dataList = this.delarModelData.filter(function (obj) {
+              return obj.OPTM_DEALERCODE == delarCode;
+            })
+          }
+          if (dataList.length > 0) {
+            dataList.forEach(element => {
+              data.forEach(elementList => {
+                if (element.OPTM_MODELID == elementList.OPTM_MODELID) {
+                  elementList.ISSELECTED = true;
+                  return;
+                }
+              });
+            });
+            this.serviceData = data;
+          }
+          else {
+            this.serviceData = data;
+          }
+
           console.log(this.serviceData);
         }
         else {
@@ -260,7 +297,7 @@ export class DelarCustomerMappingComponent implements OnInit {
               OPTM_PRICELISTCODE: data[i].OPTM_PRICELISTCODE,
               OPTM_REPORTNAME: data[i].OPTM_REPORTNAME,
               OPTM_PRICELISTNAME: data[i].OPTM_PRICELISTNAME,
-              OPTM_ID: 0,
+              OPTM_ID: data[i].OPTM_ID == null ? 0 : data[i].OPTM_ID,
               rowindex: i,
             });
           }
@@ -387,7 +424,10 @@ export class DelarCustomerMappingComponent implements OnInit {
           ModelList.push(element);
         }
       });
-      this.delaCustomerrModelData(ModelList);
+      if (ModelList.length > 0) {
+        this.delaCustomerrModelData(ModelList);
+      }
+      this.setFinalDelarMappingData();
     }
     else if (this.lookupfor == "delar_Price_List") {
       this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = $event[1];
@@ -397,6 +437,8 @@ export class DelarCustomerMappingComponent implements OnInit {
     else if (this.lookupfor == "delar_Customer_List") {
       this.delarList[this.currentrowIndex].OPTM_CUSTCODE = $event[0];
       this.delarList[this.currentrowIndex].OPTM_CUSTNAME = $event[1];
+      this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = $event[3];
+      this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = $event[2];
       this.setFinalDelarMappingData();
     }
   }
@@ -441,6 +483,8 @@ export class DelarCustomerMappingComponent implements OnInit {
       if (data === "True") {
         CommonData.made_changes = false
         this.CommonService.show_notification(this.language.DataSaved, 'success');
+        this.setFinalData = [];
+        this.delarModelData = [];
         return;
       } else if (data == "AlreadyExist") {
 

@@ -102,7 +102,7 @@
                                 <kendo-grid-column field="Models" title="{{language.Models}}" filter="text" [width]="145"
                                     [minResizableWidth]="145">
                                     <ng-template kendoGridCellTemplate let-dataItem>
-                                        <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getModelList(dataItem.OPTM_DEALERCODE)">
+                                        <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getModelList(dataItem.OPTM_DEALERCODE,dataItem.rowindex)">
                                             <svg class="icon m-0" viewBox="0 -96 512 512">
                                                 <use xlink:href="#menu"></use>
                                             </svg>
