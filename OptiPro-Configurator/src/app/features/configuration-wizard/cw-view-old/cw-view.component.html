@@ -174,7 +174,27 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            <div class="col-md-4 pl-0 float-left">
+                                                <div class="form-group row clearfix">
+                                                    <label class="col-sm-5 col-form-label required" for="customer_doc">{{language.customer_code}}</label>
+                                                    <div class="col-sm-7">
+                                                        <div class="input-group">
+                                                            <input type="text" ngValue="" class="form-control form-control-sm"
+                                                                (change)="onCustomerChange('')" name="customer" id="customer"
+                                                                placeholder="{{language.customer}}" [(ngModel)]="step1_data.customer"
+                                                                #customer>
+                                                            <div class="input-group-append">
+                                                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
+                                                                    id="basic-addon2" (click)="openCustomerLookUp()">
+                                                                    <svg viewBox="0 -96 512 512" class="icon m-0">
+                                                                        <use xlink:href="#menu"></use>
+                                                                    </svg>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-md-4 float-left">
                                                 <div class="form-group row clearfix">
                                                     <label class="col-sm-5 col-form-label" for="posting_date">{{language.posting_date}}</label>
