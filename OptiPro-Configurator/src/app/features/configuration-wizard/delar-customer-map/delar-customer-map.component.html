@@ -16,12 +16,12 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Customer Code</label>
                             <div class="col-sm-9">
-                                <input type="text"  name="customerCode" [(ngModel)]="customerCode"
+                                <input type="text" name="customerCode" [(ngModel)]="customerCode" #customercode="ngModel"
                                     class="form-control" placeholder="">
                             </div>
                         </div>
-                        <div *ngIf="!customerCode?.valid && (customerCode?.dirty || customerCode?.touched) ">
-                            <div *ngIf="customerCode.errors.required" class="help-block">
+                        <div *ngIf="!customercode?.valid && (customercode?.dirty || customercode?.touched) ">
+                            <div *ngIf="customercode.errors.required" class="help-block">
                                 Field is Mandatory.
                             </div>
                         </div>

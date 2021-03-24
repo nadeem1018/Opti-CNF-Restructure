@@ -297,7 +297,7 @@ export class DelarCustomerMappingComponent implements OnInit {
               OPTM_PRICELISTCODE: data[i].OPTM_PRICELISTCODE,
               OPTM_REPORTNAME: data[i].OPTM_REPORTNAME,
               OPTM_PRICELISTNAME: data[i].OPTM_PRICELISTNAME,
-              OPTM_ID: 0,
+              OPTM_ID: data[i].OPTM_ID == null ? 0 : data[i].OPTM_ID,
               rowindex: i,
             });
           }
