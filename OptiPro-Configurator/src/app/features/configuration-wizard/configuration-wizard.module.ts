@@ -9,10 +9,12 @@ import { CwVerifyAcceptFinalComponent } from './cw-verify-accept-final/cw-verify
 import { CwViewOldComponent } from './cw-view-old/cw-view.component';
 import { SharedModules } from 'src/app/shared/shared.module';
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { CustomerAddressComponent } from './customer-address/customer-address.component';
+import { DelarCustomerMapComponent } from './delar-customer-map/delar-customer-map.component';
 
 
 @NgModule({
-  declarations: [CwViewComponent, CwOperationCustomerComponent, CwMbomConfigureProductComponent, CwVerifyAcceptFinalComponent, CwViewOldComponent ],
+  declarations: [CwViewComponent, CwOperationCustomerComponent, CwMbomConfigureProductComponent, CwVerifyAcceptFinalComponent, CwViewOldComponent, CustomerAddressComponent, DelarCustomerMapComponent ],
   imports: [
     CommonModule,
     ConfigurationWizardRoutingModule,

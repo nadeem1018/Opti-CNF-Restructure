@@ -481,6 +481,8 @@ export class DelarCustomerMappingComponent implements OnInit {
       if (data === "True") {
         CommonData.made_changes = false
         this.CommonService.show_notification(this.language.DataSaved, 'success');
+        this.setFinalData = [];
+        this.delarModelData = [];
         return;
       } else if (data == "AlreadyExist") {
 
