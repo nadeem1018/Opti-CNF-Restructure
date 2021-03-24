@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
 	// common_params = new CommonData();
 	record_per_page: any = this.commonData.default_count;
 	current_url: any;
+	
 	constructor(
 		private auth: AuthService,
 		private router: Router,
@@ -90,19 +91,19 @@ export class LoginComponent implements OnInit {
 			}
 
 		}, 2000);
-        this.CommonService.get_config(function(response){
-            objj.CommonService.set_language(response, function(){
-                objj.config_data = JSON.parse(sessionStorage.getItem('system_config'));
-                if (objj.config_data != undefined && objj.config_data != "") {
-               		objj.language = JSON.parse(sessionStorage.getItem('current_lang'));
-                	objj.setDefaultLanguage()
-                }
-            })
-        });
-        this.current_url = this.commonData.get_current_url();
+		this.CommonService.get_config(function (response) {
+			objj.CommonService.set_language(response, function () {
+				objj.config_data = JSON.parse(sessionStorage.getItem('system_config'));
+				if (objj.config_data != undefined && objj.config_data != "") {
+					objj.language = JSON.parse(sessionStorage.getItem('current_lang'));
+					objj.setDefaultLanguage()
+				}
+			})
+		});
+		this.current_url = this.commonData.get_current_url();
 		if (sessionStorage.getItem('isLoggedIn') == 'true') {
 			this.router.navigateByUrl('/home');
-		} 
+		}
 	}
 
 	setDefaultLanguage() {
@@ -235,6 +236,7 @@ export class LoginComponent implements OnInit {
 				data => {
 					if (data != undefined) {
 						this.licenseData = data;
+						this.CommonService.usertype = data[0].Usertype;
 						this.handleLicenseDataSuccessResponse();
 					} else {
 						//  alert("Lisence Failed");
@@ -270,7 +272,7 @@ export class LoginComponent implements OnInit {
 				this.CommonService.show_notification(this.licenseData[0].ErrMessage, 'error');
 			}
 		} else {
-			this.showLoginLoader = false;			
+			this.showLoginLoader = false;
 			this.CommonService.show_notification(this.licenseData[0].ErrMessage, 'error');
 		}
 	}

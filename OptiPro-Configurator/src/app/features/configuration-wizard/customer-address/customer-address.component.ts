@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CwViewOldComponent } from '../cw-view-old/cw-view.component';
 
 @Component({
   selector: 'app-customer-address',
@@ -21,9 +22,13 @@ export class CustomerAddressComponent implements OnInit {
   public streetNo = "";
 
 
-  constructor() { }
+  constructor(private cwComponet: CwViewOldComponent) { }
 
   ngOnInit() {
+  }
+
+  onCancle() {
+    this.cwComponet.customerShippingAddress = false;
   }
 
 }

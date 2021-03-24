@@ -174,18 +174,17 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 pl-0 float-left">
+                                            <div class="col-md-4 pl-0 float-left" *ngIf="isDealar">
                                                 <div class="form-group row clearfix">
-                                                    <label class="col-sm-5 col-form-label required" for="customer_doc">{{language.customer_code}}</label>
+                                                    <label class="col-sm-5 col-form-label" for="customer_doc">{{language.Dealer_Customer}}</label>
                                                     <div class="col-sm-7">
                                                         <div class="input-group">
                                                             <input type="text" ngValue="" class="form-control form-control-sm"
-                                                                (change)="onCustomerChange('')" name="customer" id="customer"
-                                                                placeholder="{{language.customer}}" [(ngModel)]="step1_data.customer"
-                                                                #customer>
+                                                                name="customer" id="dealer" placeholder="" [(ngModel)]="delarCustomer"
+                                                                #dealer>
                                                             <div class="input-group-append">
                                                                 <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
-                                                                    id="basic-addon2" (click)="openCustomerLookUp()">
+                                                                    id="basic-addon2" (click)="openDealerView()">
                                                                     <svg viewBox="0 -96 512 512" class="icon m-0">
                                                                         <use xlink:href="#menu"></use>
                                                                     </svg>
@@ -194,6 +193,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <button type="button" class="btn btn-primary" (click)="openDelarMappingView()">{{language.Dealer_Customer}}</button>
                                             </div>
                                             <div class="col-md-4 float-left">
                                                 <div class="form-group row clearfix">
@@ -295,11 +295,22 @@
                                                 </div>
 
                                                 <div class="form-group row clearfix">
-                                                    <label class="col-sm-5 col-form-label" for="ship_to_address">{{language.address}}</label>
+                                                    <label class="col-sm-5 col-form-label" for="ship_to_address">{{language.address}}
+                                                        <button [style.display]="isDealar ? 'block' : 'none'" type="button"
+                                                            [disabled]="isShipDisable" class="btn btn-sm btn-icon mr-2 btn-primary"
+                                                            (click)="openShipAddressView(step1_data.ship_to_address)"
+                                                            title="{{this.language.edit}}">
+                                                            <svg viewBox="0 0 383.947 383.947" class="icon">
+                                                                <use xlink:href="#editAlt"></use>
+                                                            </svg>
+                                                        </button>
+                                                    </label>
+
                                                     <div class="col-sm-7">
                                                         <textarea type="text" ngValue="" readonly class="form-control form-control-sm"
                                                             name="ship_to_address" id="ship_to_address" placeholder="{{language.ship_to_address}}"
                                                             [(ngModel)]="step1_data.ship_to_address" #shipto></textarea>
+
                                                     </div>
                                                 </div>
 
@@ -637,14 +648,14 @@
                                                         [expanded]="featurePanelToggle">
                                                         <ng-template kendoPanelBarItemTitle>
                                                             <!-- <h1>hello </h1> -->
-                                                            <span 
-                                                                class="output_final_screen_save_button d-inline-flex"
+                                                            <span class="output_final_screen_save_button d-inline-flex"
                                                                 style="
                                                         margin-left: auto;">
                                                                 <!-- <button (click)="openAttributeList(header_data, header_data.OPTM_TYPE)" type="button" class="btn btn-sm btn-success with-icon mr-2">
                                                                  {{language.attribute}}
                                                             </button> -->
-                                                                <button [style.display]="isAttribute ? 'block' : 'none'" type="button" (click)="openAttributeList(header_data, header_data.OPTM_TYPE)"
+                                                                <button [style.display]="isAttribute ? 'block' : 'none'"
+                                                                    type="button" (click)="openAttributeList(header_data, header_data.OPTM_TYPE)"
                                                                     class="btn btn-sm btn-icon mr-2 btn-primary" title="{{this.language.attribute}}">
                                                                     <svg class="icon" viewBox="0 0 107.07 122.88">
                                                                         <use xlink:href="#attribute"></use>
@@ -2049,6 +2060,10 @@
         [selectedImage]="selectedImage" (lookupvalues)="getLookupValues($event)"></app-lookup>
 </span>
 
-<!-- <span>
-  <app-delar-customer-map></app-delar-customer-map>
-</span> -->
+<span *ngIf="delarCustomerMap">
+    <app-delar-customer-map></app-delar-customer-map>
+</span>
+
+<span *ngIf="customerShippingAddress">
+    <app-customer-address></app-customer-address>
+</span>

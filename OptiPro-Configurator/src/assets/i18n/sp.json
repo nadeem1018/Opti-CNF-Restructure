@@ -676,6 +676,7 @@
     "Customer" :"Customer",
     "delar_name":"Dealer Name",
     "delar" :"Dealer",
-    "DealerApply":"Apply Dealer Customer Mapping"
+    "DealerApply":"Apply Dealer Customer Mapping",
+    "Dealer_Customer" :"Dealer Customer"
 
 }

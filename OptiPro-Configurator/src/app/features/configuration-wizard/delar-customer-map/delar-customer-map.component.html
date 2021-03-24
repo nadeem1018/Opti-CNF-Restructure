@@ -1,11 +1,12 @@
-<div class="modal detail-model show" id="myModal2" style="display: block; padding-left: 17px;" aria-modal="true" role="dialog">
+<div class="modal detail-model show" id="myModal2" [style.display]="isDelarmapView ? 'block' : 'none'" style=" padding-left: 17px;"
+    aria-modal="true" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title"> Lorum Ipsum </h4>
-                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title"> Dealer Customer Mapping </h4>
+                <button type="button" class="close" (click)="onCancle()">×</button>
             </div>
 
             <!-- Modal body -->
@@ -16,99 +17,150 @@
                         novalidate>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Customer Code</label>
-                            <div class="col-sm-9">
+                            <div class="input-group col-sm-9">
                                 <input type="text" name="customerCode" [(ngModel)]="delarList.customerCode"
-                                    #customerCode="ngModel" class="form-control" placeholder="">
+                                    #customerCode="ngModel" class="form-control" placeholder="" required>
+                                <div class="input-group-append">
+                                    <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getPriceList(dataItem.rowindex)">
+                                        <svg class="icon m-0" viewBox="0 -96 512 512">
+                                            <use xlink:href="#menu"></use>
+                                        </svg>
+                                    </span>
+                                </div>
+                                <div *ngIf="!customerCode?.valid && (customerCode?.dirty || customerCode?.touched) ">
+                                    <div *ngIf="customerCode.errors.required" class="help-block">
+                                        * Field is Mandatory.
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <!-- <div *ngIf="!customerCode?.valid && (customerCode?.dirty || customerCode?.touched) ">
-                            <div *ngIf="customerCode.errors.required" class="help-block">
-                                Field is Mandatory.
-                            </div>
-                        </div> -->
 
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-9">
-                                <input type="text" name="name" [(ngModel)]="delarList.name" class="form-control"
-                                    placeholder="">
+                                <input type="text" name="name" [(ngModel)]="delarList.name" #name="ngModel" class="form-control"
+                                    placeholder="" required>
+                                <div *ngIf="!name?.valid && (name?.dirty || name?.touched) ">
+                                    <div *ngIf="name.errors.required" class="help-block">
+                                        * Field is Mandatory.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Contact Person</label>
                             <div class="col-sm-9">
-                                <input type="text" name="contactPerson" [(ngModel)]="delarList.contactPerson" class="form-control"
-                                    placeholder="">
+                                <input type="text" name="contactPerson" [(ngModel)]="delarList.contactPerson"
+                                    #contactPerson="ngModel" class="form-control" placeholder="" required>
+                                <div *ngIf="!contactPerson?.valid && (customerCode?.dirty || contactPerson?.touched) ">
+                                    <div *ngIf="contactPerson.errors.required" class="help-block">
+                                        * Field is Mandatory.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Contacts Number</label>
                             <div class="col-sm-9">
-                                <input type="text" name="contactNumber" [(ngModel)]="delarList.contactNumber" class="form-control"
-                                    placeholder="">
+                                <input type="text" name="contactNumber" [(ngModel)]="delarList.contactNumber"
+                                    #contactNumber="ngModel" class="form-control" placeholder="" required>
+                                <div *ngIf="!contactNumber?.valid && (customerCode?.dirty || contactNumber?.touched) ">
+                                    <div *ngIf="contactNumber.errors.required" class="help-block">
+                                        * Field is Mandatory.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9">
-                                <input type="text" name="contactNumber" [(ngModel)]="delarList.email" class="form-control"
-                                    placeholder="">
+                                <input type="text" name="email" [(ngModel)]="delarList.email" #email="ngModel" class="form-control"
+                                    placeholder="" required email>
+                                <div *ngIf="!email?.valid && (email?.dirty || email?.touched) ">
+                                    <div *ngIf="email.errors.required" class="help-block">
+                                        * Field is Mandatory.
+                                    </div>
+                                    <div *ngIf="email.errors.email" class="help-block">
+                                        please Enter valid Email.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Address 1</label>
                             <div class="col-sm-9">
-                                <input type="text" name="addressID" [(ngModel)]="delarList.addressID" class="form-control"
-                                    placeholder="">
+                                <input type="text" name="addressID" [(ngModel)]="delarList.addressID" #addressID="ngModel"
+                                    class="form-control" placeholder="" required>
+                                <div *ngIf="!addressID?.valid && (addressID?.dirty || addressID?.touched) ">
+                                    <div *ngIf="addressID.errors.required" class="help-block">
+                                        * Field is Mandatory.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Address 2</label>
                             <div class="col-sm-9">
-                                <input type="text" name="addressID1" [(ngModel)]="delarList.addressID1" class="form-control"
-                                    placeholder="">
+                                <input type="text" name="addressID1" [(ngModel)]="delarList.addressID1" #addressID1="ngModel"
+                                    class="form-control" placeholder="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Street</label>
                             <div class="col-sm-9">
-                                <input type="text" name="street" [(ngModel)]="delarList.street" class="form-control"
+                                <input type="text" name="street" [(ngModel)]="delarList.street" #street="ngModel" class="form-control"
                                     placeholder="">
+
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Block</label>
                             <div class="col-sm-9">
-                                <input type="text" name="block" [(ngModel)]="delarList.block" class="form-control"
+                                <input type="text" name="block" [(ngModel)]="delarList.block" #block="ngModel" class="form-control"
                                     placeholder="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">City</label>
                             <div class="col-sm-9">
-                                <input type="text" name="city" [(ngModel)]="delarList.city" class="form-control"
-                                    placeholder="">
+                                <input type="text" name="city" [(ngModel)]="delarList.city" #city="ngModel" class="form-control"
+                                    placeholder="" required>
+                                <div *ngIf="!city?.valid && (city?.dirty || city?.touched) ">
+                                    <div *ngIf="city.errors.required" class="help-block">
+                                        * Field is Mandatory.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Zip</label>
                             <div class="col-sm-9">
-                                <input type="text" name="zipCode" [(ngModel)]="delarList.zipCode" class="form-control"
-                                    placeholder="">
+                                <input type="text" name="zipCode" [(ngModel)]="delarList.zipCode" #zipCode="ngModel"
+                                    class="form-control" placeholder="" required>
+                                <div *ngIf="!zipCode?.valid && (customerCode?.dirty || zipCode?.touched) ">
+                                    <div *ngIf="zipCode.errors.required" class="help-block">
+                                        * Field is Mandatory.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Country</label>
                             <div class="col-sm-9">
-                                <input type="text" name="country" [(ngModel)]="delarList.country" class="form-control"
-                                    placeholder="">
+                                <input type="text" name="country" [(ngModel)]="delarList.country" #country="ngModel"
+                                    class="form-control" placeholder="" required>
+                                <div *ngIf="!country?.valid && (country?.dirty || country?.touched) ">
+                                    <div *ngIf="country.errors.required" class="help-block">
+                                        * Field is Mandatory.
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-success" [disabled]="!delarCustomerForm.valid">Save</button>
-                            <button type="button" class="btn btn-primary">New</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" (click)="onNewScreen()">New</button>
+                            <button type="button" class="btn btn-secondary" (click)="onCancle()">Cancel</button>
                         </div>
 
                     </form>
@@ -119,4 +171,4 @@
     </div>
 </div>
 
-<div class="modal-backdrop show"></div>
+<div class="modal-backdrop show" [style.display]="isDelarmapView ? 'block' : 'none'"></div>

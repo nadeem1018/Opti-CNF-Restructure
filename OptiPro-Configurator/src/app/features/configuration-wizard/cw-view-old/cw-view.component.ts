@@ -181,6 +181,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   public selectedAccessoryHeader: any = []
   public selectedAccessoryBOM: any = []
   public menu_auth_index = '205';
+  public isShipDisable =true;
 
   isMobile: boolean = false;
   isIpad: boolean = false;
@@ -208,6 +209,9 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   public customerNeedsAssessmentHeader: any = [];
   public option: any = [];
   public skip_assessment: boolean = false;
+  public delarCustomer: any = ""
+  public delarCustomerMap = false;
+  public customerShippingAddress = false;
 
   constructor(private ActivatedRouter: ActivatedRoute,
     private route: Router,
@@ -220,6 +224,9 @@ export class CwViewOldComponent implements OnInit, DoCheck {
 
   public isAttribute = this.CommonService.attributeMenu;
   public isNeedAssesment = this.CommonService.needAssesmentMenu;
+  public isDealar = false;
+  public UserType = this.CommonService.usertype;
+ 
   detectDevice() {
     let getDevice = UIHelper.isDevice();
     this.isMobile = getDevice[0];
@@ -284,6 +291,16 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     this.check_authorisation();
     this.config_params = JSON.parse(sessionStorage.getItem('system_config'));
     this.cutstomeViewEnable = false;
+
+    if(this.UserType == "D")
+    {
+      this.isDealar =true;
+    }
+    else
+    {
+      this.isDealar =false; 
+    }
+    
 
   }
 
@@ -1514,7 +1531,8 @@ export class CwViewOldComponent implements OnInit, DoCheck {
       if (this.step1_data.customer != undefined) {
         this.isNextButtonVisible = true;
         this.getCustomerAllInfo("");
-      }
+        this.isShipDisable = false;
+  }
       else {
         this.isNextButtonVisible = false;
       }
@@ -10478,5 +10496,13 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   }
   accessoriesPanelToggleAll(status) {
     this.accessoriesPanelToggle = status;
+  }
+
+  openDelarMappingView() {
+    this.delarCustomerMap = true;
+  }
+
+  openShipAddressView(addresslist: any) {
+    this.customerShippingAddress = true;
   }
 }

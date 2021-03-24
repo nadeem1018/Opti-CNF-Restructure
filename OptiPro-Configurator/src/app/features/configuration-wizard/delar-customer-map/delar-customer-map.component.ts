@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { CwViewOldComponent } from '../cw-view-old/cw-view.component';
 
 @Component({
   selector: 'app-delar-customer-map',
@@ -8,15 +9,43 @@ import { NgForm } from '@angular/forms';
 })
 export class DelarCustomerMapComponent implements OnInit {
 
-  @ViewChild('delarCustomerForm', { static: true }) delarCustomerForm: NgForm
+  @ViewChild('delarCustomerForm', { static: true }) delarCustomerForm = NgForm
   delarList: DelarVaribleList = new DelarVaribleList();
+  isDelarmapView = true;
 
 
 
-  constructor() { }
+  constructor(private cwComponet: CwViewOldComponent) { }
 
   ngOnInit() {
   }
+
+  onSubmit(userInfo: any) {
+    console.log(userInfo.value);
+  }
+
+  onNewScreen() {
+    this.delarList = {
+      addressID: "",
+      addressID1: "",
+      addressID2: "",
+      street: "",
+      block: "",
+      city: "",
+      zipCode: "",
+      email: "",
+      country: "",
+      name: "",
+      contactPerson: "",
+      customerCode: "",
+    }
+  }
+
+  onCancle() {
+    this.cwComponet.delarCustomerMap = false;
+  }
+
+
 
 }
 
