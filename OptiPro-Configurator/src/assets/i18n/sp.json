@@ -663,7 +663,7 @@
     "Notype": "Select Condition at Row",
     "SaveConfirmation": "Rule is not Exist for this template.Do you want to continue ?",
     "ConfigAttribute": "Apply Attribute Master",
-    "ConfigAssesment": "Apply Need's Assesment",
+    "ConfigAssesment": "Apply Need's Assessment",
     "ConfigUserApply": "Use Customerwise Need's Assessment",
     "ConfigDefaultTemplate": "Default Need's Assessment Template",
     "need_option": "Options",
