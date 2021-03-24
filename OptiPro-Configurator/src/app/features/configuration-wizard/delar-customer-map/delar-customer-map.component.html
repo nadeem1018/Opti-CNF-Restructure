@@ -12,84 +12,96 @@
             <div class="modal-body detail-modal-body">
                 <div class="detail-body-inner float-left w-100">
 
-                    <form #delarCustomerForm="ngForm" (ngSubmit)="onSubmit(delarCustomerForm)" novalidate>
+                    <form #delarCustomerForm="ngForm" name="delarCustomerForm" (ngSubmit)="onSubmit(delarCustomerForm)"
+                        novalidate>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Customer Code</label>
                             <div class="col-sm-9">
-                                <input type="text" name="customerCode" [(ngModel)]="delarList.customerCode" #customercode="ngModel"
-                                    class="form-control" placeholder="">
+                                <input type="text" name="customerCode" [(ngModel)]="delarList.customerCode"
+                                    #customerCode="ngModel" class="form-control" placeholder="">
                             </div>
                         </div>
-                        <div *ngIf="!customercode?.valid && (customercode?.dirty || customercode?.touched) ">
-                            <div *ngIf="customercode.errors.required" class="help-block">
+                        <!-- <div *ngIf="!customerCode?.valid && (customerCode?.dirty || customerCode?.touched) ">
+                            <div *ngIf="customerCode.errors.required" class="help-block">
                                 Field is Mandatory.
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-9">
-                                <input type="text" [(ngModel)]="delarList.name" class="form-control" placeholder="">
+                                <input type="text" name="name" [(ngModel)]="delarList.name" class="form-control"
+                                    placeholder="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Contact Person</label>
                             <div class="col-sm-9">
-                                <input type="text" [(ngModel)]="delarList.contactPerson" class="form-control" placeholder="">
+                                <input type="text" name="contactPerson" [(ngModel)]="delarList.contactPerson" class="form-control"
+                                    placeholder="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Contacts Number</label>
                             <div class="col-sm-9">
-                                <input type="text" [(ngModel)]="delarList.contactNumber" class="form-control" placeholder="">
+                                <input type="text" name="contactNumber" [(ngModel)]="delarList.contactNumber" class="form-control"
+                                    placeholder="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9">
-                                <input type="text" [(ngModel)]="delarList.email" class="form-control" placeholder="">
+                                <input type="text" name="contactNumber" [(ngModel)]="delarList.email" class="form-control"
+                                    placeholder="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Address 1</label>
                             <div class="col-sm-9">
-                                <input type="text" [(ngModel)]="delarList.addressID" class="form-control" placeholder="">
+                                <input type="text" name="addressID" [(ngModel)]="delarList.addressID" class="form-control"
+                                    placeholder="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Address 2</label>
                             <div class="col-sm-9">
-                                <input type="text" [(ngModel)]="delarList.addressID1" class="form-control" placeholder="">
+                                <input type="text" name="addressID1" [(ngModel)]="delarList.addressID1" class="form-control"
+                                    placeholder="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Street</label>
                             <div class="col-sm-9">
-                                <input type="text" [(ngModel)]="delarList.street" class="form-control" placeholder="">
+                                <input type="text" name="street" [(ngModel)]="delarList.street" class="form-control"
+                                    placeholder="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Block</label>
                             <div class="col-sm-9">
-                                <input type="text" [(ngModel)]="delarList.block" class="form-control" placeholder="">
+                                <input type="text" name="block" [(ngModel)]="delarList.block" class="form-control"
+                                    placeholder="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">City</label>
                             <div class="col-sm-9">
-                                <input type="text" [(ngModel)]="delarList.city" class="form-control" placeholder="">
+                                <input type="text" name="city" [(ngModel)]="delarList.city" class="form-control"
+                                    placeholder="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Zip</label>
                             <div class="col-sm-9">
-                                <input type="text" [(ngModel)]="delarList.zipCode" class="form-control" placeholder="">
+                                <input type="text" name="zipCode" [(ngModel)]="delarList.zipCode" class="form-control"
+                                    placeholder="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Country</label>
                             <div class="col-sm-9">
-                                <input type="text" [(ngModel)]="delarList.country" class="form-control" placeholder="">
+                                <input type="text" name="country" [(ngModel)]="delarList.country" class="form-control"
+                                    placeholder="">
                             </div>
                         </div>
 

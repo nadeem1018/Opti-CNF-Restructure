@@ -8,8 +8,8 @@ import { NgForm } from '@angular/forms';
 })
 export class DelarCustomerMapComponent implements OnInit {
 
-  @ViewChild('delarCustomerForm', { static: false }) delarCustomerForm: NgForm
-  delarList: DelarVaribleList;
+  @ViewChild('delarCustomerForm', { static: true }) delarCustomerForm: NgForm
+  delarList: DelarVaribleList = new DelarVaribleList();
 
 
 
@@ -22,16 +22,16 @@ export class DelarCustomerMapComponent implements OnInit {
 
 
 export class DelarVaribleList {
-  public addressID = "";
-  public addressID1 = "";
-  public addressID2 = "";
-  public street = "";
-  public block = "";
-  public city = "";
-  public zipCode = "";
-  public email = "";
-  public country = "";
-  public name = "";
-  public contactPerson = "";
-  public customerCode = "";
+  public addressID: any;
+  public addressID1: any;
+  public addressID2: any;
+  public street: any;
+  public block: any;
+  public city: any;
+  public zipCode: any;
+  public email: any;
+  public country: any;
+  public name: any;
+  public contactPerson: any;
+  public customerCode: any;
 }

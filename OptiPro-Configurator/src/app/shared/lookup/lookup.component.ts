@@ -2600,14 +2600,14 @@ export class LookupComponent implements OnInit {
     this.table_head = [
       {
         field: 'PriceListID',
-        title: "PriceList ID",
+        title: "Price List ID",
         type: 'text',
         width: '100',
         attrType: 'text'
       },
       {
         field: 'ListName',
-        title: "PriceList Name",
+        title: "Price List Name",
         type: 'text',
         width: '100',
         attrType: 'text'
