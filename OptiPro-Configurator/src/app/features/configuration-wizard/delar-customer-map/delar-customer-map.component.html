@@ -17,22 +17,23 @@
                         novalidate>
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Customer Code</label>
-                            <div class="input-group col-sm-9">
+                            <div class=" col-sm-9 icon-relative">
                                 <input type="text" name="customerCode" [(ngModel)]="delarList.customerCode"
                                     #customerCode="ngModel" class="form-control" placeholder="" required>
-                                <div class="input-group-append">
-                                    <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getPriceList(dataItem.rowindex)">
-                                        <svg class="icon m-0" viewBox="0 -96 512 512">
-                                            <use xlink:href="#menu"></use>
-                                        </svg>
-                                    </span>
-                                </div>
+
+                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getPriceList(dataItem.rowindex)">
+                                    <svg class="icon m-0" viewBox="0 -96 512 512">
+                                        <use xlink:href="#menu"></use>
+                                    </svg>
+                                </span>
+
                                 <div *ngIf="!customerCode?.valid && (customerCode?.dirty || customerCode?.touched) ">
                                     <div *ngIf="customerCode.errors.required" class="help-block">
                                         * Field is Mandatory.
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="form-group row">

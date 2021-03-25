@@ -52,4 +52,16 @@ body{
     .help-block {
         color: red;
     }
+
+    .icon-relative{
+      position:relative
+      }
+      
+
+      .icon-relative .cursor-pointer.btn-icon {
+    position: absolute;
+    right: 19px;
+    top: 3px;
+    height: 25px;
+}
     

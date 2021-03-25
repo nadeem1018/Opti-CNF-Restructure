@@ -135,7 +135,7 @@ export class SidebarComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck() {
-    if (this.CommonService.usertype != "E") {
+    if (this.CommonService.usertype != "D") {
       this.needassesmentMenu = this.CommonService.needAssesmentMenu;
       this.dealarMenu = this.CommonService.delarMappingMenu;
       if (this.CommonService.attributeMenu == false) {

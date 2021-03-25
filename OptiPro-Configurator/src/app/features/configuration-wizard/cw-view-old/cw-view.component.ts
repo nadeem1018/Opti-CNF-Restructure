@@ -225,6 +225,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   public isAttribute = this.CommonService.attributeMenu;
   public isNeedAssesment = this.CommonService.needAssesmentMenu;
   public isDealar = false;
+  public isCustomer = false;
   public UserType = this.CommonService.usertype;
  
   detectDevice() {
@@ -295,10 +296,12 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     if(this.UserType == "D")
     {
       this.isDealar =true;
+      this.isCustomer = true;
     }
     else
     {
       this.isDealar =false; 
+      this.isCustomer = false;
     }
     
 
@@ -1122,6 +1125,10 @@ export class CwViewOldComponent implements OnInit, DoCheck {
 
 
   openCustomerLookUp() {
+    if(this.isCustomer)
+    {
+      return;
+    }
     this.showLookupLoader = true;
     this.serviceData = [];
     this.OutputService.getCustomerLookupData(this.common_output_data.companyName).subscribe(
