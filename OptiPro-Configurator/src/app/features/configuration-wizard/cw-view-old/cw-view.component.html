@@ -180,8 +180,8 @@
                                                     <div class="col-sm-7">
                                                         <div class="input-group">
                                                             <input type="text" ngValue="" class="form-control form-control-sm"
-                                                                name="delarCustomer" id="dealer" placeholder="" [(ngModel)]="delarCustomer"
-                                                                #dealer>
+                                                                name="delarCustomer" id="dealer" placeholder=""
+                                                                [(ngModel)]="delarCustomer" #dealer>
                                                             <div class="input-group-append">
                                                                 <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
                                                                     id="basic-addon2" (click)="getCustomerList()">
@@ -198,9 +198,9 @@
                                                     <div class="col-sm-7">
                                                         <div class="input-group">
                                                             <input type="text" ngValue="" class="form-control form-control-sm"
-                                                                name="delarCustomerName" id="dealer" placeholder="" [(ngModel)]="delarCustomerName"
-                                                                #dealer>
-                                                            
+                                                                name="delarCustomerName" id="dealer" placeholder=""
+                                                                [(ngModel)]="delarCustomerName" #dealer>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -251,7 +251,7 @@
                                                     <label class="col-sm-5 col-form-label required" for="customer_doc">{{language.customer_code}}</label>
                                                     <div class="col-sm-7">
                                                         <div class="input-group">
-                                                            <input [disabled] = "isCustomer" type="text" ngValue="" class="form-control form-control-sm"
+                                                            <input [disabled]="isCustomer" type="text" ngValue="" class="form-control form-control-sm"
                                                                 (change)="onCustomerChange('')" name="customer" id="customer"
                                                                 placeholder="{{language.customer}}" [(ngModel)]="step1_data.customer"
                                                                 #customer>
@@ -307,7 +307,7 @@
 
                                                 <div class="form-group row clearfix">
                                                     <label class="col-sm-5 col-form-label" for="ship_to_address">{{language.address}}
-                                                        <button *ngIf="isDealar" type="button"
+                                                        <button *ngIf="isDealar" [disabled]="isShipDisable" type="button"
                                                             class="btn btn-sm btn-icon mr-2 btn-primary" (click)="openShipAddressView(step1_data.ship_to_address)"
                                                             title="{{this.language.edit}}">
                                                             <svg viewBox="0 0 383.947 383.947" class="icon">
@@ -2075,5 +2075,7 @@
 </span>
 
 <span *ngIf="customerShippingAddress">
-    <app-customer-address></app-customer-address>
+    <app-customer-address [addressDetais]='addressDetais' [customerCode]='customerCode' [customerName]='customerName'
+        (addressdata)="getAddressDetails($event)"></app-customer-address>
 </span>
+

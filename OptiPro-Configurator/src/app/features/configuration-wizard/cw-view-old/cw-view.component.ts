@@ -213,6 +213,9 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   public delarCustomerName = "";
   public delarCustomerMap = false;
   public customerShippingAddress = false;
+  public addressDetais = [];
+  public customerCode = "";
+  public customerName = "";
 
   constructor(private ActivatedRouter: ActivatedRoute,
     private route: Router,
@@ -1540,7 +1543,6 @@ export class CwViewOldComponent implements OnInit, DoCheck {
       if (this.step1_data.customer != undefined) {
         this.isNextButtonVisible = true;
         this.getCustomerAllInfo("");
-        this.isShipDisable = false;
       }
       else {
         this.isNextButtonVisible = false;
@@ -1570,7 +1572,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     else if (this.lookupfor == "delar_Configure_Customer_List") {
       this.delarCustomer = $event[1];
       this.delarCustomerName = $event[2];
-      this.showLookupLoader =false;
+      this.showLookupLoader = false;
     }
     if (this.isPreviousPressed) {
       this.isDuplicate = true;
@@ -5024,6 +5026,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   }
 
   onDocumentChange(documentValue) {
+    this.isShipDisable = true;
     if (this.step1_data.document == "sales_quote") {
       this.document_date = this.language.valid_date;
       this.step1_data.document_name = this.language.SalesQuote;
@@ -10115,7 +10118,14 @@ export class CwViewOldComponent implements OnInit, DoCheck {
 
     //first we will clear the details
     this.cleanCustomerAllInfo();
-    this.showLookupLoader = true;
+    if (this.UserType == "D") {
+      this.showLookupLoader = false;
+    }
+    else
+    {
+      this.showLookupLoader = true;
+    }
+    
     this.OutputService.getCustomerAllInfo(this.common_output_data.companyName, this.step1_data.customer).subscribe(
       data => {
         if (data != null && data != undefined) {
@@ -10519,30 +10529,30 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   }
 
   openDelarMappingView() {
-  //  this.showLookupLoader = true;
+    //  this.showLookupLoader = true;
     let dealerCode = this.delarCustomer;
     this.OutputService.getDealerDetails(dealerCode).subscribe(
       data => {
         if (data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
             CommonData.made_changes = false;
-          //  this.showLookupLoader = false;
+            //  this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
           }
           this.dealerdata = data;
           this.delarCustomerMap = true;
-        //  this.showLookupLoader = false;
+          //  this.showLookupLoader = false;
         }
         else {
           // this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
-        //  this.showLookupLoader = false;
+          //  this.showLookupLoader = false;
           this.delarCustomerMap = true;
           return;
         }
       }, error => {
-       // this.showLookupLoader = false;
+        // this.showLookupLoader = false;
         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
           this.CommonService.isUnauthorized();
         }
@@ -10552,7 +10562,31 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   }
 
   openShipAddressView(addresslist: any) {
+    this.customerCode = this.step1_data.customer;
+    this.customerName = this.step1_data.customer_name;
     this.customerShippingAddress = true;
+    // this.OutputService.getCustomerAddressDetails(this.customerCode).subscribe(
+    //   data => {
+    //     if (data.length > 0) {
+    //       if (data[0].ErrorMsg == "7001") {
+    //         CommonData.made_changes = false;
+    //         this.CommonService.RemoveLoggedInUser().subscribe();
+    //         this.CommonService.signOut(this.route, 'Sessionout');
+    //         return;
+    //       }
+
+    //     }
+    //     else {
+
+    //       return;
+    //     }
+    //   }, error => {
+    //     if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+    //       this.CommonService.isUnauthorized();
+    //     }
+    //     return;
+    //   }
+    // )
   }
 
   getDealerCustomerList() {
@@ -10571,6 +10605,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
           this.step1_data.customer_name = data[0].OPTM_CUSTNAME;
           if (this.step1_data.customer != undefined) {
             this.getCustomerAllInfo("");
+            this.isShipDisable = false;
           }
         }
         else {
@@ -10646,5 +10681,9 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     }
     this.delarCustomer = $event[0].delarCode;
     this.delarCustomerName = $event[0].delarName;
+  }
+
+  getAddressDetails($event) {
+    this.step1_data.ship_to_address = "";
   }
 }

@@ -368,4 +368,28 @@ export class OutputService {
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetDealerCustomerView", jObject, this.common_params.httpOptions);
   }
 
+
+  getCustomerAddressDetails(CustomerCode): Observable<any> {
+    // let cache_control = this.common_params.random_string(40);
+    //JSON Obeject Prepared to be send as a param to API
+    let jObject = {
+      Customer: JSON.stringify([{
+        CompanyDBID: sessionStorage.selectedComp,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
+        OPTM_CUSTOMERCODE: CustomerCode
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetDealerCustomerView", jObject, this.common_params.httpOptions);
+  }
+
+  SaveCustomerAddressDetails(SaveData): Observable<any> {
+    SaveData.OPCONFIG_OUTPUT_DEALER_CUST_ADD[0]['GUID'] = sessionStorage.getItem("GUID");
+    SaveData.OPCONFIG_OUTPUT_DEALER_CUST_ADD[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
+    SaveData.OPCONFIG_OUTPUT_DEALER_CUST_ADD[0]['CompanyDBID'] = sessionStorage.selectedComp;
+    SaveData.OPCONFIG_OUTPUT_DEALER_CUST_ADD[0]['OPTM_DEALERCODE'] = sessionStorage.getItem("loggedInUser");
+    let jObject: any = { GetData: JSON.stringify(SaveData) };
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/AddUpdateCustomerData", jObject, this.common_params.httpOptions);
+  }
+
 }
