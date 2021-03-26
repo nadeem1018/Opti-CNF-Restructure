@@ -216,6 +216,9 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   public addressDetais = [];
   public customerCode = "";
   public customerName = "";
+  public customerAddressDetails = [];
+  public firttimeShipAddress = true;
+  public shipAddress = "";
 
   constructor(private ActivatedRouter: ActivatedRoute,
     private route: Router,
@@ -232,6 +235,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   public isCustomer = false;
   public UserType = this.CommonService.usertype;
   public dealerdata = [];
+  public isshipChange: any = false;
 
   detectDevice() {
     let getDevice = UIHelper.isDevice();
@@ -5456,6 +5460,36 @@ export class CwViewOldComponent implements OnInit, DoCheck {
       UsernameForLic: sessionStorage.getItem("loggedInUser")
     })
 
+
+    final_dataset_to_save.OPCONFIG_OUTPUT_DEALER_CUST_ADD = [];
+    if (this.UserType == "D") {
+      if(this.delarCustomer != "")
+      {
+      if (this.customerAddressDetails.length== 0) {
+
+        final_dataset_to_save.OPCONFIG_OUTPUT_DEALER_CUST_ADD.push({
+          OPTM_ADDRESSNAME2: "",
+          OPTM_ADDRESSNAME3: "",
+          OPTM_STREET: "",
+          OPTM_BLOCK: "",
+          OPTM_CITY: "",
+          OPTM_ZIP: "",
+          OPTM_COUNTRY: "",
+          OPTM_ID: "",
+          OPTM_STREETNO: "",
+          OPTM_STATE: "",
+          OPTM_TAXCODE: "",
+          OPTM_ADDRESSID: "",
+          OPTM_CUSTOMERCODE: this.delarCustomer,
+          OPTM_CUSTOMERNAME: this.delarCustomerName
+        });
+      }
+      else {
+        final_dataset_to_save.OPCONFIG_OUTPUT_DEALER_CUST_ADD.push(this.customerAddressDetails);
+      }
+    }
+    }
+
     console.log(final_dataset_to_save);
     var obj = this;
     // final data submission 
@@ -10121,11 +10155,10 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     if (this.UserType == "D") {
       this.showLookupLoader = false;
     }
-    else
-    {
+    else {
       this.showLookupLoader = true;
     }
-    
+
     this.OutputService.getCustomerAllInfo(this.common_output_data.companyName, this.step1_data.customer).subscribe(
       data => {
         if (data != null && data != undefined) {
@@ -10684,6 +10717,62 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   }
 
   getAddressDetails($event) {
-    this.step1_data.ship_to_address = "";
+    this.step1_data.ship_to_address = $event[0].OPTM_ADDRESSID + " " + $event[0].OPTM_ADDRESSNAME2 + " " + $event[0].OPTM_ADDRESSNAME3 + " " + $event[0].OPTM_CITY + " " + $event[0].OPTM_ZIP + " " + $event[0].OPTM_STATE + " " + $event[0].OPTM_COUNTRY;
+    this.customerAddressDetails = $event[0];
+    this.console.log(this.customerAddressDetails);
+  }
+
+  onShipAddressChange(value: boolean) {
+
+    this.addressDetais = [];
+
+    if (this.firttimeShipAddress) {
+      if (this.step1_data.ship_to_address == undefined) {
+        this.shipAddress = "";
+      }
+      else {
+        this.shipAddress = this.step1_data.ship_to_address;
+      }
+      this.firttimeShipAddress = false;
+    }
+
+    if (value) {
+      if (this.delarCustomer == "") {
+        this.isshipChange = 0;
+        this.CommonService.show_notification(this.language.SelectDealerCustomer, 'error');
+        return;
+      }
+      let dealerCode = this.delarCustomer;
+      this.OutputService.getDealerDetails(dealerCode).subscribe(
+        data => {
+          if (data.length > 0) {
+            if (data[0].ErrorMsg == "7001") {
+              CommonData.made_changes = false;
+              this.CommonService.RemoveLoggedInUser().subscribe();
+              this.CommonService.signOut(this.route, 'Sessionout');
+              return;
+            }
+            this.isShipDisable = false;
+            this.addressDetais = data;
+            this.step1_data.ship_to_address = data[0].OPTM_ADDRESS1 + " " + data[0].OPTM_ADDRESS2 + " " + data[0].OPTM_STREET + " " + data[0].OPTM_CITY + " " + data[0].OPTM_ZIP + " " + data[0].OPTM_COUNTRY;
+
+          }
+          else {
+            return;
+          }
+        }, error => {
+          // this.showLookupLoader = false;
+          if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+            this.CommonService.isUnauthorized();
+          }
+          return;
+        }
+      )
+    }
+    else {
+      this.isShipDisable = true;
+      this.step1_data.ship_to_address = this.shipAddress;
+    }
+
   }
 }

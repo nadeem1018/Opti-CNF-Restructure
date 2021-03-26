@@ -44,18 +44,18 @@ export class CustomerAddressComponent implements OnInit {
 
   ngOnInit() {
     if (this.addressDetais.length > 0) {
-      this.addressID1 = this.addressDetais[0].OPTM_ADDRESSNAME2;
-      this.addressID2 = this.addressDetais[0].OPTM_ADDRESSNAME3;
+      this.addressID1 = this.addressDetais[0].OPTM_ADDRESS1;
+      this.addressID2 = this.addressDetais[0].OPTM_ADDRESS2;
       this.street = this.addressDetais[0].OPTM_STREET;
       this.block = this.addressDetais[0].OPTM_BLOCK;
       this.city = this.addressDetais[0].OPTM_CITY;
       this.zipCode = this.addressDetais[0].OPTM_ZIP;
       this.country = this.addressDetais[0].OPTM_COUNTRY;
-      this.optmID = this.addressDetais[0].OPTM_ID;
-      this.streetNo = this.addressDetais[0].OPTM_STREETNO;
-      this.state = this.addressDetais[0].OPTM_STATE;
-      this.taxCode = this.addressDetais[0].OPTM_TAXCODE;
-      this.addressID = this.addressDetais[0].OPTM_ADDRESSID;
+   //   this.optmID = this.addressDetais[0].OPTM_ID;
+   //   this.streetNo = this.addressDetais[0].OPTM_STREETNO;
+   //   this.state = this.addressDetais[0].OPTM_STATE;
+   //   this.taxCode = this.addressDetais[0].OPTM_TAXCODE;
+    //  this.addressID = this.addressDetais[0].OPTM_ADDRESSID;
     }
   }
 
@@ -79,40 +79,43 @@ export class CustomerAddressComponent implements OnInit {
       OPTM_CUSTOMERCODE: this.customerCode,
       OPTM_CUSTOMERNAME: this.customerName
     });
-    this.service.SaveCustomerAddressDetails(finalsavedata).subscribe(data => {
-      this.showLookupLoader = false;
-      if (data == "7001") {
-        CommonData.made_changes = false
-        this.CommonService.RemoveLoggedInUser().subscribe();
-        this.CommonService.signOut(this.router, 'Sessionout');
-        return;
-      }
+    this.addressdata.emit(finalsavedata.OPCONFIG_OUTPUT_DEALER_CUST_ADD);
+    this.onCancle();
+    this.CommonService.show_notification(this.language.DataSaved, 'success');
+    // this.service.SaveCustomerAddressDetails(finalsavedata).subscribe(data => {
+    //   this.showLookupLoader = false;
+    //   if (data == "7001") {
+    //     CommonData.made_changes = false
+    //     this.CommonService.RemoveLoggedInUser().subscribe();
+    //     this.CommonService.signOut(this.router, 'Sessionout');
+    //     return;
+    //   }
 
-      if (data === "True") {
-        CommonData.made_changes = false
-        this.CommonService.show_notification(this.language.DataSaved, 'success');
-        this.addressdata.emit(finalsavedata.OPCONFIG_OUTPUT_DEALER_CUST_ADD);
-        this.onCancle();
+    //   if (data === "True") {
+    //     CommonData.made_changes = false
+    //     this.CommonService.show_notification(this.language.DataSaved, 'success');
+    //     this.addressdata.emit(finalsavedata.OPCONFIG_OUTPUT_DEALER_CUST_ADD);
+    //     this.onCancle();
 
 
-        return;
-      } else if (data == "AlreadyExist") {
+    //     return;
+    //   } else if (data == "AlreadyExist") {
 
-        this.CommonService.show_notification(this.language.DuplicateCode, 'error');
-        return;
-      }
-      else {
-        this.CommonService.show_notification(this.language.DataNotSaved, 'error');
-        return;
-      }
-    },
-      error => {
-        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
-          this.CommonService.isUnauthorized();
-        }
-        return;
-      }
-    )
+    //     this.CommonService.show_notification(this.language.DuplicateCode, 'error');
+    //     return;
+    //   }
+    //   else {
+    //     this.CommonService.show_notification(this.language.DataNotSaved, 'error');
+    //     return;
+    //   }
+    // },
+    //   error => {
+    //     if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+    //       this.CommonService.isUnauthorized();
+    //     }
+    //     return;
+    //   }
+    // )
   }
 
   onCancle() {
