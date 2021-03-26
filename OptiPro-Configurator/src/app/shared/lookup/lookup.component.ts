@@ -103,6 +103,8 @@ export class LookupComponent implements OnInit {
   public hiddenColumn: boolean = false;
   public Attribute_code_value = '';
   public isdelarAllChecked = false;
+  public remarkCustomerDialogOpened: boolean = false;
+  public informationCustomerDialogOpened: boolean = false;
 
   ; constructor(
     private rs: RoutingService,
@@ -224,6 +226,14 @@ export class LookupComponent implements OnInit {
 
       if (this.popup_lookupfor == "output_customer") {
         this.customer_lookup();
+        return;
+      }
+      if (this.popup_lookupfor == "remark_customer") {
+        this.customer_remark_lookup();
+        return;
+      }
+      if (this.popup_lookupfor == "information_customer") {
+        this.customer_information_lookup();
         return;
       }
 
@@ -453,6 +463,25 @@ export class LookupComponent implements OnInit {
     }
   }
 
+    customer_remark_lookup(){
+      this.popup_title = this.language.remark;
+      this.remarkCustomerDialogOpened = true;
+    }
+
+    closeremarkDialog() {
+      this.remarkCustomerDialogOpened = false;
+      this.lookupvalues.emit('');
+    }
+
+    closecustomerinformationDialog() {
+      this.informationCustomerDialogOpened = false;
+      this.lookupvalues.emit('');
+    }
+
+    customer_information_lookup(){
+      this.popup_title = this.language.customer;
+      this.informationCustomerDialogOpened = true;
+    }
   customer_lookup() {
     this.popup_title = this.language.customer;
     this.LookupDataLoaded = false;

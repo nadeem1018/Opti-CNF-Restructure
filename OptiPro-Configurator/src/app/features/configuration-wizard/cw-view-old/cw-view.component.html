@@ -11,10 +11,10 @@
         <h4>{{language.config_wizard}}</h4>
     </div>
     <div class="card" fxFlex>
-        <div class="card-body pb-2" fxFlex fxLayout="column">
+        <div class="card-body mb-card-body pb-2" fxFlex fxLayout="column">
             <div class="form-box" fxFlex>
                 <form role="form" action="" method="post" fxFlex fxLayout="column">
-                    <div class="form-step">
+                    <div class="form-step form-step-inner">
                         <ul class="d-flex list-unstyled justify-content-between">
                             <li class="steps-info active" id="choose_operation">
                                 <span class="icon"><svg viewBox="0 0 474.565 474.565" class="icon">
@@ -55,10 +55,25 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="mb-form-step d-block d-sm-none">
+                        <div class="float-left w-100 d-flex align-items-center step-wrapper justify-content-between">
+                        <ul class="d-flex list-unstyled justify-content-between">
+                            <li class="steps-info d-flex align-items-center" id="choose_operation">
+                                <span class="icon"><svg viewBox="0 0 474.565 474.565" class="icon">
+                                        <use xlink:href="#userOperation"></use>
+                                    </svg></span>
+                                <span class="step-name">{{language.operation}}</span>
+                            </li>
+                            </ul>
+                            <div class="step-detail text-right"> Step 1 of 6 </div>
+                            </div>
+
+                    </div>
+
                     <fieldset class="one_step_block" data-block_id="choose_operation">
                         <div class="second_step_block">
                             <div class="main-portion" fxFlex fxLayout="column">
-                                <div class="wizard_heading_section">
+                                <div class="wizard_heading_section mb-wizard_heading_section">
                                     <div class="container-fluid">
                                         <div class="row bg-primary py-1 text-white">
                                             <div class="col-md-10">
@@ -70,7 +85,7 @@
                                     </div>
                                     <hr>
                                 </div>
-                                <div class="form_section">
+                                <div class="form_section mb-form_section">
                                     <div class="container-fluid">
                                         <div class="row">
                                             <div class="col-md-4 offset-md-4">
@@ -81,7 +96,7 @@
                                                             id="main_operation_type" [(ngModel)]="step1_data.main_operation_type"
                                                             (change)="onOperationChange(main_operation_type.value)"
                                                             #main_operation_type>
-                                                            <option value=""></option>
+                                                            <!-- <option value=""></option> -->
                                                             <option value="1">{{language.new}}</option>
                                                             <option value="2">{{language.modify_existing}}</option>
                                                             <option value="3">{{language.duplicate}}</option>
@@ -153,14 +168,14 @@
                                             <div class="col-md-2 pull-right text-right"> {{language.step_2_6}} </div>
                                         </div>
                                     </div>
-                                    <hr>
+                                    <hr class="mb-hide">
                                 </div>
                                 <!-- Customer and Document Details start -->
                                 <div class="form_section" id="opti_configur-wizard-second-step">
                                     <!-- document and date section start -->
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="col-md-4 pl-0 float-left">
+                                            <div class="col-md-4 pl-0 float-left mb-doc-padding">
                                                 <div class="form-group row clearfix">
                                                     <label class="col-sm-5 col-form-label" for="customer_doc">{{language.document}}</label>
                                                     <div class="col-sm-7">
@@ -175,8 +190,8 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4 float-left">
-                                                <div class="form-group row clearfix">
+                                            <div class="col-md-4 float-left mb-doc-padding">
+                                                <div class="form-group row clearfix mb-hide">
                                                     <label class="col-sm-5 col-form-label" for="posting_date">{{language.posting_date}}</label>
                                                     <div class="col-sm-7">
                                                         <input class="form-control  form-control-sm" name='posting_date'
@@ -199,7 +214,7 @@
                                                     </div>
                                                 </div> -->
                                                         <!-- <owl-date-time #dt13 [pickerType]="'calendar'"></owl-date-time> -->
-                                                        <kendo-datepicker #dt13 value="" [min]="min" id="delivery_until"
+                                                        <kendo-datepicker #dt13 value="" [min]="min" id="delivery_until" class="w-100"
                                                             name="delivery_until" placeholder="{{document_date}}"
                                                             [(ngModel)]="step1_data.delivery_until" [format]="'MM/dd/yyyy'"></kendo-datepicker>
                                                     </div>
@@ -208,14 +223,14 @@
                                         </div>
                                     </div>
                                     <!-- document and date section end -->
-                                    <hr>
+                                    <hr class="mb-hide">
 
                                     <!-- Address and customer detail start -->
                                     <div class="row">
                                         <div class="col-md-12">
 
                                             <!-- customer info start -->
-                                            <div class="col-md-4 pl-0 float-left">
+                                            <div class="col-md-4 pl-0 float-left mb-doc-padding">
                                                 <div class="form-group row clearfix">
                                                     <label class="col-sm-5 col-form-label required" for="customer_doc">{{language.customer_code}}</label>
                                                     <div class="col-sm-7">
@@ -244,7 +259,7 @@
                                                             [(ngModel)]="step1_data.customer_name" #customername>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row clearfix">
+                                                <div class="form-group row clearfix mb-hide">
                                                     <label class="col-sm-5 col-form-label" for="contact_persons">{{language.contact_person}}</label>
                                                     <div class="col-sm-7">
                                                         <select class="form-control form-control-sm" #person name="contact_persons"
@@ -261,7 +276,7 @@
 
 
                                             <!-- shipment code start -->
-                                            <div class="col-md-4 float-left">
+                                            <div class="col-md-4 float-left mb-p-0">
                                                 <div class="form-group row clearfix">
                                                     <label class="col-sm-5 col-form-label" for="ship_to">{{language.ship_to}}</label>
                                                     <div class="col-sm-7">
@@ -287,8 +302,8 @@
                                             <!-- shipment code end -->
 
                                             <!-- bill code start -->
-                                            <div class="col-md-4 float-left">
-                                                <div class="form-group row clearfix">
+                                            <div class="col-md-4 float-left mb-p-0">
+                                                <div class="form-group row clearfix mb-hide">
                                                     <label class="col-sm-5 col-form-label" for="bill_to">{{language.bill_to}}</label>
                                                     <div class="col-sm-7">
                                                         <select class="form-control form-control-sm" #customerBillTo
@@ -300,7 +315,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group row clearfix">
+                                                <div class="form-group row clearfix mb-hide">
                                                     <label class="col-sm-5 col-form-label" for="bill_to_address">{{language.address}}</label>
                                                     <div class="col-sm-7">
                                                         <textarea type="text" rows="3" readonly ngValue="" class="form-control form-control-sm"
@@ -313,12 +328,12 @@
                                         </div>
                                     </div>
                                     <!-- Address and customer detail end -->
-                                    <hr>
+                                    <hr class="mb-hide">
                                     <!-- employee section , owner and remark section end -->
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="col-md-4 pl-0">
-                                                <div class="form-group row clearfix">
+                                            <div class="col-md-4 pl-0 mb-doc-padding">
+                                                <div class="form-group row clearfix mb-hide">
                                                     <label class="col-sm-5 col-form-label" for="sales_employee">{{language.sales_employee}}</label>
                                                     <div class="col-sm-7">
                                                         <select class="form-control form-control-sm" #salesemployee
@@ -330,7 +345,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group row clearfix">
+                                                <div class="form-group row clearfix mb-hide">
                                                     <label class="col-sm-5 col-form-label" for="owner_list">{{language.owner}}</label>
                                                     <div class="col-sm-7">
                                                         <select class="form-control form-control-sm" #owner name="owner_list"
@@ -341,7 +356,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row clearfix">
+                                                <div class="form-group row clearfix mb-hide">
                                                     <label class="col-sm-5 col-form-label" for="remark">{{language.remark}}</label>
                                                     <div class="col-sm-7">
                                                         <textarea type="text" rows="4" ngValue="" class="form-control form-control-sm"
@@ -349,6 +364,14 @@
                                                             [(ngModel)]="step1_data.remark" #remark> </textarea>
                                                     </div>
                                                 </div>
+                                                <div class="form-group row clearfix align-items-center custome-box-info">                                     
+                                                    <div class="col-sm-12 mt-2 d-flex justify-content-between align-items-center">
+                                                      <div class="remark-text" (click)="openRemarkLookUp()" >Remark</div>
+                                                      <button class="btn btn-sm btn-primary btn-information" type="button" (click)="openCustomerInformationLookUp()">
+                                                        Customer Information </button>  
+                                                    </div>  
+                                                    </div>
+                                                   
                                             </div>
                                         </div>
 
@@ -357,6 +380,8 @@
                                 </div>
                                 <!-- Customer and Document Details end -->
                             </div>
+
+                           
 
                             <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2"
                                 *ngIf="isNextButtonVisible">
@@ -2032,3 +2057,5 @@
 <!-- <span>
   <app-delar-customer-map></app-delar-customer-map>
 </span> -->
+
+
