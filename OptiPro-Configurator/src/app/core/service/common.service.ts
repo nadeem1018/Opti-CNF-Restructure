@@ -18,6 +18,7 @@ export class CommonService {
   public needAssesmentMenu: any = false;
   public attributeMenu: any = false;
   public delarMappingMenu : any = false;
+  public usertype  = "";
   public navMenuList: Array<Object> = [];
   config_parameter;
 

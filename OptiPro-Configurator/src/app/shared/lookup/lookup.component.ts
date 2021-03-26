@@ -328,6 +328,11 @@ export class LookupComponent implements OnInit {
         return;
       }
 
+      if (this.popup_lookupfor == "delar_Configure_Customer_List") {
+        this.getDelarConfigureCustomerList();
+        return;
+      }
+
       //   if(this.popup_lookupfor == "help_popup"){
 
       //     this.show_help_popup();
@@ -1193,7 +1198,7 @@ export class LookupComponent implements OnInit {
   }
 
   get_assessment_lookup() {
-    this.popup_title = this.language.need_option;    
+    this.popup_title = this.language.need_option;
     this.LookupDataLoaded = false;
     this.showLoader = true;
     this.fill_input_id = 'OPTM_OPTIONSID';
@@ -1201,20 +1206,20 @@ export class LookupComponent implements OnInit {
     this.fill_input_id = 'OPTM_ASSESSMENTID';
     this.lookup_key = 'OPTM_ASSESSMENTID';
     this.table_head = [
-    {
-      field: 'OPTM_OPTIONSID',
-      title: this.language.need_option_id,
-      type: 'text',
-      width: '100',
-      attrType: 'text'
-    },
-    {
-      field: 'OPTM_OPTIONS',
-      title: this.language.option,
-      type: 'text',
-      width: '100',
-      attrType: 'text'
-    }
+      {
+        field: 'OPTM_OPTIONSID',
+        title: this.language.need_option_id,
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+      {
+        field: 'OPTM_OPTIONS',
+        title: this.language.option,
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      }
     ];
 
 
@@ -2652,6 +2657,43 @@ export class LookupComponent implements OnInit {
       if (this.serviceData.length > 0) {
         this.dialogOpened = true;
         this.loadServerData(this.serviceData);
+      }
+    }
+  }
+
+  getDelarConfigureCustomerList() {
+    this.popup_title = this.language.Customer;
+    this.LookupDataLoaded = false;
+    this.showLoader = true;
+    this.fill_input_id = 'OPTM_CUSTOMERCODE';
+    this.lookup_key = 'OPTM_CUSTOMERCODE';
+    this.table_head = [
+    {
+        field: 'OPTM_CUSTOMERCODE',
+        title: "Customer Code",
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+      {
+        field: 'OPTM_CUSTOMERNAME',
+        title: "Customer Name",
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+
+    ];
+    this.table_head_hidden_elements = [false];
+    this.width_value = ((100 / this.table_head.length) + '%');
+
+    this.showLoader = false;
+    this.LookupDataLoaded = true;
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+        this.loadServerData(this.serviceData);
+        // $("#lookup_modal").modal('show');
       }
     }
   }

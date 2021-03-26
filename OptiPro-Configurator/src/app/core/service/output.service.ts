@@ -29,13 +29,13 @@ export class OutputService {
     })
   }
 
-  GetModelList(UserDetail,needassessmentheader,needassessmentoption): Observable<any> {
+  GetModelList(UserDetail, needassessmentheader, needassessmentoption): Observable<any> {
     let cache_control = this.common_params.random_string(40);
-    let jObject = { GetModel: JSON.stringify({ USERDETAIL: UserDetail, NEEDSASSESSMENTHEADER: needassessmentheader ,NEEDSASSESSMENT_OPTIONS: needassessmentoption }) }
+    let jObject = { GetModel: JSON.stringify({ USERDETAIL: UserDetail, NEEDSASSESSMENTHEADER: needassessmentheader, NEEDSASSESSMENT_OPTIONS: needassessmentoption }) }
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetModelForConfigureWizard?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
 
-  GetAttributeResult(FeatureBOMDetailAttributeData,ModelBOMDetailAttributeData): Observable<any> {
+  GetAttributeResult(FeatureBOMDetailAttributeData, ModelBOMDetailAttributeData): Observable<any> {
     let cache_control = this.common_params.random_string(40);
     //JSON Obeject Prepared to be send as a param to API
     // let jObject = { AddressDetail: JSON.stringify([{ CompanyDBID: CompanyDBID,Customer: Customer,ShipTo:ShipTo }]) };
@@ -46,8 +46,12 @@ export class OutputService {
 
   getFeatureList(modelid): Observable<any> {
     let cache_control = this.common_params.random_string(40);
-    let jObject = { GetFeature: JSON.stringify([{ currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, ModelId: modelid,
-      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) }
+    let jObject = {
+      GetFeature: JSON.stringify([{
+        currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, ModelId: modelid,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    }
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetFeatureForConfigureWizard?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
 
@@ -72,8 +76,12 @@ export class OutputService {
   getCustomerLookupData(CompanyDBID: string): Observable<any> {
     let cache_control = this.common_params.random_string(40);
     //JSON Obeject Prepared to be send as a param to API
-    let jObject = { Customer: JSON.stringify([{ currentDate: this.formatted_date,  CompanyDBID: CompanyDBID,
-      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) };
+    let jObject = {
+      Customer: JSON.stringify([{
+        currentDate: this.formatted_date, CompanyDBID: CompanyDBID,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetCustomerList?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
@@ -144,8 +152,12 @@ export class OutputService {
   validateInputCustomer(CompanyDBID: string, Customer: string): Observable<any> {
     let cache_control = this.common_params.random_string(40);
     //JSON Obeject Prepared to be send as a param to API
-    let jObject = { Customer: JSON.stringify([{ currentDate: this.formatted_date,  CompanyDBID: CompanyDBID, Customer: Customer,
-      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
+    let jObject = {
+      Customer: JSON.stringify([{
+        currentDate: this.formatted_date, CompanyDBID: CompanyDBID, Customer: Customer,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/ValidateCustomer?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
@@ -153,8 +165,12 @@ export class OutputService {
   GetCustomername(CompanyDBID: string, Customer: string): Observable<any> {
     let cache_control = this.common_params.random_string(40);
     //JSON Obeject Prepared to be send as a param to API
-    let jObject = { Customer: JSON.stringify([{ currentDate: this.formatted_date, CompanyDBID: CompanyDBID, Customer: Customer,
-      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) };
+    let jObject = {
+      Customer: JSON.stringify([{
+        currentDate: this.formatted_date, CompanyDBID: CompanyDBID, Customer: Customer,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetCustomerName?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
@@ -179,8 +195,12 @@ export class OutputService {
     let cache_control = this.common_params.random_string(40);
 
     //JSON Obeject Prepared to be send as a param to API
-    let jObject = { GetData: JSON.stringify([{ currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, LogID: ilogID,
-      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
+    let jObject = {
+      GetData: JSON.stringify([{
+        currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, LogID: ilogID,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetFinalStatus?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
@@ -188,8 +208,12 @@ export class OutputService {
   getConfigurationList(OperationType): Observable<any> {
     let cache_control = this.common_params.random_string(40);
     //JSON Obeject Prepared to be send as a param to API
-    let jObject = { Customer: JSON.stringify([{ currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, OperationType: OperationType,
-      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
+    let jObject = {
+      Customer: JSON.stringify([{
+        currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, OperationType: OperationType,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetLookupData?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
@@ -197,8 +221,12 @@ export class OutputService {
   GetAllOutputData(OperationType, LogID, Description): Observable<any> {
     let cache_control = this.common_params.random_string(40);
     //JSON Obeject Prepared to be send as a param to API
-    let jObject = { Customer: JSON.stringify([{ currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, OperationType: OperationType, LogID: LogID, Description: Description,
-      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) };
+    let jObject = {
+      Customer: JSON.stringify([{
+        currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, OperationType: OperationType, LogID: LogID, Description: Description,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetAllOutputData?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
@@ -206,8 +234,12 @@ export class OutputService {
     let cache_control = this.common_params.random_string(40);
 
     //JSON Obeject Prepared to be send as a param to API
-    let jObject = { ModelList: JSON.stringify([{ currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, ModelCode: code,
-      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser") }]) };
+    let jObject = {
+      ModelList: JSON.stringify([{
+        currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, ModelCode: code,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/RuleWorkBench/CheckValidModelEntered?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
@@ -225,14 +257,18 @@ export class OutputService {
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetSavedDataMultiModel?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
-  
-  
+
+
   //This method will bring all data for customer
   getCustomerAllInfo(CompanyDBID: string, Customer: string): Observable<any> {
     let cache_control = this.common_params.random_string(40);
     //JSON Obeject Prepared to be send as a param to API
-    let jObject = { Customer: JSON.stringify([{ CompanyDBID: CompanyDBID, Customer: Customer,
-      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
+    let jObject = {
+      Customer: JSON.stringify([{
+        CompanyDBID: CompanyDBID, Customer: Customer,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
 
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetCustomerAllInfo?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
@@ -241,15 +277,15 @@ export class OutputService {
   getPrintOnReportStatus(item_list_data): Observable<any> {
     let cache_control = this.common_params.random_string(40);
     //JSON Obeject Prepared to be send as a param to API
-   
-     let jObject = { GetData: JSON.stringify(item_list_data) }
+
+    let jObject = { GetData: JSON.stringify(item_list_data) }
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetReportData?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
 
   CalculateAttributesonWizard(SelectedModelFeatureData, SelectedItemsData, SelectedFeatureAttributesData, SelectedModelAttributesData): Observable<any> {
     let cache_control = this.common_params.random_string(40);
-    SelectedModelFeatureData[0]['CompanyDBID'] =  sessionStorage.selectedComp;
+    SelectedModelFeatureData[0]['CompanyDBID'] = sessionStorage.selectedComp;
     //JSON Obeject Prepared to be send as a param to API
     // let jObject = { AddressDetail: JSON.stringify([{ CompanyDBID: CompanyDBID,Customer: Customer,ShipTo:ShipTo }]) };
     let jObject: any = { GetData: JSON.stringify({ SelectedModelFeature: SelectedModelFeatureData, SelectedItems: SelectedItemsData, SelectedFeatureAttributes: SelectedFeatureAttributesData, SelectedModelAttributes: SelectedModelAttributesData }) };
@@ -260,8 +296,12 @@ export class OutputService {
   GetNeedsAssessmentOptionByCustomerId(Customer: string): Observable<any> {
     let cache_control = this.common_params.random_string(40);
     //JSON Obeject Prepared to be send as a param to API
-    let jObject = { GetData: JSON.stringify([{ currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, CustID: Customer,
-      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
+    let jObject = {
+      GetData: JSON.stringify([{
+        currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, CustID: Customer,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetNeedsAssessmentOptionByCustomerId?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
@@ -269,9 +309,87 @@ export class OutputService {
   GetAllModelByAssessmentIDOptionID(Customer: string): Observable<any> {
     let cache_control = this.common_params.random_string(40);
     //JSON Obeject Prepared to be send as a param to API
-    let jObject = { GetData: JSON.stringify([{ currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, CustID: Customer,
-      GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
+    let jObject = {
+      GetData: JSON.stringify([{
+        currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp, CustID: Customer,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetAllModelByAssessmentIDOptionID?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
+
+  getDelarCustomerData(): Observable<any> {
+    let cache_control = this.common_params.random_string(40);
+    //JSON Obeject Prepared to be send as a param to API
+    let jObject = {
+      Customer: JSON.stringify([{
+        OPTM_DEALERCODE: sessionStorage.getItem("loggedInUser"), CompanyDBID: sessionStorage.selectedComp,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetCustomerDataByDealerCode", jObject, this.common_params.httpOptions);
+  }
+
+  getCustomerLookUpData(): Observable<any> {
+    // let cache_control = this.common_params.random_string(40);
+    //JSON Obeject Prepared to be send as a param to API
+    let jObject = {
+      Customer: JSON.stringify([{
+        CompanyDBID: sessionStorage.selectedComp,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetDealerCustomerList", jObject, this.common_params.httpOptions);
+  }
+
+  SaveDelarDetails(SaveData): Observable<any> {
+    SaveData.OPCONFIG_DEALER_CUSTOMER[0]['GUID'] = sessionStorage.getItem("GUID");
+    SaveData.OPCONFIG_DEALER_CUSTOMER[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
+    SaveData.OPCONFIG_DEALER_CUSTOMER[0]['CompanyDBID'] = sessionStorage.selectedComp;
+    let jObject: any = { Customer: JSON.stringify(SaveData) };
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/AddUpdateDealerCustomer", jObject, this.common_params.httpOptions);
+  }
+
+
+  getDealerDetails(dealarCode): Observable<any> {
+    // let cache_control = this.common_params.random_string(40);
+    //JSON Obeject Prepared to be send as a param to API
+    let jObject = {
+      Customer: JSON.stringify([{
+        CompanyDBID: sessionStorage.selectedComp,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
+        OPTM_CUSTOMERCODE: dealarCode
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetDealerCustomerView", jObject, this.common_params.httpOptions);
+  }
+
+
+  getCustomerAddressDetails(CustomerCode): Observable<any> {
+    // let cache_control = this.common_params.random_string(40);
+    //JSON Obeject Prepared to be send as a param to API
+    let jObject = {
+      Customer: JSON.stringify([{
+        CompanyDBID: sessionStorage.selectedComp,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
+        OPTM_CUSTOMERCODE: CustomerCode
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetDealerCustomerView", jObject, this.common_params.httpOptions);
+  }
+
+  SaveCustomerAddressDetails(SaveData): Observable<any> {
+    SaveData.OPCONFIG_OUTPUT_DEALER_CUST_ADD[0]['GUID'] = sessionStorage.getItem("GUID");
+    SaveData.OPCONFIG_OUTPUT_DEALER_CUST_ADD[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
+    SaveData.OPCONFIG_OUTPUT_DEALER_CUST_ADD[0]['CompanyDBID'] = sessionStorage.selectedComp;
+    SaveData.OPCONFIG_OUTPUT_DEALER_CUST_ADD[0]['OPTM_DEALERCODE'] = sessionStorage.getItem("loggedInUser");
+    let jObject: any = { GetData: JSON.stringify(SaveData) };
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/AddUpdateCustomerData", jObject, this.common_params.httpOptions);
+  }
+
 }
