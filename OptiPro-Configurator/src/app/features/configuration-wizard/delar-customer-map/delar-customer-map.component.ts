@@ -209,6 +209,17 @@ export class DelarCustomerMapComponent implements OnInit {
       this.delarList.delarCode = $event[0];
       this.delarList.name = $event[2];
       this.delarList.customerCode = $event[1];
+      // this.delarList.addressID1 = $event[1];
+      // this.delarList.addressID2 = $event[1];
+      // this.delarList.street = $event[1];
+      // this.delarList.block = $event[1];
+      // this.delarList.city = $event[1];
+      // this.delarList.zipCode = $event[1];
+      // this.delarList.email = $event[1];
+      // this.delarList.country = $event[1];
+      // this.delarList.contactPerson = $event[1];
+      // this.delarList.optmID = $event[1];
+      // this.delarList.contactNumber = $event[1];
     }
   }
 
