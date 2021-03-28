@@ -834,6 +834,194 @@
 </div>
 
 
+<!--remark_customer -->
+
+<div class="k-overlay" *ngIf="remarkCustomerDialogOpened"></div>
+<div class="custom-window-wrapper" *ngIf="remarkCustomerDialogOpened">
+    <div class="custom-window-innner">
+        <kendo-window [draggable]="isDraggable" class="border-0 bg-transparent" (close)="closeremarkDialog()" [minWidth]="320"
+            [width]="320">
+            <kendo-window-titlebar>
+                <div class='k-window-title'>{{closecustomerinformationDialogclosecustomerinformationDialog}}</div>
+                <button kendoWindowCloseAction></button>
+            </kendo-window-titlebar>
+            <div class="row">
+                <div class="w-100 float-left information-model">
+                    <div class="col-md-12 p-0">
+            <label class="col-sm-12 col-md-5 col-lg-12 col-form-label pt-0" for="remark">{{language.remark}}</label>
+                 <div class="col-sm-12 col-md-12 col-lg-12">
+                  <textarea type="text" rows="4" ngValue="" class="form-control form-control-sm"
+                  name="remark" id="remark" placeholder="{{language.remark}}"
+                  #remark> </textarea>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group row clearfix">
+                      <div class="col-sm-12 mt-2 text-right">
+                        <button class="btn btn-sm btn-primary pl-3 pr-3 mb-save-btn" type="button" kendoWindowCloseAction> Save </button> 
+                    </div>
+                    </div>
+                  </div>
+                 </div>
+            </div>
+
+        </kendo-window>
+    </div>
+</div>
+
+<!--information_customer -->
+
+<div class="k-overlay" *ngIf="informationCustomerDialogOpened"></div>
+<div class="custom-window-wrapper" *ngIf="informationCustomerDialogOpened">
+    <div class="custom-window-innner information-box">
+        <kendo-window [draggable]="isDraggable" class="border-0 bg-transparent" (close)="closecustomerinformationDialog()" [minWidth]="320"
+            [width]="320">
+            <kendo-window-titlebar>
+                <div class='k-window-title'>{{popup_title}}</div>
+                <button kendoWindowCloseAction></button>
+            </kendo-window-titlebar>
+
+            <div class="row">
+                <div class="w-100 float-left information-model">
+
+                    <!-- customer info start -->
+                    <!-- <div class="col-md-4">
+                        <div class="form-group row clearfix">
+                          <label class="col-sm-5 col-form-label" for="customer_doc">Document</label>
+                          <div class="col-sm-7">
+                            <select class="form-control form-control-sm" id="document" name="document">
+                              <option value="draft" ng-reflect-value="draft"> Draft</option>
+                              <option value="sales_quote" ng-reflect-value="sales_quote"> Sales Quote</option>
+                              <option value="sales_order" ng-reflect-value="sales_order"> Sales Order</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div> -->
+                      <div class="col-md-12">
+                        <div class="form-group row clearfix">
+                          <label class="col-sm-12 col-form-label">Posting Date</label>
+                          <div class="col-sm-12">
+                            <input class="form-control form-control-sm"  type="text" value=""  placeholder="Posting Date"></div>
+                        </div>
+                      </div>
+                      <!-- <div class="col-md-4">
+                        <div class="form-group row clearfix">
+                          <label class="col-sm-5 col-form-label required" >Valid Until</label>
+                          <div class="col-sm-7 position-relative date-box">
+                            <input class="form-control form-control-sm"  type="text" value=""  placeholder="Valid Until">
+                            <span class="k-icon k-i-calendar"></span>
+                        </div>
+                        </div>
+                      </div> -->
+                      <div class="col-md-12">
+                        <div class="form-group row clearfix">
+                          <label class="col-sm-12 col-form-label">Bill To </label>
+                          <div class="col-sm-12 position-relative date-box">
+                            <select class="form-control form-control-sm">
+                                <option> Tommy Piles</option>
+                              </select>  
+                        </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group row clearfix">
+                          <label class="col-sm-12 col-form-label">Contact Person  </label>
+                          <div class="col-sm-12 position-relative date-box">
+                            <select class="form-control form-control-sm">
+                                <option> Toni Luke</option>
+                              </select>  
+                        </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group row clearfix">
+                          <label class="col-sm-12 col-form-label">Sales Employee </label>
+                          <div class="col-sm-12 position-relative date-box">
+                            <select class="form-control form-control-sm">
+                                <option> Brain Sweeny</option>
+                              </select>  
+                        </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group row clearfix">
+                          <label class="col-sm-12 col-form-label">Owner</label>
+                          <div class="col-sm-12 position-relative date-box">
+                            <select class="form-control form-control-sm">
+                                <option> Degnan</option>
+                              </select>  
+                        </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group row clearfix">
+                          <label class="col-sm-12 col-form-label">Address</label>
+                          <div class="col-sm-12">
+                            <textarea class="form-control form-control-sm"  rows="3" type="text" placeholder="Bill to Address"></textarea>  
+                        </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group row clearfix">
+                          <div class="col-sm-12 mt-2 text-right">
+                            <button class="btn btn-sm btn-primary pl-3 pr-3 mb-save-btn" type="button" kendoWindowCloseAction> Save </button> 
+                        </div>
+                        </div>
+                      </div>
+                    <!-- customer info end -->
+
+
+                    <!-- shipment code start -->
+                    <!-- <div class="col-md-4 float-left mb-p-0">
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="ship_to">{{language.ship_to}}</label>
+                            <div class="col-sm-7">
+                                <select class="form-control form-control-sm" #customerShipTo
+                                    name="ship_to" id="ship_to" (change)="onShipToChange(customerShipTo.value)">
+                                    <option [selected]="step1_data.ship_to == v.ShipToDef"
+                                        *ngFor="let v of ship_to" [value]="v.ShipToDef">
+                                        {{v.ShipToDef}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="ship_to_address">{{language.address}}</label>
+                            <div class="col-sm-7">
+                                <textarea type="text" ngValue="" readonly class="form-control form-control-sm"
+                                    name="ship_to_address" id="ship_to_address" placeholder="{{language.ship_to_address}}"
+                                    [(ngModel)]="step1_data.ship_to_address" #shipto></textarea>
+                            </div>
+                        </div>
+
+                    </div> -->
+                    <!-- shipment code end -->
+
+                    <!-- bill code start -->
+                    <!-- <div class="col-md-4 float-left mb-p-0">
+                        <div class="form-group row clearfix">
+                            <label class="col-sm-5 col-form-label" for="bill_to">{{language.bill_to}}</label>
+                            <div class="col-sm-7">
+                                <select class="form-control form-control-sm" #customerBillTo
+                                    name="bill_to" id="bill_to" (change)="onBillToChange(customerBillTo.value)">
+                                    <option [selected]="step1_data.bill_to == v.BillToDef"
+                                        *ngFor="let v of bill_to" [value]="v.BillToDef">
+                                        {{v.BillToDef}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        
+                    </div> -->
+                    <!-- bill code end -->
+                </div>
+            </div>
+
+        </kendo-window>
+    </div>
+</div>
+
+
 <!-- delar maping model resource popup with kendo-->
 <div class="k-overlay" *ngIf="delar_mapping_model"></div>
 <div class="custom-window-wrapper" *ngIf="delar_mapping_model">

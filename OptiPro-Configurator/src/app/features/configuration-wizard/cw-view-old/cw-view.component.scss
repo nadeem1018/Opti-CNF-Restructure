@@ -185,3 +185,10 @@ hr {
 .backcolor {
     background-color: #32cd32
 }
+
+@media(max-width:767px){
+    .main-portion, .second_step_block, .one_step_block{
+        max-height: 100% !important;
+        height: 100% !important;
+    }
+}

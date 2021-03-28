@@ -1141,6 +1141,13 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     )
   }
 
+  openRemarkLookUp(){
+    this.lookupfor = 'remark_customer';
+  }
+ openCustomerInformationLookUp(){
+  this.lookupfor = 'information_customer';
+  }
+
 
 
   openCustomerLookUp() {
