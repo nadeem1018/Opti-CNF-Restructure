@@ -219,6 +219,8 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   public customerAddressDetails = [];
   public firttimeShipAddress = true;
   public shipAddress = "";
+  shippingaddress: any = true;
+
 
   constructor(private ActivatedRouter: ActivatedRoute,
     private route: Router,
@@ -235,7 +237,8 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   public isCustomer = false;
   public UserType = this.CommonService.usertype;
   public dealerdata = [];
-  public isshipChange: any = false;
+
+
 
   detectDevice() {
     let getDevice = UIHelper.isDevice();
@@ -318,6 +321,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   ngDoCheck() {
     this.isAttribute = this.CommonService.attributeMenu;
     this.isNeedAssesment = this.CommonService.needAssesmentMenu;
+
   }
 
   navigation_in_steps(hide_index, show_index) {
@@ -399,8 +403,12 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     }
     this.serviceData = [];
     this.step1_data.print_operation = "";
-    this.delarCustomer = "";
-    this.delarCustomerName = "";
+    if (this.UserType == "D") {
+      this.delarCustomer = "";
+      this.delarCustomerName = "";
+      this.shippingaddress = true;
+      this.isShipDisable = true;
+    }
     this.serviceData.ref_doc_details = [];
     this.serviceData.product_grand_details = [];
     this.serviceData.print_types = [];
@@ -419,6 +427,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     this.access_dis_amount_log = 0;
     this.step3_feature_price_bef_dis = 0;
     this.step3_acc_price_bef_dis = 0;
+
 
   }
 
@@ -1581,9 +1590,10 @@ export class CwViewOldComponent implements OnInit, DoCheck {
       this.lookupfor = "";
     }
     else if (this.lookupfor == "delar_Configure_Customer_List") {
-      this.delarCustomer = $event[1];
-      this.delarCustomerName = $event[2];
+      this.delarCustomer = $event[2];
+      this.delarCustomerName = $event[3];
       this.showLookupLoader = false;
+      this.shippingaddress = false;
     }
     if (this.isPreviousPressed) {
       this.isDuplicate = true;
@@ -5043,6 +5053,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
       this.step1_data.document_name = this.language.SalesQuote;
       if (this.UserType == "D") {
         this.getDealerCustomerList();
+        this.firttimeShipAddress = true;
       }
     }
     else if (this.step1_data.document == "sales_order") {
@@ -5050,6 +5061,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
       this.step1_data.document_name = this.language.SalesOrder;
       if (this.UserType == "D") {
         this.getDealerCustomerList();
+        this.firttimeShipAddress = true;
       }
     }
     else {
@@ -5470,31 +5482,32 @@ export class CwViewOldComponent implements OnInit, DoCheck {
 
     final_dataset_to_save.OPCONFIG_OUTPUT_DEALER_CUST_ADD = [];
     if (this.UserType == "D") {
-      if(this.delarCustomer != "")
-      {
-      if (this.customerAddressDetails.length== 0) {
+      if (this.delarCustomer != "") {
+        if (this.customerAddressDetails.length == 0) {
 
-        final_dataset_to_save.OPCONFIG_OUTPUT_DEALER_CUST_ADD.push({
-          OPTM_ADDRESSNAME2: "",
-          OPTM_ADDRESSNAME3: "",
-          OPTM_STREET: "",
-          OPTM_BLOCK: "",
-          OPTM_CITY: "",
-          OPTM_ZIP: "",
-          OPTM_COUNTRY: "",
-          OPTM_ID: "",
-          OPTM_STREETNO: "",
-          OPTM_STATE: "",
-          OPTM_TAXCODE: "",
-          OPTM_ADDRESSID: "",
-          OPTM_CUSTOMERCODE: this.delarCustomer,
-          OPTM_CUSTOMERNAME: this.delarCustomerName
-        });
+          final_dataset_to_save.OPCONFIG_OUTPUT_DEALER_CUST_ADD.push({
+            OPTM_ADDRESSNAME2: "",
+            OPTM_ADDRESSNAME3: "",
+            OPTM_STREET: "",
+            OPTM_BLOCK: "",
+            OPTM_CITY: "",
+            OPTM_ZIP: "",
+            OPTM_COUNTRY: "",
+            OPTM_ID: "",
+            OPTM_STREETNO: "",
+            OPTM_STATE: "",
+            OPTM_TAXCODE: "",
+            OPTM_ADDRESSID: "",
+            OPTM_DEALERCODE: sessionStorage.getItem("loggedInUser"),
+            OPTM_CUSTOMERCODE: this.delarCustomer,
+            OPTM_CUSTOMERNAME: this.delarCustomerName
+          });
+        }
+        else {
+          final_dataset_to_save.OPCONFIG_OUTPUT_DEALER_CUST_ADD.push(this.customerAddressDetails);
+          final_dataset_to_save.OPCONFIG_OUTPUT_DEALER_CUST_ADD[0]['OPTM_DEALERCODE'] = sessionStorage.getItem("loggedInUser");
+        }
       }
-      else {
-        final_dataset_to_save.OPCONFIG_OUTPUT_DEALER_CUST_ADD.push(this.customerAddressDetails);
-      }
-    }
     }
 
     console.log(final_dataset_to_save);
@@ -10721,6 +10734,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     }
     this.delarCustomer = $event[0].delarCode;
     this.delarCustomerName = $event[0].delarName;
+    this.shippingaddress = false;
   }
 
   getAddressDetails($event) {
@@ -10729,7 +10743,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     this.console.log(this.customerAddressDetails);
   }
 
-  onShipAddressChange(value: boolean) {
+  onShipAddressChange(value: any) {
 
     this.addressDetais = [];
 
@@ -10743,12 +10757,12 @@ export class CwViewOldComponent implements OnInit, DoCheck {
       this.firttimeShipAddress = false;
     }
 
-    if (value) {
-      if (this.delarCustomer == "") {
-        this.isshipChange = 0;
-        this.CommonService.show_notification(this.language.SelectDealerCustomer, 'error');
-        return;
-      }
+    if (value.currentTarget.checked) {
+      // if (this.delarCustomer == "") {
+      //   this.shippingaddress = false;
+      //   this.CommonService.show_notification(this.language.SelectDealerCustomer, 'error');
+      //   return;
+      // }
       let dealerCode = this.delarCustomer;
       this.OutputService.getDealerDetails(dealerCode).subscribe(
         data => {
