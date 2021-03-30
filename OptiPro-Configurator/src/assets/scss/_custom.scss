@@ -1721,11 +1721,6 @@ a.common_grid_link {
   margin-left: 5px;
 }
 
-@media(min-width:768px){
-  .custome-box-info{
-    display:none;
-  }
-}
 @media(max-width:1024px){
     .border-0.bg-transparent.k-widget.k-window.k-window-wrapper {
       max-width: 800px !important;
@@ -1795,7 +1790,7 @@ a.common_grid_link {
   padding:0;
 }
 .mb-card-body .form-group {
-  margin-bottom: 4px !important;
+  margin-bottom: 2px !important;
 }
 .remark-text {
   color: #00b3ff;
@@ -1824,7 +1819,7 @@ button.btn.btn-sm.btn-primary.btn-information {
   color: #ffff;
   border-radius: 0px 3px 3px 0px;
 }
-.required:after {
+ .required:after {
   content: "*";
   color: red;
   font-size: 20px;
