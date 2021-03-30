@@ -1590,8 +1590,8 @@ export class CwViewOldComponent implements OnInit, DoCheck {
       this.lookupfor = "";
     }
     else if (this.lookupfor == "delar_Configure_Customer_List") {
-      this.delarCustomer = $event[0];
-      this.delarCustomerName = $event[1];
+      this.delarCustomer = $event[2];
+      this.delarCustomerName = $event[3];
       this.showLookupLoader = false;
       this.shippingaddress = false;
     }
@@ -10734,6 +10734,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     }
     this.delarCustomer = $event[0].delarCode;
     this.delarCustomerName = $event[0].delarName;
+    this.shippingaddress = false;
   }
 
   getAddressDetails($event) {

@@ -206,20 +206,20 @@ export class DelarCustomerMapComponent implements OnInit {
     }
     CommonData.made_changes = true;
     if (this.lookupfor == "delar_Configure_Customer_List") {
-      this.delarList.delarCode = $event[0];
-      this.delarList.name = $event[2];
-      this.delarList.customerCode = $event[1];
-      // this.delarList.addressID1 = $event[1];
-      // this.delarList.addressID2 = $event[1];
-      // this.delarList.street = $event[1];
-      // this.delarList.block = $event[1];
-      // this.delarList.city = $event[1];
-      // this.delarList.zipCode = $event[1];
-      // this.delarList.email = $event[1];
-      // this.delarList.country = $event[1];
-      // this.delarList.contactPerson = $event[1];
-      // this.delarList.optmID = $event[1];
-      // this.delarList.contactNumber = $event[1];
+      this.delarList.delarCode = $event[1];
+      this.delarList.name = $event[3];
+      this.delarList.customerCode = $event[2];
+      this.delarList.addressID1 = $event[7];
+      this.delarList.addressID2 = $event[8];
+      this.delarList.street = $event[9];
+      this.delarList.block = $event[10];
+      this.delarList.city = $event[11];
+      this.delarList.zipCode = $event[12];
+      this.delarList.email = $event[6];
+      this.delarList.country = $event[13];
+      this.delarList.contactPerson = $event[4];
+      this.delarList.optmID = $event[0];
+      this.delarList.contactNumber = $event[5];
     }
   }
 
