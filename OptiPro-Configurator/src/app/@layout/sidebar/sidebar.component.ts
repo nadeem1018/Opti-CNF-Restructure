@@ -14,6 +14,7 @@ export class SidebarComponent implements OnInit, DoCheck {
   needIsToggled = false;
   menuList: Array<Object> = [];
   menuSettingFirst: any = true;
+  
 
 
   constructor(
@@ -28,6 +29,7 @@ export class SidebarComponent implements OnInit, DoCheck {
   needMenuData = [{ "itemCode": "208", "itemName": "Need's Assessment", "itemNav": "/need-assessment", "itemIcon": "#assessmentScreen", "itemIconSize": "0 0 512 512", "permission": true }];
   delarMappingData = [{ "itemCode": "205", "itemName": this.language.DelarCustomerMapping, "itemNav": "/delar-customer-mapping", "itemIcon": "#configure", "itemIconSize": "0 0 400 512", "permission": true }];
   ngOnInit() {
+    this.CommonService.usertype = sessionStorage.getItem('usertype');
     this.loadMenuData();
   }
 

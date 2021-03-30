@@ -50,13 +50,23 @@ export class CustomerAddressComponent implements OnInit {
       this.block = this.addressDetais[0].OPTM_BLOCK;
       this.city = this.addressDetais[0].OPTM_CITY;
       this.zipCode = this.addressDetais[0].OPTM_ZIP;
-      this.country = this.addressDetais[0].OPTM_COUNTRY;
-   //   this.optmID = this.addressDetais[0].OPTM_ID;
-   //   this.streetNo = this.addressDetais[0].OPTM_STREETNO;
-   //   this.state = this.addressDetais[0].OPTM_STATE;
-   //   this.taxCode = this.addressDetais[0].OPTM_TAXCODE;
-    //  this.addressID = this.addressDetais[0].OPTM_ADDRESSID;
+      this.country = this.addressDetais[0].OPTM_COUNTRY
     }
+    //   this.optmID = this.addressDetais[0].OPTM_ID;
+    if (this.CommonService.customerDelarAddress.length > 0) {
+      this.streetNo = this.CommonService.customerDelarAddress[0].OPTM_STREETNO;
+      this.state = this.CommonService.customerDelarAddress[0].OPTM_STATE;
+      this.taxCode = this.CommonService.customerDelarAddress[0].OPTM_TAXCODE;
+      this.addressID = this.CommonService.customerDelarAddress[0].OPTM_ADDRESSID;
+      this.addressID1 = this.CommonService.customerDelarAddress[0].OPTM_ADDRESSNAME2;
+      this.addressID2 = this.CommonService.customerDelarAddress[0].OPTM_ADDRESSNAME3;
+      this.street = this.CommonService.customerDelarAddress[0].OPTM_STREET;
+      this.block = this.CommonService.customerDelarAddress[0].OPTM_BLOCK;
+      this.city = this.CommonService.customerDelarAddress[0].OPTM_CITY;
+      this.zipCode = this.CommonService.customerDelarAddress[0].OPTM_ZIP;
+      this.country = this.CommonService.customerDelarAddress[0].OPTM_COUNTRY
+    }
+
   }
 
 
@@ -80,6 +90,10 @@ export class CustomerAddressComponent implements OnInit {
       OPTM_CUSTOMERNAME: this.customerName
     });
     this.addressdata.emit(finalsavedata.OPCONFIG_OUTPUT_DEALER_CUST_ADD);
+    // this.CommonService.customerDelarAddress.push({
+    //   OPTM_ADDRESSID: this.addressID, OPTM_TAXCODE: this.taxCode, OPTM_STATE: this.state, OPTM_STREETNO: this.streetNo
+    // })
+    this.CommonService.customerDelarAddress = finalsavedata.OPCONFIG_OUTPUT_DEALER_CUST_ADD;
     this.onCancle();
     this.CommonService.show_notification(this.language.DataSaved, 'success');
     // this.service.SaveCustomerAddressDetails(finalsavedata).subscribe(data => {

@@ -236,7 +236,8 @@ export class LoginComponent implements OnInit {
 				data => {
 					if (data != undefined) {
 						this.licenseData = data;
-						this.CommonService.usertype = data[0].Usertype;
+					//	this.CommonService.usertype = data[0].Usertype;
+						sessionStorage.setItem('usertype', data[0].Usertype);
 						this.handleLicenseDataSuccessResponse();
 					} else {
 						//  alert("Lisence Failed");

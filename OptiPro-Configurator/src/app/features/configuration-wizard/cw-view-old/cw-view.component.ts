@@ -220,6 +220,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   public firttimeShipAddress = true;
   public shipAddress = "";
   shippingaddress: any = true;
+  public shippingaddressValue: any = false;
 
 
   constructor(private ActivatedRouter: ActivatedRoute,
@@ -235,7 +236,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   public isNeedAssesment = this.CommonService.needAssesmentMenu;
   public isDealar = false;
   public isCustomer = false;
-  public UserType = this.CommonService.usertype;
+  public UserType = sessionStorage.getItem('usertype');
   public dealerdata = [];
 
 
@@ -1141,11 +1142,11 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     )
   }
 
-  openRemarkLookUp(){
+  openRemarkLookUp() {
     this.lookupfor = 'remark_customer';
   }
- openCustomerInformationLookUp(){
-  this.lookupfor = 'information_customer';
+  openCustomerInformationLookUp() {
+    this.lookupfor = 'information_customer';
   }
 
 
@@ -1594,6 +1595,12 @@ export class CwViewOldComponent implements OnInit, DoCheck {
       this.delarCustomerName = $event[3];
       this.showLookupLoader = false;
       this.shippingaddress = false;
+      this.CommonService.customerDelarAddress = [];
+      this.step1_data.ship_to_address = "";
+      this.addressDetais = [];
+      // if (this.shippingaddressValue) {
+      //   this.GetCustomerdelarAddress();
+      // }
     }
     if (this.isPreviousPressed) {
       this.isDuplicate = true;
@@ -5046,8 +5053,27 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     )
   }
 
+  onClearStep1() {
+    let cDate = new Date();
+    // this.step1_data = [];
+    // this.step1_data.posting_date = (cDate.getMonth() + 1) + "/" + cDate.getDate() + "/" + cDate.getFullYear();
+    this.contact_persons = [];
+    this.ship_to = [];
+    this.bill_to = [];
+    this.sales_employee = [];
+    this.owner_list = [];
+    this.step1_data.customer = "";
+    this.step1_data.customer_name = "";
+    this.step1_data.ship_to_address = "";
+    this.step1_data.bill_to_addresss = "";
+    this.step1_data.delivery_until = "";
+    this.CommonService.customerDelarAddress = [];
+  }
+
   onDocumentChange(documentValue) {
     this.isShipDisable = true;
+    // this.clear_all_screen_data()
+    this.onClearStep1();
     if (this.step1_data.document == "sales_quote") {
       this.document_date = this.language.valid_date;
       this.step1_data.document_name = this.language.SalesQuote;
@@ -10758,42 +10784,71 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     }
 
     if (value.currentTarget.checked) {
-      // if (this.delarCustomer == "") {
-      //   this.shippingaddress = false;
-      //   this.CommonService.show_notification(this.language.SelectDealerCustomer, 'error');
-      //   return;
-      // }
-      let dealerCode = this.delarCustomer;
-      this.OutputService.getDealerDetails(dealerCode).subscribe(
-        data => {
-          if (data.length > 0) {
-            if (data[0].ErrorMsg == "7001") {
-              CommonData.made_changes = false;
-              this.CommonService.RemoveLoggedInUser().subscribe();
-              this.CommonService.signOut(this.route, 'Sessionout');
-              return;
-            }
-            this.isShipDisable = false;
-            this.addressDetais = data;
-            this.step1_data.ship_to_address = data[0].OPTM_ADDRESS1 + " " + data[0].OPTM_ADDRESS2 + " " + data[0].OPTM_STREET + " " + data[0].OPTM_CITY + " " + data[0].OPTM_ZIP + " " + data[0].OPTM_COUNTRY;
-
-          }
-          else {
-            return;
-          }
-        }, error => {
-          // this.showLookupLoader = false;
-          if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
-            this.CommonService.isUnauthorized();
-          }
-          return;
-        }
-      )
+      this.GetCustomerdelarAddress();
     }
     else {
       this.isShipDisable = true;
       this.step1_data.ship_to_address = this.shipAddress;
     }
 
+  }
+
+  GetCustomerdelarAddress() {
+    let dealerCode = this.delarCustomer;
+    this.OutputService.getDealerDetails(dealerCode).subscribe(
+      data => {
+        if (data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.route, 'Sessionout');
+            return;
+          }
+          this.isShipDisable = false;
+          this.addressDetais = data;
+          this.step1_data.ship_to_address = data[0].OPTM_ADDRESS1 + " " + data[0].OPTM_ADDRESS2 + " " + data[0].OPTM_STREET + " " + data[0].OPTM_CITY + " " + data[0].OPTM_ZIP + " " + data[0].OPTM_COUNTRY;
+
+        }
+        else {
+          return;
+        }
+      }, error => {
+        // this.showLookupLoader = false;
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
+  }
+  validDealerCheck() {
+    let dealerCode = this.delarCustomer;
+    this.OutputService.getDealerDetails(dealerCode).subscribe(
+      data => {
+        if (data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.route, 'Sessionout');
+            return;
+          }
+          this.delarCustomer = data[0].OPTM_CUSTOMERCODE;
+          this.delarCustomerName = data[0].OPTM_CUSTOMERNAME;
+
+        }
+        else {
+          this.CommonService.customerDelarAddress = [];
+          this.delarCustomer = "";
+          this.delarCustomerName = "";
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      }, error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      })
   }
 }
