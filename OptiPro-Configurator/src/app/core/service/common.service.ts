@@ -20,6 +20,7 @@ export class CommonService {
   public delarMappingMenu : any = false;
   public usertype  = "";
   public navMenuList: Array<Object> = [];
+  public customerDelarAddress = [];
   config_parameter;
 
   // Declaration

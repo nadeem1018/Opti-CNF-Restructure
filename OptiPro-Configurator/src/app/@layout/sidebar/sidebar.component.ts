@@ -14,6 +14,8 @@ export class SidebarComponent implements OnInit, DoCheck {
   needIsToggled = false;
   menuList: Array<Object> = [];
   menuSettingFirst: any = true;
+  configureMenu: any = true;
+
 
 
   constructor(
@@ -26,8 +28,10 @@ export class SidebarComponent implements OnInit, DoCheck {
   public attributemenu = this.CommonService.attributeMenu;
   public dealarMenu = this.CommonService.delarMappingMenu;
   needMenuData = [{ "itemCode": "208", "itemName": "Need's Assessment", "itemNav": "/need-assessment", "itemIcon": "#assessmentScreen", "itemIconSize": "0 0 512 512", "permission": true }];
-  delarMappingData = [{ "itemCode": "205", "itemName": this.language.DelarCustomerMapping, "itemNav": "/delar-customer-mapping", "itemIcon": "#configure", "itemIconSize": "0 0 400 512", "permission": true }];
+  // delarMappingData = [{ "itemCode": "205", "itemName": this.language.DelarCustomerMapping, "itemNav": "/delar-customer-mapping", "itemIcon": "#configure", "itemIconSize": "0 0 400 512", "permission": true }];
+  configureWizard = [{ "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }];
   ngOnInit() {
+    this.CommonService.usertype = sessionStorage.getItem('usertype');
     this.loadMenuData();
   }
 
@@ -42,6 +46,7 @@ export class SidebarComponent implements OnInit, DoCheck {
             { "itemCode": "207", "itemName": this.language.archiving, "itemNav": "/archive", "itemIcon": "#archive", "itemIconSize": "0 0 58 58", "permission": true }]
         },
         { "itemCode": "211", "itemName": this.language.config_need_Assessment, "itemNav": "/configuration-needAssesment", "itemIcon": "#configurationAssesment", "itemIconSize": "0 0 512 512", "permission": true },
+        { "itemCode": "205", "itemName": this.language.DelarCustomerMapping, "itemNav": "/delar-customer-mapping", "itemIcon": "#configure", "itemIconSize": "0 0 400 512", "permission": true },
         { "itemCode": "200", "itemName": this.language.itemcodegeneration, "itemNav": "/item-code-generation", "itemIcon": "#code", "itemIconSize": "0 0 612 619.2", "permission": true },
         { "itemCode": "205", "itemName": this.language.attribute, "itemNav": "/attribute", "itemIcon": "#attributeMaster", "itemIconSize": "0 0 512 512", "permission": true },
         { "itemCode": "201", "itemName": this.language.model_feature_master, "itemNav": "/feature", "itemIcon": "#featureModal", "itemIconSize": "0 0 512 512", "permission": true },
@@ -50,7 +55,6 @@ export class SidebarComponent implements OnInit, DoCheck {
         { "itemCode": "206", "itemName": this.language.routing, "itemNav": "/routing", "itemIcon": "#routing", "itemIconSize": "0 0 32 32", "permission": true },
         { "itemCode": "204", "itemName": this.language.rule_workbench, "itemNav": "/rule-work-bench", "itemIcon": "#ruleWorkBench", "itemIconSize": "0 0 504.123 504.123", "permission": true },
         { "itemCode": "207", "itemName": this.language.archiving, "itemNav": "/archive", "itemIcon": "#archive", "itemIconSize": "0 0 58 58", "permission": true },
-        { "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true },
         { "itemCode": "208", "itemName": this.language.need_assessment, "itemNav": "/need-assessment", "itemIcon": "#assessmentScreen", "itemIconSize": "0 0 512 512", "permission": true },
         { "itemCode": "209", "itemName": this.language.need_assessment_template, "itemNav": "/need-assessment-template", "itemIcon": "#assessmentTemplate", "itemIconSize": "0 0 512 512", "permission": true },
         { "itemCode": "210", "itemName": this.language.need_assessment_rule, "itemNav": "/need-assessment-rule", "itemIcon": "#assessmentRule", "itemIconSize": "0 0 512 512", "permission": true },
@@ -63,6 +67,7 @@ export class SidebarComponent implements OnInit, DoCheck {
       this.needassesmentMenu = false;
       this.CommonService.attributeMenu = false;
       this.dealarMenu = false;
+      this.configureMenu = false;
 
     }
 
@@ -99,8 +104,7 @@ export class SidebarComponent implements OnInit, DoCheck {
             this.menuSettingFirst = false;
           }
         }
-        else
-        {
+        else {
           this.router.navigateByUrl("/configuration-wizard")
         }
       }, error => {
@@ -120,8 +124,14 @@ export class SidebarComponent implements OnInit, DoCheck {
         this.CommonService.needAssesmentMenu = data[0].OPTM_ISAPPLICABLE == "Y" ? true : false;
         this.CommonService.attributeMenu = data[0].OPTM_ISATTR_MASTER == "Y" ? true : false;
         this.CommonService.delarMappingMenu = data[0].OPTM_ISDEALER_CUST_MAP == "Y" ? true : false;
-        if (this.CommonService.attributeMenu == false) {
-          this.CheckMenuCondition();
+        if (this.CommonService.attributeMenu == false && this.dealarMenu == false) {
+          this.CheckMenuCondition(this.language.DelarCustomerMapping, this.language.attribute);
+        }
+        else if (this.CommonService.attributeMenu == false) {
+          this.CheckMenuCondition("-1", this.language.attribute);
+        }
+        else if (this.CommonService.delarMappingMenu == false) {
+          this.CheckMenuCondition(this.language.DelarCustomerMapping, "-1");
         }
       }, error => {
         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
@@ -138,30 +148,46 @@ export class SidebarComponent implements OnInit, DoCheck {
     if (this.CommonService.usertype != "D") {
       this.needassesmentMenu = this.CommonService.needAssesmentMenu;
       this.dealarMenu = this.CommonService.delarMappingMenu;
-      if (this.CommonService.attributeMenu == false) {
-        this.CheckMenuCondition();
+      if (this.CommonService.attributeMenu == false && this.dealarMenu == false) {
+        this.CheckMenuCondition(this.language.DelarCustomerMapping, this.language.attribute);
+      }
+      else if (this.CommonService.attributeMenu == false) {
+        this.CheckMenuCondition("-1", this.language.attribute);
+      }
+      else if (this.dealarMenu == false) {
+        this.CheckMenuCondition(this.language.DelarCustomerMapping, "-1");
       }
       else {
-        console.log(this.CommonService.navMenuList);
-        this.menuList = [];
-        let list = [];
-        this.CommonService.navMenuList.forEach(element => {
-          list.push(element);
-        });
-        this.menuList = list;
+        this.resetMenu();
       }
     }
   }
 
-  CheckMenuCondition() {
-
-    let array = this.menuList;
-    let AttributeMenu = this.language.attribute;
-    array.forEach((element: any, index) => {
-      if (element.itemName == AttributeMenu) {
-        array.splice(index, 1);
-      }
+  resetMenu() {
+    console.log(this.CommonService.navMenuList);
+    this.menuList = [];
+    let list = [];
+    this.CommonService.navMenuList.forEach(element => {
+      list.push(element);
     });
+    this.menuList = list;
+  }
+
+  CheckMenuCondition(value1: any, value2: any) {
+    this.resetMenu();
+    let array = this.menuList;
+    for (let i = 0; i < array.length; i++) {
+      let element: any = array[i];
+      if (element.itemName == value1 || element.itemName == value2) {
+        array.splice(i, 1);
+      }
+    }
+    // let AttributeMenu = this.language.attribute;
+    // array.forEach((element: any, index) => {
+    //   if (element.itemName == AttributeMenu) {
+    //     array.splice(index, 1);
+    //   }
+    // });
     this.menuList = array;
 
   }
