@@ -619,7 +619,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   GetNeedsAssessmentByCustomerId() {
     CommonData.made_changes = true;
     this.showLookupLoader = true;
-
+   if(this.step1_data.customer == undefined || this.step1_data.customer == null ) {
+     this.step1_data.customer = "";
+    }
     this.OutputService.GetNeedsAssessmentOptionByCustomerId(this.step1_data.customer).subscribe(
       data => {
         if (data != undefined && data.CustomerNeedsAssessmentHeader.length > 0) {
@@ -2095,7 +2097,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   step2_next_click_validation() {
     if (this.step1_data.document == "draft") {
       if (this.isNeedAssesment) {
-        this.navigation_in_steps(1, 2);
+        this.GetNeedsAssessmentByCustomerId();
       }
       else {
         this.navigation_in_steps(1, 3);
