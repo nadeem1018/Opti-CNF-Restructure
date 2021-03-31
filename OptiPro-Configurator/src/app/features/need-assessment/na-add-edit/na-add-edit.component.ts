@@ -4,27 +4,32 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CommonService } from 'src/app/core/service/common.service';
 import { ModelbomService } from 'src/app/core/service/modelbom.service';
 import { DialogService } from 'src/app/core/service/dialog.service';
-import { NeedsAssessmentTemplateService } from 'src/app/core/service/needs-assessment-template.service';
+import { NeedassessmentService } from 'src/app/core/service/needassessment.service';
 
 @Component({
-  selector: 'app-need-assessment-template-add-edit',
-  templateUrl: './need-assessment-template-add-edit.component.html',
-  styleUrls: ['./need-assessment-template-add-edit.component.scss']
+  selector: 'app-na-add-edit',
+  templateUrl: './na-add-edit.component.html',
+  styleUrls: ['./na-add-edit.component.scss']
 })
-export class NeedAssessmentTemplateAddEditComponent implements OnInit {
+export class NeedAssessmentAddEditComponent implements OnInit {
 
-  @ViewChild("Templateinputbox", { static: true }) _el: ElementRef;
+  @ViewChild("assignmentidinputbox", { static: true }) _el: ElementRef;
   @ViewChild("button", { static: true }) _ele: ElementRef;
   public commonData = new CommonData();
-  public view_route_link = '/need-assessment-template/view';
+  public view_route_link = '/need-assessment/view';
   public input_file: File = null;
   language = JSON.parse(sessionStorage.getItem('current_lang'));
   public modelbom_data: any = [];
+  public assessment_data: any = [];
+  public dependent_assessment_data: any = [];
+  public selected_dependent_assessment_data: any = [];
   public image_data: any = [];
   public lookupfor: string = '';
   public counter = 0;
+  public counter1 = 0;
+  public counter2 = 0;
   public currentrowindex: number;
-  public isExplodeButtonVisible: boolean = false;
+  public isExplodeButtonVisible: boolean = true;
   public isVerifyButtonVisible: boolean = true;
   public isUpdateButtonVisible: boolean = true;
   public isSaveButtonVisible: boolean = true;
@@ -53,6 +58,8 @@ export class NeedAssessmentTemplateAddEditComponent implements OnInit {
   public showLoader: boolean = true;
   public showLookupLoader: boolean = false;
   public row_selection: number[] = [];
+  public row_selection1: number[] = [];
+  public row_selection2: number[] = [];
   public current_selected_row: any = [];
   public selectableSettings: any = [];
   public model_bom_type:any = '';
@@ -61,13 +68,19 @@ export class NeedAssessmentTemplateAddEditComponent implements OnInit {
   public defaultcheckbox: boolean = false; 
   public is_default: boolean = false;
   public config_params: any;
+  public detailRowGridCollapse: boolean = false;
+  public assessment_id: any;
+  public question: any;
+  public needsassessment_mas: any = [];
+  public parentlineno = 0;
+  
 
   // modalRef: BsModalRef;
 
-  constructor(private ActivatedRouter: ActivatedRoute, private route: Router, private service: ModelbomService, private assessmentService: NeedsAssessmentTemplateService, private CommonService: CommonService, private DialogService: DialogService) { }
+  constructor(private ActivatedRouter: ActivatedRoute, private route: Router, private service: ModelbomService, private AssessmentService: NeedassessmentService, private CommonService: CommonService, private DialogService: DialogService) { }
 
   companyName: string;
-  page_main_title = this.language.need_assessment_template
+  page_main_title = this.language.need_assessment;
   public username: string = "";
   serviceData: any;
 
@@ -81,13 +94,37 @@ export class NeedAssessmentTemplateAddEditComponent implements OnInit {
   isPerfectSCrollBar: boolean = false;
   public isDuplicateMode:boolean = false;
   public NewModel = "";
-  public needsassessment_template: any = [];
-  public needsassessment_template_detail: any = [];
-  public assessmentIdList: any = [];
 
   getSelectedRowDetail(event) {
+    this.detailRowGridCollapse = true;
     if (event.selectedRows.length > 0) {
       this.current_selected_row = event.selectedRows[0].dataItem;
+      this.parentlineno = this.current_selected_row.OPTM_LINENO;
+      var selectlineno = this.parentlineno;
+      if(this.dependent_assessment_data.length == 0){
+        this.dependent_assessment_data = this.selected_dependent_assessment_data;
+      }else {
+        this.dependent_assessment_data.push.apply(this.dependent_assessment_data, this.selected_dependent_assessment_data);
+       }
+       this.selected_dependent_assessment_data = this.dependent_assessment_data.filter(function (obj) {
+        return obj['OPTM_PARENTLINENO'] == selectlineno;
+      });
+
+      this.dependent_assessment_data = this.dependent_assessment_data.filter(function (obj) {
+        return obj['OPTM_PARENTLINENO'] != selectlineno;
+      });
+
+
+    } else {
+      this.current_selected_row = [];
+    }
+  }
+  getSelectedRowSecondGrid(event) {
+    //this.detailRowGridCollapse = true;
+    if (event.selectedRows.length > 0) {
+      this.current_selected_row = event.selectedRows[0].dataItem;
+      
+
     } else {
       this.current_selected_row = [];
     }
@@ -103,9 +140,9 @@ export class NeedAssessmentTemplateAddEditComponent implements OnInit {
 
   navigateToFeatureOrModelBom(type_value, type ) {
     if(type == '1'){
-      this.route.navigateByUrl("feature-bom/edit/"+type_value);
+      this.route.navigateByUrl("need-assessment/edit/"+type_value);
     } else if(type == '3'){
-      this.route.navigateByUrl("need-assessment-template/edit/"+type_value);
+      this.route.navigateByUrl("need-assessment/edit/"+type_value);
       this.modelbom_data= [];
       this.tree_data_json = [];
       this.get_modelbom_details(type_value, true);
@@ -158,13 +195,11 @@ public expandedKeysvalue: any[] = [];
     this.companyName = sessionStorage.getItem('selectedComp');
     this.update_id = "";
     this.update_id = this.ActivatedRouter.snapshot.paramMap.get('id');
+    this.needsassessment_mas.assessment_id = '';
+    this.needsassessment_mas.question = '';
+    this.needsassessment_mas.id = 0;
+    this.needsassessment_mas.disableid = false;
 
-    this.needsassessment_template.templateid = '';
-    this.needsassessment_template.description = '';
-    this.needsassessment_template.active = true;    
-    this.needsassessment_template.id = 0;
-    this.needsassessment_template.disableid = false;
-    
     if (this.image_data.length > 0) {
       this.showImageBlock = true;
     }
@@ -228,14 +263,14 @@ public expandedKeysvalue: any[] = [];
         this.isDeleteButtonVisible = false; 
         this.isDuplicateMode = false;
       }
-      this.get_need_assessment_template_details(this.update_id, false);
+      this.get_need_assessment_details(this.update_id, false);
     }
   }
 
-  get_need_assessment_template_details(id, navigat_to_header){
+  get_need_assessment_details(id, navigat_to_header){
     this.showLoader = true;
 
-    this.assessmentService.GetDataByAssesmentTemplateID(id).subscribe(
+    this.AssessmentService.GetDataByAssesmentID(id).subscribe(
       data => {
         if(data != undefined && data.LICDATA != undefined){
           if (data.LICDATA[0].ErrorMsg == "7001") {
@@ -245,40 +280,35 @@ public expandedKeysvalue: any[] = [];
             return;
           } 
         }
-        if (data.NeedsAssessmentTemplate.length > 0) {
-          this.needsassessment_template.templateid = data.NeedsAssessmentTemplate[0].OPTM_TEMPLATEID
-          this.needsassessment_template.description = data.NeedsAssessmentTemplate[0].OPTM_DESCRIPTION
-          this.needsassessment_template.active = data.NeedsAssessmentTemplate[0].OPTM_ACTIVE
-          this.needsassessment_template.id = data.NeedsAssessmentTemplate[0].OPTM_ID
-          this.needsassessment_template.disableid = true;
+        if (data.NeedsAssessment.length > 0) {
+          this.needsassessment_mas.assessment_id = data.NeedsAssessment[0].OPTM_ASSESSMENTID
+          this.needsassessment_mas.question = data.NeedsAssessment[0].OPTM_QUESTIONS
+          this.needsassessment_mas.id = data.NeedsAssessment[0].OPTM_ID
+          this.needsassessment_mas.disableid = true;
         }
-        if (data.NeedsAssessmentTemplateDTL.length > 0) {
-          for (let i = 0; i < data.NeedsAssessmentTemplateDTL.length; ++i) {          
+        if (data.Options.length > 0) {
+          for (let i = 0; i < data.Options.length; ++i) {          
 
               this.counter++;
-              this.needsassessment_template_detail.push({
+              this.assessment_data.push({
                 rowindex: this.counter,
-                OPTM_LINENO: data.NeedsAssessmentTemplateDTL[i].OPTM_LINENO,
-                OPTM_TEMPLATEID: data.NeedsAssessmentTemplateDTL[i].OPTM_TEMPLATEID,
-                OPTM_MANDATORY: data.NeedsAssessmentTemplateDTL[i].OPTM_MANDATORY == 'Y'? true : false ,
-                OPTM_ASSESSMENTID: data.NeedsAssessmentTemplateDTL[i].OPTM_ASSESSMENTID,
-                OPTM_QUESTIONS: data.NeedsAssessmentTemplateDTL[i].OPTM_QUESTIONS,  
-                OPTM_ID: data.NeedsAssessmentTemplateDTL[i].OPTM_ID,    
-                isQuestionsDisable: true               
-              });
+                OPTM_LINENO: data.Options[i].OPTM_LINENO,
+                OPTM_AssessmentID:  data.Options[i].OPTM_ASSESSMENTID,
+                OPTM_OptionsID: data.Options[i].OPTM_OPTIONSID,
+                OPTM_Options: data.Options[i].OPTM_OPTIONS,
+                OPTM_ID: data.Options[i].OPTM_ID
+                 });
 
             }
           }       
-
           if(this.isDuplicateMode)
           { 
-            this.needsassessment_template.templateid = ""
-            this.needsassessment_template.description = "";
-            this.needsassessment_template.active = false;
-            this.needsassessment_template.id = "";
-            this.needsassessment_template.disableid = false;
-            
+            this.needsassessment_mas.assessment_id = ""
+            this.needsassessment_mas.question = ""
+            this.needsassessment_mas.id = ""
+            this.needsassessment_mas.disableid = false;
           }
+         
           this.showLoader = false;
           
         },error => {
@@ -332,7 +362,7 @@ public expandedKeysvalue: any[] = [];
           if(navigat_to_header == true){
             this.route.navigateByUrl('feature/edit/' + id);
           } else {
-            this.route.navigateByUrl('need-assessment-template/view');
+            this.route.navigateByUrl('need-assessment/view');
           }
           
         }
@@ -506,58 +536,117 @@ ngAfterViewInit() {
   }
 }
 
-onAddRow() {
+onAddRowParent() {
+  if (this.needsassessment_mas.assessment_id.trim() == "" || this.needsassessment_mas.assessment_id == null) {    
+      this.CommonService.show_notification(this.language.AssessmentIdBlank, 'error');
+     return false;
+ }
+  this.counter1 = 0;
+  if (this.assessment_data.length > 0) {
+    this.counter1 = this.assessment_data.length
+  }
+  this.counter1++;
+
+  let print_on_report_flag = false;
+  let print_on_report_disabled_flag = true;
+
+  this.assessment_data.push({
+    rowindex: this.counter1,
+    OPTM_LINENO: this.counter1,
+    OPTM_AssessmentID:  this.needsassessment_mas.assessment_id,
+    OPTM_OptionsID: '',
+    OPTM_Options: '',
+    OPTM_ID: 0
+     });
+  CommonData.made_changes = true;
+};
+
+onAddRowChild() {
   // if (this.validation("Add") == false) {
   //   return;
   // }
-  if (this.needsassessment_template.templateid.trim() == "" || this.needsassessment_template.templateid == null) {    
-    this.CommonService.show_notification(this.language.TemplateIdBlank, 'error');
-   return false;
-}
-  this.counter = 0;
-  if (this.needsassessment_template_detail.length > 0) {
-    this.counter = this.needsassessment_template_detail.length
+  this.counter2 = 0;
+  if (this.selected_dependent_assessment_data.length > 0) {
+    this.counter2 = this.selected_dependent_assessment_data.length
   }
-  this.counter++;
+  this.counter2++;
 
-  
-  this.needsassessment_template_detail.push({
-    rowindex: this.counter,
-    OPTM_LINENO: this.counter,
-    OPTM_TEMPLATEID: this.needsassessment_template.templateid,
-    OPTM_MANDATORY: false,
-    OPTM_ASSESSMENTID: '',
-    OPTM_QUESTIONS: '',  
-    OPTM_ID: 0,    
-    isQuestionsDisable: false
-   
+  let print_on_report_flag = false;
+  let print_on_report_disabled_flag = true;
+
+  this.selected_dependent_assessment_data.push({
+    rowindex: this.counter2,
+    OPTM_AssessmentID:  this.needsassessment_mas.assessment_id,
+    OPTM_DEP_AssessmentID: '',
+    OPTM_Dep_Options:'',
+    OPTM_Dep_Question: this.needsassessment_mas.question, 
+    OPTM_PARENTLINENO: this.parentlineno,
+    OPTM_LINENO: this.counter2   
   });
   CommonData.made_changes = true;
 };
 
-onDeleteRow(rowindex) {
+onDeleteRowChild(rowindex) {
   CommonData.made_changes = true;
-  if (this.needsassessment_template_detail.length > 0) {
-    for (let i = 0; i < this.needsassessment_template_detail.length; ++i) {
-      if (this.needsassessment_template_detail[i].rowindex === rowindex) {
-        // let display_name = this.modelbom_data[i].display_name;
-        // if (this.tree_data_json.length > 0) {
-        //   let remove_tree_data = this.tree_data_json.filter(function (obj) {
-        //     return (obj['component'] == display_name);
-        //   });
-        //   if (remove_tree_data.length > 0) {
-        //     for (let j = 0; j < this.tree_data_json.length; ++j) {
-        //       if (remove_tree_data[0]['live_row_id'] == this.tree_data_json[j]['live_row_id']) {
-        //         this.tree_data_json.splice(j, 1);
-        //       }
-        //     }
-        //   }
-        // }
-        this.needsassessment_template_detail.splice(i, 1);
+  if (this.selected_dependent_assessment_data.length > 0) {
+    for (let i = 0; i < this.selected_dependent_assessment_data.length; ++i) {
+      if (this.selected_dependent_assessment_data[i].rowindex === rowindex) {   
+       
+        this.selected_dependent_assessment_data.splice(i, 1);
         i = i - 1;
       }
       else {
-        this.needsassessment_template_detail[i].rowindex = i + 1;
+        this.selected_dependent_assessment_data[i].rowindex = i + 1;
+      }
+    }
+  }
+  // remove data from exploded view tree
+  //this.live_tree_view_data
+  this.current_selected_row = [];
+  this.row_selection = [];
+}
+onDeleteRowParent(rowindex) {
+  CommonData.made_changes = true;
+  if (this.assessment_data.length > 0) {
+    for (let i = 0; i < this.assessment_data.length; ++i) {
+      if (this.assessment_data[i].rowindex === rowindex) {   
+       
+        this.assessment_data.splice(i, 1);
+        i = i - 1;
+      }
+      else {
+        this.assessment_data[i].rowindex = i + 1;
+      }
+    }
+  }
+  // remove data from exploded view tree
+  //this.live_tree_view_data
+  this.current_selected_row = [];
+  this.row_selection = [];
+}
+onDeleteRow(rowindex) {
+  CommonData.made_changes = true;
+  if (this.modelbom_data.length > 0) {
+    for (let i = 0; i < this.modelbom_data.length; ++i) {
+      if (this.modelbom_data[i].rowindex === rowindex) {
+        let display_name = this.modelbom_data[i].display_name;
+        if (this.tree_data_json.length > 0) {
+          let remove_tree_data = this.tree_data_json.filter(function (obj) {
+            return (obj['component'] == display_name);
+          });
+          if (remove_tree_data.length > 0) {
+            for (let j = 0; j < this.tree_data_json.length; ++j) {
+              if (remove_tree_data[0]['live_row_id'] == this.tree_data_json[j]['live_row_id']) {
+                this.tree_data_json.splice(j, 1);
+              }
+            }
+          }
+        }
+        this.modelbom_data.splice(i, 1);
+        i = i - 1;
+      }
+      else {
+        this.modelbom_data[i].rowindex = i + 1;
       }
     }
   }
@@ -585,7 +674,82 @@ clearData(rowindex) {
   this.modelbom_data[rowindex].feature_default_count = 0;
 }
 
+on_bom_type_change(selectedvalue, rowindex) {
 
+  if (this.modelbom_data.modal_id == "" || this.modelbom_data.modal_id == null) {
+    
+    this.CommonService.show_notification(this.language.ModelCodeBlank, 'error');
+    return false;
+  }
+  this.serviceData = [];
+  this.currentrowindex = rowindex;
+  CommonData.made_changes = true;
+  for (let i = 0; i < this.modelbom_data.length; ++i) {
+    if (this.modelbom_data[i].rowindex === this.currentrowindex) {
+      this.clearData(i);
+      this.modelbom_data[i].type_value = "";
+      this.modelbom_data[i].type_value_code = "";
+      if (selectedvalue == 3) {
+        this.modelbom_data[i].isDisplayNameDisabled = false
+        this.modelbom_data[i].isTypeDisabled = false
+        this.modelbom_data[i].hide = false
+        this.modelbom_data[i].type = 3
+        this.modelbom_data[i].isPriceDisabled = true
+        this.modelbom_data[i].pricehide = true
+        this.modelbom_data[i].isUOMDisabled = true
+        this.modelbom_data[i].quantity = ("1");
+        this.modelbom_data[i].isMinSelectedDisable = false;
+        this.modelbom_data[i].isMaxSelectedDisable = false;
+        this.modelbom_data[i].propagate_qty = true;
+        this.modelbom_data[i].mandatory = false;
+        this.modelbom_data[i].unique_identifer = false;
+        this.modelbom_data[i].mandatory_item_disabled = false;
+        this.modelbom_data[i].print_on_report = false;
+        this.modelbom_data[i].print_on_report_disabled = true;
+        this.modelbom_data[i].is_default = false;
+      }
+      else {
+        this.modelbom_data[i].isDisplayNameDisabled = false
+        this.modelbom_data[i].isTypeDisabled = false
+        this.modelbom_data[i].hide = false
+        this.modelbom_data[i].quantity = ("1");
+        if (selectedvalue == 2) {
+          this.lookupfor = 'Item_Detail_lookup';
+          this.modelbom_data[i].type = 2
+          this.modelbom_data[i].isPriceDisabled = false
+          this.modelbom_data[i].pricehide = false
+          this.modelbom_data[i].isUOMDisabled = false
+          this.modelbom_data[i].isMinSelectedDisable = true;
+          this.modelbom_data[i].isMaxSelectedDisable = true;
+          this.modelbom_data[i].propagate_qty = true;
+          this.modelbom_data[i].mandatory = true;
+          this.modelbom_data[i].is_default = true;
+          this.modelbom_data[i].unique_identifer = true;
+          this.modelbom_data[i].mandatory_item_disabled = true;
+          this.modelbom_data[i].print_on_report = true;
+          this.modelbom_data[i].print_on_report_disabled = false;
+
+        }
+        else {
+          this.modelbom_data[i].type = 1
+          this.lookupfor = 'feature_lookup';
+          this.modelbom_data[i].isPriceDisabled = true
+          this.modelbom_data[i].pricehide = true
+          this.modelbom_data[i].isUOMDisabled = true
+          this.modelbom_data[i].isMinSelectedDisable = false;
+          this.modelbom_data[i].isMaxSelectedDisable = false;
+          this.modelbom_data[i].propagate_qty = true;
+          this.modelbom_data[i].mandatory = false;
+          this.modelbom_data[i].unique_identifer = false;
+          this.modelbom_data[i].mandatory_item_disabled = false;
+          this.modelbom_data[i].print_on_report = false;
+          this.modelbom_data[i].print_on_report_disabled = true;
+          this.modelbom_data[i].is_default = false;
+        }
+      }
+    }
+  }
+}
 
 on_type_click(selectedvalue, rowindex) {
   if (this.modelbom_data.modal_id == "" || this.modelbom_data.modal_id == null) {
@@ -728,11 +892,12 @@ openFeatureLookUp() {
     )
 }
 
-openAssessmentLookUp(dataItem, rowindex) {
+openPriceLookUp(ItemKey, rowindex) {
   this.serviceData = []
   this.showLookupLoader = true;
-  this.currentrowindex = rowindex; 
-  this.assessmentService.GetNeedsAssessmentList().subscribe(
+  this.currentrowindex = rowindex;
+  console.log(this.modelbom_data);
+  this.service.GetPriceList(ItemKey).subscribe(
     data => {
       if(data != undefined && data.length > 0){
         if (data[0].ErrorMsg == "7001") {
@@ -745,7 +910,7 @@ openAssessmentLookUp(dataItem, rowindex) {
       }
 
       if (data.length > 0) {
-        this.lookupfor = 'assessment_lookup';
+        this.lookupfor = 'Price_lookup';
         this.showLookupLoader = false;
         this.serviceData = data;
       }
@@ -788,12 +953,9 @@ on_defualt_change(value, rowindex) {
 }
 
 getLookupValue($event) {
-  if($event.length == 0){
-    this.lookupfor = "";
-    return;
-  }
+ 
   if (this.lookupfor == "feature_Detail_lookup" || this.lookupfor == "ModelBom_Detail_lookup" || this.lookupfor == "Item_Detail_lookup") {
-   console.log("in here - selection ");
+    console.log("in here - selection ");
     for (let j = 0; j < this.modelbom_data.length; j++) {
       var psTypeCode = this.modelbom_data[j].type_value_code;
       var result = false;
@@ -845,11 +1007,11 @@ getLookupValue($event) {
     this.checkModelAlreadyAddedinParent($event[0], this.modelbom_data.modal_id, this.currentrowindex - 1, "lookup");
 
   }
-  else if (this.lookupfor == 'assessment_lookup') {
+  else if (this.lookupfor == 'Price_lookup') {
     CommonData.made_changes = true;
-    this.getAssessmentDetails($event[0],$event[1],this.currentrowindex);
+    this.getPriceDetails($event[1], $event[0], this.currentrowindex);
   }
-  else if (this.lookupfor == 'assessment_rule_section_lookup') {
+  else if (this.lookupfor == 'rule_section_lookup') {
     CommonData.made_changes = true;
     this.rule_data = $event;
   }
@@ -860,21 +1022,11 @@ getLookupValue($event) {
   }
 }
 
-getAssessmentDetails(assessmentId, question, index) {
-  if(this.needsassessment_template_detail.length > 0){
-    var isExist = this.needsassessment_template_detail.filter(function (obj) {
-       return  obj.OPTM_ASSESSMENTID == assessmentId;
-     }) 
-     if(isExist.length > 0) {       
-       this.CommonService.show_notification(this.language.DuplicateId, 'error');
-       return;
-     }   
-   }
-  for (let i = 0; i < this.needsassessment_template_detail.length; ++i) {
-    if (this.needsassessment_template_detail[i].rowindex === index) {
-      this.needsassessment_template_detail[i].OPTM_ASSESSMENTID = assessmentId;
-      this.needsassessment_template_detail[i].OPTM_QUESTIONS = question.toString();
-      this.needsassessment_template_detail[i].isQuestionsDisable = true;
+getPriceDetails(price_list_name, price, index) {
+  for (let i = 0; i < this.modelbom_data.length; ++i) {
+    if (this.modelbom_data[i].rowindex === index) {
+      this.modelbom_data[i].price_source = price_list_name.toString()
+      this.modelbom_data[i].price_source_id = price.toString()
     }
   }
 }
@@ -1005,32 +1157,65 @@ getItemDetails(ItemKey) {
 
 }
 
-
-
-on_typevalue_change(value, rowindex) {
+on_typevalue_change(value, rowindex, code, type_value_code) {
   this.currentrowindex = rowindex
   var iIndex = this.currentrowindex - 1;
-
-  if(this.needsassessment_template_detail.length > 0){
-    var isExist = this.needsassessment_template_detail.filter(function (obj) {
-       return  obj.OPTM_ASSESSMENTID == value;
-     }) 
-     if(isExist.length > 0) {  
-      this.needsassessment_template_detail[iIndex].OPTM_ASSESSMENTID = "";
-      this.needsassessment_template_detail[iIndex].OPTM_QUESTIONS = "";
-      this.needsassessment_template_detail[iIndex].isQuestionsDisable  = false;  
-       this.CommonService.show_notification(this.language.DuplicateId, 'error');
-       return;
-     }   
-   }
- 
+  for (let j = 0; j < this.modelbom_data.length; j++) {
+    var psTypeCode = this.modelbom_data[j].type_value_code;
+    if (psTypeCode != undefined && psTypeCode != "") {
+      if (psTypeCode.toUpperCase() == code.toUpperCase()) {
+        
+        this.CommonService.show_notification(this.language.DuplicateId, 'error');
+        type_value_code.value = "";
+        return;
+      }
+    }
+  }
   CommonData.made_changes = true;
-  for (let i = 0; i < this.needsassessment_template_detail.length; ++i) {
-    if (this.needsassessment_template_detail[i].rowindex === this.currentrowindex) {
-      this.needsassessment_template_detail[i].OPTM_ASSESSMENTID = value;
-      
-       
-        this.assessmentService.CheckValidAssessmentIDForNeedsAssessmentTemplate(value).subscribe(
+  for (let i = 0; i < this.modelbom_data.length; ++i) {
+    if (this.modelbom_data[i].rowindex === this.currentrowindex) {
+      this.modelbom_data[i].type_value = value.toString()
+      this.modelbom_data[i].type_value_code = code.toString()
+      if (this.modelbom_data[i].type == 1) {
+        this.service.onFeatureIdChangeModelBom(this.modelbom_data[i].type_value_code).subscribe(
+          data => {
+
+            if(data != undefined && data.length > 0){
+              if (data[0].ErrorMsg == "7001") {
+                CommonData.made_changes = false;
+                this.CommonService.RemoveLoggedInUser().subscribe();
+                this.CommonService.signOut(this.route, 'Sessionout');
+                return;
+              } 
+            }
+            if (data === "False") {
+              
+              this.CommonService.show_notification(this.language.InvalidFeatureId, 'error');
+              this.modelbom_data[iIndex].type_value = "";
+              this.modelbom_data[iIndex].type_value_code = "";
+              this.modelbom_data[iIndex].display_name = "";
+              this.modelbom_data[i].min_selected = 1;
+              this.modelbom_data[i].max_selected = 1;
+              this.modelbom_data[i].feature_min_selected = 1;
+              this.modelbom_data[i].feature_max_selected = 1;
+              this.modelbom_data[i].is_feature_multiselect = 'N';
+              this.modelbom_data[i].feature_default_count = 0;
+              return;
+            }
+            else {
+              this.lookupfor = ""
+              this.modelbom_data[iIndex].type_value = data;
+              this.getModelFeatureDetails(this.modelbom_data[iIndex].type_value, "Header", iIndex)
+            }
+          },error => {
+            if(error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage){
+              this.CommonService.isUnauthorized();
+            }
+            return;
+          })
+      }
+      else if (this.modelbom_data[i].type == 2) {
+        this.service.onItemIdChangeModelBom(this.modelbom_data[i].type_value_code).subscribe(
           data => {
             console.log(data);
             if(data != undefined && data.length > 0){
@@ -1041,19 +1226,19 @@ on_typevalue_change(value, rowindex) {
                 return;
               } 
             }
-            if (data.length == 0) {
+            if (data === "False") {
               
-              this.CommonService.show_notification(this.language.Invalid_assessment_id, 'error');
-              this.needsassessment_template_detail[i].OPTM_ASSESSMENTID  = '';
-              this.needsassessment_template_detail[i].OPTM_QUESTIONS  = '';
-              this.needsassessment_template_detail[i].isQuestionsDisable  = false;
+              this.CommonService.show_notification(this.language.Invalid_feature_item_value, 'error');
+              this.modelbom_data[iIndex].type_value = "";
+              this.modelbom_data[iIndex].type_value_code = "";
+              this.modelbom_data[iIndex].display_name = "";
+              this.modelbom_data[iIndex].price_source = ""; 
+              this.modelbom_data[iIndex].price_source_id = ""; 
               return;
             }
             else {
               this.lookupfor = "";
-              this.needsassessment_template_detail[i].OPTM_ASSESSMENTID  = data[0].OPTM_ASSESSMENTID;
-              this.needsassessment_template_detail[i].OPTM_QUESTIONS  = data[0].OPTM_QUESTIONS;
-              this.needsassessment_template_detail[i].isQuestionsDisable  = true;              
+              this.modelbom_data[iIndex].type_value = data;
               // this.getItemDetails(this.modelbom_data[iIndex].type_value);
               this.getItemDetailsOnChange(this.modelbom_data[iIndex].type_value);
             }
@@ -1063,8 +1248,11 @@ on_typevalue_change(value, rowindex) {
             }
             return;
           })
-      
-     
+      }
+      else {
+        //First we will check the conflicts
+        this.checkModelAlreadyAddedinParent(value, code, i, "change");
+      }
     }
   }
 }
@@ -1100,6 +1288,64 @@ on_description_change(value, rowindex) {
         return false;
       }
       this.modelbom_data[i].bom_description = value;
+     // this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
+    }
+  }
+}
+on_optionid_change(value, rowindex) {
+
+  this.currentrowindex = rowindex;
+  var iIndex = this.currentrowindex - 1;
+  
+  if(this.assessment_data.length > 0){
+    var isExist = this.assessment_data.filter(function (obj) {
+       return  obj.OPTM_OptionsID == value;
+     }) 
+     this.assessment_data[iIndex].OPTM_OptionsID = value; 
+     if(isExist.length > 0) {      
+      this.CommonService.show_notification(this.language.DuplicateId, 'error');
+      this.assessment_data[iIndex].OPTM_OptionsID = ""; 
+       return;
+     }   
+   }
+  CommonData.made_changes = true;
+  for (let i = 0; i < this.assessment_data.length; ++i) {
+    if (this.assessment_data[i].rowindex === this.currentrowindex) {      
+        this.assessment_data[i].OPTM_OptionsID = value;
+     // this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
+    }
+  }
+}
+on_option_change(value, rowindex) {
+
+  this.currentrowindex = rowindex
+  CommonData.made_changes = true;
+  for (let i = 0; i < this.assessment_data.length; ++i) {
+    if (this.assessment_data[i].rowindex === this.currentrowindex) {      
+        this.assessment_data[i].OPTM_Options = value;
+     // this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
+    }
+  }
+}
+
+on_optionid_change_child(value, rowindex) {
+
+  this.currentrowindex = rowindex
+  CommonData.made_changes = true;
+  for (let i = 0; i < this.selected_dependent_assessment_data.length; ++i) {
+    if (this.selected_dependent_assessment_data[i].rowindex === this.currentrowindex) {      
+        this.selected_dependent_assessment_data[i].OPTM_DEP_AssessmentID = value;
+     // this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
+    }
+  }
+}
+on_option_change_child(value, rowindex) {
+
+  this.currentrowindex = rowindex
+  CommonData.made_changes = true;
+  for (let i = 0; i < this.selected_dependent_assessment_data.length; ++i) {
+    if (this.selected_dependent_assessment_data[i].rowindex === this.currentrowindex) {      
+        this.selected_dependent_assessment_data[i].OPTM_Dep_Options = value;
      // this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
     }
   }
@@ -1379,13 +1625,13 @@ on_price_source_change(id, value, rowindex, actualValue) {
 on_mandatory_change(value, rowindex) {
   CommonData.made_changes = true;
   this.currentrowindex = rowindex;
-  for (let i = 0; i < this.needsassessment_template_detail.length; ++i) {
-    if (this.needsassessment_template_detail[i].rowindex === this.currentrowindex) {
+  for (let i = 0; i < this.modelbom_data.length; ++i) {
+    if (this.modelbom_data[i].rowindex === this.currentrowindex) {
       if (value.checked == true) {
-        this.needsassessment_template_detail[i].OPTM_MANDATORY = true
+        this.modelbom_data[i].mandatory = true
       }
       else {
-        this.needsassessment_template_detail[i].OPTM_MANDATORY = false
+        this.modelbom_data[i].mandatory = false
       }
     }
   }
@@ -1420,6 +1666,9 @@ on_isready_change(value) {
 
 onSave() {
   var obj = this;
+  console.log(this.assessment_data);
+  console.log(this.needsassessment_mas);
+  
   if (this.validate_unique_identifier() == false) {
     return;
   }
@@ -1494,15 +1743,17 @@ onDelete() {
 }
 
 //delete record will be execute from here
-delete_record() {  
+delete_record() {
+  console.log('this.modelbom_data.modal_id');
+  console.log(this.modelbom_data.modal_id);
   let GetItemData = []
   GetItemData.push({
     CompanyDBId: this.companyName,
-    OPTM_TEMPLATEID: this.needsassessment_template.templateid,
+    OPTM_AssessmentID: this.needsassessment_mas.assessment_id,
     GUID: sessionStorage.getItem("GUID"),
     UsernameForLic: sessionStorage.getItem("loggedInUser")
   });
-  this.assessmentService.DeleteData(GetItemData).subscribe(
+  this.AssessmentService.DeleteData(GetItemData).subscribe(
     data => {
       if(data != undefined && data.length > 0){
         if (data[0].ErrorMsg == "7001") {
@@ -1513,27 +1764,27 @@ delete_record() {
           return;
         } 
       }
-      // if(data == "True"){
-      //   this.CommonService.show_notification(this.language.DataDeleteSuccesfully , 'success');
+      //  if(data == "True"){
+      //  this.CommonService.show_notification(this.language.DataDeleteSuccesfully, 'success');
       //   CommonData.made_changes = false;
-      //   this.route.navigateByUrl('need-assessment-template/view');
-      // }else{
+      //   this.route.navigateByUrl('need-assessment/view');
+      //  } else {
       //   this.CommonService.show_notification(this.language.DataNotDelete, 'error');
-      // }
+      //  }
 
-      if(data[0].IsDeleted == "0" && data[0].Message == "Template Used"){
+      if(data[0].IsDeleted == "0" && data[0].Message == "AssessmentID Used"){
         
-         this.CommonService.show_notification(this.language.Refrence + ' at: ' + data[0].TemplateID, 'error');
+         this.CommonService.show_notification(this.language.Refrence + ' at: ' + data[0].AssesmentID, 'error');
       }
       else if(data[0].IsDeleted == "1"){
         
-         this.CommonService.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[0].TemplateID, 'success');
+         this.CommonService.show_notification(this.language.DataDeleteSuccesfully + ' : ' + data[0].AssesmentID, 'success');
         CommonData.made_changes = false;
-        this.route.navigateByUrl('need-assessment-template/view');
+        this.route.navigateByUrl('need-assessment/view');
       }
       else{
         
-         this.CommonService.show_notification(this.language.DataNotDelete + ' : ' + data[0].TemplateID, 'error');
+         this.CommonService.show_notification(this.language.DataNotDelete + ' : ' + data[0].AssesmentID, 'error');
       }
 
     },error => {
@@ -1757,22 +2008,12 @@ onExplodeClick(type) {
   }
 
   on_rule_click() {
-    this.lookupfor = "assessment_rule_section_lookup";
+    this.lookupfor = "rule_section_lookup";
     this.ruleselected = [];
     //this.ruleselected=this.rule_data;
     this.serviceData = [];
     this.showLookupLoader = true;
-    let final_dataset_to_save: any = {};    
-    final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL = [];    
-
-    for(var i = 0; i < this.needsassessment_template_detail.length; i++) 
-    {
-      this.assessmentIdList.push({       
-        OPTM_ASSESSMENTID: this.needsassessment_template_detail[i].OPTM_ASSESSMENTID        
-       });
-    }
-    final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL = this.assessmentIdList;
-    this.assessmentService.getRuleLookupList(final_dataset_to_save).subscribe(
+    this.service.getRuleLookupList(this.modelbom_data.modal_id).subscribe(
       data => {
         this.showLookupLoader = false;
         console.log(data);
@@ -1925,57 +2166,61 @@ onExplodeClick(type) {
       return true;
     }*/
   }
+
   onSave_assessment_data(){
     let final_dataset_to_save: any = {};
-    final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATE  = [];
-    final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL = [];
-    final_dataset_to_save.RuleData = [];
-    if (this.needsassessment_template.templateid.trim() == "" || this.needsassessment_template.templateid == null) {    
-      this.CommonService.show_notification(this.language.TemplateIdBlank, 'error');
-     return false;
-  }
-    final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATE.push({
-      "OPTM_TEMPLATEID": this.needsassessment_template.templateid,
-      "OPTM_DESCRIPTION":this.needsassessment_template.description,
-      "OPTM_ACTIVE":this.needsassessment_template.active,
-      "OPTM_ID": this.needsassessment_template.id 
+    final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT = [];
+    final_dataset_to_save.OPCONFIG_OPTIONS = [];
+    //final_dataset_to_save.OPCONFIG_DEPENDENT_ASSESSMENT = [];
+    if (this.needsassessment_mas.assessment_id.trim() == "" || this.needsassessment_mas.assessment_id == null) {    
+      this.CommonService.show_notification(this.language.AssessmentIdBlank, 'error');
+        return ;
+ }
+ if (this.needsassessment_mas.question.trim() == "" || this.needsassessment_mas.question == null) {    
+  this.CommonService.show_notification(this.language.QuestionIdBlank, 'error');
+    return ;
+}
+    final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT.push({
+      "OPTM_AssessmentID": this.needsassessment_mas.assessment_id,
+      "OPTM_Question":this.needsassessment_mas.question,
+      "OPTM_ID": this.needsassessment_mas.id    
     });
-    if (this.needsassessment_template_detail.length == 0) {
+    
+    if (this.assessment_data.length == 0) {
       // this.toastr.error('', this.language.Addrow, this.commonData.toast_config);
       this.CommonService.show_notification(this.language.Addrow, 'error');
       return ;
     }
-    for (let i = 0; i < this.needsassessment_template_detail.length; ++i) {
+    for (let i = 0; i < this.assessment_data.length; ++i) {
       let currentrow = i + 1;
-      if (this.needsassessment_template_detail[i].OPTM_ASSESSMENTID == "" || this.needsassessment_template_detail[i].OPTM_ASSESSMENTID == " ") {     
-        this.CommonService.show_notification(this.language.AssessmentidRequired + currentrow, 'error');
+      if (this.assessment_data[i].OPTM_OptionsID == "" || this.assessment_data[i].OPTM_OptionsID == " ") {     
+        this.CommonService.show_notification(this.language.OptionIdRequired + currentrow, 'error');
         this.showLookupLoader = false;
         return;
       }
-      if(this.needsassessment_template_detail[i].OPTM_MANDATORY == true){
-        this.needsassessment_template_detail[i].OPTM_MANDATORY = "Y"
-       } else{
-        this.needsassessment_template_detail[i].OPTM_MANDATORY = "N" 
-       }
-      
-    }
-    var templateid  = this.needsassessment_template.templateid
-    this.needsassessment_template_detail.filter(function (obj) {
-      return obj['OPTM_TEMPLATEID'] = templateid;
+      if (this.assessment_data[i].OPTM_Options == "" || this.assessment_data[i].OPTM_Options == " ") {     
+        this.CommonService.show_notification(this.language.OptionRequired + currentrow, 'error');
+        this.showLookupLoader = false;
+        return;
+      }
+    }   
+    var assessment_id  = this.needsassessment_mas.assessment_id
+    this.assessment_data.filter(function (obj) {
+      return obj['OPTM_AssessmentID'] = assessment_id;
     });
    
-    final_dataset_to_save.OPCONFIG_NEEDSASSESSMENT_TEMPLATEDTL = this.needsassessment_template_detail;  
-    this.rule_data.filter(function (obj) {
-      if(obj['Selected'] == true)
-        obj['ISSELECTED'] = "Y";
-        else
-        obj['ISSELECTED'] = "N";
-        return obj;
-      });
-    final_dataset_to_save.RuleData = this.rule_data;
-  
+    final_dataset_to_save.OPCONFIG_OPTIONS = this.assessment_data;  
+    
+    // if(this.selected_dependent_assessment_data.length > 0){
+    //   var selectlineno = this.parentlineno;
+    //   this.dependent_assessment_data = this.dependent_assessment_data.filter(function (obj) {
+    //     return obj['OPTM_PARENTLINENO'] != selectlineno;
+    //   });
+    //   this.dependent_assessment_data.push.apply(this.dependent_assessment_data, this.selected_dependent_assessment_data);
+    // }
+    // final_dataset_to_save.OPCONFIG_DEPENDENT_ASSESSMENT = this.dependent_assessment_data;
     this.showLookupLoader = true;
-    this.assessmentService.AddUpdateNeedAssessmentTemplateData(final_dataset_to_save).subscribe(
+    this.AssessmentService.AddUpdateNeedAssessmentData(final_dataset_to_save).subscribe(
       data => {
         this.showLookupLoader = false;
         if (data == "7001") {
@@ -1988,7 +2233,7 @@ onExplodeClick(type) {
         if (data == "True") {
           CommonData.made_changes = false;
           this.CommonService.show_notification(this.language.DataSaved, 'success');
-          this.route.navigateByUrl('need-assessment-template/view');
+          this.route.navigateByUrl('need-assessment/view');
           return;
         }
         else if (data == "AlreadyExist") {
@@ -2103,7 +2348,7 @@ onExplodeClick(type) {
           if (data == "True") {
             
             this.CommonService.show_notification(this.language.DataSaved, 'success');
-            this.route.navigateByUrl('need-assessment-template/view');
+            this.route.navigateByUrl('need-assessment/view');
             return;
           }
           else if (data == "AlreadyExist") {

@@ -9,9 +9,9 @@ import { NeedassessmentruleService } from 'src/app/core/service/needassessmentru
 
 
 @Component({
-  selector: 'app-need-assessment-rule-view',
-  templateUrl: './need-assessment-rule-view.component.html',
-  styleUrls: ['./need-assessment-rule-view.component.scss']
+  selector: 'app-nar-view',
+  templateUrl: './nar-view.component.html',
+  styleUrls: ['./nar-view.component.scss']
 })
 export class NeedAssessmentRuleViewComponent implements OnInit {
 

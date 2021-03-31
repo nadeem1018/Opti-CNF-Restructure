@@ -12,9 +12,9 @@ import { filterBy, CompositeFilterDescriptor } from '@progress/kendo-data-query'
 
 
 @Component({
-  selector: 'app-needs-assesment-customer-mapping',
-  templateUrl: './needs-assesment-customer-mapping.component.html',
-  styleUrls: ['./needs-assesment-customer-mapping.component.scss']
+  selector: 'app-na-customer-mapping',
+  templateUrl: './na-customer-mapping.component.html',
+  styleUrls: ['./na-customer-mapping.component.scss']
 })
 export class NeedsAssesmentCustomerMappingComponent implements OnInit {
 

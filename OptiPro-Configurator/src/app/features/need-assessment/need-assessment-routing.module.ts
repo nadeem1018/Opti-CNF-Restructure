@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NeedAssessmentViewComponent } from './need-assessment-view/need-assessment-view.component';
-import { NeedAssessmentAddEditComponent } from './need-assessment-add-edit/need-assessment-add-edit.component';
+
+import { NeedAssessmentAddEditComponent } from './na-add-edit/na-add-edit.component';
 import { CanDeactivateGuard } from 'src/app/can-deactivate.guard';
+import { NeedAssessmentViewComponent } from './na-view/na-view.component';
 
 
 const routes: Routes = [

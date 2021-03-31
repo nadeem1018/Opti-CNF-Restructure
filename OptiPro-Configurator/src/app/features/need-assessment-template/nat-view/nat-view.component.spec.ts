@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NeedAssessmentTemplateViewComponent } from './need-assessment-template-view.component';
+import { NeedAssessmentTemplateViewComponent } from './nat-view.component';
 
 describe('NeedAssessmentTemplateViewComponent', () => {
   let component: NeedAssessmentTemplateViewComponent;

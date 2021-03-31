@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NeedsAssesmentCustomerMappingComponent } from './needs-assesment-customer-mapping.component';
+import { NeedsAssesmentCustomerMappingComponent } from './na-customer-mapping.component';
 
 describe('NeedsAssesmentCustomerMappingComponent', () => {
   let component: NeedsAssesmentCustomerMappingComponent;

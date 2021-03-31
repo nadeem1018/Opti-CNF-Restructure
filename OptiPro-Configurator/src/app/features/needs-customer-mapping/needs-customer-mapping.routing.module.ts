@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {NeedsAssesmentCustomerMappingComponent} from './needs-assesment-customer-mapping/needs-assesment-customer-mapping.component';
+import {NeedsAssesmentCustomerMappingComponent} from './na-customer-mapping/na-customer-mapping.component';
 
 
 const routes: Routes = [

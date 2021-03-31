@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NeedAssessmentTemplateViewComponent } from './need-assessment-template-view/need-assessment-template-view.component';
-import { NeedAssessmentTemplateAddEditComponent } from './need-assessment-template-add-edit/need-assessment-template-add-edit.component';
+import { NeedAssessmentTemplateViewComponent } from './nat-view/nat-view.component';
+import { NeedAssessmentTemplateAddEditComponent } from './nat-add-edit/nat-add-edit.component';
 import { CanDeactivateGuard } from 'src/app/can-deactivate.guard';
 
 

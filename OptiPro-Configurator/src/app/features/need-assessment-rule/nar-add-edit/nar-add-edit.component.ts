@@ -11,9 +11,9 @@ import { NeedsAssessmentTemplateService } from 'src/app/core/service/needs-asses
 import { NeedassessmentruleService } from 'src/app/core/service/needassessmentrule.service';
 
 @Component({
-  selector: 'app-need-assessment-rule-add-edit',
-  templateUrl: './need-assessment-rule-add-edit.component.html',
-  styleUrls: ['./need-assessment-rule-add-edit.component.scss']
+  selector: 'app-nar-add-edit',
+  templateUrl: './nar-add-edit.component.html',
+  styleUrls: ['./nar-add-edit.component.scss']
 })
 export class NeedAssessmentRuleAddEditComponent implements OnInit {
 

@@ -2,11 +2,12 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { NeedAssessmentRoutingModule } from './need-assessment-routing.module';
-import { NeedAssessmentViewComponent } from './need-assessment-view/need-assessment-view.component';
-import { NeedAssessmentAddEditComponent } from './need-assessment-add-edit/need-assessment-add-edit.component';
+
+import { NeedAssessmentAddEditComponent } from './na-add-edit/na-add-edit.component';
 import { SharedModules } from 'src/app/shared/shared.module';
 import { SplitterModule, LayoutModule } from '@progress/kendo-angular-layout';
 import { CustomLayoutModule } from 'src/app/@layout/customLayout.module';
+import { NeedAssessmentViewComponent } from './na-view/na-view.component';
 
 
 @NgModule({

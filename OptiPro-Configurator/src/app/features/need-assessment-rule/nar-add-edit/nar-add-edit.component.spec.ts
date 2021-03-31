@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NeedAssessmentRuleAddEditComponent } from './need-assessment-rule-add-edit.component';
+import { NeedAssessmentRuleAddEditComponent } from './nar-add-edit.component';
 
 describe('NeedAssessmentRuleAddEditComponent', () => {
   let component: NeedAssessmentRuleAddEditComponent;
