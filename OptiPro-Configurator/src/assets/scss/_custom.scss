@@ -1719,6 +1719,14 @@ a.common_grid_link {
   color: red;
   font-size: 20px;
   margin-left: 5px;
+  position: absolute;
+  top:0;
+}
+
+@media(min-width:767px){
+  .custome-box-info {
+    display: none;
+}
 }
 
 @media(max-width:1024px){
@@ -1843,6 +1851,7 @@ button.btn.btn-sm.btn-primary.btn-information {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   padding: 0 10px;
+  // height: calc(100vh - 30px);
 }
 .custom-window-wrapper .custom-window-innner .k-pager-wrap .k-pager-info{
   display:none;
@@ -1857,8 +1866,32 @@ button.btn.btn-sm.btn-primary.btn-information {
 .layout-mode   > .card  .card-body{
   padding: 4px 10px !important;
 }
+.delear-btn button.btn.btn-primary {
+  padding: 5px;
+}
 
 
+}
+
+
+@media(max-width:480px){
+  .col-sm-2.col-2.mb-padding {
+    padding: 0;
+    margin-left: -15px;
+    margin-top: 5px;
+    text-align: center;
+  }
+  label.col-sm-5.col-6.col-form-label.mb-padding {
+    padding: 0;
+  }
+  .col-sm-5.float-right.delear-btn.text-right {
+    position: absolute;
+    padding: 0;
+    right: 0;
+    bottom: -9px;
+    width: auto;
+    margin-top: 1px;
+  }
 }
 
 // @media only screen and (min-device-width: 360px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3){
@@ -1867,6 +1900,9 @@ button.btn.btn-sm.btn-primary.btn-information {
 @media (max-width: 767px) and (orientation: landscape) {
   .custom-window-wrapper .custom-window-innner .k-widget.k-grid.k-grid-no-scrollbar{
     max-height: 270px !important;
+  }
+  .custom-window-wrapper .custom-window-innner .border-0.bg-transparent.k-widget.k-window.k-window-wrapper {
+    height: calc(100vh - 30px);
   }
 }
 @media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2){

@@ -165,7 +165,7 @@
                                                 <svg viewBox="0 0 31.939 31.939" class="icon fill-white mr-2">
                                                     <use xlink:href="#userDetail"></use>
                                                 </svg> {{language.customer_doc_detail}} </div>
-                                            <div class="col-md-2 pull-right text-right"> {{language.step_2_6}} </div>
+                                            <div class="col-md-2 pull-right text-right"> {{language.step_2_6}}</div>
                                         </div>
                                     </div>
                                     <hr class="mb-hide">
@@ -188,8 +188,50 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <div class="w-100 float-left" *ngIf="isDealar">
+                                                    <div class="form-group row clearfix">
+                                                        <label class="col-sm-5 col-form-label" for="customer_doc">{{language.Dealer_Customer}}</label>
+                                                        <div class="col-sm-7">
+                                                            <div class="input-group">
+                                                                <input type="text" ngValue="" class="form-control form-control-sm"
+                                                                    name="delarCustomer" id="dealer" placeholder=""
+                                                                    [(ngModel)]="delarCustomer" (change)="validDealerCheck()"
+                                                                    #dealer>
+                                                                <div class="input-group-append">
+                                                                    <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
+                                                                        id="basic-addon2" (click)="getCustomerList()">
+                                                                        <svg viewBox="0 -96 512 512" class="icon m-0">
+                                                                            <use xlink:href="#menu"></use>
+                                                                        </svg>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row clearfix">
+                                                        <label class="col-sm-5 col-form-label" for="customer_doc">{{language.Dealer_Customer_Name}}</label>
+                                                        <div class="col-sm-7">
+                                                            <div class="input-group">
+                                                                <input type="text" disabled="true" ngValue="" class="form-control form-control-sm"
+                                                                    name="delarCustomerName" id="dealer" placeholder=""
+                                                                    [(ngModel)]="delarCustomerName" #dealer>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row align-items-center clearfix">
+                                                        <label class="col-sm-5 col-6 col-form-label mb-padding" for="customer_doc">{{language.CopytoShippAddress}}</label>
+                                                        <div class="col-sm-2 col-2 mb-padding">
+                                                            <input type="checkbox" [disabled]="shippingaddress" name="isChecked"
+                                                                (change)="onShipAddressChange($event)" [(ngModel)]="isChecked" />
+                                                        </div>
+                                                        <div class="col-sm-5 float-right delear-btn text-right">
+                                                            <button type="button" class="btn btn-primary" (click)="openDelarMappingView()">{{language.Dealer_Customer}}</button>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                </div>
                                             </div>
-                                            <div class="col-md-4 pl-0 float-left" *ngIf="isDealar">
+                                            <!-- <div class="col-md-4 pl-0 float-left" *ngIf="isDealar">
                                                 <div class="form-group row clearfix">
                                                     <label class="col-sm-5 col-form-label" for="customer_doc">{{language.Dealer_Customer}}</label>
                                                     <div class="col-sm-7">
@@ -227,7 +269,7 @@
                                                     </div>
                                                 </div>
                                                 <button type="button" class="btn btn-primary" (click)="openDelarMappingView()">{{language.Dealer_Customer}}</button>
-                                            </div>
+                                            </div> -->
                                             <div class="col-md-4 float-left mb-doc-padding">
                                                 <div class="form-group row clearfix">
                                                     <label class="col-sm-5 col-form-label" for="posting_date">{{language.posting_date}}</label>
