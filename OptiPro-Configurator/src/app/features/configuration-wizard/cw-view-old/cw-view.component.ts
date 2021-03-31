@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, DoCheck } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
 import { CommonData } from 'src/app/core/data/CommonData';
 import { UIHelper } from 'src/app/core/helper/ui.helpers';
 import { DialogService } from 'src/app/core/service/dialog.service';
@@ -12,12 +12,13 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './cw-view.component.html',
   styleUrls: ['./cw-view.component.scss']
 })
-export class CwViewOldComponent implements OnInit, DoCheck {
+export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public selectedImage = "";
   @ViewChild("printOperationType", { static: true }) printOperationTypeEL_: ElementRef;
   @ViewChild("modelcode", { static: true }) _el: ElementRef;
   @ViewChild("refresh_button", { static: true }) _refresh_el: ElementRef;
-  @ViewChild("description", { static: true }) text_input_elem: ElementRef;
+  @ViewChild("selected_configuration_key", { static: false }) lookup_el: ElementRef;
+  @ViewChild('description', { static: false }) text_input_elem: ElementRef;
 
 
   public commonData = new CommonData();
@@ -221,6 +222,8 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   public shipAddress = "";
   shippingaddress: any = true;
   public shippingaddressValue: any = false;
+  public isfocus = false;
+  isChecked :any = false;
 
 
   constructor(private ActivatedRouter: ActivatedRoute,
@@ -322,6 +325,15 @@ export class CwViewOldComponent implements OnInit, DoCheck {
   ngDoCheck() {
     this.isAttribute = this.CommonService.attributeMenu;
     this.isNeedAssesment = this.CommonService.needAssesmentMenu;
+    if (this.text_input_elem != undefined) {
+      this.text_input_elem.nativeElement.focus();
+    }
+    if (this.isfocus) {
+      if (this.lookup_el != undefined) {
+        this.lookup_el.nativeElement.focus();
+        this.isfocus = false;
+      }
+    }
 
   }
 
@@ -409,6 +421,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
       this.delarCustomerName = "";
       this.shippingaddress = true;
       this.isShipDisable = true;
+      this.isChecked = false;
     }
     this.serviceData.ref_doc_details = [];
     this.serviceData.product_grand_details = [];
@@ -462,6 +475,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     if (operation_type == 2 || operation_type == 3 || operation_type == 4) {
       this.modify_duplicate_selected = true;
       this.new_output_config = true;
+      this.isfocus = true;
       this.step0_isNextButtonVisible = true;
     } else {
       if (operation_type == "") {
@@ -481,6 +495,12 @@ export class CwViewOldComponent implements OnInit, DoCheck {
       this.text_input_elem.nativeElement.focus();
     }
     this.step1_data.main_operation_type = operation_type;
+  }
+
+  ngAfterViewInit() {
+    if (this.text_input_elem != undefined) {
+      this.text_input_elem.nativeElement.focus();
+    }
   }
 
   on_configuration_id_change(value) {
@@ -1598,9 +1618,10 @@ export class CwViewOldComponent implements OnInit, DoCheck {
       this.CommonService.customerDelarAddress = [];
       this.step1_data.ship_to_address = "";
       this.addressDetais = [];
-      // if (this.shippingaddressValue) {
-      //   this.GetCustomerdelarAddress();
-      // }
+      
+      if (this.isChecked) {
+        this.GetCustomerdelarAddress();
+      }
     }
     if (this.isPreviousPressed) {
       this.isDuplicate = true;
@@ -5066,6 +5087,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
     this.step1_data.customer_name = "";
     this.step1_data.ship_to_address = "";
     this.step1_data.bill_to_addresss = "";
+    this.step1_data.bill_to_address = "";
     this.step1_data.delivery_until = "";
     this.CommonService.customerDelarAddress = [];
   }
@@ -10627,6 +10649,7 @@ export class CwViewOldComponent implements OnInit, DoCheck {
         else {
           // this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
           //  this.showLookupLoader = false;
+          this.dealerdata = [];
           this.delarCustomerMap = true;
           return;
         }

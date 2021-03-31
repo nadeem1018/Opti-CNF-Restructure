@@ -30,7 +30,7 @@
             </ng-container>
 
 
-            <li *ngFor="let item of delarMappingData" routerLinkActive="active" [style.display]="dealarMenu ? 'block' : 'none'">
+            <!-- <li *ngFor="let item of delarMappingData" routerLinkActive="active" [style.display]="dealarMenu ? 'block' : 'none'">
                 <a [attr.title]="item.itemName" [routerLink]="item.itemNav" routerLinkActive="active" class="sidebar-link"
                     (click)="sidebarCloseMobileWithRefresh()">
                     <svg [attr.viewBox]="item.itemIconSize" class="sidebar-link-icon">
@@ -38,7 +38,7 @@
                     </svg>
                     <span>{{item.itemName}}</span>
                 </a>
-            </li>
+            </li> -->
 
 
 
@@ -71,7 +71,15 @@
 
             </ng-container>
 
-
+            <li *ngFor="let item of configureWizard" routerLinkActive="active"  [style.display]="configureMenu ? 'block' : 'none'">
+                    <a [attr.title]="item.itemName" [routerLink]="item.itemNav" routerLinkActive="active" class="sidebar-link"
+                        (click)="sidebarCloseMobileWithRefresh()">
+                        <svg [attr.viewBox]="item.itemIconSize" class="sidebar-link-icon">
+                            <use [attr.xlink:href]="item.itemIcon"></use>
+                        </svg>
+                        <span>{{item.itemName}}</span>
+                    </a>
+                </li>
 
 
 
