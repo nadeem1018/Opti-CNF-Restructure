@@ -70,14 +70,25 @@ export class DelarCustomerMappingService {
         return this.httpclient.post(this.config_params.service_url + "/DealerCustomerMapping/AddUpdateDealerCustomerMapping", jObject, this.common_params.httpOptions);
     }
 
-    onDefaultTemplateCheck(TemplateID): Observable<any> {
+    ValidCustomerCheck(CustID): Observable<any> {
         let jObject = {
             GetData: JSON.stringify([{
                 CompanyDBID: sessionStorage.selectedComp,
-                GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"), OPTM_DEFAULT_TEMPLATE: TemplateID
+                GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"), CustID: CustID
             }])
         }
-        return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentConfiguration/CheckValidTemplateForNeedsAssessmentConfiguration", jObject, this.common_params.httpOptions);
+        return this.httpclient.post(this.config_params.service_url + "/DealerCustomerMapping/CheckValidCustomerForDealerCustMap", jObject, this.common_params.httpOptions);
+    }
+
+
+    ValidPricelistCheck(PriceList): Observable<any> {
+        let jObject = {
+            GetData: JSON.stringify([{
+                CompanyDBID: sessionStorage.selectedComp,
+                GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"), OPTM_DEFAULT_TEMPLATE: PriceList
+            }])
+        }
+        return this.httpclient.post(this.config_params.service_url + "/DealerCustomerMapping/CheckValidTemplateForNeedsAssessmentConfiguration", jObject, this.common_params.httpOptions);
     }
 
 
