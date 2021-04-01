@@ -85,10 +85,10 @@ export class DelarCustomerMappingService {
         let jObject = {
             GetData: JSON.stringify([{
                 CompanyDBID: sessionStorage.selectedComp,
-                GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"), OPTM_DEFAULT_TEMPLATE: PriceList
+                GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"), ListName: PriceList
             }])
         }
-        return this.httpclient.post(this.config_params.service_url + "/DealerCustomerMapping/CheckValidTemplateForNeedsAssessmentConfiguration", jObject, this.common_params.httpOptions);
+        return this.httpclient.post(this.config_params.service_url + "/DealerCustomerMapping/CheckValidPriceListNameForDealerCustMap", jObject, this.common_params.httpOptions);
     }
 
 

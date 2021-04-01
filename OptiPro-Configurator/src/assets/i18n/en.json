@@ -703,5 +703,7 @@
     "Dealer_Customer" :"Dealer Customer",
     "Dealer_Customer_Name":"Dealer Customer Name",
     "CopytoShippAddress" :"Copy to Shipping Address",
-    "SelectDealerCustomer":"Kindly Select Dealer Customer"
+    "SelectDealerCustomer":"Kindly Select Dealer Customer",
+    "Invaid_Customer":"Invalid Customer",
+    "Invalid_PriceList":"Invalid Price List"
 }

@@ -679,6 +679,8 @@
     "DealerApply":"Apply Dealer Customer Mapping",
     "Dealer_Customer" :"Dealer Customer",
     "Dealer_Customer_Name":"Dealer Customer Name",
-    "CopytoShippAddress" :"Copy to Shipping Address"
+    "CopytoShippAddress" :"Copy to Shipping Address",
+    "Invaid_Customer":"Invalid Customer",
+    "Invalid_PriceList":"Invalid Price List"
 
 }
