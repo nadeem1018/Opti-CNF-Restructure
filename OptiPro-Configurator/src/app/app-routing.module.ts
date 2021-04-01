@@ -71,34 +71,34 @@ const routes: Routes = [
   },
   {
     path: 'need-assessment',
-    loadChildren: () => import('./features/need-assessment/need-assessment.module').then(m => m.NeedAssessmentModule),
+    loadChildren: () => import('./features/na/na.module').then(m => m.NeedAssessmentModule),
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
     path: 'need-assessment-template',
-    loadChildren: () => import('./features/need-assessment-template/need-assessment-template.module').then(m => m.NeedAssessmentTemplateModule),
+    loadChildren: () => import('./features/na-temp/na-temp.module').then(m => m.NeedAssessmentTemplateModule),
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
     path: 'need-assessment-rule',
-    loadChildren: () => import('./features/need-assessment-rule/need-assessment-rule.module').then(m => m.NeedAssessmentRuleModule),
+    loadChildren: () => import('./features/na-rule/na-rule.module').then(m => m.NeedAssessmentRuleModule),
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
     path: 'configuration-needAssesment',
-    loadChildren: () => import('./features/configuration-needAssesments/Configuration-needAssesment.module').then(m => m.ConfigurationNeedAssesmentModule),
+    loadChildren: () => import('./features/config-na/Config-na.module').then(m => m.ConfigurationNeedAssesmentModule),
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
 
   {
     path: 'needAssesment-customer-mapping',
-    loadChildren: () => import('./features/needs-customer-mapping/needs-customer-mapping.module').then(m => m.NeedsCustomerMappingModule),
+    loadChildren: () => import('./features/ncst-mapping/ncst-mapping.module').then(m => m.NeedsCustomerMappingModule),
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
 
   {
     path: 'delar-customer-mapping',
-    loadChildren: () => import('./features/delar-customer-mapping/delar-customer-mapping.module').then(m => m.DelarCustomerMappingModule),
+    loadChildren: () => import('./features/dcst-mapping/dcst-mapping.module').then(m => m.DelarCustomerMappingModule),
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   }
 
