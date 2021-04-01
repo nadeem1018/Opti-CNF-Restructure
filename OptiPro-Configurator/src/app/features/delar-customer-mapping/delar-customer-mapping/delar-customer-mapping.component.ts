@@ -461,7 +461,7 @@ export class DelarCustomerMappingComponent implements OnInit {
       data => {
         if (data.length == 0) {
 
-          this.CommonService.show_notification(this.language.InvalidDefaultTemplate, 'error');
+          this.CommonService.show_notification(this.language.Invaid_Customer, 'error');
           this.delarList[this.currentrowIndex].OPTM_CUSTNAME = "";
           this.delarList[this.currentrowIndex].OPTM_CUSTCODE == "";
           this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = "";
@@ -493,14 +493,14 @@ export class DelarCustomerMappingComponent implements OnInit {
     this.service.ValidPricelistCheck(price).subscribe(
       data => {
         if (data.length == 0) {
-          this.CommonService.show_notification(this.language.InvalidDefaultTemplate, 'error');
+          this.CommonService.show_notification(this.language.Invalid_PriceList, 'error');
           this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = "";
           this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = "";
           return;
         }
         else {
-          this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = data[0].OPTM_PRICELISTNAME;
-          this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = data[0].OPTM_PRICELISTCODE;
+          this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = data[0].ListName;
+          this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = data[0].PriceListID;
           this.setFinalDelarMappingData();
         }
       }, error => {
