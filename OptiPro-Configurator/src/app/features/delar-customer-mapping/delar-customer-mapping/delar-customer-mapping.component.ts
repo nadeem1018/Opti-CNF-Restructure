@@ -443,6 +443,74 @@ export class DelarCustomerMappingComponent implements OnInit {
     }
   }
 
+  // function for check customer 
+
+  onCheckCustomer(index: any, custCode: any) {
+    this.currentrowIndex = index;
+    if (custCode == "") {
+      this.delarList[this.currentrowIndex].OPTM_CUSTCODE = "";
+      this.delarList[this.currentrowIndex].OPTM_CUSTNAME = "";
+      this.delarList[this.currentrowIndex].OPTM_CUSTCODE == "";
+      this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = "";
+      this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = "";
+      this.setFinalDelarMappingData();
+      return;
+    }
+    CommonData.made_changes = true;
+    this.service.ValidCustomerCheck(custCode).subscribe(
+      data => {
+        if (data.length == 0) {
+
+          this.CommonService.show_notification(this.language.InvalidDefaultTemplate, 'error');
+          this.delarList[this.currentrowIndex].OPTM_CUSTNAME = "";
+          this.delarList[this.currentrowIndex].OPTM_CUSTCODE == "";
+          this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = "";
+          this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = "";
+          this.setFinalDelarMappingData();
+          return;
+        }
+        else {
+          this.delarList[this.currentrowIndex].OPTM_CUSTNAME = data[0].OPTM_CUSTNAME;
+          this.delarList[this.currentrowIndex].OPTM_CUSTCODE == data[0].OPTM_CUSTCODE;
+          this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = data[0].PriceListName;
+          this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = data[0].PriceListID;
+          this.setFinalDelarMappingData();
+        }
+      }, error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      })
+  }
+
+
+  // function for check Price List 
+
+  onCheckPriceList(index: any, price: any) {
+    this.currentrowIndex = index;
+    CommonData.made_changes = true;
+    this.service.ValidPricelistCheck(price).subscribe(
+      data => {
+        if (data.length == 0) {
+          this.CommonService.show_notification(this.language.InvalidDefaultTemplate, 'error');
+          this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = "";
+          this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = "";
+          return;
+        }
+        else {
+          this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = data[0].OPTM_PRICELISTNAME;
+          this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = data[0].OPTM_PRICELISTCODE;
+          this.setFinalDelarMappingData();
+        }
+      }, error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      })
+  }
+
   // function for set final data for Delar Mapping
 
   setFinalDelarMappingData() {
