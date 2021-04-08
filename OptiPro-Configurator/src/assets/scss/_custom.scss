@@ -1722,10 +1722,23 @@ a.common_grid_link {
   position: absolute;
   top:0;
 }
+.foot-left {
+  float: left;
+  width: auto;
+  margin-bottom: 6px;
+}
+.foot-right {
+  float: left;
+  width: auto;
+  margin: 0 4px;
+}
 
-@media(min-width:767px){
+@media(min-width:768px){
   .custome-box-info {
     display: none;
+}
+.mb-modelDetail{
+  display: none;
 }
 }
 
@@ -1869,6 +1882,43 @@ button.btn.btn-sm.btn-primary.btn-information {
 .delear-btn button.btn.btn-primary {
   padding: 5px;
 }
+.col-sm-9.input-group.mb-mt-0{
+  margin-top: 0px !important;
+}
+label.mb-pl-0 {
+  padding-left: 0 !important;
+}
+.mb-btn-selection{
+  position: absolute;
+  bottom: 50px;
+}
+.slim-scroll.mb-slim-scroll{
+  flex-basis:100% !important;
+}
+.mb-modelDetail .btn.btn-sm.btn-primary{
+  font-size: 13px;
+  margin-top:12px;
+}
+.float-left.grand-link.w-100 {
+  font-weight: bold;
+  font-size: 14px;
+  text-decoration: underline;
+}
+.total-text{
+  font-size:14px;
+}
+.model-config-wrapper .input-group.foot-right.foot-check-right {
+  position: absolute;
+  right: -4px;
+  top: -73px;
+}
+.model-config-wrapper select#added_model_list {
+  width: 103px;
+  margin-right: 39px !important;
+}
+.foot-left {
+  margin-bottom: 3px;
+}
 
 
 }
@@ -1882,7 +1932,7 @@ button.btn.btn-sm.btn-primary.btn-information {
     text-align: center;
   }
   label.col-sm-5.col-6.col-form-label.mb-padding {
-    padding: 0;
+    white-space: nowrap;
   }
   .col-sm-5.float-right.delear-btn.text-right {
     position: absolute;

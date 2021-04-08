@@ -5,6 +5,7 @@ import { DialogService } from 'src/app/core/service/dialog.service';
 import { CommonService } from 'src/app/core/service/common.service';
 import { OutputService } from 'src/app/core/service/output.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { filter } from '@progress/kendo-data-query/dist/npm/transducers';
 
 
 @Component({
@@ -223,7 +224,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   shippingaddress: any = true;
   public shippingaddressValue: any = false;
   public isfocus = false;
-  isChecked :any = false;
+  isChecked: any = false;
+  public isdesktopView = false;
+  public isMobileView = false;
+  public isCalculation = false;
+  public isModelDetail = false;
+  public isModelFullDetails = false;
+  public modelDetailsData =[];
 
 
   constructor(private ActivatedRouter: ActivatedRoute,
@@ -333,6 +340,21 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
         this.lookup_el.nativeElement.focus();
         this.isfocus = false;
       }
+    }
+
+    var width = window.innerWidth;
+    if (width <= 768) {
+      console.log('mobile device detected')
+      this.isdesktopView = false;
+      this.isMobileView = true;
+    } else if (width > 768 && width <= 992) {
+      console.log('tablet detected')
+      this.isdesktopView = true;
+      this.isMobileView = false;
+    } else {
+      console.log('desktop detected')
+      this.isdesktopView = true;
+      this.isMobileView = false;
     }
 
   }
@@ -619,8 +641,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   GetNeedsAssessmentByCustomerId() {
     CommonData.made_changes = true;
     this.showLookupLoader = true;
-   if(this.step1_data.customer == undefined || this.step1_data.customer == null ) {
-     this.step1_data.customer = "";
+    if (this.step1_data.customer == undefined || this.step1_data.customer == null) {
+      this.step1_data.customer = "";
     }
     this.OutputService.GetNeedsAssessmentOptionByCustomerId(this.step1_data.customer).subscribe(
       data => {
@@ -1620,7 +1642,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       this.CommonService.customerDelarAddress = [];
       this.step1_data.ship_to_address = "";
       this.addressDetais = [];
-      
+
       if (this.isChecked) {
         this.GetCustomerdelarAddress();
       }
@@ -10730,6 +10752,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.CommonService.getMenuSettings().subscribe(
       data => {
         this.CommonService.needAssesmentMenu = data[0].OPTM_ISAPPLICABLE == "Y" ? true : false;
+        this.CommonService.attributeMenu = data[0].OPTM_ISATTR_MASTER == "Y" ? true : false;
       }, error => {
         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
           this.CommonService.isUnauthorized();
@@ -10876,4 +10899,36 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
         return;
       })
   }
+
+  onOpenCalculationModel() {
+    this.isCalculation = true;
+  }
+
+  onCloseCaluculationModel() {
+    this.isCalculation = false;
+  }
+
+  onCloseModelDetails ()
+  {
+    this.isModelDetail = false;
+  }
+
+  onOpenModelDetails ()
+  {
+    this.isModelDetail = true;
+  }
+
+  onOpenFullModelDetails (itemCode :any)
+  {
+    this.modelDetailsData =this.feature_itm_list_table.filter(function (obj) {
+      return obj.Item == itemCode;
+    })
+    this.isModelFullDetails = true;
+  }
+
+  onCloseFullModelDetails ()
+  {
+    this.isModelFullDetails = false;
+  }
+
 }
