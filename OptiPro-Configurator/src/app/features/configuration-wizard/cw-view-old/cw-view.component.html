@@ -248,7 +248,6 @@
                                                                 (click)="openDelarMappingView()">{{language.Dealer_Customer}}</button>
                                                         </div>
                                                     </div>
-  
                                                 </div>
                                             </div>
                                             <!-- <div class="col-md-4 pl-0 float-left" *ngIf="isDealar">
@@ -2243,11 +2242,10 @@
                                 </div>
                                 <!-- Verify the Selection and Accept -->
                             </div>
-  
-                            <div
-                                class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
-  
-                                <div class="input-group d-inline-flex w-auto mr-2">
+
+                            <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
+
+                                <div class="input-group d-inline-flex w-auto mr-2" *ngIf="isAttribute">
                                     <label class="custom-checkbox mb-0 without-label">
                                         <input type="checkbox" id="attribute2" value={{report_attribute}}
                                             (change)="set_report_attribute(attributecheckbox2)"
