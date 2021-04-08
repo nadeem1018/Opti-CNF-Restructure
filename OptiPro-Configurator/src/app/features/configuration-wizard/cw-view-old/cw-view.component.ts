@@ -10854,7 +10854,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           }
           this.isShipDisable = false;
           this.addressDetais = data;
-          this.step1_data.ship_to_address = data[0].OPTM_ADDRESS1 + " " + data[0].OPTM_ADDRESS2 + " " + data[0].OPTM_STREET + " " + data[0].OPTM_CITY + " " + data[0].OPTM_ZIP + " " + data[0].OPTM_COUNTRY;
+          this.step1_data.ship_to_address = data[0].OPTM_ADDRESS1 + " " + data[0].OPTM_ADDRESS2 + " " + data[0].OPTM_STREET + " " + data[0].OPTM_CITY + " " + data[0].OPTM_ZIP + " " + data[0].OPTM_STATE + " " + data[0].OPTM_COUNTRY;
 
         }
         else {

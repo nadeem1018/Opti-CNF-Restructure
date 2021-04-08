@@ -54,6 +54,7 @@ export class DelarCustomerMapComponent implements OnInit {
       this.delarList.customerCode = this.dealerdata[0].OPTM_CUSTOMERCODE;
       this.delarList.optmID = this.dealerdata[0].OPTM_ID;
       this.delarList.contactNumber = this.dealerdata[0].OPTM_CONTACT_NUMBER;
+      this.delarList.state = this.dealerdata[0].OPTM_STATE;
     }
     else {
       this.isNewDisable = true;
@@ -82,7 +83,8 @@ export class DelarCustomerMapComponent implements OnInit {
       OPTM_CONTACT_PERSON: this.delarList.contactPerson,
       OPTM_CUSTOMERCODE: this.delarList.customerCode,
       OPTM_ID: this.delarList.optmID,
-      OPTM_CONTACT_NUMBER: this.delarList.contactNumber
+      OPTM_CONTACT_NUMBER: this.delarList.contactNumber,
+      OPTM_STATE: this.delarList.state
     });
 
 
@@ -146,7 +148,8 @@ export class DelarCustomerMapComponent implements OnInit {
       contactPerson: "",
       customerCode: "",
       optmID: 0,
-      contactNumber: ""
+      contactNumber: "",
+      state :""
     }
   }
 
@@ -220,6 +223,7 @@ export class DelarCustomerMapComponent implements OnInit {
       this.delarList.contactPerson = $event[4];
       this.delarList.optmID = $event[0];
       this.delarList.contactNumber = $event[5];
+      this.delarList.state = $event[14];
     }
   }
 
@@ -247,4 +251,5 @@ export class DelarVaribleList {
   public customerCode: any;
   public optmID: any;
   public contactNumber: any;
+  public state :any;
 }
