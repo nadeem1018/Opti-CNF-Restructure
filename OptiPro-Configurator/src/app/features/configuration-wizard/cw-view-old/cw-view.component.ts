@@ -94,6 +94,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public accessory_item_total: number = 0;
   public acc_grand_total: number = 0;
   public isModelVisible: boolean = false;
+  public isModelCustomerDetail: boolean = false;
   public selecteddataforelement: any;
   public final_document_number: any = '';
   public selectfeaturedata = [];
@@ -230,7 +231,14 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public isCalculation = false;
   public isModelDetail = false;
   public isModelFullDetails = false;
-  public modelDetailsData =[];
+  public modelDetailsData = [];
+  public isfinaldoc = false;
+  public isVerifyAccept = false;
+  public ismodelConfig = false;
+  public isneedmobileAssessment = false;
+  public ismobilecustomer = false;
+  public isoperation = true;
+  public steps = 1;
 
 
   constructor(private ActivatedRouter: ActivatedRoute,
@@ -570,6 +578,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       }
     }
     this.navigation_in_steps(0, 1);
+    this.resetMobileFields();
+    this.ismobilecustomer = true;
+    this.steps = 2;
     this.showPrintOptions = true;
   }
   previousButtonPress() {
@@ -578,15 +589,30 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.clear_all_screen_data()
     this.onOperationChange('');
     this.navigation_in_steps(1, 0);
+    this.resetMobileFields();
+    this.isoperation = true;
+    this.steps = 1;
   }
+
+
+  previous4_3() {
+    this.navigation_in_steps(4, 3);
+    this.resetMobileFields();
+    this.ismodelConfig = true;
+  }
+
 
 
   previousBomScreen() {
     if (this.isNeedAssesment) {
       this.navigation_in_steps(3, 2);
+      this.resetMobileFields();
+      this.isneedmobileAssessment = true;
     }
     else {
       this.navigation_in_steps(3, 1);
+      this.resetMobileFields();
+      this.ismobilecustomer = true;
     }
   }
 
@@ -657,9 +683,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           }
           if (this.isNeedAssesment) {
             this.navigation_in_steps(1, 2);
+            this.resetMobileFields();
+            this.isneedmobileAssessment = true;
           }
           else {
             this.navigation_in_steps(1, 3);
+            this.resetMobileFields();
+            this.ismodelConfig = true;
           }
 
           this.customerNeedsAssessmentHeader = data.CustomerNeedsAssessmentHeader
@@ -2114,6 +2144,14 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   }
   step3_next_click_validation() {
     this.navigation_in_steps(2, 3);
+    this.resetMobileFields();
+    this.ismodelConfig = true;
+  }
+
+  previous3_2() {
+    this.navigation_in_steps(2, 1);
+    this.resetMobileFields();
+    this.ismobilecustomer = true;
   }
 
   step2_next_click_validation() {
@@ -2123,6 +2161,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       }
       else {
         this.navigation_in_steps(1, 3);
+        this.resetMobileFields();
+        this.ismodelConfig = true;
       }
     } else {
       let required_fields = '';
@@ -5067,6 +5107,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
             callback = '';
           }
           this.getCustomerAllInfo(callback);
+          this.GetCustomername();
         }
       }, error => {
         this.showLookupLoader = false;
@@ -5607,6 +5648,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
             if (button_press == 'finishPress') {
               this.navigation_in_steps(4, 5);
+              this.resetMobileFields();
+              this.isfinaldoc = true;
               setTimeout(function () {
                 obj.getFinalBOMStatus();
               }, 100);
@@ -6128,6 +6171,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.validnextbtn = true;
     if (navigte == true && this.step3_data_final.length > 0) {
       this.navigation_in_steps(3, 4);
+      this.resetMobileFields();
+      this.isVerifyAccept = true;
       return;
     }
 
@@ -6265,6 +6310,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.navigatenextbtn = true;
     if (navigte == true) {
       this.navigation_in_steps(3, 4);
+      this.resetMobileFields();
+      this.isVerifyAccept = true;
       if (this.step3_data_final.length == 0) {
         this.fill_step3_data_array('add', '0');
         this.step2_selected_model = this.step3_data_final[0];
@@ -10908,27 +10955,40 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.isCalculation = false;
   }
 
-  onCloseModelDetails ()
-  {
+  onCloseModelDetails() {
     this.isModelDetail = false;
   }
 
-  onOpenModelDetails ()
-  {
+  onOpenModelDetails() {
     this.isModelDetail = true;
   }
 
-  onOpenFullModelDetails (itemCode :any)
-  {
-    this.modelDetailsData =this.feature_itm_list_table.filter(function (obj) {
+  onOpenFullModelDetails(itemCode: any) {
+    this.modelDetailsData = this.feature_itm_list_table.filter(function (obj) {
       return obj.Item == itemCode;
     })
     this.isModelFullDetails = true;
   }
 
-  onCloseFullModelDetails ()
-  {
+  onCloseFullModelDetails() {
     this.isModelFullDetails = false;
+  }
+
+  onCloseCustomerDetails() {
+    this.isModelCustomerDetail = false;
+  }
+
+  onOpenCustomerDetails() {
+    this.isModelCustomerDetail = true;
+  }
+
+  resetMobileFields() {
+    this.isfinaldoc = false;
+    this.isVerifyAccept = false;
+    this.ismodelConfig = false;
+    this.isneedmobileAssessment = false;
+    this.ismobilecustomer = false;
+    this.isoperation = false;
   }
 
 }

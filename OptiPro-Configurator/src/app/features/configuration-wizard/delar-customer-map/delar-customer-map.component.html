@@ -132,6 +132,14 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Street No.</label>
+                            <div class="col-sm-9">
+                                <input type="text" [disabled]="isFieldDisable" name="streetNo" [(ngModel)]="delarList.streetNo"
+                                    #streetNo="ngModel" class="form-control" placeholder="">
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Street</label>
                             <div class="col-sm-9">
                                 <input type="text" [disabled]="isFieldDisable" name="street" [(ngModel)]="delarList.street"

@@ -52,6 +52,7 @@ export class CustomerAddressComponent implements OnInit {
       this.zipCode = this.addressDetais[0].OPTM_ZIP;
       this.country = this.addressDetais[0].OPTM_COUNTRY;
       this.state = this.addressDetais[0].OPTM_STATE;
+      this.streetNo = this.addressDetais[0].OPTM_STREETNO;
     }
     //   this.optmID = this.addressDetais[0].OPTM_ID;
     if (this.CommonService.customerDelarAddress.length > 0) {

@@ -58,14 +58,58 @@
                     <div class="mb-form-step d-block d-sm-none">
                         <div class="float-left w-100 d-flex align-items-center step-wrapper justify-content-between">
                             <ul class="d-flex list-unstyled justify-content-between">
-                                <li class="steps-info d-flex align-items-center" id="choose_operation">
+                                <li *ngIf="isoperation" class="steps-info d-flex align-items-center"
+                                    id="choose_operation">
                                     <span class="icon"><svg viewBox="0 0 474.565 474.565" class="icon">
                                             <use xlink:href="#userOperation"></use>
                                         </svg></span>
                                     <span class="step-name">{{language.operation}}</span>
                                 </li>
+
+                                <li *ngIf="ismobilecustomer" class="steps-info d-flex align-items-center"
+                                    id="customer_details">
+                                    <span class="icon"><svg viewBox="0 0 31.939 31.939" class="icon">
+                                            <use xlink:href="#userDetail"></use>
+                                        </svg></span>
+                                    <span class="step-name">{{language.select_customer_document}}</span>
+                                </li>
+                                <li *ngIf="isneedmobileAssessment" class="steps-info d-flex align-items-center"
+                                    id="customer_details">
+                                    <span class="icon"><svg viewBox="0 0 107.07 122.88" class="icon">
+                                            <use xlink:href="#attribute"></use>
+                                        </svg></span>
+                                    <span class="step-name">{{language.need_assessment}}</span>
+                                </li>
+                                <li *ngIf="ismodelConfig" class="steps-info d-flex align-items-center"
+                                    id="model_bom_config">
+                                    <span class="icon"><svg viewBox="0 0 512 512" class="icon">
+                                            <use xlink:href="#hierarchy"></use>
+                                        </svg></span>
+                                    <span class="step-name">{{language.select_model_bom_config_short}}</span>
+
+
+                                <li *ngIf="isVerifyAccept" class="steps-info d-flex align-items-center"
+                                    id="accept_bom_so">
+                                    <span class="icon"><svg viewBox="0 0 496.121 496.121" class="icon">
+                                            <use xlink:href="#verifiedDocument"></use>
+                                        </svg></span>
+                                    <span class="step-name">{{language.verify_select_accept}}</span>
+                                </li>
+                                <li *ngIf="isfinaldoc" class="steps-info d-flex align-items-center"
+                                    id="fina_doc_create">
+                                    <span class="icon"><svg viewBox="-24 0 480 480" class="icon">
+                                            <use xlink:href="#finalDocument"></use>
+                                        </svg></span>
+                                    <span class="step-name">{{language.fianl_document_creat}}</span>
+                                </li>
                             </ul>
-                            <div class="step-detail text-right"> Step 1 of 6 </div>
+                            <div *ngIf="isoperation" class="step-detail text-right"> {{language.step_1_6}}</div>
+                            <div *ngIf="ismobilecustomer" class="step-detail text-right"> {{language.step_2_6}}</div>
+                            <div *ngIf="isneedmobileAssessment" class="step-detail text-right"> {{language.step_3_6}}
+                            </div>
+                            <div *ngIf="ismodelConfig" class="step-detail text-right"> {{language.step_4_6}}</div>
+                            <div *ngIf="isVerifyAccept" class="step-detail text-right"> {{language.step_5_6}}</div>
+                            <div *ngIf="isfinaldoc" class="step-detail text-right"> {{language.step_6_6}}</div>
                         </div>
 
                     </div>
@@ -686,7 +730,7 @@
                                     </button>
                                 </span>
                                 <button type="button" class="btn btn-sm btn-secondary with-icon btn-previous mr-2"
-                                    (click)="navigation_in_steps(2, 1)" data-previous-block="choose_operation">
+                                    (click)="previous3_2()" data-previous-block="choose_operation">
                                     <svg viewBox="0 0 24 24" class="icon left-arrow arrow-icon">
                                         <use xlink:href="#rightArrow"></use>
                                     </svg> {{language.previous}}
@@ -733,20 +777,11 @@
                                                 <div class="form-group row clearfix no-gutters">
                                                     <label class="col-sm-2 col-form-label mb-pl-0 required"
                                                         for="model">{{language.model}}</label>
-                                                    <span class="col-sm-1 col-form-label mb-modelDetail">
-                                                        <button [style.display]="isAttribute ? 'block' : 'none'"
-                                                            type="button" (click)="openAttributeList(step2_data, '3')"
-                                                            class="btn btn-sm btn-icon mr-2 btn-primary"
-                                                            title="{{this.language.attribute}}">
-                                                            <svg class="icon" viewBox="0 0 107.07 122.88">
-                                                                <use xlink:href="#attribute"></use>
-                                                            </svg>
-                                                        </button>
-                                                    </span>
                                                     <input type="hidden" ngValue=""
                                                         class="form-control  form-control-sm"
                                                         [(ngModel)]="step2_data.modal_id" name="modelName"
                                                         id="modelNameId">
+
                                                     <div class="col-sm-9 input-group mb-mt-0" style="margin-top: 8px;">
                                                         <input type="text" ngValue=""
                                                             class="form-control  form-control-sm" name="model"
@@ -761,6 +796,17 @@
                                                                 </svg>
                                                             </span>
                                                         </div>
+                                                        <span class="col-sm-1 col-form-label open-attr">
+                                                            <button [style.display]="isAttribute ? 'block' : 'none'"
+                                                                type="button"
+                                                                (click)="openAttributeList(step2_data, '3')"
+                                                                class="btn btn-sm btn-icon mr-2 btn-primary"
+                                                                title="{{this.language.attribute}}">
+                                                                <svg class="icon" viewBox="0 0 107.07 122.88">
+                                                                    <use xlink:href="#attrIcon"></use>
+                                                                </svg>
+                                                            </button>
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row clearfix no-gutters">
@@ -814,7 +860,7 @@
                                                                     class="btn btn-sm btn-icon mr-2 btn-primary"
                                                                     title="{{this.language.attribute}}">
                                                                     <svg class="icon" viewBox="0 0 107.07 122.88">
-                                                                        <use xlink:href="#attribute"></use>
+                                                                        <use xlink:href="#attrIcon"></use>
                                                                     </svg>
                                                                 </button>
                                                             </span>
@@ -1679,7 +1725,7 @@
                                                 Model Detail </button>
                                         </div>
                                     </div>
-                                    <div class="row align-items-center mt-3" *ngIf="isMobileView">
+                                    <div class="row align-items-center mt-1" *ngIf="isMobileView">
                                         <div class="col-6">
                                             <div class="float-left grand-link w-100" (click)="onOpenCalculationModel()">
                                                 Grand Total ($)
@@ -1696,14 +1742,16 @@
 
                                 </div>
                             </div>
-                            <div class="sticky-bottom-toolbar float-left border-top pt-2 w-100 model-config-wrapper">
+                            <div
+                                class="sticky-bottom-toolbar float-left border-top pt-2 w-100 model-config-wrapper mb-footer-wrapper">
                                 <div class="no-gutters row algin-items-center">
                                     <div class="col-md-6 mb-btn-selection">
-                                        <button type="button" class="btn btn-sm btn-secondary mr-2 with-icon foot-left"
+                                        <button type="button"
+                                            class="btn btn-sm btn-secondary mr-2 with-icon mb-del-icon foot-left"
                                             (click)="onclearselection(1)">
                                             <svg viewBox="0 0 489 489" class="icon">
                                                 <use xlink:href="#cancel"></use>
-                                            </svg> {{language.clear_selection}}
+                                            </svg> <span class="mb-hide"> {{language.clear_selection}} </span>
                                         </button>
                                         <select class="form-control form-control-sm foot-left mr-2"
                                             name="added_model_list" id="added_model_list"
@@ -1723,7 +1771,7 @@
                                             *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined && step2_selected_model_id == ''">
                                             <svg viewBox="0 0 8500 8500" class="icon">
                                                 <use xlink:href="#add"></use>
-                                            </svg>{{language.add_model}}
+                                            </svg> <span class="mb-hide"> {{language.add_model}} </span>
                                         </button>
                                         <button type="button" [disabled]="multiple_model_disabled_status"
                                             class="btn with-icon btn-sm btn-info foot-left mr-2 add-update-btn update-btn"
@@ -1731,7 +1779,7 @@
                                             *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined &&  step2_selected_model_id != '' ">
                                             <svg viewBox="0 0 8500 8500" class="icon">
                                                 <use xlink:href="#add"></use>
-                                            </svg>{{language.update_model}}
+                                            </svg> <span class="mb-hide"> {{language.update_model}} </span>
                                         </button>
                                         <button type="button" class="btn btn-sm with-icon foot-left btn-danger mr-2"
                                             title="{{language.remove_this_modal}}"
@@ -1739,12 +1787,14 @@
                                             (click)="remove_final_modal(step2_selected_model)">
                                             <svg viewBox="0 0 753.23 753.23" class="icon">
                                                 <use xlink:href="#bin"></use>
-                                            </svg>{{language.delete_model}}
+                                            </svg> <span class="mb-hide"> {{language.delete_model}} </span>
                                         </button>
                                         <button [style.display]="isAttribute ? 'block' : 'none'"
                                             (click)="onCalculateAttribute()" type="button"
                                             class="btn btn-sm btn-success foot-left with-icon mr-2">
-                                            Calculate Attribute
+                                            <svg viewBox="0 0 107.07 122.88" class="icon">
+                                                <use xlink:href="#attrIcon"></use>
+                                            </svg> <span class="mb-hide"> Calculate Attribute </span>
                                         </button>
 
 
@@ -1759,7 +1809,7 @@
                                                 <span>{{language.print_attribute}}</span>
                                             </label>
                                         </div>
-                                        <div class="input-group foot-right" *ngIf="showPrintOptions">
+                                        <div class="input-group foot-right mb-hide" *ngIf="showPrintOptions">
                                             <select class="form-control form-control-sm d-inline-flex"
                                                 name="print-operation-type" id="print-operation-type"
                                                 #printOperationType>
@@ -1777,12 +1827,20 @@
                                                 </button>
                                             </div>
                                         </div>
+                                        <div class="input-group foot-right mb-print" *ngIf="showPrintOptions">
+                                            <button class="btn btn-sm btn-success btn-icon"
+                                                (click)="output_new_invoice(printOperationType.value)" title="Print">
+                                                <svg viewBox="0 0 512 512" class="">
+                                                    <use xlink:href="#printer"></use>
+                                                </svg>
+                                            </button>
+                                        </div>
                                         <span class="output_final_screen_save_button foot-right">
                                             <button (click)="onSavePress()" type="button"
                                                 class="btn btn-sm btn-success with-icon mr-2">
                                                 <svg viewBox="0 0 512 512" class="icon">
                                                     <use xlink:href="#saveDisk"></use>
-                                                </svg> {{language.save}}
+                                                </svg> <span class="mb-hide"> {{language.save}} </span>
                                             </button>
                                         </span>
 
@@ -1791,7 +1849,7 @@
                                             data-previous-block="customer_details" (click)="previousBomScreen()">
                                             <svg viewBox="0 0 24 24" class="icon left-arrow arrow-icon">
                                                 <use xlink:href="#rightArrow"></use>
-                                            </svg>{{language.previous}}s
+                                            </svg> <span class="mb-hide"> {{language.previous}} </span>
                                         </button>
 
                                         <button [ngStyle]=" {'display': 'none'}" id="modelbom_next_click_id"
@@ -1800,7 +1858,7 @@
                                             data-next-block="accept_bom_so">
                                             <svg viewBox="0 0 24 24" class="icon arrow-icon">
                                                 <use xlink:href="#rightArrow"></use>
-                                            </svg>{{language.next}}
+                                            </svg> <span class="mb-hide"> {{language.next}} </span>
                                         </button>
 
                                         <button *ngIf="validnextbtn" type="button"
@@ -1808,7 +1866,7 @@
                                             (click)="onValidateNextPress(true, '')">
                                             <svg viewBox="0 0 24 24" class="icon arrow-icon">
                                                 <use xlink:href="#rightArrow"></use>
-                                            </svg>{{language.next}}
+                                            </svg> <span class="mb-hide"> {{language.next}} </span>
                                         </button>
                                     </div>
                                 </div>
@@ -1834,7 +1892,8 @@
                                 <div class="form_section" id="opti_configur-wizard-four-step">
                                     <div class="container-fluid">
                                         <div class="row">
-                                            <div class="col-md-5" id="opti_configur-wizard-four-step-left">
+                                            <div class="col-md-5 mb-form-section"
+                                                id="opti_configur-wizard-four-step-left">
                                                 <div class="form-group row clearfix mb-hide">
                                                     <label class="col-sm-4 col-form-label">
                                                         <b>{{language.order_type}}</b>
@@ -1851,26 +1910,27 @@
                                                         'MM/dd/yyyy' }}</label>
                                                 </div>
                                                 <div class="form-group row clearfix">
-                                                    <label class="col-sm-4 col-form-label">
+                                                    <label class="col-sm-4 col-4 mb-p-0  col-form-label">
                                                         <b>{{language.delivery_date}}</b>
                                                     </label>
-                                                    <label class="col-sm-8 col-form-label font-weight-light">{{step1_data.delivery_until
+                                                    <label
+                                                        class="col-sm-8 col-8 col-form-label font-weight-light mb-p-0 ">{{step1_data.delivery_until
                                                         | date:
                                                         'MM/dd/yyyy'}}</label>
                                                 </div>
                                                 <div class="form-group row clearfix">
-                                                    <label class="col-sm-4 col-form-label">
+                                                    <label class="col-sm-4 col-4 col-form-label mb-p-0 ">
                                                         <b>{{language.customer_code}}</b>
                                                     </label>
                                                     <label
-                                                        class="col-sm-8 col-form-label font-weight-light">{{step1_data.customer}}</label>
+                                                        class="col-sm-8 col-6 col-form-label font-weight-light mb-p-0 ">{{step1_data.customer}}</label>
                                                 </div>
                                                 <div class="form-group row clearfix">
-                                                    <label class="col-sm-4 col-form-label">
+                                                    <label class="col-sm-4 col-4 col-form-label mb-p-0 ">
                                                         <b>{{language.customer_name}}</b>
                                                     </label>
                                                     <label
-                                                        class="col-sm-8 col-form-label font-weight-light">{{step1_data.customer_name}}</label>
+                                                        class="col-sm-8 col-8 col-form-label font-weight-light mb-p-0 ">{{step1_data.customer_name}}</label>
                                                 </div>
                                                 <div class="form-group row clearfix mb-hide">
                                                     <label class="col-sm-4 col-form-label">
@@ -1922,7 +1982,7 @@
                                                         class="col-sm-8 col-form-label font-weight-light">{{step1_data.remark}}</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-7 border-left-primary"
+                                            <div class="col-md-7 border-left-primary mb-p-0 mb-t-2"
                                                 id="opti_configur-wizard-four-step-right">
                                                 <div class="col-md-12 pl-0">
                                                     <button type="button" class=" btn btn-sm btn-danger with-icon mb-2"
@@ -2198,7 +2258,8 @@
 
 
                                                 <div class="final_item_discount_table">
-                                                    <div class="col-md-6 pull-right pr-0 mt-4" style="float: right;">
+                                                    <div class="col-md-6 pull-right pr-0 mt-4 p-list-view mb-p-0"
+                                                        style="float: right;">
                                                         <table class="table table-bordered table-sm">
                                                             <tbody>
                                                                 <tr>
@@ -2244,9 +2305,9 @@
                             </div>
 
                             <div
-                                class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
+                                class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2 mb-mark-print">
 
-                                <div class="input-group d-inline-flex w-auto mr-2" *ngIf="isAttribute">
+                                <div class="input-group d-inline-flex w-auto mr-2 mb-attribute-pos" *ngIf="isAttribute">
                                     <label class="custom-checkbox mb-0 without-label">
                                         <input type="checkbox" id="attribute2" value={{report_attribute}}
                                             (change)="set_report_attribute(attributecheckbox2)"
@@ -2281,7 +2342,7 @@
                                 </span>
 
                                 <button type="button" class="btn btn-sm btn-secondary with-icon btn-previous mr-2"
-                                    data-previous-block="model_bom_config" (click)="navigation_in_steps(4, 3)">
+                                    data-previous-block="model_bom_config" (click)="previous4_3()">
                                     <svg viewBox="0 0 24 24" class="icon left-arrow arrow-icon">
                                         <use xlink:href="#rightArrow"></use>
                                     </svg> {{language.previous}}
@@ -2318,7 +2379,7 @@
                                 <div class="form_section" id="opti_configur-wizard-last-step">
                                     <div class="container-fluid">
                                         <div class="row">
-                                            <div class="col-sm-3" id="opti_configur-wizard-last-step-leftside">
+                                            <div class="col-sm-3 mb-p-0" id="opti_configur-wizard-last-step-leftside">
                                                 <div class="new item section">
                                                     <h6>{{language.lsit_of_new_item_created}}</h6>
                                                     <table *ngIf="new_item_list.length"
@@ -2338,11 +2399,11 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-9 border-left-primary"
+                                            <div class="col-sm-9 border-left-primary mb-p-0 last-step-wrapper"
                                                 id="opti_configur-wizard-last-step-rightside">
                                                 <div class="customer_detail_section">
                                                     <div class="row">
-                                                        <div class="col-md-12 pr-0">
+                                                        <div class="col-md-12 pr-0  mb-hide">
                                                             <div class="pull-right">
                                                                 <button type="button" (click)="refresh_bom_status()"
                                                                     class=" btn btn-sm btn-outline-primary refresh_btn">
@@ -2361,32 +2422,32 @@
 
                                                         <div class="col-md-6">
                                                             <div class="form-group row clearfix">
-                                                                <label class="col-sm-5 col-form-label">
+                                                                <label class="col-sm-5 col-5 col-form-label">
                                                                     <b>{{language.order_type}}</b>
                                                                 </label>
                                                                 <label
-                                                                    class="col-sm-7 col-form-label font-weight-light">{{step1_data.document_name}}</label>
+                                                                    class="col-sm-7 col-7 col-form-label font-weight-light">{{step1_data.document_name}}</label>
                                                             </div>
 
                                                             <div class="form-group row clearfix">
-                                                                <label class="col-sm-5 col-form-label">
+                                                                <label class="col-sm-5 col-5 col-form-label">
                                                                     <b>{{language.order_status}}</b>
                                                                 </label>
-                                                                <label class="col-sm-7 col-form-label">
+                                                                <label class="col-sm-7 col-7 col-form-label">
                                                                     <b
                                                                         class="final_order_status_class font-weight-light">{{final_order_status}}</b>
                                                                 </label>
                                                             </div>
 
-                                                            <div class="form-group row clearfix ">
-                                                                <label class="col-sm-5 col-form-label ">
+                                                            <div class="form-group row clearfix">
+                                                                <label class="col-sm-5 col-5 col-form-label ">
                                                                     <b>{{language.ref_doc_no}}</b>
                                                                 </label>
                                                                 <label
-                                                                    class="col-sm-7 col-form-label font-weight-light">{{final_document_number}}</label>
+                                                                    class="col-sm-7 col-7 col-form-label font-weight-light">{{final_document_number}}</label>
                                                             </div>
 
-                                                            <div class="form-group row clearfix">
+                                                            <div class="form-group row clearfix mb-hide">
                                                                 <label class="col-sm-5 col-form-label">
                                                                     <b>{{language.ref_doc_entry}}</b>
                                                                 </label>
@@ -2398,46 +2459,46 @@
                                                         <div class="col-md-6">
 
 
-                                                            <div class="form-group row clearfix ">
-                                                                <label class="col-sm-5 col-form-label text-left">
+                                                            <div class="form-group row clearfix mb-hide">
+                                                                <label class="col-sm-5 col-5 col-form-label text-left">
                                                                     <b>{{language.posting_date}}</b>
                                                                 </label>
                                                                 <label
-                                                                    class="col-sm-7 col-form-label text-right font-weight-light">{{step1_data.posting_date
+                                                                    class="col-sm-7 col-7 col-form-label text-right mb-text-left font-weight-light">{{step1_data.posting_date
                                                                     |
                                                                     date: 'MM/dd/yyyy'}}</label>
                                                             </div>
 
                                                             <div class="form-group row clearfix ">
-                                                                <label class="col-sm-5 col-form-label text-left">
+                                                                <label class="col-sm-5 col-5 col-form-label text-left">
                                                                     <b>{{language.delivery_date}}</b>
                                                                 </label>
                                                                 <label
-                                                                    class="col-sm-7 col-form-label text-right font-weight-light">{{step1_data.delivery_until
+                                                                    class="col-sm-7 col-7 col-form-label text-right mb-text-left font-weight-light">{{step1_data.delivery_until
                                                                     | date: 'MM/dd/yyyy'}}</label>
                                                             </div>
 
                                                             <div class="form-group row clearfix ">
-                                                                <label class="col-sm-5 col-form-label text-left">
+                                                                <label class="col-sm-5 col-5 col-form-label text-left">
                                                                     <b>{{language.configuration_id}}</b>
                                                                 </label>
                                                                 <label
-                                                                    class="col-sm-7 col-form-label text-right font-weight-light">{{iLogID}}</label>
+                                                                    class="col-sm-7 col-7 col-form-label text-right mb-text-left font-weight-light">{{iLogID}}</label>
                                                             </div>
 
-                                                            <div class="form-group row clearfix ">
-                                                                <label class="col-sm-5 col-form-label text-left">
+                                                            <div class="form-group row clearfix mb-hide ">
+                                                                <label class="col-sm-5 col-5 col-form-label text-left">
                                                                     <b>{{language.description}}</b>
                                                                 </label>
                                                                 <label
-                                                                    class="col-sm-7 col-form-label text-right font-weight-light">{{step1_data.description}}</label>
+                                                                    class="col-sm-7 col-7 col-form-label text-right font-weight-light">{{step1_data.description}}</label>
                                                             </div>
 
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <hr>
-                                                <div class="order_detail_section">
+                                                <div class="order_detail_section mb-hide">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group row clearfix">
@@ -2506,6 +2567,13 @@
                                                     </div>
                                                 </div>
                                                 <hr>
+                                                <div class="row mb-2" *ngIf="isMobileView">
+                                                    <div class="col-md-12 text-right">
+                                                        <button class="btn btn-sm btn-primary" type="button"
+                                                            (click)="onOpenCustomerDetails()"> Model
+                                                            Detail </button>
+                                                    </div>
+                                                </div>
                                                 <div class="pricing_detail_section">
                                                     <div class="row">
                                                         <!-- <div class="col-md-3"> </div> -->
@@ -2771,79 +2839,152 @@
                                                             <br>
                                                         </div>
                                                     </div>
-                                                    <div class="">
-                                                        <div class="col-md-6 pull-left" style="float: left;">
-                                                            <div class="form-group row clearfix">
-                                                                <label class="col-sm-5 col-form-label">
-                                                                    <b>{{language.sales_employee}}</b>
-                                                                </label>
-                                                                <label
-                                                                    class="col-sm-7 col-form-label font-weight-light">{{step1_data.sales_employee}}</label>
-                                                            </div>
-                                                            <div class="form-group row clearfix">
-                                                                <label class="col-sm-5 col-form-label">
-                                                                    <b>{{language.remark}}</b>
-                                                                </label>
-                                                                <label
-                                                                    class="col-sm-7 col-form-label font-weight-light">{{step1_data.remark}}</label>
-                                                            </div>
+                                                    <div class="col-md-6 pull-left mb-sales-wrapper"
+                                                        style="float: left;">
+                                                        <div class="form-group row clearfix">
+                                                            <label class="col-sm-5 col-5 col-form-label">
+                                                                <b>{{language.sales_employee}}</b>
+                                                            </label>
+                                                            <label
+                                                                class="col-sm-7 col-7 col-form-label font-weight-light">{{step1_data.sales_employee}}</label>
                                                         </div>
-                                                        <div class="item_discount_table">
-                                                            <div class="col-md-4 pull-right" style="float: right;">
-                                                                <table class="table table-bordered table-sm">
-                                                                    <thead class="">
-                                                                        <tr>
-                                                                            <td>
-                                                                                {{this.language.product_total}}
-                                                                                ({{defaultCurrency}})
-                                                                            </td>
-                                                                            <td class="text-right mr-3">{{this.step4_final_prod_total
+                                                        <div class="form-group row clearfix">
+                                                            <label class="col-sm-5 col-form-label">
+                                                                <b>{{language.remark}}</b>
+                                                            </label>
+                                                            <label
+                                                                class="col-sm-7 col-form-label font-weight-light">{{step1_data.remark}}</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item_discount_table">
+                                                        <div class="col-md-4 pull-right mb-p-0" style="float: right;">
+                                                            <table class="table table-bordered table-sm">
+                                                                <thead class="">
+                                                                    <tr>
+                                                                        <td>
+                                                                            {{this.language.product_total}}
+                                                                            ({{defaultCurrency}})
+                                                                        </td>
+                                                                        <td class="text-right mr-3">{{this.step4_final_prod_total
                                                                                 | toFixed:'3'}}</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                {{this.language.accessories_total}}
-                                                                                ({{defaultCurrency}})
-                                                                            </td>
-                                                                            <td class="text-right mr-3">{{this.step4_final_acc_total
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            {{this.language.accessories_total}}
+                                                                            ({{defaultCurrency}})
+                                                                        </td>
+                                                                        <td class="text-right mr-3">{{this.step4_final_acc_total
                                                                                 | toFixed:'3'}}</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td width="70%">
-                                                                                {{this.language.prod_disc_amount}}
-                                                                                ({{defaultCurrency}})
-                                                                            </td>
-                                                                            <td class="text-right" width="30%">{{this.prod_discount_log
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td width="70%">
+                                                                            {{this.language.prod_disc_amount}}
+                                                                            ({{defaultCurrency}})
+                                                                        </td>
+                                                                        <td class="text-right" width="30%">{{this.prod_discount_log
                                                                                 | toFixed:'3'}}</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td width="70%">
-                                                                                {{this.language.acc_disc_amount}}
-                                                                                ({{defaultCurrency}})
-                                                                            </td>
-                                                                            <td class="text-right" width="30%">{{this.access_dis_amount_log
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td width="70%">
+                                                                            {{this.language.acc_disc_amount}}
+                                                                            ({{defaultCurrency}})
+                                                                        </td>
+                                                                        <td class="text-right" width="30%">{{this.access_dis_amount_log
                                                                                 | toFixed:'3'}}</td>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tfoot>
-                                                                        <tr>
-                                                                            <th>{{this.language.grand_total}}
-                                                                                ({{defaultCurrency}})</th>
-                                                                            <td class="text-right mr-3">{{this.step4_final_grand_total
+                                                                    </tr>
+                                                                </thead>
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <th>{{this.language.grand_total}}
+                                                                            ({{defaultCurrency}})</th>
+                                                                        <td class="text-right mr-3">{{this.step4_final_grand_total
                                                                                 | toFixed:'3'}}</td>
-                                                                        </tr>
-                                                                    </tfoot>
-                                                                </table>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal grand-model show"
+                                                style="display: block; padding-left: 17px;" aria-modal="true"
+                                                role="dialog" id="myModal1" *ngIf="isModelCustomerDetail">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">{{language.config_wizard}}</h4>
+                                                            <button type="button" (click)="onCloseCustomerDetails()"
+                                                                class="close">&times;</button>
+                                                        </div>
+
+                                                        <!-- Modal body -->
+                                                        <div class="modal-body grand-modal-body address-model-body">
+                                                            <div
+                                                                class="grand-inner addresss-detail-box float-left w-100">
+                                                                <div class="form-group row clearfix">
+                                                                    <label class="col-sm-5 col-form-label">
+                                                                        <b>{{language.customer}}</b>
+                                                                    </label>
+                                                                    <label
+                                                                        class="col-sm-7 col-form-label font-weight-light">{{step1_data.customer}}</label>
+                                                                </div>
+
+                                                                <div class="form-group row clearfix ">
+                                                                    <label class="col-sm-5 col-form-label">
+                                                                        <b>{{language.contact_person}}</b>
+                                                                    </label>
+                                                                    <label
+                                                                        class="col-sm-7 col-form-label font-weight-light">{{step1_data.person_name}}</label>
+                                                                </div>
+
+                                                                <div class="form-group row clearfix ">
+                                                                    <label class="col-sm-5 col-form-label">
+                                                                        <b>{{language.ship_to}}</b>
+                                                                    </label>
+                                                                    <label
+                                                                        class="col-sm-7 col-form-label font-weight-light">{{step1_data.ship_to}}</label>
+                                                                </div>
+
+                                                                <div class="form-group row clearfix ">
+                                                                    <label class="col-sm-5 col-form-label">
+                                                                        <b>{{language.address}}</b>
+                                                                    </label>
+                                                                    <label
+                                                                        class="col-sm-7 col-form-label font-weight-light">{{step1_data.ship_to_address}}</label>
+                                                                </div>
+
+                                                                <div class="form-group row clearfix ">
+                                                                    <label class="col-sm-5 col-form-label">
+                                                                        <b>{{language.bill_to}}</b>
+                                                                    </label>
+                                                                    <label
+                                                                        class="col-sm-7 col-form-label font-weight-light">{{step1_data.bill_to}}</label>
+
+                                                                </div>
+
+                                                                <div class="form-group row clearfix ">
+                                                                    <label class="col-sm-5 col-form-label">
+                                                                        <b>{{language.address}}</b>
+                                                                    </label>
+                                                                    <label
+                                                                        class="col-sm-7 col-form-label font-weight-light">{{step1_data.bill_to_address}}</label>
+                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="modal-backdrop show" *ngIf="isModelCustomerDetail"></div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- end final document creation -->
                             </div>
+                            <!-- end final document creation -->
+
 
                             <div
                                 class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
@@ -2869,6 +3010,7 @@
                                         <use xlink:href="#rightArrow"></use>
                                     </svg> {{language.start_new_configuration}}
                                 </button>
+
                             </div>
                         </div>
                     </fieldset>

@@ -1732,9 +1732,14 @@ a.common_grid_link {
   width: auto;
   margin: 0 4px;
 }
+span.open-attr {
+  position: absolute;
+  right: -27px;
+  top: -7px;
+}
 
 @media(min-width:768px){
-  .custome-box-info {
+  .custome-box-info, .mb-print {
     display: none;
 }
 .mb-modelDetail{
@@ -1756,7 +1761,7 @@ a.common_grid_link {
 
 @media(max-width:767px){
   .form-step-inner, .mb-hide{
-    display: none;
+    display: none !important;
   }
   .mb-card-body .wizard_heading_section{
     display:none;
@@ -1909,17 +1914,85 @@ label.mb-pl-0 {
 }
 .model-config-wrapper .input-group.foot-right.foot-check-right {
   position: absolute;
-  right: -4px;
-  top: -73px;
+  right: -10px;
+  top: -37px;
 }
 .model-config-wrapper select#added_model_list {
   width: 103px;
-  margin-right: 39px !important;
+  margin-right: 6px !important;
 }
 .foot-left {
   margin-bottom: 3px;
 }
-
+span.col-sm-1.col-form-label.open-attr {
+  position: absolute;
+  top: -29px;
+  padding: 0;
+  left: 57px;
+  width: 28px;
+}
+.mb-form-section .col-6.col-form-label, .mb-form-section .col-8.col-form-label{
+  padding: 0;
+}
+.mb-p-0{
+  padding: 0 !important;
+}
+.mb-t-2{
+  margin-top:10px;
+}
+div#opti_configur-wizard-four-step-left {
+  padding: 8px 22px;
+  background: #e9e7e7;
+  border-radius: 6px;
+}
+.mb-footer-wrapper .with-icon .icon {
+  margin-right: 0px;
+}
+button.with-icon.mb-del-icon{
+  position: absolute;
+  bottom: -45px;
+}
+.mb-footer-wrapper button.btn.btn-sm.btn-success.foot-left.with-icon.mr-2 {
+  position: fixed;
+  bottom: 7px;
+  right: 129px;
+}
+.input-group.mb-attribute-pos{
+  position: absolute;
+  bottom: 59px;
+}
+.customer_detail_section {
+  background: #e9e7e7;
+  border-radius: 6px;
+  padding: 5px 10px;
+  margin:0 0 10px 0px;
+}
+.col-form-label.text-right.mb-text-left {
+  text-align: left !important;
+}
+.last-step-wrapper hr{
+  display: none;
+}
+.last-step-wrapper hr h6{
+  margin-top:7px;
+}
+.mb-sales-wrapper label.col-form-label {
+  padding-left: 1px;
+}
+.modal-body.grand-modal-body.address-model-body{
+  padding:5px !important;
+}
+.grand-inner.addresss-detail-box {
+  padding: 5px;
+}
+.address-model-body .form-group {
+  border-bottom: 1px solid #EAEDF3;
+  margin: 0 -6px;
+  padding-bottom: 3px;
+}
+.address-model-body .form-group:last-child{
+  border-bottom: 0px;
+}
 
 }
 
