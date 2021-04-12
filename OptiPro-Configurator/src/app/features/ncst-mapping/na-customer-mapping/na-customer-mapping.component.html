@@ -39,15 +39,22 @@
                                         <span class="text-inverse">{{language.enable_filter}}</span>
                                     </label>
                                 </ng-template>
-                                <kendo-grid-column field="customer_name" title="{{language.need_customer}}" filter="text"
-                                    [width]="145" [minResizableWidth]="145" [filterable]="true">
+                                <kendo-grid-column field="customer_name" title="{{language.customerName}}" filter="text"
+                                    [width]="100" [minResizableWidth]="100" [filterable]="true">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="customerDisable" class="form-control  form-control-sm"
                                             #customer_name value={{dataItem.customer_name}} />
                                     </ng-template>
                                 </kendo-grid-column>
+                                <kendo-grid-column field="customer_code" title="{{language.customerCode}}" filter="text"
+                                [width]="100" [minResizableWidth]="100" [filterable]="true">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <input type="text" [disabled]="customerDisable" class="form-control  form-control-sm"
+                                        #customer_code value={{dataItem.customer_code}} />
+                                </ng-template>
+                            </kendo-grid-column>
                                 <kendo-grid-column field="template_ID" title="{{language.need_assesment_template}}"
-                                    filter="text" [width]="145" [minResizableWidth]="145">
+                                    filter="text" [width]="100" [minResizableWidth]="100">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="hidden" class="form-control  form-control-sm" />
                                         <div class="input-group">

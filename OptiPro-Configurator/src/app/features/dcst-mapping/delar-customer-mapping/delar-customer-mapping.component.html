@@ -83,7 +83,8 @@
                                         <input type="hidden" class="form-control  form-control-sm" />
                                         <div class="input-group">
                                             <input type="text" #OPTM_PRICELISTCODE value={{dataItem.OPTM_PRICELISTNAME}}
-                                                class="form-control form-control-sm" (change)="onCheckPriceList(dataItem.rowindex,OPTM_PRICELISTCODE.value)" />
+                                                class="form-control form-control-sm" [disabled]="dataItem.OPTM_disable"
+                                                (change)="onCheckPriceList(dataItem.rowindex,OPTM_PRICELISTCODE.value)" />
                                             <div class="input-group-append">
                                                 <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getPriceList(dataItem.rowindex)">
                                                     <svg class="icon m-0" viewBox="0 -96 512 512">
@@ -98,17 +99,19 @@
                                     filter="text" [width]="145" [minResizableWidth]="145" [filterable]="true">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" class="form-control  form-control-sm" #OPTM_REPORTNAME
-                                            (change)="on_report_change(OPTM_REPORTNAME.value,dataItem.rowindex)" value={{dataItem.OPTM_REPORTNAME}} />
+                                            (change)="on_report_change(OPTM_REPORTNAME.value,dataItem.rowindex)"
+                                            [disabled]="dataItem.OPTM_disable" value={{dataItem.OPTM_REPORTNAME}} />
                                     </ng-template>
                                 </kendo-grid-column>
                                 <kendo-grid-column field="Models" title="{{language.Models}}" filter="text" [width]="145"
                                     [minResizableWidth]="145">
                                     <ng-template kendoGridCellTemplate let-dataItem>
-                                        <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getModelList(dataItem.OPTM_DEALERCODE,dataItem.rowindex)">
+                                        <button class="btn btn-sm btn-primary cursor-pointer btn-icon" [disabled]="dataItem.OPTM_disable" (click)="getModelList(dataItem.OPTM_DEALERCODE,dataItem.rowindex)">
                                             <svg class="icon m-0" viewBox="0 -96 512 512">
                                                 <use xlink:href="#menu"></use>
                                             </svg>
-                                        </span>
+                                        </button>
+
                                     </ng-template>
                                 </kendo-grid-column>
                                 <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">

@@ -681,6 +681,8 @@
     "Dealer_Customer_Name":"Dealer Customer Name",
     "CopytoShippAddress" :"Copy to Shipping Address",
     "Invaid_Customer":"Invalid Customer",
-    "Invalid_PriceList":"Invalid Price List"
+    "Invalid_PriceList":"Invalid Price List",
+    "need_assesment_template":"Assessment Template",
+    "customerCode": "Customer Code"
 
 }
