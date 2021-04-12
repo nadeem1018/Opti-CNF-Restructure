@@ -705,5 +705,7 @@
     "CopytoShippAddress" :"Copy to Shipping Address",
     "SelectDealerCustomer":"Kindly Select Dealer Customer",
     "Invaid_Customer":"Invalid Customer",
-    "Invalid_PriceList":"Invalid Price List"
+    "Invalid_PriceList":"Invalid Price List",
+    "need_assesment_template":"Assessment Template",
+    "customerCode": "Customer Code"
 }

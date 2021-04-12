@@ -288,6 +288,10 @@ export class DelarCustomerMappingComponent implements OnInit {
         if (data.length > 0) {
 
           for (let i = 0; i < data.length; i++) {
+            let OPTM_disable = false;
+            if (data[i].OPTM_CUSTCODE == "") {
+              OPTM_disable = true;
+            }
             this.delarList.push({
               OPTM_DEALERCODE: data[i].OPTM_DEALERCODE,
               OPTM_DEALERNAME: data[i].OPTM_DEALERNAME,
@@ -298,6 +302,7 @@ export class DelarCustomerMappingComponent implements OnInit {
               OPTM_REPORTNAME: data[i].OPTM_REPORTNAME,
               OPTM_PRICELISTNAME: data[i].OPTM_PRICELISTNAME,
               OPTM_ID: data[i].OPTM_ID == null ? 0 : data[i].OPTM_ID,
+              OPTM_disable:OPTM_disable,
               rowindex: i,
             });
           }
@@ -439,6 +444,7 @@ export class DelarCustomerMappingComponent implements OnInit {
       this.delarList[this.currentrowIndex].OPTM_CUSTNAME = $event[1];
       this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = $event[3];
       this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = $event[2];
+      this.delarList[this.currentrowIndex].OPTM_disable = false;
       this.setFinalDelarMappingData();
     }
   }
@@ -453,6 +459,7 @@ export class DelarCustomerMappingComponent implements OnInit {
       this.delarList[this.currentrowIndex].OPTM_CUSTCODE == "";
       this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = "";
       this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = "";
+      this.delarList[this.currentrowIndex].OPTM_disable = true;
       this.setFinalDelarMappingData();
       return;
     }
@@ -460,12 +467,12 @@ export class DelarCustomerMappingComponent implements OnInit {
     this.service.ValidCustomerCheck(custCode).subscribe(
       data => {
         if (data.length == 0) {
-
           this.CommonService.show_notification(this.language.Invaid_Customer, 'error');
-          this.delarList[this.currentrowIndex].OPTM_CUSTNAME = "";
           this.delarList[this.currentrowIndex].OPTM_CUSTCODE == "";
+          this.delarList[this.currentrowIndex].OPTM_CUSTNAME = "";
           this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = "";
           this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = "";
+          this.delarList[this.currentrowIndex].OPTM_disable = true;
           this.setFinalDelarMappingData();
           return;
         }
@@ -474,6 +481,7 @@ export class DelarCustomerMappingComponent implements OnInit {
           this.delarList[this.currentrowIndex].OPTM_CUSTCODE == data[0].OPTM_CUSTCODE;
           this.delarList[this.currentrowIndex].OPTM_PRICELISTNAME = data[0].PriceListName;
           this.delarList[this.currentrowIndex].OPTM_PRICELISTCODE = data[0].PriceListID;
+          this.delarList[this.currentrowIndex].OPTM_disable = false;
           this.setFinalDelarMappingData();
         }
       }, error => {

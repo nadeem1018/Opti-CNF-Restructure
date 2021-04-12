@@ -145,6 +145,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
               rowindex: i,
               CustID: data[i].CustID,
               OPTM_ID: data[i].OPTM_ID,
+              customer_code :data[i].CustID
 
             });
           }

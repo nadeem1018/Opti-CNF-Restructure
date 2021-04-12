@@ -174,7 +174,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
       OPTM_ISAPPLICABLE_CUST: OPTM_ISAPPLICABLE_CUST,
       OPTM_DEFAULT_TEMPLATE: this.OPTM_DEFAULT_TEMPLATE,
       OPTM_ISATTR_MASTER: OPTM_ISATTR_MASTER,
-      OPTM_ISDEALER_CUST_MAP:OPTM_ISDEALER_CUST_MAP,
+      OPTM_ISDEALER_CUST_MAP: OPTM_ISDEALER_CUST_MAP,
       DefaultYesNO: defaultValue
     });
     this.showLookupLoader = true;
@@ -228,6 +228,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
   // function for Navigate URL 
   navigateURL() {
     this.router.navigateByUrl('/need-assessment-template');
+    //  this.router.navigateByUrl('need-assessment-template/edit/' + this.defaultAssesmentTemplate);
   }
 
   // function for on cancel click
