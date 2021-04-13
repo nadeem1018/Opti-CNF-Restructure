@@ -39,6 +39,13 @@
                                         <span class="text-inverse">{{language.enable_filter}}</span>
                                     </label>
                                 </ng-template>
+                                <kendo-grid-column field="customer_code" title="{{language.customerCode}}" filter="text"
+                                    [width]="50" [minResizableWidth]="50" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="customerDisable" class="form-control  form-control-sm"
+                                            #customer_code value={{dataItem.customer_code}} />
+                                    </ng-template>
+                                </kendo-grid-column>
                                 <kendo-grid-column field="customer_name" title="{{language.customerName}}" filter="text"
                                     [width]="100" [minResizableWidth]="100" [filterable]="true">
                                     <ng-template kendoGridCellTemplate let-dataItem>
@@ -46,13 +53,6 @@
                                             #customer_name value={{dataItem.customer_name}} />
                                     </ng-template>
                                 </kendo-grid-column>
-                                <kendo-grid-column field="customer_code" title="{{language.customerCode}}" filter="text"
-                                [width]="100" [minResizableWidth]="100" [filterable]="true">
-                                <ng-template kendoGridCellTemplate let-dataItem>
-                                    <input type="text" [disabled]="customerDisable" class="form-control  form-control-sm"
-                                        #customer_code value={{dataItem.customer_code}} />
-                                </ng-template>
-                            </kendo-grid-column>
                                 <kendo-grid-column field="template_ID" title="{{language.need_assesment_template}}"
                                     filter="text" [width]="100" [minResizableWidth]="100">
                                     <ng-template kendoGridCellTemplate let-dataItem>
@@ -78,7 +78,7 @@
                                         (selectionChange)="getcurrentPageSize($event)" [(ngModel)]="selectedValue"></kendo-dropdownlist>
                                     <kendo-pager-info></kendo-pager-info>
                                 </ng-template>
-                            </kendo-grid>
+                            </kendo-grid>sv
                         </div>
                     </div>
                 </div>
