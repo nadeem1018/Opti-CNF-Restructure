@@ -50,13 +50,13 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Dealer Code</label>
                             <div class="col-sm-9">
-                                <input type="text" [disabled]="isFieldDisable" name="delarCode" [(ngModel)]="delarList.delarCode"
+                                <input type="text" [disabled]="true" name="delarCode" [(ngModel)]="delarList.delarCode"
                                     #delarCode="ngModel" class="form-control" placeholder="" required>
-                                <div *ngIf="!delarCode?.valid && (delarCode?.dirty || delarCode?.touched) ">
+                                <!-- <div *ngIf="!delarCode?.valid && (delarCode?.dirty || delarCode?.touched) ">
                                     <div *ngIf="delarCode.errors.required" class="help-block">
                                         * Field is Mandatory.
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
@@ -134,7 +134,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Street No.</label>
                             <div class="col-sm-9">
-                                <input type="text" [disabled]="isFieldDisable" name="streetNo" [(ngModel)]="delarList.streetNo"
+                                <input type="number" [disabled]="isFieldDisable" name="streetNo" [(ngModel)]="delarList.streetNo"
                                     #streetNo="ngModel" class="form-control" placeholder="">
 
                             </div>
