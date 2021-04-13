@@ -925,6 +925,14 @@ export class RuleWbAddEditComponent implements OnInit {
              this.showUpdateSequenceBtn == false;
              return false;
            }
+
+           if (type == "" && operator != "") {
+            this.generated_expression_value = "";
+            this.CommonService.show_notification(this.language.type_cannotbe_blank_with_type + (parseInt(index) + 1), 'error');
+            this.showAddSequenceBtn = false;
+            this.showUpdateSequenceBtn == false;
+            return false;
+          }
          }
   
          if (index == "0") {
