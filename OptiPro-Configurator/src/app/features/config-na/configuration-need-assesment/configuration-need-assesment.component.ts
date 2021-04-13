@@ -33,6 +33,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
   public dialog_params: any = [];
   public show_dialog: boolean = false;
   public defaultYesNO: any;
+  public teplateOptm_ID: any;
 
   constructor(private httpclient: HttpClient, private router: Router, private CommonService: CommonService, private DialogService: DialogService, private service: ConfigureNeedAssesmentService) { }
 
@@ -62,6 +63,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
         this.applyDealarMapping = data[0].OPTM_ISDEALER_CUST_MAP == "Y" ? true : false;
         this.OPTM_ID = data[0].OPTM_ID;
         this.OPTM_DEFAULT_TEMPLATE = data[0].OPTM_DEFAULT_TEMPLATE;
+        this.gettemplateList();
       }
       else {
         this.showLoader = false;
@@ -112,6 +114,42 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
     )
 
   }
+
+  // function for set template value 
+
+  gettemplateList() {
+    this.service.getNeedAssesmentTemplateList().subscribe(
+      data => {
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.router, 'Sessionout');
+            return;
+          }
+        }
+        if (data.length > 0) {
+          let template = this.OPTM_DEFAULT_TEMPLATE;
+          let templateList = data.filter(function (obj) {
+            return obj['OPTM_TEMPLATEID'] == template;
+          });
+
+          this.teplateOptm_ID = templateList[0].OPTM_ID
+        }
+        else {
+          this.lookupfor = "";
+          this.serviceData = [];
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      })
+  }
+
 
   // function for check proper Default template 
 
@@ -220,15 +258,16 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
       return;
     }
     CommonData.made_changes = true;
-    this.OPTM_DEFAULT_TEMPLATE = $event[0];
-    this.defaultAssesmentTemplate = $event[1];
+    this.teplateOptm_ID = $event[0];
+    this.OPTM_DEFAULT_TEMPLATE = $event[1];
+    this.defaultAssesmentTemplate = $event[2];
 
   }
 
   // function for Navigate URL 
   navigateURL() {
-    this.router.navigateByUrl('/need-assessment-template');
-    //  this.router.navigateByUrl('need-assessment-template/edit/' + this.defaultAssesmentTemplate);
+    // this.router.navigateByUrl('/need-assessment-template');
+    this.router.navigateByUrl('need-assessment-template/edit/' + this.teplateOptm_ID);
   }
 
   // function for on cancel click
