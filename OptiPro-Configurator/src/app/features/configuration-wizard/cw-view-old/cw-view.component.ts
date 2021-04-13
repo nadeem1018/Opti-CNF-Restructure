@@ -437,6 +437,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.clear_all_screen_data()
     this.onOperationChange('');
     this.stepsView();
+    this.resetMobileFields();
+    this.isoperation = true;
   }
 
   clear_all_screen_data() {
