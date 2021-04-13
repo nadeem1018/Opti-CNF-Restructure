@@ -1737,6 +1737,10 @@ span.open-attr {
   right: -27px;
   top: -7px;
 }
+.btn.btn-icon.btn-sm svg.icon.att-icon {
+  fill: transparent !important;
+  color: #fff;
+}
 
 @media(min-width:768px){
   .custome-box-info, .mb-print {

@@ -802,7 +802,7 @@
                                                                 (click)="openAttributeList(step2_data, '3')"
                                                                 class="btn btn-sm btn-icon mr-2 btn-primary"
                                                                 title="{{this.language.attribute}}">
-                                                                <svg class="icon" viewBox="0 0 107.07 122.88">
+                                                                <svg class="icon att-icon" viewBox="0 0 512 512">
                                                                     <use xlink:href="#attrIcon"></use>
                                                                 </svg>
                                                             </button>
@@ -859,7 +859,7 @@
                                                                     (click)="openAttributeList(header_data, header_data.OPTM_TYPE)"
                                                                     class="btn btn-sm btn-icon mr-2 btn-primary"
                                                                     title="{{this.language.attribute}}">
-                                                                    <svg class="icon" viewBox="0 0 107.07 122.88">
+                                                                    <svg class="icon att-icon" viewBox="0 0 512 512">
                                                                         <use xlink:href="#attrIcon"></use>
                                                                     </svg>
                                                                 </button>
@@ -1404,7 +1404,7 @@
 
                                                 <!-- Modal Header -->
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">{{language.model_item_detals}}</h4>
+                                                    <h4 class="modal-title">{{language.config_wizard}}</h4>
                                                     <button type="button" (click)="onCloseModelDetails()"
                                                         class="close">&times;</button>
                                                 </div>
@@ -1515,7 +1515,7 @@
 
                                                 <!-- Modal Header -->
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">{{language.price_details}}</h4>
+                                                    <h4 class="modal-title">{{language.config_wizard}}</h4>
                                                     <button type="button" (click)="onCloseCaluculationModel()"
                                                         class="close">&times;</button>
                                                 </div>
@@ -1611,7 +1611,7 @@
 
                                                 <!-- Modal Header -->
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">{{language.model_item_detals}}</h4>
+                                                    <h4 class="modal-title">{{language.config_wizard}}</h4>
                                                     <button type="button" (click)="onCloseFullModelDetails()"
                                                         class="close">&times;</button>
                                                 </div>
@@ -1792,7 +1792,7 @@
                                         <button [style.display]="isAttribute ? 'block' : 'none'"
                                             (click)="onCalculateAttribute()" type="button"
                                             class="btn btn-sm btn-success foot-left with-icon mr-2">
-                                            <svg viewBox="0 0 107.07 122.88" class="icon">
+                                            <svg class="icon att-icon" viewBox="0 0 512 512">
                                                 <use xlink:href="#attrIcon"></use>
                                             </svg> <span class="mb-hide"> Calculate Attribute </span>
                                         </button>
@@ -2570,8 +2570,8 @@
                                                 <div class="row mb-2" *ngIf="isMobileView">
                                                     <div class="col-md-12 text-right">
                                                         <button class="btn btn-sm btn-primary" type="button"
-                                                            (click)="onOpenCustomerDetails()">{{language.more_details}}
-                                                             </button>
+                                                            (click)="onOpenCustomerDetails()"> Model
+                                                            Detail </button>
                                                     </div>
                                                 </div>
                                                 <div class="pricing_detail_section">
@@ -2915,7 +2915,7 @@
 
                                                         <!-- Modal Header -->
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title">{{language.customer_details}}</h4>
+                                                            <h4 class="modal-title">{{language.config_wizard}}</h4>
                                                             <button type="button" (click)="onCloseCustomerDetails()"
                                                                 class="close">&times;</button>
                                                         </div>
