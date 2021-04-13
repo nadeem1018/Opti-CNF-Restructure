@@ -86,7 +86,7 @@ export class DelarCustomerMapComponent implements OnInit {
       OPTM_ID: this.delarList.optmID,
       OPTM_CONTACT_NUMBER: this.delarList.contactNumber,
       OPTM_STATE: this.delarList.state,
-      OPTM_STREETNO :this.delarList.streetNo
+      OPTM_STREETNO: this.delarList.streetNo
     });
 
 
@@ -137,7 +137,7 @@ export class DelarCustomerMapComponent implements OnInit {
     this.delarList.optmID = 0;
     this.isEdit = false;
     this.delarList = {
-      delarCode: "",
+      delarCode: sessionStorage.getItem("loggedInUser"),
       addressID1: "",
       addressID2: "",
       street: "",
@@ -151,8 +151,8 @@ export class DelarCustomerMapComponent implements OnInit {
       customerCode: "",
       optmID: 0,
       contactNumber: "",
-      state :"",
-      streetNo:""
+      state: "",
+      streetNo: ""
     }
   }
 
@@ -241,7 +241,7 @@ export class DelarCustomerMapComponent implements OnInit {
 
 
 export class DelarVaribleList {
-  public delarCode: any;
+  public delarCode: any = sessionStorage.getItem("loggedInUser");
   public addressID1: any;
   public addressID2: any;
   public street: any;
@@ -255,6 +255,6 @@ export class DelarVaribleList {
   public customerCode: any;
   public optmID: any;
   public contactNumber: any;
-  public state :any;
-  public streetNo :any;
+  public state: any;
+  public streetNo: any;
 }
