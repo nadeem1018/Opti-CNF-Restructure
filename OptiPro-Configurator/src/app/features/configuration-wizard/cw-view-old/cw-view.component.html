@@ -1605,7 +1605,7 @@
 
 
                                     <!-- The Modal -->
-                                    <div class="modal grand-model show" style="display: block; padding-left: 17px;"
+                                    <div class="modal grand-model inner-grand-model show" style="display: block; padding-left: 17px;"
                                         aria-modal="true" role="dialog" id="myModal1" *ngIf="isModelFullDetails">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -1623,34 +1623,34 @@
                                                         <ul class="list-unstyled w-100 float-left mb-0"
                                                             *ngFor="let featurerow of modelDetailsData">
                                                             <li>
-                                                                <div class="float-left grand-box-left">
+                                                                <div class="float-left grand-box-left model-inner-left">
                                                                     {{this.language.Output_FeatureName}}
                                                                 </div>
-                                                                <div class="float-right grand-box-right">
+                                                                <div class="float-right grand-box-right model-inner-right">
                                                                     {{featurerow.featureName}}
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="float-left grand-box-left">
+                                                                <div class="float-left grand-box-left model-inner-left">
                                                                     {{this.language.item_code}}
                                                                 </div>
-                                                                <div class="float-right grand-box-right">
+                                                                <div class="float-right grand-box-right model-inner-right">
                                                                     {{featurerow.Item}}
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="float-left grand-box-left">
+                                                                <div class="float-left grand-box-left model-inner-left">
                                                                     {{this.language.Output_ItemDescription}}
                                                                 </div>
-                                                                <div class="float-right grand-box-right">
+                                                                <div class="float-right grand-box-right model-inner-right">
                                                                     {{featurerow.Description}}
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="float-left grand-box-left">
+                                                                <div class="float-left grand-box-left model-inner-left">
                                                                     {{this.language.quantity}}
                                                                 </div>
-                                                                <div class="float-right grand-box-right">
+                                                                <div class="float-right grand-box-right model-inner-right">
                                                                     <input type="text" step="0"
                                                                         class="form-control form-control-sm text-right"
                                                                         id="quantity" value="{{featurerow.quantity}}"
@@ -1661,11 +1661,11 @@
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="float-left grand-box-left">
+                                                                <div class="float-left grand-box-left model-inner-left">
                                                                     {{this.language.price}}
                                                                     ({{defaultCurrency}})
                                                                 </div>
-                                                                <div class="float-right grand-box-right">
+                                                                <div class="float-right grand-box-right model-inner-right">
                                                                     <input [disabled]="featurerow.isPriceDisabled"
                                                                         type="text" #actual_price
                                                                         title="{{featurerow.Actualprice}}"
@@ -1676,11 +1676,11 @@
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="float-left grand-box-left">
+                                                                <div class="float-left grand-box-left model-inner-left">
                                                                     {{this.language.extension}}
                                                                     ({{defaultCurrency}})
                                                                 </div>
-                                                                <div class="float-right grand-box-right">
+                                                                <div class="float-right grand-box-right model-inner-right">
                                                                     <input type="text" title="{{featurerow.priceext}}"
                                                                         disabled
                                                                         class="form-control form-control-sm text-right"
@@ -1690,10 +1690,10 @@
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="float-left grand-box-left">
+                                                                <div class="float-left grand-box-left model-inner-left">
                                                                     {{this.language.Model_Accessory}}
                                                                 </div>
-                                                                <div class="float-right grand-box-right">
+                                                                <div class="float-right grand-box-right model-inner-right">
                                                                     <span *ngIf="featurerow.is_accessory  == 'N'">
                                                                         {{this.language.NO}}
                                                                         <!--  <b class="text-danger"><svg viewBox="0 0 489 489" class="icon"><use xlink:href="#cancel"></use></svg></b> -->
@@ -1713,7 +1713,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-backdrop show" *ngIf="isModelFullDetails"></div>
+                                    <div class="modal-backdrop inner-modal-backdrop show" *ngIf="isModelFullDetails"></div>
 
 
                                 </div>

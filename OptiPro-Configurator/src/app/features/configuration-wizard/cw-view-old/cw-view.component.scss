@@ -294,6 +294,19 @@ hr {
 .grand-model .modal-footer{
     padding: 4px;
 }
+.float-left.grand-box-left.model-inner-left {
+    width: 37%;
+}
+.float-right.grand-box-right.model-inner-right {
+    width: 62%;
+    text-align: left;
+}
+.modal.grand-model.inner-grand-model{
+    z-index: 99999;
+}
+.modal-backdrop.inner-modal-backdrop{
+    z-index: 9999;
+}
 
 
 @media(max-width:767px){
