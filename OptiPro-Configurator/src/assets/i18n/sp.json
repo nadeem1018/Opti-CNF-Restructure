@@ -683,6 +683,10 @@
     "Invaid_Customer":"Invalid Customer",
     "Invalid_PriceList":"Invalid Price List",
     "need_assesment_template":"Assessment Template",
-    "customerCode": "Customer Code"
+    "customerCode": "Customer Code",
+    "model_item_detals": "Model Item Details",
+    "price_details":"Price Details",
+    "customer_details":"Customer Details",
+    "more_details":"More Details"
 
 }
