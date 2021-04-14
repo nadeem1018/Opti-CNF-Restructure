@@ -709,6 +709,7 @@
     "Invalid_PriceList":"Invalid Price List",
     "need_assesment_template":"Assessment Template",
     "customerCode": "Customer Code",
+    "model_selected_item":"Model Selected Items",
     "model_item_detals": "Model Item Details",
     "price_details":"Price Details",
     "customer_details":"Customer Details",

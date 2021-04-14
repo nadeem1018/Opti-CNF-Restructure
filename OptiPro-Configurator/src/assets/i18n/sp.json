@@ -687,6 +687,7 @@
     "customerCode": "Customer Code",
     "model_item_detals": "Model Item Details",
     "price_details":"Price Details",
+    "model_selected_item":"Model Selected Items",
     "customer_details":"Customer Details",
     "more_details":"More Details"
 
