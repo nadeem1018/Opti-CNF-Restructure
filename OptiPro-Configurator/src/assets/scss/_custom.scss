@@ -1997,6 +1997,15 @@ button.with-icon.mb-del-icon{
 .address-model-body .form-group:last-child{
   border-bottom: 0px;
 }
+.k-calendar .k-content.k-scrollable table tr:nth-child(2), .k-calendar .k-content.k-scrollable table tr:nth-child(3) {
+  display: none;
+}
+.k-calendar-navigation .k-calendar-navigation-highlight {
+  top: 19%;
+}
+.k-calendar-navigation .k-content ul {
+  transform: translateY(53px) !important;
+}
 
 }
 
