@@ -1741,6 +1741,16 @@ span.open-attr {
   fill: transparent !important;
   color: #fff;
 }
+button.btn.btn-sm.foot-left.btn-primary.model-detail-btn{
+  width:30px;
+  height:28px;
+  display:block;
+}
+.icon.model-detail-icon{
+    fill: transparent;
+    width: 30px;
+    height: 30px;
+}
 
 @media(min-width:768px){
   .custome-box-info, .mb-print {
@@ -1918,8 +1928,9 @@ label.mb-pl-0 {
 }
 .model-config-wrapper .input-group.foot-right.foot-check-right {
   position: absolute;
-  right: -10px;
+  right: -3px;
   top: -37px;
+  font-weight: bold;
 }
 .model-config-wrapper select#added_model_list {
   width: 103px;
@@ -1930,9 +1941,9 @@ label.mb-pl-0 {
 }
 span.col-sm-1.col-form-label.open-attr {
   position: absolute;
-  top: -29px;
+  top: -1px;
   padding: 0;
-  left: 57px;
+  left: -31px;
   width: 28px;
 }
 .mb-form-section .col-6.col-form-label, .mb-form-section .col-8.col-form-label{
@@ -1954,7 +1965,8 @@ div#opti_configur-wizard-four-step-left {
 }
 button.with-icon.mb-del-icon{
   position: absolute;
-  bottom: -45px;
+  bottom: -43px;
+  z-index: 99;
 }
 .mb-footer-wrapper button.btn.btn-sm.btn-success.foot-left.with-icon.mr-2 {
   position: fixed;

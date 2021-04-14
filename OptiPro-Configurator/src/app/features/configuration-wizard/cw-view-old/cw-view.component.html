@@ -776,14 +776,14 @@
                                             class="slim-scroll mb-slim-scroll">
                                             <div class="pr-2 pt-2 third-step-left-part">
                                                 <div class="form-group row clearfix no-gutters">
-                                                    <label class="col-sm-2 col-form-label mb-pl-0 required"
+                                                    <label class="col-sm-2 col-3 col-form-label mb-pl-0 required"
                                                         for="model">{{language.model}}</label>
                                                     <input type="hidden" ngValue=""
                                                         class="form-control  form-control-sm"
                                                         [(ngModel)]="step2_data.modal_id" name="modelName"
                                                         id="modelNameId">
 
-                                                    <div class="col-sm-9 input-group mb-mt-0" style="margin-top: 8px;">
+                                                    <div class="col-sm-9 col-9 input-group mb-mt-0" style="margin-top: 8px;">
                                                         <input type="text" ngValue=""
                                                             class="form-control  form-control-sm" name="model"
                                                             id="model" placeholder="{{language.model}}"
@@ -811,9 +811,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row clearfix no-gutters">
-                                                    <label class="col-sm-2 col-form-label mb-pl-0"
+                                                    <label class="col-sm-2 col-3 col-form-label mb-pl-0"
                                                         for="quantity">{{language.quantity}}</label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-9 col-9">
                                                         <input type="text" ngValue="" pattern="\d+"
                                                             class="form-control form-control-sm pull-right text-right"
                                                             name="quantity" id="quantity"
@@ -1719,13 +1719,13 @@
                                 </div>
                                 <!-- Model BOM To Configure Product end -->
                                 <div class="w-100 float-left tt-box">
-                                    <div class="row mb-modelDetail" *ngIf="isMobileView">
+                                    <!-- <div class="row mb-modelDetail" *ngIf="isMobileView">
                                         <div class="col-md-12 text-right">
                                             <button class="btn btn-sm btn-primary" (click)="onOpenModelDetails()"
                                                 type="button">
                                                 Model Details </button>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="row align-items-center mt-1" *ngIf="isMobileView">
                                         <div class="col-6">
                                             <div class="float-left grand-link w-100" (click)="onOpenCalculationModel()">
@@ -1790,10 +1790,15 @@
                                                 <use xlink:href="#bin"></use>
                                             </svg> <span class="mb-hide"> {{language.delete_model}} </span>
                                         </button>
+                                        <button type="button" class="btn btn-sm with-icon foot-left btn-primary mr-2 model-detail-btn" (click)="onOpenModelDetails()" *ngIf="isMobileView">
+                                            <svg viewBox="0 0 512 512" class="icon model-detail-icon">
+                                                <use xlink:href="#modelDetailIcon"></use>
+                                            </svg> 
+                                        </button>
                                         <button [style.display]="isAttribute ? 'block' : 'none'"
                                             (click)="onCalculateAttribute()" type="button"
                                             class="btn btn-sm btn-success foot-left with-icon mr-2">
-                                            <svg class="icon att-icon" viewBox="0 0 512 512">
+                                            <svg class="icon att-icon" viewBox="0 0 512 512" style="fill:transparent">
                                                 <use xlink:href="#attrIcon"></use>
                                             </svg> <span class="mb-hide"> Calculate Attribute </span>
                                         </button>
@@ -1810,7 +1815,7 @@
                                                 <span>{{language.print_attribute}}</span>
                                             </label>
                                         </div>
-                                        <div class="input-group foot-right mb-hide" *ngIf="showPrintOptions">
+                                        <div class="input-group foot-right" *ngIf="showPrintOptions">
                                             <select class="form-control form-control-sm d-inline-flex"
                                                 name="print-operation-type" id="print-operation-type"
                                                 #printOperationType>
@@ -1828,14 +1833,14 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="input-group foot-right mb-print" *ngIf="showPrintOptions">
+                                        <!-- <div class="input-group foot-right mb-print" *ngIf="showPrintOptions">
                                             <button class="btn btn-sm btn-success btn-icon"
                                                 (click)="output_new_invoice(printOperationType.value)" title="Print">
                                                 <svg viewBox="0 0 512 512" class="">
                                                     <use xlink:href="#printer"></use>
                                                 </svg>
                                             </button>
-                                        </div>
+                                        </div> -->
                                         <span class="output_final_screen_save_button foot-right">
                                             <button (click)="onSavePress()" type="button"
                                                 class="btn btn-sm btn-success with-icon mr-2">
