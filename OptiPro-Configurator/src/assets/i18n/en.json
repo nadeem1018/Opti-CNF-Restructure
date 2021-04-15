@@ -692,14 +692,14 @@
     "need_option": "Options",
     "need_option_id": "Option ID",
     "ConfigAssessment": "Apply Need's Assessment",  
-    "DelarCustomerMapping":"Dealer Customer Mapping",
+    "DelarCustomerMapping":"User Dealer Mapping",
     "Models" :"Models",
     "qutotation_report" :"Quotation Report",
     "price_list" :"Price List",
     "customerName" :"Customer Name",
     "Customer" :"Customer",
     "delar_name":"Dealer Name",
-    "delar" :"Dealer",
+    "delar" :"Dealer Code",
     "DealerApply":"Apply Dealer Customer Mapping",
     "Dealer_Customer" :"Dealer Customer",
     "Dealer_Customer_Name":"Dealer Customer Name",
@@ -713,5 +713,7 @@
     "model_item_detals": "Model Item Details",
     "price_details":"Price Details",
     "customer_details":"Customer Details",
-    "more_details":"More Details"
+    "more_details":"More Details",
+    "user_code": "User Code",
+    "user_name":"User Name"
 }

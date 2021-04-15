@@ -669,14 +669,14 @@
     "ConfigDefaultTemplate": "Default Need's Assessment Template",
     "need_option": "Options",
     "need_option_id": "Option ID",
-    "DelarCustomerMapping":"Dealer Customer Mapping",
+    "DelarCustomerMapping":"User Dealer Mapping",
     "Models" :"Models",
     "qutotation_report" :"Quotation Report",
     "price_list" :"Price List",
     "customerName" :"Customer Name",
     "Customer" :"Customer",
     "delar_name":"Dealer Name",
-    "delar" :"Dealer",
+    "delar" :"Dealer Code",
     "DealerApply":"Apply Dealer Customer Mapping",
     "Dealer_Customer" :"Dealer Customer",
     "Dealer_Customer_Name":"Dealer Customer Name",
@@ -689,6 +689,8 @@
     "price_details":"Price Details",
     "model_selected_item":"Model Selected Items",
     "customer_details":"Customer Details",
-    "more_details":"More Details"
+    "more_details":"More Details",
+    "user_code": "User Code",
+    "user_name":"User Name"
 
 }

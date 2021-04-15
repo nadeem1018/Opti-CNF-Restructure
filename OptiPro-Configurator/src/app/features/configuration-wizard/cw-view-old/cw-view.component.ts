@@ -1898,7 +1898,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     let remark = (this.step1_data.remark != "" && this.step1_data.remark != null) ? this.step1_data.remark : "";
     let delivery_until = (this.step1_data.delivery_until != "" && this.step1_data.delivery_until != null) ? this.step1_data.delivery_until : "";
 
-
+    if (this.UserType == "D") {
+      customer = this.delarCustomer;
+      person_name = this.delarCustomerName;
+      ship_to = ship_to_address;
+      bill_to = ship_to_address;
+      bill_to_address = ship_to_address;
+    }
     //pushing all customer data
     invoice_output_data.header = [{
       "selected_print_type": operation_type,

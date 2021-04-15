@@ -39,21 +39,21 @@
                                         <span class="text-inverse">{{language.enable_filter}}</span>
                                     </label>
                                 </ng-template>
-                                <kendo-grid-column field="OPTM_DEALERCODE" title="{{language.delar}}" filter="text"
+                                <kendo-grid-column field="OPTM_DEALERCODE" title="{{language.user_code}}" filter="text"
                                     [width]="145" [minResizableWidth]="145" [filterable]="true">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="isDelarCodeDisable" class="form-control  form-control-sm"
                                             #OPTM_DEALERCODE value={{dataItem.OPTM_DEALERCODE}} />
                                     </ng-template>
                                 </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_DEALERNAME" title="{{language.delar_name}}" filter="text"
+                                <kendo-grid-column field="OPTM_DEALERNAME" title="{{language.user_name}}" filter="text"
                                     [width]="145" [minResizableWidth]="145" [filterable]="true">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="isDelarNameDisable" class="form-control  form-control-sm"
                                             #OPTM_DEALERNAME value={{dataItem.OPTM_DEALERNAME}} />
                                     </ng-template>
                                 </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_CUSTCODE" title="{{language.Customer}}" filter="text"
+                                <kendo-grid-column field="OPTM_CUSTCODE" title="{{language.delar}}" filter="text"
                                     [width]="145" [minResizableWidth]="145">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="hidden" class="form-control  form-control-sm" />
@@ -70,7 +70,7 @@
                                         </div>
                                     </ng-template>
                                 </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_CUSTNAME" title="{{language.customerName}}" filter="text"
+                                <kendo-grid-column field="OPTM_CUSTNAME" title="{{language.delar_name}}" filter="text"
                                     [width]="145" [minResizableWidth]="145" [filterable]="true">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="isCustomerDisable" class="form-control  form-control-sm"
@@ -86,11 +86,12 @@
                                                 class="form-control form-control-sm" [disabled]="dataItem.OPTM_disable"
                                                 (change)="onCheckPriceList(dataItem.rowindex,OPTM_PRICELISTCODE.value)" />
                                             <div class="input-group-append">
-                                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getPriceList(dataItem.rowindex)">
+                                                <button [disabled]="dataItem.OPTM_disable" class="btn btn-sm btn-primary cursor-pointer btn-icon"
+                                                    (click)="getPriceList(dataItem.rowindex)">
                                                     <svg class="icon m-0" viewBox="0 -96 512 512">
                                                         <use xlink:href="#menu"></use>
                                                     </svg>
-                                                </span>
+                                                </button>
                                             </div>
                                         </div>
                                     </ng-template>
@@ -106,7 +107,8 @@
                                 <kendo-grid-column field="Models" title="{{language.Models}}" filter="text" [width]="145"
                                     [minResizableWidth]="145">
                                     <ng-template kendoGridCellTemplate let-dataItem>
-                                        <button class="btn btn-sm btn-primary cursor-pointer btn-icon" [disabled]="dataItem.OPTM_disable" (click)="getModelList(dataItem.OPTM_DEALERCODE,dataItem.rowindex)">
+                                        <button class="btn btn-sm btn-primary cursor-pointer btn-icon" [disabled]="dataItem.OPTM_disable"
+                                            (click)="getModelList(dataItem.OPTM_DEALERCODE,dataItem.rowindex)">
                                             <svg class="icon m-0" viewBox="0 -96 512 512">
                                                 <use xlink:href="#menu"></use>
                                             </svg>
