@@ -681,7 +681,7 @@
     "Dealer_Customer" :"Dealer Customer",
     "Dealer_Customer_Name":"Dealer Customer Name",
     "CopytoShippAddress" :"Copy to Shipping Address",
-    "Invaid_Customer":"Invalid Customer",
+    "Invaid_Customer":"Invalid Dealer Code",
     "Invalid_PriceList":"Invalid Price List",
     "need_assesment_template":"Assessment Template",
     "customerCode": "Customer Code",
