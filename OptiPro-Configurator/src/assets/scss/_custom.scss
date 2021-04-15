@@ -2018,6 +2018,15 @@ button.with-icon.mb-del-icon{
 .k-calendar-navigation .k-content ul {
   transform: translateY(53px) !important;
 }
+.custom-window-wrapper .k-window.k-window-wrapper {
+  max-width: 1000px !important;
+  height: 100vh !important;
+  z-index: 10005;
+  width: 100% !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
 
 }
 
