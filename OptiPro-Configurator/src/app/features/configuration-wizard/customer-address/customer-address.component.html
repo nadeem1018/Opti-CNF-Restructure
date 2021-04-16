@@ -17,7 +17,7 @@
             </div>
 
             <!-- Modal body -->
-            <div class="modal-body detail-modal-body">
+            <div class="modal-body detail-modal-body detail-body-scroll">
                 <div class="detail-body-inner float-left w-100">
 
                     <form #addressForm="ngForm" name="addressForm" (ngSubmit)="onSubmit(addressForm)" novalidate>
@@ -152,7 +152,7 @@
                                     placeholder="">
                             </div>
                         </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer footer-model-res">
                             <button type="submit" class="btn btn-success" [disabled]="!addressForm.valid">Save</button>
                             <button type="button" class="btn btn-secondary" (click)="onCancle()">Cancel</button>
                         </div>

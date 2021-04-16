@@ -21,7 +21,7 @@
             </div>
 
             <!-- Modal body -->
-            <div class="modal-body detail-modal-body">
+            <div class="modal-body detail-modal-body detail-body-scroll">
                 <div class="detail-body-inner float-left w-100">
 
                     <form #delarCustomerForm="ngForm" name="delarCustomerForm" (ngSubmit)="onSubmit(delarCustomerForm)"
@@ -203,7 +203,7 @@
                             </div>
                         </div>
 
-                        <div class="modal-footer">
+                        <div class="modal-footer footer-model-res">
                             <button type="submit" *ngIf="isSaveEnable" class="btn btn-success" [disabled]="!delarCustomerForm.valid">Save</button>
                             <button type="button" [disabled]="isNewDisable" class="btn btn-primary" (click)="onNewScreen()">New</button>
                             <button *ngIf="isEdit" [disabled]="iseditDisable" type="button" class="btn btn-sm btn-icon mr-2 btn-primary"

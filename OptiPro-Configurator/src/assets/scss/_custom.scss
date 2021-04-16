@@ -1751,6 +1751,11 @@ button.btn.btn-sm.foot-left.btn-primary.model-detail-btn{
     width: 30px;
     height: 30px;
 }
+.information-model.information-model-pd label {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  font-size: 13px;
+}
 
 @media(min-width:768px){
   .custome-box-info, .mb-print {
@@ -2018,14 +2023,29 @@ button.with-icon.mb-del-icon{
 .k-calendar-navigation .k-content ul {
   transform: translateY(53px) !important;
 }
-.custom-window-wrapper .k-window.k-window-wrapper {
-  max-width: 1000px !important;
-  height: 100vh !important;
-  z-index: 10005;
-  width: 100% !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
+// .custom-window-wrapper .k-window.k-window-wrapper {
+//   max-width: 1000px !important;
+//   height: 100vh !important;
+//   z-index: 10005;
+//   width: 100% !important;
+//   top: 50% !important;
+//   left: 50% !important;
+//   transform: translate(-50%, -50%) !important;
+// }
+.modal-footer.footer-model-res {
+  position: fixed;
+  bottom: 0;
+  background: #fff;
+  width: 97%;
+  margin: 0 auto;
+  border-radius: 0;
+  left: 0;
+  right: 0;
+}
+.modal-body.detail-modal-body.detail-body-scroll{
+  height: calc(100vh - 112px) !important;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 }

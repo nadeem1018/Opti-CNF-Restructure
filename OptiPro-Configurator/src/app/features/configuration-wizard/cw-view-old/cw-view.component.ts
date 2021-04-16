@@ -239,6 +239,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public ismobilecustomer = false;
   public isoperation = true;
   public steps = 1;
+  public isModelremark = false;
+  public isModelCustomerInform = false;
 
 
   constructor(private ActivatedRouter: ActivatedRoute,
@@ -1219,10 +1221,19 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   }
 
   openRemarkLookUp() {
-    this.lookupfor = 'remark_customer';
+    //c this.lookupfor = 'remark_customer';
+    this.isModelremark = true;
+  }
+
+  onCloseremark() {
+    this.isModelremark = false;
   }
   openCustomerInformationLookUp() {
-    this.lookupfor = 'information_customer';
+    this.isModelCustomerInform = true;
+  }
+
+  onCloseInformationModel() {
+    this.isModelCustomerInform = false;
   }
 
 
