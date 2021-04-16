@@ -30,7 +30,7 @@
 </div>
 <!-- Output Invoice -->
 <div class="k-overlay" *ngIf="reportDialogOpened"></div>
-<div class="custom-window-wrapper" *ngIf="reportDialogOpened">
+<div class="custom-window-wrapper print-report-model" *ngIf="reportDialogOpened">
     <div class="custom-window-innner">
         <kendo-window [draggable]="isDraggable" (close)="close_report_kenod_dialog()" [minWidth]="320" [width]="1050">
             <kendo-window-titlebar>
