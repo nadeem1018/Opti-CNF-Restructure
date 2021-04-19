@@ -11044,6 +11044,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.isaccdesc = true;
     this.isaccprice = true;
     this.isaccquan = true;
+    this.isaccnew = true;
     this.resetAccValidFields();
   }
 
@@ -11061,7 +11062,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   }
 
   getAccesoryItemList() {
-    this.showLookupLoader = true;
+   // this.showLookupLoader = true;
     CommonData.made_changes = true;
     this.serviceData = []
     this.lookupfor = 'Item Details';
@@ -11070,19 +11071,19 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
             CommonData.made_changes = false;
-            this.showLookupLoader = false;
+           // this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
           }
         }
         if (data.length > 0) {
-          this.showLookupLoader = false;
+         // this.showLookupLoader = false;
           this.serviceData = data;
         }
         else {
           this.lookupfor = "";
-          this.showLookupLoader = false;
+      //    this.showLookupLoader = false;
           this.serviceData = [];
           this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
           return;

@@ -1767,6 +1767,9 @@ button.btn.btn-sm.foot-left.btn-primary.model-detail-btn{
   right: 16px;
   top: 2px;
 }
+.grand-model.item-model-box .modal-dialog {
+  overflow-x: hidden !important;
+}
 
 @media(min-width:768px){
   .custome-box-info, .mb-print {
