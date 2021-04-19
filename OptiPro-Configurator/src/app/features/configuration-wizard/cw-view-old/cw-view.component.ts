@@ -11158,7 +11158,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       pricehide: true,
       ispropogateqty: "",
       ModelId: this.step2_data.model_id,
-      OPTM_LEVEL: "",
+     // OPTM_LEVEL: "",
       isQuantityDisabled: true,
       HEADER_LINENO: 1,
       sort_key: "",
