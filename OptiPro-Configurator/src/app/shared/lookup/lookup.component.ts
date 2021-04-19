@@ -333,10 +333,10 @@ export class LookupComponent implements OnInit {
         return;
       }
 
-      //   if(this.popup_lookupfor == "help_popup"){
+      if (this.popup_lookupfor == "Item Details") {
 
-      //     this.show_help_popup();
-      //   }
+        this.getItemDetails();
+      }
 
     }
   }
@@ -468,25 +468,25 @@ export class LookupComponent implements OnInit {
     }
   }
 
-    customer_remark_lookup(){
-      this.popup_title = this.language.remark;
-      this.remarkCustomerDialogOpened = true;
-    }
+  customer_remark_lookup() {
+    this.popup_title = this.language.remark;
+    this.remarkCustomerDialogOpened = true;
+  }
 
-    closeremarkDialog() {
-      this.remarkCustomerDialogOpened = false;
-      this.lookupvalues.emit('');
-    }
+  closeremarkDialog() {
+    this.remarkCustomerDialogOpened = false;
+    this.lookupvalues.emit('');
+  }
 
-    closecustomerinformationDialog() {
-      this.informationCustomerDialogOpened = false;
-      this.lookupvalues.emit('');
-    }
+  closecustomerinformationDialog() {
+    this.informationCustomerDialogOpened = false;
+    this.lookupvalues.emit('');
+  }
 
-    customer_information_lookup(){
-      this.popup_title = this.language.customer;
-      this.informationCustomerDialogOpened = true;
-    }
+  customer_information_lookup() {
+    this.popup_title = this.language.customer;
+    this.informationCustomerDialogOpened = true;
+  }
   customer_lookup() {
     this.popup_title = this.language.customer;
     this.LookupDataLoaded = false;
@@ -2668,7 +2668,7 @@ export class LookupComponent implements OnInit {
     this.fill_input_id = 'OPTM_CUSTOMERCODE';
     this.lookup_key = 'OPTM_CUSTOMERCODE';
     this.table_head = [
-    {
+      {
         field: 'OPTM_CUSTOMERCODE',
         title: "Customer Code",
         type: 'text',
@@ -2678,6 +2678,44 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_CUSTOMERNAME',
         title: "Customer Name",
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+
+    ];
+    this.table_head_hidden_elements = [false];
+    this.width_value = ((100 / this.table_head.length) + '%');
+
+    this.showLoader = false;
+    this.LookupDataLoaded = true;
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+        this.loadServerData(this.serviceData);
+        // $("#lookup_modal").modal('show');
+      }
+    }
+  }
+
+  getItemDetails ()
+  {
+    this.popup_title = this.language.ItemList;
+    this.LookupDataLoaded = false;
+    this.showLoader = true;
+    this.fill_input_id = 'Code';
+    this.lookup_key = 'Code';
+    this.table_head = [
+      {
+        field: 'Code',
+        title: "Item Code",
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+      {
+        field: 'FinalString',
+        title: "Item Details",
         type: 'text',
         width: '100',
         attrType: 'text'

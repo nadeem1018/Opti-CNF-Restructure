@@ -1756,6 +1756,17 @@ button.btn.btn-sm.foot-left.btn-primary.model-detail-btn{
   margin-bottom: 0px;
   font-size: 13px;
 }
+.grand-model.item-model-box {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 600px;
+}
+.btn-icon.btn-position {
+  position: absolute;
+  right: 16px;
+  top: 2px;
+}
 
 @media(min-width:768px){
   .custome-box-info, .mb-print {

@@ -691,6 +691,7 @@
     "customer_details":"Customer Details",
     "more_details":"More Details",
     "user_code": "User Code",
-    "user_name":"User Name"
+    "user_name":"User Name",
+    "ItemList": "Item Description"
 
 }

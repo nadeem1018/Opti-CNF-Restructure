@@ -258,6 +258,23 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public isCustomer = false;
   public UserType = sessionStorage.getItem('usertype');
   public dealerdata = [];
+  public accItem = "";
+  public accdesc = "";
+  public accquan: any = "";
+  public accprice: any = "";
+  public isAccModel = false;
+  public isaccdesc = true;
+  public isaccquan = true;
+  public isaccprice = true;
+  public isaccsave = false;
+  public isaccnew = true;
+  public isvaliditem = false;
+  public isvalidaccprice = false;
+  public isvalidaccdesc = false;
+  public isvalidaccquan = false;
+  public isNewAccesorries = 0;
+
+
 
 
 
@@ -1689,6 +1706,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       if (this.isChecked) {
         this.GetCustomerdelarAddress();
       }
+    }
+    else if (this.lookupfor == "Item Details") {
+      this.accItem = $event[0];
+      this.edittAccesoryModel(0);
     }
     if (this.isPreviousPressed) {
       this.isDuplicate = true;
@@ -11008,6 +11029,144 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.isneedmobileAssessment = false;
     this.ismobilecustomer = false;
     this.isoperation = false;
+  }
+
+  openAccesoryModel() {
+    this.isAccModel = true;
+  }
+
+  CloseAccesoryModel() {
+    this.isAccModel = false;
+    this.accItem = "";
+    this.accdesc = "";
+    this.accquan = "";
+    this.accprice = "";
+    this.isaccdesc = true;
+    this.isaccprice = true;
+    this.isaccquan = true;
+    this.resetAccValidFields();
+  }
+
+  edittAccesoryModel(isexit: any) {
+    this.isaccdesc = false;
+    this.isaccprice = false;
+    this.isaccquan = false;
+    this.isaccsave = true;
+    if(isexit == 1)
+    {
+      this.isaccnew = false;
+    }
+    this.isNewAccesorries = isexit;
+    
+  }
+
+  getAccesoryItemList() {
+    this.showLookupLoader = true;
+    CommonData.made_changes = true;
+    this.serviceData = []
+    this.lookupfor = 'Item Details';
+    this.OutputService.getItemDetails().subscribe(
+      data => {
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.showLookupLoader = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.route, 'Sessionout');
+            return;
+          }
+        }
+        if (data.length > 0) {
+          this.showLookupLoader = false;
+          this.serviceData = data;
+        }
+        else {
+          this.lookupfor = "";
+          this.showLookupLoader = false;
+          this.serviceData = [];
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
+  }
+
+  resetAccValidFields() {
+    this.isvaliditem = false;
+    this.isvalidaccdesc = false;
+    this.isvalidaccquan = false;
+    this.isvalidaccprice = false;
+
+  }
+
+  enableAccFields()
+  {
+    this.edittAccesoryModel(0);
+  }
+
+  validateAccDetails() {
+    this.resetAccValidFields();
+    let isvalid = true;
+    if (this.accItem == "") {
+      this.isvaliditem = true;
+      isvalid = false;
+    }
+    else if (this.accdesc == "") {
+      this.isvalidaccdesc = true;
+      isvalid = false;
+
+    }
+    else if (this.accquan == "") {
+      this.isvalidaccquan = true;
+      isvalid = false;
+    }
+    else if (this.accprice == "") {
+      this.isvalidaccprice = true;
+      isvalid = false;
+    }
+
+    return isvalid;
+  }
+
+  addAccesoriesDetails() {
+    if (!this.validateAccDetails()) {
+      return false;
+    }
+    let priceextn: any = this.accprice * this.accquan;
+
+    this.feature_itm_list_table.push({
+      FeatureId: 0,
+      featureName: "",
+      Item: this.accItem,
+      discount: 0,
+      ItemNumber: "",
+      Description: this.accdesc,
+      quantity: parseFloat(this.accquan).toFixed(3),
+      original_quantity: parseFloat(this.accquan).toFixed(3),
+      price: this.accprice,
+      Actualprice: parseFloat(this.accprice).toFixed(3),
+      pricextn: parseFloat(priceextn).toFixed(3),
+      is_accessory: "Y",
+      isPriceDisabled: true,
+      pricehide: true,
+      ispropogateqty: "",
+      ModelId: this.step2_data.model_id,
+      OPTM_LEVEL: "",
+      isQuantityDisabled: true,
+      HEADER_LINENO: 1,
+      sort_key: "",
+      newItem:this.isNewAccesorries,
+      nodeid:"0",
+      unique_key:"0"
+    });
+    this.feature_price_calculate();
+    this.CloseAccesoryModel();
   }
 
 }

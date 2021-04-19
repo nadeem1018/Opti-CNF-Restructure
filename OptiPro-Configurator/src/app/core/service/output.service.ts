@@ -392,4 +392,15 @@ export class OutputService {
     return this.httpclient.post(this.config_params.service_url + "/Wizard/AddUpdateCustomerData", jObject, this.common_params.httpOptions);
   }
 
+  getItemDetails(): Observable<any> {
+    let jObject = {
+      GetData: JSON.stringify([{
+        CompanyDBID: sessionStorage.selectedComp,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetItemGenerationData", jObject, this.common_params.httpOptions);
+  }
+
 }

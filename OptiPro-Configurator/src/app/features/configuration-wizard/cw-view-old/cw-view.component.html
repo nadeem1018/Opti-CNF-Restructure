@@ -1143,7 +1143,11 @@
                                                 <div class="form-group d-flex align-items-center justify-content-between mb-2"
                                                     *ngIf="feature_accessory_list.length > 0">
                                                     <div class="h5 m-0 text-muted">{{language.accessories}}</div>
+
                                                     <div class="">
+                                                        <button type="button" (click)="openAccesoryModel()" class="btn btn-sm btn-primary  foot-right">
+                                                            Add Accessories
+                                                        </button>
                                                         <button class="btn btn-sm btn-icon btn-info mr-2" type="button"
                                                             (click)="accessoriesPanelToggleAll(true)" title="Expand All">
                                                             <svg viewBox="0 0 1024 1024" class="icon">
@@ -2835,6 +2839,91 @@
     </div>
 </div>
 
+
+<div class="modal grand-model item-model-box show" *ngIf="isAccModel" style="display: block; padding-left: 17px;"
+    aria-modal="true" role="dialog" id="myModal1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Accessories</h4>
+                <button type="button" (click)="CloseAccesoryModel()" class="close">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body grand-modal-body address-model-body">
+                <div class="col-md-12 p-0 information-model">
+                    <div class="col-sm-12 col-md-5 col-lg-12 col-form-label pt-0">
+                        Item Code
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12 position-relative">
+                        <input type="text" name="ItemCode" [(ngModel)]="accItem" #ItemCode="ngModel" class="form-control"
+                            placeholder="" (change)="enableAccFields()" required>
+                        <span class="btn btn-sm btn-primary cursor-pointer btn-icon btn-position" (click)="getAccesoryItemList()">
+                            <svg class="icon m-0" viewBox="0 -96 512 512">
+                                <use xlink:href="#menu"></use>
+                            </svg>
+                        </span>
+                        <div *ngIf="isvaliditem" class="help-block">
+                            * Field is Mandatory.
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-12 p-0 information-model">
+                    <div class="col-sm-12 col-md-5 col-lg-12 col-form-label pt-0">
+                        Description
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <input type="text" name="desc" [disabled]="isaccdesc" [(ngModel)]="accdesc" #desc="ngModel"
+                            class="form-control" placeholder="" required>
+                        <div *ngIf="isvalidaccdesc" class="help-block">
+                            * Field is Mandatory.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 p-0 information-model">
+                    <div class="col-sm-12 col-md-5 col-lg-12 col-form-label pt-0">
+                        Quantitiy
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <input type="number" name="quan" [disabled]="isaccquan" [(ngModel)]="accquan" #price="ngModel"
+                            class="form-control" placeholder="" required>
+                        <div *ngIf="isvalidaccquan" class="help-block">
+                            * Field is Mandatory.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 p-0 information-model">
+                    <div class="col-sm-12 col-md-5 col-lg-12 col-form-label pt-0">
+                        Price
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <input type="number" name="price" [disabled]="isaccprice" [(ngModel)]="accprice" #price="ngModel"
+                            class="form-control" placeholder="" required>
+                        <div *ngIf="isvalidaccprice" class="help-block">
+                            * Field is Mandatory.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer pl-3 pr-3">
+                <!-- <button type="submit" *ngIf = "isaccsave" class="btn btn-success">Save</button> -->
+                <button type="button" *ngIf="isaccnew" class="btn btn-primary" (click)="edittAccesoryModel(1)">New</button>
+                <button type="submit" class="btn btn-success" (click)="addAccesoriesDetails()">Add</button>
+                <!-- <button type="button" class="btn btn-sm btn-icon mr-2 btn-primary" (click)="edittAccesoryModel()">
+                        <svg viewBox="0 0 383.947 383.947" class="icon">
+                            <use xlink:href="#editAlt"></use>
+                        </svg>
+                    </button> -->
+                <button tyspe="button" class="btn btn-secondary" (click)="CloseAccesoryModel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop show" *ngIf="isAccModel"></div>
+
 <app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)">
 </app-custom-dialogs>
 
@@ -2852,73 +2941,3 @@
     <app-customer-address [addressDetais]='addressDetais' [customerCode]='delarCustomer' [customerName]='delarCustomerName'
         (addressdata)="getAddressDetails($event)"></app-customer-address>
 </span>
-<div class="modal grand-model item-model-box show" style="display: block; padding-left: 17px;" aria-modal="true" role="dialog" id="myModal1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Accessories</h4>
-                <button type="button" (click)="onCloseremark()" class="close">&times;</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body grand-modal-body address-model-body">
-                <div class="col-md-12 p-0 information-model">
-                    <div class="col-sm-12 col-md-5 col-lg-12 col-form-label pt-0">
-                        Item Code
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-12 position-relative">
-                        <input type="text" name="ItemCode" [(ngModel)]="accItem" #ItemCode="ngModel" class="form-control"
-                            placeholder="" required>
-                        <span class="btn btn-sm btn-primary cursor-pointer btn-icon btn-position" (click)="getItemList()">
-                            <svg class="icon m-0" viewBox="0 -96 512 512">
-                                <use xlink:href="#menu"></use>
-                            </svg>
-                        </span>
-
-                    </div>
-                </div>
-                <div class="col-md-12 p-0 information-model">
-                    <div class="col-sm-12 col-md-5 col-lg-12 col-form-label pt-0">
-                        Description
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <input type="text" name="desc" [(ngModel)]="accdesc" #desc="ngModel" class="form-control"
-                            placeholder="" required>
-                    </div>
-                </div>
-                <div class="col-md-12 p-0 information-model">
-                    <div class="col-sm-12 col-md-5 col-lg-12 col-form-label pt-0">
-                        Quantitiy
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <input type="text" name="quan" [(ngModel)]="accquan" #price="ngModel" class="form-control"
-                            placeholder="" required>
-                    </div>
-                </div>
-                <div class="col-md-12 p-0 information-model">
-                    <div class="col-sm-12 col-md-5 col-lg-12 col-form-label pt-0">
-                        Price
-                    </div>
-                    <div class="col-sm-12 col-md-12 col-lg-12">
-                        <input type="text" name="price" [(ngModel)]="accprice" #price="ngModel" class="form-control"
-                            placeholder="" required>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer pl-3 pr-3">
-                <button type="submit" class="btn btn-success" [disabled]="!delarCustomerForm.valid">Save</button>
-                <button type="button" class="btn btn-primary" (click)="onNewScreen()">New</button>
-                <button type="button" class="btn btn-sm btn-icon mr-2 btn-primary" (click)="openEditView()">
-                    <svg viewBox="0 0 383.947 383.947" class="icon">
-                        <use xlink:href="#editAlt"></use>
-                    </svg>
-                </button>
-                <button tyspe="button" class="btn btn-secondary" (click)="onCancle()">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal-backdrop show" *ngIf="isModelremark"></div>
-
