@@ -520,8 +520,8 @@
                                                                     </div>
                                                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                                                         <textarea type="text" rows="4" ngValue="" class="form-control form-control-sm"
-                                                                            name="remark" id="remark" placeholder="{{language.remark}}"
-                                                                            [(ngModel)]="step1_data.remark" #remark> </textarea>
+                                                                            name="remarks" id="remark" placeholder="{{language.remark}}"
+                                                                            [(ngModel)]="step1_data.remark" #remarks> </textarea>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2679,10 +2679,10 @@
                                                             <label class="col-sm-7 col-7 col-form-label font-weight-light">{{step1_data.sales_employee}}</label>
                                                         </div>
                                                         <div class="form-group row clearfix">
-                                                            <label class="col-sm-5 col-form-label">
+                                                            <label class="col-sm-5 col-5 col-form-label">
                                                                 <b>{{language.remark}}</b>
                                                             </label>
-                                                            <label class="col-sm-7 col-form-label font-weight-light">{{step1_data.remark}}</label>
+                                                            <label class="col-sm-7 col-7 col-form-label font-weight-light">{{step1_data.remark}}</label>
                                                         </div>
                                                     </div>
                                                     <div class="item_discount_table">
@@ -2910,13 +2910,13 @@
             </div>
             <div class="modal-footer pl-3 pr-3">
                 <!-- <button type="submit" *ngIf = "isaccsave" class="btn btn-success">Save</button> -->
-                <button type="button" *ngIf="isaccnew" class="btn btn-primary" (click)="edittAccesoryModel(1)">New</button>
+                <button type="button" *ngIf="isaccnew" class="btn btn-primary" (click)="openNewAccScreen(1)">New</button>
                 <button type="submit" class="btn btn-success" (click)="addAccesoriesDetails()">Add</button>
-                <!-- <button type="button" class="btn btn-sm btn-icon mr-2 btn-primary" (click)="edittAccesoryModel()">
+                <button type="button" *ngIf="isaccEdit" class="btn btn-sm btn-icon mr-2 btn-primary" (click)="edittAccesoryModel(0)">
                         <svg viewBox="0 0 383.947 383.947" class="icon">
                             <use xlink:href="#editAlt"></use>
                         </svg>
-                    </button> -->
+                    </button>
                 <button tyspe="button" class="btn btn-secondary" (click)="CloseAccesoryModel()">Cancel</button>
             </div>
         </div>

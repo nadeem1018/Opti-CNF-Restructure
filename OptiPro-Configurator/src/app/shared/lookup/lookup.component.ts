@@ -2703,18 +2703,18 @@ export class LookupComponent implements OnInit {
     this.popup_title = this.language.ItemList;
     this.LookupDataLoaded = false;
     this.showLoader = true;
-    this.fill_input_id = 'Code';
-    this.lookup_key = 'Code';
+    this.fill_input_id = 'ItemKey';
+    this.lookup_key = 'ItemKey';
     this.table_head = [
       {
-        field: 'Code',
+        field: 'ItemKey',
         title: "Item Code",
         type: 'text',
         width: '100',
         attrType: 'text'
       },
       {
-        field: 'FinalString',
+        field: 'Description',
         title: "Item Details",
         type: 'text',
         width: '100',

@@ -692,6 +692,7 @@
     "more_details":"More Details",
     "user_code": "User Code",
     "user_name":"User Name",
-    "ItemList": "Item Description"
+    "ItemList": "Item Description",
+    "Invalid_ItemCode":"Invalid Item Code"
 
 }

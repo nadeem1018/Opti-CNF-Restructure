@@ -20,6 +20,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   @ViewChild("refresh_button", { static: true }) _refresh_el: ElementRef;
   @ViewChild("selected_configuration_key", { static: false }) lookup_el: ElementRef;
   @ViewChild('description', { static: false }) text_input_elem: ElementRef;
+  @ViewChild('remarks', { static: false }) remarks: ElementRef;
 
 
   public commonData = new CommonData();
@@ -273,6 +274,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public isvalidaccdesc = false;
   public isvalidaccquan = false;
   public isNewAccesorries = 0;
+  public isaccEdit = false;
 
 
 
@@ -382,6 +384,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       console.log('desktop detected')
       this.isdesktopView = true;
       this.isMobileView = false;
+    }
+    if (this.remarks != undefined) {
+      this.remarks.nativeElement.focus();
     }
 
   }
@@ -552,6 +557,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     if (this.text_input_elem != undefined) {
       this.text_input_elem.nativeElement.focus();
     }
+
   }
 
   on_configuration_id_change(value) {
@@ -1240,6 +1246,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   openRemarkLookUp() {
     //c this.lookupfor = 'remark_customer';
     this.isModelremark = true;
+
   }
 
   onCloseremark() {
@@ -1709,7 +1716,11 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     }
     else if (this.lookupfor == "Item Details") {
       this.accItem = $event[0];
-      this.edittAccesoryModel(0);
+      this.accdesc = $event[1];
+      this.accprice = $event[2];
+      this.accquan = 1;
+      this.isaccEdit = true;
+      this.lookupfor = "";
     }
     if (this.isPreviousPressed) {
       this.isDuplicate = true;
@@ -11046,6 +11057,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.isaccquan = true;
     this.isaccnew = true;
     this.resetAccValidFields();
+    this.isNewAccesorries = 0;
+    this.isaccEdit = false;
   }
 
   edittAccesoryModel(isexit: any) {
@@ -11053,16 +11066,30 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.isaccprice = false;
     this.isaccquan = false;
     this.isaccsave = true;
-    if(isexit == 1)
-    {
+    if (isexit == 1) {
       this.isaccnew = false;
     }
     this.isNewAccesorries = isexit;
-    
+
+  }
+
+  openNewAccScreen(isexit: any) {
+    this.accItem = "";
+    this.accdesc = "";
+    this.accquan = "";
+    this.accprice = "";
+    this.isaccdesc = false;
+    this.isaccprice = false;
+    this.isaccquan = false;
+    this.resetAccValidFields();
+    if (isexit == 1) {
+      this.isaccnew = false;
+    }
+    this.isNewAccesorries = isexit;
   }
 
   getAccesoryItemList() {
-   // this.showLookupLoader = true;
+    // this.showLookupLoader = true;
     CommonData.made_changes = true;
     this.serviceData = []
     this.lookupfor = 'Item Details';
@@ -11071,19 +11098,19 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
             CommonData.made_changes = false;
-           // this.showLookupLoader = false;
+            // this.showLookupLoader = false;
             this.CommonService.RemoveLoggedInUser().subscribe();
             this.CommonService.signOut(this.route, 'Sessionout');
             return;
           }
         }
         if (data.length > 0) {
-         // this.showLookupLoader = false;
+          // this.showLookupLoader = false;
           this.serviceData = data;
         }
         else {
           this.lookupfor = "";
-      //    this.showLookupLoader = false;
+          //    this.showLookupLoader = false;
           this.serviceData = [];
           this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
           return;
@@ -11106,9 +11133,29 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
   }
 
-  enableAccFields()
-  {
-    this.edittAccesoryModel(0);
+  enableAccFields() {
+    if (this.isNewAccesorries == 0) {
+      this.OutputService.ValidItemCode(this.accItem).subscribe(
+        data => {
+          if (data == undefined || data == null || data.length == 0) {
+            this.CommonService.show_notification(this.language.Invalid_ItemCode, 'error');
+            this.accItem = "";
+            return;
+          }
+          else {
+            this.accdesc = data[0].Description;
+            this.accprice = data[0].Price;
+            this.accquan = 1;
+          }
+        }, error => {
+          if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+            this.CommonService.isUnauthorized();
+          }
+          return;
+        })
+    }
+
+
   }
 
   validateAccDetails() {
@@ -11143,7 +11190,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
     this.feature_itm_list_table.push({
       FeatureId: 0,
-      featureName: "",
+      featureName: this.step2_data.model_code,
       Item: this.accItem,
       discount: 0,
       ItemNumber: "",
@@ -11158,13 +11205,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       pricehide: true,
       ispropogateqty: "",
       ModelId: this.step2_data.model_id,
-     // OPTM_LEVEL: "",
+      // OPTM_LEVEL: "",
       isQuantityDisabled: true,
       HEADER_LINENO: 1,
       sort_key: "",
-      newItem:this.isNewAccesorries,
-      nodeid:"0",
-      unique_key:"0"
+      newItem: this.isNewAccesorries,
+      nodeid: "0",
+      unique_key: "0"
     });
     this.feature_price_calculate();
     this.CloseAccesoryModel();

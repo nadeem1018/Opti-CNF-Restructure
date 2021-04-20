@@ -400,7 +400,18 @@ export class OutputService {
       }])
     };
     //Return the response form the API  
-    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetItemGenerationData", jObject, this.common_params.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetItemListData", jObject, this.common_params.httpOptions);
   }
-
+ 
+  ValidItemCode(itemCode :any): Observable<any> {
+    let jObject = {
+      GetData: JSON.stringify([{
+        CompanyDBID: sessionStorage.selectedComp,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
+        ItemKey :itemCode
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/ValidateItemListData", jObject, this.common_params.httpOptions);
+  }
 }
