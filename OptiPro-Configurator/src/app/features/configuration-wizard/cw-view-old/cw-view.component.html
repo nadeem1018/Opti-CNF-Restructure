@@ -727,7 +727,7 @@
                                 </div>
 
                                 <label class="custom-checkbox mb-0 w-100 curser-pointer">
-                                    <input type="checkbox" id="skip_assessment" name="skip_assessment" (change)="on_skip_assessment_change(skipassessment)"
+                                    <input type="checkbox" id="skip_assessment" [(ngModel)] ="SkipAssementModel" name="skip_assessment" (change)="on_skip_assessment_change(skipassessment)"
                                         #skipassessment>
                                     <span class="checkbox"></span>
                                     <span>{{language.skip}}</span>

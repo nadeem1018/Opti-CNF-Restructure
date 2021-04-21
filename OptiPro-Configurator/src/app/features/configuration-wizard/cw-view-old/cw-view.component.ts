@@ -242,6 +242,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public steps = 1;
   public isModelremark = false;
   public isModelCustomerInform = false;
+  public SkipAssementModel = false;
 
 
   constructor(private ActivatedRouter: ActivatedRoute,
@@ -529,6 +530,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.access_dis_amount_log = 0;
     this.step3_feature_price_bef_dis = 0;
     this.step3_acc_price_bef_dis = 0;
+    this.isModify = false;
+    this.SkipAssementModel = false;
     this.clear_all_screen_data();
     if (operation_type == 2 || operation_type == 3 || operation_type == 4) {
       this.modify_duplicate_selected = true;
@@ -902,19 +905,11 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.customerNeedsAssessmentHeader = data.CustomerNeedsAssessmentHeader;
           this.isModify = true;
           this.needAssesmentOptions = data.Option;
-
-          // this.option = data.Option
-          // this.option = this.option.filter(function (obj) {
-          //   obj['checked'] = false
-          //   return obj;
-          // })
-
-          // this.serviceData = data;
         }
         else {
 
           this.showLookupLoader = false;
-          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          this.SkipAssementModel = true;
           return;
         }
       }, error => {
