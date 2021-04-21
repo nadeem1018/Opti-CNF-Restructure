@@ -888,9 +888,6 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   getSavedNeedAssessmentData(loginID: any) {
     CommonData.made_changes = true;
     this.showLookupLoader = true;
-    if (this.step1_data.customer == undefined || this.step1_data.customer == null) {
-      this.step1_data.customer = "";
-    }
     this.OutputService.GetNeedsAssessmentSavedData(loginID).subscribe(
       data => {
         if (data != undefined && data.CustomerNeedsAssessmentHeader.length > 0) {
@@ -910,6 +907,65 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
           this.showLookupLoader = false;
           this.SkipAssementModel = true;
+        }
+        this.GetSavedAttributeData(loginID);
+      }, error => {
+        this.showLookupLoader = false;
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+      }
+    )
+  }
+
+  GetSavedAttributeData(loginID: any) {
+    CommonData.made_changes = true;
+    this.showLookupLoader = true;
+    this.OutputService.GetSavedAttributeData(loginID).subscribe(
+      data => {
+        if (data != undefined) {
+          this.showLookupLoader = false;
+
+          let dataList = data.GetSavedAttributeData;
+          this.FeatureBOMDetailAttribute = dataList.filter(function (obj) {
+            return obj.OPTM_MODELID == null;
+          });
+          this.ModelBOMDetailAttribute = dataList.filter(function (obj) {
+            return obj.OPTM_MODELID != undefined;
+          });
+          console.log("hi");
+        }
+        else {
+
+          this.showLookupLoader = false;
+
+        }
+        if (this.UserType == "D") {
+          this.GetSavedDealerCustAddData(loginID);
+        }
+      }, error => {
+        this.showLookupLoader = false;
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+      }
+    )
+
+  }
+
+  GetSavedDealerCustAddData(loginID: any) {
+    CommonData.made_changes = true;
+    this.showLookupLoader = true;
+    this.OutputService.GetSavedDealerCustAddData(loginID).subscribe(
+      data => {
+        if (data != undefined) {
+          this.showLookupLoader = false;
+          this.delarCustomer = data.SavedDealerCustAddData[0].OPTM_CUSTOMERCODE;
+          this.delarCustomerName = data.SavedDealerCustAddData[0].OPTM_CUSTOMERNAME;
+          this.GetCustomerdelarAddress();
+        }
+        else {
+          this.showLookupLoader = false;
           return;
         }
       }, error => {
@@ -919,6 +975,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
         }
       }
     )
+
   }
 
   getSavedModelDatabyModelCodeAndId(saveddata) {

@@ -426,4 +426,28 @@ export class OutputService {
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetSavedNeedsAssessmentData", jObject, this.common_params.httpOptions);
   }
+
+  GetSavedAttributeData(logID: any): Observable<any> {
+    let jObject = {
+      GetData: JSON.stringify([{
+        CompanyDBID: sessionStorage.selectedComp,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
+        OPTM_LOGID: logID
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetSavedAttributeData", jObject, this.common_params.httpOptions);
+  }
+
+  GetSavedDealerCustAddData(logID: any): Observable<any> {
+    let jObject = {
+      GetData: JSON.stringify([{
+        CompanyDBID: sessionStorage.selectedComp,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
+        OPTM_LOGID: logID
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetSavedDealerCustAddData", jObject, this.common_params.httpOptions);
+  }
 }
