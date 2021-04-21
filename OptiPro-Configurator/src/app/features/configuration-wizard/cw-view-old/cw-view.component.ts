@@ -275,6 +275,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public isvalidaccquan = false;
   public isNewAccesorries = 0;
   public isaccEdit = false;
+  public isModify = false;
+  public needAssesmentOptions: any;
 
 
 
@@ -727,6 +729,16 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
             return obj;
           })
 
+          if (this.isModify) {
+            this.option.forEach(element => {
+              this.needAssesmentOptions.forEach(elementlist => {
+                if (element.OPTM_OPTIONS == elementlist.OPTM_NASSOPTIONS) {
+                  element.checked = true;
+                }
+              });
+            });
+          }
+
           this.serviceData = data;
         }
         else {
@@ -856,7 +868,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
               objs_this.accessory_discount_percent = data.CustomerOutput[0].OPTM_ACCESSORYDIS
             }, 1000);
           })
-
+          this.getSavedNeedAssessmentData(logid);
           this.getSavedModelDatabyModelCodeAndId(data);
         }
         this.isNextButtonVisible = true;
@@ -866,6 +878,50 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.CommonService.isUnauthorized();
         }
         return;
+      }
+    )
+  }
+
+  getSavedNeedAssessmentData(loginID: any) {
+    CommonData.made_changes = true;
+    this.showLookupLoader = true;
+    if (this.step1_data.customer == undefined || this.step1_data.customer == null) {
+      this.step1_data.customer = "";
+    }
+    this.OutputService.GetNeedsAssessmentSavedData(loginID).subscribe(
+      data => {
+        if (data != undefined && data.CustomerNeedsAssessmentHeader.length > 0) {
+          this.showLookupLoader = false;
+
+          if (data.CustomerNeedsAssessmentHeader[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.route, 'Sessionout');
+            return;
+          }
+          this.customerNeedsAssessmentHeader = data.CustomerNeedsAssessmentHeader;
+          this.isModify = true;
+          this.needAssesmentOptions = data.Option;
+
+          // this.option = data.Option
+          // this.option = this.option.filter(function (obj) {
+          //   obj['checked'] = false
+          //   return obj;
+          // })
+
+          // this.serviceData = data;
+        }
+        else {
+
+          this.showLookupLoader = false;
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      }, error => {
+        this.showLookupLoader = false;
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
       }
     )
   }

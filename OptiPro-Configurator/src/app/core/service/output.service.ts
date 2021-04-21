@@ -402,16 +402,28 @@ export class OutputService {
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetItemListData", jObject, this.common_params.httpOptions);
   }
- 
-  ValidItemCode(itemCode :any): Observable<any> {
+
+  ValidItemCode(itemCode: any): Observable<any> {
     let jObject = {
       GetData: JSON.stringify([{
         CompanyDBID: sessionStorage.selectedComp,
         GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
-        ItemKey :itemCode
+        ItemKey: itemCode
       }])
     };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/ValidateItemListData", jObject, this.common_params.httpOptions);
+  }
+
+  GetNeedsAssessmentSavedData(logID: any): Observable<any> {
+    let jObject = {
+      GetData: JSON.stringify([{
+        CompanyDBID: sessionStorage.selectedComp,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
+        OPTM_LOGID: logID
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetSavedNeedsAssessmentData", jObject, this.common_params.httpOptions);
   }
 }
