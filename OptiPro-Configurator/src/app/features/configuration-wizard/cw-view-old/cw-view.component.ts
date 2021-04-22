@@ -1640,6 +1640,15 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     }
     this.onCalculateAttributeItem();
     this.showLookupLoader = true;
+    this.SelectedModelFeature = this.SelectedModelFeature.filter(function (obj) {
+      obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
+       return obj;
+    });
+    this.SelectedItems = this.SelectedItems.filter(function (obj) {
+      obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
+       return obj;
+    });
+
     this.OutputService.CalculateAttributesonWizard(this.SelectedModelFeature, this.SelectedItems, this.SelectedFeatureAttributes, this.SelectModelAttributes).subscribe(
       data => {
 
@@ -2746,6 +2755,14 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     }
 
     this.showLookupLoader = true;
+    this.SelectedModelFeature = this.SelectedModelFeature.filter(function (obj) {
+      obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
+       return obj;
+    });
+    this.SelectedItems = this.SelectedItems.filter(function (obj) {
+      obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
+       return obj;
+    });
     this.OutputService.CalculateAttributesonWizard(this.SelectedModelFeature, this.SelectedItems, this.SelectedFeatureAttributes, this.SelectModelAttributes).subscribe(
       data => {
 
