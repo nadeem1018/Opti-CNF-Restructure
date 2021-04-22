@@ -927,6 +927,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.showLookupLoader = false;
 
           let dataList = data.GetSavedAttributeData;
+          this.FeatureBOMCustomAttr = data.GetSavedCustomAttributeData;
           this.FeatureBOMDetailAttribute = dataList.filter(function (obj) {
             return obj.OPTM_MODELID == null;
           });
