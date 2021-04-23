@@ -1642,7 +1642,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.showLookupLoader = true;
     this.SelectedModelFeature = this.SelectedModelFeature.filter(function (obj) {
       obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
-       return obj;
+      return obj;
     });
     this.SelectedItems = this.SelectedItems.filter(function (obj) {
       obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
@@ -2760,7 +2760,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.showLookupLoader = true;
     this.SelectedModelFeature = this.SelectedModelFeature.filter(function (obj) {
       obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
-       return obj;
+      return obj;
     });
     this.SelectedItems = this.SelectedItems.filter(function (obj) {
       obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
@@ -6077,6 +6077,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       if (finaldatastring != null && finaldatastring != undefined && finaldatastring != ''
         && finaldatastring != 'null') {
         finaldata = JSON.parse(finaldatastring);
+      }
+      // condition add gor change row index in select Model 
+      if (finaldata.length > 0) {
+        for (let i = 0; i < finaldata.length; i++) {
+          finaldata[i].rowIndex = i;
+        }
       }
       this.step3_data_final = finaldata;
       this.step2_selected_model = this.step3_data_final[current_row];
