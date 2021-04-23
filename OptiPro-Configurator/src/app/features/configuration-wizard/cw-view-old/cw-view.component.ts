@@ -1646,6 +1646,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     });
     this.SelectedItems = this.SelectedItems.filter(function (obj) {
       obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
+      if( obj['HEADER_LINENO'] != null &&  obj['HEADER_LINENO'] != undefined) {
+        obj['HEADER_LINENO'] = (obj['HEADER_LINENO']).toString();
+      }
        return obj;
     });
 
@@ -2761,6 +2764,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     });
     this.SelectedItems = this.SelectedItems.filter(function (obj) {
       obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
+      if( obj['HEADER_LINENO'] != null &&  obj['HEADER_LINENO'] != undefined){
+          obj['HEADER_LINENO'] = (obj['HEADER_LINENO']).toString();
+      }
        return obj;
     });
     this.OutputService.CalculateAttributesonWizard(this.SelectedModelFeature, this.SelectedItems, this.SelectedFeatureAttributes, this.SelectModelAttributes).subscribe(
