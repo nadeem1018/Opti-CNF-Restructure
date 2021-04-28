@@ -278,6 +278,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public isaccEdit = false;
   public isModify = false;
   public needAssesmentOptions: any;
+  public isOperationNotView = true;
 
 
 
@@ -533,6 +534,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.isModify = false;
     this.SkipAssementModel = false;
     this.clear_all_screen_data();
+    this.isOperationNotView = operation_type == 4 ? false : true;
     if (operation_type == 2 || operation_type == 3 || operation_type == 4) {
       this.modify_duplicate_selected = true;
       this.new_output_config = true;
@@ -819,16 +821,18 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.final_ref_doc_entry = data.CustomerOutput[0].LogRefDocEntry;
           this.final_document_number = data.CustomerOutput[0].LogRefDocNo;
           this.step1_data.customer = data.CustomerOutput[0].OPTM_BPCODE;
+
+
           var objs_this = this;
           this.getCustomerAllInfo(function () {
 
             setTimeout(function () {
               objs_this.step1_data.delivery_until = "";
 
-              /* if (data.CustomerOutput[0].OPTM_DELIVERYDATE !== null && data.CustomerOutput[0].OPTM_DELIVERYDATE !== "") {
+              if (data.CustomerOutput[0].OPTM_DELIVERYDATE !== null && data.CustomerOutput[0].OPTM_DELIVERYDATE !== "") {
                 let temp_date = new Date(data.CustomerOutput[0].OPTM_DELIVERYDATE)
                 objs_this.step1_data.delivery_until = new Date((temp_date.getFullYear()) + '/' + (temp_date.getMonth() + 1) + '/' + temp_date.getDate());
-              } */
+              }
               objs_this.step1_data.customer_name = '';
               objs_this.step1_data.person_name = '';
               objs_this.step1_data.bill_to = "";
@@ -902,6 +906,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.customerNeedsAssessmentHeader = data.CustomerNeedsAssessmentHeader;
           this.isModify = true;
           this.needAssesmentOptions = data.Option;
+          if(this.needAssesmentOptions.length == 0)
+          {
+            this.SkipAssementModel = true;
+          }
         }
         else {
 

@@ -2235,7 +2235,7 @@
                                 </button>
 
                                 <span class="output_final_screen_save_button">
-                                    <button (click)="onFinishPress('screen4_data', 'finishPress')" *ngIf="step3_data_final.length > 0  && step1_data.document != 'draft'"
+                                    <button (click)="onFinishPress('screen4_data', 'finishPress')" *ngIf="step3_data_final.length > 0  && step1_data.document != 'draft' && isOperationNotView"
                                         type="submit" class="btn btn-sm btn-primary  btn-next mr-2" data-next-block="fina_doc_create">
                                         <!-- <svg viewBox="0 0 24 24" class="icon arrow-icon"><use xlink:href="#rightArrow"></use></svg> -->
                                         {{language.finish}}
