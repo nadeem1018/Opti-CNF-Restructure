@@ -243,6 +243,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public isModelremark = false;
   public isModelCustomerInform = false;
   public SkipAssementModel = false;
+  public itemFeatureID : any =0;
 
 
   constructor(private ActivatedRouter: ActivatedRoute,
@@ -1844,9 +1845,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       }
     }
     else if (this.lookupfor == "Item Details") {
-      this.accItem = $event[0];
-      this.accdesc = $event[1];
-      this.accprice = $event[2];
+      this.itemFeatureID = $event[0];
+      this.accItem = $event[1];
+      this.accdesc = $event[2];
+      this.accprice = $event[3];
       this.accquan = 1;
       this.isaccEdit = true;
       this.lookupfor = "";
@@ -11194,6 +11196,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
   CloseAccesoryModel() {
     this.isAccModel = false;
+    this.itemFeatureID = 0;
     this.accItem = "";
     this.accdesc = "";
     this.accquan = "";
@@ -11291,6 +11294,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           else {
             this.accdesc = data[0].Description;
             this.accprice = data[0].Price;
+            this.itemFeatureID = data[0].OPTM_FEATUREID;
             this.accquan = 1;
           }
         }, error => {
@@ -11335,7 +11339,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     let priceextn: any = this.accprice * this.accquan;
 
     this.feature_itm_list_table.push({
-      FeatureId: 0,
+      FeatureId: this.itemFeatureID,
       featureName: this.step2_data.model_code,
       Item: this.accItem,
       discount: 0,
