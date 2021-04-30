@@ -474,6 +474,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
       ModelCode: this.modelbom_data.modal_code,
       description: this.modelbom_data.feature_desc,
       OPTM_ABBREVIATION: "",
+      OPTM_MODELLEVEL_DESC:"N",
       ReadyToUse: "N",
       type: 1,
       type_value: "",
@@ -2191,6 +2192,13 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
         }
         else {
           temp_model_data[i].ReadyToUse = "Y"
+        }
+
+        if (this.modelbom_data.OPTM_MODELLEVEL_DESC == false) {
+          temp_model_data[i].OPTM_MODELLEVEL_DESC = "N"
+        }
+        else {
+          temp_model_data[i].OPTM_MODELLEVEL_DESC = "Y"
         }
 
         temp_model_data[i].type_value = temp_model_data[i].type_value.toString();

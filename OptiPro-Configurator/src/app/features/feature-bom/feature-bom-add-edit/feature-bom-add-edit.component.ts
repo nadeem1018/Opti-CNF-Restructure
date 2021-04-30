@@ -317,6 +317,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               display_name: data.FeatureDetail[i].OPTM_DISPLAYNAME,
               bom_description: data.FeatureDetail[i].OPTM_FEATUREDEC,
               OPTM_ABBREVIATION: data.FeatureDetail[i].OPTM_ABBREVIATION,
+              OPTM_MODELLEVEL_DESC:data.FeatureDetail[i].OPTM_MODELLEVEL_DESC,
               quantity: this.isQuanity,
               default: this.defaultcheckbox,
               remark: data.FeatureDetail[i].OPTM_REMARKS,
@@ -352,6 +353,16 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
           this.feature_bom_data.feature_desc = data.FeatureHeader[0].OPTM_FEATUREDESC;
           this.feature_bom_data.image_path = data.FeatureHeader[0].OPTM_PHOTO;
           this.feature_bom_data.is_accessory = data.FeatureHeader[0].OPTM_ACCESSORY;
+          
+
+          if(data.FeatureHeader[0].OPTM_MODELLEVEL_DESC == 'Y')
+          {
+            this.feature_bom_data.OPTM_MODELLEVEL_DESC =true;
+          }
+          else
+          {
+            this.feature_bom_data.OPTM_MODELLEVEL_DESC =false;
+          }
 
           if (this.feature_bom_data.is_accessory == 'y' || this.feature_bom_data.is_accessory == 'Y') {
             this.detail_select_options = this.commonData.less_feature_bom_type();
@@ -881,8 +892,12 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
         }
 
         this.feature_bom_table[i].quantity = this.feature_bom_table[i].quantity.toString();
-        this.feature_bom_table[i].OPTM_MODELLEVEL_DESC = this.feature_bom_data.OPTM_MODELLEVEL_DESC;
-
+        if (this.feature_bom_data.OPTM_MODELLEVEL_DESC == false) {
+          this.feature_bom_table[i].OPTM_MODELLEVEL_DESC = "N"
+        }
+        else {
+          this.feature_bom_table[i].OPTM_MODELLEVEL_DESC = "Y"
+        }
         if (this.feature_bom_table[i].print_on_report === false) {
           this.feature_bom_table[i].print_on_report = "N"
         }
