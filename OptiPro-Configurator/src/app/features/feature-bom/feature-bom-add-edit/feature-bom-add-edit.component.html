@@ -198,6 +198,16 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-4 mt-3px">
+                                        <label class="custom-checkbox mb-0 w-100 curser-pointer">
+                                          <input type="checkbox" id="descModelLevel" name="descModelLevel" value=feature_bom_data.OPTM_MODELLEVEL_DESC
+                                             #desModelLevel [(checked)]=feature_bom_data.OPTM_MODELLEVEL_DESC
+                                            [(ngModel)]="feature_bom_data.OPTM_MODELLEVEL_DESC" title="{{feature_bom_data.OPTM_MODELLEVEL_DESC}}">
+                                          <span class="checkbox"></span>
+                                          <span>{{language.Include_desc_Model_Level}}</span>
+                                        </label>
+                                      </div>
+
 
                                     <!-- <div class="form-group row clearfix mb-2">
                                         <div class="col-sm-6 row">
@@ -312,6 +322,14 @@
                                                 value={{dataItem.bom_description}} #bom_description title="{{dataItem.bom_description}}" />
                                         </ng-template>
                                     </kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_ABBREVIATION" title="{{language.Abbreviation}}" filter="text" [width]="145"
+                                    [minResizableWidth]="145">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                      <input  type="text" class="form-control  form-control-sm"
+                                        id="bom_abbreviation" (change)="on_abbreviation_description_change(OPTM_ABBREVIATION.value,dataItem.rowindex)"
+                                        value={{dataItem.OPTM_ABBREVIATION}} #OPTM_ABBREVIATION title="{{dataItem.OPTM_ABBREVIATION}}" />
+                                    </ng-template>
+                                  </kendo-grid-column>
                                     <kendo-grid-column field="Bom_Qty" title="{{language.Bom_Qty}}" filter="text"
                                         [width]="90" [minResizableWidth]="90">
                                         <ng-template kendoGridCellTemplate let-dataItem>

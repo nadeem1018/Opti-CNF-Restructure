@@ -76,6 +76,15 @@
                             <input type="text" name="feature_desc" class="form-control  form-control-sm" id="featureDesc"
                               placeholder="{{language.description}}" readonly [(ngModel)]="modelbom_data.feature_desc" title="{{modelbom_data.feature_desc}}">
                           </div>
+                          <div class="col-sm-4 mt-3px">
+                            <label class="custom-checkbox mb-0 w-100 curser-pointer">
+                              <input type="checkbox" id="descModelLevel" name="descModelLevel" value=modelbom_data.OPTM_MODELLEVEL_DESC
+                                 #desModelLevel [(checked)]=modelbom_data.OPTM_MODELLEVEL_DESC
+                                [(ngModel)]="modelbom_data.OPTM_MODELLEVEL_DESC" title="{{modelbom_data.OPTM_MODELLEVEL_DESC}}">
+                              <span class="checkbox"></span>
+                              <span>{{language.Include_desc_Model_Level}}</span>
+                            </label>
+                          </div>
                         </div>
                         <div class="form-group row clearfix" *ngIf="showImageBlock">
                           <label class="col-sm-3 col-form-label" for="image">{{language.image}}</label>
@@ -183,6 +192,14 @@
                             <input [disabled]="dataItem.isBomDescriptionDisabled" type="text" class="form-control  form-control-sm"
                               id="bom_description" (change)="on_description_change(bom_description.value,dataItem.rowindex)"
                               value={{dataItem.bom_description}} #bom_description title="{{dataItem.bom_description}}" />
+                          </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="OPTM_ABBREVIATION" title="{{language.Abbreviation}}" filter="text" [width]="145"
+                          [minResizableWidth]="145">
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                            <input  type="text" class="form-control  form-control-sm"
+                              id="bom_abbreviation" (change)="on_abbreviation_description_change(OPTM_ABBREVIATION.value,dataItem.rowindex)"
+                              value={{dataItem.OPTM_ABBREVIATION}} #OPTM_ABBREVIATION title="{{dataItem.OPTM_ABBREVIATION}}" />
                           </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column field="uom" title="{{language.uom}}" filter="text" [width]="70"

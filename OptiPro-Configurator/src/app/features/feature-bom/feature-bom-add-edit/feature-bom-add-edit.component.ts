@@ -316,6 +316,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               type_value_code: this.typevaluecodefromdatabase.trim(),
               display_name: data.FeatureDetail[i].OPTM_DISPLAYNAME,
               bom_description: data.FeatureDetail[i].OPTM_FEATUREDEC,
+              OPTM_ABBREVIATION: data.FeatureDetail[i].OPTM_ABBREVIATION,
               quantity: this.isQuanity,
               default: this.defaultcheckbox,
               remark: data.FeatureDetail[i].OPTM_REMARKS,
@@ -594,6 +595,8 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
       OPTM_LINENO: 0,
       FeatureId: this.feature_bom_data.feature_id,
       type: table_default_type,
+      OPTM_ABBREVIATION: "",
+      OPTM_MODELLEVEL_DESC: false,
       type_value: "",
       type_value_code: "",
       display_name: "",
@@ -832,6 +835,13 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
           this.showLookupLoader = false;
           return;
         }
+        if (this.feature_bom_data.OPTM_MODELLEVEL_DESC) {
+          let currentrow = i + 1;
+          if (this.feature_bom_table[i].OPTM_ABBREVIATION == "") {
+            this.CommonService.show_notification(this.language.Abbreviation_field + currentrow, 'error');
+            return false;
+          }
+        }
       }
 
       for (let i = 0; i < this.feature_bom_table.length; ++i) {
@@ -871,6 +881,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
         }
 
         this.feature_bom_table[i].quantity = this.feature_bom_table[i].quantity.toString();
+        this.feature_bom_table[i].OPTM_MODELLEVEL_DESC = this.feature_bom_data.OPTM_MODELLEVEL_DESC;
 
         if (this.feature_bom_table[i].print_on_report === false) {
           this.feature_bom_table[i].print_on_report = "N"
@@ -959,6 +970,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
         this.feature_bom_table[i].type_value_code = "";
         this.feature_bom_table[i].display_name = ""
         this.feature_bom_table[i].bom_description = ""
+        this.feature_bom_table[i].OPTM_ABBREVIATION = ""
         this.feature_bom_table[i].is_accessory = "N"
         if (selectedvalue == 3) {
           this.feature_bom_table[i].isDisplayNameDisabled = false
@@ -1088,6 +1100,17 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
         this.feature_bom_table[i].bom_description = value
 
         //  this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
+      }
+    }
+  }
+
+  on_abbreviation_description_change(value, rowindex) {
+
+    this.currentrowindex = rowindex
+    CommonData.made_changes = true;
+    for (let i = 0; i < this.feature_bom_table.length; ++i) {
+      if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
+        this.feature_bom_table[i].OPTM_ABBREVIATION = value;
       }
     }
   }
@@ -1413,6 +1436,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
         this.feature_bom_table[i].is_accessory_disabled = false;
         this.feature_bom_table[i].default = false;
         this.feature_bom_table[i].bom_description = selectedDataDetails[0].Description;
+        this.feature_bom_table[i].OPTM_ABBREVIATION = selectedDataDetails[0].OPTM_ABBREVIATION;
         this.feature_bom_table[i].display_name = selectedDataDetails[0].Description;
         this.feature_bom_table[i].price_source = selectedDataDetails[0].ListName;
         this.feature_bom_table[i].price_source_id = selectedDataDetails[0].PriceListID;
@@ -1450,6 +1474,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               this.feature_bom_data.feature_desc = data[0].OPTM_FEATUREDESC;
               this.feature_bom_data.image_path = data[0].OPTM_PHOTO;
               this.feature_bom_data.is_accessory = data[0].OPTM_ACCESSORY;
+              this.feature_bom_data.OPTM_MODELLEVEL_DESC = data[0].OPTM_MODELLEVEL_DESC;
               if (this.feature_bom_data.is_accessory == 'y' || this.feature_bom_data.is_accessory == 'Y') {
                 //this.detail_select_options = this.commonData.less_bom_type;
                 this.detail_select_options = this.commonData.less_feature_bom_type();
@@ -2020,6 +2045,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
           this.feature_bom_data.feature_id = "";
           this.feature_bom_data.feature_code = "";
           this.feature_bom_data.feature_name = "";
+          this.feature_bom_data.OPTM_MODELLEVEL_DESC = false;
           this.feature_bom_data.feature_desc = "";
           this.feature_bom_data.is_accessory = "N";
           this.feature_bom_data.multi_select = 'false';

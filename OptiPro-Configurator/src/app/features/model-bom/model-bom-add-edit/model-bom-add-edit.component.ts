@@ -250,7 +250,8 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
           this.modelbom_data.feature_name = data.ModelHeader[0].OPTM_DISPLAYNAME;
           this.modelbom_data.feature_desc = data.ModelHeader[0].OPTM_FEATUREDESC;
           this.modelbom_data.image_path = data.ModelHeader[0].OPTM_PHOTO;
-          this.modelbom_data.is_ready_to_use = data.ModelHeader[0].OPTM_READYTOUSE
+          this.modelbom_data.is_ready_to_use = data.ModelHeader[0].OPTM_READYTOUSE;
+          this.modelbom_data.OPTM_MODELLEVEL_DESC = data.ModelHeader[0].OPTM_MODELLEVEL_DESC;
           if (this.modelbom_data.image_path != null || this.modelbom_data.image_path != "") {
             this.showImageBlock = true;
             //this.header_image_data = this.commonData.get_current_url() + this.modelbom_data.image_path;
@@ -262,6 +263,12 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
             this.modelbom_data.is_ready_to_use = true;
           } else {
             this.modelbom_data.is_ready_to_use = false;
+          }
+
+          if (this.modelbom_data.OPTM_MODELLEVEL_DESC == "Y") {
+            this.modelbom_data.OPTM_MODELLEVEL_DESC = true;
+          } else {
+            this.modelbom_data.OPTM_MODELLEVEL_DESC = false;
           }
 
 
@@ -364,11 +371,13 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               ModelId: data.ModelDetail[i].OPTM_MODELID,
               description: this.modelbom_data.feature_name,
               ReadyToUse: this.modelbom_data.is_ready_to_use,
+              OPTM_MODELLEVEL_DESC: this.modelbom_data.OPTM_MODELLEVEL_DESC,
               type: data.ModelDetail[i].OPTM_TYPE,
               type_value: this.typevaluefromdatabase,
               type_value_code: this.typevaluecodefromdatabase,
               display_name: data.ModelDetail[i].OPTM_DISPLAYNAME,
               bom_description: data.ModelDetail[i].Description,
+              OPTM_ABBREVIATION: data.ModelDetail[i].OPTM_ABBREVIATION,
               uom: data.ModelDetail[i].OPTM_UOM,
               quantity: data.ModelDetail[i].OPTM_QUANTITY,
               default: this.defaultcheckbox,
@@ -424,6 +433,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
           this.modelbom_data.feature_desc = "";
           this.modelbom_data.modal_id = "";
           this.modelbom_data.is_ready_to_use = false;
+          // this.modelbom_data.OPTM_MODELLEVEL_DESC = false;
         }
       }, error => {
         this.showLoader = false;
@@ -463,6 +473,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
       ModelId: this.modelbom_data.modal_id,
       ModelCode: this.modelbom_data.modal_code,
       description: this.modelbom_data.feature_desc,
+      OPTM_ABBREVIATION: "",
       ReadyToUse: "N",
       type: 1,
       type_value: "",
@@ -639,6 +650,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
     this.modelbom_data[rowindex].uom = "";
     this.modelbom_data[rowindex].display_name = "";
     this.modelbom_data[rowindex].bom_description = "";
+    this.modelbom_data[rowindex].OPTM_ABBREVIATION = "";
     this.modelbom_data[rowindex].quantity = ("0");
     this.modelbom_data[rowindex].min_selected = 1;
     this.modelbom_data[rowindex].max_selected = 1;
@@ -782,6 +794,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
                   this.modelbom_data[i].type_value_code = data[0].OPTM_FEATURECODE.toString();
                   this.modelbom_data[i].display_name = data[0].OPTM_DISPLAYNAME;
                   this.modelbom_data[i].bom_description = data[0].OPTM_DISPLAYNAME;
+                  this.modelbom_data[i].OPTM_ABBREVIATION = data[0].OPTM_ABBREVIATION;
                   this.modelbom_data[i].min_selected = data[0].OPTM_MIN_SELECTABLE;
                   this.modelbom_data[i].max_selected = (data[0].OPTM_MAX_SELECTABLE != "" && data[0].OPTM_MAX_SELECTABLE != 0) ? data[0].OPTM_MAX_SELECTABLE : 1;
                   this.modelbom_data[i].feature_min_selected = data[0].OPTM_MIN_SELECTABLE;
@@ -1047,7 +1060,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
           }
 
           if (press_location == "Header") {
-            if (this.lookupfor == 'ModelBom_lookup'||this.lookupfor == 'ModelBom_Change') {
+            if (this.lookupfor == 'ModelBom_lookup' || this.lookupfor == 'ModelBom_Change') {
               this.modelbom_data.feature_name = data[0].OPTM_DISPLAYNAME;
               this.modelbom_data.feature_desc = data[0].OPTM_FEATUREDESC;
               this.modelbom_data.image_path = data[0].OPTM_PHOTO;
@@ -1065,6 +1078,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
                   this.modelbom_data[i].type_value_code = data[0].OPTM_FEATURECODE;
                   this.modelbom_data[i].display_name = data[0].OPTM_DISPLAYNAME
                   this.modelbom_data[i].bom_description = data[0].OPTM_DISPLAYNAME
+                  this.modelbom_data[i].OPTM_ABBREVIATION = data[0].OPTM_ABBREVIATION;
 
                   this.live_tree_view_data.push({ "display_name": data[0].OPTM_DISPLAYNAME, "tree_index": this.currentrowindex, "branchType": 'modal', "icon": 'modal' });
                 }
@@ -1151,6 +1165,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
         this.modelbom_data[i].type_value_code = selectedDataDetails[0].ItemKey;
         this.modelbom_data[i].display_name = selectedDataDetails[0].Description
         this.modelbom_data[i].bom_description = selectedDataDetails[0].Description
+        this.modelbom_data[i].OPTM_ABBREVIATION = selectedDataDetails[0].OPTM_ABBREVIATION
         this.modelbom_data[i].uom = selectedDataDetails[0].InvUOM
         this.modelbom_data[i].price_source = selectedDataDetails[0].ListName;
         this.modelbom_data[i].price_source_id = selectedDataDetails[0].PriceListID;
@@ -1293,6 +1308,17 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
         }
         this.modelbom_data[i].bom_description = value;
         // this.live_tree_view_data.push({ "display_name": value, "tree_index": this.currentrowindex });
+      }
+    }
+  }
+
+  on_abbreviation_description_change(value, rowindex) {
+
+    this.currentrowindex = rowindex
+    CommonData.made_changes = true;
+    for (let i = 0; i < this.modelbom_data.length; ++i) {
+      if (this.modelbom_data[i].rowindex === this.currentrowindex) {
+        this.modelbom_data[i].OPTM_ABBREVIATION = value;
       }
     }
   }
@@ -1671,6 +1697,13 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
 
             this.CommonService.show_notification(this.language.quantityblank + currentrow, 'error');
             return false;
+          }
+          if (this.modelbom_data.OPTM_MODELLEVEL_DESC) {
+            if (this.modelbom_data[i].OPTM_ABBREVIATION == "") {
+
+              this.CommonService.show_notification(this.language.Abbreviation_field + currentrow, 'error');
+              return false;
+            }
           }
         }
       }
