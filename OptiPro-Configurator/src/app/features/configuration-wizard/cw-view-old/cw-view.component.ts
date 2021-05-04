@@ -484,6 +484,11 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       this.isShipDisable = true;
       this.isChecked = false;
     }
+    else
+    {
+      this.isDealar= false;
+      this.resetDealerFields();
+    }
     this.serviceData.ref_doc_details = [];
     this.serviceData.product_grand_details = [];
     this.serviceData.print_types = [];
@@ -1805,6 +1810,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       if (this.step1_data.customer != undefined) {
         this.isNextButtonVisible = true;
         this.getCustomerAllInfo("");
+        this.GetDealerMappingBycust(this.step1_data.customer);
       }
       else {
         this.isNextButtonVisible = false;
@@ -1839,6 +1845,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       this.CommonService.customerDelarAddress = [];
       this.step1_data.ship_to_address = "";
       this.addressDetais = [];
+      this.lookupfor = "";
 
       if (this.isChecked) {
         this.GetCustomerdelarAddress();
@@ -5294,6 +5301,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.step1_data.bill_to_address = '';
           this.bill_to = [];
           this.owner_list = [];
+          this.resetDealerFields();
+          this.isDealar=false;
           return;
         }
 
@@ -5303,6 +5312,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
             callback = '';
           }
           this.getCustomerAllInfo(callback);
+          this.GetDealerMappingBycust(this.step1_data.customer);
           this.GetCustomername();
         }
       }, error => {
@@ -5356,6 +5366,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   onDocumentChange(documentValue) {
     this.isShipDisable = true;
     // this.clear_all_screen_data()
+    if (this.UserType != "D") {
+      this.resetDealerFields();
+      this.isDealar = false;
+    }
     this.onClearStep1();
     if (this.step1_data.document == "sales_quote") {
       this.document_date = this.language.valid_date;
@@ -11370,4 +11384,38 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.CloseAccesoryModel();
   }
 
-}
+  resetDealerFields () 
+  {
+    this.shippingaddress = true;
+    this.isChecked = false;
+    this.delarCustomerName = "";
+    this.delarCustomer = "";
+    this.isShipDisable =true;
+  }
+
+  GetDealerMappingBycust(code : any)
+  {
+    if(this.UserType != "D")
+    {
+      this.OutputService.GetDealerMappingBycust(code).subscribe(
+        data => {
+          if (data.length > 0) {
+            this.resetDealerFields();
+            this.isDealar=true;
+            this.isShipDisable = false;
+            return;
+            }
+          else {
+            this.resetDealerFields();
+            this.isDealar=false;
+            return;
+          }
+        }, error => {
+          if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+            this.CommonService.isUnauthorized();
+          }
+          return;
+        })
+    }
+    }
+   }

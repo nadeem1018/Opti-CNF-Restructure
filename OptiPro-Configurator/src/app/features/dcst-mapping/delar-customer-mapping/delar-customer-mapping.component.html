@@ -112,7 +112,8 @@
                                             <svg class="icon m-0" viewBox="0 -96 512 512">
                                                 <use xlink:href="#menu"></use>
                                             </svg>
-                                        </button>
+                                        </button>&nbsp;&nbsp;
+                                        <span *ngIf="dataItem.MODEL_SELECTED">{{language.MODEL_SELECTED}}</span>
 
                                     </ng-template>
                                 </kendo-grid-column>

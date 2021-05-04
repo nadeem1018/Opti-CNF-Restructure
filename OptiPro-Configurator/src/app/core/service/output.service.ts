@@ -450,4 +450,16 @@ export class OutputService {
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetSavedDealerCustAddData", jObject, this.common_params.httpOptions);
   }
+
+  GetDealerMappingBycust(CustCode: any): Observable<any> {
+    let jObject = {
+      GetData: JSON.stringify([{
+        CompanyDBID: sessionStorage.selectedComp,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
+        OPTM_CUSTCODE: CustCode
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetDealerCustomerMappingByCustCode", jObject, this.common_params.httpOptions);
+  }
 }

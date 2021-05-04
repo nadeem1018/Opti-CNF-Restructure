@@ -40,7 +40,7 @@ export class DelarCustomerMapComponent implements OnInit {
   ngOnInit() {
     if (this.dealerdata.length > 0) {
       this.isEdit = true;
-      this.delarList.delarCode = this.dealerdata[0].OPTM_DEALERCODE;
+      this.delarList.delarCode = this.dealerdata[0].OPTM_USERCODE;
       this.delarList.addressID1 = this.dealerdata[0].OPTM_ADDRESS1;
       this.delarList.addressID2 = this.dealerdata[0].OPTM_ADDRESS2;
       this.delarList.street = this.dealerdata[0].OPTM_STREET;
@@ -71,7 +71,7 @@ export class DelarCustomerMapComponent implements OnInit {
     finalsavedata.OPCONFIG_DEALER_CUSTOMER = [];
 
     finalsavedata.OPCONFIG_DEALER_CUSTOMER.push({
-      OPTM_DEALERCODE: this.delarList.delarCode,
+      OPTM_USERCODE: this.delarList.delarCode,
       OPTM_ADDRESS1: this.delarList.addressID1,
       OPTM_ADDRESS2: this.delarList.addressID2,
       OPTM_STREET: this.delarList.street,

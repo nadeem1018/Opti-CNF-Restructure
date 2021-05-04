@@ -696,6 +696,8 @@
     "Invalid_ItemCode":"Invalid Item Code",
     "Include_desc_Model_Level":"Include Description On Model Level",
     "Abbreviation_field": "Enter Abbreviation at row index: ",
-    "Abbreviation": "Abbreviation"
+    "Abbreviation": "Abbreviation",
+    "MODEL_SELECTED":"Filtered Model Selected",
+    "userodegeneration":"Dealer Code Generation"
 
 }

@@ -289,6 +289,7 @@ export class DelarCustomerMappingComponent implements OnInit {
 
           for (let i = 0; i < data.length; i++) {
             let OPTM_disable = false;
+            let MODEL_SELECTED = false;
             if (data[i].OPTM_CUSTCODE == "") {
               OPTM_disable = true;
             }
@@ -303,6 +304,7 @@ export class DelarCustomerMappingComponent implements OnInit {
               OPTM_PRICELISTNAME: data[i].OPTM_PRICELISTNAME,
               OPTM_ID: data[i].OPTM_ID == null ? 0 : data[i].OPTM_ID,
               OPTM_disable:OPTM_disable,
+              MODEL_SELECTED:data[i].NO_OF_MODELSELECTED > 0 ? true : false,
               rowindex: i,
             });
           }
@@ -537,6 +539,8 @@ export class DelarCustomerMappingComponent implements OnInit {
     else {
       this.setFinalData.push(this.delarList[this.currentrowIndex]);
     }
+
+    this.delarList[this.currentrowIndex].MODEL_SELECTED = true;
 
   }
 

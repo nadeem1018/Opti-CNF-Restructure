@@ -30,6 +30,11 @@ const routes: Routes = [
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   },
   {
+    path: 'dealer-code-generation',
+    loadChildren: () => import('./features/User-code-generate/user-code-generation.module').then(m => m.UserCodeGenerationModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
+  },
+  {
     path: 'feature',
     loadChildren: () => import('./features/feature-model/feature-model.module').then(m => m.FeatureModelModule),
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }

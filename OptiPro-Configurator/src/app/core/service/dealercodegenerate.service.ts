@@ -6,7 +6,7 @@ import { CommonData } from '../data/CommonData';
 @Injectable({
   providedIn: 'root'
 })
-export class ItemcodegenerationService {
+export class dealercodegemerateService {
 
   config_params: any;
   common_params = new CommonData();
