@@ -727,8 +727,8 @@
                                 </div>
 
                                 <label class="custom-checkbox mb-0 w-100 curser-pointer">
-                                    <input type="checkbox" id="skip_assessment" [(ngModel)] ="SkipAssementModel" name="skip_assessment" (change)="on_skip_assessment_change(skipassessment)"
-                                        #skipassessment>
+                                    <input type="checkbox" id="skip_assessment" [(ngModel)]="SkipAssementModel" name="skip_assessment"
+                                        (change)="on_skip_assessment_change(skipassessment)" #skipassessment>
                                     <span class="checkbox"></span>
                                     <span>{{language.skip}}</span>
                                 </label>
@@ -2913,10 +2913,10 @@
                 <button type="button" *ngIf="isaccnew" class="btn btn-primary" (click)="openNewAccScreen(1)">New</button>
                 <button type="submit" class="btn btn-success" (click)="addAccesoriesDetails()">Add</button>
                 <button type="button" *ngIf="isaccEdit" class="btn btn-sm btn-icon mr-2 btn-primary" (click)="edittAccesoryModel(0)">
-                        <svg viewBox="0 0 383.947 383.947" class="icon">
-                            <use xlink:href="#editAlt"></use>
-                        </svg>
-                    </button>
+                    <svg viewBox="0 0 383.947 383.947" class="icon">
+                        <use xlink:href="#editAlt"></use>
+                    </svg>
+                </button>
                 <button tyspe="button" class="btn btn-secondary" (click)="CloseAccesoryModel()">Cancel</button>
             </div>
         </div>
@@ -2933,7 +2933,7 @@
 </span>
 
 <span *ngIf="delarCustomerMap">
-    <app-delar-customer-map [dealerdata]='dealerdata' (dealerDetails)="getDealerValue($event) ">
+    <app-delar-customer-map [dealerdata]='dealerdata' [customerCode]='custmerCodeDealer' (dealerDetails)="getDealerValue($event) ">
     </app-delar-customer-map>
 </span>
 

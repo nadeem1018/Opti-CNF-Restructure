@@ -243,7 +243,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public isModelremark = false;
   public isModelCustomerInform = false;
   public SkipAssementModel = false;
-  public itemFeatureID : any =0;
+  public itemFeatureID: any = 0;
 
 
   constructor(private ActivatedRouter: ActivatedRoute,
@@ -280,6 +280,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public isModify = false;
   public needAssesmentOptions: any;
   public isOperationNotView = true;
+  public custmerCodeDealer: any = "";
 
 
 
@@ -484,9 +485,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       this.isShipDisable = true;
       this.isChecked = false;
     }
-    else
-    {
-      this.isDealar= false;
+    else {
+      this.isDealar = false;
       this.resetDealerFields();
     }
     this.serviceData.ref_doc_details = [];
@@ -912,8 +912,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.customerNeedsAssessmentHeader = data.CustomerNeedsAssessmentHeader;
           this.isModify = true;
           this.needAssesmentOptions = data.Option;
-          if(this.needAssesmentOptions.length == 0)
-          {
+          if (this.needAssesmentOptions.length == 0) {
             this.SkipAssementModel = true;
           }
         }
@@ -1660,10 +1659,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     });
     this.SelectedItems = this.SelectedItems.filter(function (obj) {
       obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
-      if( obj['HEADER_LINENO'] != null &&  obj['HEADER_LINENO'] != undefined) {
+      if (obj['HEADER_LINENO'] != null && obj['HEADER_LINENO'] != undefined) {
         obj['HEADER_LINENO'] = (obj['HEADER_LINENO']).toString();
       }
-       return obj;
+      return obj;
     });
 
     this.OutputService.CalculateAttributesonWizard(this.SelectedModelFeature, this.SelectedItems, this.SelectedFeatureAttributes, this.SelectModelAttributes).subscribe(
@@ -2080,15 +2079,14 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     let delivery_until = (this.step1_data.delivery_until != "" && this.step1_data.delivery_until != null) ? this.step1_data.delivery_until : "";
 
     if (this.UserType == "D") {
-      if(this.delarCustomer != "")
-      {
+      if (this.delarCustomer != "") {
         customer = this.delarCustomer;
         person_name = this.delarCustomerName;
         ship_to = ship_to_address;
         bill_to = ship_to_address;
         bill_to_address = ship_to_address;
       }
-      }
+    }
     //pushing all customer data
     invoice_output_data.header = [{
       "selected_print_type": operation_type,
@@ -2784,10 +2782,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     });
     this.SelectedItems = this.SelectedItems.filter(function (obj) {
       obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
-      if( obj['HEADER_LINENO'] != null &&  obj['HEADER_LINENO'] != undefined){
-          obj['HEADER_LINENO'] = (obj['HEADER_LINENO']).toString();
+      if (obj['HEADER_LINENO'] != null && obj['HEADER_LINENO'] != undefined) {
+        obj['HEADER_LINENO'] = (obj['HEADER_LINENO']).toString();
       }
-       return obj;
+      return obj;
     });
     this.OutputService.CalculateAttributesonWizard(this.SelectedModelFeature, this.SelectedItems, this.SelectedFeatureAttributes, this.SelectModelAttributes).subscribe(
       data => {
@@ -5302,7 +5300,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.bill_to = [];
           this.owner_list = [];
           this.resetDealerFields();
-          this.isDealar=false;
+          this.isDealar = false;
           return;
         }
 
@@ -10919,6 +10917,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   openDelarMappingView() {
     //  this.showLookupLoader = true;
     let dealerCode = this.delarCustomer;
+    this.custmerCodeDealer = this.step1_data.customer;
     this.OutputService.getDealerDetails(dealerCode).subscribe(
       data => {
         if (data.length > 0) {
@@ -11384,30 +11383,28 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.CloseAccesoryModel();
   }
 
-  resetDealerFields () 
-  {
+  resetDealerFields() {
     this.shippingaddress = true;
     this.isChecked = false;
     this.delarCustomerName = "";
     this.delarCustomer = "";
-    this.isShipDisable =true;
+    this.isShipDisable = true;
+    this.custmerCodeDealer = "";
   }
 
-  GetDealerMappingBycust(code : any)
-  {
-    if(this.UserType != "D")
-    {
+  GetDealerMappingBycust(code: any) {
+    if (this.UserType != "D") {
       this.OutputService.GetDealerMappingBycust(code).subscribe(
         data => {
           if (data.length > 0) {
             this.resetDealerFields();
-            this.isDealar=true;
+            this.isDealar = true;
             this.isShipDisable = false;
             return;
-            }
+          }
           else {
             this.resetDealerFields();
-            this.isDealar=false;
+            this.isDealar = false;
             return;
           }
         }, error => {
@@ -11417,5 +11414,5 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           return;
         })
     }
-    }
-   }
+  }
+}

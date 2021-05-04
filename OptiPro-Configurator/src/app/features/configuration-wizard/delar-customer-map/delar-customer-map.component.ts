@@ -17,6 +17,7 @@ export class DelarCustomerMapComponent implements OnInit {
   @ViewChild('delarCustomerForm', { static: true }) delarCustomerForm = NgForm
   delarList: DelarVaribleList = new DelarVaribleList();
   @Input() dealerdata: any
+  @Input() customerCode : any
   @Output() dealerDetails = new EventEmitter();
   language = JSON.parse(sessionStorage.getItem('current_lang'));
   public commonData = new CommonData();
@@ -40,7 +41,7 @@ export class DelarCustomerMapComponent implements OnInit {
   ngOnInit() {
     if (this.dealerdata.length > 0) {
       this.isEdit = true;
-      this.delarList.delarCode = this.dealerdata[0].OPTM_USERCODE;
+      this.delarList.delarCode = sessionStorage.getItem("loggedInUser");
       this.delarList.addressID1 = this.dealerdata[0].OPTM_ADDRESS1;
       this.delarList.addressID2 = this.dealerdata[0].OPTM_ADDRESS2;
       this.delarList.street = this.dealerdata[0].OPTM_STREET;
@@ -64,6 +65,7 @@ export class DelarCustomerMapComponent implements OnInit {
       this.iscustomercodedisable = false;
       this.delarList.optmID = 0;
     }
+    console.log(this.customerCode);
   }
 
   onSubmit(userInfo: any) {
@@ -86,7 +88,8 @@ export class DelarCustomerMapComponent implements OnInit {
       OPTM_ID: this.delarList.optmID,
       OPTM_CONTACT_NUMBER: this.delarList.contactNumber,
       OPTM_STATE: this.delarList.state,
-      OPTM_STREETNO: this.delarList.streetNo
+      OPTM_STREETNO: this.delarList.streetNo,
+      OPTM_DEALERCODE :this.customerCode
     });
 
 
