@@ -176,7 +176,7 @@ export class DelarCustomerMapComponent implements OnInit {
     CommonData.made_changes = true;
     this.serviceData = []
     this.lookupfor = 'delar_Configure_Customer_List';
-    this.service.getCustomerLookUpData().subscribe(
+    this.service.getCustomerLookUpData(this.customerCode).subscribe(
       data => {
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {

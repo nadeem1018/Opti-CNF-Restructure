@@ -332,13 +332,14 @@ export class OutputService {
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetCustomerDataByDealerCode", jObject, this.common_params.httpOptions);
   }
 
-  getCustomerLookUpData(): Observable<any> {
+  getCustomerLookUpData(code : any): Observable<any> {
     // let cache_control = this.common_params.random_string(40);
     //JSON Obeject Prepared to be send as a param to API
     let jObject = {
       Customer: JSON.stringify([{
         CompanyDBID: sessionStorage.selectedComp,
-        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
+        OPTM_DEALERCODE :code
       }])
     };
     //Return the response form the API  
