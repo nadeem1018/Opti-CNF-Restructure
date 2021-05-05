@@ -11032,7 +11032,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     CommonData.made_changes = true;
     this.serviceData = []
     this.lookupfor = 'delar_Configure_Customer_List';
-    this.OutputService.getCustomerLookUpData().subscribe(
+    this.OutputService.getCustomerLookUpData(this.step1_data.customer).subscribe(
       data => {
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
