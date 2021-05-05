@@ -47,7 +47,7 @@ export class SidebarComponent implements OnInit, DoCheck {
         },
         { "itemCode": "211", "itemName": this.language.config_need_Assessment, "itemNav": "/configuration-needAssesment", "itemIcon": "#configurationAssesment", "itemIconSize": "0 0 512 512", "permission": true },
         { "itemCode": "200", "itemName": this.language.itemcodegeneration, "itemNav": "/item-code-generation", "itemIcon": "#code", "itemIconSize": "0 0 612 619.2", "permission": true },
-        { "itemCode": "200", "itemName": this.language.userodegeneration, "itemNav": "/dealer-code-generation", "itemIcon": "#dealercode", "itemIconSize": "0 0 612 619.2", "permission": true },
+      //  { "itemCode": "200", "itemName": this.language.userodegeneration, "itemNav": "/dealer-code-generation", "itemIcon": "#dealercode", "itemIconSize": "0 0 612 619.2", "permission": true },
         { "itemCode": "205", "itemName": this.language.DelarCustomerMapping, "itemNav": "/delar-customer-mapping", "itemIcon": "#dealerCustomerMapping", "itemIconSize": "0 0 512 512", "permission": true },
         { "itemCode": "205", "itemName": this.language.attribute, "itemNav": "/attribute", "itemIcon": "#attributeMaster", "itemIconSize": "0 0 512 512", "permission": true },
         { "itemCode": "201", "itemName": this.language.model_feature_master, "itemNav": "/feature", "itemIcon": "#featureModal", "itemIconSize": "0 0 512 512", "permission": true },
