@@ -26,9 +26,9 @@ export class dealercodegemerateService {
     //   UsernameForLic: sessionStorage.getItem("loggedInUser")
     // })
     //JSON Obeject Prepared to be send as a param to API
-    let jObject: any = { AddItemGeneration: JSON.stringify(ItemCodeGenerationData)};
+    let jObject: any = { OPCONFIG_DEALERCODEGENERATION: JSON.stringify(ItemCodeGenerationData)};
     //Return the response form the API  
-    return this.httpclient.post(this.config_params.service_url + "/ItemGeneration/AddItemGeneration", jObject, this.common_params.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/DealerGeneration/AddDealerGeneration", jObject, this.common_params.httpOptions);
   }
   //get data
   getItemCodeGenerationByCode(ItemCode): Observable<any> {

@@ -312,7 +312,7 @@ export class UserCgAddEditComponent implements OnInit {
         if (data === "True") {
           CommonData.made_changes = false;
           this.commanService.show_notification(this.language.DataSaved, 'success');        
-          this.route.navigateByUrl('item-code-generation/view');
+          this.route.navigateByUrl('dealer-code-generation/view');
           return;
         } else if (data == "AlreadyExists"){
           this.commanService.show_notification(this.language.item_code_cannot_update, 'error');           
@@ -519,7 +519,7 @@ export class UserCgAddEditComponent implements OnInit {
               else if(data[0].IsDeleted == "1"){                
                 this.commanService.show_notification(this.language.DataDeleteSuccesfully, 'success');
                 CommonData.made_changes = false;
-                this.route.navigateByUrl('item-code-generation/view');
+                this.route.navigateByUrl('dealer-code-generation/view');
               }
               else{               
                 this.commanService.show_notification(this.language.Refrence + ' at: ' + data[0].ItemCode, 'error');   

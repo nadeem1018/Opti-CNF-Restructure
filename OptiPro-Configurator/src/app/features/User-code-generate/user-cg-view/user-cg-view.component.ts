@@ -303,7 +303,7 @@ export class UserCgViewComponent implements OnInit {
           this.commonservice.show_notification( this.language.DataDeleteSuccesfully, 'success');
           this.showLoader = true;
           this.service_call(this.current_page, this.search_string);
-          this.router.navigateByUrl('item-code-generation/view');
+          this.router.navigateByUrl('dealer-code-generation/view');
           this.CheckedData = [];
           this.selectall = false;
         }
@@ -428,7 +428,7 @@ export class UserCgViewComponent implements OnInit {
             this.selectall = false;
             this.showLoader = true;
             this.service_call(this.current_page, this.search_string);
-            this.router.navigateByUrl('item-code-generation/view');
+            this.router.navigateByUrl('dealer-code-generation/view');
           }
           else {
             this.commonservice.show_notification( this.language.DataNotDelete + ' : ' + data[i].ItemCode, 'error');
