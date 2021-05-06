@@ -236,7 +236,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               this.isPropagateQtyDisable = false
               data.FeatureDetail[i].OPTM_QUANTITY = (data.FeatureDetail[i].OPTM_QUANTITY)
               this.isQuanity = data.FeatureDetail[i].OPTM_QUANTITY.toString()
-              data.FeatureDetail[i]['is_slctUsAttr']= false;
+              data.FeatureDetail[i]['is_slctUsAttr'] = false;
             }
             else if (data.FeatureDetail[i].OPTM_TYPE == 2) {
               this.typevaluefromdatabase = data.FeatureDetail[i].OPTM_ITEMKEY.toString()
@@ -250,7 +250,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               this.isPropagateQtyDisable = false
               data.FeatureDetail[i].OPTM_QUANTITY = (data.FeatureDetail[i].OPTM_QUANTITY)
               this.isQuanity = data.FeatureDetail[i].OPTM_QUANTITY.toString(),
-              data.FeatureDetail[i]['is_slctUsAttr']= true;
+                data.FeatureDetail[i]['is_slctUsAttr'] = true;
             }
             else {
               this.typevaluefromdatabase = data.FeatureDetail[i].OPTM_VALUE.toString()
@@ -265,7 +265,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               this.isQuanityDisabled = true
               this.isPriceDisabled = true
               this.isQuanity = 0
-              data.FeatureDetail[i]['is_slctUsAttr']= true;
+              data.FeatureDetail[i]['is_slctUsAttr'] = true;
             }
             if (data.FeatureDetail[i].OPTM_DEFAULT == "Y") {
               this.defaultcheckbox = true
@@ -327,7 +327,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               display_name: data.FeatureDetail[i].OPTM_DISPLAYNAME,
               bom_description: data.FeatureDetail[i].OPTM_FEATUREDEC,
               OPTM_ABBREVIATION: data.FeatureDetail[i].OPTM_ABBREVIATION,
-              OPTM_MODELLEVEL_DESC:data.FeatureDetail[i].OPTM_MODELLEVEL_DESC,
+              OPTM_MODELLEVEL_DESC: data.FeatureDetail[i].OPTM_MODELLEVEL_DESC,
               quantity: this.isQuanity,
               default: this.defaultcheckbox,
               remark: data.FeatureDetail[i].OPTM_REMARKS,
@@ -350,8 +350,8 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               CreatedUser: data.FeatureDetail[i].OPTM_CREATEDBY,
               print_on_report: print_on_report,
               print_on_report_disabled: print_on_report_disabled,
-              is_slctUsAttr:data.FeatureDetail[i].is_slctUsAttr,
-              OPTM_SELUATTRIBUTE:data.FeatureDetail[i].OPTM_SELUATTRIBUTE
+              is_slctUsAttr: data.FeatureDetail[i].is_slctUsAttr,
+              OPTM_SELUATTRIBUTE: data.FeatureDetail[i].OPTM_SELUATTRIBUTE
             });
           }
         } else {
@@ -365,15 +365,13 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
           this.feature_bom_data.feature_desc = data.FeatureHeader[0].OPTM_FEATUREDESC;
           this.feature_bom_data.image_path = data.FeatureHeader[0].OPTM_PHOTO;
           this.feature_bom_data.is_accessory = data.FeatureHeader[0].OPTM_ACCESSORY;
-          
 
-          if(data.FeatureHeader[0].OPTM_MODELLEVEL_DESC == 'Y')
-          {
-            this.feature_bom_data.OPTM_MODELLEVEL_DESC =true;
+
+          if (data.FeatureHeader[0].OPTM_MODELLEVEL_DESC == 'Y') {
+            this.feature_bom_data.OPTM_MODELLEVEL_DESC = true;
           }
-          else
-          {
-            this.feature_bom_data.OPTM_MODELLEVEL_DESC =false;
+          else {
+            this.feature_bom_data.OPTM_MODELLEVEL_DESC = false;
           }
 
           if (this.feature_bom_data.is_accessory == 'y' || this.feature_bom_data.is_accessory == 'Y') {
@@ -603,9 +601,12 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
 
     let print_on_report_flag = false;
     let print_on_report_disabled_flag = true;
+    let isSelectAttr = false;
 
     if (this.feature_bom_data.is_accessory == 'y' || this.feature_bom_data.is_accessory == 'Y') {
       table_default_type = 2;
+      isSelectAttr = true;
+
     }
 
     if (table_default_type == 2) {
@@ -645,7 +646,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
       CreatedUser: this.username,
       print_on_report: print_on_report_flag,
       print_on_report_disabled: print_on_report_disabled_flag,
-      is_slctUsAttr: false,
+      is_slctUsAttr: isSelectAttr,
       OPTM_SELUATTRIBUTE: false
     });
     CommonData.made_changes = true;
@@ -905,7 +906,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
           this.feature_bom_table[i].propagate_qty = "Y"
         }
 
-        if (this.feature_bom_table[i].OPTM_SELUATTRIBUTE === false) {
+        if (this.feature_bom_table[i].OPTM_SELUATTRIBUTE == false) {
           this.feature_bom_table[i].OPTM_SELUATTRIBUTE = "N"
         }
         else {
@@ -1285,18 +1286,18 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
   on_slctUsAttr_change(value, rowindex) {
     CommonData.made_changes = true;
     this.currentrowindex = rowindex
-    for (let i = 0; i < this.feature_bom_data.length; ++i) {
-      if (this.feature_bom_data[i].rowindex === this.currentrowindex) {
+    for (let i = 0; i < this.feature_bom_table.length; ++i) {
+      if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
         if (value.checked == true) {
-          this.feature_bom_data[i].OPTM_SELUATTRIBUTE = true;
+          this.feature_bom_table[i].OPTM_SELUATTRIBUTE = true;
         }
         else {
-          this.feature_bom_data[i].OPTM_SELUATTRIBUTE = false;
+          this.feature_bom_table[i].OPTM_SELUATTRIBUTE = false;
         }
       }
       else {
         if (this.feature_bom_data.multi_select == 'false') {
-          this.feature_bom_data[i].OPTM_SELUATTRIBUTE = false
+          this.feature_bom_table[i].OPTM_SELUATTRIBUTE = false
         }
       }
     }
