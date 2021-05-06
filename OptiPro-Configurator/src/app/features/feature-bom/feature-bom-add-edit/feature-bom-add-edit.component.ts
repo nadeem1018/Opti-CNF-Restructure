@@ -236,6 +236,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               this.isPropagateQtyDisable = false
               data.FeatureDetail[i].OPTM_QUANTITY = (data.FeatureDetail[i].OPTM_QUANTITY)
               this.isQuanity = data.FeatureDetail[i].OPTM_QUANTITY.toString()
+              data.FeatureDetail[i]['is_slctUsAttr']= false;
             }
             else if (data.FeatureDetail[i].OPTM_TYPE == 2) {
               this.typevaluefromdatabase = data.FeatureDetail[i].OPTM_ITEMKEY.toString()
@@ -248,7 +249,8 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               this.isPriceDisabled = false
               this.isPropagateQtyDisable = false
               data.FeatureDetail[i].OPTM_QUANTITY = (data.FeatureDetail[i].OPTM_QUANTITY)
-              this.isQuanity = data.FeatureDetail[i].OPTM_QUANTITY.toString()
+              this.isQuanity = data.FeatureDetail[i].OPTM_QUANTITY.toString(),
+              data.FeatureDetail[i]['is_slctUsAttr']= true;
             }
             else {
               this.typevaluefromdatabase = data.FeatureDetail[i].OPTM_VALUE.toString()
@@ -263,6 +265,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               this.isQuanityDisabled = true
               this.isPriceDisabled = true
               this.isQuanity = 0
+              data.FeatureDetail[i]['is_slctUsAttr']= true;
             }
             if (data.FeatureDetail[i].OPTM_DEFAULT == "Y") {
               this.defaultcheckbox = true
@@ -275,6 +278,13 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
             }
             else {
               data.FeatureDetail[i].OPTM_PROPOGATEQTY = false
+            }
+
+            if (data.FeatureDetail[i].OPTM_SELUATTRIBUTE == "Y") {
+              data.FeatureDetail[i].OPTM_SELUATTRIBUTE = true
+            }
+            else {
+              data.FeatureDetail[i].OPTM_SELUATTRIBUTE = false
             }
 
             let is_accessory_disabled = false;
@@ -339,7 +349,9 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               CompanyDBId: sessionStorage.selectedComp,
               CreatedUser: data.FeatureDetail[i].OPTM_CREATEDBY,
               print_on_report: print_on_report,
-              print_on_report_disabled: print_on_report_disabled
+              print_on_report_disabled: print_on_report_disabled,
+              is_slctUsAttr:data.FeatureDetail[i].is_slctUsAttr,
+              OPTM_SELUATTRIBUTE:data.FeatureDetail[i].OPTM_SELUATTRIBUTE
             });
           }
         } else {
@@ -632,7 +644,9 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
       CompanyDBId: sessionStorage.selectedComp,
       CreatedUser: this.username,
       print_on_report: print_on_report_flag,
-      print_on_report_disabled: print_on_report_disabled_flag
+      print_on_report_disabled: print_on_report_disabled_flag,
+      is_slctUsAttr: false,
+      OPTM_SELUATTRIBUTE: false
     });
     CommonData.made_changes = true;
   };
@@ -891,6 +905,13 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
           this.feature_bom_table[i].propagate_qty = "Y"
         }
 
+        if (this.feature_bom_table[i].OPTM_SELUATTRIBUTE === false) {
+          this.feature_bom_table[i].OPTM_SELUATTRIBUTE = "N"
+        }
+        else {
+          this.feature_bom_table[i].OPTM_SELUATTRIBUTE = "Y"
+        }
+
         this.feature_bom_table[i].quantity = this.feature_bom_table[i].quantity.toString();
         if (this.feature_bom_data.OPTM_MODELLEVEL_DESC == false) {
           this.feature_bom_table[i].OPTM_MODELLEVEL_DESC = "N"
@@ -1001,6 +1022,8 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
           this.feature_bom_table[i].price_source_id = ""
           this.feature_bom_table[i].print_on_report = false;
           this.feature_bom_table[i].print_on_report_disabled = true;
+          this.feature_bom_table[i].is_slctUsAttr = true;
+          this.feature_bom_table[i].OPTM_SELUATTRIBUTE = false;
         }
         else {
           this.feature_bom_table[i].isDisplayNameDisabled = false
@@ -1015,6 +1038,8 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
             this.feature_bom_table[i].pricehide = false
             this.feature_bom_table[i].print_on_report = true;
             this.feature_bom_table[i].print_on_report_disabled = false;
+            this.feature_bom_table[i].is_slctUsAttr = true;
+            this.feature_bom_table[i].OPTM_SELUATTRIBUTE = false;
           }
           else {
             this.feature_bom_table[i].type = 1
@@ -1026,6 +1051,8 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
             this.feature_bom_table[i].price_source_id = "";
             this.feature_bom_table[i].print_on_report = false;
             this.feature_bom_table[i].print_on_report_disabled = true;
+            this.feature_bom_table[i].is_slctUsAttr = false;
+            this.feature_bom_table[i].OPTM_SELUATTRIBUTE = false;
           }
         }
 
@@ -1253,6 +1280,26 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
       }
     }
 
+  }
+
+  on_slctUsAttr_change(value, rowindex) {
+    CommonData.made_changes = true;
+    this.currentrowindex = rowindex
+    for (let i = 0; i < this.feature_bom_data.length; ++i) {
+      if (this.feature_bom_data[i].rowindex === this.currentrowindex) {
+        if (value.checked == true) {
+          this.feature_bom_data[i].OPTM_SELUATTRIBUTE = true;
+        }
+        else {
+          this.feature_bom_data[i].OPTM_SELUATTRIBUTE = false;
+        }
+      }
+      else {
+        if (this.feature_bom_data.multi_select == 'false') {
+          this.feature_bom_data[i].OPTM_SELUATTRIBUTE = false
+        }
+      }
+    }
   }
 
 

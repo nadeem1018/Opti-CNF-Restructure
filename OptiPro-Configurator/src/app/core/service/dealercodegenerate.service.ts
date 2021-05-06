@@ -51,7 +51,7 @@ export class dealercodegemerateService {
     let jObject = { GetRecord: JSON.stringify([{ CompanyDBID: CompanyDBID, SearchString:search,PageNumber:PageNumber, PageLimit:record_per_page
       , GUID: sessionStorage.getItem("GUID") , UsernameForLic: sessionStorage.getItem("loggedInUser")}]) };
     //Return the response form the API  
-    return this.httpclient.post(this.config_params.service_url + "/ItemGeneration/GetItemGenerationData", jObject, this.common_params.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/DealerGeneration/GetDealerGenerationData", jObject, this.common_params.httpOptions);
   }
   getItemCodeReference(ItemCode): Observable<any> {
 

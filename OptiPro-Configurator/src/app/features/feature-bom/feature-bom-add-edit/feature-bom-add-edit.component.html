@@ -384,6 +384,20 @@
                                                     </svg> </button>
                                             </ng-template>
                                         </kendo-grid-column>
+                                        <kendo-grid-column field="Bom_SLCTUSATTR" headerClass="text-center" class="text-center" title="{{language.SLCTUSATTR}}"
+                                        filter="text" [width]="150" [minResizableWidth]="150">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                          <ng-container>
+                                            <label class="custom-checkbox mb-0 without-label">
+                                              <input type="checkbox" value="1" name="select_using_attr" id="select_using_attr_{{dataItem.rowindex}}"
+                                                (change)="on_slctUsAttr_change(OPTM_SELUATTRIBUTE,dataItem.rowindex)" value={{dataItem.OPTM_SELUATTRIBUTE}}
+                                                #OPTM_SELUATTRIBUTE [(checked)]=dataItem.OPTM_SELUATTRIBUTEs [disabled]="dataItem.is_slctUsAttr"
+                                                title="{{dataItem.OPTM_SELUATTRIBUTE}}">
+                                              <span class="checkbox"></span>
+                                            </label>
+                                          </ng-container>
+                                        </ng-template>
+                                      </kendo-grid-column>
                                     </li>
                                     <kendo-grid-column field="propagate_qty" headerClass="text-center" class="text-center"
                                         title="{{language.propagate_qty}}" filter="numeric" [width]="120"

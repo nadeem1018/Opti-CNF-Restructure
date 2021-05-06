@@ -60,6 +60,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
   public defaultcheckbox: boolean = false;
   public is_default: boolean = false;
   public config_params: any;
+  public is_slctUsAttr:boolean = false;
 
   // modalRef: BsModalRef;
 
@@ -294,7 +295,9 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               this.isMinSelectedDisable = false;
               this.isMaxSelectedDisable = false;
               mandatory_item_disabled = false;
-              this.is_default = false
+              this.is_default = false;
+              data.ModelDetail[i]['is_slctUsAttr']= false;
+              
               // this.mandatory_disabled = false;
             } else if (data.ModelDetail[i].OPTM_TYPE == 2) {
               this.typevaluefromdatabase = data.ModelDetail[i].OPTM_ITEMKEY.toString()
@@ -306,6 +309,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               this.isMaxSelectedDisable = true;
               mandatory_item_disabled = true;
               this.is_default = true
+              data.ModelDetail[i]['is_slctUsAttr']= true;
               // this.mandatory_disabled = true;
             } else {
               this.typevaluefromdatabase = data.ModelDetail[i].OPTM_CHILDMODELID.toString()
@@ -316,8 +320,9 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               this.isMinSelectedDisable = false;
               this.isMaxSelectedDisable = false;
               mandatory_item_disabled = false;
-              this.is_default = false
-              // this.mandatory_disabled = false;
+              this.is_default = false;
+              data.ModelDetail[i]['is_slctUsAttr']= false;
+               // this.mandatory_disabled = false;
             }
             // if (data.ModelDetail[i].OPTM_READYTOUSE == "" || data.ModelDetail[i].OPTM_READYTOUSE == null || data.ModelDetail[i].OPTM_READYTOUSE == undefined || data.ModelDetail[i].OPTM_READYTOUSE == "N") {
             //   data.ModelDetail[i].OPTM_READYTOUSE = false
@@ -336,6 +341,11 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               data.ModelDetail[i].OPTM_MANDATORY = true
             } else {
               data.ModelDetail[i].OPTM_MANDATORY = false
+            }
+            if (data.ModelDetail[i].OPTM_SELUATTRIBUTE == "Y") {
+              data.ModelDetail[i].OPTM_SELUATTRIBUTE = true
+            } else {
+              data.ModelDetail[i].OPTM_SELUATTRIBUTE = false
             }
             this.counter = 0;
             if (this.modelbom_data.length > 0) {
@@ -409,6 +419,8 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               print_on_report: print_on_report,
               print_on_report_disabled: print_on_report_disabled,
               is_default: this.is_default,
+              is_slctUsAttr:data.ModelDetail[i].is_slctUsAttr,
+              OPTM_SELUATTRIBUTE:data.ModelDetail[i].OPTM_SELUATTRIBUTE
             });
 
           }
@@ -474,7 +486,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
       ModelCode: this.modelbom_data.modal_code,
       description: this.modelbom_data.feature_desc,
       OPTM_ABBREVIATION: "",
-      OPTM_MODELLEVEL_DESC:"N",
+      OPTM_MODELLEVEL_DESC: "N",
       ReadyToUse: "N",
       type: 1,
       type_value: "",
@@ -509,6 +521,9 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
       print_on_report: print_on_report_flag,
       print_on_report_disabled: print_on_report_disabled_flag,
       is_default: false,
+      is_slctUsAttr: false,
+      OPTM_SELUATTRIBUTE: false
+
     });
     CommonData.made_changes = true;
   };
@@ -699,6 +714,9 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
           this.modelbom_data[i].print_on_report = false;
           this.modelbom_data[i].print_on_report_disabled = true;
           this.modelbom_data[i].is_default = false;
+          this.modelbom_data[i].is_slctUsAttr = false;
+          this.modelbom_data[i].OPTM_SELUATTRIBUTE = false;
+
         }
         else {
           this.modelbom_data[i].isDisplayNameDisabled = false
@@ -720,6 +738,8 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
             this.modelbom_data[i].mandatory_item_disabled = true;
             this.modelbom_data[i].print_on_report = true;
             this.modelbom_data[i].print_on_report_disabled = false;
+            this.modelbom_data[i].is_slctUsAttr = true;
+            this.modelbom_data[i].OPTM_SELUATTRIBUTE = false;
 
           }
           else {
@@ -737,6 +757,8 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
             this.modelbom_data[i].print_on_report = false;
             this.modelbom_data[i].print_on_report_disabled = true;
             this.modelbom_data[i].is_default = false;
+            this.modelbom_data[i].is_slctUsAttr = false;
+            this.modelbom_data[i].OPTM_SELUATTRIBUTE = false;
           }
         }
       }
@@ -941,6 +963,26 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
       else {
         if (this.modelbom_data.multi_select == 'false') {
           this.modelbom_data[i].default = false
+        }
+      }
+    }
+  }
+
+  on_slctUsAttr_change(value, rowindex) {
+    CommonData.made_changes = true;
+    this.currentrowindex = rowindex
+    for (let i = 0; i < this.modelbom_data.length; ++i) {
+      if (this.modelbom_data[i].rowindex === this.currentrowindex) {
+        if (value.checked == true) {
+          this.modelbom_data[i].OPTM_SELUATTRIBUTE = true;
+        }
+        else {
+          this.modelbom_data[i].OPTM_SELUATTRIBUTE = false;
+        }
+      }
+      else {
+        if (this.modelbom_data.multi_select == 'false') {
+          this.modelbom_data[i].OPTM_SELUATTRIBUTE = false
         }
       }
     }
@@ -2215,6 +2257,12 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
         }
         else {
           temp_model_data[i].default = "N"
+        }
+        if (temp_model_data[i].OPTM_SELUATTRIBUTE == true || temp_model_data[i].OPTM_SELUATTRIBUTE == "Y") {
+          temp_model_data[i].OPTM_SELUATTRIBUTE = "Y"
+        }
+        else {
+          temp_model_data[i].OPTM_SELUATTRIBUTE = "N"
         }
         var modelBomItem = temp_model_data[i];
         this.ItemAttributeList = this.ItemAttributeList.filter(function (obj) {
