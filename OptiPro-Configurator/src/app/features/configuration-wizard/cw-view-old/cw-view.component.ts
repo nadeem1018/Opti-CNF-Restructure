@@ -1587,6 +1587,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     });
     this.SelectModelAttributes = selectAttributesList;
     this.SelectedModelFeature = this.ModelHeaderData;
+    if(this.Accessoryarray.length > 0)
+    {
+      this.Accessoryarray.forEach(element => {
+        this.SelectedModelFeature.push(element);
+      });
+    }
 
 
     selectedItemList = this.feature_itm_list_table.filter(function (obj) {
