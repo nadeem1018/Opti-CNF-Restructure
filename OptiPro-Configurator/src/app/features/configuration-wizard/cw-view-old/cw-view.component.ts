@@ -244,6 +244,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public isModelCustomerInform = false;
   public SkipAssementModel = false;
   public itemFeatureID: any = 0;
+  public filterList: any = [];
 
 
   constructor(private ActivatedRouter: ActivatedRoute,
@@ -2079,14 +2080,14 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     let delivery_until = (this.step1_data.delivery_until != "" && this.step1_data.delivery_until != null) ? this.step1_data.delivery_until : "";
 
 
-      if (this.delarCustomer != "") {
-        customer = this.delarCustomer;
-        person_name = this.delarCustomerName;
-        ship_to = ship_to_address;
-        bill_to = ship_to_address;
-        bill_to_address = ship_to_address;
-      }
-    
+    if (this.delarCustomer != "") {
+      customer = this.delarCustomer;
+      person_name = this.delarCustomerName;
+      ship_to = ship_to_address;
+      bill_to = ship_to_address;
+      bill_to_address = ship_to_address;
+    }
+
     //pushing all customer data
     invoice_output_data.header = [{
       "selected_print_type": operation_type,
@@ -5653,7 +5654,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
             Actualprice: step3_temp_row.feature[us_indexx].Actualprice,
             Description: step3_temp_row.feature[us_indexx].Description,
             FeatureId: step3_temp_row.feature[us_indexx].FeatureId,
-            HEADER_LINENO: step3_temp_row.feature[us_indexx].HEADER_LINENO,
+            HEADER_LINENO: step3_temp_row.feature[us_indexx].HEADER_LINENO == "" || step3_temp_row.feature[us_indexx].HEADER_LINENO == null ? 0 : step3_temp_row.feature[us_indexx].HEADER_LINENO,
             Item: step3_temp_row.feature[us_indexx].Item,
             ItemNumber: (ItemNo),
             ModelId: modelid_val,
@@ -7447,6 +7448,39 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
         header_feature_table['element_class'] = "custom-control custom-radio";
       }
 
+    }
+
+    // filter feature based on Attribute [Sanyam]
+
+    if (this.isAttribute) {
+      if (this.filterList.length > 0) {
+        let filterdata = this.filterList.filter(function (obj) {
+          return obj['OPTM_FEATUREID'] == header_feature_table['OPTM_FEATUREID']
+        });
+
+        if (filterdata.length > 0) {
+          let filterFeatureList = [];
+          let optmValueType: any = 2;
+          let optmItemType: any = 3;
+          array.forEach(element => {
+            filterdata.forEach(elementList => {
+              if (element.OPTM_TYPE == optmValueType) {
+                if (elementList.OPTM_VALUE == element.OPTM_VALUE) {
+                  filterFeatureList.push(element);
+                }
+              }
+              else if (element.OPTM_TYPE == optmItemType) {
+                if (elementList.OPTM_VALUE == element.OPTM_ITEMKEY) {
+                  filterFeatureList.push(element);
+                }
+              }
+            });
+          });
+          if (filterFeatureList.length > 0) {
+            array = filterFeatureList;
+          }
+        }
+      }
     }
 
     return array;
