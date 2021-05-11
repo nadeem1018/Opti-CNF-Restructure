@@ -1674,7 +1674,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
     this.OutputService.CalculateAttributesonWizard(this.SelectedModelFeature, this.SelectedItems, this.SelectedFeatureAttributes, this.SelectModelAttributes).subscribe(
       data => {
-
+        this.ModelHeaderData = this.ModelHeaderData.filter(function (obj) {
+          return obj['ACCESSORY'] != "Y" && obj['OPTM_TYPE'] != "2"
+        })
         if (data != undefined) {
           if (data.SelectedFeatureAttributes[0].ErrorMsg == "7001") {
             CommonData.made_changes = false;
@@ -2796,7 +2798,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     });
     this.OutputService.CalculateAttributesonWizard(this.SelectedModelFeature, this.SelectedItems, this.SelectedFeatureAttributes, this.SelectModelAttributes).subscribe(
       data => {
-
+        this.ModelHeaderData = this.ModelHeaderData.filter(function (obj) {
+          return obj['ACCESSORY'] != "Y" && obj['OPTM_TYPE'] != "2"
+        })
         if (data != undefined) {
           if (data.SelectedFeatureAttributes.length > 0 && data.SelectedFeatureAttributes[0].ErrorMsg == "7001") {
             CommonData.made_changes = false;
