@@ -1690,6 +1690,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.FeatureBOMDetailAttribute = data.SelectedFeatureAttributes;
           this.openAttributeListForModel();
           this.setCustomAttributeValue();
+          this.filterList =[];
+          this.filterList = data.SelectUsingAttribute;
         }
         else {
           this.showLookupLoader = false;
@@ -2815,6 +2817,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.FeatureBOMDetailAttribute = data.SelectedFeatureAttributes;
           this.setCustomAttributeValue();
           this.addDefaultAttributeItemRightGrid(data.ModelOptionItems);
+          this.filterList =[];
+          this.filterList = data.SelectUsingAttribute;
         }
         else {
           this.showLookupLoader = false;
@@ -7470,8 +7474,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
         if (filterdata.length > 0) {
           let filterFeatureList = [];
-          let optmValueType: any = 2;
-          let optmItemType: any = 3;
+          let optmValueType: any = 3;
+          let optmItemType: any = 2;
           array.forEach(element => {
             filterdata.forEach(elementList => {
               if (element.OPTM_TYPE == optmValueType) {
@@ -7480,7 +7484,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
                 }
               }
               else if (element.OPTM_TYPE == optmItemType) {
-                if (elementList.OPTM_VALUE == element.OPTM_ITEMKEY) {
+                if (elementList.OPTM_ITEMKEY == element.OPTM_ITEMKEY) {
                   filterFeatureList.push(element);
                 }
               }
@@ -7503,6 +7507,39 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       accessoryBOM = accessory_bom_data.filter(function (obj) {
         return obj['nodeid'] == accessory_header_data.unique_key;
       });
+    }
+
+    // filter Accessory  feature based on Attribute [Sanyam]
+
+    if (this.isAttribute) {
+      if (this.filterList.length > 0) {
+        let filterdata = this.filterList.filter(function (obj) {
+          return obj['OPTM_FEATUREID'] == accessory_header_data['OPTM_FEATUREID']
+        });
+
+        if (filterdata.length > 0) {
+          let filterFeatureList = [];
+          let optmValueType: any = 3;
+          let optmItemType: any = 2;
+          accessoryBOM.forEach(element => {
+            filterdata.forEach(elementList => {
+              if (element.OPTM_TYPE == optmValueType) {
+                if (elementList.OPTM_VALUE == element.OPTM_VALUE) {
+                  filterFeatureList.push(element);
+                }
+              }
+              else if (element.OPTM_TYPE == optmItemType) {
+                if (elementList.OPTM_ITEMKEY == element.OPTM_ITEMKEY) {
+                  filterFeatureList.push(element);
+                }
+              }
+            });
+          });
+          if (filterFeatureList.length > 0) {
+            accessoryBOM = filterFeatureList;
+          }
+        }
+      }
     }
     return accessoryBOM;
   }
