@@ -18,7 +18,7 @@ export class CommonData {
     public href: any = window.location.href;
     public application_path = this.get_current_url();
     public unauthorizedMessage = "The remote server returned an error: (401) Unauthorized.";
-    public static sessionExpire: boolean = false;    
+    public static sessionExpire: boolean = false;
     public static made_changes: boolean = false;
 
     /* constructor(private router:Router,private toastr: ToastrService,private commonservice: CommonService) { } */
@@ -39,7 +39,7 @@ export class CommonData {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Cache-Control':  'no-cache, no-store, must-revalidate, post- check=0, pre-check=0',
+            'Cache-Control': 'no-cache, no-store, must-revalidate, post- check=0, pre-check=0',
             'Pragma': 'no-cache',
             'Expires': '0'
         })
@@ -48,165 +48,173 @@ export class CommonData {
     public lookup_selected_value = '';
 
 
-    item_code_gen_string_dropdown(){
-        let language = JSON.parse(sessionStorage.getItem('current_lang'));
-        return  [
-        { "value": 1, "Name": language.string },
-        { "value": 2, "Name": language.Number }
-        ];
-    }
-
-    item_code_gen_oper_drpdown(){
-        let language = JSON.parse(sessionStorage.getItem('current_lang'));
-        return  [
-        { "value": 1, "Name": language.NoOperation },
-        { "value": 2, "Name": language.Increase },
-        { "value": 3, "Name": language.Decrease }
-        ];
-    }
-
-    feature_bom_type(){
+    item_code_gen_string_dropdown() {
         let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
-        { "value": 1, "Name": language.feature },
-        { "value": 2, "Name": language.item },
-        { "value": 3, "Name": language.value }
+            { "value": 1, "Name": language.string },
+            { "value": 2, "Name": language.Number }
         ];
     }
-       option_type(){
+
+    item_code_gen_oper_drpdown() {
         let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
-        { "value": 1, "Name": language.userDefine },
-        { "value": 2, "Name": language.api },
-        { "value": 3, "Name": language.Formula },
-        { "value": 4, "Name": language.sp }
+            { "value": 1, "Name": language.NoOperation },
+            { "value": 2, "Name": language.Increase },
+            { "value": 3, "Name": language.Decrease }
         ];
     }
 
-    less_feature_bom_type(){
+    feature_bom_type() {
         let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
-        { "value": 2, "Name": language.item }
+            { "value": 1, "Name": language.feature },
+            { "value": 2, "Name": language.item },
+            { "value": 3, "Name": language.value }
         ];
     }
-
-
-    model_bom_type(){
+    option_type() {
         let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
-        { "value": 1, "Name": language.feature },
-        { "value": 2, "Name": language.item },
-        { "value": 3, "Name": language.model }
+            { "value": 1, "Name": language.userDefine },
+            { "value": 2, "Name": language.api },
+            { "value": 3, "Name": language.Formula },
+            { "value": 4, "Name": language.sp }
         ];
     }
 
-    rule_seq_type(){
+    less_feature_bom_type() {
         let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
-        { "value": '', "Name": "" },
-        { "value": 1, "Name": language.feature },
-        { "value": 2, "Name": language.model }
+            { "value": 2, "Name": language.item }
         ];
     }
 
-    operator_type(){
-        let language = JSON.parse(sessionStorage.getItem('current_lang'));
-       return [
-        { "value": '', "Name": "" },
-        { "value": 'or', "Name": language.OR },
-        { "value": 'and', "Name": language.AND }
-        ];
-    }
-
-    yes_no_option(){
+    two_feature_bom_type() {
         let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
-        { "value": '', "Name": "" },
-        { "value": 'n', "Name": language.NO },
-        { "value": 'y', "Name": language.YES }
+            { "value": 2, "Name": language.item },
+            { "value": 3, "Name": language.value }
         ];
     }
 
-    resource_consumption_type(){
+
+    model_bom_type() {
         let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
-        { "value": '1', "Name": language.manual },
-        { "value": '2', "Name": language.automatic },
-        { "value": '3', "Name": language.operation_issue }
+            { "value": 1, "Name": language.feature },
+            { "value": 2, "Name": language.item },
+            { "value": 3, "Name": language.model }
+        ];
+    }
+
+    rule_seq_type() {
+        let language = JSON.parse(sessionStorage.getItem('current_lang'));
+        return [
+            { "value": '', "Name": "" },
+            { "value": 1, "Name": language.feature },
+            { "value": 2, "Name": language.model }
+        ];
+    }
+
+    operator_type() {
+        let language = JSON.parse(sessionStorage.getItem('current_lang'));
+        return [
+            { "value": '', "Name": "" },
+            { "value": 'or', "Name": language.OR },
+            { "value": 'and', "Name": language.AND }
+        ];
+    }
+
+    yes_no_option() {
+        let language = JSON.parse(sessionStorage.getItem('current_lang'));
+        return [
+            { "value": '', "Name": "" },
+            { "value": 'n', "Name": language.NO },
+            { "value": 'y', "Name": language.YES }
+        ];
+    }
+
+    resource_consumption_type() {
+        let language = JSON.parse(sessionStorage.getItem('current_lang'));
+        return [
+            { "value": '1', "Name": language.manual },
+            { "value": '2', "Name": language.automatic },
+            { "value": '3', "Name": language.operation_issue }
         ]
-    }  
+    }
 
-    resource_basic(){
+    resource_basic() {
         let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
-        { "value": '1', "Name": language.item },
-        { "value": '2', "Name": language.batch },
-        { "value": '3', "Name": language.fixed },
-        { "value": '4', "Name": language.setup }
+            { "value": '1', "Name": language.item },
+            { "value": '2', "Name": language.batch },
+            { "value": '3', "Name": language.fixed },
+            { "value": '4', "Name": language.setup }
         ]
-    }  
+    }
 
     public bracket_list = [
-    { "value": '' },
-    { "value": "[" },
-    { "value": "{", },
-    { "value": "(" },
-    { "value": "]" },
-    { "value": "}", },
-    { "value": ")" },
+        { "value": '' },
+        { "value": "[" },
+        { "value": "{", },
+        { "value": "(" },
+        { "value": "]" },
+        { "value": "}", },
+        { "value": ")" },
     ];
 
-    express_conditions(){
+    express_conditions() {
         let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
-        { "value": "=" },
-        { "value": "<" },
-        { "value": ">" },
-        { "value": "<=" },
-        { "value": ">=" },
-        { "value": language.Between }
+            { "value": "=" },
+            { "value": "<" },
+            { "value": ">" },
+            { "value": "<=" },
+            { "value": ">=" },
+            { "value": language.Between }
         ];
     }
 
-    document_type(){
+    document_type() {
         let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return [
-        { "value": 'draft', "Name": language.draft, "selected": "1" },
-        { "value": 'sales_quote', "Name": language.SalesQuote, "selected": "0" },
-        { "value": 'sales_order', "Name": language.SalesOrder, "selected": "0" }
+            { "value": 'draft', "Name": language.draft, "selected": "1" },
+            { "value": 'sales_quote', "Name": language.SalesQuote, "selected": "0" },
+            { "value": 'sales_order', "Name": language.SalesOrder, "selected": "0" }
         ];
     }
 
-    time_uom_type(){
+    time_uom_type() {
         let language = JSON.parse(sessionStorage.getItem('current_lang'));
-       return [
-        { "value": 1, "Name": language.hours },
-        { "value": 2, "Name": language.minute }
+        return [
+            { "value": 1, "Name": language.hours },
+            { "value": 2, "Name": language.minute }
         ];
     }
 
-    operation_type(){
+    operation_type() {
         let language = JSON.parse(sessionStorage.getItem('current_lang'));
         return {
-            "1" : language.set_up,
-            "2" : language.tear_down,
-            "3" : language.manufacturing,
-            "4" : language.inspection_qc,
-            "5" : language.sub_contracting,
-            "6" : language.others,
-        } 
+            "1": language.set_up,
+            "2": language.tear_down,
+            "3": language.manufacturing,
+            "4": language.inspection_qc,
+            "5": language.sub_contracting,
+            "6": language.others,
+        }
     }
 
-    res_consumption_method(){
+    res_consumption_method() {
         let language = JSON.parse(sessionStorage.getItem('current_lang'));
-        return  {
+        return {
             "1": language.set_up,
             "2": language.variable,
             "3": language.fixed,
         };
     }
 
- 
+
     // for common view
     public default_limits = ["10", "25", "50", "100"];
     public default_count: number = 10;
@@ -229,44 +237,44 @@ export class CommonData {
         let chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         let result = '';
         for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-            return result;
+        return result;
     }
     public excludeSpecialCharRegex = /[{}*!^=<>?|/(\\)&#@%]/;
 
 
-    public clearChildCheckbox(){
+    public clearChildCheckbox() {
         let child_checkbox_selector = document.getElementsByClassName("child_checkbox") as HTMLCollectionOf<HTMLInputElement>;
-        if(child_checkbox_selector.length > 0){
-          for(let i = 0; i < child_checkbox_selector.length; i++){
-            child_checkbox_selector[i].checked = false;
-          }
+        if (child_checkbox_selector.length > 0) {
+            for (let i = 0; i < child_checkbox_selector.length; i++) {
+                child_checkbox_selector[i].checked = false;
+            }
         }
-      }
-      public checkedChildCheckbox(){
+    }
+    public checkedChildCheckbox() {
         let child_checkbox_selector = document.getElementsByClassName("child_checkbox") as HTMLCollectionOf<HTMLInputElement>;
-        if(child_checkbox_selector.length > 0){
-          for(let i = 0; i < child_checkbox_selector.length; i++){
-            child_checkbox_selector[i].checked = true;
-          }
+        if (child_checkbox_selector.length > 0) {
+            for (let i = 0; i < child_checkbox_selector.length; i++) {
+                child_checkbox_selector[i].checked = true;
+            }
         }
-      }
-    
-      
-      
-      public clearparentCheckbox(){
+    }
+
+
+
+    public clearparentCheckbox() {
         let child_checkbox_selector = document.getElementsByClassName("parent_checkbox") as HTMLCollectionOf<HTMLInputElement>;
-        if(child_checkbox_selector.length > 0){
-          for(let i = 0; i < child_checkbox_selector.length; i++){
-            child_checkbox_selector[i].checked = false;
-          }
+        if (child_checkbox_selector.length > 0) {
+            for (let i = 0; i < child_checkbox_selector.length; i++) {
+                child_checkbox_selector[i].checked = false;
+            }
         }
-      }    
-      public checkedparentCheckbox(){
+    }
+    public checkedparentCheckbox() {
         let child_checkbox_selector = document.getElementsByClassName("parent_checkbox") as HTMLCollectionOf<HTMLInputElement>;
-        if(child_checkbox_selector.length > 0){
-          for(let i = 0; i < child_checkbox_selector.length; i++){
-            child_checkbox_selector[i].checked = true;
-          }
+        if (child_checkbox_selector.length > 0) {
+            for (let i = 0; i < child_checkbox_selector.length; i++) {
+                child_checkbox_selector[i].checked = true;
+            }
         }
-      }
+    }
 }

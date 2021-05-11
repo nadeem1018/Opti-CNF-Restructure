@@ -375,7 +375,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
           }
 
           if (this.feature_bom_data.is_accessory == 'y' || this.feature_bom_data.is_accessory == 'Y') {
-            this.detail_select_options = this.commonData.less_feature_bom_type();
+            this.detail_select_options = this.commonData.two_feature_bom_type();
 
           } else {
             this.detail_select_options = this.commonData.feature_bom_type();
@@ -1540,7 +1540,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               this.feature_bom_data.OPTM_MODELLEVEL_DESC = data[0].OPTM_MODELLEVEL_DESC;
               if (this.feature_bom_data.is_accessory == 'y' || this.feature_bom_data.is_accessory == 'Y') {
                 //this.detail_select_options = this.commonData.less_bom_type;
-                this.detail_select_options = this.commonData.less_feature_bom_type();
+                this.detail_select_options = this.commonData.two_feature_bom_type();
                 this.pricehide = false
                 this.isPriceDisabled = false;
 
