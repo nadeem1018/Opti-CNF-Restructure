@@ -486,6 +486,9 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
       ModelCode: this.modelbom_data.modal_code,
       description: this.modelbom_data.feature_desc,
       OPTM_ABBREVIATION: "",
+      OPTM_DSP_GROUP:"",
+      OPTM_DSPGROUP_ORDER:"",
+      OPTM_DSP_ORDERINGROUP:"",
       OPTM_MODELLEVEL_DESC: "N",
       ReadyToUse: "N",
       type: 1,
@@ -667,6 +670,9 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
     this.modelbom_data[rowindex].display_name = "";
     this.modelbom_data[rowindex].bom_description = "";
     this.modelbom_data[rowindex].OPTM_ABBREVIATION = "";
+    this.modelbom_data[rowindex].OPTM_DSP_ORDERINGROUP = "";
+    this.modelbom_data[rowindex].OPTM_DSPGROUP_ORDER = "";
+    this.modelbom_data[rowindex].OPTM_DSP_GROUP = "";
     this.modelbom_data[rowindex].quantity = ("0");
     this.modelbom_data[rowindex].min_selected = 1;
     this.modelbom_data[rowindex].max_selected = 1;
@@ -818,6 +824,9 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
                   this.modelbom_data[i].display_name = data[0].OPTM_DISPLAYNAME;
                   this.modelbom_data[i].bom_description = data[0].OPTM_DISPLAYNAME;
                   this.modelbom_data[i].OPTM_ABBREVIATION = data[0].OPTM_ABBREVIATION;
+                  this.modelbom_data[i].OPTM_DSP_ORDERINGROUP = data[0].OPTM_DSP_ORDERINGROUP;
+                  this.modelbom_data[i].OPTM_DSPGROUP_ORDER = data[0].OPTM_DSPGROUP_ORDER;
+                  this.modelbom_data[i].OPTM_DSP_GROUP = data[0].OPTM_DSP_GROUP;
                   this.modelbom_data[i].min_selected = data[0].OPTM_MIN_SELECTABLE;
                   this.modelbom_data[i].max_selected = (data[0].OPTM_MAX_SELECTABLE != "" && data[0].OPTM_MAX_SELECTABLE != 0) ? data[0].OPTM_MAX_SELECTABLE : 1;
                   this.modelbom_data[i].feature_min_selected = data[0].OPTM_MIN_SELECTABLE;
@@ -1122,6 +1131,9 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
                   this.modelbom_data[i].display_name = data[0].OPTM_DISPLAYNAME
                   this.modelbom_data[i].bom_description = data[0].OPTM_DISPLAYNAME
                   this.modelbom_data[i].OPTM_ABBREVIATION = data[0].OPTM_ABBREVIATION;
+                  this.modelbom_data[i].OPTM_DSP_ORDERINGROUP = data[0].OPTM_DSP_ORDERINGROUP
+                  this.modelbom_data[i].OPTM_DSPGROUP_ORDER = data[0].OPTM_DSPGROUP_ORDER
+                  this.modelbom_data[i].OPTM_DSP_GROUP = data[0].OPTM_DSP_GROUP
 
                   this.live_tree_view_data.push({ "display_name": data[0].OPTM_DISPLAYNAME, "tree_index": this.currentrowindex, "branchType": 'modal', "icon": 'modal' });
                 }
@@ -1209,6 +1221,9 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
         this.modelbom_data[i].display_name = selectedDataDetails[0].Description
         this.modelbom_data[i].bom_description = selectedDataDetails[0].Description
         this.modelbom_data[i].OPTM_ABBREVIATION = selectedDataDetails[0].OPTM_ABBREVIATION
+        this.modelbom_data[i].OPTM_DSP_ORDERINGROUP = selectedDataDetails[0].OPTM_DSP_ORDERINGROUP
+        this.modelbom_data[i].OPTM_DSPGROUP_ORDER = selectedDataDetails[0].OPTM_DSPGROUP_ORDER
+        this.modelbom_data[i].OPTM_DSP_GROUP = selectedDataDetails[0].OPTM_DSP_GROUP
         this.modelbom_data[i].uom = selectedDataDetails[0].InvUOM
         this.modelbom_data[i].price_source = selectedDataDetails[0].ListName;
         this.modelbom_data[i].price_source_id = selectedDataDetails[0].PriceListID;
@@ -1362,6 +1377,39 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
     for (let i = 0; i < this.modelbom_data.length; ++i) {
       if (this.modelbom_data[i].rowindex === this.currentrowindex) {
         this.modelbom_data[i].OPTM_ABBREVIATION = value;
+      }
+    }
+  }
+
+  on_dispName_change(value, rowindex) {
+
+    this.currentrowindex = rowindex
+    CommonData.made_changes = true;
+    for (let i = 0; i < this.modelbom_data.length; ++i) {
+      if (this.modelbom_data[i].rowindex === this.currentrowindex) {
+        this.modelbom_data[i].OPTM_DSP_GROUP = value;
+      }
+    }
+  }
+
+  on_dispOrder_change(value, rowindex) {
+
+    this.currentrowindex = rowindex
+    CommonData.made_changes = true;
+    for (let i = 0; i < this.modelbom_data.length; ++i) {
+      if (this.modelbom_data[i].rowindex === this.currentrowindex) {
+        this.modelbom_data[i].OPTM_DSPGROUP_ORDER = value;
+      }
+    }
+  }
+
+  on_group_change(value, rowindex) {
+
+    this.currentrowindex = rowindex
+    CommonData.made_changes = true;
+    for (let i = 0; i < this.modelbom_data.length; ++i) {
+      if (this.modelbom_data[i].rowindex === this.currentrowindex) {
+        this.modelbom_data[i].OPTM_DSP_ORDERINGROUP = value;
       }
     }
   }
@@ -1739,6 +1787,21 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
           if (this.modelbom_data[i].quantity == "") {
 
             this.CommonService.show_notification(this.language.quantityblank + currentrow, 'error');
+            return false;
+          }
+          if (this.modelbom_data[i].OPTM_DSP_GROUP == "") {
+
+            this.CommonService.show_notification(this.language.Display_Name_field + currentrow, 'error');
+            return false;
+          }
+          if (this.modelbom_data[i].OPTM_DSPGROUP_ORDER == "") {
+
+            this.CommonService.show_notification(this.language.Display_Order_field + currentrow, 'error');
+            return false;
+          }
+          if (this.modelbom_data[i].OPTM_DSP_ORDERINGROUP == "") {
+
+            this.CommonService.show_notification(this.language.Group_field + currentrow, 'error');
             return false;
           }
           if (this.modelbom_data.OPTM_MODELLEVEL_DESC) {
