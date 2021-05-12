@@ -420,7 +420,10 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               print_on_report_disabled: print_on_report_disabled,
               is_default: this.is_default,
               is_slctUsAttr:data.ModelDetail[i].is_slctUsAttr,
-              OPTM_SELUATTRIBUTE:data.ModelDetail[i].OPTM_SELUATTRIBUTE
+              OPTM_SELUATTRIBUTE:data.ModelDetail[i].OPTM_SELUATTRIBUTE,
+              OPTM_DSP_GROUP:data.ModelDetail[i].OPTM_DSP_GROUP,
+              OPTM_DSP_ORDERINGROUP:data.ModelDetail[i].OPTM_DSP_ORDERINGROUP,
+              OPTM_DSPGROUP_ORDER:data.ModelDetail[i].OPTM_DSPGROUP_ORDER
             });
 
           }
@@ -1789,21 +1792,21 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
             this.CommonService.show_notification(this.language.quantityblank + currentrow, 'error');
             return false;
           }
-          if (this.modelbom_data[i].OPTM_DSP_GROUP == "") {
+          // if (this.modelbom_data[i].OPTM_DSP_GROUP == "") {
 
-            this.CommonService.show_notification(this.language.Display_Name_field + currentrow, 'error');
-            return false;
-          }
-          if (this.modelbom_data[i].OPTM_DSPGROUP_ORDER == "") {
+          //   this.CommonService.show_notification(this.language.Display_Name_field + currentrow, 'error');
+          //   return false;
+          // }
+          // if (this.modelbom_data[i].OPTM_DSPGROUP_ORDER == "") {
 
-            this.CommonService.show_notification(this.language.Display_Order_field + currentrow, 'error');
-            return false;
-          }
-          if (this.modelbom_data[i].OPTM_DSP_ORDERINGROUP == "") {
+          //   this.CommonService.show_notification(this.language.Display_Order_field + currentrow, 'error');
+          //   return false;
+          // }
+          // if (this.modelbom_data[i].OPTM_DSP_ORDERINGROUP == "") {
 
-            this.CommonService.show_notification(this.language.Group_field + currentrow, 'error');
-            return false;
-          }
+          //   this.CommonService.show_notification(this.language.Group_field + currentrow, 'error');
+          //   return false;
+          // }
           if (this.modelbom_data.OPTM_MODELLEVEL_DESC) {
             if (this.modelbom_data[i].OPTM_ABBREVIATION == "") {
 

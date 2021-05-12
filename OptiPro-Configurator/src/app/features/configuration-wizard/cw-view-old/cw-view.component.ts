@@ -1587,8 +1587,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     });
     this.SelectModelAttributes = selectAttributesList;
     this.SelectedModelFeature = this.ModelHeaderData;
-    if(this.Accessoryarray.length > 0)
-    {
+    if (this.Accessoryarray.length > 0) {
       this.Accessoryarray.forEach(element => {
         this.SelectedModelFeature.push(element);
       });
@@ -1690,7 +1689,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.FeatureBOMDetailAttribute = data.SelectedFeatureAttributes;
           this.openAttributeListForModel();
           this.setCustomAttributeValue();
-          this.filterList =[];
+          this.filterList = [];
           this.filterList = data.SelectUsingAttribute;
         }
         else {
@@ -2817,7 +2816,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.FeatureBOMDetailAttribute = data.SelectedFeatureAttributes;
           this.setCustomAttributeValue();
           this.addDefaultAttributeItemRightGrid(data.ModelOptionItems);
-          this.filterList =[];
+          this.filterList = [];
           this.filterList = data.SelectUsingAttribute;
         }
         else {
@@ -7647,7 +7646,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     let GetDataForSelectedFeatureModelItemData: any = {};
     GetDataForSelectedFeatureModelItemData.selecteddata = [];
     GetDataForSelectedFeatureModelItemData.apidata = [];
-
+    
 
     GetDataForSelectedFeatureModelItemData.selecteddata.push({
       type: rowData.OPTM_TYPE,
@@ -7674,6 +7673,11 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
     this.selectedAccessoryBOM[accessoryIndex].checked = value;
 
+    if (rowData.OPTM_ITEMKEY == "") {
+      this.showLookupLoader = false;
+      return false;
+    }
+
     GetDataForSelectedFeatureModelItemData.apidata.push({
       GUID: sessionStorage.getItem("GUID"),
       UsernameForLic: sessionStorage.getItem("loggedInUser")
@@ -7698,7 +7702,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
             if (data.AccessoryFeatureData.length > 0) {
               let accessoryHeader = [];
               accessoryHeader.push(accessory_header_data)
-              this.setItemDataForFeatureAccessory(data.AccessoryFeatureData, accessoryHeader, rowData, "", this.step2_data);
+            //  this.SelectedModelFeatureAttributeDataForSecondLevel = data.SelectedModelFeatureAttributeDataForSecondLevel;
+            //  this.addAttributeForSelection(rowData);
+
+                this.setItemDataForFeatureAccessory(data.AccessoryFeatureData, accessoryHeader, rowData, "", this.step2_data);
+
+              
             }
             this.showLookupLoader = false;
           }
