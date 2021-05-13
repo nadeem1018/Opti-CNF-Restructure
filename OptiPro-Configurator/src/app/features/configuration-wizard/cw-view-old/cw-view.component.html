@@ -914,75 +914,87 @@
                                                         </button>
                                                     </div>
                                                 </div>
+                                                <div *ngFor="let group of groupData">
+                                                    <div *ngIf="group.OPTM_ACCESSORY == 'N'">
+                                                        <div class="h5 mb-2 text-muted groupdata">{{group.OPTM_DSP_GROUP}}</div>
+                                                        <div *ngFor="let header_data of ModelHeaderData; let i = index;">
+                                                            <div *ngIf="header_data.OPTM_DSP_GROUP == group.OPTM_DSP_GROUP">
+                                                                <kendo-panelbar *ngIf="ModelHeaderData.length > 0"
+                                                                    [selectable]="false">
 
-                                                <kendo-panelbar *ngIf="ModelHeaderData.length > 0" [selectable]="false">
-                                                    <kendo-panelbar-item [title]="header_data.OPTM_DISPLAYNAME" *ngFor="let header_data of ModelHeaderData; let i = index;"
-                                                        [expanded]="featurePanelToggle">
-                                                        <ng-template kendoPanelBarItemTitle>
-                                                            <!-- <h1>hello </h1> -->
-                                                            <span class="output_final_screen_save_button d-inline-flex"
-                                                                style="
+                                                                    <kendo-panelbar-item [title]="header_data.OPTM_DISPLAYNAME"
+                                                                        [expanded]="featurePanelToggle">
+                                                                        <ng-template kendoPanelBarItemTitle>
+                                                                            <!-- <h1>hello </h1> -->
+                                                                            <span class="output_final_screen_save_button d-inline-flex"
+                                                                                style="
                                                         margin-left: auto;">
-                                                                <!-- <button (click)="openAttributeList(header_data, header_data.OPTM_TYPE)" type="button" class="btn btn-sm btn-success with-icon mr-2">
+                                                                                <!-- <button (click)="openAttributeList(header_data, header_data.OPTM_TYPE)" type="button" class="btn btn-sm btn-success with-icon mr-2">
                                                                  {{language.attribute}}
                                                             </button> -->
-                                                                <button [style.display]="isAttribute ? 'block' : 'none'"
-                                                                    type="button" (click)="openAttributeList(header_data, header_data.OPTM_TYPE)"
-                                                                    class="btn btn-sm btn-icon mr-2 btn-primary" title="{{this.language.attribute}}">
-                                                                    <svg class="icon att-icon" viewBox="0 0 512 512">
-                                                                        <use xlink:href="#attrIcon"></use>
-                                                                    </svg>
-                                                                </button>
-                                                            </span>
-                                                        </ng-template>
-                                                        <ng-template kendoPanelBarContent>
-                                                            <div *ngIf="header_data.OPTM_ISCUSTOMVIEW == 'Y'" class="hack2">
-                                                                <table class="parent_table inner-table table table-bordered table-strip table-sm border-0 mb-0">
-                                                                    <thead class="thead-dark" *ngIf="ModelHeaderData.length > 0">
-                                                                        <tr>
-                                                                            <th class="text-center" [ngStyle]=" {'width': '30px'}">#</th>
-                                                                            <th>{{language.code}}</th>
-                                                                            <th>{{language.description}}</th>
-                                                                            <!-- <th>{{language.image}}</th>                                                                     -->
-                                                                            <th *ngFor="let columnName of table_head">
-                                                                                {{columnName.title}}
-                                                                            </th>
+                                                                                <button [style.display]="isAttribute ? 'block' : 'none'"
+                                                                                    type="button" (click)="openAttributeList(header_data, header_data.OPTM_TYPE)"
+                                                                                    class="btn btn-sm btn-icon mr-2 btn-primary"
+                                                                                    title="{{this.language.attribute}}">
+                                                                                    <svg class="icon att-icon" viewBox="0 0 512 512">
+                                                                                        <use xlink:href="#attrIcon"></use>
+                                                                                    </svg>
+                                                                                </button>
+                                                                            </span>
+                                                                        </ng-template>
+                                                                        <ng-template kendoPanelBarContent>
+                                                                            <div *ngIf="header_data.OPTM_ISCUSTOMVIEW == 'Y'"
+                                                                                class="hack2">
+                                                                                <table class="parent_table inner-table table table-bordered table-strip table-sm border-0 mb-0">
+                                                                                    <thead class="thead-dark" *ngIf="ModelHeaderData.length > 0">
+                                                                                        <tr>
+                                                                                            <th class="text-center"
+                                                                                                [ngStyle]=" {'width': '30px'}">#</th>
+                                                                                            <th>{{language.code}}</th>
+                                                                                            <th>{{language.description}}</th>
+                                                                                            <!-- <th>{{language.image}}</th>                                                                     -->
+                                                                                            <th *ngFor="let columnName of table_head">
+                                                                                                {{columnName.title}}
+                                                                                            </th>
 
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody *ngIf="get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel).length > 0">
-                                                                        <tr *ngFor="let feature_model_data of get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel); let i= index;"
-                                                                            [ngClass]="( feature_model_data.disable === true && header_data.OPTM_TYPE != 3 ) ? 'tr-hide' : '' ">
-                                                                            <td class="text-center" [ngStyle]=" {'width': '30px'}">
-                                                                                <label class="custom-{{header_data.element_type}} mb-0 wihtout-label"
-                                                                                    *ngIf="header_data.is_second_level == 1">
-                                                                                    <input type="{{header_data.element_type}}"
-                                                                                        id="checkbox_child_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
-                                                                                        #selectionchecked name="checkbox_child_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
-                                                                                        (change)="onselectionchange(feature_model_data,selectionchecked.checked,selectionchecked.id,true, header_data.unique_key, false, false, false)"
-                                                                                        [(checked)]="feature_model_data.checked"
-                                                                                        [disabled]="feature_model_data.disable && header_data.OPTM_TYPE != 3">
-                                                                                    <span class="checkbox"></span>
-                                                                                </label>
-                                                                                <label class="custom-{{header_data.element_type}} mb-0 wihtout-label"
-                                                                                    *ngIf="header_data.is_second_level== undefined">
-                                                                                    <input type="{{header_data.element_type}}"
-                                                                                        id="checkbox_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
-                                                                                        #selectionchecked name="checkbox_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
-                                                                                        (change)="onselectionchange(feature_model_data,selectionchecked.checked,selectionchecked.id,false, header_data.unique_key, false, false, false)"
-                                                                                        [(checked)]="feature_model_data.checked"
-                                                                                        [disabled]="feature_model_data.disable && header_data.OPTM_TYPE != 3">
-                                                                                    <span class="checkbox"></span>
-                                                                                </label>
-                                                                            </td>
-                                                                            <td>
-                                                                                <span *ngIf="feature_model_data['OPTM_TYPE']=='1'">{{feature_model_data.feature_code}}</span>
-                                                                                <span *ngIf="feature_model_data['OPTM_TYPE']=='2'">{{feature_model_data.OPTM_ITEMKEY}}</span>
-                                                                                <span *ngIf="feature_model_data['OPTM_TYPE']=='3'">{{feature_model_data.OPTM_DISPLAYNAME}}</span>
-                                                                            </td>
-                                                                            <td>{{feature_model_data.OPTM_DISPLAYNAME}}
-                                                                            </td>
-                                                                            <!-- <td>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody *ngIf="get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel).length > 0">
+                                                                                        <tr *ngFor="let feature_model_data of get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel); let i= index;"
+                                                                                            [ngClass]="( feature_model_data.disable === true && header_data.OPTM_TYPE != 3 ) ? 'tr-hide' : '' ">
+                                                                                            <td class="text-center"
+                                                                                                [ngStyle]=" {'width': '30px'}">
+                                                                                                <label class="custom-{{header_data.element_type}} mb-0 wihtout-label"
+                                                                                                    *ngIf="header_data.is_second_level == 1">
+                                                                                                    <input type="{{header_data.element_type}}"
+                                                                                                        id="checkbox_child_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
+                                                                                                        #selectionchecked
+                                                                                                        name="checkbox_child_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
+                                                                                                        (change)="onselectionchange(feature_model_data,selectionchecked.checked,selectionchecked.id,true, header_data.unique_key, false, false, false)"
+                                                                                                        [(checked)]="feature_model_data.checked"
+                                                                                                        [disabled]="feature_model_data.disable && header_data.OPTM_TYPE != 3">
+                                                                                                    <span class="checkbox"></span>
+                                                                                                </label>
+                                                                                                <label class="custom-{{header_data.element_type}} mb-0 wihtout-label"
+                                                                                                    *ngIf="header_data.is_second_level== undefined">
+                                                                                                    <input type="{{header_data.element_type}}"
+                                                                                                        id="checkbox_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
+                                                                                                        #selectionchecked
+                                                                                                        name="checkbox_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
+                                                                                                        (change)="onselectionchange(feature_model_data,selectionchecked.checked,selectionchecked.id,false, header_data.unique_key, false, false, false)"
+                                                                                                        [(checked)]="feature_model_data.checked"
+                                                                                                        [disabled]="feature_model_data.disable && header_data.OPTM_TYPE != 3">
+                                                                                                    <span class="checkbox"></span>
+                                                                                                </label>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <span *ngIf="feature_model_data['OPTM_TYPE']=='1'">{{feature_model_data.feature_code}}</span>
+                                                                                                <span *ngIf="feature_model_data['OPTM_TYPE']=='2'">{{feature_model_data.OPTM_ITEMKEY}}</span>
+                                                                                                <span *ngIf="feature_model_data['OPTM_TYPE']=='3'">{{feature_model_data.OPTM_DISPLAYNAME}}</span>
+                                                                                            </td>
+                                                                                            <td>{{feature_model_data.OPTM_DISPLAYNAME}}
+                                                                                            </td>
+                                                                                            <!-- <td>
                                                                         <div class="image-preivew" *ngIf="feature_model_data.IMAGEPATH!=''">
                                                                             <a href="javascript:;" data-toggle="modal" data-target="#enlarge_image_modal"
                                                                             (click)="enlage_image(feature_model_data.IMAGEPATH)">
@@ -991,231 +1003,269 @@
                                                                         </div>
                                                                     </td> -->
 
-                                                                            <td *ngFor="let columnName of table_head">
-                                                                                {{feature_model_data[columnName.field]}}
-                                                                            </td>
+                                                                                            <td *ngFor="let columnName of table_head">
+                                                                                                {{feature_model_data[columnName.field]}}
+                                                                                            </td>
 
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <tfoot *ngIf="get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel).length == 0">
-                                                                        <tr>
-                                                                            <td>
-                                                                                <div class="{{header_data.element_class}}">
-                                                                                    <label class="custom-{{header_data.element_type}} mb-0 wihtout-label"
-                                                                                        for="checkbox_{{header_data.OPTM_FEATUREID}}_{{header_data.OPTM_LINENO}}_{{header_data.OPTM_MODELID}}">
-                                                                                        <input type="{{header_data.element_type}}"
-                                                                                            id="checkbox_{{header_data.OPTM_FEATUREID}}_{{header_data.OPTM_LINENO}}_{{header_data.OPTM_MODELID}}"
-                                                                                            (change)="onselectionchange(header_data,selectionchecked,selectionchecked.id)"
-                                                                                            [(checked)]="FeatureBOMDataForSecondLevel.checked"
-                                                                                            [disabled]="FeatureBOMDataForSecondLevel.disable"
-                                                                                            name="checkbox_{{header_data.OPTM_FEATUREID}}"
-                                                                                            #selectionchecked>
-                                                                                        <span class="checkbox"></span>
-                                                                                    </label>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <span *ngIf="header_data['OPTM_TYPE']=='1'">{{header_data.feature_code}}</span>
-                                                                                <span *ngIf="header_data['OPTM_TYPE']=='2'">{{header_data.OPTM_ITEMKEY}}</span>
-                                                                                <span *ngIf="header_data['OPTM_TYPE']=='3'">{{header_data.child_code}}</span>
-                                                                            </td>
-                                                                            <td>{{header_data.OPTM_DISPLAYNAME}}</td>
-                                                                            <td>
-                                                                                <div class="image-preivew" *ngIf="header_data.IMAGEPATH!=''">
-                                                                                    <a href="javascript:;" data-toggle="modal"
-                                                                                        data-target="#enlarge_image_modal"
-                                                                                        (click)="enlage_image(header_data.IMAGEPATH)">
-                                                                                        <img src="{{header_data.IMAGEPATH}}"
-                                                                                            [ngStyle]=" {'width': '40px'}"
-                                                                                            alt="" class="img-thumbnail">
-                                                                                    </a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tfoot>
-                                                                </table>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                    <tfoot *ngIf="get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel).length == 0">
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <div class="{{header_data.element_class}}">
+                                                                                                    <label class="custom-{{header_data.element_type}} mb-0 wihtout-label"
+                                                                                                        for="checkbox_{{header_data.OPTM_FEATUREID}}_{{header_data.OPTM_LINENO}}_{{header_data.OPTM_MODELID}}">
+                                                                                                        <input type="{{header_data.element_type}}"
+                                                                                                            id="checkbox_{{header_data.OPTM_FEATUREID}}_{{header_data.OPTM_LINENO}}_{{header_data.OPTM_MODELID}}"
+                                                                                                            (change)="onselectionchange(header_data,selectionchecked,selectionchecked.id)"
+                                                                                                            [(checked)]="FeatureBOMDataForSecondLevel.checked"
+                                                                                                            [disabled]="FeatureBOMDataForSecondLevel.disable"
+                                                                                                            name="checkbox_{{header_data.OPTM_FEATUREID}}"
+                                                                                                            #selectionchecked>
+                                                                                                        <span class="checkbox"></span>
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <span *ngIf="header_data['OPTM_TYPE']=='1'">{{header_data.feature_code}}</span>
+                                                                                                <span *ngIf="header_data['OPTM_TYPE']=='2'">{{header_data.OPTM_ITEMKEY}}</span>
+                                                                                                <span *ngIf="header_data['OPTM_TYPE']=='3'">{{header_data.child_code}}</span>
+                                                                                            </td>
+                                                                                            <td>{{header_data.OPTM_DISPLAYNAME}}</td>
+                                                                                            <td>
+                                                                                                <div class="image-preivew"
+                                                                                                    *ngIf="header_data.IMAGEPATH!=''">
+                                                                                                    <a href="javascript:;"
+                                                                                                        data-toggle="modal"
+                                                                                                        data-target="#enlarge_image_modal"
+                                                                                                        (click)="enlage_image(header_data.IMAGEPATH)">
+                                                                                                        <img src="{{header_data.IMAGEPATH}}"
+                                                                                                            [ngStyle]=" {'width': '40px'}"
+                                                                                                            alt=""
+                                                                                                            class="img-thumbnail">
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tfoot>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div *ngIf="header_data.OPTM_ISCUSTOMVIEW == 'N' || header_data.OPTM_ISCUSTOMVIEW == null "
+                                                                                class="hack2">
+                                                                                <table class="parent_table inner-table table table-bordered table-strip table-sm border-0 mb-0">
+                                                                                    <thead class="thead-dark" *ngIf="ModelHeaderData.length > 0">
+                                                                                        <tr>
+                                                                                            <th class="text-center"
+                                                                                                [ngStyle]=" {'width': '30px'}">#</th>
+                                                                                            <th>{{language.code}}</th>
+                                                                                            <th>{{language.description}}</th>
+                                                                                            <th>{{language.image}}</th>
+
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody *ngIf="get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel).length > 0">
+                                                                                        <tr *ngFor="let feature_model_data of get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel); let i= index;"
+                                                                                            [ngClass]="( feature_model_data.disable === true && header_data.OPTM_TYPE != 3 ) ? 'tr-hide' : '' ">
+                                                                                            <td class="text-center"
+                                                                                                [ngStyle]=" {'width': '30px'}">
+                                                                                                <label class="custom-{{header_data.element_type}} mb-0 wihtout-label"
+                                                                                                    *ngIf="header_data.is_second_level == 1">
+                                                                                                    <input type="{{header_data.element_type}}"
+                                                                                                        id="checkbox_child_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
+                                                                                                        #selectionchecked
+                                                                                                        name="checkbox_child_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
+                                                                                                        (change)="onselectionchange(feature_model_data,selectionchecked.checked,selectionchecked.id,true, header_data.unique_key, false, false, false)"
+                                                                                                        [(checked)]="feature_model_data.checked"
+                                                                                                        [disabled]="feature_model_data.disable && header_data.OPTM_TYPE != 3">
+                                                                                                    <span class="checkbox"></span>
+                                                                                                </label>
+                                                                                                <label class="custom-{{header_data.element_type}} mb-0 wihtout-label"
+                                                                                                    *ngIf="header_data.is_second_level== undefined">
+                                                                                                    <input type="{{header_data.element_type}}"
+                                                                                                        id="checkbox_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
+                                                                                                        #selectionchecked
+                                                                                                        name="checkbox_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
+                                                                                                        (change)="onselectionchange(feature_model_data,selectionchecked.checked,selectionchecked.id,false, header_data.unique_key, false, false, false)"
+                                                                                                        [(checked)]="feature_model_data.checked"
+                                                                                                        [disabled]="feature_model_data.disable && header_data.OPTM_TYPE != 3">
+                                                                                                    <span class="checkbox"></span>
+                                                                                                </label>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <span *ngIf="feature_model_data['OPTM_TYPE']=='1'">{{feature_model_data.feature_code}}</span>
+                                                                                                <span *ngIf="feature_model_data['OPTM_TYPE']=='2'">{{feature_model_data.OPTM_ITEMKEY}}</span>
+                                                                                                <span *ngIf="feature_model_data['OPTM_TYPE']=='3'">{{feature_model_data.OPTM_DISPLAYNAME}}</span>
+                                                                                            </td>
+                                                                                            <td>{{feature_model_data.OPTM_DISPLAYNAME}}
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div class="image-preivew"
+                                                                                                    *ngIf="feature_model_data.IMAGEPATH!=''">
+                                                                                                    <a href="javascript:;"
+                                                                                                        data-toggle="modal"
+                                                                                                        data-target="#enlarge_image_modal"
+                                                                                                        (click)="enlage_image(feature_model_data.IMAGEPATH)">
+                                                                                                        <img src="{{feature_model_data.IMAGEPATH}}"
+                                                                                                            [ngStyle]=" {'width': '40px'}"
+                                                                                                            alt=""
+                                                                                                            class="img-thumbnail">
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                            </td>
+
+
+
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                    <tfoot *ngIf="get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel).length == 0">
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <div class="{{header_data.element_class}}">
+                                                                                                    <label class="custom-{{header_data.element_type}} mb-0 wihtout-label"
+                                                                                                        for="checkbox_{{header_data.OPTM_FEATUREID}}_{{header_data.OPTM_LINENO}}_{{header_data.OPTM_MODELID}}">
+                                                                                                        <input type="{{header_data.element_type}}"
+                                                                                                            id="checkbox_{{header_data.OPTM_FEATUREID}}_{{header_data.OPTM_LINENO}}_{{header_data.OPTM_MODELID}}"
+                                                                                                            (change)="onselectionchange(header_data,selectionchecked,selectionchecked.id)"
+                                                                                                            [(checked)]="FeatureBOMDataForSecondLevel.checked"
+                                                                                                            [disabled]="FeatureBOMDataForSecondLevel.disable"
+                                                                                                            name="checkbox_{{header_data.OPTM_FEATUREID}}"
+                                                                                                            #selectionchecked>
+                                                                                                        <span class="checkbox"></span>
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <span *ngIf="header_data['OPTM_TYPE']=='1'">{{header_data.feature_code}}</span>
+                                                                                                <span *ngIf="header_data['OPTM_TYPE']=='2'">{{header_data.OPTM_ITEMKEY}}</span>
+                                                                                                <span *ngIf="header_data['OPTM_TYPE']=='3'">{{header_data.child_code}}</span>
+                                                                                            </td>
+                                                                                            <td>{{header_data.OPTM_DISPLAYNAME}}</td>
+                                                                                            <td>
+                                                                                                <div class="image-preivew"
+                                                                                                    *ngIf="header_data.IMAGEPATH!=''">
+                                                                                                    <a href="javascript:;"
+                                                                                                        data-toggle="modal"
+                                                                                                        data-target="#enlarge_image_modal"
+                                                                                                        (click)="enlage_image(header_data.IMAGEPATH)">
+                                                                                                        <img src="{{header_data.IMAGEPATH}}"
+                                                                                                            [ngStyle]=" {'width': '40px'}"
+                                                                                                            alt=""
+                                                                                                            class="img-thumbnail">
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tfoot>
+                                                                                </table>
+
+                                                                            </div>
+                                                                        </ng-template>
+
+                                                                    </kendo-panelbar-item>
+
+                                                                </kendo-panelbar>
                                                             </div>
-                                                            <div *ngIf="header_data.OPTM_ISCUSTOMVIEW == 'N' || header_data.OPTM_ISCUSTOMVIEW == null "
-                                                                class="hack2">
-                                                                <table class="parent_table inner-table table table-bordered table-strip table-sm border-0 mb-0">
-                                                                    <thead class="thead-dark" *ngIf="ModelHeaderData.length > 0">
-                                                                        <tr>
-                                                                            <th class="text-center" [ngStyle]=" {'width': '30px'}">#</th>
-                                                                            <th>{{language.code}}</th>
-                                                                            <th>{{language.description}}</th>
-                                                                            <th>{{language.image}}</th>
-
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody *ngIf="get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel).length > 0">
-                                                                        <tr *ngFor="let feature_model_data of get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel); let i= index;"
-                                                                            [ngClass]="( feature_model_data.disable === true && header_data.OPTM_TYPE != 3 ) ? 'tr-hide' : '' ">
-                                                                            <td class="text-center" [ngStyle]=" {'width': '30px'}">
-                                                                                <label class="custom-{{header_data.element_type}} mb-0 wihtout-label"
-                                                                                    *ngIf="header_data.is_second_level == 1">
-                                                                                    <input type="{{header_data.element_type}}"
-                                                                                        id="checkbox_child_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
-                                                                                        #selectionchecked name="checkbox_child_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
-                                                                                        (change)="onselectionchange(feature_model_data,selectionchecked.checked,selectionchecked.id,true, header_data.unique_key, false, false, false)"
-                                                                                        [(checked)]="feature_model_data.checked"
-                                                                                        [disabled]="feature_model_data.disable && header_data.OPTM_TYPE != 3">
-                                                                                    <span class="checkbox"></span>
-                                                                                </label>
-                                                                                <label class="custom-{{header_data.element_type}} mb-0 wihtout-label"
-                                                                                    *ngIf="header_data.is_second_level== undefined">
-                                                                                    <input type="{{header_data.element_type}}"
-                                                                                        id="checkbox_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
-                                                                                        #selectionchecked name="checkbox_{{feature_model_data.nodeid}}_{{feature_model_data.unique_key}}_{{feature_model_data.OPTM_LINENO}}_{{i}}"
-                                                                                        (change)="onselectionchange(feature_model_data,selectionchecked.checked,selectionchecked.id,false, header_data.unique_key, false, false, false)"
-                                                                                        [(checked)]="feature_model_data.checked"
-                                                                                        [disabled]="feature_model_data.disable && header_data.OPTM_TYPE != 3">
-                                                                                    <span class="checkbox"></span>
-                                                                                </label>
-                                                                            </td>
-                                                                            <td>
-                                                                                <span *ngIf="feature_model_data['OPTM_TYPE']=='1'">{{feature_model_data.feature_code}}</span>
-                                                                                <span *ngIf="feature_model_data['OPTM_TYPE']=='2'">{{feature_model_data.OPTM_ITEMKEY}}</span>
-                                                                                <span *ngIf="feature_model_data['OPTM_TYPE']=='3'">{{feature_model_data.OPTM_DISPLAYNAME}}</span>
-                                                                            </td>
-                                                                            <td>{{feature_model_data.OPTM_DISPLAYNAME}}
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="image-preivew" *ngIf="feature_model_data.IMAGEPATH!=''">
-                                                                                    <a href="javascript:;" data-toggle="modal"
-                                                                                        data-target="#enlarge_image_modal"
-                                                                                        (click)="enlage_image(feature_model_data.IMAGEPATH)">
-                                                                                        <img src="{{feature_model_data.IMAGEPATH}}"
-                                                                                            [ngStyle]=" {'width': '40px'}"
-                                                                                            alt="" class="img-thumbnail">
-                                                                                    </a>
-                                                                                </div>
-                                                                            </td>
-
-
-
-                                                                        </tr>
-                                                                    </tbody>
-                                                                    <tfoot *ngIf="get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel).length == 0">
-                                                                        <tr>
-                                                                            <td>
-                                                                                <div class="{{header_data.element_class}}">
-                                                                                    <label class="custom-{{header_data.element_type}} mb-0 wihtout-label"
-                                                                                        for="checkbox_{{header_data.OPTM_FEATUREID}}_{{header_data.OPTM_LINENO}}_{{header_data.OPTM_MODELID}}">
-                                                                                        <input type="{{header_data.element_type}}"
-                                                                                            id="checkbox_{{header_data.OPTM_FEATUREID}}_{{header_data.OPTM_LINENO}}_{{header_data.OPTM_MODELID}}"
-                                                                                            (change)="onselectionchange(header_data,selectionchecked,selectionchecked.id)"
-                                                                                            [(checked)]="FeatureBOMDataForSecondLevel.checked"
-                                                                                            [disabled]="FeatureBOMDataForSecondLevel.disable"
-                                                                                            name="checkbox_{{header_data.OPTM_FEATUREID}}"
-                                                                                            #selectionchecked>
-                                                                                        <span class="checkbox"></span>
-                                                                                    </label>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <span *ngIf="header_data['OPTM_TYPE']=='1'">{{header_data.feature_code}}</span>
-                                                                                <span *ngIf="header_data['OPTM_TYPE']=='2'">{{header_data.OPTM_ITEMKEY}}</span>
-                                                                                <span *ngIf="header_data['OPTM_TYPE']=='3'">{{header_data.child_code}}</span>
-                                                                            </td>
-                                                                            <td>{{header_data.OPTM_DISPLAYNAME}}</td>
-                                                                            <td>
-                                                                                <div class="image-preivew" *ngIf="header_data.IMAGEPATH!=''">
-                                                                                    <a href="javascript:;" data-toggle="modal"
-                                                                                        data-target="#enlarge_image_modal"
-                                                                                        (click)="enlage_image(header_data.IMAGEPATH)">
-                                                                                        <img src="{{header_data.IMAGEPATH}}"
-                                                                                            [ngStyle]=" {'width': '40px'}"
-                                                                                            alt="" class="img-thumbnail">
-                                                                                    </a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tfoot>
-                                                                </table>
-                                                            </div>
-
-                                                        </ng-template>
-                                                    </kendo-panelbar-item>
-                                                </kendo-panelbar>
-                                                <hr>
-
-                                                <!-- new acsessory section - start -->
-                                                <div class="form-group d-flex align-items-center justify-content-between mb-2"
-                                                    *ngIf="feature_accessory_list.length > 0">
-                                                    <div class="h5 m-0 text-muted">{{language.accessories}}</div>
-
-                                                    <div class="">
-                                                        <button type="button" (click)="openAccesoryModel()" class="btn btn-sm btn-primary  foot-right">
-                                                            Add Accessories
-                                                        </button>
-                                                        <button class="btn btn-sm btn-icon btn-info mr-2" type="button"
-                                                            (click)="accessoriesPanelToggleAll(true)" title="Expand All">
-                                                            <svg viewBox="0 0 1024 1024" class="icon">
-                                                                <use xlink:href="#expandAll"></use>
-                                                            </svg>
-                                                        </button>
-                                                        <button class="btn btn-sm btn-icon btn-success" type="button"
-                                                            (click)="accessoriesPanelToggleAll(false)" title="Collapse All">
-                                                            <svg viewBox="0 0 1024 1024" class="icon">
-                                                                <use xlink:href="#collapseAll"></use>
-                                                            </svg>
-                                                        </button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <kendo-panelbar *ngIf="feature_accessory_list.length > 0" [selectable]="false">
-                                                    <kendo-panelbar-item [title]="accessory_header_data.name" *ngFor="let accessory_header_data of feature_accessory_list; let i = index;"
-                                                        [expanded]="accessoriesPanelToggle">
-                                                        <ng-template kendoPanelBarItemTitle>
-                                                            <!-- <h1>hello </h1> -->
-                                                            <span class="output_final_screen_save_button d-inline-flex"
-                                                                style="
+
+
+                                                    <hr>
+
+                                                    <!-- new acsessory section - start -->
+                                                    <div class="form-group d-flex align-items-center justify-content-between mb-2"
+                                                        *ngIf="feature_accessory_list.length > 0">
+                                                        <div class="h5 m-0 text-muted">{{language.accessories}}</div>
+
+                                                        <div class="">
+                                                            <button type="button" (click)="openAccesoryModel()" class="btn btn-sm btn-primary  foot-right">
+                                                                Add Accessories
+                                                            </button>
+                                                            <button class="btn btn-sm btn-icon btn-info mr-2" type="button"
+                                                                (click)="accessoriesPanelToggleAll(true)" title="Expand All">
+                                                                <svg viewBox="0 0 1024 1024" class="icon">
+                                                                    <use xlink:href="#expandAll"></use>
+                                                                </svg>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-icon btn-success" type="button"
+                                                                (click)="accessoriesPanelToggleAll(false)" title="Collapse All">
+                                                                <svg viewBox="0 0 1024 1024" class="icon">
+                                                                    <use xlink:href="#collapseAll"></use>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngFor="let group of groupData">
+                                                        <div *ngIf="group.OPTM_ACCESSORY == 'Y'">
+                                                            <div class="h5 mb-2 text-muted groupdata">{{group.OPTM_DSP_GROUP}}</div>
+                                                            <div *ngFor="let accessory_header_data of feature_accessory_list; let i = index;">
+                                                                <div *ngIf="accessory_header_data.OPTM_DSP_GROUP == group.OPTM_DSP_GROUP">
+                                                                    <kendo-panelbar *ngIf="feature_accessory_list.length > 0"
+                                                                        [selectable]="false" >
+                                                                        <kendo-panelbar-item [title]="accessory_header_data.name"
+                                                                            [expanded]="accessoriesPanelToggle">
+                                                                            <ng-template kendoPanelBarItemTitle>
+                                                                                <!-- <h1>hello </h1> -->
+                                                                                <span class="output_final_screen_save_button d-inline-flex"
+                                                                                    style="
                                                         margin-left: auto;">
-                                                                <!-- <button (click)="openAttributeList(header_data, header_data.OPTM_TYPE)" type="button" class="btn btn-sm btn-success with-icon mr-2">
+                                                                                    <!-- <button (click)="openAttributeList(header_data, header_data.OPTM_TYPE)" type="button" class="btn btn-sm btn-success with-icon mr-2">
                                                                  {{language.attribute}}
                                                             </button> -->
-                                                                <button [style.display]="isAttribute ? 'block' : 'none'"
-                                                                    type="button" (click)="openAttributeList(accessory_header_data, accessory_header_data.OPTM_TYPE)"
-                                                                    class="btn btn-sm btn-icon mr-2 btn-primary" title="{{this.language.attribute}}">
-                                                                    <svg class="icon att-icon" viewBox="0 0 512 512">
-                                                                        <use xlink:href="#attrIcon"></use>
-                                                                    </svg>
-                                                                </button>
-                                                            </span>
-                                                        </ng-template>
-                                                        <ng-template kendoPanelBarContent>
-                                                            <table class="parent_table inner-table table table-bordered table-strip table-sm border-0 mb-0">
-                                                                <thead class="thead-dark" *ngIf="feature_accessory_list.length > 0">
-                                                                    <tr>
-                                                                        <th class="text-center">#</th>
-                                                                        <th>{{language.code}}</th>
-                                                                        <th>{{language.description}}</th>
-                                                                    </tr>
+                                                                                    <button [style.display]="isAttribute ? 'block' : 'none'"
+                                                                                        type="button" (click)="openAttributeList(accessory_header_data, accessory_header_data.OPTM_TYPE)"
+                                                                                        class="btn btn-sm btn-icon mr-2 btn-primary"
+                                                                                        title="{{this.language.attribute}}">
+                                                                                        <svg class="icon att-icon"
+                                                                                            viewBox="0 0 512 512">
+                                                                                            <use xlink:href="#attrIcon"></use>
+                                                                                        </svg>
+                                                                                    </button>
+                                                                                </span>
+                                                                            </ng-template>
+                                                                            <ng-template kendoPanelBarContent>
+                                                                                <table class="parent_table inner-table table table-bordered table-strip table-sm border-0 mb-0">
+                                                                                    <thead class="thead-dark" *ngIf="feature_accessory_list.length > 0">
+                                                                                        <tr>
+                                                                                            <th class="text-center">#</th>
+                                                                                            <th>{{language.code}}</th>
+                                                                                            <th>{{language.description}}</th>
+                                                                                        </tr>
 
-                                                                </thead>
-                                                                <tbody *ngIf="get_accessory_element(accessory_header_data,selectedAccessoryBOM).length > 0">
-                                                                    <tr *ngFor="let accessory_item_data of get_accessory_element(accessory_header_data,selectedAccessoryBOM); let i= index;">
-                                                                        <td class="text-center" [ngStyle]=" {'width': '30px'}">
-                                                                            <label class="custom-checkbox mb-0 wihtout-label">
-                                                                                <input type="checkbox" id="accessory_checkbox_{{accessory_item_data.unique_key}}_{{accessory_item_data.OPTM_LINENO}}_{{i}}"
-                                                                                    #accessory_checkbox name="accessory_checkbox_{{accessory_item_data.unique_key}}_{{accessory_item_data.OPTM_LINENO}}_{{i}}"
-                                                                                    (change)="onAccessorySelectionChange(accessory_checkbox.checked,accessory_item_data,accessory_header_data)"
-                                                                                    [(checked)]="accessory_item_data.checked">
-                                                                                <span class="checkbox"></span>
-                                                                            </label>
-                                                                        </td>
-                                                                        <td>
-                                                                            <span *ngIf="accessory_item_data['OPTM_TYPE']='2'">{{accessory_item_data.OPTM_ITEMKEY}}</span>
-                                                                            <span *ngIf="accessory_item_data['OPTM_TYPE']='3'">{{accessory_item_data.OPTM_DISPLAYNAME}}</span>
-                                                                        </td>
-                                                                        <td>{{accessory_item_data.OPTM_DISPLAYNAME}}
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </ng-template>
-                                                    </kendo-panelbar-item>
-                                                </kendo-panelbar>
-                                            </div>
+                                                                                    </thead>
+                                                                                    <tbody *ngIf="get_accessory_element(accessory_header_data,selectedAccessoryBOM).length > 0">
+                                                                                        <tr *ngFor="let accessory_item_data of get_accessory_element(accessory_header_data,selectedAccessoryBOM); let i= index;">
+                                                                                            <td class="text-center"
+                                                                                                [ngStyle]=" {'width': '30px'}">
+                                                                                                <label class="custom-checkbox mb-0 wihtout-label">
+                                                                                                    <input type="checkbox"
+                                                                                                        id="accessory_checkbox_{{accessory_item_data.unique_key}}_{{accessory_item_data.OPTM_LINENO}}_{{i}}"
+                                                                                                        #accessory_checkbox
+                                                                                                        name="accessory_checkbox_{{accessory_item_data.unique_key}}_{{accessory_item_data.OPTM_LINENO}}_{{i}}"
+                                                                                                        (change)="onAccessorySelectionChange(accessory_checkbox.checked,accessory_item_data,accessory_header_data)"
+                                                                                                        [(checked)]="accessory_item_data.checked">
+                                                                                                    <span class="checkbox"></span>
+                                                                                                </label>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <span *ngIf="accessory_item_data['OPTM_ITEMKEY']!=''">{{accessory_item_data.OPTM_ITEMKEY}}</span>
+                                                                                                <span *ngIf="accessory_item_data['OPTM_ITEMKEY']==''">{{accessory_item_data.OPTM_DISPLAYNAME}}</span>
+                                                                                            </td>
+                                                                                            <td>{{accessory_item_data.OPTM_DISPLAYNAME}}
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </ng-template>
+                                                                        </kendo-panelbar-item>
+                                                                    </kendo-panelbar>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            
                                         </kendo-splitter-pane>
                                         <kendo-splitter-pane [collapsible]="false" class="slim-scroll" *ngIf="isdesktopView">
                                             <div class="px-2 third-step-left-right slim-scroll">

@@ -282,6 +282,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public needAssesmentOptions: any;
   public isOperationNotView = true;
   public custmerCodeDealer: any = "";
+  public groupData : any = [];
 
 
 
@@ -1104,6 +1105,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
         return data.ModelHeaderData
       })
 
+      this.groupData = data.GroupDataList;
       data.FeatureBOMDataForSecondLevel = data.FeatureBOMDataForSecondLevel.filter(function (obj) {
         obj['OPTM_LEVEL'] = 1
         return obj; // data.FeatureBOMDataForSecondLevel
@@ -2445,6 +2447,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this._el.nativeElement.focus();
     this.ModelHeaderData = [];
     this.ModelHeaderItemsArray = [];
+    this.groupData=[];
     this.RuleOutputData = [];
     this.ModelBOMDataForSecondLevel = [];
     this.FeatureBOMDataForSecondLevel = [];
@@ -2517,6 +2520,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
             }
           }
 
+          this.groupData = data.GroupDataList;
+
           data.ModelHeaderData = data.ModelHeaderData.filter(function (obj) {
             obj['OPTM_LEVEL'] = 0;
             obj['random_unique_key'] = this_obj.commonData.random_string(50)
@@ -2574,6 +2579,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.RuleOutputData = data.RuleOutputData;
           this.ModelBOMRules = data.ModelBOMRules;
           this.MainModelDetails = data.MainModelDetails;
+          
 
           this.ModelHeaderData = data.ModelHeaderData.filter(function (obj) {
             obj['random_unique_key'] = this_obj.commonData.random_string(50)
@@ -7477,12 +7483,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           let optmItemType: any = 2;
           array.forEach(element => {
             filterdata.forEach(elementList => {
-              if (element.OPTM_TYPE == optmValueType) {
+              if (elementList.OPTM_TYPE == optmValueType) {
                 if (elementList.OPTM_VALUE == element.OPTM_VALUE) {
                   filterFeatureList.push(element);
                 }
               }
-              else if (element.OPTM_TYPE == optmItemType) {
+              else if (elementList.OPTM_TYPE == optmItemType) {
                 if (elementList.OPTM_ITEMKEY == element.OPTM_ITEMKEY) {
                   filterFeatureList.push(element);
                 }
@@ -7522,12 +7528,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           let optmItemType: any = 2;
           accessoryBOM.forEach(element => {
             filterdata.forEach(elementList => {
-              if (element.OPTM_TYPE == optmValueType) {
+              if (elementList.OPTM_TYPE == optmValueType) {
                 if (elementList.OPTM_VALUE == element.OPTM_VALUE) {
                   filterFeatureList.push(element);
                 }
               }
-              else if (element.OPTM_TYPE == optmItemType) {
+              else if (elementList.OPTM_TYPE == optmItemType) {
                 if (elementList.OPTM_ITEMKEY == element.OPTM_ITEMKEY) {
                   filterFeatureList.push(element);
                 }
@@ -7561,6 +7567,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           OPTM_CHILDFEATUREID: parseInt(Accarray[iaccss].OPTM_CHILDFEATUREID),
           OPTM_DEFAULT: Accarray[iaccss].OPTM_DEFAULT,
           name: Accarray[iaccss].OPTM_DISPLAYNAME,
+          OPTM_DSP_GROUP:Accarray[iaccss].OPTM_DSP_GROUP,
+          OPTM_DSPGROUP_ORDER:Accarray[iaccss].OPTM_DSPGROUP_ORDER,
+          OPTM_DSP_ORDERINGROUP:Accarray[iaccss].OPTM_DSP_ORDERINGROUP,
           OPTM_FEATUREID: Accarray[iaccss].OPTM_FEATUREID,
           OPTM_ITEMKEY: Accarray[iaccss].OPTM_ITEMKEY,
           DocEntry: Accarray[iaccss].DocEntry,
@@ -7576,6 +7585,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           OPTM_PARENTMODELID: Accarray[iaccss].OPTM_PARENTMODELID
         });
       }
+
+      console.log (this.feature_accessory_list);
 
     }
   }
@@ -7646,7 +7657,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     let GetDataForSelectedFeatureModelItemData: any = {};
     GetDataForSelectedFeatureModelItemData.selecteddata = [];
     GetDataForSelectedFeatureModelItemData.apidata = [];
-    
+
 
     GetDataForSelectedFeatureModelItemData.selecteddata.push({
       type: rowData.OPTM_TYPE,
@@ -7675,6 +7686,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
     if (rowData.OPTM_ITEMKEY == "") {
       this.showLookupLoader = false;
+      this.getCustomeAttributeValue();
       return false;
     }
 
@@ -7702,12 +7714,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
             if (data.AccessoryFeatureData.length > 0) {
               let accessoryHeader = [];
               accessoryHeader.push(accessory_header_data)
-            //  this.SelectedModelFeatureAttributeDataForSecondLevel = data.SelectedModelFeatureAttributeDataForSecondLevel;
-            //  this.addAttributeForSelection(rowData);
+              //  this.SelectedModelFeatureAttributeDataForSecondLevel = data.SelectedModelFeatureAttributeDataForSecondLevel;
+              //  this.addAttributeForSelection(rowData);
 
-                this.setItemDataForFeatureAccessory(data.AccessoryFeatureData, accessoryHeader, rowData, "", this.step2_data);
+              this.setItemDataForFeatureAccessory(data.AccessoryFeatureData, accessoryHeader, rowData, "", this.step2_data);
+              this.getCustomeAttributeValue();
 
-              
+
             }
             this.showLookupLoader = false;
           }

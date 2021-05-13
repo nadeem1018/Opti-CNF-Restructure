@@ -312,6 +312,13 @@ hr {
     color: red;
 }
 
+.h5.groupdata {
+    padding: 9px 5px;
+    color: #fff !important;
+    margin: 8px 0;
+    background: linear-gradient( 120deg, #00e4d0, #00b3ff) !important;
+}
+
 
 @media(max-width:767px){
     .main-portion, .second_step_block, .one_step_block{
