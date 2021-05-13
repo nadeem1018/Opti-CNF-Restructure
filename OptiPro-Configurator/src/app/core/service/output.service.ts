@@ -463,4 +463,19 @@ export class OutputService {
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetDealerCustomerMappingByCustCode", jObject, this.common_params.httpOptions);
   }
+
+  GetDataForAccesoriesAttribute(id:any,lineNo :any): Observable<any>
+  {
+    let jObject = {
+      GetData: JSON.stringify([{
+        CompanyDBID: sessionStorage.selectedComp,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
+        OPTM_FEATUREID: id,
+        OPTM_FEATUREDROWID: lineNo,
+
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetSelectedAccesoryAttributes", jObject, this.common_params.httpOptions); 
+  }
 }

@@ -282,7 +282,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public needAssesmentOptions: any;
   public isOperationNotView = true;
   public custmerCodeDealer: any = "";
-  public groupData : any = [];
+  public groupData: any = [];
 
 
 
@@ -2447,7 +2447,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this._el.nativeElement.focus();
     this.ModelHeaderData = [];
     this.ModelHeaderItemsArray = [];
-    this.groupData=[];
+    this.groupData = [];
     this.RuleOutputData = [];
     this.ModelBOMDataForSecondLevel = [];
     this.FeatureBOMDataForSecondLevel = [];
@@ -2579,7 +2579,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.RuleOutputData = data.RuleOutputData;
           this.ModelBOMRules = data.ModelBOMRules;
           this.MainModelDetails = data.MainModelDetails;
-          
+
 
           this.ModelHeaderData = data.ModelHeaderData.filter(function (obj) {
             obj['random_unique_key'] = this_obj.commonData.random_string(50)
@@ -7567,9 +7567,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           OPTM_CHILDFEATUREID: parseInt(Accarray[iaccss].OPTM_CHILDFEATUREID),
           OPTM_DEFAULT: Accarray[iaccss].OPTM_DEFAULT,
           name: Accarray[iaccss].OPTM_DISPLAYNAME,
-          OPTM_DSP_GROUP:Accarray[iaccss].OPTM_DSP_GROUP,
-          OPTM_DSPGROUP_ORDER:Accarray[iaccss].OPTM_DSPGROUP_ORDER,
-          OPTM_DSP_ORDERINGROUP:Accarray[iaccss].OPTM_DSP_ORDERINGROUP,
+          OPTM_DSP_GROUP: Accarray[iaccss].OPTM_DSP_GROUP,
+          OPTM_DSPGROUP_ORDER: Accarray[iaccss].OPTM_DSPGROUP_ORDER,
+          OPTM_DSP_ORDERINGROUP: Accarray[iaccss].OPTM_DSP_ORDERINGROUP,
           OPTM_FEATUREID: Accarray[iaccss].OPTM_FEATUREID,
           OPTM_ITEMKEY: Accarray[iaccss].OPTM_ITEMKEY,
           DocEntry: Accarray[iaccss].DocEntry,
@@ -7586,7 +7586,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
         });
       }
 
-      console.log (this.feature_accessory_list);
+      console.log(this.feature_accessory_list);
 
     }
   }
@@ -7649,6 +7649,24 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     }
   }
 
+  getAccessoryAttributes(id: any, lineNo: any) {
+    this.OutputService.GetDataForAccesoriesAttribute(id, lineNo).subscribe(
+      data => {
+        if (data != null && data != undefined) {
+          if (data.length > 0) {
+
+          }
+        }
+      },
+      error => {
+
+
+        return;
+      });
+
+
+  }
+
   onAccessorySelectionChange(value, rowData, accessory_header_data) {
     // This function sets Accessory selections in right grid.
     this.showLookupLoader = true;
@@ -7683,6 +7701,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     });
 
     this.selectedAccessoryBOM[accessoryIndex].checked = value;
+    this.getAccessoryAttributes(rowData.OPTM_FEATUREID,rowData.OPTM_LINENO);
 
     if (rowData.OPTM_ITEMKEY == "") {
       this.showLookupLoader = false;
