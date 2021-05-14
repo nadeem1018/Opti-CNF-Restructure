@@ -1610,6 +1610,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
         if (parentarrayObj[0].OPTM_TYPE == 1) {
           selectAttributesList = this.FeatureBOMDetailAttribute.filter(function (obj) {
+            console.log(obj);
             return obj['OPTM_FEATUREID'] == parentarrayObj[0].OPTM_FEATUREID && (obj['OPTM_FEATUREDTLROWID'] == selectedItemObj.OPTM_LINENO || obj['OPTM_FEATUREDTLROWID'] == '0')
           });
           this.SelectedFeatureAttributes.push.apply(this.SelectedFeatureAttributes, selectAttributesList);
@@ -1633,6 +1634,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       }
       this.SelectedItems.push(selectedItemObj);
     }
+
+    // this.feature_value_list_table = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+    //   return obj['OPTM_TYPE'] == "3" && obj['OPTM_VALUE'] != null && obj['OPTM_DEFAULT'] == 'Y'
+    // })
 
     for (var selectedValueObject in this.feature_value_list_table) {
       selectAttributesList = [];
@@ -7514,6 +7519,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       });
     }
 
+    accessoryBOM.forEach(element => {
+      if(element.OPTM_DEFAULT == "Y" || element.OPTM_DEFAULT == "y")
+      {
+        element.checked = true;
+      }
+     });
+
     // filter Accessory  feature based on Attribute [Sanyam]
 
     if (this.isAttribute) {
@@ -7649,12 +7661,38 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     }
   }
 
+  openAccesoryAttributeList(datatitem, type) {
+    this.showLookupLoader = true;
+    this.serviceData = []
+    this.setModelDataFlag = false;
+    let GetModelFeatureBOMAttribute: any = {};
+    GetModelFeatureBOMAttribute.FeatureBOMDetailAttribute = [];
+    GetModelFeatureBOMAttribute.ModelBOMDetailAttribute = [];
+    GetModelFeatureBOMAttribute.FeatureBOMDetailAttribute = this.FeatureBOMDetailAttribute;
+    GetModelFeatureBOMAttribute.ModelBOMDetailAttribute = this.ModelBOMDetailAttribute;
+
+    this.lookupfor = 'Attribute_lookup';
+    this.showLookupLoader = false;
+    var SelectedAttributes = this.FeatureBOMDetailAttribute.filter(function (obj) {
+      return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID;
+    });
+    SelectedAttributes.forEach(element => {
+      this.serviceData.push(element);
+    });
+
+  }
+
   getAccessoryAttributes(id: any, lineNo: any) {
     this.OutputService.GetDataForAccesoriesAttribute(id, lineNo).subscribe(
       data => {
         if (data != null && data != undefined) {
           if (data.length > 0) {
-
+            let featueAttribute = this.FeatureBOMDetailAttribute;
+            data.forEach(element => {
+              featueAttribute.push(element);
+            });
+            this.FeatureBOMDetailAttribute = featueAttribute;
+            this.getCustomeAttributeValue();
           }
         }
       },
@@ -7701,11 +7739,39 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     });
 
     this.selectedAccessoryBOM[accessoryIndex].checked = value;
-    this.getAccessoryAttributes(rowData.OPTM_FEATUREID,rowData.OPTM_LINENO);
+
+    if (value == false) {
+      let dataList = this.FeatureBOMDetailAttribute;
+      let featuretablelist = this.feature_value_list_table;
+      let id = rowData.OPTM_FEATUREID;
+      for (let i = 0; i < dataList.length; i++) {
+        if (dataList[i].OPTM_FEATUREID == id) {
+          dataList.splice(i, 1);
+          i = i - 1;
+        }
+      }
+
+      for (let i = 0; i < featuretablelist.length; i++) {
+        if (featuretablelist[i].OPTM_FEATUREID == id && featuretablelist[i].OPTM_LINENO == rowData.OPTM_LINENO) {
+          featuretablelist.splice(i, 1);
+          i = i - 1;
+        }
+      }
+      this.FeatureBOMDetailAttribute = dataList;
+      this.feature_value_list_table = featuretablelist;
+      this.selectedAccessoryBOM[accessoryIndex].OPTM_DEFAULT = "N";
+    }
+    else {
+      this.selectedAccessoryBOM[accessoryIndex].OPTM_DEFAULT = "Y";
+      let list = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+        return obj['OPTM_FEATUREID'] == rowData.OPTM_FEATUREID && obj['OPTM_LINENO'] == rowData.OPTM_LINENO
+      });
+      this.feature_value_list_table.push(list[0]);
+    }
+    this.getAccessoryAttributes(rowData.OPTM_FEATUREID, rowData.OPTM_LINENO);
 
     if (rowData.OPTM_ITEMKEY == "") {
       this.showLookupLoader = false;
-      this.getCustomeAttributeValue();
       return false;
     }
 
@@ -7737,9 +7803,6 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
               //  this.addAttributeForSelection(rowData);
 
               this.setItemDataForFeatureAccessory(data.AccessoryFeatureData, accessoryHeader, rowData, "", this.step2_data);
-              this.getCustomeAttributeValue();
-
-
             }
             this.showLookupLoader = false;
           }
