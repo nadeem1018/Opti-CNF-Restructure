@@ -2828,7 +2828,11 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.setCustomAttributeValue();
           this.addDefaultAttributeItemRightGrid(data.ModelOptionItems);
           this.filterList = [];
-          this.filterList = data.SelectUsingAttribute;
+          if(data.SelectedFeatureAttributes.length > 0)
+          {
+            this.filterList = data.SelectUsingAttribute;
+          }
+          
         }
         else {
           this.showLookupLoader = false;
