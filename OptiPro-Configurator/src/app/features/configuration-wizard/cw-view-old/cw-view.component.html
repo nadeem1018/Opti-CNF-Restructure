@@ -916,7 +916,7 @@
                                                 </div>
                                                 <div *ngFor="let group of groupData">
                                                     <div *ngIf="group.OPTM_ACCESSORY == 'N'">
-                                                        <div class="h5 mb-2 text-muted groupdata">{{group.OPTM_DSP_GROUP}}</div>
+                                                        <div class="h5 mb-2 text-muted groupdata" *ngIf="group.OPTM_DSP_GROUP != 'NOGROUPAVAILABLE'">{{group.OPTM_DSP_GROUP}}</div>
                                                         <div *ngFor="let header_data of ModelHeaderData; let i = index;">
                                                             <div *ngIf="header_data.OPTM_DSP_GROUP == group.OPTM_DSP_GROUP">
                                                                 <kendo-panelbar *ngIf="ModelHeaderData.length > 0"
@@ -1197,7 +1197,7 @@
                                                     </div>
                                                     <div *ngFor="let group of groupData">
                                                         <div *ngIf="group.OPTM_ACCESSORY == 'Y'">
-                                                            <div class="h5 mb-2 text-muted groupdata">{{group.OPTM_DSP_GROUP}}</div>
+                                                            <div class="h5 mb-2 text-muted groupdata" *ngIf="group.OPTM_DSP_GROUP != 'NOGROUPAVAILABLE'">{{group.OPTM_DSP_GROUP}}</div>
                                                             <div *ngFor="let accessory_header_data of feature_accessory_list; let i = index;">
                                                                 <div *ngIf="accessory_header_data.OPTM_DSP_GROUP == group.OPTM_DSP_GROUP">
                                                                     <kendo-panelbar *ngIf="feature_accessory_list.length > 0"
