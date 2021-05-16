@@ -2828,11 +2828,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.setCustomAttributeValue();
           this.addDefaultAttributeItemRightGrid(data.ModelOptionItems);
           this.filterList = [];
-          if(data.SelectedFeatureAttributes.length > 0)
-          {
+          if (data.SelectedFeatureAttributes.length > 0) {
             this.filterList = data.SelectUsingAttribute;
           }
-          
+
         }
         else {
           this.showLookupLoader = false;
@@ -3407,6 +3406,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
                       OPTM_TYPE: feature_model_data.OPTM_TYPE,
                       OPTM_UNIQUEIDNT: parentarray[0].OPTM_UNIQUEIDNT,
                       OPTM_UOM: parentarray[0].OPTM_UOM,
+                      OPTM_DSPGROUP_ORDER: feature_model_data.OPTM_DSPGROUP_ORDER,
+                      OPTM_DSP_GROUP: feature_model_data.OPTM_DSP_GROUP,
+                      OPTM_DSP_ORDERINGROUP: feature_model_data.OPTM_DSP_ORDERINGROUP,
                       child_code: parentarray[0].child_code,
                       element_class: pselementclass,
                       element_type: pselementtype,
@@ -3508,6 +3510,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
                           OPTM_MODIFIEDDATETIME: String(DataForSelectedFeatureModelItem[i].OPTM_MODIFIEDDATETIME).toString(),
                           OPTM_PRICESOURCE: DataForSelectedFeatureModelItem[i].ListName,
                           OPTM_PROPOGATEQTY: DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY,
+                          OPTM_DSPGROUP_ORDER: DataForSelectedFeatureModelItem[i].OPTM_DSPGROUP_ORDER,
+                          OPTM_DSP_GROUP: DataForSelectedFeatureModelItem[i].OPTM_DSP_GROUP,
+                          OPTM_DSP_ORDERINGROUP: DataForSelectedFeatureModelItem[i].OPTM_DSP_ORDERINGROUP,
                           OPTM_QUANTITY: parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(3),
                           OPTM_REMARKS: DataForSelectedFeatureModelItem[i].OPTM_REMARKS,
                           OPTM_TYPE: DataForSelectedFeatureModelItem[i].OPTM_TYPE,
@@ -3680,6 +3685,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
                                 OPTM_MODIFIEDDATETIME: String(DataForSelectedFeatureModelItem[i].OPTM_MODIFIEDDATETIME).toString(),
                                 OPTM_PRICESOURCE: DataForSelectedFeatureModelItem[i].ListName,
                                 OPTM_PROPOGATEQTY: DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY,
+                                OPTM_DSPGROUP_ORDER: DataForSelectedFeatureModelItem[i].OPTM_DSPGROUP_ORDER,
+                                OPTM_DSP_GROUP: DataForSelectedFeatureModelItem[i].OPTM_DSP_GROUP,
+                                OPTM_DSP_ORDERINGROUP: DataForSelectedFeatureModelItem[i].OPTM_DSP_ORDERINGROUP,
                                 OPTM_QUANTITY: parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(3),
                                 OPTM_TYPE: DataForSelectedFeatureModelItem[i].OPTM_TYPE,
                                 OPTM_UNIQUEIDNT: uniqueIdentifier,
@@ -3775,6 +3783,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
                     OPTM_ISMULTISELECT: feature_model_data.OPTM_ISMULTISELECT,
                     OPTM_MAXSELECTABLE: feature_model_data.OPTM_MAXSELECTABLE,
                     OPTM_MINSELECTABLE: feature_model_data.OPTM_MINSELECTABLE,
+                    OPTM_DSPGROUP_ORDER: feature_model_data.OPTM_DSPGROUP_ORDER,
+                    OPTM_DSP_GROUP: feature_model_data.OPTM_DSP_GROUP,
+                    OPTM_DSP_ORDERINGROUP: feature_model_data.OPTM_DSP_ORDERINGROUP,
                     OPTM_MODELID: feature_model_data.OPTM_MODELID,
                     OPTM_MODIFIEDBY: feature_model_data.OPTM_MODIFIEDBY,
                     OPTM_MODIFIEDDATETIME: String(feature_model_data.OPTM_MODIFIEDDATETIME).toString(),
@@ -3877,6 +3888,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
                           OPTM_TYPE: DataForSelectedFeatureModelItem[i].OPTM_TYPE,
                           OPTM_VALUE: DataForSelectedFeatureModelItem[i].OPTM_VALUE,
                           OPTM_ISMULTISELECT: DataForSelectedFeatureModelItem[i].OPTM_ISMULTISELECT,
+                          OPTM_DSPGROUP_ORDER: DataForSelectedFeatureModelItem[i].OPTM_DSPGROUP_ORDER,
+                          OPTM_DSP_GROUP: DataForSelectedFeatureModelItem[i].OPTM_DSP_GROUP,
+                          OPTM_DSP_ORDERINGROUP: DataForSelectedFeatureModelItem[i].OPTM_DSP_ORDERINGROUP,
                           OPTM_MAXSELECTABLE: psModelMax,
                           OPTM_MINSELECTABLE: psModelMin,
                           feature_code: DataForSelectedFeatureModelItem[i].feature_code,
@@ -7524,11 +7538,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     }
 
     accessoryBOM.forEach(element => {
-      if(element.OPTM_DEFAULT == "Y" || element.OPTM_DEFAULT == "y")
-      {
+      if (element.OPTM_DEFAULT == "Y" || element.OPTM_DEFAULT == "y") {
         element.checked = true;
       }
-     });
+    });
 
     // filter Accessory  feature based on Attribute [Sanyam]
 
