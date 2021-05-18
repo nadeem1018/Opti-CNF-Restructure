@@ -283,6 +283,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public isOperationNotView = true;
   public custmerCodeDealer: any = "";
   public groupData: any = [];
+  public featureDescriptionList: any = [];
+  public featureAbbreviationList: any = [];
+  public model_description = '';
+
 
 
 
@@ -1808,6 +1812,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       this.step2_data.model_name = $event[2];
       this.step2_data.templateid = $event[4];
       this.step2_data.itemcodegenkey = $event[3];
+      this.model_description = $event[5];
       this.isModelVisible = true
       this.navigatenextbtn = false;
       this.validnextbtn = true;
@@ -2459,6 +2464,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.feature_total_before_discount = 0;
     this.step3_feature_price_bef_dis = 0;
     this.step3_acc_price_bef_dis = 0;
+    this.featureDescriptionList = [];
+    this.featureAbbreviationList = [];
     this.previousquantity = parseFloat("1");
     this.ruleIndex = 0;
     this.isSecondIteration = false;
@@ -2614,6 +2621,34 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
               return obj['element_type'] = 'radio';
             }
           });
+
+
+
+          let defaultFeatureSelectList = data.FeatureBOMDataForSecondLevel.filter(function (obj) {
+            return obj['OPTM_DEFAULT'] == "Y";
+          });
+
+          let descriptionList = data.AbbreviationDataList;
+          this.featureAbbreviationList = data.AbbreviationDataList;
+
+          defaultFeatureSelectList.forEach(element => {
+            descriptionList.forEach(elementList => {
+              if (element.OPTM_FEATUREID == elementList.OPTM_FEATUREID) {
+                if (element.OPTM_LINENO == elementList.ITEMLINENO) {
+                  this.featureDescriptionList.push({ "description": elementList.DESCRIPTION, "DESCORDER": elementList.DESCORDER })
+                }
+              }
+            });
+
+          });
+
+          this.featureDescriptionList.sort(function (a, b) {
+            return a.DESCORDER - b.DESCORDER;
+          });
+
+
+
+
           this.feature_value_list_table = data.FeatureBOMDataForSecondLevel.filter(function (obj) {
             return obj['OPTM_TYPE'] == "3" && obj['OPTM_VALUE'] != null && obj['OPTM_DEFAULT'] == "Y"
           })
@@ -3144,7 +3179,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     if (GetDataForSelectedFeatureModelItemData.selecteddata[0].checked == false) {
       this.FeatureBOMDataForSecondLevel.filter(function (obj) {
         if (obj.unique_key == GetDataForSelectedFeatureModelItemData.selecteddata[0].unique_key) {
-          obj['checked'] = false
+          obj['checked'] = false,
+          obj['OPTM_DEFAULT'] = "N"
         }
       })
     }
@@ -3152,7 +3188,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
     GetDataForSelectedFeatureModelItemData.featurebomdata = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
       obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY'])
+      obj['OPTM_DEFAULT'] = "Y"
       return obj['checked'] == true
+      
     })
 
     GetDataForSelectedFeatureModelItemData.modelbomdata = this.ModelBOMDataForSecondLevel.filter(function (obj) {
@@ -4251,6 +4289,28 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
     this.feature_price_calculate();
     this.ModelHeaderData.sort((a, b) => a.sort_key.localeCompare(b.sort_key));
+
+    let defaultFeatureSelectList = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+      return obj['checked'] == true;
+    });
+
+    let descriptionList = this.featureAbbreviationList;
+    this.featureDescriptionList = [];
+
+    defaultFeatureSelectList.forEach(element => {
+      descriptionList.forEach(elementList => {
+        if (element.OPTM_FEATUREID == elementList.OPTM_FEATUREID) {
+          if (element.OPTM_LINENO == elementList.ITEMLINENO) {
+            this.featureDescriptionList.push({ "description": elementList.DESCRIPTION, "DESCORDER": elementList.DESCORDER })
+          }
+        }
+      });
+
+    });
+
+    this.featureDescriptionList.sort(function (a, b) {
+      return a.DESCORDER - b.DESCORDER;
+    });
   } //end selection
 
   addAttributeForSelection(selecteditem) {

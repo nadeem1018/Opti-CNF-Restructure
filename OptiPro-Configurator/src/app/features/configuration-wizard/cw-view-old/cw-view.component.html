@@ -1272,10 +1272,11 @@
                                                 <div class="modal_heading_block" *ngIf="isModelVisible">
                                                     <div class="form-group col-md-12 clearfix pl-0 pr-0">
                                                         <span class="col-sm-6 bg-light border border-primary">{{language.model}}</span>
-                                                        <span class="col-sm-6 bg-light border border-primary">{{step2_data.model_code}}</span>
+                                                        <span class="col-sm-6 bg-light border border-primary">{{model_description}}</span>
+                                                        <span *ngFor="let featurerow of featureDescriptionList" class="col-sm-6 bg-light border border-primary">{{featurerow.description}}</span>
                                                         <hr>
                                                     </div>
-                                                </div>
+                                                   </div>
                                                 <div class="feature_block">
                                                     <div class="feature_table">
                                                         <kendo-grid [kendoGridBinding]="feature_itm_list_table"

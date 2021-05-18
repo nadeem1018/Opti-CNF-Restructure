@@ -1807,13 +1807,13 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
           //   this.CommonService.show_notification(this.language.Group_field + currentrow, 'error');
           //   return false;
           // }
-          if (this.modelbom_data.OPTM_MODELLEVEL_DESC) {
-            if (this.modelbom_data[i].OPTM_ABBREVIATION == "") {
+          // if (this.modelbom_data.OPTM_MODELLEVEL_DESC) {
+          //   if (this.modelbom_data[i].OPTM_ABBREVIATION == "") {
 
-              this.CommonService.show_notification(this.language.Abbreviation_field + currentrow, 'error');
-              return false;
-            }
-          }
+          //     this.CommonService.show_notification(this.language.Abbreviation_field + currentrow, 'error');
+          //     return false;
+          //   }
+          // }
         }
       }
 
