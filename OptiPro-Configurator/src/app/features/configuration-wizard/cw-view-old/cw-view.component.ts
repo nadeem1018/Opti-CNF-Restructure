@@ -3180,7 +3180,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       this.FeatureBOMDataForSecondLevel.filter(function (obj) {
         if (obj.unique_key == GetDataForSelectedFeatureModelItemData.selecteddata[0].unique_key) {
           obj['checked'] = false,
-          obj['OPTM_DEFAULT'] = "N"
+            obj['OPTM_DEFAULT'] = "N"
         }
       })
     }
@@ -3190,7 +3190,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY'])
       obj['OPTM_DEFAULT'] = "Y"
       return obj['checked'] == true
-      
+
     })
 
     GetDataForSelectedFeatureModelItemData.modelbomdata = this.ModelBOMDataForSecondLevel.filter(function (obj) {
@@ -9562,16 +9562,19 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           }
         }
 
-        if (data === "False") {
+        if (data.length == 0) {
           this.showLookupLoader = false;
           this.CommonService.show_notification(this.language.InvalidModelId, 'error');
           this.step2_data.modal_id = "";
           this.step2_data.model_code = "";
+          this.model_description = "";
           this.onclearselection(1);
           return;
         }
         else {
-          this.step2_data.model_id = data;
+          this.step2_data.model_id = data[0].OPTM_FEATUREID;
+          this.model_description = data[0].OPTM_FEATUREDESC;
+          this.isModelVisible = true;
           this.getSavedModelData = [];
           this.GetAllDataForModelBomOutput(this.getSavedModelData);
         }
