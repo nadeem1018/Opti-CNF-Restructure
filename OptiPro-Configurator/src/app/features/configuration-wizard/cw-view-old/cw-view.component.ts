@@ -3135,6 +3135,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       currentDate: this.submit_date,
       unique_key: feature_model_data.unique_key,
       nodeid: feature_model_data.nodeid,
+      OPTM_DSPGROUP_ORDER: feature_model_data.OPTM_DSPGROUP_ORDER,
+      OPTM_DSP_GROUP: feature_model_data.OPTM_DSP_GROUP,
+      OPTM_DSP_ORDERINGROUP: feature_model_data.OPTM_DSP_ORDERINGROUP,
       sort_key: feature_model_data.sort_key
     });
 
