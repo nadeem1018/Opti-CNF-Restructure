@@ -245,6 +245,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public SkipAssementModel = false;
   public itemFeatureID: any = 0;
   public filterList: any = [];
+  public descriptionString: any = "";
 
 
   constructor(private ActivatedRouter: ActivatedRoute,
@@ -1188,6 +1189,36 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
         }
       }
 
+      let defaultFeatureSelectList = data.FeatureBOMDataForSecondLevel.filter(function (obj) {
+        return obj['OPTM_DEFAULT'] == "Y";
+      });
+
+      let descriptionList = data.AbbreviationDataList;
+      this.featureAbbreviationList = data.AbbreviationDataList;
+
+      defaultFeatureSelectList.forEach(element => {
+        descriptionList.forEach(elementList => {
+          if (element.OPTM_FEATUREID == elementList.OPTM_FEATUREID) {
+            if (element.OPTM_LINENO == elementList.ITEMLINENO) {
+              this.featureDescriptionList.push({ "description": elementList.DESCRIPTION, "DESCORDER": elementList.DESCORDER })
+            }
+          }
+        });
+
+      });
+      this.featureDescriptionList.sort(function (a, b) {
+        return a.DESCORDER - b.DESCORDER;
+      });
+
+      let string: any = this.model_description;
+      if (this.featureDescriptionList.length > 0) {
+        this.featureDescriptionList.forEach(element => {
+          string = string + " " + element.description;
+        });
+      }
+
+      this.descriptionString = string;
+
       for (var i in data.ModelBOMDataForSecondLevel) {
         if (data.ModelBOMDataForSecondLevel[i].IMAGEPATH != "" && data.ModelBOMDataForSecondLevel[i].IMAGEPATH != null && data.ModelBOMDataForSecondLevel[i].IMAGEPATH != undefined) {
           //data.ModelBOMDataForSecondLevel[i].IMAGEPATH = this.commonData.get_current_url() + data.ModelBOMDataForSecondLevel[i].IMAGEPATH;
@@ -1531,7 +1562,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     //         });
 
     //       } else {
-    //         this.serviceData = this.ModelBOMDetailAttribute.filter(function (obj) {
+    //         fonfithis.serviceData = this.ModelBOMDetailAttribute.filter(function (obj) {
     //           return obj['OPTM_MODELID'] == datatitem.model_id;
     //         });
     //       }
@@ -2461,6 +2492,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.RuleOutputData = [];
     this.ModelBOMDataForSecondLevel = [];
     this.FeatureBOMDataForSecondLevel = [];
+    this.descriptionString = "";
+    this.model_description = "";
     this.feature_total_before_discount = 0;
     this.step3_feature_price_bef_dis = 0;
     this.step3_acc_price_bef_dis = 0;
@@ -2641,10 +2674,18 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
             });
 
           });
-
           this.featureDescriptionList.sort(function (a, b) {
             return a.DESCORDER - b.DESCORDER;
           });
+
+          let string: any = this.model_description;
+          if (this.featureDescriptionList.length > 0) {
+            this.featureDescriptionList.forEach(element => {
+              string = string + " " + element.description;
+            });
+          }
+
+          this.descriptionString = string;
 
 
 
@@ -4257,7 +4298,14 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
         this.ModelHeaderData.sort((a, b) => a.sort_key.localeCompare(b.sort_key));
         this.showLookupLoader = false;
         if (this.isAttribute) {
-          this.getCustomeAttributeValue();
+          if (this.FeatureBOMDetailAttribute.length > 0) {
+            this.getCustomeAttributeValue();
+          }
+          else {
+            if (feature_model_data.OPTM_TYPE != 2) {
+              this.getCustomeAttributeValue();
+            }
+          }
         }
         var selecteditem = this.ModelBOMDataForSecondLevel.filter(function (obj) {
           return obj['checked'] == true && obj['OPTM_TYPE'] == 2 && obj['OPTM_DEFAULT'] == "Y"
@@ -4305,12 +4353,20 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           }
         }
       });
-
-    });
+});
 
     this.featureDescriptionList.sort(function (a, b) {
       return a.DESCORDER - b.DESCORDER;
     });
+
+    let string: any = this.model_description;
+    if (this.featureDescriptionList.length > 0) {
+      this.featureDescriptionList.forEach(element => {
+        string = string + " " + element.description;
+      });
+    }
+    this.descriptionString = string;
+    console.log(this.descriptionString);
   } //end selection
 
   addAttributeForSelection(selecteditem) {
@@ -5593,7 +5649,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           "OPTM_QUANTITY": parseFloat(this.step3_data_final[iHdrCount].quantity).toFixed(3),
           "OPTM_CREATEDBY": this.common_output_data.username,
           "OPTM_MODIFIEDBY": this.common_output_data.username,
-          "OPTM_DESC": this.step3_data_final[iHdrCount].desc,
+          "OPTM_DESC": this.descriptionString,
           "OPTM_SALESEMP": this.step1_data.sales_employee,
           "OPTM_OWNER": this.step1_data.owner,
           "OPTM_REMARKS": this.step1_data.remark,
@@ -5757,7 +5813,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
           final_dataset_to_save.routing_user_selection.push({
             Actualprice: step3_temp_row.feature[us_indexx].Actualprice,
-            Description: step3_temp_row.feature[us_indexx].Description,
+            Description:this.descriptionString,
             FeatureId: step3_temp_row.feature[us_indexx].FeatureId,
             HEADER_LINENO: step3_temp_row.feature[us_indexx].HEADER_LINENO == "" || step3_temp_row.feature[us_indexx].HEADER_LINENO == null ? 0 : step3_temp_row.feature[us_indexx].HEADER_LINENO,
             Item: step3_temp_row.feature[us_indexx].Item,
@@ -7807,6 +7863,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       SuperModelId: this.step2_data.model_id,
       currentDate: this.submit_date,
       superfeatureid: superfeatureid,
+      OPTM_DSPGROUP_ORDER: accessory_header_data.OPTM_DSPGROUP_ORDER,
+      OPTM_DSP_GROUP: accessory_header_data.OPTM_DSP_GROUP,
+      OPTM_DSP_ORDERINGROUP: accessory_header_data.OPTM_DSP_ORDERINGROUP,
       unique_key: rowData.unique_key,
       nodeid: rowData.nodeid,
       sort_key: ""

@@ -1270,9 +1270,9 @@
                                         <kendo-splitter-pane [collapsible]="false" class="slim-scroll" *ngIf="isdesktopView">
                                             <div class="px-2 third-step-left-right slim-scroll">
                                                 <div class="modal_heading_block" *ngIf="isModelVisible">
-                                                    <div class="form-group col-md-12 clearfix pl-0 pr-0">
-                                                        <span class="col-sm-6 bg-light border border-primary">{{language.model}}</span>
-                                                        <span class="col-sm-6 bg-light border border-primary">{{model_description}}</span>
+                                                         <div class="form-group col-md-12 clearfix pl-0 pr-0">
+                                                            <span class="col-sm-6 bg-light">{{language.model_description}} :</span>
+                                                         <span class="col-sm-6 bg-light border border-primary">{{model_description}}</span>
                                                         <span *ngFor="let featurerow of featureDescriptionList" class="col-sm-6 bg-light border border-primary">{{featurerow.description}}</span>
                                                         <hr>
                                                     </div>
