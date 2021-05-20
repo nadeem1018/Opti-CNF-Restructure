@@ -287,6 +287,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public featureDescriptionList: any = [];
   public featureAbbreviationList: any = [];
   public model_description = '';
+  public searchString: any = "";
 
 
 
@@ -3220,8 +3221,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     if (GetDataForSelectedFeatureModelItemData.selecteddata[0].checked == false) {
       this.FeatureBOMDataForSecondLevel.filter(function (obj) {
         if (obj.unique_key == GetDataForSelectedFeatureModelItemData.selecteddata[0].unique_key) {
-          obj['checked'] = false,
-            obj['OPTM_DEFAULT'] = "N"
+          obj['checked'] = false
+
         }
       })
     }
@@ -3229,7 +3230,6 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
     GetDataForSelectedFeatureModelItemData.featurebomdata = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
       obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY'])
-      obj['OPTM_DEFAULT'] = "Y"
       return obj['checked'] == true
 
     })
@@ -4353,7 +4353,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           }
         }
       });
-});
+    });
 
     this.featureDescriptionList.sort(function (a, b) {
       return a.DESCORDER - b.DESCORDER;
@@ -5813,7 +5813,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
 
           final_dataset_to_save.routing_user_selection.push({
             Actualprice: step3_temp_row.feature[us_indexx].Actualprice,
-            Description:this.descriptionString,
+            Description: this.descriptionString,
             FeatureId: step3_temp_row.feature[us_indexx].FeatureId,
             HEADER_LINENO: step3_temp_row.feature[us_indexx].HEADER_LINENO == "" || step3_temp_row.feature[us_indexx].HEADER_LINENO == null ? 0 : step3_temp_row.feature[us_indexx].HEADER_LINENO,
             Item: step3_temp_row.feature[us_indexx].Item,
@@ -6292,6 +6292,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       this.Accessoryarray = this.step2_selected_model.Accessoryarray;
       this.selectedAccessoryHeader = this.step2_selected_model.Accessoryarray
       this.selectedAccessoryBOM = this.step2_selected_model.selectedAccessoryBOM;
+      this.groupData = this.step2_selected_model.GroupDataList;
+      this.descriptionString = this.step2_selected_model.descriptionString;
+      this.featureDescriptionList = this.step2_selected_model.featureDescriptionList;
+      this.model_description = this.step2_selected_model.model_description;
       this.feature_price_calculate();
       this.showLookupLoader = false;
 
@@ -6502,6 +6506,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
         "itemcodegenkey": this.step2_data.itemcodegenkey,
         "ModelHeaderItemsArray": this.ModelHeaderItemsArray,
         "Accessoryarray": this.selectedAccessoryHeader,
+        "GroupDataList": this.groupData,
+        "AbbreviationDataList":this.featureAbbreviationList,
+        "model_description": this.model_description,
+        "featureDescriptionList": this.featureDescriptionList,
+        "descriptionString": this.descriptionString
+
       });
     } else {
       this.step3_data_final[row_id]["item"] = this.step2_data.model_code;
@@ -6742,7 +6752,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
             "NODEID": '',
             "temp_model_id": parseInt(step3_data_row.model_id),
             "OPTM_FILL_POINT": "1",
-            "MODEL_UNIQUE_KEY": ""
+            "MODEL_UNIQUE_KEY": "",
+            "OPTM_DSP_GROUP": "",
+            "OPTM_DSPGROUP_ORDER": 0,
+            "OPTM_DSP_ORDERINGROUP": 0
           })
         } // if step3 data ot undefined if - end 
         step3_data_row.ModelHeaderData.filter(function (obj) {
@@ -6912,6 +6925,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
                       "OPTM_MODIFIEDBY": this.common_output_data.username,
                       "UNIQUEIDNT": imodelfilteritems[i].OPTM_UNIQUEIDNT,
                       "PARENTID": imodelfilteritems[i].OPTM_MODELID,
+                      "OPTM_DSP_GROUP": "",
+                      "OPTM_DSPGROUP_ORDER": 0,
+                      "OPTM_DSP_ORDERINGROUP": 0,
                       "OPTM_FGCREATEDATE": "",
                       "OPTM_REFITEMCODE": "",
                       "OPTM_PARENTID": imodelfilteritems[i].OPTM_MODELID,
@@ -6958,6 +6974,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
                 "PARENTID": imodelData[0].OPTM_MODELID,
                 "OPTM_FGCREATEDATE": "",
                 "OPTM_REFITEMCODE": "",
+                "OPTM_DSP_GROUP": "",
+                "OPTM_DSPGROUP_ORDER": 0,
+                "OPTM_DSP_ORDERINGROUP": 0,
                 "OPTM_PARENTID": imodelData[0].OPTM_MODELID,
                 "OPTM_PARENTTYPE": 2,
                 "UNIQUE_KEY": imodelData[0].unique_key,
@@ -7097,6 +7116,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
                     "PARENTID": step3_data_row.feature[ifeature].FeatureId,
                     "OPTM_FGCREATEDATE": "",
                     "OPTM_REFITEMCODE": "",
+                    "OPTM_DSP_GROUP": "",
+                    "OPTM_DSPGROUP_ORDER": 0,
+                    "OPTM_DSP_ORDERINGROUP": 0,
                     "OPTM_PARENTID": step3_data_row.feature[ifeature].FeatureId,
                     "OPTM_PARENTTYPE": 1,
                     "UNIQUE_KEY": step3_data_row.feature[ifeature].unique_key,
@@ -7145,6 +7167,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
                   "OPTM_CREATEDBY": this.common_output_data.username,
                   "OPTM_MODIFIEDBY": this.common_output_data.username,
                   "UNIQUEIDNT": ifeatureHeaderData[0].OPTM_UNIQUEIDNT,
+                  "OPTM_DSP_GROUP": ifeatureHeaderData[0].OPTM_DSP_GROUP,
+                  "OPTM_DSPGROUP_ORDER": ifeatureHeaderData[0].OPTM_DSPGROUP_ORDER,
+                  "OPTM_DSP_ORDERINGROUP": ifeatureHeaderData[0].OPTM_DSP_ORDERINGROUP,
                   "PARENTID": step3_data_row.feature[ifeature].FeatureId,
                   "OPTM_FGCREATEDATE": "",
                   "OPTM_REFITEMCODE": "",
@@ -7278,6 +7303,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
               "OPTM_ITEMTYPE": 4,
               "OPTM_WHSE": this.warehouse,
               "OPTM_LEVEL": iValueData[itempsavefinal].OPTM_LEVEL,
+              "OPTM_DSP_GROUP": iValueData[itempsavefinal].OPTM_DSP_GROUP,
+              "OPTM_DSPGROUP_ORDER": iValueData[itempsavefinal].OPTM_DSPGROUP_ORDER,
+              "OPTM_DSP_ORDERINGROUP": iValueData[itempsavefinal].OPTM_DSP_ORDERINGROUP,
               "OPTM_QUANTITY": parseFloat(iValueData[itempsavefinal].OPTM_QUANTITY).toFixed(3),
               "OPTM_ORIGINAL_QUANTITY": parseFloat(iValueData[itempsavefinal].OPTM_QUANTITY).toFixed(3),
               "OPTM_PRICELIST": Number(0),
@@ -7318,6 +7346,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
             "OPTM_ITEMTYPE": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMTYPE,
             "OPTM_WHSE": this.warehouse,
             "OPTM_LEVEL": temp_step2_final_dataset_save[itempsavefinal].OPTM_LEVEL,
+            OPTM_DSP_GROUP:  temp_step2_final_dataset_save[itempsavefinal].OPTM_DSP_GROUP,
+            OPTM_DSPGROUP_ORDER:  temp_step2_final_dataset_save[itempsavefinal].OPTM_DSPGROUP_ORDER,
+            OPTM_DSP_ORDERINGROUP:  temp_step2_final_dataset_save[itempsavefinal].OPTM_DSP_ORDERINGROUP,
             "OPTM_QUANTITY": parseFloat(temp_step2_final_dataset_save[itempsavefinal].OPTM_QUANTITY).toFixed(3),
             "OPTM_ORIGINAL_QUANTITY": parseFloat(temp_step2_final_dataset_save[itempsavefinal].OPTM_ORIGINAL_QUANTITY).toFixed(3),
             "OPTM_PRICELIST": temp_step2_final_dataset_save[itempsavefinal].OPTM_PRICELIST,

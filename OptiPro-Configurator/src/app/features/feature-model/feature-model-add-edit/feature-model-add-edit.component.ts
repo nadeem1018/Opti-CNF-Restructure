@@ -80,6 +80,7 @@ export class FeatureModelAddEditComponent implements OnInit,DoCheck {
   public config_params: any;
   public ItemAttributeList: any = [];
   public isAttribute = this.commanService.attributeMenu; 
+  public modelType =false;
 
   canDeactivate() {
     if(CommonData.made_changes == true){
@@ -305,6 +306,7 @@ export class FeatureModelAddEditComponent implements OnInit,DoCheck {
       this.isItemlookupDisabled = true;
       this.isReflookupDisabled = true;
       this.IsAccessoryVisible = false;
+      this.modelType = false;
     } else {
       this.model_code_label = this.language.model_ModelCode;
       this.model_name_label = this.language.Model_ModelName;
@@ -314,6 +316,7 @@ export class FeatureModelAddEditComponent implements OnInit,DoCheck {
       this.isItemlookupDisabled = false;
       this.isReflookupDisabled = false;
       this.IsAccessoryVisible = true;
+      this.modelType = true;
     }
 
   }

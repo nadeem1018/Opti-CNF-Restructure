@@ -12,10 +12,11 @@ import { SharedModules } from 'src/app/shared/shared.module';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { CustomerAddressComponent } from './customer-address/customer-address.component';
 import { DelarCustomerMapComponent } from './delar-customer-map/delar-customer-map.component';
+import {LookupFilterPipe} from './search.pipe';
 
 
 @NgModule({
-  declarations: [CwViewComponent, CwOperationCustomerComponent, CwMbomConfigureProductComponent, CwVerifyAcceptFinalComponent, CwViewOldComponent, CustomerAddressComponent, DelarCustomerMapComponent ],
+  declarations: [CwViewComponent, CwOperationCustomerComponent, CwMbomConfigureProductComponent, CwVerifyAcceptFinalComponent, CwViewOldComponent, CustomerAddressComponent, DelarCustomerMapComponent,LookupFilterPipe],
   imports: [
     CommonModule,
     ConfigurationWizardRoutingModule,

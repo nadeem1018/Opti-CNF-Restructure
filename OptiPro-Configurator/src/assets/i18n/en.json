@@ -730,5 +730,7 @@
     "Display_Order_field": "Enter Display Group Order at row index: ",
     "Display_Name_field": "Enter Display Group at row index: ",
     "Group_field": "Enter Display Ordering Group at row index: ", 
-    "model_description": "Model Description"
+    "model_description": "Model Description",
+    "Sales_type":"Sales",
+    "production_type": "Production"
 }
