@@ -6239,6 +6239,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.complete_dataset.length = 0;
     this.ModelHeaderData = [];
     this.RuleOutputData = [];
+    this.groupData =[];
+    this.model_description = "";
+    this.featureDescriptionList = [];
+    this.descriptionString = "";
     this.FeatureBOMDataForSecondLevel = [];
     this.ModelBOMDataForSecondLevel = [];
   }
