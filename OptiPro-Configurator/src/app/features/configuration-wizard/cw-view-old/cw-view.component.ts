@@ -2240,7 +2240,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           "accessory_discount_percent": me_d_v_row.accessory_discount_percent,
           "accessory_item_total": me_d_v_row.accessory_item_total,
           "accessory_total_before_dis": me_d_v_row.accessory_total_before_dis,
-          "desc": me_d_v_row.desc,
+          "desc": this.descriptionString,
           "discount_amount": me_d_v_row.discount_amount,
           "discounted_price": me_d_v_row.discounted_price,
           "feature_discount_percent": me_d_v_row.feature_discount_percent,

@@ -617,7 +617,8 @@ export class FeatureModelAddEditComponent implements OnInit,DoCheck {
        // this.featureMasterImage
         PicturePath: this.featureBom.Image,
         CreatedUser: this.username,
-        Accessory: this.featureBom.Accessory
+        Accessory: this.featureBom.Accessory,
+        OPTM_MODELTYPE : this.OPTM_MODELTYPE
       })    
       var featureCode = this.featureBom.Code.trim();
       if(this.ItemAttributeList.length >0){
