@@ -254,6 +254,7 @@ export class FeatureModelAddEditComponent implements OnInit,DoCheck {
             this.isItemlookupDisabled = false;
             this.isReflookupDisabled = false;
             this.IsAccessoryVisible = true;
+            this.modelType = true;
           }
           this.showLoader = false;
         },
