@@ -288,7 +288,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public featureAbbreviationList: any = [];
   public model_description = '';
   public searchString: any = "";
-  public modelType : any = "";
+  
 
 
 
@@ -1846,7 +1846,6 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       this.step2_data.templateid = $event[4];
       this.step2_data.itemcodegenkey = $event[3];
       this.model_description = $event[5];
-      this.modelType = $event[6];
       this.isModelVisible = true
       this.navigatenextbtn = false;
       this.validnextbtn = true;
@@ -5668,7 +5667,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           "OPTM_TOTALDISCOUNT": (parseFloat(this.step3_data_final[iHdrCount].discount_amount) +
             parseFloat(this.step3_data_final[iHdrCount].accessory_discount_amount)).toFixed(3),
           "model_index": iHdrCount,
-          "OPTM_MODELTYPE": this.modelType
+          "OPTM_MODELTYPE": this.MainModelDetails[0].OPTM_MODELTYPE
         })
       }
     } else {
@@ -5702,7 +5701,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
         "OPTM_ACCESSORYDIS": 0.000,
         "OPTM_ACCESSORYTOTAL": 0.000,
         "OPTM_TOTALDISCOUNT": 0.000,
-        "OPTM_MODELTYPE": this.modelType
+        "OPTM_MODELTYPE": this.MainModelDetails[0].OPTM_MODELTYPE
       });
     }
 
@@ -6243,7 +6242,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     this.complete_dataset.length = 0;
     this.ModelHeaderData = [];
     this.RuleOutputData = [];
-    this.groupData =[];
+    this.groupData = [];
     this.model_description = "";
     this.featureDescriptionList = [];
     this.descriptionString = "";
@@ -6515,7 +6514,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
         "ModelHeaderItemsArray": this.ModelHeaderItemsArray,
         "Accessoryarray": this.selectedAccessoryHeader,
         "GroupDataList": this.groupData,
-        "AbbreviationDataList":this.featureAbbreviationList,
+        "AbbreviationDataList": this.featureAbbreviationList,
         "model_description": this.model_description,
         "featureDescriptionList": this.featureDescriptionList,
         "descriptionString": this.descriptionString
@@ -7354,9 +7353,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
             "OPTM_ITEMTYPE": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMTYPE,
             "OPTM_WHSE": this.warehouse,
             "OPTM_LEVEL": temp_step2_final_dataset_save[itempsavefinal].OPTM_LEVEL,
-            OPTM_DSP_GROUP:  temp_step2_final_dataset_save[itempsavefinal].OPTM_DSP_GROUP,
-            OPTM_DSPGROUP_ORDER:  temp_step2_final_dataset_save[itempsavefinal].OPTM_DSPGROUP_ORDER,
-            OPTM_DSP_ORDERINGROUP:  temp_step2_final_dataset_save[itempsavefinal].OPTM_DSP_ORDERINGROUP,
+            OPTM_DSP_GROUP: temp_step2_final_dataset_save[itempsavefinal].OPTM_DSP_GROUP,
+            OPTM_DSPGROUP_ORDER: temp_step2_final_dataset_save[itempsavefinal].OPTM_DSPGROUP_ORDER,
+            OPTM_DSP_ORDERINGROUP: temp_step2_final_dataset_save[itempsavefinal].OPTM_DSP_ORDERINGROUP,
             "OPTM_QUANTITY": parseFloat(temp_step2_final_dataset_save[itempsavefinal].OPTM_QUANTITY).toFixed(3),
             "OPTM_ORIGINAL_QUANTITY": parseFloat(temp_step2_final_dataset_save[itempsavefinal].OPTM_ORIGINAL_QUANTITY).toFixed(3),
             "OPTM_PRICELIST": temp_step2_final_dataset_save[itempsavefinal].OPTM_PRICELIST,
@@ -9666,14 +9665,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.step2_data.modal_id = "";
           this.step2_data.model_code = "";
           this.model_description = "";
-          this.modelType = "";
           this.onclearselection(1);
           return;
         }
         else {
           this.step2_data.model_id = data[0].OPTM_FEATUREID;
           this.model_description = data[0].OPTM_FEATUREDESC;
-          this.modelType = data[0].OPTM_MODELTYPE;
           this.isModelVisible = true;
           this.getSavedModelData = [];
           this.GetAllDataForModelBomOutput(this.getSavedModelData);
