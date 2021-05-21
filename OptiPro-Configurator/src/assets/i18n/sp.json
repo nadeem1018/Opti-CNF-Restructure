@@ -708,7 +708,9 @@
     "Group_field": "Enter Display Ordering Group at row index: ", 
     "model_description": "Model Description",
     "Sales_type":"Sales",
-    "production_type": "Production"
+    "MODEL_TYPE":"Model Type",
+    "production_type": "Production",
+    "TypeSelect":"Kindly Select Model Type"
    
 
 }

@@ -61,17 +61,17 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="form-group row clearfix" *ngIf="modelType">
-                                <label class="col-sm-4 col-form-label" for="type">{{language.Type}}</label>
+                            <div class="form-group row clearfix" *ngIf="modelType">
+                                <label class="col-sm-4 col-form-label" for="type">{{language.MODEL_TYPE}}</label>
                                 <div class="col-sm-5 d-inline-flex align-items-center">
-                                    <select class="form-control  form-control-sm mt3" (change)="onTypeChange()" id="typeID"
-                                        name="typeName" [(ngModel)]="featureBom.type" #select>
-                                        <option value="">{{language.Sales_type}}</option>
+                                    <select class="form-control  form-control-sm mt3" id="modeltypeID"
+                                        name="typeName" [(ngModel)]="OPTM_MODELTYPE" #select>
+                                        <option value="">Select</option>
                                         <option value="Sales">{{language.Sales_type}}</option>
                                         <option value="Production">{{language.production_type}}</option>
                                     </select>
                                 </div>
-                            </div> -->
+                            </div>
                             <div class="form-group row clearfix">
                                 <label class="col-sm-4 col-form-label required" for="featureItem">{{language.Model_Item}}</label>
                                 <input type="hidden" name="modelItemCode" class="form-control  form-control-sm" id="featureItemcode"

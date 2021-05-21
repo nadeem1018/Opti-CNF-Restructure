@@ -81,6 +81,7 @@ export class FeatureModelAddEditComponent implements OnInit,DoCheck {
   public ItemAttributeList: any = [];
   public isAttribute = this.commanService.attributeMenu; 
   public modelType =false;
+  public OPTM_MODELTYPE : any = "";
 
   canDeactivate() {
     if(CommonData.made_changes == true){
@@ -209,6 +210,7 @@ export class FeatureModelAddEditComponent implements OnInit,DoCheck {
           this.featureBom.ItemName = data[0].OPTM_MODELTEMPLATEITEM
           this.featureBom.Ref = data[0].OPTM_ITEMCODEGENREF
           this.featureBom.Accessory = data[0].OPTM_ACCESSORY
+          this.OPTM_MODELTYPE = data[0].OPTM_MODELTYPE
 
           if(this.isDuplicateMode){
             this.featureBom.Code = ""
@@ -307,6 +309,7 @@ export class FeatureModelAddEditComponent implements OnInit,DoCheck {
       this.isReflookupDisabled = true;
       this.IsAccessoryVisible = false;
       this.modelType = false;
+      this.OPTM_MODELTYPE = "";
     } else {
       this.model_code_label = this.language.model_ModelCode;
       this.model_name_label = this.language.Model_ModelName;
@@ -386,7 +389,8 @@ export class FeatureModelAddEditComponent implements OnInit,DoCheck {
        // this.featureMasterImage
         PicturePath: this.featureBom.Image,
         CreatedUser: this.username,
-        Accessory: this.featureBom.Accessory
+        Accessory: this.featureBom.Accessory,
+        OPTM_MODELTYPE : this.OPTM_MODELTYPE
       })
       var featureCode = this.featureBom.Code.trim();
       if(this.ItemAttributeList.length >0){
@@ -575,6 +579,11 @@ export class FeatureModelAddEditComponent implements OnInit,DoCheck {
       if (this.featureBom.ItemName == undefined || this.featureBom.ItemName == '') {
         this.commanService.show_notification(this.language.ModelItem, 'error'); 
         
+        this.showLookupLoader = false;
+        return false;
+      }
+      if (this.OPTM_MODELTYPE == undefined || this.OPTM_MODELTYPE == "") {
+        this.commanService.show_notification(this.language.TypeSelect, 'error');      
         this.showLookupLoader = false;
         return false;
       }

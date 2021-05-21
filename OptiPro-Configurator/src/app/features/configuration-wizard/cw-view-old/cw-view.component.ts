@@ -288,6 +288,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public featureAbbreviationList: any = [];
   public model_description = '';
   public searchString: any = "";
+  public modelType : any = "";
 
 
 
@@ -1845,6 +1846,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       this.step2_data.templateid = $event[4];
       this.step2_data.itemcodegenkey = $event[3];
       this.model_description = $event[5];
+      this.modelType = $event[6];
       this.isModelVisible = true
       this.navigatenextbtn = false;
       this.validnextbtn = true;
@@ -5666,6 +5668,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           "OPTM_TOTALDISCOUNT": (parseFloat(this.step3_data_final[iHdrCount].discount_amount) +
             parseFloat(this.step3_data_final[iHdrCount].accessory_discount_amount)).toFixed(3),
           "model_index": iHdrCount,
+          "OPTM_MODELTYPE": this.modelType
         })
       }
     } else {
@@ -5699,6 +5702,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
         "OPTM_ACCESSORYDIS": 0.000,
         "OPTM_ACCESSORYTOTAL": 0.000,
         "OPTM_TOTALDISCOUNT": 0.000,
+        "OPTM_MODELTYPE": this.modelType
       });
     }
 
@@ -9662,12 +9666,14 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
           this.step2_data.modal_id = "";
           this.step2_data.model_code = "";
           this.model_description = "";
+          this.modelType = "";
           this.onclearselection(1);
           return;
         }
         else {
           this.step2_data.model_id = data[0].OPTM_FEATUREID;
           this.model_description = data[0].OPTM_FEATUREDESC;
+          this.modelType = data[0].OPTM_MODELTYPE;
           this.isModelVisible = true;
           this.getSavedModelData = [];
           this.GetAllDataForModelBomOutput(this.getSavedModelData);
