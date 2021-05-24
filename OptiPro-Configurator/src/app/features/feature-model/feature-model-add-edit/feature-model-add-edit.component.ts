@@ -210,7 +210,7 @@ export class FeatureModelAddEditComponent implements OnInit,DoCheck {
           this.featureBom.ItemName = data[0].OPTM_MODELTEMPLATEITEM
           this.featureBom.Ref = data[0].OPTM_ITEMCODEGENREF
           this.featureBom.Accessory = data[0].OPTM_ACCESSORY
-          this.OPTM_MODELTYPE = data[0].OPTM_MODELTYPE
+          this.OPTM_MODELTYPE = data[0].OPTM_MODELTYPE == null ? "" : data[0].OPTM_MODELTYPE
 
           if(this.isDuplicateMode){
             this.featureBom.Code = ""

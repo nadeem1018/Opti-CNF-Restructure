@@ -20,15 +20,15 @@ export class FilterPipe implements PipeTransform {
 })
 export class LookupFilterPipe implements PipeTransform {
   
-    transform(items: any[], field: string, field2: string, value: string): any[] {
+    transform(items: any[], field: string, field2: string, field3: string, value: string): any[] {
         if (!items) {
             return [];
         }
-        if (!field || !field2 || !value) {
+        if (!field || !field2 || !field3 || !value) {
             return items;
         }
 
-        return items.filter(singleItem => singleItem[field].toLowerCase().includes(value.toLowerCase()) ||  singleItem[field2].toLowerCase().includes(value.toLowerCase()) );
+        return items.filter(singleItem => singleItem[field].toLowerCase().includes(value.toLowerCase()) ||  singleItem[field2].toLowerCase().includes(value.toLowerCase())  ||  singleItem[field3].toLowerCase().includes(value.toLowerCase()) );
     }
        
     }

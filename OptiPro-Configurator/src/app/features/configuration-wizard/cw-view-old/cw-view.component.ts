@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
 import { CommonData } from 'src/app/core/data/CommonData';
 import { UIHelper } from 'src/app/core/helper/ui.helpers';
 import { DialogService } from 'src/app/core/service/dialog.service';
@@ -21,6 +21,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   @ViewChild("selected_configuration_key", { static: false }) lookup_el: ElementRef;
   @ViewChild('description', { static: false }) text_input_elem: ElementRef;
   @ViewChild('remarks', { static: false }) remarks: ElementRef;
+ // @ViewChild('search', { static: false }) search: ElementRef;
+
+
+  
 
 
   public commonData = new CommonData();
@@ -288,7 +292,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public featureAbbreviationList: any = [];
   public model_description = '';
   public searchString: any = "";
-  
+
 
 
 
@@ -369,9 +373,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
       this.isDealar = false;
       this.isCustomer = false;
     }
-
+   
 
   }
+
+ 
+
+ 
 
   ngDoCheck() {
     this.isAttribute = this.CommonService.attributeMenu;
@@ -379,6 +387,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     if (this.text_input_elem != undefined) {
       this.text_input_elem.nativeElement.focus();
     }
+    // if(this.search != undefined)
+    // {
+    //   this.search.nativeElement.focus();
+    // }
     if (this.isfocus) {
       if (this.lookup_el != undefined) {
         this.lookup_el.nativeElement.focus();
@@ -3003,7 +3015,6 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     let selectedvalue = "";
     this.ModelLookupFlag = false
     var DataForSelectedFeatureModelItem: any = [];
-
     if (feature_model_data.OPTM_CHILDMODELID == undefined || feature_model_data.OPTM_CHILDMODELID == null) {
       modelid = 0
     }
@@ -3188,7 +3199,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     }
 
     if (this.SecondCallAPI) {
-      this.showLookupLoader = true;
+      //  this.showLookupLoader = true;
     } else {
       this.SecondCallAPI = true;
     }
@@ -7887,6 +7898,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     let GetDataForSelectedFeatureModelItemData: any = {};
     GetDataForSelectedFeatureModelItemData.selecteddata = [];
     GetDataForSelectedFeatureModelItemData.apidata = [];
+    
 
 
     GetDataForSelectedFeatureModelItemData.selecteddata.push({

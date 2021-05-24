@@ -194,14 +194,7 @@
                         value={{dataItem.bom_description}} #bom_description title="{{dataItem.bom_description}}" />
                     </ng-template>
                   </kendo-grid-column>
-                  <kendo-grid-column field="OPTM_ABBREVIATION" title="{{language.Abbreviation}}" filter="text" [width]="145"
-                    [minResizableWidth]="145">
-                    <ng-template kendoGridCellTemplate let-dataItem>
-                      <input type="text" class="form-control  form-control-sm" id="bom_abbreviation" (change)="on_abbreviation_description_change(OPTM_ABBREVIATION.value,dataItem.rowindex)"
-                        value={{dataItem.OPTM_ABBREVIATION}} #OPTM_ABBREVIATION title="{{dataItem.OPTM_ABBREVIATION}}" />
-                    </ng-template>
-                  </kendo-grid-column>
-                  <kendo-grid-column field="uom" title="{{language.uom}}" filter="text" [width]="70"
+                   <kendo-grid-column field="uom" title="{{language.uom}}" filter="text" [width]="70"
                     [minResizableWidth]="70">
                     <ng-template kendoGridCellTemplate let-dataItem>
                       <input type="text" [disabled]="dataItem.isUOMDisabled" class="form-control  form-control-sm" id="uom"
@@ -246,32 +239,7 @@
                     </ng-template>
                   </kendo-grid-column>
 
-                  <kendo-grid-column field="BOM_Display_Name" title="{{language.BOM_Display_Name}}" filter="text" [width]="100"
-                  [minResizableWidth]="100">
-                  <ng-template kendoGridCellTemplate let-dataItem>
-                    <input type="text" class="form-control form-control-sm text-right bom_dispName" name="bom_dispName"
-                      id="dispName" value={{dataItem.OPTM_DSP_GROUP}} (change)="on_dispName_change(dispName.value,dataItem.rowindex)"
-                      title={{dataItem.dispName}} #dispName />
-                  </ng-template>
-                </kendo-grid-column>
-
-                  <kendo-grid-column field="BOM_Display_Order" title="{{language.BOM_Display_Order}}" filter="text" [width]="130"
-                    [minResizableWidth]="130">
-                    <ng-template kendoGridCellTemplate let-dataItem>
-                      <input type="text" class="form-control form-control-sm text-right bom_disporder" name="bom_disporder"
-                        id="disporder" value={{dataItem.OPTM_DSPGROUP_ORDER}} (change)="on_dispOrder_change(disporder.value,dataItem.rowindex)"
-                        title={{dataItem.disporder}} #disporder />
-                    </ng-template>
-                  </kendo-grid-column>
-
-                  <kendo-grid-column field="BOM_Group" title="{{language.BOM_Group}}" filter="text" [width]="150"
-                    [minResizableWidth]="150">
-                    <ng-template kendoGridCellTemplate let-dataItem>
-                      <input type="text" class="form-control form-control-sm text-right bom_group" name="bom_group"
-                        id="group" value={{dataItem.OPTM_DSP_ORDERINGROUP}} (change)="on_group_change(group.value,dataItem.rowindex)"
-                        title={{dataItem.group}} #group />
-                    </ng-template>
-                  </kendo-grid-column>
+                
 
                   <kendo-grid-column field="Bom_Default" headerClass="text-center" class="text-center" title="{{language.Bom_Default}}"
                     filter="text" [width]="80" [minResizableWidth]="80">
@@ -366,6 +334,39 @@
                           [disabled]="dataItem.print_on_report_disabled" #print_on_report title="{{dataItem.print_on_report}}">
                         <span class="checkbox"></span>
                       </label>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column field="OPTM_ABBREVIATION" title="{{language.Abbreviation}}" filter="text" [width]="145"
+                  [minResizableWidth]="145">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <input type="text" class="form-control  form-control-sm" id="bom_abbreviation" (change)="on_abbreviation_description_change(OPTM_ABBREVIATION.value,dataItem.rowindex)"
+                      value={{dataItem.OPTM_ABBREVIATION}} #OPTM_ABBREVIATION title="{{dataItem.OPTM_ABBREVIATION}}" />
+                  </ng-template>
+                </kendo-grid-column>
+                  <kendo-grid-column field="BOM_Display_Name" title="{{language.BOM_Display_Name}}" filter="text" [width]="100"
+                  [minResizableWidth]="100">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <input type="text" class="form-control form-control-sm text-right bom_dispName" name="bom_dispName"
+                      id="dispName" value={{dataItem.OPTM_DSP_GROUP}} (change)="on_dispName_change(dispName.value,dataItem.rowindex)"
+                      title={{dataItem.dispName}} #dispName />
+                  </ng-template>
+                </kendo-grid-column>
+
+                  <kendo-grid-column field="BOM_Display_Order" title="{{language.BOM_Display_Order}}" filter="text" [width]="130"
+                    [minResizableWidth]="130">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <input type="text" class="form-control form-control-sm text-right bom_disporder" name="bom_disporder"
+                        id="disporder" value={{dataItem.OPTM_DSPGROUP_ORDER}} (change)="on_dispOrder_change(disporder.value,dataItem.rowindex)"
+                        title={{dataItem.disporder}} #disporder />
+                    </ng-template>
+                  </kendo-grid-column>
+
+                  <kendo-grid-column field="BOM_Group" title="{{language.BOM_Group}}" filter="text" [width]="150"
+                    [minResizableWidth]="150">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <input type="text" class="form-control form-control-sm text-right bom_group" name="bom_group"
+                        id="group" value={{dataItem.OPTM_DSP_ORDERINGROUP}} (change)="on_group_change(group.value,dataItem.rowindex)"
+                        title={{dataItem.group}} #group />
                     </ng-template>
                   </kendo-grid-column>
                   <kendo-grid-column field="delete" title="" template="" [width]="60" [minResizableWidth]="60">

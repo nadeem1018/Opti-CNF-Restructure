@@ -227,6 +227,15 @@
                                         </div>
                                     </div> -->
                                 </div>
+                                <div class="col-sm-6 pl-0" [hidden]="feature_bom_data.is_accessory=='N'">
+                                        <label class="custom-checkbox mb-0 w-100 curser-pointer">
+                                          <input type="checkbox" id="descModelLevel" name="descModelLevel" value=feature_bom_data.OPTM_MODELLEVEL_DESC
+                                             #desModelLevel [(checked)]=feature_bom_data.OPTM_MODELLEVEL_DESC
+                                            [(ngModel)]="feature_bom_data.OPTM_MODELLEVEL_DESC" title="{{feature_bom_data.OPTM_MODELLEVEL_DESC}}">
+                                          <span class="checkbox"></span>
+                                          <span>{{language.Include_desc_Model_Level}}</span>
+                                        </label>
+                                      </div>
                             </div>
 
                             <!-- Add Row Grid -->
@@ -322,14 +331,7 @@
                                                 value={{dataItem.bom_description}} #bom_description title="{{dataItem.bom_description}}" />
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_ABBREVIATION" title="{{language.Abbreviation}}" filter="text" [width]="145"
-                                    [minResizableWidth]="145">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                      <input  type="text" class="form-control  form-control-sm"
-                                        id="bom_abbreviation" (change)="on_abbreviation_description_change(OPTM_ABBREVIATION.value,dataItem.rowindex)"
-                                        value={{dataItem.OPTM_ABBREVIATION}} #OPTM_ABBREVIATION title="{{dataItem.OPTM_ABBREVIATION}}" />
-                                    </ng-template>
-                                  </kendo-grid-column>
+                                   
                                     <kendo-grid-column field="Bom_Qty" title="{{language.Bom_Qty}}" filter="text"
                                         [width]="90" [minResizableWidth]="90">
                                         <ng-template kendoGridCellTemplate let-dataItem>
@@ -345,7 +347,7 @@
                                             <ng-container *ngIf="this.feature_bom_data.multi_select == 'false'">
                                                 <div class="custom-control custom-radio custom-control-inline mr-auto ml-auto d-table position-relative">
                                                     <input type="radio" value="1" name="default_value_selection" class="custom-control-input position-absolute"
-                                                        id="default_{{dataItem.rowindex}}" [disabled]="this.feature_bom_data.feature_min_selectable == '0' || dataItem.is_accessory_disabled == true || feature_bom_data.is_accessory == 'Y'"
+                                                        id="default_{{dataItem.rowindex}}" [disabled]="this.feature_bom_data.feature_min_selectable == '0' || dataItem.is_accessory_disabled == true ||  feature_bom_data.is_accessory == 'Y' && dataItem.type != '3'"
                                                         (change)="on_defualt_change(default,dataItem.rowindex)" value={{dataItem.default}}
                                                         #default [(checked)]=dataItem.default title="{{dataItem.default}}" />
                                                     <label class="custom-control-label" for="default_{{dataItem.rowindex}}"></label>
@@ -467,6 +469,14 @@
                                             </label>
                                         </ng-template>
                                     </kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_ABBREVIATION" title="{{language.Abbreviation}}" filter="text" [width]="145"
+                                    [minResizableWidth]="145">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                      <input  type="text" class="form-control  form-control-sm"
+                                        id="bom_abbreviation" (change)="on_abbreviation_description_change(OPTM_ABBREVIATION.value,dataItem.rowindex)"
+                                        value={{dataItem.OPTM_ABBREVIATION}} #OPTM_ABBREVIATION title="{{dataItem.OPTM_ABBREVIATION}}" />
+                                    </ng-template>
+                                  </kendo-grid-column>
                                     <kendo-grid-column field="delete" title="" template="" [width]="60"
                                         [minResizableWidth]="60">
                                         <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">

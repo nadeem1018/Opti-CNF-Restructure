@@ -616,7 +616,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
 
     this.feature_bom_table.push({
       rowindex: this.counter,
-      OPTM_LINENO: 0,
+      OPTM_LINENO: this.counter,
       FeatureId: this.feature_bom_data.feature_id,
       type: table_default_type,
       OPTM_ABBREVIATION: "",
@@ -1323,7 +1323,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
           this.ItemAttributeList.push(itemAttributeList[index]);
         }
       } else {
-        this.ItemAttributeList = $event;
+        this.ItemAttributeList.push($event[0]);
       }
 
 
