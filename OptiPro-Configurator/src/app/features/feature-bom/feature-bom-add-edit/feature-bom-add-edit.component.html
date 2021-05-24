@@ -347,7 +347,7 @@
                                             <ng-container *ngIf="this.feature_bom_data.multi_select == 'false'">
                                                 <div class="custom-control custom-radio custom-control-inline mr-auto ml-auto d-table position-relative">
                                                     <input type="radio" value="1" name="default_value_selection" class="custom-control-input position-absolute"
-                                                        id="default_{{dataItem.rowindex}}" [disabled]="this.feature_bom_data.feature_min_selectable == '0' || dataItem.is_accessory_disabled == true ||  feature_bom_data.is_accessory == 'Y' && dataItem.type != '3'"
+                                                        id="default_{{dataItem.rowindex}}" [disabled]="this.feature_bom_data.feature_min_selectable == 0 && feature_bom_data.is_accessory != 'Y' ||  feature_bom_data.is_accessory == 'Y' && dataItem.type != 3"
                                                         (change)="on_defualt_change(default,dataItem.rowindex)" value={{dataItem.default}}
                                                         #default [(checked)]=dataItem.default title="{{dataItem.default}}" />
                                                     <label class="custom-control-label" for="default_{{dataItem.rowindex}}"></label>
@@ -357,7 +357,7 @@
                                                 <label class="custom-checkbox mb-0 without-label">
                                                     <input type="checkbox" value="1" name="default_value_selection" id="default_{{dataItem.rowindex}}"
                                                         (change)="on_defualt_change(default,dataItem.rowindex)"
-                                                        [disabled]="dataItem.is_accessory_disabled == true  || feature_bom_data.is_accessory == 'Y'"
+                                                        [disabled]="this.feature_bom_data.feature_min_selectable == 0 && feature_bom_data.is_accessory != 'Y' ||  feature_bom_data.is_accessory == 'Y' && dataItem.type != 3"
                                                         value={{dataItem.default}} #default [(checked)]=dataItem.default
                                                         title="{{dataItem.default}}">
                                                     <span class="checkbox"></span>
