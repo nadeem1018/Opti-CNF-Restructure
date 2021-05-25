@@ -125,6 +125,7 @@ export class SidebarComponent implements OnInit, DoCheck {
         this.CommonService.needAssesmentMenu = data[0].OPTM_ISAPPLICABLE == "Y" ? true : false;
         this.CommonService.attributeMenu = data[0].OPTM_ISATTR_MASTER == "Y" ? true : false;
         this.CommonService.delarMappingMenu = data[0].OPTM_ISDEALER_CUST_MAP == "Y" ? true : false;
+        this.CommonService.globalSearch = data[0].OPTM_GLBSRCHENABLE == "Y" ? true : false;
         if (this.CommonService.attributeMenu == false && this.dealarMenu == false) {
           this.CheckMenuCondition(this.language.DelarCustomerMapping, this.language.attribute);
         }

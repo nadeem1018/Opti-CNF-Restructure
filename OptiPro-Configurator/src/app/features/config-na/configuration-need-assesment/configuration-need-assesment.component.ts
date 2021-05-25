@@ -19,6 +19,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
   public applyNeedAssesment: any = false;
   public applyDealarMapping: any = false;
   public applyAttributeMaster: any = false;
+  public applyGloabalSearch : any = false;
   public showLoader: boolean = true;
   public customerWiseAssesment: any = false;
   public defaultAssesmentTemplate: any = "";
@@ -61,6 +62,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
         this.applyAttributeMaster = data[0].OPTM_ISATTR_MASTER == "Y" ? true : false;
         this.customerWiseAssesment = data[0].OPTM_ISAPPLICABLE_CUST == "Y" ? true : false;
         this.applyDealarMapping = data[0].OPTM_ISDEALER_CUST_MAP == "Y" ? true : false;
+        this.applyGloabalSearch = data[0].OPTM_GLBSRCHENABLE == "Y" ? true : false;
         this.OPTM_ID = data[0].OPTM_ID;
         this.OPTM_DEFAULT_TEMPLATE = data[0].OPTM_DEFAULT_TEMPLATE;
         this.gettemplateList();
@@ -201,6 +203,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
     let OPTM_ISAPPLICABLE = this.applyNeedAssesment == true ? "Y" : "N";
     let OPTM_ISAPPLICABLE_CUST = this.customerWiseAssesment == true ? "Y" : "N";
     let OPTM_ISDEALER_CUST_MAP = this.applyDealarMapping == true ? "Y" : "N";
+    let OPTM_GLBSRCHENABLE = this.applyGloabalSearch == true ? "Y" : "N";
     if (this.applyNeedAssesment == false) {
       OPTM_ISAPPLICABLE_CUST = "N";
       this.OPTM_DEFAULT_TEMPLATE = "";
@@ -213,6 +216,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
       OPTM_DEFAULT_TEMPLATE: this.OPTM_DEFAULT_TEMPLATE,
       OPTM_ISATTR_MASTER: OPTM_ISATTR_MASTER,
       OPTM_ISDEALER_CUST_MAP: OPTM_ISDEALER_CUST_MAP,
+      OPTM_GLBSRCHENABLE:OPTM_GLBSRCHENABLE,
       DefaultYesNO: defaultValue
     });
     this.showLookupLoader = true;
@@ -230,6 +234,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
         this.CommonService.needAssesmentMenu = this.applyNeedAssesment;
         this.CommonService.attributeMenu = this.applyAttributeMaster;
         this.CommonService.delarMappingMenu = this.applyDealarMapping;
+        this.CommonService.globalSearch = this.applyGloabalSearch;
         this.CommonService.show_notification(this.language.DataSaved, 'success');
         return;
       } else if (data === "Rule is not Exist for this template") {

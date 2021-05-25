@@ -734,5 +734,6 @@
     "Sales_type":"Sales",
     "MODEL_TYPE":"Model Type",
     "production_type": "Production",
-    "TypeSelect":"Kindly Select Model Type"
+    "TypeSelect":"Kindly Select Model Type",
+    "Global_Search":"Enable Global Search"
 }
