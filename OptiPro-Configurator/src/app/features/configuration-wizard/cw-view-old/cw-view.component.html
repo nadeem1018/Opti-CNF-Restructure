@@ -1259,7 +1259,7 @@
 
                                                                                     </thead>
                                                                                     <tbody *ngIf="get_accessory_element(accessory_header_data,selectedAccessoryBOM).length > 0">
-                                                                                        <tr *ngFor="let accessory_item_data of get_accessory_element(accessory_header_data,selectedAccessoryBOM) | Lookupfilter : 'OPTM_ITEMKEY' :'OPTM_DISPLAYNAME' : 'feature_code' : searchAccesoryString; let i= index;">
+                                                                                        <tr *ngFor="let accessory_item_data of get_accessory_element(accessory_header_data,selectedAccessoryBOM) | Accesoryfilter : 'OPTM_ITEMKEY' :'OPTM_DISPLAYNAME' : searchAccesoryString; let i= index;">
                                                                                             <td class="text-center"
                                                                                                 [ngStyle]=" {'width': '30px'}">
                                                                                                 <label class="custom-checkbox mb-0 wihtout-label">
