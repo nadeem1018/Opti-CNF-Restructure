@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, DoCheck, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, DoCheck, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { CommonData } from 'src/app/core/data/CommonData';
 import { UIHelper } from 'src/app/core/helper/ui.helpers';
 import { DialogService } from 'src/app/core/service/dialog.service';
@@ -13,7 +13,7 @@ import { filter } from '@progress/kendo-data-query/dist/npm/transducers';
   templateUrl: './cw-view.component.html',
   styleUrls: ['./cw-view.component.scss']
 })
-export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
+export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, AfterViewChecked {
   public selectedImage = "";
   @ViewChild("printOperationType", { static: true }) printOperationTypeEL_: ElementRef;
   @ViewChild("modelcode", { static: true }) _el: ElementRef;
@@ -23,7 +23,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   @ViewChild('remarks', { static: false }) remarks: ElementRef;
   @ViewChild('search', { static: false }) search: ElementRef;
   @ViewChild('searchAcc', { static: false }) searchAcc: ElementRef;
-  
+
 
 
 
@@ -252,6 +252,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
   public itemFeatureID: any = 0;
   public filterList: any = [];
   public descriptionString: any = "";
+  public color = ['#f2f2f2', '#32cd32', '#00B8FA'];
+  public count = 0;
 
 
   constructor(private ActivatedRouter: ActivatedRoute,
@@ -598,6 +600,25 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit {
     if (this.text_input_elem != undefined) {
       this.text_input_elem.nativeElement.focus();
     }
+
+
+
+  }
+
+  ngAfterViewChecked() {
+
+    if (this.ModelHeaderData.length > 0) {
+      this.ModelHeaderData.forEach((elementList, index) => {
+        let element = document.getElementById("" + elementList.OPTM_DISPLAYNAME + "");
+        if (element != null) {
+          element.getElementsByTagName('span')[0].setAttribute("style", "background:" + elementList.OPTM_CLR_CODE + "!important")
+        }
+      });
+    }
+
+
+
+
 
   }
 
