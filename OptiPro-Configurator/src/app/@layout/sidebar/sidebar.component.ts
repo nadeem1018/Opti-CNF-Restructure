@@ -182,6 +182,7 @@ export class SidebarComponent implements OnInit, DoCheck {
       let element: any = array[i];
       if (element.itemName == value1 || element.itemName == value2) {
         array.splice(i, 1);
+        i = i-1;
       }
     }
     // let AttributeMenu = this.language.attribute;
