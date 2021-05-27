@@ -3042,8 +3042,17 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     let propagateqty = 1;
     let selectedvalue = "";
     this.ModelLookupFlag = false
+    let getCaluclateApi = false;
     //this.search.nativeElement.blur();
     var DataForSelectedFeatureModelItem: any = [];
+
+    let selectAtrribute: any = this.ModelHeaderData.filter(function (obj) {
+      return obj['unique_key'] == feature_model_data.nodeid;
+    });
+
+    getCaluclateApi = selectAtrribute[0].OPTM_SELUATTRIBUTE == "Y" ? false : true;
+
+
     if (feature_model_data.OPTM_CHILDMODELID == undefined || feature_model_data.OPTM_CHILDMODELID == null) {
       modelid = 0
     }
@@ -4344,7 +4353,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         this.showLookupLoader = false;
         if (this.isAttribute) {
           if (this.FeatureBOMDetailAttribute.length > 0) {
-            this.getCustomeAttributeValue();
+            if (getCaluclateApi) {
+              this.getCustomeAttributeValue();
+            }
+
           }
           else {
             if (feature_model_data.OPTM_TYPE != 2) {
