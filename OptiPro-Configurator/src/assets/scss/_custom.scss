@@ -1722,6 +1722,23 @@ a.common_grid_link {
   position: absolute;
   top:0;
 }
+
+  .required.required-sm:after {
+    content: "*";
+    float: right;
+    right: 0;
+    max-width: 140px;
+    width: 100%;
+}
+
+.required.required-smt:after {
+  content: "*";
+  max-width: 140px;
+  width: 100%;
+  right: -23px;
+}
+
+
 .foot-left {
   float: left;
   width: auto;
