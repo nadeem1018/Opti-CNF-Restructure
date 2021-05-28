@@ -1775,6 +1775,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           this.setCustomAttributeValue();
           this.filterList = [];
           this.filterList = data.SelectUsingAttribute;
+          if (this.feature_itm_list_table.length > 0) {
+            if (this.filterList.length > 0) {
+              this.clearFeatureItemListTable();
+            }
+
+          }
         }
         else {
           this.showLookupLoader = false;
@@ -1808,6 +1814,36 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
   //   this.lookupfor = 'view_attribute_lookup';
   //   this.showLookupLoader = false;  
   //  }
+
+  clearFeatureItemListTable() {
+
+    let filterFeatureArray: any = this.filterList;
+    let featureTableList: any = this.feature_itm_list_table;
+    for (let i = 0; i < featureTableList.length; i++) {
+      let featuretableData: any = featureTableList[i];
+      let isExist = 0;
+      for (let j = 0; j < filterFeatureArray.length; j++) {
+        let filterData: any = filterFeatureArray[j];
+        if (filterData.OPTM_FEATUREID == featuretableData.FeatureId) {
+          isExist = 1;
+          if (filterData.OPTM_DISPLAYNAME == featuretableData.Description) {
+            isExist = 2;
+            break;
+          }
+        }
+      }
+      if (isExist == 1) {
+        this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+          if (obj['OPTM_FEATUREID'] == featuretableData.FeatureId)
+            obj['checked'] = false;
+        });
+        featureTableList.splice(i, 1);
+        i = i - 1;
+        this.createDescriptionList();
+      }
+    }
+    this.feature_itm_list_table = featureTableList;
+  }
 
   openModalList() {
     this.showLookupLoader = true;
@@ -2948,6 +2984,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           this.filterList = [];
           if (data.SelectedFeatureAttributes.length > 0) {
             this.filterList = data.SelectUsingAttribute;
+          }
+
+          if (this.feature_itm_list_table.length > 0) {
+            if (this.filterList.length > 0) {
+              this.clearFeatureItemListTable();
+            }
           }
 
         }
@@ -4394,11 +4436,17 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
     this.feature_price_calculate();
     this.ModelHeaderData.sort((a, b) => a.sort_key.localeCompare(b.sort_key));
+    this.createDescriptionList();
+
+
+  }
+  //end selection
+
+  createDescriptionList() {
 
     let defaultFeatureSelectList = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
       return obj['checked'] == true;
     });
-
     let descriptionList = this.featureAbbreviationList;
     this.featureDescriptionList = [];
 
@@ -4424,7 +4472,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     }
     this.descriptionString = string;
     console.log(this.descriptionString);
-  } //end selection
+  }
 
   addAttributeForSelection(selecteditem) {
     var parentarray = this.ModelHeaderData.filter(function (obj) {

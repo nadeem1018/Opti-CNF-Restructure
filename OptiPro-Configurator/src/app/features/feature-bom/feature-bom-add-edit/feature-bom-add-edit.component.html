@@ -227,7 +227,7 @@
                                         </div>
                                     </div> -->
                                 </div>
-                                <div class="col-sm-6 pl-0" [hidden]="feature_bom_data.is_accessory=='N'">
+                                <div class="col-sm-6 pl-0" *ngIf="isModelLevel" [hidden]="feature_bom_data.is_accessory=='N'">
                                         <label class="custom-checkbox mb-0 w-100 curser-pointer">
                                           <input type="checkbox" id="descModelLevel" name="descModelLevel" value=feature_bom_data.OPTM_MODELLEVEL_DESC
                                              #desModelLevel [(checked)]=feature_bom_data.OPTM_MODELLEVEL_DESC

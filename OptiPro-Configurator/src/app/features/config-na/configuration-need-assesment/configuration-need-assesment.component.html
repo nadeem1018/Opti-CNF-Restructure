@@ -65,7 +65,7 @@
                             <label class="col-sm-4 col-form-label" for="featureItemCode">
                                 <div class="">
                                     <span>{{language.ConfigDefaultTemplate}}</span>
-                                    <a class="cursor-pointer ml-2" (click)="navigateURL()">
+                                    <a class="cursor-pointer ml-2" *ngIf="islink" (click)="navigateURL()">
                                         <svg viewBox="0 0 32 32" class="icon icon-dark">
                                             <use xlink:href="#circleRightArrow"></use>
                                         </svg>

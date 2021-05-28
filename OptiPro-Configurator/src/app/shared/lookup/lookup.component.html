@@ -780,7 +780,7 @@
             </kendo-window-titlebar>
 
             <kendo-grid [kendoGridBinding]="viewAttributeList" [filterable]="isColumnFilter" [selectable]="true"
-                [pageable]="false" [pageSize]="50" [resizable]="true" [skip]="skip" (selectionChange)="on_item_select($event)"
+                [pageable]="true" [pageSize]="50" [resizable]="true" [skip]="skip" (selectionChange)="on_item_select($event)"
                 style="max-height:500px;" [sortable]="{  allowUnsort: allowUnsort,  mode: 'single'  }" [sort]="sort"
                 (sortChange)="sortChange($event)">
                 <!-- [pageSize]="10" -->

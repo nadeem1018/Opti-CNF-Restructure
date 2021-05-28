@@ -81,6 +81,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
   public CustomeAttributeList: any = [];
   public FeatureAttributeList: any = [];
   public isAttribute = this.CommonService.attributeMenu;
+  public isModelLevel = false;
 
   getSelectedRowDetail(event) {
     CommonData.made_changes = true;
@@ -181,6 +182,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
         this.isFeatureIdEnable = true;
         this.FeatureLookupBtnhide = true;
         this.isDuplicateMode = false;
+        this.isModelLevel = true;
       } else if (this.ActivatedRouter.snapshot.url[0].path == "add") {
         this.isUpdateButtonVisible = false;
         this.isSaveButtonVisible = true;
@@ -914,7 +916,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
         }
 
         this.feature_bom_table[i].quantity = this.feature_bom_table[i].quantity.toString();
-        if (this.feature_bom_data.OPTM_MODELLEVEL_DESC == false) {
+        if (this.feature_bom_data.OPTM_MODELLEVEL_DESC == false || this.feature_bom_data.OPTM_MODELLEVEL_DESC == undefined) {
           this.feature_bom_table[i].OPTM_MODELLEVEL_DESC = "N"
         }
         else {
@@ -1338,6 +1340,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
       this.feature_bom_data.feature_id = $event[0];
       this.feature_bom_data.feature_code = $event[1];
       this.getFeatureDetails($event[0], "Header", 0);
+      this.isModelLevel = true;
     }
     else if (this.lookupfor == 'Item_Detail_lookup') {
       this.lookupfor = 'Item_Detail_lookup';

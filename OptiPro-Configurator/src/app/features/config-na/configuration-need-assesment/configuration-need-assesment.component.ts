@@ -19,7 +19,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
   public applyNeedAssesment: any = false;
   public applyDealarMapping: any = false;
   public applyAttributeMaster: any = false;
-  public applyGloabalSearch : any = false;
+  public applyGloabalSearch: any = false;
   public showLoader: boolean = true;
   public customerWiseAssesment: any = false;
   public defaultAssesmentTemplate: any = "";
@@ -35,6 +35,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
   public show_dialog: boolean = false;
   public defaultYesNO: any;
   public teplateOptm_ID: any;
+  public islink = false;
 
   constructor(private httpclient: HttpClient, private router: Router, private CommonService: CommonService, private DialogService: DialogService, private service: ConfigureNeedAssesmentService) { }
 
@@ -65,6 +66,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
         this.applyGloabalSearch = data[0].OPTM_GLBSRCHENABLE == "Y" ? true : false;
         this.OPTM_ID = data[0].OPTM_ID;
         this.OPTM_DEFAULT_TEMPLATE = data[0].OPTM_DEFAULT_TEMPLATE;
+        this.islink = this.OPTM_DEFAULT_TEMPLATE == "" ? false : true;
         this.gettemplateList();
       }
       else {
@@ -163,7 +165,11 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
 
           this.CommonService.show_notification(this.language.InvalidDefaultTemplate, 'error');
           this.OPTM_DEFAULT_TEMPLATE = "";
+          this.islink = false;
           return;
+        }
+        else {
+          this.islink = true;
         }
       }, error => {
         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
@@ -216,7 +222,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
       OPTM_DEFAULT_TEMPLATE: this.OPTM_DEFAULT_TEMPLATE,
       OPTM_ISATTR_MASTER: OPTM_ISATTR_MASTER,
       OPTM_ISDEALER_CUST_MAP: OPTM_ISDEALER_CUST_MAP,
-      OPTM_GLBSRCHENABLE:OPTM_GLBSRCHENABLE,
+      OPTM_GLBSRCHENABLE: OPTM_GLBSRCHENABLE,
       DefaultYesNO: defaultValue
     });
     this.showLookupLoader = true;
@@ -266,6 +272,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
     this.teplateOptm_ID = $event[0];
     this.OPTM_DEFAULT_TEMPLATE = $event[1];
     this.defaultAssesmentTemplate = $event[2];
+    this.islink = true;
 
   }
 
