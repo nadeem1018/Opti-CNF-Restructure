@@ -23,7 +23,7 @@ export class CustomCwComponent implements OnInit {
   public currentrowIndex = 0;
   public currentPage = 1;
   public isColumnFilter: boolean = false;
-  public selectedValue: number = 20;
+  public selectedValue: number = 18;
   public skip: number = 0;
   public gridView: GridDataResult;
   record_per_page: any;
@@ -50,12 +50,12 @@ export class CustomCwComponent implements OnInit {
 
 
   ngOnInit() {
-    this.record_per_page = sessionStorage.getItem('defaultRecords');
-    if (sessionStorage.getItem('defaultRecords') !== undefined && sessionStorage.getItem('defaultRecords') != "") {
-      this.selectedValue = Number(sessionStorage.getItem('defaultRecords'));
-    } else {
-      this.selectedValue = Number(this.commonData.default_count);
-    }
+    this.record_per_page = 20;
+    // if (sessionStorage.getItem('defaultRecords') !== undefined && sessionStorage.getItem('defaultRecords') != "") {
+    //   this.selectedValue = Number(sessionStorage.getItem('defaultRecords'));
+    // } else {
+    //   this.selectedValue = Number(this.commonData.default_count);
+    // }
     if (sessionStorage.isFilterEnabled == "true") {
       this.isColumnFilter = true;
     } else {
@@ -86,6 +86,7 @@ export class CustomCwComponent implements OnInit {
             data[i].TotalPrice = parseInt(data[i].Quantity) * parseInt(data[i].Price);
             data[i]["rowindex"] = i;
             data[i]["checked"] = false;
+            data[i]["LINENO"] = i+1;
           }
           this.dataList = data;
           this.featureList = data;
@@ -381,11 +382,13 @@ export class CustomCwComponent implements OnInit {
     this.currentrowIndex = rowindex
     this.dataList[this.currentrowIndex].Quantity = value;
     this.dataList[this.currentrowIndex].TotalPrice = parseInt(this.dataList[this.currentrowIndex].Quantity) * parseInt(this.dataList[this.currentrowIndex].Price);
-    let dataexist = this.checkExistSetFinalData(this.dataList[this.currentrowIndex].component);
-    if (dataexist) {
-      let dataItem = this.dataList[this.currentrowIndex];
-      this.setFinalData.push(dataItem);
-    }
+    this.checkExistSetFinalData(this.dataList[this.currentrowIndex].component);
+    let dataItem = this.dataList[this.currentrowIndex];
+      if(parseInt(value) > 0)
+      {
+        this.setFinalData.push(dataItem);
+      }
+    
   }
 
   // function for Change Price 

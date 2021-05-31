@@ -99,7 +99,7 @@
                                     </label>
                                 </ng-template>
 
-                                <kendo-grid-column field="checkbox" [sortable]="false" title="" filter="numeric"
+                                <!-- <kendo-grid-column field="checkbox" [sortable]="false" title="" filter="numeric"
                                     [width]="38" [minResizableWidth]="38" class="text-center" headerClass="text-center"
                                     [filterable]="false">
                                     <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
@@ -110,26 +110,33 @@
                                             <span class="checkbox"></span>
                                         </label>
                                     </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="BodyPart" title="Body Part" filter="text" [width]="145"
+                                </kendo-grid-column> -->
+                                <kendo-grid-column field="LINENO" title="Index" filter="text" [width]="50"
+                                [minResizableWidth]="145" [filterable]="true">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <input type="text" [disabled]="true" class="form-control  form-control-sm"
+                                        #LINENO value={{dataItem.LINENO}} />
+                                </ng-template>
+                            </kendo-grid-column>
+                                <kendo-grid-column field="BodyPart" title="Body Part" filter="text" [width]="100"
                                     [minResizableWidth]="145" [filterable]="true">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="true" class="form-control  form-control-sm"
                                             #BodyPart value={{dataItem.BodyPart}} />
                                     </ng-template>
                                 </kendo-grid-column>
-                                <kendo-grid-column field="Category" title="Category" filter="text" [width]="145"
+                                <kendo-grid-column field="Category" title="Category" filter="text" [width]="100"
                                     [minResizableWidth]="145" [filterable]="true">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="true" class="form-control  form-control-sm"
                                             #Category value={{dataItem.Category}} />
                                     </ng-template>
                                 </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_DEALERNAME" title="Item Code" filter="text" [width]="100"
+                                <kendo-grid-column field="ItemKey" title="Item Code" filter="text" [width]="100"
                                     [minResizableWidth]="145" [filterable]="true">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #OPTM_DEALERNAME value={{dataItem.OPTM_DEALERNAME}} />
+                                            #ItemKey value={{dataItem.ItemKey}} />
                                     </ng-template>
                                 </kendo-grid-column>
                                 <kendo-grid-column field="component" title="Item Name" filter="text" [width]="145"
@@ -139,21 +146,21 @@
                                             #component value={{dataItem.component}} />
                                     </ng-template>
                                 </kendo-grid-column>
-                                <kendo-grid-column field="Quantity" title="Quantity" filter="text" [width]="100"
+                                <kendo-grid-column field="Quantity" title="Quantity" filter="text" [width]="80"
                                     [minResizableWidth]="145" [filterable]="false">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="false" class="form-control  form-control-sm"
                                             #Quantity value={{dataItem.Quantity}} (change)="onChangeQuantity(dataItem.rowindex,Quantity.value)" />
                                     </ng-template>
                                 </kendo-grid-column>
-                                <kendo-grid-column field="Price" title="Price" filter="text" [width]="100"
+                                <kendo-grid-column field="Price" title="Price" filter="text" [width]="80"
                                     [minResizableWidth]="145" [filterable]="false">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="false" class="form-control  form-control-sm"
                                             #Price value={{dataItem.Price}} (change)="onChangePrice(dataItem.rowindex,Price.value)" />
                                     </ng-template>
                                 </kendo-grid-column>
-                                <kendo-grid-column field="TotalPrice" title="Total Price" filter="text" [width]="100"
+                                <kendo-grid-column field="TotalPrice" title="Total Price" filter="text" [width]="80"
                                     [minResizableWidth]="145" [filterable]="false">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="true" class="form-control  form-control-sm"
@@ -164,8 +171,8 @@
                                     <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
                                     <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
                                     <kendo-pager-next-buttons></kendo-pager-next-buttons>
-                                    <kendo-dropdownlist [data]="listItems" class="form-control-sm ml-3 form-control d-inline-flex w-auto"
-                                        (selectionChange)="getcurrentPageSize($event)" [(ngModel)]="selectedValue"></kendo-dropdownlist>
+                                    <!-- <kendo-dropdownlist [data]="listItems" class="form-control-sm ml-3 form-control d-inline-flex w-auto"
+                                        (selectionChange)="getcurrentPageSize($event)" [(ngModel)]="selectedValue"></kendo-dropdownlist> -->
                                     <kendo-pager-info></kendo-pager-info>
                                 </ng-template>
                             </kendo-grid>
