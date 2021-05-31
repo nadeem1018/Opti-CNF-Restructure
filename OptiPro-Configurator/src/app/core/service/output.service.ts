@@ -332,14 +332,14 @@ export class OutputService {
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetCustomerDataByDealerCode", jObject, this.common_params.httpOptions);
   }
 
-  getCustomerLookUpData(code : any): Observable<any> {
+  getCustomerLookUpData(code: any): Observable<any> {
     // let cache_control = this.common_params.random_string(40);
     //JSON Obeject Prepared to be send as a param to API
     let jObject = {
       Customer: JSON.stringify([{
         CompanyDBID: sessionStorage.selectedComp,
         GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
-        OPTM_DEALERCODE :code
+        OPTM_DEALERCODE: code
       }])
     };
     //Return the response form the API  
@@ -464,8 +464,7 @@ export class OutputService {
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetDealerCustomerMappingByCustCode", jObject, this.common_params.httpOptions);
   }
 
-  GetDataForAccesoriesAttribute(id:any,lineNo :any): Observable<any>
-  {
+  GetDataForAccesoriesAttribute(id: any, lineNo: any): Observable<any> {
     let jObject = {
       GetData: JSON.stringify([{
         CompanyDBID: sessionStorage.selectedComp,
@@ -476,6 +475,23 @@ export class OutputService {
       }])
     };
     //Return the response form the API  
-    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetSelectedAccesoryAttributes", jObject, this.common_params.httpOptions); 
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetSelectedAccesoryAttributes", jObject, this.common_params.httpOptions);
   }
+
+  getCustomCWFeatureList(): Observable<any> {
+    let jObject = {
+      GetData: JSON.stringify([{
+        CompanyDBID: sessionStorage.selectedComp,
+        ModelID:707,ModelDisplayName:"Body Vision Jewelry",
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
+
+
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/ModelBOM/GetDataForCreatingOrderForModelBOM", jObject, this.common_params.httpOptions);
+  }
+
+
+
 }

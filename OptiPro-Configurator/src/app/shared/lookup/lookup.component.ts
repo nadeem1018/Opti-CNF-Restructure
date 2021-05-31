@@ -338,6 +338,10 @@ export class LookupComponent implements OnInit {
         this.getItemDetails();
       }
 
+      if (this.popup_lookupfor == "feature_details_lookup") {
+        this.getFeatureItemList();
+      }
+
     }
   }
 
@@ -2698,8 +2702,7 @@ export class LookupComponent implements OnInit {
     }
   }
 
-  getItemDetails ()
-  {
+  getItemDetails() {
     this.popup_title = this.language.ItemList;
     this.LookupDataLoaded = false;
     this.showLoader = true;
@@ -2718,6 +2721,79 @@ export class LookupComponent implements OnInit {
         title: "Item Details",
         type: 'text',
         width: '100',
+        attrType: 'text'
+      },
+
+    ];
+    this.table_head_hidden_elements = [false];
+    this.width_value = ((100 / this.table_head.length) + '%');
+
+    this.showLoader = false;
+    this.LookupDataLoaded = true;
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+        this.loadServerData(this.serviceData);
+        // $("#lookup_modal").modal('show');
+      }
+    }
+  }
+
+  getFeatureItemList()
+  {
+    this.popup_title = this.language.ItemList;
+    this.LookupDataLoaded = false;
+    this.showLoader = true;
+    this.fill_input_id = 'ItemKey';
+    this.lookup_key = 'ItemKey';
+    this.table_head = [
+      {
+        field: 'BodyPart',
+        title: "Body Part",
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+      {
+        field: 'Category',
+        title: "Category",
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+      {
+        field: '',
+        title: "Item Code",
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+      {
+        field: 'component',
+        title: "Item Name",
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+      {
+        field: 'Quantity',
+        title: "Quantity",
+        type: 'text',
+        width: '80',
+        attrType: 'text'
+      },
+      {
+        field: 'Price',
+        title: "Price",
+        type: 'text',
+        width: '80',
+        attrType: 'text'
+      },
+      {
+        field: 'TotalPrice',
+        title: "Total Price",
+        type: 'text',
+        width: '80',
         attrType: 'text'
       },
 

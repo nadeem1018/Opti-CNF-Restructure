@@ -5990,7 +5990,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             if ((temp_selectedAccessoryBOM[sabom_i].OPTM_QUANTITY != null && temp_selectedAccessoryBOM[sabom_i].OPTM_QUANTITY != undefined && temp_selectedAccessoryBOM[sabom_i].OPTM_QUANTITY != "") || temp_selectedAccessoryBOM[sabom_i].OPTM_QUANTITY == 0) {
               temp_selectedAccessoryBOM[sabom_i].OPTM_QUANTITY = parseFloat(temp_selectedAccessoryBOM[sabom_i].OPTM_QUANTITY).toFixed(3);
             }
-            final_dataset_to_save.SelectedAccessoryBOM.push(temp_selectedAccessoryBOM[sabom_i]);
+            if (temp_selectedAccessoryBOM[sabom_i].Checked != "false") {
+              final_dataset_to_save.SelectedAccessoryBOM.push(temp_selectedAccessoryBOM[sabom_i]);
+            }
           }
         }
         let temp_Accessoryarray = me_d_v_row.Accessoryarray;
@@ -8021,6 +8023,11 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     });
 
     this.selectedAccessoryBOM[accessoryIndex].checked = value;
+    if (value) {
+      this.selectedAccessoryBOM[accessoryIndex].Checked = "true";
+    }
+
+
 
     if (value == false) {
       let dataList = this.FeatureBOMDetailAttribute;

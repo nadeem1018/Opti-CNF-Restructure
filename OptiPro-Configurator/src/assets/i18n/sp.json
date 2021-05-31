@@ -711,7 +711,8 @@
     "MODEL_TYPE":"Model Type",
     "production_type": "Production",
     "TypeSelect":"Kindly Select Model Type",
-    "Global_Search":"Enable Global Search"
+    "Global_Search":"Enable Global Search",
+    "Custom_CW":"Custom Configure Wizard"
    
 
 }

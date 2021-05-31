@@ -105,6 +105,12 @@ const routes: Routes = [
     path: 'delar-customer-mapping',
     loadChildren: () => import('./features/dcst-mapping/dcst-mapping.module').then(m => m.DelarCustomerMappingModule),
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
+  },
+
+  {
+    path: 'custom-configure-wizard',
+    loadChildren: () => import('./features/custom-cw/custom-cw.module').then(m => m.CustomCWModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   }
 
 ];
