@@ -86,7 +86,7 @@ export class CustomCwComponent implements OnInit {
             data[i].TotalPrice = parseInt(data[i].Quantity) * parseInt(data[i].Price);
             data[i]["rowindex"] = i;
             data[i]["checked"] = false;
-            data[i]["LINENO"] = i+1;
+            data[i]["LINENO"] = i + 1;
           }
           this.dataList = data;
           this.featureList = data;
@@ -384,11 +384,10 @@ export class CustomCwComponent implements OnInit {
     this.dataList[this.currentrowIndex].TotalPrice = parseInt(this.dataList[this.currentrowIndex].Quantity) * parseInt(this.dataList[this.currentrowIndex].Price);
     this.checkExistSetFinalData(this.dataList[this.currentrowIndex].component);
     let dataItem = this.dataList[this.currentrowIndex];
-      if(parseInt(value) > 0)
-      {
-        this.setFinalData.push(dataItem);
-      }
-    
+    if (parseInt(value) > 0) {
+      this.setFinalData.push(dataItem);
+    }
+
   }
 
   // function for Change Price 
@@ -414,18 +413,78 @@ export class CustomCwComponent implements OnInit {
       this.showLookupLoader = false;
       this.serviceData = this.setFinalData;
     }
+    else
+    {
+      this.CommonService.show_notification(this.language.SelectData, 'error');
+      return false;
+    }
   }
 
   //function for Save Wizard 
 
-  onSaveClick()
-  {
-    if(this.customer_code == "")
-    {
+  onSaveClick() {
+
+    let cDate = new Date();
+    let date = cDate.getFullYear() + "-" + (cDate.getMonth() + 1) + "-" + cDate.getDate();
+
+    if (this.customer_code == "") {
       this.CommonService.show_notification(this.language.SelectCustomerCode, 'error');
       return false;
     }
+
+    let finalArray = [];
+    if (this.setFinalData.length > 0) {
+
+      this.setFinalData.forEach(element => {
+        finalArray.push({
+          "ItemCode": element.ItemKey,
+          "ItemDescription": element.component,
+          "Quantity": parseFloat(element.Quantity),
+          "Price": parseFloat(element.Price)
+        })
+      });
+    }
+    else
+    {
+      this.CommonService.show_notification(this.language.SelectData, 'error');
+      return false;
+    }
+
+    let obj = {
+      "DocDate": date,
+      "DocDueDate": date,
+      "CardCode": this.customer_code,
+      "CardName": this.customer_name,
+      "DocumentLines": finalArray
+    }
+
+    this.service.AddUpdateCustomCw(obj).subscribe(
+      data => {
+        if (data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.router, 'Sessionout');
+            return;
+          }
+        }
+        else {
+
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      }, error => {
+
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
   }
+
+
 
 
 }

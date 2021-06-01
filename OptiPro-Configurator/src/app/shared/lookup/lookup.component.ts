@@ -2762,7 +2762,7 @@ export class LookupComponent implements OnInit {
         attrType: 'text'
       },
       {
-        field: '',
+        field: 'ItemKey',
         title: "Item Code",
         type: 'text',
         width: '100',

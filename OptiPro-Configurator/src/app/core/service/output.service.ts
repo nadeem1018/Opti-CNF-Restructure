@@ -482,7 +482,7 @@ export class OutputService {
     let jObject = {
       GetData: JSON.stringify([{
         CompanyDBID: sessionStorage.selectedComp,
-        ModelID:707,ModelDisplayName:"Body Vision Jewelry",
+        ModelID: 707, ModelDisplayName: "Body Vision Jewelry",
         GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
 
 
@@ -490,6 +490,12 @@ export class OutputService {
     };
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/ModelBOM/GetDataForCreatingOrderForModelBOM", jObject, this.common_params.httpOptions);
+  }
+
+  AddUpdateCustomCw(model): Observable<any> {
+    let jObject = JSON.stringify(model);
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/ModelBOM/CreateOrders", jObject, this.common_params.httpOptions);
   }
 
 

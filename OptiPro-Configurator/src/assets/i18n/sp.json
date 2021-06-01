@@ -712,7 +712,8 @@
     "production_type": "Production",
     "TypeSelect":"Kindly Select Model Type",
     "Global_Search":"Enable Global Search",
-    "Custom_CW":"Custom Configure Wizard"
+    "Custom_CW":"Custom Configure Wizard",
+    "SelectData":"Kindly Select Item"
    
 
 }

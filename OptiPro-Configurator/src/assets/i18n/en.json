@@ -740,5 +740,6 @@
     "Reset": "Reset",
     "Preview": "Preview",
     "Create_Order": "Create Order",
-    "Custom_CW": "Custom Configure Wizard"
+    "Custom_CW": "Custom Configure Wizard",
+    "SelectData":"Kindly Select Item"
 }
