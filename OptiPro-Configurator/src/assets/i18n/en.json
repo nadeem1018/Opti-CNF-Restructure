@@ -741,5 +741,6 @@
     "Preview": "Preview",
     "Create_Order": "Create Order",
     "Custom_CW": "Custom Configure Wizard",
-    "SelectData":"Kindly Select Item"
+    "SelectData":"Kindly Select Item",
+    "OrderCreated":"Order has been created with Order No:"
 }

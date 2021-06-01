@@ -197,6 +197,67 @@ export class CustomCwComponent implements OnInit {
     this.getFeatureList();
   }
 
+  onCustomerChange(callback) {
+    this.showLookupLoader = true;
+    this.service.validateInputCustomer(this.companyName, this.customer_code).subscribe(
+      data => {
+
+        if (data != undefined && data != null) {
+          if (data.length > 0) {
+            if (data[0].ErrorMsg == "7001") {
+              CommonData.made_changes = false;
+              this.showLookupLoader = false;
+              this.CommonService.RemoveLoggedInUser().subscribe();
+              this.CommonService.signOut(this.router, 'Sessionout');
+              return;
+            }
+          }
+        }
+
+        if (data === "False") {
+          this.showLookupLoader = false;
+          this.CommonService.show_notification(this.language.invalidcustomer, 'error');
+         this.customer_code = "";
+         this.customer_name = "";
+         this.ship_to_address = "";
+         this.bill_to_address = "";
+          return;
+        }
+
+        else {
+          this.getCustomerAllInfo();
+          this.GetCustomername();
+        }
+      }, error => {
+        this.showLookupLoader = false;
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+      }
+    )
+  }
+
+  GetCustomername() {
+    this.service.GetCustomername(this.companyName, this.customer_code).subscribe(
+      data => {
+        if (data != null && data != undefined && data.length > 0) {
+
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.router, 'Sessionout');
+            return;
+          }
+
+          this.customer_name = data[0].Name;
+        }
+        else {
+          this.customer_name = '';
+        }
+      }
+    )
+  }
+
   //This method will get Customer's all info.
 
   getCustomerAllInfo() {
@@ -380,7 +441,7 @@ export class CustomCwComponent implements OnInit {
   onChangeQuantity(rowindex, value) {
     CommonData.made_changes = true;
     this.currentrowIndex = rowindex
-    this.dataList[this.currentrowIndex].Quantity = value;
+    this.dataList[this.currentrowIndex].Quantity = parseInt(value);
     this.dataList[this.currentrowIndex].TotalPrice = parseInt(this.dataList[this.currentrowIndex].Quantity) * parseInt(this.dataList[this.currentrowIndex].Price);
     this.checkExistSetFinalData(this.dataList[this.currentrowIndex].component);
     let dataItem = this.dataList[this.currentrowIndex];
@@ -457,25 +518,20 @@ export class CustomCwComponent implements OnInit {
       "CardName": this.customer_name,
       "DocumentLines": finalArray
     }
-
+    this.showLookupLoader = true;
     this.service.AddUpdateCustomCw(obj).subscribe(
       data => {
-        if (data.length > 0) {
-          if (data[0].ErrorMsg == "7001") {
-            CommonData.made_changes = false;
-
-            this.CommonService.RemoveLoggedInUser().subscribe();
-            this.CommonService.signOut(this.router, 'Sessionout');
-            return;
-          }
+        this.showLookupLoader = false;
+        if(data.Table1[0].DocNo != "")
+        {
+          this.CommonService.show_notification(this.language.OrderCreated + data.Table1[0].DocNo , 'success');
+          this.resetGrid();
         }
-        else {
-
-          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
-          return;
+        else{
+          this.CommonService.show_notification(data.Table1[0].ErrorMsg, 'error');
         }
       }, error => {
-
+        this.showLookupLoader = false;
         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
           this.CommonService.isUnauthorized();
         }

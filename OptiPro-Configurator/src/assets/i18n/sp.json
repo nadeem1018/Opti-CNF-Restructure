@@ -713,7 +713,8 @@
     "TypeSelect":"Kindly Select Model Type",
     "Global_Search":"Enable Global Search",
     "Custom_CW":"Custom Configure Wizard",
-    "SelectData":"Kindly Select Item"
+    "SelectData":"Kindly Select Item",
+    "OrderCreated":"Order has been created with Order No:"
    
 
 }
