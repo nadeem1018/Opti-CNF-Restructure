@@ -493,7 +493,10 @@ export class OutputService {
   }
 
   AddUpdateCustomCw(model): Observable<any> {
-    let jObject = JSON.stringify(model);
+   
+    let jObject = {
+      GetData: JSON.stringify({model})
+    }
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/ModelBOM/CreateOrders", jObject, this.common_params.httpOptions);
   }
