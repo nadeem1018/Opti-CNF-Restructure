@@ -7497,7 +7497,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             "OPTM_OUTPUTID": temp_step2_final_dataset_save[itempsavefinal].OPTM_OUTPUTID,
             "OPTM_OUTPUTDTLID": temp_step2_final_dataset_save[itempsavefinal].OPTM_OUTPUTDTLID,
             "OPTM_ITEMNUMBER": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMNUMBER,
-            "OPTM_ITEMCODE": temp_step2_final_dataset_save[itempsavefinal].NODEID == "" ? this.descriptionString : temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMCODE,
+            "OPTM_ITEMCODE": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMCODE,
             "OPTM_KEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_KEY,
             "OPTM_PARENTKEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_PARENTKEY,
             "OPTM_TEMPLATEID": temp_step2_final_dataset_save[itempsavefinal].OPTM_TEMPLATEID,
