@@ -498,6 +498,19 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.onOperationChange('');
     this.stepsView();
     this.resetMobileFields();
+    document.getElementById("choose_operation").classList.remove('completed');
+    document.getElementById("choose_operation").classList.add('active');
+    document.getElementById("customer_details").classList.remove('active');
+    document.getElementById("customer_details").classList.remove('completed');
+    document.getElementById("model_bom_config").classList.remove('active');
+    document.getElementById("model_bom_config").classList.remove('completed');
+    document.getElementById("accept_bom_so").classList.remove('active');
+    document.getElementById("accept_bom_so").classList.remove('completed');
+    document.getElementById("fina_doc_create").classList.remove('active');
+    document.getElementById("fina_doc_create").classList.remove('completed');
+    document.getElementById("needs_details").classList.remove('active');
+    document.getElementById("needs_details").classList.remove('completed');
+
     this.isoperation = true;
   }
 
@@ -1781,6 +1794,14 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             }
 
           }
+          if (this.filterList.length > 0) {
+            let featureId = this.filterList.filter(function (obj) {
+              return obj['OPTM_FEATUREID'];
+            });
+
+            var uniqueFeatureID = featureId.filter((v, i, a) => a.indexOf(v) === i);
+            console.log(uniqueFeatureID);
+          }
         }
         else {
           this.showLookupLoader = false;
@@ -2990,6 +3011,26 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             if (this.filterList.length > 0) {
               this.clearFeatureItemListTable();
             }
+          }
+
+          if (this.filterList.length > 0) {
+            let featureId = [];
+            this.filterList.forEach(element => {
+              featureId.push(element.OPTM_FEATUREID)
+            });
+
+            var uniqueFeatureID = featureId.filter((v, i, a) => a.indexOf(v) === i);
+            console.log(uniqueFeatureID);
+            for (let i = 0; i < uniqueFeatureID.length; i++) {
+              let optmfeatureId = uniqueFeatureID[i];
+              this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+                if (optmfeatureId == obj['OPTM_FEATUREID'])
+                  if (obj['OPTM_DEFAULT'] != "Y") {
+                    obj['checked'] = false
+                  }
+              })
+            }
+            this.createDescriptionList();
           }
 
         }
@@ -6031,7 +6072,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           } else {
             temp_FeatureBOMDataForSecondLevel[fbdsl_i].Price = parseFloat(temp_FeatureBOMDataForSecondLevel[fbdsl_i].Price).toFixed(3);
           }
-          final_dataset_to_save.FeatureBOMDataForSecondLevel.push(temp_FeatureBOMDataForSecondLevel[fbdsl_i]);
+          if (temp_FeatureBOMDataForSecondLevel[fbdsl_i].checked != false) {
+            final_dataset_to_save.FeatureBOMDataForSecondLevel.push(temp_FeatureBOMDataForSecondLevel[fbdsl_i]);
+          }
         }
 
         let temp_RuleOutputData = me_d_v_row.RuleOutputData;
@@ -6668,12 +6711,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
   onValidateNextPress(navigte, for_multiple_model) {
     this.navigatenextbtn = false;
     this.validnextbtn = true;
-    if (navigte == true && this.step3_data_final.length > 0) {
-      this.navigation_in_steps(3, 4);
-      this.resetMobileFields();
-      this.isVerifyAccept = true;
-      return;
-    }
+
 
     if (this.feature_itm_list_table.length == 0 && this.step3_data_final.length == 0) {
       this.CommonService.show_notification(this.language.no_item_selected, 'error');
@@ -6805,7 +6843,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
     }
 
-
+    if (navigte == true && this.step3_data_final.length > 0) {
+      this.navigation_in_steps(3, 4);
+      this.resetMobileFields();
+      this.isVerifyAccept = true;
+      return;
+    }
     this.navigatenextbtn = true;
     if (navigte == true) {
       this.navigation_in_steps(3, 4);

@@ -2302,7 +2302,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
           temp_model_data[i].ReadyToUse = "Y"
         }
 
-        if (this.modelbom_data.OPTM_MODELLEVEL_DESC == false) {
+        if (this.modelbom_data.OPTM_MODELLEVEL_DESC == false || this.modelbom_data.OPTM_MODELLEVEL_DESC == undefined) {
           temp_model_data[i].OPTM_MODELLEVEL_DESC = "N"
         }
         else {

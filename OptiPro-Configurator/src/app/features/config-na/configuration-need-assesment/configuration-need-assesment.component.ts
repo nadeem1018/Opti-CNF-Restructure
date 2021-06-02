@@ -105,6 +105,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
         else {
           this.lookupfor = "";
           this.serviceData = [];
+          this.showLookupLoader = false;
           this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
           return;
         }
@@ -142,7 +143,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
         else {
           this.lookupfor = "";
           this.serviceData = [];
-          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+         // this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
           return;
         }
       },
