@@ -715,6 +715,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       this.navigation_in_steps(3, 1);
       this.resetMobileFields();
       this.ismobilecustomer = true;
+      document.getElementById("needs_details").classList.remove('completed');
     }
   }
 
@@ -2505,6 +2506,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         this.navigation_in_steps(1, 3);
         this.resetMobileFields();
         this.ismodelConfig = true;
+        document.getElementById("needs_details").classList.add('completed');
       }
     } else {
       let required_fields = '';
@@ -2536,6 +2538,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         }
         else {
           this.navigation_in_steps(1, 3);
+          document.getElementById("needs_details").classList.add('completed');
         }
       }
     }

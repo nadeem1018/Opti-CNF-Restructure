@@ -29,7 +29,7 @@
                                     </svg></span>
                                 <span class="step-name">{{language.select_customer_document}}</span>
                             </li>
-                            <li *ngIf="isNeedAssesment" class="steps-info" id="needs_details">
+                            <li [style.display]="isNeedAssesment ? 'flex' : 'none'" class="steps-info" id="needs_details">
                                 <span class="icon"><svg viewBox="0 0 107.07 122.88" class="icon">
                                         <use xlink:href="#attribute"></use>
                                     </svg></span>
@@ -914,11 +914,12 @@
                                                         </button>
                                                     </div>
                                                 </div>
-                                                  <div *ngFor="let group of groupData">
+                                                <div *ngFor="let group of groupData">
                                                     <div *ngIf="group.OPTM_ACCESSORY == 'N'">
                                                         <div class="h5 mb-2 text-muted groupdata" *ngIf="group.OPTM_DSP_GROUP != 'NOGROUPAVAILABLE'">{{group.OPTM_DSP_GROUP}}</div>
                                                         <div *ngFor="let header_data of ModelHeaderData; let i = index;">
-                                                            <div *ngIf="header_data.OPTM_DSP_GROUP == group.OPTM_DSP_GROUP" id="{{header_data.OPTM_DISPLAYNAME}}">
+                                                            <div *ngIf="header_data.OPTM_DSP_GROUP == group.OPTM_DSP_GROUP"
+                                                                id="{{header_data.OPTM_DISPLAYNAME}}">
                                                                 <kendo-panelbar *ngIf="ModelHeaderData.length > 0"
                                                                     [selectable]="false">
 
@@ -941,18 +942,23 @@
                                                                                     </svg>
                                                                                 </button>
                                                                             </span>
-                                                                        </ng-template>  
+                                                                        </ng-template>
                                                                         <ng-template kendoPanelBarContent>
                                                                             <div *ngIf="header_data.OPTM_ISCUSTOMVIEW == 'Y'"
                                                                                 class="hack2">
                                                                                 <form>
-                                                                                        <div class="form-group" *ngIf="isGlobalSearch">
-                                                                                            <div class="input-group">
-                                                                                                <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
-                                                                                                <input type="text" class="form-control"  autocomplete="off" name="searchString" placeholder="Type to search..." [(ngModel)]="searchString" #search>
-                                                                                            </div>
+                                                                                    <div class="form-group" *ngIf="isGlobalSearch">
+                                                                                        <div class="input-group">
+                                                                                            <div class="input-group-addon"><i
+                                                                                                    class="glyphicon glyphicon-search"></i></div>
+                                                                                            <input type="text" class="form-control"
+                                                                                                autocomplete="off" name="searchString"
+                                                                                                placeholder="Type to search..."
+                                                                                                [(ngModel)]="searchString"
+                                                                                                #search>
                                                                                         </div>
-                                                                                    </form>
+                                                                                    </div>
+                                                                                </form>
                                                                                 <table class="parent_table inner-table table table-bordered table-strip table-sm border-0 mb-0">
                                                                                     <thead class="thead-dark" *ngIf="ModelHeaderData.length > 0">
                                                                                         <tr>
@@ -1061,13 +1067,19 @@
                                                                             <div *ngIf="header_data.OPTM_ISCUSTOMVIEW == 'N' || header_data.OPTM_ISCUSTOMVIEW == null "
                                                                                 class="hack2">
                                                                                 <form>
-                                                                                        <div class="form-group" *ngIf="isGlobalSearch">
-                                                                                            <div class="input-group">
-                                                                                                <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
-                                                                                                <input type="text" class="form-control"  autocomplete="off" value = "" name="searchString" placeholder="Type to search..." [(ngModel)]="searchString" #search>
-                                                                                            </div>
+                                                                                    <div class="form-group" *ngIf="isGlobalSearch">
+                                                                                        <div class="input-group">
+                                                                                            <div class="input-group-addon"><i
+                                                                                                    class="glyphicon glyphicon-search"></i></div>
+                                                                                            <input type="text" class="form-control"
+                                                                                                autocomplete="off"
+                                                                                                value="" name="searchString"
+                                                                                                placeholder="Type to search..."
+                                                                                                [(ngModel)]="searchString"
+                                                                                                #search>
                                                                                         </div>
-                                                                                    </form>
+                                                                                    </div>
+                                                                                </form>
                                                                                 <table class="parent_table inner-table table table-bordered table-strip table-sm border-0 mb-0">
                                                                                     <thead class="thead-dark" *ngIf="ModelHeaderData.length > 0">
                                                                                         <tr>
@@ -1079,8 +1091,8 @@
 
                                                                                         </tr>
                                                                                     </thead>
-                                                                                    <tbody *ngIf="get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel).length > 0">  
-                                                                                            <!-- Lookupfilter : 'OPTM_ITEMKEY' :'OPTM_DISPLAYNAME' : searchString -->
+                                                                                    <tbody *ngIf="get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel).length > 0">
+                                                                                        <!-- Lookupfilter : 'OPTM_ITEMKEY' :'OPTM_DISPLAYNAME' : searchString -->
                                                                                         <tr *ngFor="let feature_model_data of get_feature_elements(header_data, FeatureBOMDataForSecondLevel, ModelBOMDataForSecondLevel) | Lookupfilter : 'OPTM_ITEMKEY' :'OPTM_DISPLAYNAME' : 'feature_code' : searchString; let i= index;"
                                                                                             [ngClass]="( feature_model_data.disable === true && header_data.OPTM_TYPE != 3 ) ? 'tr-hide' : '' ">
                                                                                             <td class="text-center"
@@ -1187,121 +1199,126 @@
                                                 </div>
 
 
-                                                    <hr>
+                                                <hr>
 
-                                                    <!-- new acsessory section - start -->
-                                                    <div class="form-group d-flex align-items-center justify-content-between mb-2"
-                                                        *ngIf="feature_accessory_list.length > 0">
-                                                        <div class="h5 m-0 text-muted">{{language.accessories}}</div>
+                                                <!-- new acsessory section - start -->
+                                                <div class="form-group d-flex align-items-center justify-content-between mb-2"
+                                                    *ngIf="feature_accessory_list.length > 0">
+                                                    <div class="h5 m-0 text-muted">{{language.accessories}}</div>
 
-                                                        <div class="">
-                                                            <button type="button" (click)="openAccesoryModel()" class="btn btn-sm btn-primary  foot-right">
-                                                                Add Accessories
-                                                            </button>
-                                                            <button class="btn btn-sm btn-icon btn-info mr-2" type="button"
-                                                                (click)="accessoriesPanelToggleAll(true)" title="Expand All">
-                                                                <svg viewBox="0 0 1024 1024" class="icon">
-                                                                    <use xlink:href="#expandAll"></use>
-                                                                </svg>
-                                                            </button>
-                                                            <button class="btn btn-sm btn-icon btn-success" type="button"
-                                                                (click)="accessoriesPanelToggleAll(false)" title="Collapse All">
-                                                                <svg viewBox="0 0 1024 1024" class="icon">
-                                                                    <use xlink:href="#collapseAll"></use>
-                                                                </svg>
-                                                            </button>
-                                                        </div>
+                                                    <div class="">
+                                                        <button type="button" (click)="openAccesoryModel()" class="btn btn-sm btn-primary  foot-right">
+                                                            Add Accessories
+                                                        </button>
+                                                        <button class="btn btn-sm btn-icon btn-info mr-2" type="button"
+                                                            (click)="accessoriesPanelToggleAll(true)" title="Expand All">
+                                                            <svg viewBox="0 0 1024 1024" class="icon">
+                                                                <use xlink:href="#expandAll"></use>
+                                                            </svg>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-icon btn-success" type="button"
+                                                            (click)="accessoriesPanelToggleAll(false)" title="Collapse All">
+                                                            <svg viewBox="0 0 1024 1024" class="icon">
+                                                                <use xlink:href="#collapseAll"></use>
+                                                            </svg>
+                                                        </button>
                                                     </div>
-                                                    <div *ngFor="let group of groupData">
-                                                        <div *ngIf="group.OPTM_ACCESSORY == 'Y'">
-                                                            <div class="h5 mb-2 text-muted groupdata" *ngIf="group.OPTM_DSP_GROUP != 'NOGROUPAVAILABLE'">{{group.OPTM_DSP_GROUP}}</div>
-                                                            <div *ngFor="let accessory_header_data of feature_accessory_list; let i = index;">
-                                                                <div *ngIf="accessory_header_data.OPTM_DSP_GROUP == group.OPTM_DSP_GROUP">
-                                                                    <kendo-panelbar *ngIf="feature_accessory_list.length > 0"
-                                                                        [selectable]="false" >
-                                                                        <kendo-panelbar-item [title]="accessory_header_data.name"
-                                                                            [expanded]="accessoriesPanelToggle">
-                                                                            <ng-template kendoPanelBarItemTitle>
-                                                                                <!-- <h1>hello </h1> -->
-                                                                                <span class="output_final_screen_save_button d-inline-flex"
-                                                                                    style="
+                                                </div>
+                                                <div *ngFor="let group of groupData">
+                                                    <div *ngIf="group.OPTM_ACCESSORY == 'Y'">
+                                                        <div class="h5 mb-2 text-muted groupdata" *ngIf="group.OPTM_DSP_GROUP != 'NOGROUPAVAILABLE'">{{group.OPTM_DSP_GROUP}}</div>
+                                                        <div *ngFor="let accessory_header_data of feature_accessory_list; let i = index;">
+                                                            <div *ngIf="accessory_header_data.OPTM_DSP_GROUP == group.OPTM_DSP_GROUP">
+                                                                <kendo-panelbar *ngIf="feature_accessory_list.length > 0"
+                                                                    [selectable]="false">
+                                                                    <kendo-panelbar-item [title]="accessory_header_data.name"
+                                                                        [expanded]="accessoriesPanelToggle">
+                                                                        <ng-template kendoPanelBarItemTitle>
+                                                                            <!-- <h1>hello </h1> -->
+                                                                            <span class="output_final_screen_save_button d-inline-flex"
+                                                                                style="
                                                         margin-left: auto;">
-                                                                                    <!-- <button (click)="openAttributeList(header_data, header_data.OPTM_TYPE)" type="button" class="btn btn-sm btn-success with-icon mr-2">
+                                                                                <!-- <button (click)="openAttributeList(header_data, header_data.OPTM_TYPE)" type="button" class="btn btn-sm btn-success with-icon mr-2">
                                                                  {{language.attribute}}
                                                             </button> -->
-                                                                                    <button [style.display]="isAttribute ? 'block' : 'none'"
-                                                                                        type="button" (click)="openAccesoryAttributeList(accessory_header_data, accessory_header_data.OPTM_TYPE)"
-                                                                                        class="btn btn-sm btn-icon mr-2 btn-primary"
-                                                                                        title="{{this.language.attribute}}">
-                                                                                        <svg class="icon att-icon"
-                                                                                            viewBox="0 0 512 512">
-                                                                                            <use xlink:href="#attrIcon"></use>
-                                                                                        </svg>
-                                                                                    </button>
-                                                                                </span>
-                                                                            </ng-template>
-                                                                            <ng-template kendoPanelBarContent>
-                                                                                    <form>
-                                                                                            <div class="form-group" *ngIf="isGlobalSearch">
-                                                                                                <div class="input-group">
-                                                                                                    <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
-                                                                                                    <input type="text" class="form-control"  autocomplete="off" name="searchAccesoryString" placeholder="Type to search..." [(ngModel)]="searchAccesoryString" #searchAcc>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </form>
-                                                                                <table class="parent_table inner-table table table-bordered table-strip table-sm border-0 mb-0">
-                                                                                    <thead class="thead-dark" *ngIf="feature_accessory_list.length > 0">
-                                                                                        <tr>
-                                                                                            <th class="text-center">#</th>
-                                                                                            <th>{{language.code}}</th>
-                                                                                            <th>{{language.description}}</th>
-                                                                                        </tr>
+                                                                                <button [style.display]="isAttribute ? 'block' : 'none'"
+                                                                                    type="button" (click)="openAccesoryAttributeList(accessory_header_data, accessory_header_data.OPTM_TYPE)"
+                                                                                    class="btn btn-sm btn-icon mr-2 btn-primary"
+                                                                                    title="{{this.language.attribute}}">
+                                                                                    <svg class="icon att-icon" viewBox="0 0 512 512">
+                                                                                        <use xlink:href="#attrIcon"></use>
+                                                                                    </svg>
+                                                                                </button>
+                                                                            </span>
+                                                                        </ng-template>
+                                                                        <ng-template kendoPanelBarContent>
+                                                                            <form>
+                                                                                <div class="form-group" *ngIf="isGlobalSearch">
+                                                                                    <div class="input-group">
+                                                                                        <div class="input-group-addon"><i
+                                                                                                class="glyphicon glyphicon-search"></i></div>
+                                                                                        <input type="text" class="form-control"
+                                                                                            autocomplete="off" name="searchAccesoryString"
+                                                                                            placeholder="Type to search..."
+                                                                                            [(ngModel)]="searchAccesoryString"
+                                                                                            #searchAcc>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                            <table class="parent_table inner-table table table-bordered table-strip table-sm border-0 mb-0">
+                                                                                <thead class="thead-dark" *ngIf="feature_accessory_list.length > 0">
+                                                                                    <tr>
+                                                                                        <th class="text-center">#</th>
+                                                                                        <th>{{language.code}}</th>
+                                                                                        <th>{{language.description}}</th>
+                                                                                    </tr>
 
-                                                                                    </thead>
-                                                                                    <tbody *ngIf="get_accessory_element(accessory_header_data,selectedAccessoryBOM).length > 0">
-                                                                                        <tr *ngFor="let accessory_item_data of get_accessory_element(accessory_header_data,selectedAccessoryBOM) | Accesoryfilter : 'OPTM_ITEMKEY' :'OPTM_DISPLAYNAME' : searchAccesoryString; let i= index;">
-                                                                                            <td class="text-center"
-                                                                                                [ngStyle]=" {'width': '30px'}">
-                                                                                                <label class="custom-checkbox mb-0 wihtout-label">
-                                                                                                    <input type="checkbox"
-                                                                                                        id="accessory_checkbox_{{accessory_item_data.unique_key}}_{{accessory_item_data.OPTM_LINENO}}_{{i}}"
-                                                                                                        #accessory_checkbox
-                                                                                                        name="accessory_checkbox_{{accessory_item_data.unique_key}}_{{accessory_item_data.OPTM_LINENO}}_{{i}}"
-                                                                                                        (change)="onAccessorySelectionChange(accessory_checkbox.checked,accessory_item_data,accessory_header_data)"
-                                                                                                        [(checked)]="accessory_item_data.checked">
-                                                                                                    <span class="checkbox"></span>
-                                                                                                </label>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <span *ngIf="accessory_item_data['OPTM_ITEMKEY']!=''">{{accessory_item_data.OPTM_ITEMKEY}}</span>
-                                                                                                <span *ngIf="accessory_item_data['OPTM_ITEMKEY']==''">{{accessory_item_data.OPTM_DISPLAYNAME}}</span>
-                                                                                            </td>
-                                                                                            <td>{{accessory_item_data.OPTM_DISPLAYNAME}}
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                </table>
-                                                                            </ng-template>
-                                                                        </kendo-panelbar-item>
-                                                                    </kendo-panelbar>
-                                                                </div>
+                                                                                </thead>
+                                                                                <tbody *ngIf="get_accessory_element(accessory_header_data,selectedAccessoryBOM).length > 0">
+                                                                                    <tr *ngFor="let accessory_item_data of get_accessory_element(accessory_header_data,selectedAccessoryBOM) | Accesoryfilter : 'OPTM_ITEMKEY' :'OPTM_DISPLAYNAME' : searchAccesoryString; let i= index;">
+                                                                                        <td class="text-center"
+                                                                                            [ngStyle]=" {'width': '30px'}">
+                                                                                            <label class="custom-checkbox mb-0 wihtout-label">
+                                                                                                <input type="checkbox"
+                                                                                                    id="accessory_checkbox_{{accessory_item_data.unique_key}}_{{accessory_item_data.OPTM_LINENO}}_{{i}}"
+                                                                                                    #accessory_checkbox
+                                                                                                    name="accessory_checkbox_{{accessory_item_data.unique_key}}_{{accessory_item_data.OPTM_LINENO}}_{{i}}"
+                                                                                                    (change)="onAccessorySelectionChange(accessory_checkbox.checked,accessory_item_data,accessory_header_data)"
+                                                                                                    [(checked)]="accessory_item_data.checked">
+                                                                                                <span class="checkbox"></span>
+                                                                                            </label>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <span *ngIf="accessory_item_data['OPTM_ITEMKEY']!=''">{{accessory_item_data.OPTM_ITEMKEY}}</span>
+                                                                                            <span *ngIf="accessory_item_data['OPTM_ITEMKEY']==''">{{accessory_item_data.OPTM_DISPLAYNAME}}</span>
+                                                                                        </td>
+                                                                                        <td>{{accessory_item_data.OPTM_DISPLAYNAME}}
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </ng-template>
+                                                                    </kendo-panelbar-item>
+                                                                </kendo-panelbar>
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
-                                            
+
+                                            </div>
+
                                         </kendo-splitter-pane>
                                         <kendo-splitter-pane [collapsible]="false" class="slim-scroll" *ngIf="isdesktopView">
                                             <div class="px-2 third-step-left-right slim-scroll">
                                                 <div class="modal_heading_block" *ngIf="isModelVisible">
-                                                         <div class="form-group col-md-12 clearfix pl-0 pr-0">
-                                                            <span class="col-sm-6 bg-light">{{language.model_description}} :</span>
-                                                         <span class="col-sm-6 bg-light border border-primary">{{model_description}}</span>
+                                                    <div class="form-group col-md-12 clearfix pl-0 pr-0">
+                                                        <span class="col-sm-6 bg-light">{{language.model_description}}
+                                                            :</span>
+                                                        <span class="col-sm-6 bg-light border border-primary">{{model_description}}</span>
                                                         <span *ngFor="let featurerow of featureDescriptionList" class="col-sm-6 bg-light border border-primary">{{featurerow.description}}</span>
                                                         <hr>
                                                     </div>
-                                                   </div>
+                                                </div>
                                                 <div class="feature_block">
                                                     <div class="feature_table">
                                                         <kendo-grid [kendoGridBinding]="feature_itm_list_table"
@@ -1492,9 +1509,11 @@
                                                         <div class="px-2 third-step-left-right slim-scroll">
                                                             <div class="modal_heading_block" *ngIf="isModelVisible">
                                                                 <div class="form-group col-md-12 clearfix pl-0 pr-0">
-                                                                        <span class="col-sm-6 bg-light">{{language.model_description}} :</span>
-                                                                        <span class="col-sm-6 bg-light border border-primary">{{model_description}}</span>
-                                                                       <span *ngFor="let featurerow of featureDescriptionList" class="col-sm-6 bg-light border border-primary">{{featurerow.description}}</span>
+                                                                    <span class="col-sm-6 bg-light">{{language.model_description}}
+                                                                        :</span>
+                                                                    <span class="col-sm-6 bg-light border border-primary">{{model_description}}</span>
+                                                                    <span *ngFor="let featurerow of featureDescriptionList"
+                                                                        class="col-sm-6 bg-light border border-primary">{{featurerow.description}}</span>
                                                                     <hr>
                                                                 </div>
                                                             </div>
