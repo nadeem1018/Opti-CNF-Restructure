@@ -2857,7 +2857,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           }
 
           console.log("Performance First Time Rule Data Bind Start", new Date());
+          console.log(this.feature_itm_list_table);
           this.RuleIntegration(data.RuleOutputData, true, "", false)
+          console.log(this.feature_itm_list_table);
           console.log("Performance First Time Rule Data Bind Start", new Date());
 
           this.ModelLookupFlag = true
@@ -2888,7 +2890,11 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             this.onselectionchange(selecteditem[0], true, 0, true, selecteditem[0].unique_key, false, false, true);
           } else {
             if (this.isAttribute) {
-              this.getCustomeAttributeValue();
+              if(this.ModelBOMDetailAttribute.length > 0 && this.FeatureBOMDetailAttribute.length > 0)
+              {
+                this.getCustomeAttributeValue();
+              }
+            
             }
           }
 
