@@ -60,7 +60,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
   public defaultcheckbox: boolean = false;
   public is_default: boolean = false;
   public config_params: any;
-  public is_slctUsAttr:boolean = false;
+  public is_slctUsAttr: boolean = false;
 
   // modalRef: BsModalRef;
 
@@ -296,8 +296,8 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               this.isMaxSelectedDisable = false;
               mandatory_item_disabled = false;
               this.is_default = false;
-              data.ModelDetail[i]['is_slctUsAttr']= false;
-              
+              data.ModelDetail[i]['is_slctUsAttr'] = false;
+
               // this.mandatory_disabled = false;
             } else if (data.ModelDetail[i].OPTM_TYPE == 2) {
               this.typevaluefromdatabase = data.ModelDetail[i].OPTM_ITEMKEY.toString()
@@ -309,7 +309,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               this.isMaxSelectedDisable = true;
               mandatory_item_disabled = true;
               this.is_default = true
-              data.ModelDetail[i]['is_slctUsAttr']= true;
+              data.ModelDetail[i]['is_slctUsAttr'] = true;
               // this.mandatory_disabled = true;
             } else {
               this.typevaluefromdatabase = data.ModelDetail[i].OPTM_CHILDMODELID.toString()
@@ -321,8 +321,8 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               this.isMaxSelectedDisable = false;
               mandatory_item_disabled = false;
               this.is_default = false;
-              data.ModelDetail[i]['is_slctUsAttr']= false;
-               // this.mandatory_disabled = false;
+              data.ModelDetail[i]['is_slctUsAttr'] = false;
+              // this.mandatory_disabled = false;
             }
             // if (data.ModelDetail[i].OPTM_READYTOUSE == "" || data.ModelDetail[i].OPTM_READYTOUSE == null || data.ModelDetail[i].OPTM_READYTOUSE == undefined || data.ModelDetail[i].OPTM_READYTOUSE == "N") {
             //   data.ModelDetail[i].OPTM_READYTOUSE = false
@@ -419,11 +419,11 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               print_on_report: print_on_report,
               print_on_report_disabled: print_on_report_disabled,
               is_default: this.is_default,
-              is_slctUsAttr:data.ModelDetail[i].is_slctUsAttr,
-              OPTM_SELUATTRIBUTE:data.ModelDetail[i].OPTM_SELUATTRIBUTE,
-              OPTM_DSP_GROUP:data.ModelDetail[i].OPTM_DSP_GROUP,
-              OPTM_DSP_ORDERINGROUP:data.ModelDetail[i].OPTM_DSP_ORDERINGROUP,
-              OPTM_DSPGROUP_ORDER:data.ModelDetail[i].OPTM_DSPGROUP_ORDER
+              is_slctUsAttr: data.ModelDetail[i].is_slctUsAttr,
+              OPTM_SELUATTRIBUTE: data.ModelDetail[i].OPTM_SELUATTRIBUTE,
+              OPTM_DSP_GROUP: data.ModelDetail[i].OPTM_DSP_GROUP,
+              OPTM_DSP_ORDERINGROUP: data.ModelDetail[i].OPTM_DSP_ORDERINGROUP,
+              OPTM_DSPGROUP_ORDER: data.ModelDetail[i].OPTM_DSPGROUP_ORDER
             });
 
           }
@@ -489,9 +489,9 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
       ModelCode: this.modelbom_data.modal_code,
       description: this.modelbom_data.feature_desc,
       OPTM_ABBREVIATION: "",
-      OPTM_DSP_GROUP:"",
-      OPTM_DSPGROUP_ORDER:"",
-      OPTM_DSP_ORDERINGROUP:"",
+      OPTM_DSP_GROUP: "",
+      OPTM_DSPGROUP_ORDER: "",
+      OPTM_DSP_ORDERINGROUP: "",
       OPTM_MODELLEVEL_DESC: "N",
       ReadyToUse: "N",
       type: 1,
@@ -1770,6 +1770,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
         return false;
       }
       else {
+        let groupName: any = [];
         for (let i = 0; i < this.modelbom_data.length; ++i) {
           let currentrow = i + 1;
           if (this.modelbom_data[i].type == 1 && this.modelbom_data[i].type_value == "") {
@@ -1791,6 +1792,16 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
 
             this.CommonService.show_notification(this.language.quantityblank + currentrow, 'error');
             return false;
+          }
+          if (this.modelbom_data[i].OPTM_DSP_GROUP != "") {
+            if (this.modelbom_data[i].OPTM_DSPGROUP_ORDER == "") {
+
+              this.CommonService.show_notification(this.language.Display_Order_field + currentrow, 'error');
+              return false;
+            }
+            else {
+              groupName.push({ group: this.modelbom_data[i].OPTM_DSP_GROUP, ordernumber: this.modelbom_data[i].OPTM_DSPGROUP_ORDER });
+            }
           }
           // if (this.modelbom_data[i].OPTM_DSP_GROUP == "") {
 
@@ -1814,6 +1825,34 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
           //     return false;
           //   }
           // }
+        }
+        if (groupName.length > 0) {
+          const groupArray = [];
+          const map = new Map();
+          for (const item of groupName) {
+            if (!map.has(item.group)) {
+              map.set(item.group, true);    // set any value to Map
+              groupArray.push({
+                group: item.group,
+                ordernumber: item.ordernumber
+              });
+            }
+          }
+          for (let j = 0; j < groupArray.length; j++) {
+            for (let i = 0; i < this.modelbom_data.length; ++i) {
+              let currentrow = i + 1;
+              if (this.modelbom_data[i].OPTM_DSP_GROUP == groupArray[j].group) {
+                if (this.modelbom_data[i].OPTM_DSPGROUP_ORDER != groupArray[j].ordernumber) {
+
+                  this.CommonService.show_notification(this.language.Invalid_Display_Order_field + currentrow, 'error');
+                  return false;
+                }
+              }
+            }
+          }
+
+
+
         }
       }
 

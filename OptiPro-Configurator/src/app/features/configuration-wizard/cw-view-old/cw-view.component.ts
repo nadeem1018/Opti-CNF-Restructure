@@ -8458,7 +8458,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       if (isExist.length == 0) {
         this.feature_itm_list_table.push({
           FeatureId: ModelData[imodelarray].OPTM_CHILDMODELID,
-          featureName: ModelData[imodelarray].parent_code,
+          featureName: ModelData[imodelarray].feature_code,
           Item: ModelData[imodelarray].OPTM_ITEMKEY,
           discount: 0,
           ItemNumber: "",

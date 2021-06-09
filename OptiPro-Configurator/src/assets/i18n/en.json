@@ -742,5 +742,6 @@
     "Create_Order": "Create Order",
     "Custom_CW": "Custom Configure Wizard",
     "SelectData":"Kindly Select Item",
-    "OrderCreated":"Order has been created with Order No:"
+    "OrderCreated":"Order has been created with Order No:",
+    "Invalid_Display_Order_field":"Enter Valid Display Group Order at row index:"
 }
