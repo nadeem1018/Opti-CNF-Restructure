@@ -6994,11 +6994,11 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
              console.log(temp_child_model_id);*/
 
             imodelData = step3_data_row.ModelHeaderData.filter(function (obj) {
-              return obj['OPTM_CHILDMODELID'] == temp_child_model_id && obj['nodeid'] == tempNodeId && obj['OPTM_TYPE'] == 3
+              return  obj['nodeid'] == tempNodeId && obj['OPTM_TYPE'] == 3
             });
             if (imodelData.length == 0) {
               imodelData = step3_data_row.ModelHeaderData.filter(function (obj) {
-                return obj['OPTM_CHILDMODELID'] == temp_child_model_id && obj['unique_key'] == tempNodeId && obj['OPTM_TYPE'] == 3
+                return obj['unique_key'] == tempNodeId && obj['OPTM_TYPE'] == 3
               });
             }
 
