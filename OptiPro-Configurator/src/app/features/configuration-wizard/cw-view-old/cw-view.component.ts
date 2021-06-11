@@ -3854,7 +3854,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                           }
 
                           if (parentarray[0].OPTM_FEATUREID == DataForSelectedFeatureModelItem[i].OPTM_FEATUREID && DataForSelectedFeatureModelItem[i].OPTM_TYPE == 2 && parentarray[0].parent_code != undefined && parentarray[0].parent_code != null) {
-                            parentarray[0].feature_code = parentarray[0].parent_code
+                            parentarray[0].feature_code = parentarray[0].feature_code
                           }
                           if (DataForSelectedFeatureModelItem[i].OPTM_TYPE == 2 || DataForSelectedFeatureModelItem[i].OPTM_TYPE == 3) {
                             itemData.push(DataForSelectedFeatureModelItem[i])
