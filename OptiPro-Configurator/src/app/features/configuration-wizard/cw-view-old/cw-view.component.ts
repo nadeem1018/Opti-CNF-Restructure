@@ -6,6 +6,7 @@ import { CommonService } from 'src/app/core/service/common.service';
 import { OutputService } from 'src/app/core/service/output.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter } from '@progress/kendo-data-query/dist/npm/transducers';
+import { TreeViewModule } from '@progress/kendo-angular-treeview';
 
 
 @Component({
@@ -1564,7 +1565,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
     } else {
       this.serviceData = this.ModelBOMDetailAttribute.filter(function (obj) {
-        return obj['OPTM_MODELID'] == datatitem.model_id && obj['OPTM_MODELDTLROWID'] == 0 && obj['OPTM_OPTION'] != "USER_DEFINED";
+        return obj['OPTM_MODELID'] == datatitem.model_id && (obj['OPTM_MODELDTLROWID'] == 0 || obj['OPTM_MODELDTLROWID'] == null)  && obj['OPTM_OPTION'] != "USER_DEFINED";
       });
 
 
@@ -1658,7 +1659,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     //   return obj['OPTM_MODELID'] == mainModelId;
     // });
     this.serviceData = this.ModelBOMDetailAttribute.filter(function (obj) {
-      return obj['OPTM_MODELID'] == mainModelId && obj['OPTM_MODELDTLROWID'] == 0 && obj['OPTM_OPTION'] != "USER_DEFINED";
+      return obj['OPTM_MODELID'] == mainModelId && (obj['OPTM_MODELDTLROWID'] == 0 || obj['OPTM_MODELDTLROWID'] == null) && obj['OPTM_OPTION'] != "USER_DEFINED";
     });
 
   }
@@ -1746,6 +1747,33 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     }
   }
 
+  setAccesoryItems() {
+    var SelectedAccesoryValue = this.selectedAccessoryBOM.filter(function (obj) {
+      return (obj['checked'] == true || obj['OPTM_DEFAULT'] == 'Y') && obj['OPTM_TYPE'] == "3";
+    });
+
+    if (SelectedAccesoryValue.length > 0) {
+      let featureValueList: any = this.feature_value_list_table;
+      SelectedAccesoryValue.forEach(element => {
+        featureValueList.push(element)
+      });
+      this.feature_value_list_table = featureValueList;
+    }
+
+
+    var SelectedAccesoryItem = this.selectedAccessoryBOM.filter(function (obj) {
+      return (obj['checked'] == true || obj['OPTM_DEFAULT'] == 'Y') && obj['OPTM_TYPE'] == "2";
+    });
+
+    if (SelectedAccesoryItem.length > 0) {
+      let featurItemList: any = this.feature_itm_list_table;
+      SelectedAccesoryItem.forEach(element => {
+        featurItemList.push(element)
+      });
+      this.feature_itm_list_table = featurItemList;
+    }
+}
+
   onCalculateAttribute() {
     this.SelectedModelFeature = [];
     this.SelectedItems = [];
@@ -1761,6 +1789,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
       return obj;
     });
+
     this.SelectedItems = this.SelectedItems.filter(function (obj) {
       obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
       if (obj['HEADER_LINENO'] != null && obj['HEADER_LINENO'] != undefined) {
@@ -2824,6 +2853,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           this.getAccessoryData(this.selectedAccessoryHeader)
 
           this.selectedAccessoryBOM = data.SelectedAccessoryBOM
+          this.setAccesoryItems();
 
           if (this.Accessoryarray.length == 0 && this.AccessModel.length > 0) {
             this.Accessoryarray = this.AccessModel
@@ -2857,9 +2887,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           }
 
           console.log("Performance First Time Rule Data Bind Start", new Date());
-          console.log(this.feature_itm_list_table);
           this.RuleIntegration(data.RuleOutputData, true, "", false)
-          console.log(this.feature_itm_list_table);
           console.log("Performance First Time Rule Data Bind Start", new Date());
 
           this.ModelLookupFlag = true
@@ -2886,17 +2914,16 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           console.log("Performance First time Data Bind End", new Date());
           if (selecteditem.length > 0 && data.RuleOutputData.length > 0) {
             this.showLookupLoader = false;
-            this.SecondCallAPI = false;
-            this.onselectionchange(selecteditem[0], true, 0, true, selecteditem[0].unique_key, false, false, true);
-          } else {
+            // this.SecondCallAPI = false;
+            // this.onselectionchange(selecteditem[0], true, 0, true, selecteditem[0].unique_key, false, false, true);
+          } 
             if (this.isAttribute) {
-              if(this.ModelBOMDetailAttribute.length > 0 && this.FeatureBOMDetailAttribute.length > 0)
-              {
+              if (this.ModelBOMDetailAttribute.length > 0 || this.FeatureBOMDetailAttribute.length > 0) {
                 this.getCustomeAttributeValue();
               }
-            
+
             }
-          }
+          
 
         }
         else {
@@ -2957,6 +2984,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.SelectedFeatureAttributes = [];
     this.SelectModelAttributes = [];
     this.onCalculateAttributeItem();
+
     var customeFeature = this.ModelHeaderData.filter(function (obj) {
       return obj['OPTM_ISCUSTOMVIEW'] == "Y";
     });
@@ -7737,27 +7765,27 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     if (header_feature_table['OPTM_TYPE'] == "1" && header_feature_table['ACCESSORY'] != "Y" && header_feature_table['is_second_level'] == null) {
       array = feature_child_datatable.filter(function (obj) {
         if (obj['parentfeatureid'] != "" && obj['parentfeatureid'] != null) {
-          return obj['OPTM_FEATUREID'] == header_feature_table['OPTM_FEATUREID'] && obj['nodeid'] == header_feature_table['unique_key'];
+          return obj['nodeid'] == header_feature_table['unique_key'];
         } else {
-          return obj['OPTM_FEATUREID'] == header_feature_table['OPTM_FEATUREID'] && obj['nodeid'] == header_feature_table['unique_key'];
+          return obj['nodeid'] == header_feature_table['unique_key'];
         }
       });
     } else if (header_feature_table['OPTM_TYPE'] == "3" && header_feature_table['ACCESSORY'] != null) {
       if (header_feature_table['ACCESSORY'] != "Y") {
         array = model_child_datatable.filter(function (obj) {
-          return obj['OPTM_MODELID'] == header_feature_table['OPTM_CHILDMODELID'] && obj['nodeid'] == header_feature_table['unique_key'] && obj['OPTM_TYPE'] != "2";
+          return obj['nodeid'] == header_feature_table['unique_key'] && obj['OPTM_TYPE'] != "2";
         });
       }
     } else if (header_feature_table['OPTM_TYPE'] == "3" && header_feature_table['ACCESSORY'] == null) {
       if (header_feature_table['IS_ACCESSORY'] != "Y") {
         array = model_child_datatable.filter(function (obj) {
-          return obj['OPTM_MODELID'] == header_feature_table['OPTM_CHILDMODELID'] && obj['nodeid'] == header_feature_table['unique_key'] && obj['OPTM_TYPE'] != "2";
+          return obj['nodeid'] == header_feature_table['unique_key'] && obj['OPTM_TYPE'] != "2";
         });
       }
     } else if (header_feature_table['OPTM_TYPE'] == "1" && header_feature_table['ACCESSORY'] != "Y" &&
       header_feature_table['is_second_level'] != null) {
       array = feature_child_datatable.filter(function (obj) {
-        return obj['OPTM_FEATUREID'] == header_feature_table['OPTM_FEATUREID'] && obj['nodeid'] == header_feature_table['unique_key'];
+        return obj['nodeid'] == header_feature_table['unique_key'];
       });
     }
     if (header_feature_table['OPTM_ISCUSTOMVIEW'] == "Y") {
@@ -8005,16 +8033,26 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
     this.lookupfor = 'Attribute_lookup';
     this.showLookupLoader = false;
-    var SelectedAttributes = this.FeatureBOMDetailAttribute.filter(function (obj) {
-      return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID;
+    var SelectedFeature = this.selectedAccessoryBOM.filter(function (obj) {
+      return obj['nodeid'] == datatitem.unique_key && (obj['checked'] == true || obj['OPTM_DEFAULT'] == 'Y');
     });
-    SelectedAttributes.forEach(element => {
-      this.serviceData.push(element);
-    });
+
+    for (var selectedItemObject in SelectedFeature) {
+      var SelectedAttributes = this.FeatureBOMDetailAttribute.filter(function (obj) {
+        return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID && obj['OPTM_FEATUREDTLROWID'] == SelectedFeature[selectedItemObject].OPTM_LINENO;
+      });
+      this.serviceData.push.apply(this.serviceData, SelectedAttributes);
+    }
+    // var SelectedAttributes = this.FeatureBOMDetailAttribute.filter(function (obj) {
+    //   return obj['OPTM_FEATUREID'] == datatitem.OPTM_FEATUREID;
+    // });
+    // SelectedAttributes.forEach(element => {
+    //   this.serviceData.push(element);
+    // });
 
   }
 
-  getAccessoryAttributes(id: any, lineNo: any) {
+  getAccessoryAttributes(id: any, lineNo: any, type: any) {
     this.OutputService.GetDataForAccesoriesAttribute(id, lineNo).subscribe(
       data => {
         if (data != null && data != undefined) {
@@ -8024,7 +8062,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               featueAttribute.push(element);
             });
             this.FeatureBOMDetailAttribute = featueAttribute;
-            this.getCustomeAttributeValue();
+            if (type != 2) {
+              this.getCustomeAttributeValue();
+            }
+
           }
         }
       },
@@ -8080,41 +8121,42 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     }
 
 
-
-    if (value == false) {
-      let dataList = this.FeatureBOMDetailAttribute;
-      let featuretablelist = this.feature_value_list_table;
-      let id = rowData.OPTM_FEATUREID;
-      for (let i = 0; i < dataList.length; i++) {
-        if (dataList[i].OPTM_FEATUREID == id) {
-          dataList.splice(i, 1);
-          i = i - 1;
-        }
-      }
-
-      for (let i = 0; i < featuretablelist.length; i++) {
-        if (featuretablelist[i].OPTM_FEATUREID == id && featuretablelist[i].OPTM_LINENO == rowData.OPTM_LINENO) {
-          featuretablelist.splice(i, 1);
-          i = i - 1;
-        }
-      }
-      this.FeatureBOMDetailAttribute = dataList;
-      this.feature_value_list_table = featuretablelist;
-      this.selectedAccessoryBOM[accessoryIndex].OPTM_DEFAULT = "N";
-    }
-    else {
-      this.selectedAccessoryBOM[accessoryIndex].OPTM_DEFAULT = "Y";
-      let list = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-        return obj['OPTM_FEATUREID'] == rowData.OPTM_FEATUREID && obj['OPTM_LINENO'] == rowData.OPTM_LINENO
-      });
-      this.feature_value_list_table.push(list[0]);
-    }
-    this.getAccessoryAttributes(rowData.OPTM_FEATUREID, rowData.OPTM_LINENO);
-
     if (rowData.OPTM_ITEMKEY == "") {
+      if (value == false) {
+        let dataList = this.FeatureBOMDetailAttribute;
+        let featuretablelist = this.feature_value_list_table;
+        let id = rowData.OPTM_FEATUREID;
+        for (let i = 0; i < dataList.length; i++) {
+          if (dataList[i].OPTM_FEATUREID == id) {
+            dataList.splice(i, 1);
+            i = i - 1;
+          }
+        }
+
+        for (let i = 0; i < featuretablelist.length; i++) {
+          if (featuretablelist[i].OPTM_FEATUREID == id && featuretablelist[i].OPTM_LINENO == rowData.OPTM_LINENO) {
+            featuretablelist.splice(i, 1);
+            i = i - 1;
+          }
+        }
+        this.FeatureBOMDetailAttribute = dataList;
+        this.feature_value_list_table = featuretablelist;
+        this.selectedAccessoryBOM[accessoryIndex].OPTM_DEFAULT = "N";
+      }
+      else {
+        this.selectedAccessoryBOM[accessoryIndex].OPTM_DEFAULT = "Y";
+        let list = this.selectedAccessoryBOM.filter(function (obj) {
+          return obj['OPTM_FEATUREID'] == rowData.OPTM_FEATUREID && obj['OPTM_LINENO'] == rowData.OPTM_LINENO
+        });
+        this.feature_value_list_table.push(list[0]);
+      }
+
+      this.getAccessoryAttributes(rowData.OPTM_FEATUREID, rowData.OPTM_LINENO, rowData.OPTM_TYPE);
       this.showLookupLoader = false;
       return false;
     }
+
+
 
     GetDataForSelectedFeatureModelItemData.apidata.push({
       GUID: sessionStorage.getItem("GUID"),
@@ -8144,6 +8186,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               //  this.addAttributeForSelection(rowData);
 
               this.setItemDataForFeatureAccessory(data.AccessoryFeatureData, accessoryHeader, rowData, "", this.step2_data);
+
             }
             this.showLookupLoader = false;
           }
@@ -8158,6 +8201,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           }
         }
         this.feature_price_calculate();
+        this.getAccessoryAttributes(rowData.OPTM_FEATUREID, rowData.OPTM_LINENO, rowData.OPTM_TYPE);
       },
       error => {
         this.showLookupLoader = false;
@@ -8330,7 +8374,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             pricehide: isPricehide,
             isQuantityDisabled: false,
             ispropogateqty: ItemData[i].OPTM_PROPOGATEQTY,
-            OPTM_LINENO: isheadercounter,
+            OPTM_LINENO: parseInt(ItemData[i].OPTM_LINENO),
+            OPTM_TYPE: parseInt(ItemData[i].OPTM_TYPE),
             HEADER_LINENO: isheadercounter,
             unique_key: unique_key,
             nodeid: nodeid,
@@ -8458,7 +8503,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       if (isExist.length == 0) {
         this.feature_itm_list_table.push({
           FeatureId: ModelData[imodelarray].OPTM_CHILDMODELID,
-          featureName: ModelData[imodelarray].feature_code,
+          featureName: ModelData[imodelarray].parent_code,
           Item: ModelData[imodelarray].OPTM_ITEMKEY,
           discount: 0,
           ItemNumber: "",
@@ -8521,7 +8566,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         if (isExist.length == 0) {
           this.feature_itm_list_table.push({
             FeatureId: ModelItemsArray[imodelItemsarray].OPTM_FEATUREID,
-            featureName: ModelItemsArray[imodelItemsarray].feature_code,
+            featureName: ModelItemsArray[imodelItemsarray].parent_code,
             Item: ModelItemsArray[imodelItemsarray].OPTM_ITEMKEY,
             discount: 0,
             ItemNumber: ModelItemsArray[imodelItemsarray].DocEntry,
