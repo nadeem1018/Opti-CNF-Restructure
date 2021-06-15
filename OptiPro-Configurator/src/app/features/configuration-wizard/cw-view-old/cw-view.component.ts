@@ -623,7 +623,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
     if (this.ModelHeaderData.length > 0) {
       this.ModelHeaderData.forEach((elementList, index) => {
-        let element = document.getElementById("" + elementList.OPTM_DISPLAYNAME + "");
+        let element = document.getElementById("" + elementList.unique_key + "");
         if (element != null) {
           element.getElementsByTagName('span')[0].setAttribute("style", "background:" + elementList.OPTM_CLR_CODE + "!important")
         }
