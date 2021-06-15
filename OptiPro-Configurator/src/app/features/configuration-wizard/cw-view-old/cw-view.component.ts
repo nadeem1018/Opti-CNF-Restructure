@@ -4987,6 +4987,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           OPTM_ITEMKEY: dtFeatureDataWithDefault[idtfeature].OPTM_ITEMKEY,
           OPTM_LINENO: dtFeatureDataWithDefault[idtfeature].OPTM_LINENO,
           OPTM_MODIFIEDBY: dtFeatureDataWithDefault[idtfeature].OPTM_MODIFIEDBY,
+          OPTM_DSPGROUP_ORDER: dtFeatureDataWithDefault[idtfeature].OPTM_DSPGROUP_ORDER,
+          OPTM_DSP_GROUP: dtFeatureDataWithDefault[idtfeature].OPTM_DSP_GROUP,
+          OPTM_DSP_ORDERINGROUP: dtFeatureDataWithDefault[idtfeature].OPTM_DSP_ORDERINGROUP,
           OPTM_MODIFIEDDATETIME: String(dtFeatureDataWithDefault[idtfeature].OPTM_MODIFIEDDATETIME).toString(),
           OPTM_PROPOGATEQTY: dtFeatureDataWithDefault[idtfeature].OPTM_PROPOGATEQTY,
           OPTM_PRICESOURCE: dtFeatureDataWithDefault[idtfeature].ListName,
@@ -10903,7 +10906,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     let tempchildfeaturecode_nodeid;
     let tempchildfeaturecode_unique_key;
     for (var itemp = 0; itemp < this.ModelHeaderData.length; itemp++) {
-      if (this.ModelHeaderData[itemp].parentfeatureid == featureid && this.ModelHeaderData[itemp].feature_code == featurecode && this.ModelHeaderData[itemp].unique_key == unique_key) {
+      if (this.ModelHeaderData[itemp].unique_key == unique_key) {
         tempfeatureidmodelheader = this.ModelHeaderData[itemp].OPTM_FEATUREID
         tempchildfeatuniqueKey = this.ModelHeaderData[itemp].unique_key
         this.ModelHeaderData.splice(itemp, 1);
