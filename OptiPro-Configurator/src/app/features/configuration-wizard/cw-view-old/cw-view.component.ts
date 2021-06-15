@@ -4009,7 +4009,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
                 }
               }
-              else if (type == 3 && feature_model_data.OPTM_VALUE == null) {
+              else if (type == 3 && (feature_model_data.OPTM_VALUE == null || feature_model_data.OPTM_VALUE == "")) {
                 DataForSelectedFeatureModelItem = data.ModelBOMDataForNLevel.filter(function (obj) {
                   return obj['nodeid'] == feature_model_data.unique_key
                 });
@@ -4040,7 +4040,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                     OPTM_DSPGROUP_ORDER: feature_model_data.OPTM_DSPGROUP_ORDER,
                     OPTM_DSP_GROUP: feature_model_data.OPTM_DSP_GROUP,
                     OPTM_DSP_ORDERINGROUP: feature_model_data.OPTM_DSP_ORDERINGROUP,
-                    OPTM_CLR_CODE: DataForSelectedFeatureModelItem[i].OPTM_CLR_CODE,
+                    OPTM_CLR_CODE: DataForSelectedFeatureModelItem[0].OPTM_CLR_CODE,
+                   // OPTM_CLR_CODE: "",
                     OPTM_MODELID: feature_model_data.OPTM_MODELID,
                     OPTM_MODIFIEDBY: feature_model_data.OPTM_MODIFIEDBY,
                     OPTM_MODIFIEDDATETIME: String(feature_model_data.OPTM_MODIFIEDDATETIME).toString(),
@@ -4248,7 +4249,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                   this.defaultitemflagid = feature_model_data.OPTM_FEATUREID
                 }
               }
-              else if (type == 3 && feature_model_data.OPTM_VALUE != null) {
+              else if (type == 3 && (feature_model_data.OPTM_VALUE != null || feature_model_data.OPTM_VALUE != "")) {
                 this.setItemDataForFeature(data.DataForSelectedFeatureModelItem, parentarray, propagateqtychecked, propagateqty, parentarray[0].feature_code, parentarray[0].OPTM_LINENO, type, parentArrayElemType, true, feature_model_data);
               }
               else if (type == 2) {
@@ -4712,9 +4713,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         OPTM_MINSELECTABLE: psMinSelect,
         OPTM_MODELID: DataForSelectedFeatureModelItem.OPTM_MODELID,
         OPTM_MODIFIEDBY: DataForSelectedFeatureModelItem.OPTM_MODIFIEDBY,
+        OPTM_DSPGROUP_ORDER: DataForSelectedFeatureModelItem.OPTM_DSPGROUP_ORDER,
+        OPTM_DSP_GROUP: DataForSelectedFeatureModelItem.OPTM_DSP_GROUP,
+        OPTM_DSP_ORDERINGROUP: DataForSelectedFeatureModelItem.OPTM_DSP_ORDERINGROUP,
         OPTM_MODIFIEDDATETIME: String(DataForSelectedFeatureModelItem.OPTM_MODIFIEDDATETIME).toString(),
         OPTM_PRICESOURCE: DataForSelectedFeatureModelItem.ListName,
         OPTM_PROPOGATEQTY: DataForSelectedFeatureModelItem.OPTM_PROPOGATEQTY,
+        OPTM_CLR_CODE: DataForSelectedFeatureModelItem.OPTM_CLR_CODE,
         OPTM_QUANTITY: parseFloat(DataForSelectedFeatureModelItem.OPTM_QUANTITY).toFixed(3),
         OPTM_TYPE: DataForSelectedFeatureModelItem.OPTM_TYPE,
         OPTM_UNIQUEIDNT: DataForSelectedFeatureModelItem.OPTM_UNIQUEIDNT,
