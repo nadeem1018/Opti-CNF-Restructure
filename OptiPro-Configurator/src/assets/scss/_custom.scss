@@ -1738,6 +1738,13 @@ a.common_grid_link {
   right: -23px;
 }
 
+.required.required-item:after {
+  content: "*";
+  max-width: 140px;
+  width: 100%;
+  right: -45px;
+}
+
 
 .foot-left {
   float: left;

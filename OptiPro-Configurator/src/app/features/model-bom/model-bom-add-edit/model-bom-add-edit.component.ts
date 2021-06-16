@@ -1803,6 +1803,15 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               groupName.push({ group: this.modelbom_data[i].OPTM_DSP_GROUP, ordernumber: this.modelbom_data[i].OPTM_DSPGROUP_ORDER });
             }
           }
+          if (this.modelbom_data[i].OPTM_DSPGROUP_ORDER != "") {
+            if (this.modelbom_data[i].OPTM_DSP_GROUP == "") {
+
+              this.CommonService.show_notification(this.language.Display_Name_field + currentrow, 'error');
+              return false;
+            }
+          
+          }
+
           // if (this.modelbom_data[i].OPTM_DSP_GROUP == "") {
 
           //   this.CommonService.show_notification(this.language.Display_Name_field + currentrow, 'error');
