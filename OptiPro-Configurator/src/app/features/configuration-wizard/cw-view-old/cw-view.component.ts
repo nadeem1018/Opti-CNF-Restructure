@@ -820,6 +820,18 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
           this.showLookupLoader = false;
           this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          if (this.isNeedAssesment) {
+            this.navigation_in_steps(1, 2);
+            this.SkipAssementModel =true;
+            this.skip_assessment = true;
+            this.resetMobileFields();
+            this.isneedmobileAssessment = true;
+          }
+          else {
+            this.navigation_in_steps(1, 3);
+            this.resetMobileFields();
+            this.ismodelConfig = true;
+          }
           return;
         }
       }, error => {
@@ -5098,6 +5110,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             OPTM_ITEMKEY: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_ITEMKEY,
             OPTM_LINENO: this.ModelHeaderData.length + 1,
             OPTM_MANDATORY: model_mandatory,
+            OPTM_DSPGROUP_ORDER: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_DSPGROUP_ORDER,
+            OPTM_DSP_GROUP: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_DSP_GROUP,
+            OPTM_DSP_ORDERINGROUP: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_DSP_ORDERINGROUP,
+            OPTM_CLR_CODE: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_CLR_CODE,
             OPTM_ISMULTISELECT: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_ISMULTISELECT,
             OPTM_MAXSELECTABLE: psMaxSelect,
             OPTM_MINSELECTABLE: psMinSelect,

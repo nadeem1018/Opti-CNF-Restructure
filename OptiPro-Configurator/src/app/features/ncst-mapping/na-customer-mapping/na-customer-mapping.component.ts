@@ -214,12 +214,12 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
       return;
     }
     CommonData.made_changes = true;
-    this.need_customer_table[this.currentrowIndex].template_ID = $event[0];
+    this.need_customer_table[this.currentrowIndex].template_ID = $event[1];
     this.cusomerChangeTemplateMapping.push({
       // CUSTOMER_NAME: this.need_customer_table[this.currentrowIndex].customer_name
       OPTM_ID: this.need_customer_table[this.currentrowIndex].OPTM_ID,
       CustID: this.need_customer_table[this.currentrowIndex].CustID,
-      OPTM_TEMPLATEID: $event[0]
+      OPTM_TEMPLATEID: $event[1]
 
     });
   }
@@ -257,7 +257,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   }
 
   saveConfirmation() {
-    this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.SaveConfirmation });
+    this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.Confirmation });
     this.show_dialog = true;   
   }
 

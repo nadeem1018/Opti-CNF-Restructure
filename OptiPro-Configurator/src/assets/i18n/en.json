@@ -685,6 +685,7 @@
     "Nooperator": "Select Operator at Row",
     "Notype": "Select Condition at Row",
     "SaveConfirmation": "Rule is not Exist for this template.Do you want to continue ?",
+    "Confirmation": "Do you want to continue ?",
     "ConfigAttribute": "Apply Attribute Master",
     "ConfigAssesment": "Apply Need's Assessment",
     "ConfigUserApply": "Use Customerwise Need's Assessment",

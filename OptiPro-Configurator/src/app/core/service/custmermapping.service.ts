@@ -38,9 +38,17 @@ export class CustomerTemplateMappingService {
     }
 
     SaveCustomerTemplate(SaveData): Observable<any> {
-        SaveData[0]['GUID'] = sessionStorage.getItem("GUID");
-        SaveData[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
-        SaveData[0]['CompanyDBID'] = sessionStorage.getItem("selectedComp");
+        if(SaveData.length > 0)
+        {
+            SaveData[0]['GUID'] = sessionStorage.getItem("GUID");
+            SaveData[0]['UsernameForLic'] = sessionStorage.getItem("loggedInUser");
+            SaveData[0]['CompanyDBID'] = sessionStorage.getItem("selectedComp");
+        }
+        else
+        {
+            SaveData.push({'GUID':sessionStorage.getItem("GUID"),'UsernameForLic':sessionStorage.getItem("loggedInUser"),'CompanyDBID':sessionStorage.getItem("selectedComp")})
+        }
+       
 
         let jObject: any = { GetData: JSON.stringify({ OPCONFIG_CUSTOMER_NASS_TEMPLATEMAPPING: SaveData }) };
         return this.httpclient.post(this.config_params.service_url + "/CustomerNAssTemplateMapping/AddUpdateCustomerNAssTemplateMapping", jObject, this.common_params.httpOptions);
