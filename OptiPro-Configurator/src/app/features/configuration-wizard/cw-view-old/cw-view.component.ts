@@ -1659,7 +1659,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.showLookupLoader = false;
 
     var mainModelId = this.MainModelDetails[0].OPTM_MODELID;
-    // this.serviceData = this.ModelBOMDetailAttribute.filter(function (obj) {
+    // this.serviceData = this.ModelBOMDetailAttribute.filter(C (obj) {
     //   return obj['OPTM_MODELID'] == mainModelId;
     // });
     this.serviceData = this.ModelBOMDetailAttribute.filter(function (obj) {
@@ -5096,7 +5096,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           this.ModelHeaderData.push({
             ACCESSORY: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].ACCESSORY,
             IMAGEPATH: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].IMAGEPATH,
-            OPTM_CHILDMODELID: "",
+            OPTM_CHILDMODELID: 0,
             OPTM_COMPANYID: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_COMPANYID,
             OPTM_CREATEDATETIME: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_CREATEDATETIME,
             OPTM_CREATEDBY: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_CREATEDBY,
