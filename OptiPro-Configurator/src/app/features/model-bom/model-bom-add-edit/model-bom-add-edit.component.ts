@@ -1800,7 +1800,9 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               return false;
             }
             else {
-              groupName.push({ group: this.modelbom_data[i].OPTM_DSP_GROUP, ordernumber: this.modelbom_data[i].OPTM_DSPGROUP_ORDER });
+              if (this.modelbom_data[i].OPTM_DSPGROUP_ORDER != 0) {
+                groupName.push({ group: this.modelbom_data[i].OPTM_DSP_GROUP, ordernumber: this.modelbom_data[i].OPTM_DSPGROUP_ORDER });
+              }
             }
           }
           if (this.modelbom_data[i].OPTM_DSPGROUP_ORDER != "") {
@@ -1809,7 +1811,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               this.CommonService.show_notification(this.language.Display_Name_field + currentrow, 'error');
               return false;
             }
-          
+
           }
 
           // if (this.modelbom_data[i].OPTM_DSP_GROUP == "") {

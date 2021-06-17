@@ -257,7 +257,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   }
 
   saveConfirmation() {
-    this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.Confirmation });
+    this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.SaveConfirmation });
     this.show_dialog = true;   
   }
 
