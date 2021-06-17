@@ -922,7 +922,7 @@
                                                     <div *ngIf="group.OPTM_ACCESSORY == 'N'">
                                                         <div class="h5 mb-2 text-muted groupdata" *ngIf="group.OPTM_DSP_GROUP != 'NOGROUPAVAILABLE'">{{group.OPTM_DSP_GROUP}}</div>
                                                         <div *ngFor="let header_data of ModelHeaderData; let i = index;">
-                                                            <div *ngIf="header_data.OPTM_DSP_GROUP == group.OPTM_DSP_GROUP && header_data.ACCESSORY != Y"
+                                                            <div *ngIf="header_data.OPTM_DSP_GROUP == group.OPTM_DSP_GROUP"
                                                                 id="{{header_data.unique_key}}">
                                                                 <kendo-panelbar *ngIf="ModelHeaderData.length > 0"
                                                                     [selectable]="false">
