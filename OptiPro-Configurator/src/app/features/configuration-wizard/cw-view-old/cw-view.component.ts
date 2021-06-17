@@ -4407,6 +4407,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
 
             if (data.RuleOutputData.length > 0) {
+              this.ModelBOMRules = data.ModelBOMRules;
               let ruledata = [];
               for (var element in data.RuleOutputData) {
                 let isExist = this.feature_itm_list_table.filter(function (obj) {
