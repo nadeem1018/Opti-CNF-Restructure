@@ -143,7 +143,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
         else {
           this.lookupfor = "";
           this.serviceData = [];
-         // this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          // this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
           return;
         }
       },
@@ -159,6 +159,9 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
   // function for check proper Default template 
 
   onCheckDefaultTemplate() {
+    if (this.OPTM_DEFAULT_TEMPLATE == "") {
+      return false;
+    }
     CommonData.made_changes = true;
     this.service.onDefaultTemplateCheck(this.OPTM_DEFAULT_TEMPLATE).subscribe(
       data => {

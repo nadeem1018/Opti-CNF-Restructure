@@ -4518,6 +4518,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
     this.feature_price_calculate();
     this.ModelHeaderData.sort((a, b) => a.sort_key.localeCompare(b.sort_key));
+    this.ModelHeaderData = this.ModelHeaderData.filter(function (obj) {
+      return obj['ACCESSORY'] != "Y"
+    })
     this.createDescriptionList();
 
 
@@ -6817,7 +6820,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               }
             } */
             for (let ifeatureBOMitems = 0; ifeatureBOMitems < this.FeatureBOMDataForSecondLevel.length; ifeatureBOMitems++) {
-              if (isMandatoryItems[imandtory].OPTM_FEATUREID == this.FeatureBOMDataForSecondLevel[ifeatureBOMitems].OPTM_FEATUREID && isMandatoryItems[imandtory].unique_key == this.FeatureBOMDataForSecondLevel[ifeatureBOMitems].nodeid && this.FeatureBOMDataForSecondLevel[ifeatureBOMitems].checked == true && isMandatoryItems[imandtory].parentmodelid == this.FeatureBOMDataForSecondLevel[ifeatureBOMitems].parentmodelid) {
+              if (isMandatoryItems[imandtory].unique_key == this.FeatureBOMDataForSecondLevel[ifeatureBOMitems].nodeid && this.FeatureBOMDataForSecondLevel[ifeatureBOMitems].checked == true) {
                 get_min_select_list[imandtory]['actual']++;
               }
             }
@@ -6830,7 +6833,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               }
             } */
             for (let ifeatureBOMitems = 0; ifeatureBOMitems < this.FeatureBOMDataForSecondLevel.length; ifeatureBOMitems++) {
-              if (isMandatoryItems[imandtory].OPTM_FEATUREID == this.FeatureBOMDataForSecondLevel[ifeatureBOMitems].OPTM_FEATUREID && isMandatoryItems[imandtory].feature_code == this.FeatureBOMDataForSecondLevel[ifeatureBOMitems].parent_code && this.FeatureBOMDataForSecondLevel[ifeatureBOMitems].checked == true && isMandatoryItems[imandtory].unique_key == this.FeatureBOMDataForSecondLevel[ifeatureBOMitems].nodeid) {
+              if (this.FeatureBOMDataForSecondLevel[ifeatureBOMitems].checked == true && isMandatoryItems[imandtory].unique_key == this.FeatureBOMDataForSecondLevel[ifeatureBOMitems].nodeid) {
                 get_min_select_list[imandtory]['actual']++;
               }
             }
@@ -6844,7 +6847,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             }
           } */
           for (let imodelBOMitems = 0; imodelBOMitems < this.ModelBOMDataForSecondLevel.length; imodelBOMitems++) {
-            if (isMandatoryItems[imandtory].OPTM_FEATUREID == this.ModelBOMDataForSecondLevel[imodelBOMitems].OPTM_FEATUREID && isMandatoryItems[imandtory].feature_code == this.ModelBOMDataForSecondLevel[imodelBOMitems].feature_code && this.ModelBOMDataForSecondLevel[imodelBOMitems].checked == true && isMandatoryItems[imandtory].unique_key == this.ModelBOMDataForSecondLevel[imodelBOMitems].unique_key) {
+            if (this.ModelBOMDataForSecondLevel[imodelBOMitems].checked == true && isMandatoryItems[imandtory].unique_key == this.ModelBOMDataForSecondLevel[imodelBOMitems].unique_key) {
               get_min_select_list[imandtory]['actual']++;
             }
           }
@@ -6872,20 +6875,20 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     for (let iMinModelHeaderData = 0; iMinModelHeaderData < this.ModelHeaderData.length; iMinModelHeaderData++) {
       if (this.ModelHeaderData[iMinModelHeaderData].OPTM_MANDATORY == "Y") {
         if (this.ModelHeaderData[iMinModelHeaderData].OPTM_TYPE == "1") {
-          var tempfeatureid = this.ModelHeaderData[iMinModelHeaderData].OPTM_FEATUREID
+          var tempfeatureid = this.ModelHeaderData[iMinModelHeaderData].unique_key
           var isMinItemsCounted = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-            return obj['OPTM_FEATUREID'] == tempfeatureid && obj['checked'] == true
+            return obj['nodeid'] == tempfeatureid && obj['checked'] == true
           })
           if (isMinItemsCounted.length == 0) {
             isMinItemsCounted = this.ModelBOMDataForSecondLevel.filter(function (obj) {
-              return obj['OPTM_FEATUREID'] == tempfeatureid && obj['checked'] == true
+              return obj['nodeid'] == tempfeatureid && obj['checked'] == true
             })
           }
         }
         else if (this.ModelHeaderData[iMinModelHeaderData].OPTM_TYPE == "3") {
-          var tempfeatureid = this.ModelHeaderData[iMinModelHeaderData].OPTM_CHILDMODELID
+          var tempfeatureid = this.ModelHeaderData[iMinModelHeaderData].unique_key
           var isMinItemsCounted = this.ModelBOMDataForSecondLevel.filter(function (obj) {
-            return obj['OPTM_MODELID'] == tempfeatureid && obj['checked'] == true
+            return obj['nodeid'] == tempfeatureid && obj['checked'] == true
           })
         }
 
