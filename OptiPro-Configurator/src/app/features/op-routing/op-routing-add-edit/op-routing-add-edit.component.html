@@ -4,8 +4,8 @@
         <use xlink:href="#loader2"></use>
     </svg>
 </div>
-    <!-- loader end -->
-    
+<!-- loader end -->
+
 <!-- loader start for lookup -->
 <div class="loader-sm" *ngIf="showLookupLoader">
     <svg viewBox="0 0 218.2 218.8" class="loader2">
@@ -25,21 +25,23 @@
                     <div class="row h-100">
                         <div id="left-table-section" class="col-md-12 d-flex flex-column">
                             <div class="row">
-                                <div class="col-md-8">                    
+                                <div class="col-md-8">
                                     <div class="form-group row clearfix mb-2">
                                         <label class="col-sm-3 col-form-label" for="featureDisplay">{{language.routing_for}}</label>
                                         <div class="col-sm-5 mt-3px">
                                             <fieldset [disabled]="isOperationDisabled == true">
                                                 <div class="custom-control custom-radio custom-control-inline mr-3">
                                                     <input type="radio" id="feature_check" name="routing_for" (change)="on_operation_change()"
-                                                        [(ngModel)]="routing_header_data.routing_for" class="custom-control-input" value="feature"
-                                                        title="{{language.feature}}" tabindex="5" [disabled]="isOperationDisabled == true">
+                                                        [(ngModel)]="routing_header_data.routing_for" class="custom-control-input"
+                                                        value="feature" title="{{language.feature}}" tabindex="5"
+                                                        [disabled]="isOperationDisabled == true">
                                                     <label class="custom-control-label" for="feature_check">{{language.feature}}</label>
-                                                </div>                        
+                                                </div>
                                                 <div class="custom-control custom-radio custom-control-inline">
-                                                    <input type="radio" id="model_check" name="routing_for" (change)="on_operation_change()" [(ngModel)]="routing_header_data.routing_for"
-                                                        class="custom-control-input" value="model" title="{{language.model}}"
-                                                        tabindex="5" [disabled]="isOperationDisabled == true">
+                                                    <input type="radio" id="model_check" name="routing_for" (change)="on_operation_change()"
+                                                        [(ngModel)]="routing_header_data.routing_for" class="custom-control-input"
+                                                        value="model" title="{{language.model}}" tabindex="5"
+                                                        [disabled]="isOperationDisabled == true">
                                                     <label class="custom-control-label" for="model_check">{{language.model}}</label>
                                                 </div>
                                             </fieldset>
@@ -50,65 +52,89 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group row clearfix mb-2">
                                                     <label class="col-sm-6 col-form-label" for="feature_id">
-                                                        <div class="d-flex align-items-center justify-content-start required required-sm">
-                                                            {{language.feature}}
+                                                        <div class="d-flex align-items-center justify-content-start required">
+                                                            <span>
+                                                                {{language.feature}}
+                                                            </span>
                                                             <a class="cursor-pointer ml-5" *ngIf="routing_header_data.feature_id && routing_header_data.feature_code">
-                                                                <svg viewBox="0 0 32 32" class="icon icon-dark" (click)="navigateToFeatureModelHeader(routing_header_data.routing_for)"><use xlink:href="#circleRightArrow" ></use></svg>
+                                                                <svg viewBox="0 0 32 32" class="icon icon-dark" (click)="navigateToFeatureModelHeader(routing_header_data.routing_for)">
+                                                                    <use xlink:href="#circleRightArrow"></use>
+                                                                </svg>
                                                             </a>
                                                         </div>
                                                     </label>
-                                                    
-                                                    <div class="col-sm-6">   
-                                                        <input type="hidden" ngValue="" class="form-control form-control-sm" name="feature_id" id="feature_id" (change)="getFeatureDetail(routing_header_data.feature_id)" placeholder="{{language.Feature_Code}}" [(ngModel)]="routing_header_data.feature_id" title="{{routing_header_data.feature_id}}">  
-                                                        <div class="w-100 input-group">                                                  
-                                                            <input type="text" class="form-control form-control-sm" name="feature_code" id="featuer_code"
-                                                            [(ngModel)]="routing_header_data.feature_code" title="{{routing_header_data.feature_code}}"
-                                                            placeholder="{{language.feature}}" (change)="getFeatureDetail(routing_header_data.feature_code)" tabindex="6" [disabled]="this.form_mode == 'edit'">
+
+                                                    <div class="col-sm-6">
+                                                        <input type="hidden" ngValue="" class="form-control form-control-sm"
+                                                            name="feature_id" id="feature_id" (change)="getFeatureDetail(routing_header_data.feature_id)"
+                                                            placeholder="{{language.Feature_Code}}" [(ngModel)]="routing_header_data.feature_id"
+                                                            title="{{routing_header_data.feature_id}}">
+                                                        <div class="w-100 input-group">
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                name="feature_code" id="featuer_code" [(ngModel)]="routing_header_data.feature_code"
+                                                                title="{{routing_header_data.feature_code}}"
+                                                                placeholder="{{language.feature}}" (change)="getFeatureDetail(routing_header_data.feature_code)"
+                                                                tabindex="6" [disabled]="this.form_mode == 'edit'">
                                                             <div class="input-group-append" [hidden]="this.form_mode == 'edit'">
-                                                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="openFeatureLookup(true)">
-                                                                    <svg class="icon m-0" viewBox="0 -96 512 512"><use xlink:href="#menu"></use></svg>
+                                                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
+                                                                    (click)="openFeatureLookup(true)">
+                                                                    <svg class="icon m-0" viewBox="0 -96 512 512">
+                                                                        <use xlink:href="#menu"></use>
+                                                                    </svg>
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>                            
+                                            </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group row clearfix mb-2">
                                                     <label class="col-sm-6 col-form-label" for="feature_description">{{language.description}}</label>
                                                     <div class="col-sm-6">
-                                                        <input type="text" name="feature_description" maxlength="50" class="form-control  form-control-sm mt3"
-                                                        id="feature_description" placeholder="{{language.description}}" [(ngModel)]="routing_header_data.feature_description"
-                                                        title="{{routing_header_data.description}}" tabindex="2" [disabled]="this.form_mode == 'edit'">
-                                                    </div>                            
+                                                        <input type="text" name="feature_description" maxlength="50"
+                                                            class="form-control  form-control-sm mt3" id="feature_description"
+                                                            placeholder="{{language.description}}" [(ngModel)]="routing_header_data.feature_description"
+                                                            title="{{routing_header_data.description}}" tabindex="2"
+                                                            [disabled]="this.form_mode == 'edit'">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
                                     <div class="modal_header_section" *ngIf="routing_header_data.routing_for == 'model'">
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group row clearfix mb-2">
                                                     <label class="col-sm-6 col-form-label" for="feature_id">
-                                                        <div class="d-flex align-items-center justify-content-start required required-sm">
-                                                            {{language.model}}
+                                                        <div class="d-flex align-items-center justify-content-start required">
+                                                            <span>
+                                                                {{language.model}}
+                                                            </span>
                                                             <a class="cursor-pointer ml-5" *ngIf="routing_header_data.modal_id && routing_header_data.modal_code">
-                                                                <svg viewBox="0 0 32 32" class="icon icon-dark" (click)="navigateToFeatureModelHeader(routing_header_data.routing_for)"><use xlink:href="#circleRightArrow" ></use></svg>
+                                                                <svg viewBox="0 0 32 32" class="icon icon-dark" (click)="navigateToFeatureModelHeader(routing_header_data.routing_for)">
+                                                                    <use xlink:href="#circleRightArrow"></use>
+                                                                </svg>
                                                             </a>
                                                         </div>
                                                     </label>
-                                
+
                                                     <div class="col-sm-6">
-                                                        <input type="hidden" ngValue="" class="form-control  form-control-sm" name="modal_id" id="modal_id"
-                                                        (change)="getModalDetail(routing_header_data.modal_id)" placeholder="{{language.modal}}"
-                                                        [(ngModel)]="routing_header_data.modal_id" title="{{routing_header_data.modal_id}}">
+                                                        <input type="hidden" ngValue="" class="form-control  form-control-sm"
+                                                            name="modal_id" id="modal_id" (change)="getModalDetail(routing_header_data.modal_id)"
+                                                            placeholder="{{language.modal}}" [(ngModel)]="routing_header_data.modal_id"
+                                                            title="{{routing_header_data.modal_id}}">
                                                         <div class="input-group">
-                                                            <input type="text" class="form-control  form-control-sm" name="modal_code" id="modal_code"
-                                                            [(ngModel)]="routing_header_data.modal_code" title="{{routing_header_data.modal_code}}"
-                                                            placeholder="{{language.model_ModelCode}}" (change)="getModalDetail(routing_header_data.modal_code)" tabindex="6" [disabled]="this.form_mode == 'edit'">
+                                                            <input type="text" class="form-control  form-control-sm"
+                                                                name="modal_code" id="modal_code" [(ngModel)]="routing_header_data.modal_code"
+                                                                title="{{routing_header_data.modal_code}}" placeholder="{{language.model_ModelCode}}"
+                                                                (change)="getModalDetail(routing_header_data.modal_code)"
+                                                                tabindex="6" [disabled]="this.form_mode == 'edit'">
                                                             <div class="input-group-append" [hidden]="this.form_mode == 'edit'">
-                                                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="openModalLookup(true)">
-                                                                    <svg class="icon m-0" viewBox="0 -96 512 512"><use xlink:href="#menu"></use></svg>
+                                                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
+                                                                    (click)="openModalLookup(true)">
+                                                                    <svg class="icon m-0" viewBox="0 -96 512 512">
+                                                                        <use xlink:href="#menu"></use>
+                                                                    </svg>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -117,12 +143,14 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group row clearfix mb-2">
-                                                <label class="col-sm-6 col-form-label" for="modal_description">{{language.description}}</label>
-                                                <div class="col-sm-6">
-                                                    <input type="text" name="modal_description" maxlength="50" class="form-control  form-control-sm mt3"
-                                                    id="modal_description" placeholder="{{language.description}}" [(ngModel)]="routing_header_data.modal_description"
-                                                    title="{{routing_header_data.description}}" tabindex="2" [disabled]="this.form_mode == 'edit'">
-                                                </div>
+                                                    <label class="col-sm-6 col-form-label" for="modal_description">{{language.description}}</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" name="modal_description" maxlength="50"
+                                                            class="form-control  form-control-sm mt3" id="modal_description"
+                                                            placeholder="{{language.description}}" [(ngModel)]="routing_header_data.modal_description"
+                                                            title="{{routing_header_data.description}}" tabindex="2"
+                                                            [disabled]="this.form_mode == 'edit'">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -130,17 +158,25 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group row clearfix mb-2">
-                                                <label class="col-sm-6 col-form-label required" for="warehouse">{{language.warehouse}}</label>
-                                                <input type="hidden" ngValue="" class="form-control  form-control-sm" name="itemCodeName" id="warehouse_id"
-                                                    (change)="getWarehouseDetails(routing_header_data.warehouse_id)" placeholder="{{language.warehouse}}"
-                                                    [(ngModel)]="routing_header_data.warehouse_id" title="{{routing_header_data.warehouse_id}}">
-                                                <div class="col-sm-6 input-group">                                                
-                                                    <input type="text" class="form-control  form-control-sm" name="itemCodelookup" id="warehouse_code"
-                                                        [(ngModel)]="routing_header_data.warehouse_code" title="{{routing_header_data.warehouse_code}}"
-                                                        placeholder="{{language.warehouse}}" (change)="getWarehouseDetails(routing_header_data.warehouse_code)" tabindex="6">
+                                                <label class="col-sm-6 col-form-label required" for="warehouse">
+                                                    <span>{{language.warehouse}}
+                                                    </span></label>
+                                                <input type="hidden" ngValue="" class="form-control  form-control-sm"
+                                                    name="itemCodeName" id="warehouse_id" (change)="getWarehouseDetails(routing_header_data.warehouse_id)"
+                                                    placeholder="{{language.warehouse}}" [(ngModel)]="routing_header_data.warehouse_id"
+                                                    title="{{routing_header_data.warehouse_id}}">
+                                                <div class="col-sm-6 input-group">
+                                                    <input type="text" class="form-control  form-control-sm" name="itemCodelookup"
+                                                        id="warehouse_code" [(ngModel)]="routing_header_data.warehouse_code"
+                                                        title="{{routing_header_data.warehouse_code}}" placeholder="{{language.warehouse}}"
+                                                        (change)="getWarehouseDetails(routing_header_data.warehouse_code)"
+                                                        tabindex="6">
                                                     <div class="input-group-append">
-                                                        <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="openWarehouseLook(true)">
-                                                            <svg class="icon m-0" viewBox="0 -96 512 512"><use xlink:href="#menu"></use></svg>
+                                                        <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
+                                                            (click)="openWarehouseLook(true)">
+                                                            <svg class="icon m-0" viewBox="0 -96 512 512">
+                                                                <use xlink:href="#menu"></use>
+                                                            </svg>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -150,7 +186,10 @@
                                             <div class="form-group row clearfix mb-2">
                                                 <label class="col-sm-6 col-form-label" for="EffectiveDate">{{language.EffectiveDate}}</label>
                                                 <div class="col-sm-6">
-                                                    <kendo-datepicker #dt13 value="" [min]="min" id="EffectiveDate" name="EffectiveDate" placeholder="{{routing_header_data.EffectiveDate}}" [(ngModel)]="routing_header_data.EffectiveDate" class="w-100" [format]="'MM/dd/yyyy'" ></kendo-datepicker>
+                                                    <kendo-datepicker #dt13 value="" [min]="min" id="EffectiveDate"
+                                                        name="EffectiveDate" placeholder="{{routing_header_data.EffectiveDate}}"
+                                                        [(ngModel)]="routing_header_data.EffectiveDate" class="w-100"
+                                                        [format]="'MM/dd/yyyy'"></kendo-datepicker>
                                                 </div>
                                             </div>
                                         </div>
@@ -161,46 +200,50 @@
                                                 <div class="form-group row clearfix mb-2">
                                                     <label class="col-sm-6 col-form-label" for="default_lot_size">{{language.default_batch_size}}</label>
                                                     <div class="col-sm-6">
-                                                        <input type="text" name="default_lot_size" class="form-control  form-control-sm mt3 text-right" id="default_lot_size"
-                                                        placeholder="{{language.default_lot_size}}" (change)="header_numeric_input_change(routing_header_data.default_lot_size,'default_batch_size')"
-                                                        [(ngModel)]="routing_header_data.default_lot_size" title="{{routing_header_data.default_lot_size}}"
-                                                        tabindex="2">
+                                                        <input type="text" name="default_lot_size" class="form-control  form-control-sm mt3 text-right"
+                                                            id="default_lot_size" placeholder="{{language.default_lot_size}}"
+                                                            (change)="header_numeric_input_change(routing_header_data.default_lot_size,'default_batch_size')"
+                                                            [(ngModel)]="routing_header_data.default_lot_size" title="{{routing_header_data.default_lot_size}}"
+                                                            tabindex="2">
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>                        
+                                        </div>
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group row clearfix mb-2">
-                                                <label class="col-sm-6 col-form-label" for="applicable_bom_unit">{{language.applicable_bom_unit}}</label>
-                                                <div class="col-sm-6">
-                                                    <input type="text" name="applicable_bom_unit" class="form-control  form-control-sm mt3 text-right"
-                                                    id="applicable_bom_unit" placeholder="{{language.applicable_bom_unit}}" (change)="header_numeric_input_change(routing_header_data.applicable_bom_unit,'applicable_bom_unit')"
-                                                    [(ngModel)]="routing_header_data.applicable_bom_unit" title="{{routing_header_data.applicable_bom_unit}}"
-                                                    tabindex="2" [disabled]="true">
-                                                </div>
+                                                    <label class="col-sm-6 col-form-label" for="applicable_bom_unit">{{language.applicable_bom_unit}}</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" name="applicable_bom_unit" class="form-control  form-control-sm mt3 text-right"
+                                                            id="applicable_bom_unit" placeholder="{{language.applicable_bom_unit}}"
+                                                            (change)="header_numeric_input_change(routing_header_data.applicable_bom_unit,'applicable_bom_unit')"
+                                                            [(ngModel)]="routing_header_data.applicable_bom_unit" title="{{routing_header_data.applicable_bom_unit}}"
+                                                            tabindex="2" [disabled]="true">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group row clearfix mb-2">
                                                     <label class="col-sm-6 col-form-label" for="opm_num_format">{{language.opm_num_format}}</label>
                                                     <div class="col-sm-6">
-                                                        <input type="text" name="opm_num_format" class="form-control  form-control-sm mt3  text-right" id="opm_num_format"
-                                                        placeholder="{{language.opm_num_format}}" (change)="header_numeric_input_change(routing_header_data.opm_num_format,'opm_num_format')"
-                                                        [(ngModel)]="routing_header_data.opm_num_format" title="{{routing_header_data.opm_num_format}}"
-                                                        tabindex="2">
+                                                        <input type="text" name="opm_num_format" class="form-control  form-control-sm mt3  text-right"
+                                                            id="opm_num_format" placeholder="{{language.opm_num_format}}"
+                                                            (change)="header_numeric_input_change(routing_header_data.opm_num_format,'opm_num_format')"
+                                                            [(ngModel)]="routing_header_data.opm_num_format" title="{{routing_header_data.opm_num_format}}"
+                                                            tabindex="2">
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>                        
+                                        </div>
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group row clearfix mb-2">
                                                     <label class="col-sm-6 col-form-label" for="use_mtq_in_planing">{{language.use_mtq_in_planing}}</label>
                                                     <div class="col-sm-6 d-flex align-items-center">
                                                         <label class="custom-checkbox without-label mb-0">
-                                                            <input type="checkbox" id="use_mtq_in_planing" name="use_mtq_in_planing" title="{{routing_header_data.use_mtq_in_planing}}"
-                                                            tabindex="7" [(ngModel)]="routing_header_data.use_mtq_in_planing">
+                                                            <input type="checkbox" id="use_mtq_in_planing" name="use_mtq_in_planing"
+                                                                title="{{routing_header_data.use_mtq_in_planing}}"
+                                                                tabindex="7" [(ngModel)]="routing_header_data.use_mtq_in_planing">
                                                             <span class="checkbox"></span>
                                                         </label>
                                                     </div>
@@ -211,12 +254,14 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group row clearfix mb-2">
-                                                <label class="col-sm-6 col-form-label" for="use_template_routing">{{language.use_template_routing}}</label>
+                                                    <label class="col-sm-6 col-form-label" for="use_template_routing">{{language.use_template_routing}}</label>
                                                     <div class="col-sm-6 d-flex align-items-center">
                                                         <label class="custom-checkbox without-label mb-0">
-                                                            <input type="checkbox" value="1" id="use_template_routing" name="use_template_routing" 
-                                                            [(ngModel)]="routing_header_data.use_template_routing" (change)="on_template_change()"
-                                                            #use_template_routing_objj title="{{routing_header_data.use_template_routing}}" tabindex="5">
+                                                            <input type="checkbox" value="1" id="use_template_routing"
+                                                                name="use_template_routing" [(ngModel)]="routing_header_data.use_template_routing"
+                                                                (change)="on_template_change()"
+                                                                #use_template_routing_objj title="{{routing_header_data.use_template_routing}}"
+                                                                tabindex="5">
                                                             <span class="checkbox"></span>
                                                         </label>
                                                     </div>
@@ -224,14 +269,26 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group row clearfix mb-2">
-                                                    <label class="col-sm-6 col-form-label" for="template_routing">{{language.template_routing}}</label>                                
+                                                    <label class="col-sm-6 col-form-label" for="template_routing">{{language.template_routing}}</label>
                                                     <div class="col-sm-6 ">
-                                                        <input type="hidden" ngValue="" class="form-control  form-control-sm" name="itemCodeName" id="template_routing_id" (change)="getTemplateRoutingDetails(routing_header_data.template_routing_id)" placeholder="{{language.template_routing}}" [(ngModel)]="routing_header_data.template_routing_id" title="{{routing_header_data.template_routing_id}}" [disabled]="this.routing_header_data.use_template_routing == false">
+                                                        <input type="hidden" ngValue="" class="form-control  form-control-sm"
+                                                            name="itemCodeName" id="template_routing_id" (change)="getTemplateRoutingDetails(routing_header_data.template_routing_id)"
+                                                            placeholder="{{language.template_routing}}" [(ngModel)]="routing_header_data.template_routing_id"
+                                                            title="{{routing_header_data.template_routing_id}}"
+                                                            [disabled]="this.routing_header_data.use_template_routing == false">
                                                         <div class="input-group">
-                                                            <input type="text" class="form-control  form-control-sm " name="template_routing" id="template_routing_code" [(ngModel)]="routing_header_data.template_routing_code" title="{{routing_header_data.template_routing_code}}" placeholder="{{language.template_routing}}" (change)="getTemplateRoutingDetails(routing_header_data.template_routing_code)" tabindex="6" [disabled]="this.routing_header_data.use_template_routing == false">
+                                                            <input type="text" class="form-control  form-control-sm "
+                                                                name="template_routing" id="template_routing_code"
+                                                                [(ngModel)]="routing_header_data.template_routing_code"
+                                                                title="{{routing_header_data.template_routing_code}}"
+                                                                placeholder="{{language.template_routing}}" (change)="getTemplateRoutingDetails(routing_header_data.template_routing_code)"
+                                                                tabindex="6" [disabled]="this.routing_header_data.use_template_routing == false">
                                                             <div class="input-group-append" [hidden]="this.routing_header_data.use_template_routing == false">
-                                                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="openTemplateRoutingLookup(true)">
-                                                                    <svg class="icon m-0" viewBox="0 -96 512 512"><use xlink:href="#menu"></use></svg>
+                                                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
+                                                                    (click)="openTemplateRoutingLookup(true)">
+                                                                    <svg class="icon m-0" viewBox="0 -96 512 512">
+                                                                        <use xlink:href="#menu"></use>
+                                                                    </svg>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -241,253 +298,359 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
-                            <div [hidden] = "routing_header_data.use_template_routing"  [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">                    
-                            <div  class="d-flex">                    
-                                <kendo-grid [kendoGridBinding]="routing_detail_data" [reorderable]="true" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings" [ngStyle]="{'height':'100%'}" class="w-100" [kendoGridSelectBy]="'rowindex'" [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
-                                    <ng-template kendoGridToolbarTemplate>
-                                        <div class="d-flex align-items-center">
-                                            <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" *ngIf="show_insert_operation_btn" [hidden]="this.current_selected_row.length == 0"class="btn btn-sm btn-primary with-icon mr-2" title="{{language.insert_operation}} "
-                                            (click)="insert_new_operation('insert')">
-                                                <svg viewBox="0 0 24 24" class="icon"><use xlink:href="#rightArrow"></use></svg> {{language.insert_operation}}
-                                            </button>
-                                            <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" *ngIf="show_insert_operation_btn" title="{{language.add_oper}} " (click)="insert_new_operation('add')" class="btn btn-sm btn-primary with-icon mr-2">
-                                                <svg viewBox="0 0 8500 8500" class="icon"><use xlink:href="#add"></use></svg> {{language.add_oper}}
-                                            </button>
-                                            <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" *ngIf="show_resource_btn" [hidden]="routing_detail_data.length  == 0" class="btn btn-sm btn-success with-icon mr-2" title="{{language.resource}}" (click)="open_operation_resources(true)">
-                                                <svg viewBox="0 0 502 502" class="icon"><use xlink:href="#taskList" ></use></svg>{{language.resource}}
-                                            </button>
-                                            <button [ngStyle]="{'padding':'3px 5px','min-height':'22px','height':'22px'}" type="button" [hidden]="this.current_selected_row.length == 0" class="btn btn-sm btn-primary btn-icon mr-2" title="{{language.move_oper_up}} " (click)="resequence_operation('1')">
-                                                <svg viewBox="0 0 21.825 21.825" [ngStyle]="{'width':'14px','height':'14px', 'transform':'rotateX(180deg)'}" class="icon"><use xlink:href="#downArrow"></use></svg>
-                                            </button>
-                                            <button [ngStyle]="{'padding':'3px 5px','min-height':'22px','height':'22px'}" type="button" [hidden]="this.current_selected_row.length == 0" class="btn btn-sm btn-primary btn-icon mr-2" title="{{language.move_oper_down}} " (click)="resequence_operation('2')">
-                                                <svg viewBox="0 0 21.825 21.825" [ngStyle]="{'width':'14px','height':'14px'}" class="icon"><use xlink:href="#downArrow"></use></svg>
-                                            </button>
-                                        </div>
-                                    </ng-template>
-                                    <kendo-grid-column field="rowindex" headerClass="text-center" title="{{language.hash}}" filter="text" [width]="60" [minResizableWidth]="60">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <span *ngIf="routing_type == 'feature'">
-                                                <a class="cursor-pointer mr-1 d-flex align-items-center" (click)="navigateToFeatureOrModelBom(dataItem.type_value,dataItem.type)" *ngIf="dataItem.type == '1'">
-                                                    <svg viewBox="0 0 32 32" class="icon icon-dark"><use xlink:href="#circleRightArrow" ></use></svg>
-                                                </a>
-                                            </span>
-                                            <span *ngIf="routing_type == 'model'">
-                                                <a class="cursor-pointer mr-1 d-flex align-items-center" (click)="navigateToFeatureOrModelBom(dataItem.type_value,dataItem.type)" *ngIf="(dataItem.type == '1' || dataItem.type == '3')">
-                                                    <svg viewBox="0 0 32 32" class="icon icon-dark"><use xlink:href="#circleRightArrow" ></use></svg>
-                                                </a>
-                                            </span>
-                                            <span>{{dataItem.rowindex}}</span>
-                                        </div>
-                                    </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="bom_type_option" title="{{language.Model_Type}}" [width]="110" [minResizableWidth]="110">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="dropdown_index">
-                                        <ng-container *ngIf="dataItem.showOperationbtn == false">
-                                        <select [disabled]="dataItem.isTypeDisabled" class="form-control form-control-sm routing_disabled_selected" #selected_type (change)="on_input_change(selected_type.value,dataItem.rowindex, 'selected_type')">
-                                            <option *ngFor="let v of type_dropdown" [value]="v.value" [selected]="dataItem.type==v.value">
-                                            {{v.Name}}</option>
-                                        </select>
-                                        </ng-container>
-                                        <ng-container *ngIf="dataItem.showOperationbtn == true">
-                                        <select [disabled]="dataItem.isTypeDisabled" class="form-control form-control-sm routing_disabled_selected" #selected_type (change)="on_input_change(selected_type.value,dataItem.rowindex, 'selected_type')">
-                                            <option value="4">{{language.operation}}</option>
-                                        </select>
-                                        </ng-container>
-                
-                                    </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="ModelBom_FeatureValue" title="{{grid_option_title}}" headerClass = "required" filter="text" [width]="155"
-                                    [minResizableWidth]="155">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input [disabled]="dataItem.isTypeDisabled" type="hidden" class="form-control  form-control-sm row_type_value_id" id="type_value" value={{dataItem.type_value}} #type_value title={{dataItem.type_value}} />   
-                                        <div class="input-group">                                                                                         
-                                            <input [disabled]="dataItem.isTypeDisabled" type="text" class="form-control  form-control-sm row_type_value_code" id="type_value_code" (change)="on_input_change(type_value_code.value,dataItem.rowindex, 'type_value_code')" value={{dataItem.type_value_code}} #type_value_code title={{dataItem.type_value_code}} />
-                                            <div class="input-group-append" [hidden]=dataItem.hide>
-                                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon" [hidden]="dataItem.isTypeDisabled" (click)="on_type_click_lookup(dataItem.type, dataItem.rowindex)">
-                                                    <svg class="icon m-0" viewBox="0 -96 512 512"><use xlink:href="#menu"></use></svg>
-                                                </span>
+                            </div>
+                            <div [hidden]="routing_header_data.use_template_routing" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
+                                <div class="d-flex">
+                                    <kendo-grid [kendoGridBinding]="routing_detail_data" [reorderable]="true"
+                                        [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false"
+                                        [selectable]="selectableSettings" [ngStyle]="{'height':'100%'}" class="w-100"
+                                        [kendoGridSelectBy]="'rowindex'" [selectedKeys]="row_selection"
+                                        (selectionChange)="getSelectedRowDetail($event)">
+                                        <ng-template kendoGridToolbarTemplate>
+                                            <div class="d-flex align-items-center">
+                                                <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button"
+                                                    *ngIf="show_insert_operation_btn" [hidden]="this.current_selected_row.length == 0"
+                                                    class="btn btn-sm btn-primary with-icon mr-2" title="{{language.insert_operation}} "
+                                                    (click)="insert_new_operation('insert')">
+                                                    <svg viewBox="0 0 24 24" class="icon">
+                                                        <use xlink:href="#rightArrow"></use>
+                                                    </svg> {{language.insert_operation}}
+                                                </button>
+                                                <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button"
+                                                    *ngIf="show_insert_operation_btn" title="{{language.add_oper}} "
+                                                    (click)="insert_new_operation('add')" class="btn btn-sm btn-primary with-icon mr-2">
+                                                    <svg viewBox="0 0 8500 8500" class="icon">
+                                                        <use xlink:href="#add"></use>
+                                                    </svg> {{language.add_oper}}
+                                                </button>
+                                                <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button"
+                                                    *ngIf="show_resource_btn" [hidden]="routing_detail_data.length  == 0"
+                                                    class="btn btn-sm btn-success with-icon mr-2" title="{{language.resource}}"
+                                                    (click)="open_operation_resources(true)">
+                                                    <svg viewBox="0 0 502 502" class="icon">
+                                                        <use xlink:href="#taskList"></use>
+                                                    </svg>{{language.resource}}
+                                                </button>
+                                                <button [ngStyle]="{'padding':'3px 5px','min-height':'22px','height':'22px'}"
+                                                    type="button" [hidden]="this.current_selected_row.length == 0"
+                                                    class="btn btn-sm btn-primary btn-icon mr-2" title="{{language.move_oper_up}} "
+                                                    (click)="resequence_operation('1')">
+                                                    <svg viewBox="0 0 21.825 21.825" [ngStyle]="{'width':'14px','height':'14px', 'transform':'rotateX(180deg)'}"
+                                                        class="icon">
+                                                        <use xlink:href="#downArrow"></use>
+                                                    </svg>
+                                                </button>
+                                                <button [ngStyle]="{'padding':'3px 5px','min-height':'22px','height':'22px'}"
+                                                    type="button" [hidden]="this.current_selected_row.length == 0"
+                                                    class="btn btn-sm btn-primary btn-icon mr-2" title="{{language.move_oper_down}} "
+                                                    (click)="resequence_operation('2')">
+                                                    <svg viewBox="0 0 21.825 21.825" [ngStyle]="{'width':'14px','height':'14px'}"
+                                                        class="icon">
+                                                        <use xlink:href="#downArrow"></use>
+                                                    </svg>
+                                                </button>
                                             </div>
-                                        </div>
-                                    </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="description" title="{{language.description}}" filter="text" [width]="140"  [minResizableWidth]="140">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input [disabled]="dataItem.isTypeDisabled" type="text" class="form-control  form-control-sm" id="description" value={{dataItem.description}} (change)="on_input_change(description.value,dataItem.rowindex, 'description')" #description title={{dataItem.description}} />
-                                    </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="oper_top_level" title="{{language.oper_top_level}}" [width]="122" [minResizableWidth]="122">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <ng-container *ngIf="((this.routing_header_data.routing_for == 'feature') && (dataItem.type!=2 && dataItem.type!=3 && dataItem.type!=4)) || (this.routing_header_data.routing_for == 'model' && dataItem.type!=2 && dataItem.type!=4)">
-                                            <label class="custom-checkbox without-label mb-0 mx-auto d-table">
-                                                <input type="checkbox" [disabled]="dataItem.opn_application == false" class="custom-control-input"
-                                                id="oper_top_level_{{dataItem.rowindex}}" value={{dataItem.operation_top_level}} (change)="on_input_change(oper_top_level.checked,dataItem.rowindex, 'oper_top_level')"
-                                                #oper_top_level [(checked)]=dataItem.operation_top_level title="{{dataItem.operation_top_level}}">
-                                                <span class="checkbox"></span>
-                                            </label>
-                                        </ng-container>
-                                    </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="oper_code" title="{{language.oper_code}}" headerClass = "required" filter="text" [width]="155" [minResizableWidth]="155">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="hidden" class="form-control  form-control-sm row_oper_id" id="oper_id" value={{dataItem.oper_id}}
-                                        #oper_id title={{dataItem.oper_id}} />
-                                        <div class="input-group">
-                                            <input type="text" class="form-control  form-control-sm row_oper_code" [disabled]="dataItem.opn_application == false || (this.routing_header_data.routing_for == 'feature' && dataItem.type==3)"
-                                                id="oper_code" (change)="on_input_change(oper_code.value,dataItem.rowindex, 'oper_code')" value={{dataItem.oper_code}}
-                                                #oper_code title={{dataItem.oper_code}} />
-                                            <div class="input-group-append" [hidden]="dataItem.opn_application == false">
-                                                <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="open_operation_lookup(dataItem.type, dataItem.rowindex)">
-                                                    <svg class="icon m-0" viewBox="0 -96 512 512"><use xlink:href="#menu"></use></svg>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="oper_desc" title="{{language.oper_desc}}" filter="text" [width]="140" [minResizableWidth]="140">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <input type="text" class="form-control  form-control-sm" id="oper_desc" value={{dataItem.oper_desc}}
-                                            (change)="on_input_change(oper_desc.value,dataItem.rowindex, 'oper_desc')" #oper_desc title={{dataItem.oper_desc}}
-                                            [disabled]="true" />
                                         </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="res_consumption_method" title="{{language.res_consumption_method}}" filter="text" [width]="180" [minResizableWidth]="180">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <input type="text" class="form-control  form-control-sm" id="res_consumption_method" value={{dataItem.oper_consumption_method_str}}
-                                            (change)="on_input_change(res_consumption_method.value,dataItem.rowindex, 'res_consumption_method')"
-                                            #res_consumption_method title={{dataItem.res_consumption_method}} [disabled]="true" />
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="wc_code" title="{{language.workcenter}}" filter="text" [width]="155" [minResizableWidth]="155">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <input type="hidden" class="form-control  form-control-sm row_wc_id" id="wc_id" value={{dataItem.wc_id}}
-                                                    #wc_id title={{dataItem.wc_id}} [disabled]="true" />
-                                            <div class="input-group">
-                                                <input type="text" class="form-control  form-control-sm row_wc_code" id="wc_code" (change)="on_input_change(wc_code.value,dataItem.rowindex, 'wc_code')"
-                                                    value={{dataItem.wc_code}} #wc_code title={{dataItem.wc_code}} [disabled]="true" />
-                                                <div class="input-group-append" [hidden]="true">
-                                                    <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="open_wc_lookup(dataItem.type, dataItem.rowindex)">
-                                                        <svg class="icon m-0" viewBox="0 -96 512 512"><use xlink:href="#menu"></use></svg>
+                                        <kendo-grid-column field="rowindex" headerClass="text-center" title="{{language.hash}}"
+                                            filter="text" [width]="60" [minResizableWidth]="60">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <span *ngIf="routing_type == 'feature'">
+                                                        <a class="cursor-pointer mr-1 d-flex align-items-center"
+                                                            (click)="navigateToFeatureOrModelBom(dataItem.type_value,dataItem.type)"
+                                                            *ngIf="dataItem.type == '1'">
+                                                            <svg viewBox="0 0 32 32" class="icon icon-dark">
+                                                                <use xlink:href="#circleRightArrow"></use>
+                                                            </svg>
+                                                        </a>
                                                     </span>
+                                                    <span *ngIf="routing_type == 'model'">
+                                                        <a class="cursor-pointer mr-1 d-flex align-items-center"
+                                                            (click)="navigateToFeatureOrModelBom(dataItem.type_value,dataItem.type)"
+                                                            *ngIf="(dataItem.type == '1' || dataItem.type == '3')">
+                                                            <svg viewBox="0 0 32 32" class="icon icon-dark">
+                                                                <use xlink:href="#circleRightArrow"></use>
+                                                            </svg>
+                                                        </a>
+                                                    </span>
+                                                    <span>{{dataItem.rowindex}}</span>
                                                 </div>
-                                            </div>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="mtq" title="{{language.mtq}}" filter="text" [width]="140" [minResizableWidth]="140">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <input type="text" class="form-control  form-control-sm text-right mtq_grid_level" id="mtq" value={{dataItem.mtq}}
-                                            (change)="on_input_change(mtq.value,dataItem.rowindex, 'mtq')" #mtq title={{dataItem.mtq}} />
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="count_point_operation" title="{{language.count_point_oper}}" [width]="120" [minResizableWidth]="120">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <label class="custom-checkbox without-label mb-0 mx-auto d-table">
-                                                <input type="checkbox" name="count_point_operation_{{dataItem.rowindex}}"
-                                                id="count_point_operation_{{dataItem.rowindex}}" class="count_point_operation_checkbox" value={{dataItem.count_point_operation}}
-                                                (change)="on_input_change(count_point_operation.checked,dataItem.rowindex, 'count_point_operation')"
-                                                #count_point_operation [(checked)]=dataItem.count_point_operation title="{{dataItem.count_point_operation}}"
-                                                [disabled]="dataItem.opn_application == false || dataItem.count_point_operation_disabled == true">
-                                                <span class="checkbox"></span>
-                                            </label>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="auto_move" title="{{language.auto_move}}" [width]="80" [minResizableWidth]="80">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <label class="custom-checkbox without-label mb-0 mx-auto d-table">
-                                                <input type="checkbox" name="auto_move_{{dataItem.rowindex}}" class="auto_move_checkbox" id="auto_move_{{dataItem.rowindex}}" value={{dataItem.auto_move}} (change)="on_input_change(auto_move.checked,dataItem.rowindex, 'auto_move')" #auto_move [(checked)]=dataItem.auto_move title="{{dataItem.auto_move}}" 
-                                                [disabled]="dataItem.opn_application == false">
-                                                <span class="checkbox"></span>
-                                            </label>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="EffectiveDate" title="{{language.EffectiveDate}}" filter="text" [width]="161" [minResizableWidth]="161">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <kendo-datepicker #dt13 value="" [min]="min" id="EffectiveDate_{{dataItem.rowindex}}"  name='EffectiveDate_{{dataItem.rowindex}}' placeholder="{dataItem.effective_date}}" [(ngModel)]="dataItem.effective_date"  [format]="'MM/dd/yyyy'" ></kendo-datepicker>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="inc_lead_time_calc" title="{{language.inc_lead_time_calc}}" [width]="199" [minResizableWidth]="199">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <label class="custom-checkbox without-label mb-0 mx-auto d-table">
-                                                <input type="checkbox" name="inc_lead_time_calc_{{dataItem.rowindex}}"
-                                                id="inc_lead_time_calc_{{dataItem.rowindex}}" value={{dataItem.inc_lead_time_calc}} (change)="on_input_change(inc_lead_time_calc.checked,dataItem.rowindex, 'inc_lead_time_calc')"
-                                                #inc_lead_time_calc [(checked)]=dataItem.inc_lead_time_calc title="{{dataItem.inc_lead_time_calc}}"
-                                                [disabled]="dataItem.opn_application == false">
-                                                <span class="checkbox"></span>
-                                            </label>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="queue_time" title="{{language.queue_time}}" filter="text" [width]="140" [minResizableWidth]="140">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <kendo-maskedtextbox class="form-control  form-control-sm text-right" id="queue_time"  [value]="dataItem.queue_time"
-                                            (change)="on_input_change(queue_time.value,dataItem.rowindex, 'queue_time')" [disabled]="dataItem.opn_application == false"
-                                            #queue_time title={{dataItem.queue_time}} pattern="[0-9]" [mask]="mask"></kendo-maskedtextbox>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="move_time" title="{{language.move_time}}" filter="text" [width]="140" [minResizableWidth]="140">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <kendo-maskedtextbox class="form-control  form-control-sm text-right" id="move_time"  [value]="dataItem.move_time"
-                                            (change)="on_input_change(move_time.value,dataItem.rowindex, 'move_time')" [disabled]="dataItem.opn_application == false"
-                                            #move_time title={{dataItem.move_time}} pattern="[0-9]" [mask]="mask"></kendo-maskedtextbox>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="qc_time" title="{{language.qc_time}}" filter="text" [width]="140" [minResizableWidth]="140">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <kendo-maskedtextbox class="form-control  form-control-sm text-right" id="qc_time"  [value]="dataItem.qc_time"
-                                            (change)="on_input_change(qc_time.value,dataItem.rowindex, 'qc_time')" #qc_time [disabled]="dataItem.opn_application == false"
-                                            title={{dataItem.qc_time}} pattern="[0-9]" [mask]="mask" ></kendo-maskedtextbox>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="time_uom" title="{{language.time_uom}}" filter="text" [width]="140" [minResizableWidth]="140">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <select [disabled]="dataItem.opn_application == false" class="form-control form-control-sm"
-                                            #time_uom (change)="on_input_change(time_uom.value,dataItem.rowindex, 'time_uom')">
-                                            <option *ngFor="let v of commonData.time_uom_type()" [value]="v.value" [selected]="dataItem.time_uom==v.value">
-                                                {{v.Name}}</option>
-                                            </select>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="opn_application" title="{{language.opn_application}}" [width]="111" [minResizableWidth]="111">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <ng-container *ngIf="dataItem.isOpenApplicableVisible">
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="bom_type_option" title="{{language.Model_Type}}"
+                                            [width]="110" [minResizableWidth]="110">
+                                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="dropdown_index">
+                                                <ng-container *ngIf="dataItem.showOperationbtn == false">
+                                                    <select [disabled]="dataItem.isTypeDisabled" class="form-control form-control-sm routing_disabled_selected"
+                                                        #selected_type (change)="on_input_change(selected_type.value,dataItem.rowindex, 'selected_type')">
+                                                        <option *ngFor="let v of type_dropdown" [value]="v.value"
+                                                            [selected]="dataItem.type==v.value">
+                                                            {{v.Name}}</option>
+                                                    </select>
+                                                </ng-container>
+                                                <ng-container *ngIf="dataItem.showOperationbtn == true">
+                                                    <select [disabled]="dataItem.isTypeDisabled" class="form-control form-control-sm routing_disabled_selected"
+                                                        #selected_type (change)="on_input_change(selected_type.value,dataItem.rowindex, 'selected_type')">
+                                                        <option value="4">{{language.operation}}</option>
+                                                    </select>
+                                                </ng-container>
+
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="ModelBom_FeatureValue" title="{{grid_option_title}}"
+                                            headerClass="required" filter="text" [width]="155" [minResizableWidth]="155">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input [disabled]="dataItem.isTypeDisabled" type="hidden" class="form-control  form-control-sm row_type_value_id"
+                                                    id="type_value" value={{dataItem.type_value}} #type_value title={{dataItem.type_value}} />
+                                                <div class="input-group">
+                                                    <input [disabled]="dataItem.isTypeDisabled" type="text" class="form-control  form-control-sm row_type_value_code"
+                                                        id="type_value_code" (change)="on_input_change(type_value_code.value,dataItem.rowindex, 'type_value_code')"
+                                                        value={{dataItem.type_value_code}} #type_value_code title={{dataItem.type_value_code}} />
+                                                    <div class="input-group-append" [hidden]=dataItem.hide>
+                                                        <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
+                                                            [hidden]="dataItem.isTypeDisabled" (click)="on_type_click_lookup(dataItem.type, dataItem.rowindex)">
+                                                            <svg class="icon m-0" viewBox="0 -96 512 512">
+                                                                <use xlink:href="#menu"></use>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="description" title="{{language.description}}" filter="text"
+                                            [width]="140" [minResizableWidth]="140">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input [disabled]="dataItem.isTypeDisabled" type="text" class="form-control  form-control-sm"
+                                                    id="description" value={{dataItem.description}} (change)="on_input_change(description.value,dataItem.rowindex, 'description')"
+                                                    #description title={{dataItem.description}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="oper_top_level" title="{{language.oper_top_level}}"
+                                            [width]="122" [minResizableWidth]="122">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <ng-container *ngIf="((this.routing_header_data.routing_for == 'feature') && (dataItem.type!=2 && dataItem.type!=3 && dataItem.type!=4)) || (this.routing_header_data.routing_for == 'model' && dataItem.type!=2 && dataItem.type!=4)">
+                                                    <label class="custom-checkbox without-label mb-0 mx-auto d-table">
+                                                        <input type="checkbox" [disabled]="dataItem.opn_application == false"
+                                                            class="custom-control-input" id="oper_top_level_{{dataItem.rowindex}}"
+                                                            value={{dataItem.operation_top_level}} (change)="on_input_change(oper_top_level.checked,dataItem.rowindex, 'oper_top_level')"
+                                                            #oper_top_level [(checked)]=dataItem.operation_top_level
+                                                            title="{{dataItem.operation_top_level}}">
+                                                        <span class="checkbox"></span>
+                                                    </label>
+                                                </ng-container>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="oper_code" title="{{language.oper_code}}" headerClass="required"
+                                            filter="text" [width]="155" [minResizableWidth]="155">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="hidden" class="form-control  form-control-sm row_oper_id"
+                                                    id="oper_id" value={{dataItem.oper_id}} #oper_id title={{dataItem.oper_id}} />
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control  form-control-sm row_oper_code"
+                                                        [disabled]="dataItem.opn_application == false || (this.routing_header_data.routing_for == 'feature' && dataItem.type==3)"
+                                                        id="oper_code" (change)="on_input_change(oper_code.value,dataItem.rowindex, 'oper_code')"
+                                                        value={{dataItem.oper_code}} #oper_code title={{dataItem.oper_code}} />
+                                                    <div class="input-group-append" [hidden]="dataItem.opn_application == false">
+                                                        <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
+                                                            (click)="open_operation_lookup(dataItem.type, dataItem.rowindex)">
+                                                            <svg class="icon m-0" viewBox="0 -96 512 512">
+                                                                <use xlink:href="#menu"></use>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="oper_desc" title="{{language.oper_desc}}" filter="text"
+                                            [width]="140" [minResizableWidth]="140">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="oper_desc"
+                                                    value={{dataItem.oper_desc}} (change)="on_input_change(oper_desc.value,dataItem.rowindex, 'oper_desc')"
+                                                    #oper_desc title={{dataItem.oper_desc}} [disabled]="true" />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="res_consumption_method" title="{{language.res_consumption_method}}"
+                                            filter="text" [width]="180" [minResizableWidth]="180">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="res_consumption_method"
+                                                    value={{dataItem.oper_consumption_method_str}} (change)="on_input_change(res_consumption_method.value,dataItem.rowindex, 'res_consumption_method')"
+                                                    #res_consumption_method title={{dataItem.res_consumption_method}}
+                                                    [disabled]="true" />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="wc_code" title="{{language.workcenter}}" filter="text"
+                                            [width]="155" [minResizableWidth]="155">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="hidden" class="form-control  form-control-sm row_wc_id" id="wc_id"
+                                                    value={{dataItem.wc_id}} #wc_id title={{dataItem.wc_id}} [disabled]="true" />
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control  form-control-sm row_wc_code"
+                                                        id="wc_code" (change)="on_input_change(wc_code.value,dataItem.rowindex, 'wc_code')"
+                                                        value={{dataItem.wc_code}} #wc_code title={{dataItem.wc_code}}
+                                                        [disabled]="true" />
+                                                    <div class="input-group-append" [hidden]="true">
+                                                        <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
+                                                            (click)="open_wc_lookup(dataItem.type, dataItem.rowindex)">
+                                                            <svg class="icon m-0" viewBox="0 -96 512 512">
+                                                                <use xlink:href="#menu"></use>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="mtq" title="{{language.mtq}}" filter="text" [width]="140"
+                                            [minResizableWidth]="140">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm text-right mtq_grid_level"
+                                                    id="mtq" value={{dataItem.mtq}} (change)="on_input_change(mtq.value,dataItem.rowindex, 'mtq')"
+                                                    #mtq title={{dataItem.mtq}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="count_point_operation" title="{{language.count_point_oper}}"
+                                            [width]="120" [minResizableWidth]="120">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
                                                 <label class="custom-checkbox without-label mb-0 mx-auto d-table">
-                                                    <input type="checkbox" id="opn_application_{{dataItem.rowindex}}" value={{dataItem.opn_application}} (change)="on_input_change(opn_application.checked,dataItem.rowindex, 'opn_application')" #opn_application [(checked)]=dataItem.opn_application title="{{dataItem.opn_application}}">
+                                                    <input type="checkbox" name="count_point_operation_{{dataItem.rowindex}}"
+                                                        id="count_point_operation_{{dataItem.rowindex}}" class="count_point_operation_checkbox"
+                                                        value={{dataItem.count_point_operation}} (change)="on_input_change(count_point_operation.checked,dataItem.rowindex, 'count_point_operation')"
+                                                        #count_point_operation [(checked)]=dataItem.count_point_operation
+                                                        title="{{dataItem.count_point_operation}}" [disabled]="dataItem.opn_application == false || dataItem.count_point_operation_disabled == true">
                                                     <span class="checkbox"></span>
                                                 </label>
-                                            </ng-container>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                    <kendo-grid-column field="delete" title="delete" template="" [width]="60" [minResizableWidth]="60">
-                                        <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
-                                            <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg>
-                                        </ng-template>
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                            <button type="button" class="btn btn-danger btn-sm btn-icon" title="{{this.language.delete}}"
-                                            (click)="onDeleteRow(dataItem.rowindex)" *ngIf="dataItem.showOperationbtn">
-                                            <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg>
-                                            </button>
-                                        </ng-template>
-                                    </kendo-grid-column>
-                                </kendo-grid>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="auto_move" title="{{language.auto_move}}" [width]="80"
+                                            [minResizableWidth]="80">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <label class="custom-checkbox without-label mb-0 mx-auto d-table">
+                                                    <input type="checkbox" name="auto_move_{{dataItem.rowindex}}" class="auto_move_checkbox"
+                                                        id="auto_move_{{dataItem.rowindex}}" value={{dataItem.auto_move}}
+                                                        (change)="on_input_change(auto_move.checked,dataItem.rowindex, 'auto_move')"
+                                                        #auto_move [(checked)]=dataItem.auto_move title="{{dataItem.auto_move}}"
+                                                        [disabled]="dataItem.opn_application == false">
+                                                    <span class="checkbox"></span>
+                                                </label>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="EffectiveDate" title="{{language.EffectiveDate}}"
+                                            filter="text" [width]="161" [minResizableWidth]="161">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <kendo-datepicker #dt13 value="" [min]="min" id="EffectiveDate_{{dataItem.rowindex}}"
+                                                    name='EffectiveDate_{{dataItem.rowindex}}' placeholder="{dataItem.effective_date}}"
+                                                    [(ngModel)]="dataItem.effective_date" [format]="'MM/dd/yyyy'"></kendo-datepicker>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="inc_lead_time_calc" title="{{language.inc_lead_time_calc}}"
+                                            [width]="199" [minResizableWidth]="199">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <label class="custom-checkbox without-label mb-0 mx-auto d-table">
+                                                    <input type="checkbox" name="inc_lead_time_calc_{{dataItem.rowindex}}"
+                                                        id="inc_lead_time_calc_{{dataItem.rowindex}}" value={{dataItem.inc_lead_time_calc}}
+                                                        (change)="on_input_change(inc_lead_time_calc.checked,dataItem.rowindex, 'inc_lead_time_calc')"
+                                                        #inc_lead_time_calc [(checked)]=dataItem.inc_lead_time_calc
+                                                        title="{{dataItem.inc_lead_time_calc}}" [disabled]="dataItem.opn_application == false">
+                                                    <span class="checkbox"></span>
+                                                </label>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="queue_time" title="{{language.queue_time}}" filter="text"
+                                            [width]="140" [minResizableWidth]="140">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <kendo-maskedtextbox class="form-control  form-control-sm text-right"
+                                                    id="queue_time" [value]="dataItem.queue_time" (change)="on_input_change(queue_time.value,dataItem.rowindex, 'queue_time')"
+                                                    [disabled]="dataItem.opn_application == false" #queue_time title={{dataItem.queue_time}}
+                                                    pattern="[0-9]" [mask]="mask"></kendo-maskedtextbox>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="move_time" title="{{language.move_time}}" filter="text"
+                                            [width]="140" [minResizableWidth]="140">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <kendo-maskedtextbox class="form-control  form-control-sm text-right"
+                                                    id="move_time" [value]="dataItem.move_time" (change)="on_input_change(move_time.value,dataItem.rowindex, 'move_time')"
+                                                    [disabled]="dataItem.opn_application == false" #move_time title={{dataItem.move_time}}
+                                                    pattern="[0-9]" [mask]="mask"></kendo-maskedtextbox>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="qc_time" title="{{language.qc_time}}" filter="text"
+                                            [width]="140" [minResizableWidth]="140">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <kendo-maskedtextbox class="form-control  form-control-sm text-right"
+                                                    id="qc_time" [value]="dataItem.qc_time" (change)="on_input_change(qc_time.value,dataItem.rowindex, 'qc_time')"
+                                                    #qc_time [disabled]="dataItem.opn_application == false" title={{dataItem.qc_time}}
+                                                    pattern="[0-9]" [mask]="mask"></kendo-maskedtextbox>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="time_uom" title="{{language.time_uom}}" filter="text"
+                                            [width]="140" [minResizableWidth]="140">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <select [disabled]="dataItem.opn_application == false" class="form-control form-control-sm"
+                                                    #time_uom (change)="on_input_change(time_uom.value,dataItem.rowindex, 'time_uom')">
+                                                    <option *ngFor="let v of commonData.time_uom_type()" [value]="v.value"
+                                                        [selected]="dataItem.time_uom==v.value">
+                                                        {{v.Name}}</option>
+                                                </select>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="opn_application" title="{{language.opn_application}}"
+                                            [width]="111" [minResizableWidth]="111">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <ng-container *ngIf="dataItem.isOpenApplicableVisible">
+                                                    <label class="custom-checkbox without-label mb-0 mx-auto d-table">
+                                                        <input type="checkbox" id="opn_application_{{dataItem.rowindex}}"
+                                                            value={{dataItem.opn_application}} (change)="on_input_change(opn_application.checked,dataItem.rowindex, 'opn_application')"
+                                                            #opn_application [(checked)]=dataItem.opn_application title="{{dataItem.opn_application}}">
+                                                        <span class="checkbox"></span>
+                                                    </label>
+                                                </ng-container>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="delete" title="delete" template="" [width]="60"
+                                            [minResizableWidth]="60">
+                                            <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                                <svg viewBox="0 0 753.23 753.23" class="icon">
+                                                    <use xlink:href="#bin"></use>
+                                                </svg>
+                                            </ng-template>
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <button type="button" class="btn btn-danger btn-sm btn-icon" title="{{this.language.delete}}"
+                                                    (click)="onDeleteRow(dataItem.rowindex)" *ngIf="dataItem.showOperationbtn">
+                                                    <svg viewBox="0 0 753.23 753.23" class="icon">
+                                                        <use xlink:href="#bin"></use>
+                                                    </svg>
+                                                </button>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                    </kendo-grid>
+                                </div>
                             </div>
-                        </div>   
-                        </div>                        
+                        </div>
                         <div class="d-none col-md-3" id="right-tree-section">
                             <div class="opti_overflow-auto tree-wrapper">
                                 <div class="tree well">
                                     <div class="collaps-control d-flex justify-content-end">
-                                        <button class="btn btn-sm btn-icon btn-info mr-2" title="{{this.language.expand_all}}" type="button" (click)="expandAll()">
-                                            <svg class="icon" viewBox="0 0 1024 1024"><use xlink:href="#expandAll"></use></svg>
+                                        <button class="btn btn-sm btn-icon btn-info mr-2" title="{{this.language.expand_all}}"
+                                            type="button" (click)="expandAll()">
+                                            <svg class="icon" viewBox="0 0 1024 1024">
+                                                <use xlink:href="#expandAll"></use>
+                                            </svg>
                                         </button>
-                                        <button class="btn btn-sm btn-icon btn-success mr-2" title="{{this.language.collapse_all}}" type="button" (click)="collapseAll()">
-                                            <svg class="icon" viewBox="0 0 1024 1024"><use xlink:href="#collapseAll"></use></svg>
+                                        <button class="btn btn-sm btn-icon btn-success mr-2" title="{{this.language.collapse_all}}"
+                                            type="button" (click)="collapseAll()">
+                                            <svg class="icon" viewBox="0 0 1024 1024">
+                                                <use xlink:href="#collapseAll"></use>
+                                            </svg>
                                         </button>
-                                        <button class="btn btn-sm btn-icon btn-danger" (click)="toggleTree($event)" type="button" title="Close">
-                                            <svg viewBox="0 0 475 475" class="icon"><use xlink:href="#close" ></use></svg>
+                                        <button class="btn btn-sm btn-icon btn-danger" (click)="toggleTree($event)"
+                                            type="button" title="Close">
+                                            <svg viewBox="0 0 475 475" class="icon">
+                                                <use xlink:href="#close"></use>
+                                            </svg>
                                         </button>
                                     </div>
                                     <ul class="parent_ul" *ngIf="tree_data_json.length > 0">
-                                        <li class="first_level_li" *ngFor="let element of tree_data_json; let i= index;" [hidden]="element.level != 0 && element.parentNumber!=''" >
+                                        <li class="first_level_li" *ngFor="let element of tree_data_json; let i= index;"
+                                            [hidden]="element.level != 0 && element.parentNumber!=''">
                                             <div *ngIf="element.parentNumber==''">
                                                 <ng-template #template>
                                                     <div class="modal-body text-center">
@@ -496,22 +659,26 @@
                                                 </ng-template>
                                                 <ng-template #popTemplate>
                                                     <div class="text-center">
-                                                        <img *ngIf="!element.modalImage==''" [attr.src]="element.modalImage" height="100" (click)="openModal(template)">
-                                                        <div *ngIf="element.modalImage==''" class="no-img-msg">No Image Found</div>
+                                                        <img *ngIf="!element.modalImage==''" [attr.src]="element.modalImage"
+                                                            height="100" (click)="openModal(template)">
+                                                        <div *ngIf="element.modalImage==''" class="no-img-msg">No Image
+                                                            Found</div>
                                                     </div>
                                                 </ng-template>
                                                 <span class="first_level" kendoTooltip [tooltipTemplate]="template">
-                                                    <span #btn (click)="childExpand(btn)" class="expand-btn expanded" id="expand-btn" *ngIf="check_component_exist(element.componentNumber, i).length > 0"></span>
-                                                    <span kendoTooltip [tooltipTemplate]="popTemplate" showOn="click" filter="span">
+                                                    <span #btn (click)="childExpand(btn)" class="expand-btn expanded"
+                                                        id="expand-btn" *ngIf="check_component_exist(element.componentNumber, i).length > 0"></span>
+                                                    <span kendoTooltip [tooltipTemplate]="popTemplate" showOn="click"
+                                                        filter="span">
                                                         <span [attr.data-branchtype]="element.branchType">{{element.component}}</span>
                                                     </span>
                                                     <ng-container *ngIf="element.branchType !='operation' && element.component!=''">
-                                                        <span class="opration-type"  *ngIf="element.branchType !='value' && element.branchType !='modal' && element.branchType !='operation' && element.operation_no != ''">{{element.operation_no}}</span>
+                                                        <span class="opration-type" *ngIf="element.branchType !='value' && element.branchType !='modal' && element.branchType !='operation' && element.operation_no != ''">{{element.operation_no}}</span>
                                                     </ng-container>
                                                     <span class="opration-type" *ngIf="element.branchType =='operation' && element.operation_no != ''">{{element.operation_no}}</span>
                                                 </span>
-                                                <treeview #tree [tree_data_json]="check_component_exist(element.componentNumber, i)" [complete_dataset]="tree_data_json"
-                                                *ngIf="check_component_exist(element.componentNumber, i).length > 0"></treeview>
+                                                <treeview #tree [tree_data_json]="check_component_exist(element.componentNumber, i)"
+                                                    [complete_dataset]="tree_data_json" *ngIf="check_component_exist(element.componentNumber, i).length > 0"></treeview>
                                             </div>
                                         </li>
                                     </ul>
@@ -522,30 +689,42 @@
                 </div>
                 <div class="sticky-bottom-toolbar d-flex justify-content-end border-top pt-2">
                     <div class="mr-auto d-flex align-items-center flex-wrap">
-                        <button type="button" (click)="onSave()" *ngIf="isSaveButtonVisible" class="btn btn-sm btn-success with-icon mr-2"><svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.save}}</button>
+                        <button type="button" (click)="onSave()" *ngIf="isSaveButtonVisible" class="btn btn-sm btn-success with-icon mr-2"><svg
+                                viewBox="0 0 512 512" class="icon">
+                                <use xlink:href="#saveDisk"></use>
+                            </svg> {{language.save}}</button>
                         <button type="button" *ngIf="isUpdateButtonVisible" (click)="onSave()" class="btn btn-sm btn-primary mr-2 with-icon">
-                            <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.update}}
+                            <svg viewBox="0 0 512 512" class="icon">
+                                <use xlink:href="#saveDisk"></use>
+                            </svg> {{language.update}}
                         </button>
                         <button type="button" *ngIf="isExplodeButtonVisible" (click)="onExplodeClick('manual')" class="btn btn-sm btn-secondary with-icon">
-                            <svg class="icon" viewBox="0 0 512 512"><use xlink:href="#treeView"></use></svg> {{language.explode}}
+                            <svg class="icon" viewBox="0 0 512 512">
+                                <use xlink:href="#treeView"></use>
+                            </svg> {{language.explode}}
                         </button>
                     </div>
                     <div class="ml-auto d-flex align-items-center flex-wrap">
-                        <button type="button" class="btn btn-sm btn-danger with-icon mr-2" *ngIf="isDeleteButtonVisible" (click)="deleteConfirm()"><svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg>{{language.delete}}</button>        
+                        <button type="button" class="btn btn-sm btn-danger with-icon mr-2" *ngIf="isDeleteButtonVisible"
+                            (click)="deleteConfirm()"><svg viewBox="0 0 753.23 753.23" class="icon">
+                                <use xlink:href="#bin"></use>
+                            </svg>{{language.delete}}</button>
                         <button type="button" routerLink="{{view_route_link}}" class="btn btn-sm btn-secondary with-icon">
-                            <svg viewBox="0 0 489 489" class="icon"><use xlink:href="#cancel"></use></svg>{{language.cancel}}
-                        </button>        
+                            <svg viewBox="0 0 489 489" class="icon">
+                                <use xlink:href="#cancel"></use>
+                            </svg>{{language.cancel}}
+                        </button>
                     </div>
-                </div>            
+                </div>
             </div>
         </form>
     </div>
 </div>
-    
+
 <!--Custom Dialog-->
 <span [hidden]="showLookupLoader">
     <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"
-      [selectedImage]="selectedImage"></app-lookup>
-  </span>
-  <!-- Lookup and popup  -->
-  <app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)"></app-custom-dialogs>
+        [selectedImage]="selectedImage"></app-lookup>
+</span>
+<!-- Lookup and popup  -->
+<app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)"></app-custom-dialogs>

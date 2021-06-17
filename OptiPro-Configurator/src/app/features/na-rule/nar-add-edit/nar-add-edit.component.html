@@ -26,7 +26,11 @@
                 <div class="col-md-6">
         
                   <div class="form-group row clearfix mb-2">
-                    <label class="col-sm-3 col-form-label required" for="rule_code">{{language.rule_code}}</label>
+                    <label class="col-sm-3 col-form-label required" for="rule_code">
+                      <span>
+                      {{language.rule_code}}
+                    </span>
+                    </label>
                     <div class="col-sm-5">
                       <input type="text" name="rule_code" class="form-control form-control-sm" maxlength="50" id="rule_code" placeholder="{{language.name}}" [(ngModel)]="rule_wb_data.rule_code" #rulecode title="{{rule_wb_data.rule_code}}" tabindex="1" [disabled]="code_disabled" (change)="detect_change()">
                     </div>

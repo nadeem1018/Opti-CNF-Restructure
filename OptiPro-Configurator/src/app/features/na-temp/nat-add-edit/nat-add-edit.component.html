@@ -28,7 +28,7 @@
                       <div class="col-md-6">              
                                        
                         <div class="form-group row clearfix">
-                          <label class="col-sm-3 col-form-label" for="featureDisplay">{{language.template_id}}</label>
+                          <label class="col-sm-3 col-form-label required" for="featureDisplay"><span>{{language.template_id}}</span></label>
                           <div class="col-sm-5">
                             <input type="text" [disabled] = "needsassessment_template.disableid" name="feature_name" class="form-control  form-control-sm" id="templateId" placeholder="{{language.template_id}}" #Templateinputbox [(ngModel)]="needsassessment_template.templateid" title="{{needsassessment_template.templateid}}">
                           </div>                          

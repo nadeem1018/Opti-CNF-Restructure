@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row clearfix">
-                                <label class="col-sm-4 col-form-label required" for="feature">{{model_code_label}}</label>
+                                <label class="col-sm-5 col-form-label required" for="feature"><span>{{model_code_label}}</span></label>
                                 <div class="col-sm-5 d-inline-flex align-items-center">
                                     <input type="text" id="codeID" name="codeName" maxlength="50" [disabled]="code_disabled"
                                         class="form-control  form-control-sm mt3" placeholder="{{model_code_label}}"
@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                             <div class="form-group row clearfix">
-                                <label class="col-sm-4 col-form-label" for="type">{{language.Model_Type}}</label>
+                                <label class="col-sm-5 col-form-label" for="type">{{language.Model_Type}}</label>
                                 <div class="col-sm-5 d-inline-flex align-items-center">
                                     <select [disabled]="isUsedAccesoriesDisabled" class="form-control  form-control-sm mt3"
                                         (change)="onTypeLookupChange()" id="typeID" name="typeName" [(ngModel)]="featureBom.type"
@@ -45,7 +45,7 @@
                             </div>
 
                             <div class="form-group row clearfix">
-                                <label class="col-sm-4 col-form-label required" for="featurename">{{model_name_label}}</label>
+                                <label class="col-sm-5 col-form-label required" for="featurename"><span>{{model_name_label}}</span></label>
                                 <div class="col-sm-5 d-inline-flex align-items-center">
                                     <input type="text" id="modelID" name="modelID" maxlength="50" class="form-control  form-control-sm mt3"
                                         placeholder="{{model_name_label}}" [(ngModel)]="featureBom.Name" title="{{featureBom.Name}}"
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             <div class="form-group row clearfix">
-                                <label class="col-sm-4 col-form-label" for="featureDesc">{{model_desc_label}}</label>
+                                <label class="col-sm-5 col-form-label" for="featureDesc">{{model_desc_label}}</label>
                                 <div class="col-sm-5 d-inline-flex align-items-center">
                                     <input type="text" name="descName" maxlength="50" class="form-control  form-control-sm mt3"
                                         id="featureDesc" placeholder="{{model_desc_label}}" [(ngModel)]="featureBom.Desc"
@@ -62,7 +62,7 @@
                             </div>
 
                             <div class="form-group row clearfix" *ngIf="modelType">
-                                <label class="col-sm-4 col-form-label" for="type">{{language.MODEL_TYPE}}</label>
+                                <label class="col-sm-5 col-form-label" for="type">{{language.MODEL_TYPE}}</label>
                                 <div class="col-sm-5 d-inline-flex align-items-center">
                                     <select class="form-control  form-control-sm mt3" id="modeltypeID" name="typeName"
                                         [(ngModel)]="OPTM_MODELTYPE" #select>
@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="form-group row clearfix">
-                                <label class="col-sm-4 col-form-label required" for="featureItem">{{language.Model_Item}}</label>
+                                <label class="col-sm-5 col-form-label required" for="featureItem"><span>{{language.Model_Item}}</span></label>
                                 <input type="hidden" name="modelItemCode" class="form-control  form-control-sm" id="featureItemcode"
                                     value="featureBom.ItemCode" [disabled]="isItemCodeDisabled" placeholder="{{language.Model_Item}}"
                                     (change)="onItemCodeChange()" [(ngModel)]="featureBom.ItemCode" title="{{featureBom.ItemCode}}">
@@ -92,7 +92,7 @@
                                 </div>
                             </div>
                             <div class="form-group row clearfix">
-                                <label class="col-sm-4 col-form-label required" for="featureItemCode">{{language.Model_Ref}}</label>
+                                <label class="col-sm-5 col-form-label required" for="featureItemCode"><span>{{language.Model_Ref}}</span></label>
 
                                 <div class="col-sm-5 input-group d-inline-flex align-items-center">
                                     <input type="text" ngValue="" class="form-control  form-control-sm" name="itemCodeName"
@@ -112,7 +112,7 @@
                             </div>
 
                             <div class="form-group row clearfix">
-                                <label class="col-sm-4 col-form-label" for="datetime_input" class="col-sm-4 col-form-label">{{language.Model_Date}}</label>
+                                <label class="col-sm-5 col-form-label" for="datetime_input" class="col-sm-5 col-form-label">{{language.Model_Date}}</label>
                                 <div class="col-sm-5 d-inline-flex align-items-center">
                                     <kendo-datepicker #dt12 value="" [min]="minimum_date" id="datetime_input" name="datepicker"
                                         placeholder="{{language.Model_Date}}" [(ngModel)]="featureBom.Date" [format]="'MM/dd/yyyy'"
@@ -122,7 +122,7 @@
                             </div>
 
                             <div class="form-group row clearfix" *ngIf="showImageBlock">
-                                <label class="col-sm-4 col-form-label" for="image">{{language.image}}</label>
+                                <label class="col-sm-5 col-form-label" for="image">{{language.image}}</label>
                                 <div class="col-sm-5 d-inline-flex align-items-center">
                                     <div class="row image_data">
                                         <div class=" col-md-4 col-sm-4">
@@ -136,7 +136,7 @@
                             </div>
 
                             <div class="form-group row clearfix">
-                                <label class="col-sm-4 col-form-label" for="image">{{language.Model_Image}}</label>
+                                <label class="col-sm-5 col-form-label" for="image">{{language.Model_Image}}</label>
                                 <div class="col-sm-5 d-inline-flex align-items-center">
                                     <div class="input-group">
                                         <div class="custom-file">
@@ -149,7 +149,7 @@
                             </div>
 
                             <div class="form-group row clearfix">
-                                <label class="col-sm-4 col-form-label" for="Status">{{language.Model_Status}}</label>
+                                <label class="col-sm-5 col-form-label" for="Status">{{language.Model_Status}}</label>
                                 <div class="col-sm-5 d-inline-flex align-items-center">
                                     <select class="form-control  form-control-sm mt3" name="featureTypeName"
                                         [(ngModel)]="featureBom.Status" id="featureTypeNameID" (change)="call_change_event()">
@@ -160,7 +160,7 @@
                             </div>
 
                             <div class="form-group row clearfix" [hidden]="IsAccessoryVisible">
-                                <label class="col-sm-4 col-form-label" for="Accessory">{{language.Model_Accessory}}</label>
+                                <label class="col-sm-5 col-form-label" for="Accessory">{{language.Model_Accessory}}</label>
                                 <div class="col-sm-5 d-inline-flex align-items-center">
                                     <div class="custom-control custom-radio custom-control-inline mr-3">
                                         <input [disabled]="isUsedAccesoriesDisabled" type="radio" id="yes" name="accessory"
