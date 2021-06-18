@@ -59,7 +59,7 @@
                                         <input type="hidden" class="form-control  form-control-sm" />
                                         <div class="input-group">
                                             <input type="text" value={{dataItem.template_ID}} class="form-control form-control-sm"
-                                                (change)="onCheckDefaultTemplate(dataItem.template_ID,dataItem.rowindex)" />
+                                                (change)="onCheckDefaultTemplate(OPTM_Template.value,dataItem.rowindex)" #OPTM_Template />
                                             <div class="input-group-append">
                                                 <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getListDefaultNeedAssementTemplate(dataItem.rowindex)">
                                                     <svg class="icon m-0" viewBox="0 -96 512 512">

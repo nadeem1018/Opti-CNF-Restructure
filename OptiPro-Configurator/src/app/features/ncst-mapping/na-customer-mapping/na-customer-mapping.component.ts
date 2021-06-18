@@ -241,8 +241,8 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
           this.need_customer_table[rowIndex].template_ID = TemplateID;
           this.cusomerChangeTemplateMapping.push({
             // CUSTOMER_NAME: this.need_customer_table[this.currentrowIndex].customer_name,
-            OPTM_ID: this.need_customer_table[this.currentrowIndex].OPTM_ID,
-            CustID: this.need_customer_table[this.currentrowIndex].CustID,
+            OPTM_ID: this.need_customer_table[rowIndex].OPTM_ID,
+            CustID: this.need_customer_table[rowIndex].CustID,
             OPTM_TEMPLATEID: TemplateID
 
           });
