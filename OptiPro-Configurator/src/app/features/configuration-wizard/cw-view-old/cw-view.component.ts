@@ -5428,7 +5428,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           tempfeaturecode = tempfeaturecode
           featureId = ItemData[0].OPTM_MODELID
           if (ItemData[0].OPTM_TYPE != 2) {
-            description = featureModelData.child_code
+            description = featureModelData.child_code == "" ? ItemData[0].OPTM_DISPLAYNAME : featureModelData.child_code
           } else {
             description = ItemData[0].OPTM_DISPLAYNAME
           }
@@ -5456,7 +5456,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               }
               this.feature_itm_list_table.push({
                 FeatureId: featureId,
-                featureName: tempfeaturecode,
+                featureName: tempfeaturecode == "" ? featureModelData.parent_code : tempfeaturecode,
                 Item: featureModelData.OPTM_ITEMKEY,
                 discount: 0,
                 ItemNumber: featureModelData.DocEntry,
