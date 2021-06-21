@@ -170,7 +170,6 @@ export class SidebarComponent implements OnInit, DoCheck {
   }
 
   resetMenu() {
-    console.log(this.CommonService.navMenuList);
     this.menuList = [];
     let list = [];
     this.CommonService.navMenuList.forEach(element => {

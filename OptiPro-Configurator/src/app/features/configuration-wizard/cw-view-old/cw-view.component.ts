@@ -1106,10 +1106,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               this.setModelDataFlag = true;
               for (var isavedmultimodel in data) {
                 this.onclearselection(1);
-                this.step2_data.quantity = parseFloat(data[isavedmultimodel].AddedModelHeaderData[0].quantity);
-                this.step2_data.model_id = data[isavedmultimodel].AddedModelHeaderData[0].ModelID
-                this.step2_data.model_code = data[isavedmultimodel].AddedModelHeaderData[0].OPTM_FEATURECODE
-                this.step2_data.model_name = data[isavedmultimodel].AddedModelHeaderData[0].ModelDisplayName
+                this.step2_data.quantity = parseFloat(data[isavedmultimodel].AddedModelHeaderData[0].OPTM_QUANTITY);
+                this.step2_data.model_id = data[isavedmultimodel].AddedModelHeaderData[0].OPTM_MODELID
+                this.step2_data.model_code = data[isavedmultimodel].AddedModelHeaderData[0].feature_code
+                this.step2_data.model_name = data[isavedmultimodel].AddedModelHeaderData[0].OPTM_DISPLAYNAME
                 this.step2_data.templateid = data[isavedmultimodel].AddedModelHeaderData[0].OPTM_MODELTEMPLATEITEM
                 this.step2_data.itemcodegenkey = data[isavedmultimodel].AddedModelHeaderData[0].OPTM_ITEMCODEGENREF
                 this.GetAllDataForSavedMultiModelBomOutput(data[isavedmultimodel], saveddata);
@@ -1414,6 +1414,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           this.SetModelFeatureSavedItems(Modelfeaturesaveditems, data.Savedgetmodelsavedata);
         }
 
+        //this.setAccesoryItems();
         if (this.selectedAccessoryHeader.length > 0) {
           for (let acchdr_i = 0; acchdr_i < this.selectedAccessoryHeader.length; acchdr_i++) {
             let accessoryData = [];
