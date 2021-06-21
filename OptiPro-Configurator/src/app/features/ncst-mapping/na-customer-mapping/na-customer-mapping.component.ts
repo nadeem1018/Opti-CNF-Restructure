@@ -145,7 +145,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
               rowindex: i,
               CustID: data[i].CustID,
               OPTM_ID: data[i].OPTM_ID,
-              customer_code :data[i].CustID
+              customer_code: data[i].CustID
 
             });
           }
@@ -258,26 +258,30 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
 
   saveConfirmation() {
     this.dialog_params.push({ 'dialog_type': 'delete_confirmation', 'message': this.language.SaveConfirmation });
-    this.show_dialog = true;   
+    this.show_dialog = true;
   }
 
-  get_dialog_value(userSelectionValue) { 
-   
+  get_dialog_value(userSelectionValue) {
+
     if (userSelectionValue == true) {
       this.defaultYesNO = "Y";
       this.onSaveClick(this.defaultYesNO)
-     }else{
+    } else {
       this.defaultYesNO = "N";
-     }
+    }
     this.show_dialog = false;
-   
+
   }
   // function for Update data 
 
   onSaveClick(defaultValue) {
-    console.log(this.need_customer_table);    
+    console.log(this.need_customer_table);
+    if(this.cusomerChangeTemplateMapping.length == 0)
+    {
+      return false;
+    }
     this.cusomerChangeTemplateMapping.filter(function (obj) {
-      obj['DefaultYesNO'] = defaultValue
+      obj['DefaultYesNO'] = defaultValue = obj['OPTM_TEMPLATEID'] == "" ? "Y" : defaultValue
       return obj;
     });
     this.showLookupLoader = true;
@@ -296,9 +300,9 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
         this.cusomerChangeTemplateMapping = [];
         this.getCustomerTemplateList();
         return;
-      }else if(data === "Rule is not Exist for this template"){
+      } else if (data === "Rule is not Exist for this template") {
         this.saveConfirmation();
-     } else if (data == "AlreadyExist") {
+      } else if (data == "AlreadyExist") {
 
         this.CommonService.show_notification(this.language.DuplicateCode, 'error');
         return;

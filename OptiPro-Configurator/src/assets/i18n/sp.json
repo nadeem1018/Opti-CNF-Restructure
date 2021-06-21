@@ -716,7 +716,8 @@
     "Custom_CW":"Custom Configure Wizard",
     "SelectData":"Kindly Select Item",
     "OrderCreated":"Order has been created with Order No:",
-    "Invalid_Display_Order_field":"Enter Valid Display Group Order at row index:"
+    "Invalid_Display_Order_field":"Enter Valid Display Group Order at row index:",
+    "NOT_Assessment":"Need's Assessment Template Data is Not Available"
    
 
 }

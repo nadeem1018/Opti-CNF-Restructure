@@ -817,7 +817,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         else {
 
           this.showLookupLoader = false;
-          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          this.CommonService.show_notification(this.language.NOT_Assessment, 'warning');
           if (this.isNeedAssesment) {
             this.navigation_in_steps(1, 2);
             this.SkipAssementModel = true;
