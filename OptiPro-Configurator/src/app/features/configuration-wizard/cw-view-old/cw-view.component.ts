@@ -767,6 +767,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
   GetNeedsAssessmentByCustomerId() {
     CommonData.made_changes = true;
     this.showLookupLoader = true;
+    this.customerNeedsAssessmentHeader = [];
+    this.option = [];
     if (this.step1_data.customer == undefined || this.step1_data.customer == null) {
       this.step1_data.customer = "";
     }
@@ -7861,34 +7863,37 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     // filter feature based on Attribute [Sanyam]
 
     if (this.isAttribute) {
-      if (this.filterList.length > 0) {
-        let filterdata = this.filterList.filter(function (obj) {
-          return obj['OPTM_FEATUREID'] == header_feature_table['OPTM_FEATUREID']
-        });
-
-        if (filterdata.length > 0) {
-          let filterFeatureList = [];
-          let optmValueType: any = 3;
-          let optmItemType: any = 2;
-          array.forEach(element => {
-            filterdata.forEach(elementList => {
-              if (elementList.OPTM_TYPE == optmValueType) {
-                if (elementList.OPTM_VALUE == element.OPTM_VALUE) {
-                  filterFeatureList.push(element);
-                }
-              }
-              else if (elementList.OPTM_TYPE == optmItemType) {
-                if (elementList.OPTM_ITEMKEY == element.OPTM_ITEMKEY) {
-                  filterFeatureList.push(element);
-                }
-              }
-            });
+      if (this.filterList != undefined) {
+        if (this.filterList.length > 0) {
+          let filterdata = this.filterList.filter(function (obj) {
+            return obj['OPTM_FEATUREID'] == header_feature_table['OPTM_FEATUREID']
           });
-          if (filterFeatureList.length > 0) {
-            array = filterFeatureList;
+
+          if (filterdata.length > 0) {
+            let filterFeatureList = [];
+            let optmValueType: any = 3;
+            let optmItemType: any = 2;
+            array.forEach(element => {
+              filterdata.forEach(elementList => {
+                if (elementList.OPTM_TYPE == optmValueType) {
+                  if (elementList.OPTM_VALUE == element.OPTM_VALUE) {
+                    filterFeatureList.push(element);
+                  }
+                }
+                else if (elementList.OPTM_TYPE == optmItemType) {
+                  if (elementList.OPTM_ITEMKEY == element.OPTM_ITEMKEY) {
+                    filterFeatureList.push(element);
+                  }
+                }
+              });
+            });
+            if (filterFeatureList.length > 0) {
+              array = filterFeatureList;
+            }
           }
         }
       }
+
     }
 
     return array;
