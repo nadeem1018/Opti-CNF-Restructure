@@ -1312,9 +1312,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         return obj['ACCESSORY'] != "Y"
       });
       this.Accessoryarray = [];
-      this.Accessoryarray = data.ModelHeaderData.filter(function (obj) {
-        return obj['ACCESSORY'] == "Y";
-      });
+      // this.Accessoryarray = data.ModelHeaderData.filter(function (obj) {
+      //   return obj['ACCESSORY'] == "Y";
+      // });
       /*this.getAccessoryData(this.Accessoryarray)*/
       this.AccessModel = [];
       this.AccessModel = data.ModelBOMDataForSecondLevel.filter(function (obj) {
@@ -1342,7 +1342,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           this.SelectedAccessory = data.SelectedAccessory;
         }
       }
-
+      this.Accessoryarray = data.SelectedAccessory;
       if (this.Accessoryarray.length == 0 && this.AccessModel.length > 0) {
         this.Accessoryarray = this.AccessModel
       }
@@ -2846,9 +2846,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           this.FeatureBOMCustomAttr = data.FeatureBOMCustomAttr;
           this.setCustomAttributeValue();
           this.Accessoryarray = [];
-          this.Accessoryarray = data.ModelHeaderData.filter(function (obj) {
-            return obj['ACCESSORY'] == "Y";
-          });
+          this.Accessoryarray = data.SelectedAccessory;
+          // this.Accessoryarray = data.ModelHeaderData.filter(function (obj) {
+          //   return obj['ACCESSORY'] == "Y";
+          // });
           /*this.getAccessoryData(this.Accessoryarray)*/
           this.AccessModel = [];
           this.AccessModel = data.ModelBOMDataForSecondLevel.filter(function (obj) {
