@@ -275,9 +275,10 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
   // function for Update data 
 
   onSaveClick(defaultValue) {
-    console.log(this.need_customer_table);
+
     if(this.cusomerChangeTemplateMapping.length == 0)
     {
+      this.CommonService.show_notification(this.language.DataSaved, 'success');
       return false;
     }
     this.cusomerChangeTemplateMapping.filter(function (obj) {
