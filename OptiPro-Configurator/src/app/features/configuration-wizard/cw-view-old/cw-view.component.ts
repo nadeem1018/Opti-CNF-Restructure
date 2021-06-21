@@ -2703,6 +2703,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           }
 
           this.groupData = data.GroupDataList;
+          this.groupData.sort((a,b) => (a.OPTM_DSPGROUP_ORDER > b.OPTM_DSPGROUP_ORDER) ? 1 : ((b.OPTM_DSPGROUP_ORDER > a.OPTM_DSPGROUP_ORDER) ? -1 : 0))
 
           data.ModelHeaderData = data.ModelHeaderData.filter(function (obj) {
             obj['OPTM_LEVEL'] = 0;
@@ -7989,7 +7990,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       // console.log(this.feature_accessory_list);
 
     }
-  }
+   }
 
 
   setHeaderAccessoryData(AccarrayData) {
