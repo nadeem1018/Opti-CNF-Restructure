@@ -1,0 +1,229 @@
+<!-- <div class="layout-mode" fxFlex fxLayout="column">
+        <div class="page-header">
+            <h4>{{page_main_title}}</h4>
+        </div>
+        <div class="card" fxFlex>
+            <div class="card-body pb-2" fxFlex fxLayout="column">
+                <form class="form-horizontal" fxFlex="0 1 100%" fxLayout="column">
+                    <div class="main-portion">
+                        <div class="row h-100">
+                            <div class="col-md-12 d-flex flex-column" id="left-table-section">
+                                <div class="row">
+    
+                                </div>
+
+                                <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
+                                    <kendo-grid [kendoGridBinding]="modelbom_data" [reorderable]="true" [resizable]="true"
+                                        [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
+                                        [kendoGridSelectBy]="'rowindex'" [ngStyle]="{'height':'100%', 'max-width':'100%'}"
+                                        [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
+                                        <ng-template kendoGridToolbarTemplate>
+                                            <div class="d-flex align-items-center">
+                                                <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button"
+                                                    title="{{language.add_row}}" (click)="onAddRow()" #button class="btn btn-sm btn-primary with-icon mr-2"><svg
+                                                        viewBox="0 0 8500 8500" class="icon">
+                                                        <use xlink:href="#add"></use>
+                                                    </svg> {{language.add_row}}
+                                                </button>
+                                            </div>
+                                        </ng-template>
+    
+    
+                                        <kendo-grid-column field="" title="Thickness" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="Material" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="Type" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{}}
+                                                    (change)="" #disp title={{}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
+    
+                                    </kendo-grid>
+                                </div>
+                            </div>
+    
+    
+    
+                        </div>
+                    </div>
+                    <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
+                        <div class="mr-auto d-flex align-items-center flex-wrap">
+                            <button type="button" (click)="onSave()" *ngIf="isSaveButtonVisible" class="btn btn-sm btn-success with-icon mr-2">
+                                <svg viewBox="0 0 512 512" class="icon">
+                                    <use xlink:href="#saveDisk"></use>
+                                </svg> {{language.save}}
+                            </button>
+                        </div>
+    
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> -->

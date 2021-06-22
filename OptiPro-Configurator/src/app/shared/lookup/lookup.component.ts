@@ -341,6 +341,11 @@ export class LookupComponent implements OnInit {
       if (this.popup_lookupfor == "feature_details_lookup") {
         this.getFeatureItemList();
       }
+      if (this.popup_lookupfor == "Product_Details") {
+        this.getProductsList();
+      }
+
+      
 
     }
   }
@@ -2794,6 +2799,44 @@ export class LookupComponent implements OnInit {
         title: "Total Price",
         type: 'text',
         width: '80',
+        attrType: 'text'
+      },
+
+    ];
+    this.table_head_hidden_elements = [false];
+    this.width_value = ((100 / this.table_head.length) + '%');
+
+    this.showLoader = false;
+    this.LookupDataLoaded = true;
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+        this.loadServerData(this.serviceData);
+        // $("#lookup_modal").modal('show');
+      }
+    }
+  }
+
+  getProductsList()
+  {
+    this.popup_title = "Product Details";
+    this.LookupDataLoaded = false;
+    this.showLoader = true;
+    this.fill_input_id = 'OPTM_CUSTOMERCODE';
+    this.lookup_key = 'OPTM_CUSTOMERCODE';
+    this.table_head = [
+      {
+        field: 'OPTM_CUSTOMERCODE',
+        title: "Product Code",
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+      {
+        field: 'OPTM_CUSTOMERNAME',
+        title: "Product Name",
+        type: 'text',
+        width: '100',
         attrType: 'text'
       },
 

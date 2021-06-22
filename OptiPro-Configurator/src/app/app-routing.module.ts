@@ -111,6 +111,12 @@ const routes: Routes = [
     path: 'custom-configure-wizard',
     loadChildren: () => import('./features/custom-cw/custom-cw.module').then(m => m.CustomCWModule),
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
+  },
+
+  {
+    path: 'material-master',
+    loadChildren: () => import('./features/material/material.module').then(m => m.MaterialComponentModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   }
 
 ];
