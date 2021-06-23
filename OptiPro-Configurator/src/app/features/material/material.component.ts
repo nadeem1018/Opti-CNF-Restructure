@@ -24,6 +24,7 @@ export class MaterialComponent implements OnInit {
   public showLookupLoader = false;
   language = JSON.parse(sessionStorage.getItem('current_lang'));
   public commonData = new CommonData();
+  public fetchData: any = [];
 
   constructor(private router: Router, private httpclient: HttpClient, private CommonService: CommonService, private service: EstimatetoolService) { }
 
@@ -67,56 +68,71 @@ export class MaterialComponent implements OnInit {
   }
 
   setEditData() {
-    this.material_data.push({
-      'Thickness': "data[i].OPTM_THICKNESS",
-      'Material': "data[i].OPTM_MATERIAL",
-      'Type': "data[i].OPTM_TYPE",
-      'Description': "data[i].OPTM_DESCRIPTION",
-      'Length': "data[i].OPTM_LENGTH",
-      'Width': "data[i].OPTM_WIDTH",
-      'Area': "data[i].OPTM_AREA",
-      'Perimeter': "data[i].OPTM_PERIMETER",
-      'Drop': "data[i].OPTM_DROP",
-      'Total_Area': "data[i].OPTM_TOTALAREA",
-      'Inner_Area': "data[i].OPTM_INNERAREA",
-      'Holes': "data[i].OPTM_HOLES_QTY",
-      'Hole_Size': "data[i].OPTM_HOLESSIZE",
-      'Circumference': "data[i].OPTM_CIRCUMFERENCE",
-      'Slots': "data[i].OPTM_SLOTS_QTY",
-      'Slots_Lg': "data[i].OPTM_SLOT_LENGTH",
-      'Slots_Width': "data[i].OPTM_SLOT_WIDTH",
-      'Circumference1': "data[i].OPTM_SLOT_CIRCUMFERENCE",
-      'Insets': "data[i].OPTM_INSERT",
-      'Sheet_Width': "data[i].OPTM_SHEET_WIDTH",
-      'Sheet_Lg': "data[i].OPTM_SHEET_LENGTH",
-      'Sheet_Area': "data[i].OPTM_SHEET_AREA",
-      'Parts_Per_Sheet': "data[i].OPTM_PARTSPER_SHEET",
-      'Sheets_Reqd': "data[i].OPTM_SHEETREQ",
-      'Qty': "data[i].OPTM_QUANTITY",
-      'rowIndex': this.index
-    })
+    let materialData = this.fetchData.Material;
+    let materialDetails = this.fetchData.MaterialDetails;
+    let materialHeader = this.fetchData.MateriaHeader;
+    this.product_name = materialHeader[0].OPTM_DESCRIPTION;
+    this.product_code = materialHeader[0].OPTM_CODE;
 
-    this.material_Griddata.push({
-      'Design_Total_Min': "data[i].OPTM_DES_TOTALMINS",
-      'Design_Total_hrs': "data[i].OPTM_DES_TOTALHRS",
-      'Program': "data[i].OPTM_PROGRAM",
-      'Deburr_Inches': "data[i].OPTM_DEBURRINCHES",
-      'Deburr_Total_Min': "data[i].OPTM_DEBURR_TOTALMINS",
-      'Deburr_Total_Hrs': "data[i].OPTM_DEBURR_TOTALHRS",
-      'Machine_Passes': "data[i].OPTM_MACHINEPASSES",
-      'Machine_Total_Min': "data[i].OPTM_MACHINE_TOTALMINS",
-      'Machine_Total_Hrs': "data[i].OPTM_MACHINE_TOTALHRS",
-      'Machine_SetUp_Time': "data[i].OPTM_MACHINESETUPTIME",
-      'Fit_Min_Parts': "data[i].OPTM_FITMINS_PART",
-      'Fit_Total_Min': "data[i].OPTM_FIT_TOTALMINS",
-      'Fit_Total_Hrs': "data[i].OPTM_FIT_TOTALHRS",
-      'Weld': "data[i].OPTM_WELD",
-      'Weld_Total_Min': "data[i].OPTM_WELD_TOTALMINS",
-      'Weld_Total_Hrs': "data[i].OPTM_WELD_TOTALHRS",
-      'Plumbing_Total_Min': "data[i].OPTM_PLUMBING_TOTALMINS",
-      'Plumbing_Total_Hrs': "data[i].OPTM_PLUMBING_TOTALHRS",
-      'rowIndex': this.gridIndex
-    })
+
+    for (let i = 0; i < materialData.length; i++) {
+      this.material_data.push({
+        'Thickness': materialData[i].OPTM_THICKNESS,
+        'Material': materialData[i].OPTM_MATERIAL,
+        'Type': materialData[i].OPTM_TYPE,
+        'Description': materialData[i].OPTM_DESCRIPTION,
+        'Length': materialData[i].OPTM_LENGTH,
+        'Width': materialData[i].OPTM_WIDTH,
+        'Area': materialData[i].OPTM_AREA,
+        'Perimeter': materialData[i].OPTM_PERIMETER,
+        'Drop': materialData[i].OPTM_DROP,
+        'Total_Area': materialData[i].OPTM_TOTALAREA,
+        'Inner_Area': materialData[i].OPTM_INNERAREA,
+        'Holes': materialData[i].OPTM_HOLES_QTY,
+        'Hole_Size': materialData[i].OPTM_HOLESSIZE,
+        'Circumference': materialData[i].OPTM_CIRCUMFERENCE,
+        'Slots': materialData[i].OPTM_SLOTS_QTY,
+        'Slots_Lg': materialData[i].OPTM_SLOT_LENGTH,
+        'Slots_Width': materialData[i].OPTM_SLOT_WIDTH,
+        'Circumference1': materialData[i].OPTM_SLOT_CIRCUMFERENCE,
+        'Insets': materialData[i].OPTM_INSERT,
+        'Sheet_Width': materialData[i].OPTM_SHEET_WIDTH,
+        'Sheet_Lg': materialData[i].OPTM_SHEET_LENGTH,
+        'Sheet_Area': materialData[i].OPTM_SHEET_AREA,
+        'Parts_Per_Sheet': materialData[i].OPTM_PARTSPER_SHEET,
+        'Sheets_Reqd': materialData[i].OPTM_SHEETREQ,
+        'Qty': materialData[i].OPTM_QUANTITY,
+        'rowIndex': i
+      })
+      this.index = i + 1;
+    }
+
+    for (let i = 0; i < materialDetails.length; i++) {
+      this.material_Griddata.push({
+        'Design_Total_Min': materialDetails[i].OPTM_DES_TOTALMINS,
+        'Design_Total_hrs': materialDetails[i].OPTM_DES_TOTALHRS,
+        'Program': materialDetails[i].OPTM_PROGRAM,
+        'Deburr_Inches': materialDetails[i].OPTM_DEBURRINCHES,
+        'Deburr_Total_Min': materialDetails[i].OPTM_DEBURR_TOTALMINS,
+        'Deburr_Total_Hrs': materialDetails[i].OPTM_DEBURR_TOTALHRS,
+        'Machine_Passes': materialDetails[i].OPTM_MACHINEPASSES,
+        'Machine_Total_Min': materialDetails[i].OPTM_MACHINE_TOTALMINS,
+        'Machine_Total_Hrs': materialDetails[i].OPTM_MACHINE_TOTALHRS,
+        'Machine_SetUp_Time': materialDetails[i].OPTM_MACHINESETUPTIME,
+        'Fit_Min_Parts': materialDetails[i].OPTM_FITMINS_PART,
+        'Fit_Total_Min': materialDetails[i].OPTM_FIT_TOTALMINS,
+        'Fit_Total_Hrs': materialDetails[i].OPTM_FIT_TOTALHRS,
+        'Weld': materialDetails[i].OPTM_WELD,
+        'Weld_Total_Min': materialDetails[i].OPTM_WELD_TOTALMINS,
+        'Weld_Total_Hrs': materialDetails[i].OPTM_WELD_TOTALHRS,
+        'Plumbing_Total_Min': materialDetails[i].OPTM_PLUMBING_TOTALMINS,
+        'Plumbing_Total_Hrs': materialDetails[i].OPTM_PLUMBING_TOTALHRS,
+        'OPTM_QUANTITY': materialDetails[i].OPTM_QUANTITY,
+        'OPTM_DESCRIPTION': materialDetails[i].OPTM_DESCRIPTION,
+        'rowIndex': i
+      })
+    }
+
   }
 
   deleteDuplicateData(index: any) {
@@ -259,12 +275,12 @@ export class MaterialComponent implements OnInit {
       'Weld_Total_Hrs': "",
       'Plumbing_Total_Min': "",
       'Plumbing_Total_Hrs': "",
-      'OPTM_QUANTITY':qty,
-      'OPTM_DESCRIPTION':desc,
+      'OPTM_QUANTITY': qty,
+      'OPTM_DESCRIPTION': desc,
       'rowIndex': index
     })
 
-    
+
   }
 
 
@@ -310,12 +326,13 @@ export class MaterialComponent implements OnInit {
             return;
           }
         }
-        if (data.length > 0) {
-          this.serviceData = data;
+        if (data != undefined) {
+          this.fetchData = data;
+          this.setEditData();
         }
         else {
-          this.lookupfor = "";
-          this.serviceData = [];
+
+          this.fetchData = [];
           this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
           return;
         }

@@ -7370,7 +7370,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                   "OPTM_OUTPUTID": "",
                   "OPTM_OUTPUTDTLID": "",
                   "OPTM_ITEMNUMBER": step3_data_row.feature[ifeature].ItemNumber,
-                  "OPTM_ITEMCODE": step3_data_row.feature[ifeature].Item.trim(),
+                  "OPTM_ITEMCODE": step3_data_row.feature[ifeature].Item.trim() ,
                   "OPTM_KEY": "",
                   "OPTM_PARENTKEY": "",
                   "OPTM_TEMPLATEID": "",
@@ -8019,6 +8019,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             OPTM_QUANTITY: parseFloat(AccarrayData[iaccss].OPTM_QUANTITY).toFixed(3),
             OPTM_TYPE: AccarrayData[iaccss].OPTM_TYPE,
             OPTM_VALUE: AccarrayData[iaccss].OPTM_VALUE,
+            OPTM_DSPGROUP_ORDER: AccarrayData[iaccss].OPTM_DSPGROUP_ORDER,
+            OPTM_DSP_GROUP: AccarrayData[iaccss].OPTM_DSP_GROUP,
+            OPTM_DSP_ORDERINGROUP: AccarrayData[iaccss].OPTM_DSP_ORDERINGROUP,
             unique_key: AccarrayData[iaccss].unique_key,
             nodeid: AccarrayData[iaccss].nodeid,
             sort_key: AccarrayData[iaccss].sort_key
