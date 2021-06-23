@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonService } from 'src/app/core/service/common.service';
+import { HttpClient } from '@angular/common/http';
+import { CommonData } from 'src/app/core/data/CommonData';
+import { EstimatetoolService } from 'src/app/core/service/estimationtool'
 
 @Component({
   selector: 'app-estimet-sheet',
@@ -37,10 +42,16 @@ export class EstimetSheetComponent implements OnInit {
   public expedite_Fee: any = "";
   public total_Price: any = "";
   public per_Unit_Price: any = "";
+  public commonData = new CommonData();
+  public product_code : any ="";
+  public serviceData =[];
+  public lookupfor = "";
+  public showLookupLoader = false;
+  language = JSON.parse(sessionStorage.getItem('current_lang'));
 
 
 
-  constructor() { }
+  constructor(private router: Router, private httpclient: HttpClient, private CommonService: CommonService, private service: EstimatetoolService) { }
 
   ngOnInit() {
     this.openGridTab('','Material');
@@ -62,6 +73,88 @@ export class EstimetSheetComponent implements OnInit {
 
     document.getElementById(cityName).style.display = "block";
 
+  }
+
+  getLookupValue($event) {
+    if ($event.length == 0) {
+      this.lookupfor = "";
+      return;
+    }
+    CommonData.made_changes = true;
+    let productCode = $event[1];
+    this.lookupfor = "";
+    this.fetchFullProducts(productCode);
+
+  }
+
+
+  fetchFullProducts(productCode: any) {
+    this.showLookupLoader = true;
+    this.service.getEstimateDetails(productCode).subscribe(
+      data => {
+        this.showLookupLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.router, 'Sessionout');
+            return;
+          }
+        }
+        if (data != undefined) {
+        
+        }
+        else {
+
+          
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
+  }
+
+  fetchProducts() {
+    CommonData.made_changes = true;
+    this.serviceData = []
+    this.lookupfor = 'Product_Details';
+    this.showLookupLoader = true;
+    this.service.getProductlDetails().subscribe(
+      data => {
+        this.showLookupLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.router, 'Sessionout');
+            return;
+          }
+        }
+        if (data.length > 0) {
+          this.serviceData = data;
+        }
+        else {
+          this.lookupfor = "";
+          this.serviceData = [];
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
   }
 
 }

@@ -61,7 +61,8 @@ export class MaterialComponent implements OnInit {
       'Parts_Per_Sheet': "",
       'Sheets_Reqd': "",
       'Qty': "",
-      'rowIndex': this.index
+      'rowIndex': this.index,
+      'OPTM_LINENO':this.index
     })
     this.index = this.index + 1;
 
@@ -102,6 +103,7 @@ export class MaterialComponent implements OnInit {
         'Parts_Per_Sheet': materialData[i].OPTM_PARTSPER_SHEET,
         'Sheets_Reqd': materialData[i].OPTM_SHEETREQ,
         'Qty': materialData[i].OPTM_QUANTITY,
+        'OPTM_LINENO':materialData[i].OPTM_LINENO,
         'rowIndex': i
       })
       this.index = i + 1;
@@ -129,7 +131,8 @@ export class MaterialComponent implements OnInit {
         'Plumbing_Total_Hrs': materialDetails[i].OPTM_PLUMBING_TOTALHRS,
         'OPTM_QUANTITY': materialDetails[i].OPTM_QUANTITY,
         'OPTM_DESCRIPTION': materialDetails[i].OPTM_DESCRIPTION,
-        'rowIndex': i
+        'rowIndex': i,
+        'OPTM_LINENO':materialDetails[i].OPTM_LINENO
       })
     }
 
@@ -277,7 +280,8 @@ export class MaterialComponent implements OnInit {
       'Plumbing_Total_Hrs': "",
       'OPTM_QUANTITY': qty,
       'OPTM_DESCRIPTION': desc,
-      'rowIndex': index
+      'rowIndex': index,
+      'OPTM_LINENO':index
     })
 
 
@@ -403,6 +407,16 @@ export class MaterialComponent implements OnInit {
       "OPTM_CODE": this.product_code,
       CompanyDBID: sessionStorage.getItem("selectedComp"),
     })
+    this.material_Griddata = this.material_Griddata.filter(function (obj) {
+      obj['Design_Total_Min'] = parseInt(obj['Design_Total_Min'])
+      obj['Deburr_Total_Min'] = parseInt(obj['Deburr_Total_Min'])
+      obj['Machine_Total_Min'] = parseInt(obj['Machine_Total_Min'])
+      obj['Fit_Total_Min'] = parseInt(obj['Fit_Total_Min'])
+      obj['Weld_Total_Min'] = parseInt(obj['Weld_Total_Min'])
+      obj['Plumbing_Total_Min'] = parseInt(obj['Plumbing_Total_Min'])
+
+      return obj;
+    });
     this.showLookupLoader = true;
     this.service.SaveMaterial(OPCONFIG_MATERIALHEADER, this.material_data, this.material_Griddata).subscribe(
       data => {
