@@ -58,13 +58,13 @@
                             </div>
                             <div class="tab">
 
-                                <button class="tablinks" (click)="openGridTab($event, 'London')">Material Grid</button>
-                                <button class="tablinks" (click)="openGridTab($event, 'Paris')">Design Grid</button>
+                                <button class="tablinks active" (click)="openGridTab($event, 'Material')">Material</button>
+                                <button class="tablinks" (click)="openGridTab($event, 'Design')">Design</button>
 
                             </div>
 
                             <!-- Add Row Grid -->
-                            <div id="London" class="tabcontent h-100">
+                            <div id="Material" class="tabcontent h-100">
                                 <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
                                     <kendo-grid [kendoGridBinding]="material_data" [reorderable]="true" [resizable]="true"
                                         [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
@@ -242,7 +242,7 @@
                                                     #Insets title="Insets" />
                                             </ng-template>
                                         </kendo-grid-column>
-                                        <kendo-grid-column field="" title="Shhet Lg" filter="text" [width]="150"
+                                        <kendo-grid-column field="" title="Sheet Lg" filter="text" [width]="150"
                                             [minResizableWidth]="150">
                                             <ng-template kendoGridCellTemplate let-dataItem>
                                                 <input type="text" class="form-control  form-control-sm" id="" value={{dataItem.Sheet_Lg}}
@@ -300,13 +300,13 @@
                                 </div>
                             </div>
 
-                            <div id="Paris" class="tabcontent h-100">
+                            <div id="Design" class="tabcontent h-100">
                                 <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
                                     <kendo-grid [kendoGridBinding]="material_Griddata" [reorderable]="true" [resizable]="true"
                                         [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
                                         [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'height':'100%', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
-                                        <ng-template kendoGridToolbarTemplate>
+                                        <!-- <ng-template kendoGridToolbarTemplate>
                                             <div class="d-flex align-items-center">
                                                 <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button"
                                                     title="Add Row" (click)="onAddRow()" #button class="btn btn-sm btn-primary with-icon mr-2"><svg
@@ -315,9 +315,24 @@
                                                     </svg> Add Row
                                                 </button>
                                             </div>
-                                        </ng-template>
+                                        </ng-template> -->
 
-
+                                        <kendo-grid-column field="" title="Description" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" disabled ="true" class="form-control  form-control-sm" id="" value={{dataItem.OPTM_DESCRIPTION}}
+                                                    (change)="onChange(dataItem.rowIndex,Description.value,Description.title)"
+                                                    #Description title="Description" />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="Qty" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" disabled ="true" class="form-control  form-control-sm" id="" value={{dataItem.OPTM_QUANTITY}}
+                                                    (change)="onChange(dataItem.rowIndex,Qty.value,Qty.title)" #Qty
+                                                    title="Qty" />
+                                            </ng-template>
+                                        </kendo-grid-column>
                                         <kendo-grid-column field="" title="Design Total Min" filter="text" [width]="150"
                                             [minResizableWidth]="150">
                                             <ng-template kendoGridCellTemplate let-dataItem>
@@ -462,7 +477,7 @@
                                                     #Plumbing_Total_Hrs title="Plumbing_Total_Hrs" />
                                             </ng-template>
                                         </kendo-grid-column>
-                                        <kendo-grid-column field="delete" title="" template="" [width]="60"
+                                        <!-- <kendo-grid-column field="delete" title="" template="" [width]="60"
                                             [minResizableWidth]="60">
                                             <ng-template kendoGridCellTemplate let-dataItem>
                                                 <button type="button" class="btn btn-danger btn-sm btn-icon" (click)="onDeletGrideRow(dataItem.rowIndex)">
@@ -471,7 +486,7 @@
                                                     </svg>
                                                 </button>
                                             </ng-template>
-                                        </kendo-grid-column>
+                                        </kendo-grid-column> -->
                                     </kendo-grid>
                                 </div>
                             </div>

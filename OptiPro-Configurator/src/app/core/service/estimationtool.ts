@@ -50,20 +50,41 @@ export class EstimatetoolService {
         let jObject = {
             GetData: JSON.stringify([{
                 CompanyDBID: sessionStorage.selectedComp,
-                GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),OPTM_DEFAULT_TEMPLATE:TemplateID
+                GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"), OPTM_DEFAULT_TEMPLATE: TemplateID
             }])
         }
         return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentConfiguration/CheckValidTemplateForNeedsAssessmentConfiguration", jObject, this.common_params.httpOptions);
     }
 
     SaveMaterial(OPCONFIG_MATERIALHEADER, OPCONFIG_MATERIAL, OPCONFIG_MATERIALDETAILS): Observable<any> {
-        
+
         //JSON Obeject Prepared to be send as a param to API
         // let jObject = { AddressDetail: JSON.stringify([{ CompanyDBID: CompanyDBID,Customer: Customer,ShipTo:ShipTo }]) };
         let jObject: any = { GetData: JSON.stringify({ OPCONFIG_MATERIALHEADER: OPCONFIG_MATERIALHEADER, OPCONFIG_MATERIAL: OPCONFIG_MATERIAL, OPCONFIG_MATERIALDETAILS: OPCONFIG_MATERIALDETAILS }) };
         //Return the response form the API  
         return this.httpclient.post(this.config_params.service_url + "/Material/AddUpdateMaterial", jObject, this.common_params.httpOptions);
-      }
+    }
+
+    getMaterialDetails(Code): Observable<any> {
+        let jObject = {
+            GetData: JSON.stringify([{
+                CompanyDBID: sessionStorage.selectedComp,
+                GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"), OPTM_CODE: Code
+            }])
+        }
+        return this.httpclient.post(this.config_params.service_url + "/Material/GetMaterialByCode", jObject, this.common_params.httpOptions);
+    }
+
+    getProductlDetails(): Observable<any> {
+        let jObject = {
+            GetData: JSON.stringify([{
+                CompanyDBID: sessionStorage.selectedComp,
+                GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+            }])
+        }
+        return this.httpclient.post(this.config_params.service_url + "/Material/GetAllMaterial", jObject, this.common_params.httpOptions);
+    }
+
 
 
 

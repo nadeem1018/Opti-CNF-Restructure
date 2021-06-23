@@ -2822,18 +2822,18 @@ export class LookupComponent implements OnInit {
     this.popup_title = "Product Details";
     this.LookupDataLoaded = false;
     this.showLoader = true;
-    this.fill_input_id = 'OPTM_CUSTOMERCODE';
-    this.lookup_key = 'OPTM_CUSTOMERCODE';
+    this.fill_input_id = 'OPTM_CODE';
+    this.lookup_key = 'OPTM_CODE';
     this.table_head = [
       {
-        field: 'OPTM_CUSTOMERCODE',
+        field: 'OPTM_CODE',
         title: "Product Code",
         type: 'text',
         width: '100',
         attrType: 'text'
       },
       {
-        field: 'OPTM_CUSTOMERNAME',
+        field: 'OPTM_DESCRIPTION',
         title: "Product Name",
         type: 'text',
         width: '100',

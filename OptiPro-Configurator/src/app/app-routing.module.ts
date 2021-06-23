@@ -117,6 +117,12 @@ const routes: Routes = [
     path: 'material-master',
     loadChildren: () => import('./features/material/material.module').then(m => m.MaterialComponentModule),
     data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
+  },
+
+  {
+    path: 'estimate-master',
+    loadChildren: () => import('./features/estimet-sheet/estimetsheet.module').then(m => m.EstimateToolComponentModule),
+    data: { showHeader: true, showSidebar: true, showFooter: false, compactLayout: false }
   }
 
 ];
