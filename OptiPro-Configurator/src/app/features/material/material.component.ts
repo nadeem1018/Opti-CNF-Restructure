@@ -58,14 +58,14 @@ export class MaterialComponent implements OnInit {
       'Insets': "",
       'Qty': "",
       'rowIndex': this.index,
-      'OPTM_LINENO': this.index
+      'OPTM_LINENO': this.index + 1
     })
     this.index = this.index + 1;
 
 
   }
 
-  addSheetRow(area,desc,index) {
+  addSheetRow(area, desc, index) {
     this.SheetGridRow.push({
       'Thickness': "",
       'Material': "",
@@ -77,9 +77,9 @@ export class MaterialComponent implements OnInit {
       'Parts_Per_Sheet': "",
       'Sheets_Reqd': "",
       'rowIndex': index,
-      'OPTM_LINENO': index
+      'OPTM_LINENO': index + 1
     })
-    
+
   }
 
   setEditData() {
@@ -139,7 +139,7 @@ export class MaterialComponent implements OnInit {
         'Total_Area': materialSheet[i].OPTM_TOTALAREA,
         'rowIndex': i
       })
-   
+
     }
 
 
@@ -190,8 +190,7 @@ export class MaterialComponent implements OnInit {
     }
   }
 
-  onChangesheetGrid(rowIndex: any, value: any, key: any)
-  {
+  onChangesheetGrid(rowIndex: any, value: any, key: any) {
     this.SheetGridRow[rowIndex][key] = value;
     if (key == "Sheet_Lg" || key == "Sheet_Width") {
       if (this.SheetGridRow[rowIndex]["Sheet_Lg"] != "" && this.SheetGridRow[rowIndex]["Sheet_Width"] != "") {
@@ -228,7 +227,7 @@ export class MaterialComponent implements OnInit {
       }
     }
 
-   
+
     console.log(this.material_data);
     if (key == "Qty" || key == "Length" || key == "Width") {
       if (this.material_data[rowIndex]["Qty"] != "" && this.material_data[rowIndex]["Length"] != "" && this.material_data[rowIndex]["Width"] != "") {
@@ -276,7 +275,7 @@ export class MaterialComponent implements OnInit {
       }
       this.addSheetRow(this.material_data[rowIndex]["Total_Area"], this.material_data[rowIndex]["Description"], rowIndex);
     }
-  
+
   }
 
   onChangegrid(rowIndex: any, value: any, key: any) {
@@ -342,7 +341,7 @@ export class MaterialComponent implements OnInit {
       'OPTM_QUANTITY': qty,
       'OPTM_DESCRIPTION': desc,
       'rowIndex': index,
-      'OPTM_LINENO': index
+      'OPTM_LINENO': index + 1
     })
 
 
@@ -479,7 +478,7 @@ export class MaterialComponent implements OnInit {
       return obj;
     });
     this.showLookupLoader = true;
-    this.service.SaveMaterial(OPCONFIG_MATERIALHEADER, this.material_data, this.material_Griddata,this.SheetGridRow).subscribe(
+    this.service.SaveMaterial(OPCONFIG_MATERIALHEADER, this.material_data, this.material_Griddata, this.SheetGridRow).subscribe(
       data => {
         this.showLookupLoader = false;
         if (data != undefined && data.length > 0) {

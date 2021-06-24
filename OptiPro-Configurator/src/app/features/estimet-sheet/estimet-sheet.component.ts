@@ -50,6 +50,12 @@ export class EstimetSheetComponent implements OnInit {
   public gridData: any = [];
   language = JSON.parse(sessionStorage.getItem('current_lang'));
   public index: any = 0;
+  public laborGrid: any = [];
+  public travelGrid: any = [];
+  public shippingGrid: any = [];
+  public laborIndex: any = 0;
+  public travelIndex: any = 0;
+  public shippingIndex: any = 0;
 
 
 
@@ -105,10 +111,64 @@ export class EstimetSheetComponent implements OnInit {
       'OPTM_MARKUP': "",
       'OPTM_PROJECTED_COST': "",
       'OPTM_AMOUNT': "",
+      'OPTM_LINENO':this.index,
       'rowIndex': this.index
     })
     this.index = this.index + 1;
   }
+
+  addLaborRow() {
+    this.laborGrid.push({
+      'OPTM_DESCRIPTION': "",
+      'OPTM_QUANTITY': "",
+      'OPTM_PER_UNIT_PRICE': "",
+      'OPTM_MARKUP': "",
+      'OPTM_PROJECTED_COST': "",
+      'OPTM_AMOUNT': "",
+      'OPTM_LABOR': "",
+      'OPTM_GROUP': "Labor",
+      'OPTM_LINENO': this.laborIndex,
+      'rowIndex': this.laborIndex
+    })
+
+    this.laborIndex = this.laborIndex + 1;
+  }
+
+
+  addshippingRow() {
+    this.shippingGrid.push({
+      'OPTM_DESCRIPTION': "",
+      'OPTM_QUANTITY': "",
+      'OPTM_PER_UNIT_PRICE': "",
+      'OPTM_MARKUP': "",
+      'OPTM_PROJECTED_COST': "",
+      'OPTM_AMOUNT': "",
+      'OPTM_LABOR': "",
+      'OPTM_GROUP': "Shipping",
+      'OPTM_LINENO': this.shippingIndex,
+      'rowIndex': this.shippingIndex
+    })
+
+    this.shippingIndex = this.shippingIndex + 1;
+  }
+
+  addTravelRow() {
+    this.travelGrid.push({
+      'OPTM_DESCRIPTION': "",
+      'OPTM_QUANTITY': "",
+      'OPTM_PER_UNIT_PRICE': "",
+      'OPTM_MARKUP': "",
+      'OPTM_PROJECTED_COST': "",
+      'OPTM_AMOUNT': "",
+      'OPTM_LABOR': "",
+      'OPTM_GROUP': "Travel",
+      'OPTM_LINENO': this.travelIndex,
+      'rowIndex': this.travelIndex
+    })
+
+    this.travelIndex = this.travelIndex + 1;
+  }
+
 
 
   fetchFullProducts(productCode: any) {
