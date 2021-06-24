@@ -86,7 +86,7 @@ export class MaterialComponent implements OnInit {
     let materialData = this.fetchData.Material;
     let materialDetails = this.fetchData.MaterialDetails;
     let materialHeader = this.fetchData.MateriaHeader;
-    let materialSheet = this.fetchData.OPCONFIG_MATERIAL_SUMMARY;
+    let materialSheet = this.fetchData.MaterialSummary;
 
     this.product_name = materialHeader[0].OPTM_DESCRIPTION;
     this.product_code = materialHeader[0].OPTM_CODE;
@@ -369,7 +369,7 @@ export class MaterialComponent implements OnInit {
       return;
     }
     CommonData.made_changes = true;
-    let productCode = $event[1];
+    let productCode = $event[2];
     this.lookupfor = "";
     this.fetchFullProducts(productCode);
 
