@@ -1,18 +1,18 @@
 <!-- loader start -->
 <div class="loader-sm" *ngIf="showLoader">
-        <svg viewBox="0 0 218.2 218.8" class="loader2">
-            <use xlink:href="#loader2"></use>
-        </svg>
-    </div>
-    <!-- loader end -->
-    
-    <!-- loader start for lookup -->
-    <div class="loader-sm" *ngIf="showLookupLoader">
-        <svg viewBox="0 0 218.2 218.8" class="loader2">
-            <use xlink:href="#loader2"></use>
-        </svg>
-    </div>
-    <!-- loader end for lookup -->
+    <svg viewBox="0 0 218.2 218.8" class="loader2">
+        <use xlink:href="#loader2"></use>
+    </svg>
+</div>
+<!-- loader end -->
+
+<!-- loader start for lookup -->
+<div class="loader-sm" *ngIf="showLookupLoader">
+    <svg viewBox="0 0 218.2 218.8" class="loader2">
+        <use xlink:href="#loader2"></use>
+    </svg>
+</div>
+<!-- loader end for lookup -->
 
 <div class="layout-mode" fxFlex fxLayout="column">
     <div class="page-header">
@@ -503,28 +503,28 @@
 
                                 <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
 
-                                    <kendo-grid [kendoGridBinding]="material_data" [reorderable]="true" [resizable]="true"
+                                    <kendo-grid [kendoGridBinding]="gridData" [reorderable]="true" [resizable]="true"
                                         [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
                                         [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'height':'100%', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
-                                        <!-- <ng-template kendoGridToolbarTemplate>
-                    
-                                <div class="d-flex align-items-center">
-                    
-                                  <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" title="Add Row"
-                                    (click)="addRow()" #button class="btn btn-sm btn-primary with-icon mr-2"><svg
-                                      viewBox="0 0 81500 81500" class="icon">
-                    g295
-                                      <use xlink:href="#add"></use>
-                    
-                                    </svg> Add Rows
-                    
-                                  </button>
-                    
-                                </div>
-                    
-                              </ng-template> -->
+                                        <ng-template kendoGridToolbarTemplate>
+
+                                            <div class="d-flex align-items-center">
+
+                                                <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button"
+                                                    title="Add Row" (click)="addRow()" #button class="btn btn-sm btn-primary with-icon mr-2"><svg
+                                                        viewBox="0 0 81500 81500" class="icon">
+
+                                                        <use xlink:href="#add"></use>
+
+                                                    </svg> Add Rows
+
+                                                </button>
+
+                                            </div>
+
+                                        </ng-template>
 
 
 
@@ -542,8 +542,8 @@
 
                                         </kendo-grid-column>
 
-                                        <kendo-grid-column field="OPTM_THICKNESS" title="Thickness" filter="text" [width]="150"
-                                            [minResizableWidth]="150">
+                                        <kendo-grid-column field="OPTM_THICKNESS" title="Thickness" filter="text"
+                                            [width]="150" [minResizableWidth]="150">
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
@@ -559,8 +559,8 @@
 
 
 
-                                        <kendo-grid-column field="OPTM_DESCRIPTION" title="Description" filter="text" [width]="150"
-                                            [minResizableWidth]="150">
+                                        <kendo-grid-column field="OPTM_DESCRIPTION" title="Description" filter="text"
+                                            [width]="150" [minResizableWidth]="150">
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
@@ -578,8 +578,8 @@
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
                                                 <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_QUANTITY}}
-                                                    (change)="onChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)" #OPTM_QUANTITY
-                                                    title="OPTM_QUANTITY" />
+                                                    (change)="onChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
+                                                    #OPTM_QUANTITY title="OPTM_QUANTITY" />
 
                                             </ng-template>
 
@@ -605,32 +605,32 @@
 
                                                 <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_WIDTH}}
                                                     (change)="onChange(dataItem.rowIndex,OPTM_WIDTH.value,OPTM_WIDTH.title)"
-                                                    #OPTM_WIDTH title="Width" />
+                                                    #OPTM_WIDTH title="OPTM_WIDTH" />
 
                                             </ng-template>
 
                                         </kendo-grid-column>
 
-                                        <kendo-grid-column field="OPTM_MANUFACTURER" title="Manufacturer" filter="text" [width]="150"
-                                            [minResizableWidth]="150">
+                                        <kendo-grid-column field="OPTM_MANUFACTURER" title="Manufacturer" filter="text"
+                                            [width]="150" [minResizableWidth]="150">
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text"  class="form-control form-control-sm"
-                                                    id="" value={{dataItem.OPTM_MANUFACTURER}} (change)="onChange(dataItem.rowIndex,OPTM_MANUFACTURER.value,OPTM_MANUFACTURER.title)"
+                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_MANUFACTURER}}
+                                                    (change)="onChange(dataItem.rowIndex,OPTM_MANUFACTURER.value,OPTM_MANUFACTURER.title)"
                                                     #OPTM_MANUFACTURER title="OPTM_MANUFACTURER" />
 
                                             </ng-template>
 
                                         </kendo-grid-column>
 
-                                        <kendo-grid-column field="OPTM_PART_NUMBER" title="Part Number" filter="text" [width]="150"
-                                            [minResizableWidth]="150">
+                                        <kendo-grid-column field="OPTM_PART_NUMBER" title="Part Number" filter="text"
+                                            [width]="150" [minResizableWidth]="150">
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text"  class="form-control form-control-sm"
-                                                    id="" value={{dataItem.OPTM_PART_NUMBER}} (change)="onChange(dataItem.rowIndex,OPTM_PART_NUMBER.value,OPTM_PART_NUMBER.title)"
+                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_PART_NUMBER}}
+                                                    (change)="onChange(dataItem.rowIndex,OPTM_PART_NUMBER.value,OPTM_PART_NUMBER.title)"
                                                     #OPTM_PART_NUMBER title="OPTM_PART_NUMBER" />
 
                                             </ng-template>
@@ -642,29 +642,29 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text"  class="form-control form-control-sm"
-                                                    id="" value={{dataItem.OPTM_VENDOR}} (change)="onChange(dataItem.rowIndex,OPTM_VENDOR.value,OPTM_VENDOR.title)"
+                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_VENDOR}}
+                                                    (change)="onChange(dataItem.rowIndex,OPTM_VENDOR.value,OPTM_VENDOR.title)"
                                                     #OPTM_VENDOR title="OPTM_VENDOR" />
 
                                             </ng-template>
 
                                         </kendo-grid-column>
 
-                                        <kendo-grid-column field="OPTM_LEAD_TIME" title="Lead Time" filter="text" [width]="150"
-                                            [minResizableWidth]="150">
+                                        <kendo-grid-column field="OPTM_LEAD_TIME" title="Lead Time" filter="text"
+                                            [width]="150" [minResizableWidth]="150">
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" disabled="true" class="form-control form-control-sm"
-                                                    id="" value={{dataItem.OPTM_LEAD_TIME}} (change)="onChange(dataItem.rowIndex,OPTM_LEAD_TIME.value,OPTM_LEAD_TIME.title)"
+                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_LEAD_TIME}}
+                                                    (change)="onChange(dataItem.rowIndex,OPTM_LEAD_TIME.value,OPTM_LEAD_TIME.title)"
                                                     #OPTM_LEAD_TIME title="OPTM_LEAD_TIME" />
 
                                             </ng-template>
 
                                         </kendo-grid-column>
 
-                                        <kendo-grid-column field="OPTM_PER_UNIT_PRICE" title="Per Unit Price" filter="text" [width]="150"
-                                            [minResizableWidth]="150">
+                                        <kendo-grid-column field="OPTM_PER_UNIT_PRICE" title="Per Unit Price" filter="text"
+                                            [width]="150" [minResizableWidth]="150">
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
@@ -676,8 +676,8 @@
 
                                         </kendo-grid-column>
 
-                                        <kendo-grid-column field="OPTM_PROJECTED_COST" title="Projected Cost" filter="text" [width]="150"
-                                            [minResizableWidth]="150">
+                                        <kendo-grid-column field="OPTM_PROJECTED_COST" title="Projected Cost" filter="text"
+                                            [width]="150" [minResizableWidth]="150">
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
@@ -738,7 +738,7 @@
 
 
 
-                                        <kendo-grid-column field="" title="Labour" filter="text" [width]="150"
+                                        <kendo-grid-column field="" title="Labor" filter="text" [width]="150"
                                             [minResizableWidth]="150">
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
@@ -751,91 +751,92 @@
 
                                         </kendo-grid-column>
 
-                                        <kendo-grid-column field="" title="Description" filter="text" [width]="150"
-                                            [minResizableWidth]="150">
+                                        <kendo-grid-column field="OPTM_DESCRIPTION" title="Description" filter="text"
+                                            [width]="150" [minResizableWidth]="150">
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.Program}}
-                                                    (change)="onChangegrid(dataItem.rowIndex,Program.value,Type.Program)"
-                                                    #Type title="Program" />
-
-                                            </ng-template>
-
-                                        </kendo-grid-column>
-                                        <kendo-grid-column field="" title="Per Unit Price" filter="text" [width]="150"
-                                            [minResizableWidth]="150">
-
-                                            <ng-template kendoGridCellTemplate let-dataItem>
-
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.Inner_Area}}
-                                                    (change)="onChange(dataItem.rowIndex,innerArea.value,innerArea.title)"
-                                                    #innerArea title="Inner_Area" />
-
-                                            </ng-template>
-
-                                        </kendo-grid-column>
-                                        <kendo-grid-column field="" title="Quantity" filter="text" [width]="150"
-                                            [minResizableWidth]="150">
-
-                                            <ng-template kendoGridCellTemplate let-dataItem>
-
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.Inner_Area}}
-                                                    (change)="onChange(dataItem.rowIndex,innerArea.value,innerArea.title)"
-                                                    #innerArea title="Inner_Area" />
+                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_DESCRIPTION}}
+                                                    (change)="onChange(dataItem.rowIndex,OPTM_DESCRIPTION.value,OPTM_DESCRIPTION.title)"
+                                                    #OPTM_DESCRIPTION title="OPTM_DESCRIPTION" />
 
                                             </ng-template>
 
                                         </kendo-grid-column>
 
-                                        <kendo-grid-column field="" title="Projected Cost" filter="text" [width]="150"
+                                        <kendo-grid-column field="OPTM_QUANTITY" title="Quantity" filter="text" [width]="150"
                                             [minResizableWidth]="150">
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.Inner_Area}}
-                                                    (change)="onChange(dataItem.rowIndex,innerArea.value,innerArea.title)"
-                                                    #innerArea title="Inner_Area" />
+                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_QUANTITY}}
+                                                    (change)="onChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
+                                                    #OPTM_QUANTITY title="OPTM_QUANTITY" />
 
                                             </ng-template>
 
                                         </kendo-grid-column>
 
-
-
-
-
-
-                                        <kendo-grid-column field="" title="MarkUp" filter="text" [width]="150"
-                                            [minResizableWidth]="150">
+                                        <kendo-grid-column field="OPTM_PER_UNIT_PRICE" title="Per Unit Price" filter="text"
+                                            [width]="150" [minResizableWidth]="150">
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.Hole_Size}}
-                                                    (change)="onChange(dataItem.rowIndex,HoleSize.value,HoleSize.title)"
-                                                    #HoleSize title="Hole_Size" />
+                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_PER_UNIT_PRICE}}
+                                                    (change)="onChange(dataItem.rowIndex,OPTM_PER_UNIT_PRICE.value,OPTM_PER_UNIT_PRICE.title)"
+                                                    #OPTM_PER_UNIT_PRICE title="OPTM_PER_UNIT_PRICE" />
 
                                             </ng-template>
 
                                         </kendo-grid-column>
-                                        <kendo-grid-column field="" title="Amount" filter="text" [width]="150"
+
+                                        <kendo-grid-column field="OPTM_PROJECTED_COST" title="Projected Cost" filter="text"
+                                            [width]="150" [minResizableWidth]="150">
+
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+
+                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_PROJECTED_COST}}
+                                                    (change)="onChange(dataItem.rowIndex,OPTM_PROJECTED_COST.value,OPTM_PROJECTED_COST.title)"
+                                                    #OPTM_PROJECTED_COST title="OPTM_PROJECTED_COST" />
+
+                                            </ng-template>
+
+                                        </kendo-grid-column>
+
+                                        <kendo-grid-column field="OPTM_MARKUP" title="MarkUp" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+
+                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_MARKUP}}
+                                                    (change)="onChange(dataItem.rowIndex,OPTM_MARKUP.value,OPTM_MARKUP.title)"
+                                                    #OPTM_MARKUP title="OPTM_MARKUP" />
+
+                                            </ng-template>
+
+                                        </kendo-grid-column>
+
+                                        <kendo-grid-column field="OPTM_AMOUNT" title="Amount" filter="text" [width]="150"
                                             [minResizableWidth]="150">
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
                                                 <input type="text" disabled="true" class="form-control form-control-sm"
-                                                    id="" value={{dataItem.Circumference}} (change)="onChange(dataItem.rowIndex,Circumference.value,Circumference.title)"
-                                                    #Circumference title="Circumference" />
+                                                    id="" value={{dataItem.OPTM_AMOUNT}} (change)="onChange(dataItem.rowIndex,OPTM_AMOUNT.value,OPTM_AMOUNT.title)"
+                                                    #OPTM_AMOUNT title="OPTM_AMOUNT" />
 
                                             </ng-template>
 
                                         </kendo-grid-column>
+
+
+
                                     </kendo-grid>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-12 d-flex p-0" id="left-table-section">
+                        <div class="col-md-12 mt-5 d-flex p-0" id="left-table-section">
                             <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-header"><strong>Estimate Totals</strong></div>
@@ -951,6 +952,6 @@
 </div>
 
 <span [hidden]="showLookupLoader">
-        <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event) "
-            [selectedImage]="selectedImage" (lookupvalues)="getLookupValues($event)"></app-lookup>
-    </span>
+    <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event) "
+        [selectedImage]="selectedImage" (lookupvalues)="getLookupValues($event)"></app-lookup>
+</span>

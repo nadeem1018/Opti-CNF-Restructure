@@ -11,7 +11,7 @@ import { EstimatetoolService } from 'src/app/core/service/estimationtool'
   styleUrls: ['./estimet-sheet.component.scss']
 })
 export class EstimetSheetComponent implements OnInit {
-  public nXP_Chandler_Site : any = ""
+  public nXP_Chandler_Site: any = ""
   public part_Number: any = "";
   public Project_Description: any = "";
   public quantity: any = "";
@@ -43,18 +43,20 @@ export class EstimetSheetComponent implements OnInit {
   public total_Price: any = "";
   public per_Unit_Price: any = "";
   public commonData = new CommonData();
-  public product_code : any ="";
-  public serviceData =[];
+  public product_code: any = "";
+  public serviceData = [];
   public lookupfor = "";
   public showLookupLoader = false;
+  public gridData: any = [];
   language = JSON.parse(sessionStorage.getItem('current_lang'));
+  public index: any = 0;
 
 
 
   constructor(private router: Router, private httpclient: HttpClient, private CommonService: CommonService, private service: EstimatetoolService) { }
 
   ngOnInit() {
-    this.openGridTab('','Material');
+    this.openGridTab('', 'Material');
   }
 
   openGridTab(evt, cityName) {
@@ -87,6 +89,27 @@ export class EstimetSheetComponent implements OnInit {
 
   }
 
+  addRow() {
+    this.gridData.push({
+      'OPTM_MATERIAL': "",
+      'OPTM_THICKNESS': "",
+      'OPTM_DESCRIPTION': "",
+      'OPTM_QUANTITY': "",
+      'OPTM_LENGTH': "",
+      'OPTM_WIDTH': "",
+      'OPTM_MANUFACTURER': "",
+      'OPTM_PART_NUMBER': "",
+      'OPTM_VENDOR': "",
+      'OPTM_LEAD_TIME': "",
+      'OPTM_PER_UNIT_PRICE': "",
+      'OPTM_MARKUP': "",
+      'OPTM_PROJECTED_COST': "",
+      'OPTM_AMOUNT': "",
+      'rowIndex': this.index
+    })
+    this.index = this.index + 1;
+  }
+
 
   fetchFullProducts(productCode: any) {
     this.showLookupLoader = true;
@@ -103,11 +126,11 @@ export class EstimetSheetComponent implements OnInit {
           }
         }
         if (data != undefined) {
-        
+
         }
         else {
 
-          
+
           this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
           return;
         }
@@ -119,6 +142,16 @@ export class EstimetSheetComponent implements OnInit {
         return;
       }
     )
+  }
+
+  onChange(rowIndex: any, value: any, key: any) {
+    this.gridData[rowIndex][key] = value;
+    if (this.gridData[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.gridData[rowIndex]["OPTM_QUANTITY"] != "") {
+      this.gridData[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.gridData[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.gridData[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
+    }
+    if (this.gridData[rowIndex]["OPTM_PROJECTED_COST"] != "" && this.gridData[rowIndex]["OPTM_MARKUP"] != "") {
+      this.gridData[rowIndex]["OPTM_AMOUNT"] = (parseFloat(this.gridData[rowIndex]["OPTM_PROJECTED_COST"]) + (parseFloat(this.gridData[rowIndex]["OPTM_PROJECTED_COST"]) * (parseFloat(this.gridData[rowIndex]["OPTM_MARKUP"]) / 100))).toFixed(2)
+    }
   }
 
   fetchProducts() {

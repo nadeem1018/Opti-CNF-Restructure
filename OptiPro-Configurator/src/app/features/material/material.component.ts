@@ -22,6 +22,7 @@ export class MaterialComponent implements OnInit {
   public lookupfor = "";
   public product_name = "";
   public showLookupLoader = false;
+  public SheetGridRow = [];
   language = JSON.parse(sessionStorage.getItem('current_lang'));
   public commonData = new CommonData();
   public fetchData: any = [];
@@ -55,23 +56,38 @@ export class MaterialComponent implements OnInit {
       'Slots_Width': "",
       'Circumference1': "",
       'Insets': "",
+      'Qty': "",
+      'rowIndex': this.index,
+      'OPTM_LINENO': this.index
+    })
+    this.index = this.index + 1;
+
+
+  }
+
+  addSheetRow(area,desc,index) {
+    this.SheetGridRow.push({
+      'Thickness': "",
+      'Material': "",
+      'Description': desc,
+      'Total_Area': area,
       'Sheet_Width': "",
       'Sheet_Lg': "",
       'Sheet_Area': "",
       'Parts_Per_Sheet': "",
       'Sheets_Reqd': "",
-      'Qty': "",
-      'rowIndex': this.index,
-      'OPTM_LINENO':this.index
+      'rowIndex': index,
+      'OPTM_LINENO': index
     })
-    this.index = this.index + 1;
-
+    
   }
 
   setEditData() {
     let materialData = this.fetchData.Material;
     let materialDetails = this.fetchData.MaterialDetails;
     let materialHeader = this.fetchData.MateriaHeader;
+    let materialSheet = this.fetchData.OPCONFIG_MATERIAL_SUMMARY;
+
     this.product_name = materialHeader[0].OPTM_DESCRIPTION;
     this.product_code = materialHeader[0].OPTM_CODE;
 
@@ -103,11 +119,29 @@ export class MaterialComponent implements OnInit {
         'Parts_Per_Sheet': materialData[i].OPTM_PARTSPER_SHEET,
         'Sheets_Reqd': materialData[i].OPTM_SHEETREQ,
         'Qty': materialData[i].OPTM_QUANTITY,
-        'OPTM_LINENO':materialData[i].OPTM_LINENO,
+        'OPTM_LINENO': materialData[i].OPTM_LINENO,
         'rowIndex': i
       })
       this.index = i + 1;
     }
+
+    for (let i = 0; i < materialSheet.length; i++) {
+      this.SheetGridRow.push({
+        'Thickness': materialSheet[i].OPTM_THICKNESS,
+        'Material': materialSheet[i].OPTM_MATERIAL,
+        'Description': materialSheet[i].OPTM_DESCRIPTION,
+        'Sheet_Width': materialSheet[i].OPTM_SHEET_WIDTH,
+        'Sheet_Lg': materialSheet[i].OPTM_SHEET_LENGTH,
+        'Sheet_Area': materialSheet[i].OPTM_SHEET_AREA,
+        'Parts_Per_Sheet': materialSheet[i].OPTM_PARTSPER_SHEET,
+        'Sheets_Reqd': materialSheet[i].OPTM_SHEETREQ,
+        'OPTM_LINENO': materialSheet[i].OPTM_LINENO,
+        'Total_Area': materialSheet[i].OPTM_TOTALAREA,
+        'rowIndex': i
+      })
+   
+    }
+
 
     for (let i = 0; i < materialDetails.length; i++) {
       this.material_Griddata.push({
@@ -132,7 +166,7 @@ export class MaterialComponent implements OnInit {
         'OPTM_QUANTITY': materialDetails[i].OPTM_QUANTITY,
         'OPTM_DESCRIPTION': materialDetails[i].OPTM_DESCRIPTION,
         'rowIndex': i,
-        'OPTM_LINENO':materialDetails[i].OPTM_LINENO
+        'OPTM_LINENO': materialDetails[i].OPTM_LINENO
       })
     }
 
@@ -147,6 +181,42 @@ export class MaterialComponent implements OnInit {
     }
   }
 
+  deleteSheetDuplicateData(index: any) {
+    for (let i = 0; i < this.SheetGridRow.length; i++) {
+      if (this.SheetGridRow[i].rowIndex == index) {
+        this.SheetGridRow.splice(i, 1);
+        i = i - 1;
+      }
+    }
+  }
+
+  onChangesheetGrid(rowIndex: any, value: any, key: any)
+  {
+    this.SheetGridRow[rowIndex][key] = value;
+    if (key == "Sheet_Lg" || key == "Sheet_Width") {
+      if (this.SheetGridRow[rowIndex]["Sheet_Lg"] != "" && this.SheetGridRow[rowIndex]["Sheet_Width"] != "") {
+        this.SheetGridRow[rowIndex]["Sheet_Area"] = (parseFloat(this.SheetGridRow[rowIndex]["Sheet_Lg"]) * parseFloat(this.SheetGridRow[rowIndex]["Sheet_Width"])).toFixed(2)
+      }
+      else {
+        this.SheetGridRow[rowIndex]["Sheet_Area"] = "";
+      }
+    }
+    if (this.SheetGridRow[rowIndex]["Sheet_Area"] != "") {
+      if (this.SheetGridRow[rowIndex]["Thickness"] != "") {
+        if (this.material_data[rowIndex]["Total_Area"] != "") {
+          this.SheetGridRow[rowIndex]["Parts_Per_Sheet"] = ((parseFloat(this.SheetGridRow[rowIndex]["Thickness"]) * parseFloat(this.SheetGridRow[rowIndex]["Sheet_Area"])) / parseFloat(this.material_data[rowIndex]["Total_Area"])).toFixed(2)
+          this.SheetGridRow[rowIndex]["Sheets_Reqd"] = (parseFloat(this.material_data[rowIndex]["Total_Area"]) / (parseFloat(this.SheetGridRow[rowIndex]["Thickness"]) * parseFloat(this.SheetGridRow[rowIndex]["Sheet_Area"]))).toFixed(2)
+        }
+      }
+
+    }
+    else {
+      this.SheetGridRow[rowIndex]["Parts_Per_Sheet"] = "";
+      this.SheetGridRow[rowIndex]["Sheets_Reqd"] = "";
+    }
+
+  }
+
   onChange(rowIndex: any, value: any, key: any) {
     this.material_data[rowIndex][key] = value;
     if (key == "Qty" || key == "Description") {
@@ -157,10 +227,15 @@ export class MaterialComponent implements OnInit {
         this.onAddRow(this.material_data[rowIndex]["Qty"], this.material_data[rowIndex]["Description"], rowIndex);
       }
     }
+
+   
     console.log(this.material_data);
     if (key == "Qty" || key == "Length" || key == "Width") {
       if (this.material_data[rowIndex]["Qty"] != "" && this.material_data[rowIndex]["Length"] != "" && this.material_data[rowIndex]["Width"] != "") {
         this.material_data[rowIndex]["Area"] = (parseFloat(this.material_data[rowIndex]["Qty"]) * parseFloat(this.material_data[rowIndex]["Length"]) * parseFloat(this.material_data[rowIndex]["Width"])).toFixed(2)
+        if (this.SheetGridRow.length > 0) {
+          this.deleteSheetDuplicateData(rowIndex);
+        }
       }
       else {
         this.material_data[rowIndex]["Area"] = "";
@@ -171,6 +246,7 @@ export class MaterialComponent implements OnInit {
       this.material_data[rowIndex]["Drop"] = (parseFloat(this.material_data[rowIndex]["Area"]) * 0.18).toFixed(2);
       this.material_data[rowIndex]["Inner_Area"] = this.material_data[rowIndex]["Inner_Area"] == "" ? parseInt("0") : this.material_data[rowIndex]["Inner_Area"]
       this.material_data[rowIndex]["Total_Area"] = (parseFloat(this.material_data[rowIndex]["Qty"]) * (parseFloat(this.material_data[rowIndex]["Area"]) + parseFloat(this.material_data[rowIndex]["Drop"])) - parseFloat(this.material_data[rowIndex]["Inner_Area"])).toFixed(2)
+
     }
     else {
       this.material_data[rowIndex]["Perimeter"] = "";
@@ -194,28 +270,13 @@ export class MaterialComponent implements OnInit {
         this.material_data[rowIndex]["Circumference1"] = "";
       }
     }
-    if (key == "Sheet_Lg" || key == "Sheet_Width") {
-      if (this.material_data[rowIndex]["Sheet_Lg"] != "" && this.material_data[rowIndex]["Sheet_Width"] != "") {
-        this.material_data[rowIndex]["Sheet_Area"] = (parseFloat(this.material_data[rowIndex]["Sheet_Lg"]) * parseFloat(this.material_data[rowIndex]["Sheet_Width"])).toFixed(2)
+    if (this.material_data[rowIndex]["Total_Area"] != "" && this.material_data[rowIndex]["Description"] != "") {
+      if (this.SheetGridRow.length > 0) {
+        this.deleteSheetDuplicateData(rowIndex);
       }
-      else {
-        this.material_data[rowIndex]["Sheet_Area"] = "";
-      }
+      this.addSheetRow(this.material_data[rowIndex]["Total_Area"], this.material_data[rowIndex]["Description"], rowIndex);
     }
-    if (this.material_data[rowIndex]["Sheet_Area"] != "") {
-      if (this.material_data[rowIndex]["Thickness"] != "") {
-        if (this.material_data[rowIndex]["Total_Area"] != "") {
-          this.material_data[rowIndex]["Parts_Per_Sheet"] = ((parseFloat(this.material_data[rowIndex]["Thickness"]) * parseFloat(this.material_data[rowIndex]["Sheet_Area"])) / parseFloat(this.material_data[rowIndex]["Total_Area"])).toFixed(2)
-          this.material_data[rowIndex]["Sheets_Reqd"] = (parseFloat(this.material_data[rowIndex]["Total_Area"]) / (parseFloat(this.material_data[rowIndex]["Thickness"]) * parseFloat(this.material_data[rowIndex]["Sheet_Area"]))).toFixed(2)
-        }
-      }
-
-    }
-    else {
-      this.material_data[rowIndex]["Parts_Per_Sheet"] = "";
-      this.material_data[rowIndex]["Sheets_Reqd"] = "";
-    }
-
+  
   }
 
   onChangegrid(rowIndex: any, value: any, key: any) {
@@ -281,7 +342,7 @@ export class MaterialComponent implements OnInit {
       'OPTM_QUANTITY': qty,
       'OPTM_DESCRIPTION': desc,
       'rowIndex': index,
-      'OPTM_LINENO':index
+      'OPTM_LINENO': index
     })
 
 
@@ -418,7 +479,7 @@ export class MaterialComponent implements OnInit {
       return obj;
     });
     this.showLookupLoader = true;
-    this.service.SaveMaterial(OPCONFIG_MATERIALHEADER, this.material_data, this.material_Griddata).subscribe(
+    this.service.SaveMaterial(OPCONFIG_MATERIALHEADER, this.material_data, this.material_Griddata,this.SheetGridRow).subscribe(
       data => {
         this.showLookupLoader = false;
         if (data != undefined && data.length > 0) {

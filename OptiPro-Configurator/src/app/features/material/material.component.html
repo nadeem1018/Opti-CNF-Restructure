@@ -82,14 +82,14 @@
                                         </ng-template>
 
 
-                                        <!-- <kendo-grid-column field="" title="Thickness" filter="text" [width]="150"
+                                        <kendo-grid-column field="" title="Thickness" filter="text" [width]="150"
                                             [minResizableWidth]="150">
                                             <ng-template kendoGridCellTemplate let-dataItem>
                                                 <input type="text" class="form-control  form-control-sm" id="" value={{dataItem.Thickness}}
                                                     (change)="onChange(dataItem.rowIndex,Thickness.value,Thickness.title)"
                                                     #Thickness title="Thickness" />
                                             </ng-template>
-                                        </kendo-grid-column> -->
+                                        </kendo-grid-column>
                                         <kendo-grid-column field="" title="Material" filter="text" [width]="150"
                                             [minResizableWidth]="150">
                                             <ng-template kendoGridCellTemplate let-dataItem>
@@ -299,69 +299,92 @@
                                     </kendo-grid>
                                 </div>
                                 <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
-                                        <kendo-grid [kendoGridBinding]="material_data" [reorderable]="true" [resizable]="true"
-                                            [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                            [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'height':'100%', 'max-width':'100%'}"
-                                            [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
-                                          
-    
-                                            <kendo-grid-column field="" title="Thickness" filter="text" [width]="150"
-                                                [minResizableWidth]="150">
-                                                <ng-template kendoGridCellTemplate let-dataItem>
-                                                    <input type="text" class="form-control  form-control-sm" id="" value={{dataItem.Thickness}}
-                                                        (change)="onChange(dataItem.rowIndex,Thickness.value,Thickness.title)"
-                                                        #Thickness title="Thickness" />
-                                                </ng-template>
-                                            </kendo-grid-column>
-                                          
-                                         
-                                            <kendo-grid-column field="" title="Sheet Lg" filter="text" [width]="150"
-                                                [minResizableWidth]="150">
-                                                <ng-template kendoGridCellTemplate let-dataItem>
-                                                    <input type="text" class="form-control  form-control-sm" id="" value={{dataItem.Sheet_Lg}}
-                                                        (change)="onChange(dataItem.rowIndex,Sheet_Lg.value,Sheet_Lg.title)"
-                                                        #Sheet_Lg title="Sheet_Lg" />
-                                                </ng-template>
-                                            </kendo-grid-column>
-                                            <kendo-grid-column field="" title="Sheet Width" filter="text" [width]="150"
-                                                [minResizableWidth]="150">
-                                                <ng-template kendoGridCellTemplate let-dataItem>
-                                                    <input type="text" class="form-control  form-control-sm" id="" value={{dataItem.Sheet_Width}}
-                                                        (change)="onChange(dataItem.rowIndex,Sheet_Width.value,Sheet_Width.title)"
-                                                        #Sheet_Width title="Sheet_Width" />
-                                                </ng-template>
-                                            </kendo-grid-column>
-                                            <kendo-grid-column field="" title="Sheet Area" filter="text" [width]="150"
-                                                [minResizableWidth]="150">
-                                                <ng-template kendoGridCellTemplate let-dataItem>
-                                                    <input type="text" disabled = "true" class="form-control  form-control-sm" id="" value={{dataItem.Sheet_Area}}
-                                                        (change)="onChange(dataItem.rowIndex,Sheet_Area.value,Sheet_Area.title)"
-                                                        #Sheet_Area title="Sheet_Area" />
-                                                </ng-template>
-                                            </kendo-grid-column>
-    
-                                            <kendo-grid-column field="" title="Parts Per Sheet" filter="text" [width]="150"
-                                                [minResizableWidth]="150">
-                                                <ng-template kendoGridCellTemplate let-dataItem>
-                                                    <input type="text" disabled = "true" class="form-control  form-control-sm" id="" value={{dataItem.Parts_Per_Sheet}}
-                                                        (change)="onChange(dataItem.rowIndex,PPS.value,PPS.title)" #PPS
-                                                        title="Parts_Per_Sheet" />
-                                                </ng-template>
-                                            </kendo-grid-column>
-                                            <kendo-grid-column field="" title="Sheets Reqd" filter="text" [width]="150"
-                                                [minResizableWidth]="150">
-                                                <ng-template kendoGridCellTemplate let-dataItem>
-                                                    <input type="text" disabled = "true" class="form-control  form-control-sm" id="" value={{dataItem.Sheets_Reqd}}
-                                                        (change)="onChange(dataItem.rowIndex,SheetsReq.value,SheetsReq.title)"
-                                                        #SheetsReq title="Sheets_Reqd" />
-                                                </ng-template>
-                                            </kendo-grid-column>
-    
-    
-                                         
-    
-                                        </kendo-grid>
-                                    </div>
+                                    <kendo-grid [kendoGridBinding]="SheetGridRow" [reorderable]="true" [resizable]="true"
+                                        [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
+                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'height':'100%', 'max-width':'100%'}"
+                                        [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
+
+
+                                        <kendo-grid-column field="" title="Thickness" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{dataItem.Thickness}}
+                                                    (change)="onChangesheetGrid(dataItem.rowIndex,Thickness.value,Thickness.title)"
+                                                    #Thickness title="Thickness" />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="Material" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{dataItem.Material}}
+                                                    (change)="onChangesheetGrid(dataItem.rowIndex,Material.value,Material.title)"
+                                                    #Material title="Material" />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="Description" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{dataItem.Description}}
+                                                    (change)="onChangesheetGrid(dataItem.rowIndex,Description.value,Description.title)"
+                                                    #Description title="Description" />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="Total Area" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" disabled="true" class="form-control  form-control-sm"
+                                                    id="" value={{dataItem.Total_Area}} (change)="onChange(dataItem.rowIndex,totalArea.value,totalArea.title)"
+                                                    #totalArea title="Total_Area" />
+                                            </ng-template>
+                                        </kendo-grid-column>
+
+                                        <kendo-grid-column field="" title="Sheet Lg" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{dataItem.Sheet_Lg}}
+                                                    (change)="onChangesheetGrid(dataItem.rowIndex,Sheet_Lg.value,Sheet_Lg.title)"
+                                                    #Sheet_Lg title="Sheet_Lg" />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="Sheet Width" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" class="form-control  form-control-sm" id="" value={{dataItem.Sheet_Width}}
+                                                    (change)="onChangesheetGrid(dataItem.rowIndex,Sheet_Width.value,Sheet_Width.title)"
+                                                    #Sheet_Width title="Sheet_Width" />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="Sheet Area" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" disabled="true" class="form-control  form-control-sm"
+                                                    id="" value={{dataItem.Sheet_Area}} (change)="onChangesheetGrid(dataItem.rowIndex,Sheet_Area.value,Sheet_Area.title)"
+                                                    #Sheet_Area title="Sheet_Area" />
+                                            </ng-template>
+                                        </kendo-grid-column>
+
+                                        <kendo-grid-column field="" title="Parts Per Sheet" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" disabled="true" class="form-control  form-control-sm"
+                                                    id="" value={{dataItem.Parts_Per_Sheet}} (change)="onChangesheetGrid(dataItem.rowIndex,PPS.value,PPS.title)"
+                                                    #PPS title="Parts_Per_Sheet" />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="Sheets Reqd" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" disabled="true" class="form-control  form-control-sm"
+                                                    id="" value={{dataItem.Sheets_Reqd}} (change)="onChangesheetGrid(dataItem.rowIndex,SheetsReq.value,SheetsReq.title)"
+                                                    #SheetsReq title="Sheets_Reqd" />
+                                            </ng-template>
+                                        </kendo-grid-column>
+
+
+
+
+                                    </kendo-grid>
+                                </div>
                             </div>
 
                             <div id="Design" class="tabcontent h-100">
@@ -384,17 +407,17 @@
                                         <kendo-grid-column field="" title="Description" filter="text" [width]="150"
                                             [minResizableWidth]="150">
                                             <ng-template kendoGridCellTemplate let-dataItem>
-                                                <input type="text" disabled ="true" class="form-control  form-control-sm" id="" value={{dataItem.OPTM_DESCRIPTION}}
-                                                    (change)="onChange(dataItem.rowIndex,Description.value,Description.title)"
+                                                <input type="text" disabled="true" class="form-control  form-control-sm"
+                                                    id="" value={{dataItem.OPTM_DESCRIPTION}} (change)="onChange(dataItem.rowIndex,Description.value,Description.title)"
                                                     #Description title="Description" />
                                             </ng-template>
                                         </kendo-grid-column>
                                         <kendo-grid-column field="" title="Qty" filter="text" [width]="150"
                                             [minResizableWidth]="150">
                                             <ng-template kendoGridCellTemplate let-dataItem>
-                                                <input type="text" disabled ="true" class="form-control  form-control-sm" id="" value={{dataItem.OPTM_QUANTITY}}
-                                                    (change)="onChange(dataItem.rowIndex,Qty.value,Qty.title)" #Qty
-                                                    title="Qty" />
+                                                <input type="text" disabled="true" class="form-control  form-control-sm"
+                                                    id="" value={{dataItem.OPTM_QUANTITY}} (change)="onChange(dataItem.rowIndex,Qty.value,Qty.title)"
+                                                    #Qty title="Qty" />
                                             </ng-template>
                                         </kendo-grid-column>
                                         <kendo-grid-column field="" title="Design Total Min" filter="text" [width]="150"
