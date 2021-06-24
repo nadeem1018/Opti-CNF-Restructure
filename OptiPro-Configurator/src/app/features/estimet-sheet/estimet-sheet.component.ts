@@ -111,7 +111,7 @@ export class EstimetSheetComponent implements OnInit {
       'OPTM_MARKUP': "",
       'OPTM_PROJECTED_COST': "",
       'OPTM_AMOUNT': "",
-      'OPTM_LINENO':this.index,
+      'OPTM_LINENO': this.index + 1,
       'rowIndex': this.index
     })
     this.index = this.index + 1;
@@ -127,7 +127,7 @@ export class EstimetSheetComponent implements OnInit {
       'OPTM_AMOUNT': "",
       'OPTM_LABOR': "",
       'OPTM_GROUP': "Labor",
-      'OPTM_LINENO': this.laborIndex,
+      'OPTM_LINENO': this.laborIndex + 1,
       'rowIndex': this.laborIndex
     })
 
@@ -145,7 +145,7 @@ export class EstimetSheetComponent implements OnInit {
       'OPTM_AMOUNT': "",
       'OPTM_LABOR': "",
       'OPTM_GROUP': "Shipping",
-      'OPTM_LINENO': this.shippingIndex,
+      'OPTM_LINENO': this.shippingIndex + 1,
       'rowIndex': this.shippingIndex
     })
 
@@ -162,29 +162,64 @@ export class EstimetSheetComponent implements OnInit {
       'OPTM_AMOUNT': "",
       'OPTM_LABOR': "",
       'OPTM_GROUP': "Travel",
-      'OPTM_LINENO': this.travelIndex,
+      'OPTM_LINENO': this.travelIndex + 1,
       'rowIndex': this.travelIndex
     })
 
     this.travelIndex = this.travelIndex + 1;
   }
 
-  ResetFields()
-  {
+  resetFields() {
     this.shippingGrid = [];
     this.travelGrid = [];
     this.laborGrid = [];
-    this.gridData =[];
+    this.gridData = [];
     this.index = 0;
     this.laborIndex = 0;
     this.travelIndex = 0;
     this.shippingIndex = 0;
+    this.nXP_Chandler_Site = ""
+    this.part_Number = "";
+    this.Project_Description = "";
+    this.quantity = "";
+    this.sales_Representative = "";
+    this.Phone_Number = "";
+    this.project_email = "";
+    this.estimator = "";
+    this.estimate_Number = "";
+    this.shipping = "";
+    this.warehouse_Manager = "";
+    this.shipping_Address_1 = "";
+    this.shipping_Address_2 = "";
+    this.city = "";
+    this.Phone_1 = "";
+    this.phone_2 = "";
+    this.shipping_email = "";
+    this.estimate_Due_Date = "";
+    this.project_Due_Date = "";
+    this.submittal_Required = "";
+    this.submittal_Due_Date = "";
+    this.ready_to_Ship_Date = "";
+    this.on_site_date = "";
+    this.alp = "";
+    this.total_Cost = "";
+    this.per_Unit_Cost = "";
+    this.subtotal = "";
+    this.overhead = "";
+    this.expedite_Fee = "";
+    this.total_Price = "";
+    this.per_Unit_Price = "";
+    this.product_code = "";
+    this.serviceData = [];
+    this.lookupfor = "";
+    this.showLookupLoader = false;
+
   }
 
 
 
   fetchFullProducts(productCode: any) {
-    this.ResetFields();
+    this.resetFields();
     this.showLookupLoader = true;
     this.service.getEstimateDetails(productCode).subscribe(
       data => {
