@@ -136,7 +136,7 @@ export class MaterialComponent implements OnInit {
         'Parts_Per_Sheet': materialSheet[i].OPTM_PARTSPER_SHEET,
         'Sheets_Reqd': materialSheet[i].OPTM_SHEETREQ,
         'OPTM_LINENO': materialSheet[i].OPTM_LINENO,
-        'Total_Area': materialSheet[i].OPTM_TOTALAREA,
+        'Total_Area': materialSheet[i].OPTM_TOTAL_AREA,
         'rowIndex': i
       })
 
@@ -377,6 +377,7 @@ export class MaterialComponent implements OnInit {
 
 
   fetchFullProducts(productCode: any) {
+    this.resetFields();
     this.showLookupLoader = true;
     this.service.getMaterialDetails(productCode).subscribe(
       data => {
@@ -458,6 +459,16 @@ export class MaterialComponent implements OnInit {
     }
   }
 
+  resetFields() {
+    this.material_Griddata = [];
+    this.material_data = [];
+    this.SheetGridRow=[];
+    this.index = 0;
+    this.gridIndex = 0;
+    this.product_code = "";
+    this.product_name = "";
+  }
+
   onSave() {
     let OPCONFIG_MATERIALHEADER = [];
     OPCONFIG_MATERIALHEADER.push({
@@ -493,12 +504,7 @@ export class MaterialComponent implements OnInit {
         if (data === "True") {
           CommonData.made_changes = false
           this.CommonService.show_notification(this.language.DataSaved, 'success');
-          this.material_Griddata = [];
-          this.material_data = [];
-          this.index = 0;
-          this.gridIndex = 0;
-          this.product_code = "";
-          this.product_name = "";
+          this.resetFields();
           return;
         }
         else {

@@ -92,7 +92,7 @@ export class EstimatetoolService {
                 GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"), OPTM_CODE: Code
             }])
         }
-        return this.httpclient.post(this.config_params.service_url + "/Material/GetMaterialByCode", jObject, this.common_params.httpOptions);
+        return this.httpclient.post(this.config_params.service_url + "/Estimate/GetEstimateMaterialByCode", jObject, this.common_params.httpOptions);
     }
 
 
