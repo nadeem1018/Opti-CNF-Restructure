@@ -4,6 +4,7 @@ import { CommonService } from 'src/app/core/service/common.service';
 import { HttpClient } from '@angular/common/http';
 import { CommonData } from 'src/app/core/data/CommonData';
 import { EstimatetoolService } from 'src/app/core/service/estimationtool'
+import { TouchSequence } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-estimet-sheet',
@@ -25,6 +26,8 @@ export class EstimetSheetComponent implements OnInit {
   public shipping_Address_1: any = "";
   public shipping_Address_2: any = "";
   public city: any = "";
+  public state: any = "";
+  public zip: any = "";
   public Phone_1: any = "";
   public phone_2: any = "";
   public shipping_email: any = "";
@@ -56,13 +59,19 @@ export class EstimetSheetComponent implements OnInit {
   public laborIndex: any = 0;
   public travelIndex: any = 0;
   public shippingIndex: any = 0;
+  public onSiteGrid: any = [];
+  public siteLaborIndex: any = 0;
+  public OPCONFIG_EST_HEADER: any = [];
+  public OPCONFIG_EST_LABOR: any = [];
+  public OPCONFIG_EST_MATERIAL: any = [];
+
 
 
 
   constructor(private router: Router, private httpclient: HttpClient, private CommonService: CommonService, private service: EstimatetoolService) { }
 
   ngOnInit() {
-    this.openGridTab('', 'Material');
+    // this.openGridTab('', 'Material');
   }
 
   openGridTab(evt, cityName) {
@@ -89,6 +98,7 @@ export class EstimetSheetComponent implements OnInit {
       return;
     }
     CommonData.made_changes = true;
+    this.product_code = $event[2];
     let productCode = $event[2];
     this.lookupfor = "";
     this.fetchFullProducts(productCode);
@@ -126,7 +136,7 @@ export class EstimetSheetComponent implements OnInit {
       'OPTM_PROJECTED_COST': "",
       'OPTM_AMOUNT': "",
       'OPTM_LABOR': "",
-      'OPTM_GROUP': "Labor",
+      'GROUP_NAME': "Labor",
       'OPTM_LINENO': this.laborIndex + 1,
       'rowIndex': this.laborIndex
     })
@@ -144,7 +154,7 @@ export class EstimetSheetComponent implements OnInit {
       'OPTM_PROJECTED_COST': "",
       'OPTM_AMOUNT': "",
       'OPTM_LABOR': "",
-      'OPTM_GROUP': "Shipping",
+      'GROUP_NAME': "Shipping",
       'OPTM_LINENO': this.shippingIndex + 1,
       'rowIndex': this.shippingIndex
     })
@@ -161,12 +171,29 @@ export class EstimetSheetComponent implements OnInit {
       'OPTM_PROJECTED_COST': "",
       'OPTM_AMOUNT': "",
       'OPTM_LABOR': "",
-      'OPTM_GROUP': "Travel",
+      'GROUP_NAME': "Travel",
       'OPTM_LINENO': this.travelIndex + 1,
       'rowIndex': this.travelIndex
     })
 
     this.travelIndex = this.travelIndex + 1;
+  }
+
+  addSiteLaborRow() {
+    this.onSiteGrid.push({
+      'OPTM_DESCRIPTION': "",
+      'OPTM_QUANTITY': "",
+      'OPTM_PER_UNIT_PRICE': "",
+      'OPTM_MARKUP': "",
+      'OPTM_PROJECTED_COST': "",
+      'OPTM_AMOUNT': "",
+      'OPTM_LABOR': "",
+      'GROUP_NAME': "Travel",
+      'OPTM_LINENO': this.siteLaborIndex + 1,
+      'rowIndex': this.siteLaborIndex
+    })
+
+    this.siteLaborIndex = this.siteLaborIndex + 1;
   }
 
   resetFields() {
@@ -212,6 +239,8 @@ export class EstimetSheetComponent implements OnInit {
     this.product_code = "";
     this.serviceData = [];
     this.lookupfor = "";
+    this.state = "";
+    this.zip = "";
     this.showLookupLoader = false;
 
   }
@@ -219,7 +248,14 @@ export class EstimetSheetComponent implements OnInit {
 
 
   fetchFullProducts(productCode: any) {
-    this.resetFields();
+    this.shippingGrid = [];
+    this.travelGrid = [];
+    this.laborGrid = [];
+    this.gridData = [];
+    this.index = 0;
+    this.laborIndex = 0;
+    this.travelIndex = 0;
+    this.shippingIndex = 0;
     this.showLookupLoader = true;
     this.service.getEstimateDetails(productCode).subscribe(
       data => {
@@ -234,6 +270,16 @@ export class EstimetSheetComponent implements OnInit {
           }
         }
         if (data != undefined) {
+          for (let i = 0; i < data.EstimateMaterialDetails.length; i++) {
+            this.laborGrid.push(data.EstimateMaterialDetails[i]);
+            this.laborGrid[i]['rowIndex'] = i;
+            this.laborGrid[i]['OPTM_MARKUP'] = "";
+          }
+          for (let i = 0; i < data.EstimateMateriaHeader.length; i++) {
+            this.gridData.push(data.EstimateMateriaHeader[i]);
+            this.gridData[i]['rowIndex'] = i;
+            this.gridData[i]['OPTM_MARKUP'] = "";
+          }
 
         }
         else {
@@ -257,8 +303,18 @@ export class EstimetSheetComponent implements OnInit {
     if (this.gridData[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.gridData[rowIndex]["OPTM_QUANTITY"] != "") {
       this.gridData[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.gridData[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.gridData[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
     }
-    if (this.gridData[rowIndex]["OPTM_PROJECTED_COST"] != "" && this.gridData[rowIndex]["OPTM_MARKUP"] != "") {
+    if (this.gridData[rowIndex]["OPTM_PROJECTED_COST"] != "" && this.gridData[rowIndex]["OPTM_MARKUP"] != "" && this.gridData[rowIndex]["OPTM_MARKUP"] != undefined) {
       this.gridData[rowIndex]["OPTM_AMOUNT"] = (parseFloat(this.gridData[rowIndex]["OPTM_PROJECTED_COST"]) + (parseFloat(this.gridData[rowIndex]["OPTM_PROJECTED_COST"]) * (parseFloat(this.gridData[rowIndex]["OPTM_MARKUP"]) / 100))).toFixed(2)
+    }
+  }
+
+  onSiteLbrChange(rowIndex: any, value: any, key: any) {
+    this.onSiteGrid[rowIndex][key] = value;
+    if (this.onSiteGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.onSiteGrid[rowIndex]["OPTM_QUANTITY"] != "") {
+      this.onSiteGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.onSiteGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.onSiteGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
+    }
+    if (this.onSiteGrid[rowIndex]["OPTM_PROJECTED_COST"] != "" && this.onSiteGrid[rowIndex]["OPTM_MARKUP"] != "" && this.onSiteGrid[rowIndex]["OPTM_MARKUP"] != undefined) {
+      this.onSiteGrid[rowIndex]["OPTM_AMOUNT"] = (parseFloat(this.gridData[rowIndex]["OPTM_PROJECTED_COST"]) + (parseFloat(this.onSiteGrid[rowIndex]["OPTM_PROJECTED_COST"]) * (parseFloat(this.onSiteGrid[rowIndex]["OPTM_MARKUP"]) / 100))).toFixed(2)
     }
   }
 
@@ -267,7 +323,7 @@ export class EstimetSheetComponent implements OnInit {
     if (this.laborGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.laborGrid[rowIndex]["OPTM_QUANTITY"] != "") {
       this.laborGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.laborGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.laborGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
     }
-    if (this.laborGrid[rowIndex]["OPTM_PROJECTED_COST"] != "" && this.laborGrid[rowIndex]["OPTM_MARKUP"] != "") {
+    if (this.laborGrid[rowIndex]["OPTM_PROJECTED_COST"] != "" && this.laborGrid[rowIndex]["OPTM_MARKUP"] != "" && this.laborGrid[rowIndex]["OPTM_MARKUP"] != undefined) {
       this.laborGrid[rowIndex]["OPTM_AMOUNT"] = (parseFloat(this.laborGrid[rowIndex]["OPTM_PROJECTED_COST"]) + (parseFloat(this.laborGrid[rowIndex]["OPTM_PROJECTED_COST"]) * (parseFloat(this.laborGrid[rowIndex]["OPTM_MARKUP"]) / 100))).toFixed(2)
     }
   }
@@ -326,6 +382,99 @@ export class EstimetSheetComponent implements OnInit {
         return;
       }
     )
+  }
+
+  onSave() {
+
+    this.OPCONFIG_EST_HEADER.push({
+      "OPTM_CUSTOMER": this.nXP_Chandler_Site,
+      "OPTM_CODE": this.product_code,
+      "OPTM_SHIPPING": this.shipping,
+      "OPTM_WAREHPUSE_MGR": this.warehouse_Manager,
+      "OPTM_SHIP_ADD1": this.shipping_Address_1,
+      "OPTM_SHIP_ADD2": this.shipping_Address_2,
+      "OPTM_CITY": this.city,
+      "OPTM_STATE": this.state,
+      "OPTM_ZIP": this.zip,
+      "OPTM_PHONE1": this.Phone_1,
+      "OPTM_PHONE2": this.phone_2,
+      "OPTM_SHIP_EMAIL": this.shipping_email,
+      "OPTM_PARTNO": this.part_Number,
+      "OPTM_PROJECT_DESC": this.Project_Description,
+      "OPTM_QUANTITY": this.quantity,
+      "OPTM_SALES_REP": this.sales_Representative,
+      "OPTM_PROJECT_PHONE": this.Phone_Number,
+      "OPTM_PROJECT_EMAIL": this.project_email,
+      " OPTM_ESTIMATOR": this.estimator,
+      "OPTM_ESTIMATOR_NO": this.estimate_Number,
+      "OPTM_ESTIMATE_DUEDT": this.estimate_Due_Date,
+      "OPTM_PROJECT_DUEDT": this.project_Due_Date,
+      "OPTM_SUBMITTAL_REQ": this.submittal_Required,
+      "OPTM_SUBMITTAL_DUEDT": this.submittal_Due_Date,
+      "OPTM_REDY_TO_SHIPDT": this.ready_to_Ship_Date,
+      "OPTM_ANTICIPATED_LG": this.alp,
+      "OPTM_ONSITEDT": this.on_site_date,
+      GUID: sessionStorage.getItem("GUID"),
+      UsernameForLic: sessionStorage.getItem("loggedInUser"),
+      CompanyDBID: sessionStorage.getItem("selectedComp")
+    })
+
+    this.OPCONFIG_EST_MATERIAL = this.gridData;
+    if (this.laborGrid.length > 0) {
+      for (let i = 0; i < this.laborGrid.length; i++) {
+        this.laborGrid[i]['GROUP_NAME'] = "Labor"
+        this.OPCONFIG_EST_LABOR.push(this.laborGrid[i]);
+      }
+    }
+    if (this.travelGrid.length > 0) {
+      for (let i = 0; i < this.travelGrid.length; i++) {
+        this.OPCONFIG_EST_LABOR.push(this.travelGrid[i]);
+      }
+    }
+    if (this.onSiteGrid.length > 0) {
+      for (let i = 0; i < this.onSiteGrid.length; i++) {
+        this.OPCONFIG_EST_LABOR.push(this.onSiteGrid[i]);
+      }
+    }
+    if (this.shippingGrid.length > 0) {
+      for (let i = 0; i < this.shippingGrid.length; i++) {
+        this.OPCONFIG_EST_LABOR.push(this.shippingGrid[i]);
+      }
+    }
+
+    this.showLookupLoader = true;
+    this.service.SaveEstimateMaster(this.OPCONFIG_EST_HEADER, this.OPCONFIG_EST_MATERIAL, this.OPCONFIG_EST_LABOR).subscribe(
+      data => {
+        this.showLookupLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.router, 'Sessionout');
+            return;
+          }
+        }
+        if (data === "True") {
+          CommonData.made_changes = false
+          this.CommonService.show_notification(this.language.DataSaved, 'success');
+          this.resetFields();
+          return;
+        }
+        else {
+          this.CommonService.show_notification(this.language.DataNotSaved, 'error');
+          return;
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
+
+
   }
 
 }
