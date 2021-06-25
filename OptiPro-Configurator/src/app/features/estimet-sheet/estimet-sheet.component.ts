@@ -274,6 +274,7 @@ export class EstimetSheetComponent implements OnInit {
             this.laborGrid.push(data.EstimateMaterialDetails[i]);
             this.laborGrid[i]['rowIndex'] = i;
             this.laborGrid[i]['OPTM_MARKUP'] = "";
+            this.laborGrid[i]['OPTM_LINENO'] = i+1;
           }
           for (let i = 0; i < data.EstimateMateriaHeader.length; i++) {
             this.gridData.push(data.EstimateMateriaHeader[i]);
