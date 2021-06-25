@@ -267,7 +267,7 @@
                                         <kendo-grid-column field="" title="Sheet Area" filter="text" [width]="150"
                                             [minResizableWidth]="150">
                                             <ng-template kendoGridCellTemplate let-dataItem>
-                                                <input type="text" class="form-control  form-control-sm" id="" value={{dataItem.Sheet_Area}}
+                                                <input type="text" class="form-control  form-control-sm text-right" id="" value={{dataItem.Sheet_Area}}
                                                     (change)="onChange(dataItem.rowIndex,Sheet_Area.value,Sheet_Area.title)"
                                                     #Sheet_Area title="Sheet_Area" />
                                             </ng-template>
@@ -276,7 +276,7 @@
                                         <kendo-grid-column field="" title="Parts Per Sheet" filter="text" [width]="150"
                                             [minResizableWidth]="150">
                                             <ng-template kendoGridCellTemplate let-dataItem>
-                                                <input type="text" class="form-control  form-control-sm" id="" value={{dataItem.Parts_Per_Sheet}}
+                                                <input type="text" class="form-control  form-control-sm text-right" id="" value={{dataItem.Parts_Per_Sheet}}
                                                     (change)="onChange(dataItem.rowIndex,PPS.value,PPS.title)" #PPS
                                                     title="Parts_Per_Sheet" />
                                             </ng-template>
@@ -284,7 +284,7 @@
                                         <kendo-grid-column field="" title="Sheets Reqd" filter="text" [width]="150"
                                             [minResizableWidth]="150">
                                             <ng-template kendoGridCellTemplate let-dataItem>
-                                                <input type="text" class="form-control  form-control-sm" id="" value={{dataItem.Sheets_Reqd}}
+                                                <input type="text" class="form-control  form-control-sm text-right" id="" value={{dataItem.Sheets_Reqd}}
                                                     (change)="onChange(dataItem.rowIndex,SheetsReq.value,SheetsReq.title)"
                                                     #SheetsReq title="Sheets_Reqd" />
                                             </ng-template>
@@ -600,14 +600,8 @@
                             <svg viewBox="0 0 512 512" class="icon">
                                 <use xlink:href="#saveDisk"></use>
                             </svg>Save </button>
-                    </div>&nbsp;&nbsp;&nbsp;
-                    <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
-                            <button type="button"  (click)="resetFields()" class="btn btn-sm btn-secondary with-icon">
-                                <svg viewBox="0 0 489 489" class="icon">
-                                    <use xlink:href="#cancel"></use>
-                                </svg>Reset
-                            </button>
-                        </div>
+                    </div>
+
                 </div>
             </form>
         </div>

@@ -529,7 +529,7 @@
 
                                 <kendo-grid [kendoGridBinding]="gridData" [reorderable]="true" [resizable]="true"
                                     [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                    [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'height':'100%', 'max-width':'100%'}"
+                                    [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
                                     [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
                                     <!-- <ng-template kendoGridToolbarTemplate>
@@ -763,8 +763,8 @@
 
 
 
-                        </div>
-                        <div class="col-md-12 mt-6">
+                        </div><br>
+                        <div class="col-md-12 mt-5">
                             <div class="tab">
                                 <button class="tablinks" (click)="openGridTab($event, 'Labor')">Labor</button>
                                 <!-- <button class="tablinks" (click)="openGridTab($event, 'Labour')">Labour</button> -->
@@ -776,7 +776,7 @@
 
                                     <kendo-grid [kendoGridBinding]="laborGrid" [reorderable]="true" [resizable]="true"
                                         [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'height':'100%', 'max-width':'100%'}"
+                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
                                         <kendo-grid-column field="" title="Labor" filter="text" [width]="150"
@@ -876,7 +876,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 mt-6">
+                        <div class="col-md-12">
                             <div class="tab">
                                 <button class="tablinks" (click)="openGridTab($event, 'osl')">On Site Labor</button>
                                 <!-- <button class="tablinks" (click)="openGridTab($event, 'Labour')">Labour</button> -->
@@ -887,7 +887,7 @@
 
                                     <kendo-grid [kendoGridBinding]="onSiteGrid" [reorderable]="true" [resizable]="true"
                                         [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'height':'100%', 'max-width':'100%'}"
+                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
                                         <ng-template kendoGridToolbarTemplate>
@@ -1005,7 +1005,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 mt-6">
+                        <div class="col-md-12">
                             <div class="tab">
                                 <button class="tablinks" (click)="openGridTab($event, 'Travel')">Travel</button>
                                 <!-- <button class="tablinks" (click)="openGridTab($event, 'Labour')">Labour</button> -->
@@ -1017,7 +1017,7 @@
 
                                     <kendo-grid [kendoGridBinding]="travelGrid" [reorderable]="true" [resizable]="true"
                                         [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'height':'100%', 'max-width':'100%'}"
+                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
                                         <ng-template kendoGridToolbarTemplate>
@@ -1135,7 +1135,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 mt-6">
+                        <div class="col-md-12">
                                 <div class="tab">
                                     <button class="tablinks" (click)="openGridTab($event, 'sct')">Subcontracting</button>
                                     <!-- <button class="tablinks" (click)="openGridTab($event, 'Labour')">Labour</button> -->
@@ -1147,7 +1147,7 @@
     
                                         <kendo-grid [kendoGridBinding]="subContractingGrid" [reorderable]="true" [resizable]="true"
                                             [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                            [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'height':'100%', 'max-width':'100%'}"
+                                            [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
                                             [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
                                             <ng-template kendoGridToolbarTemplate>
 
@@ -1263,7 +1263,7 @@
                                     </div>
                                 </div>
                             </div>
-                        <div class="col-md-12 mt-6">
+                        <div class="col-md-12">
                             <div class="tab">
                                 <button class="tablinks" (click)="openGridTab($event, 'Shipping')">Shipping</button>
                                 <!-- <button class="tablinks" (click)="openGridTab($event, 'Labour')">Labour</button> -->
@@ -1274,7 +1274,7 @@
 
                                     <kendo-grid [kendoGridBinding]="shippingGrid" [reorderable]="true" [resizable]="true"
                                         [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'height':'100%', 'max-width':'100%'}"
+                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
                                         <ng-template kendoGridToolbarTemplate>

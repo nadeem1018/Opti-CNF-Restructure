@@ -28,7 +28,6 @@ export class MaterialComponent implements OnInit {
   language = JSON.parse(sessionStorage.getItem('current_lang'));
   public commonData = new CommonData();
   public fetchData: any = [];
-  public SheetGridRow=[]; 
 
   constructor(private router: Router, private httpclient: HttpClient, private CommonService: CommonService, private service: EstimatetoolService) { }
 
@@ -67,8 +66,6 @@ export class MaterialComponent implements OnInit {
       'rowIndex': this.index
     })
     this.index = this.index + 1;
-
-
   }
 
   UpdateSheetSummary(materialCode: string, thickness: number, material: string, type: string, totalArea: number, oldArea: number) {
@@ -111,7 +108,7 @@ export class MaterialComponent implements OnInit {
     let materialHeader = this.fetchData.MateriaHeader;
     this.product_name = materialHeader[0].OPTM_DESCRIPTION;
     this.product_code = materialHeader[0].OPTM_CODE;
-    let SheetInfo = this.fetchData.sheet_summary;
+    let SheetInfo = this.fetchData.MaterialSummary;
 
     //Initialize Sheet Summary data table
     this.sheet_summary =[];
@@ -121,15 +118,15 @@ export class MaterialComponent implements OnInit {
     for (let i = 0; i < SheetInfo.length; i++) {
       this.sheet_summary.push({        
         'MaterialCode': SheetInfo[i].OPTM_MATERIALCODE,
-        'Thickness': SheetInfo[i].OPTM_THICKNESS,
+        'Thickness': this.convertTodecimal(SheetInfo[i].OPTM_THICKNESS),
         'Material': SheetInfo[i].OPTM_MATERIAL,
         'Type': SheetInfo[i].OPTM_TYPE,
-        'Total_Area': SheetInfo[i].OPTM_TOTAL_AREA,
-        'Sheet_Width': SheetInfo[i].OPTM_SHEET_WIDTH,
-        'Sheet_Lg': SheetInfo[i].OPTM_SHEET_LENGTH,
-        'Sheet_Area': SheetInfo[i].OPTM_SHEET_AREA,
-        'Parts_Per_Sheet': SheetInfo[i].OPTM_PARTSPER_SHEET,
-        'Sheets_Reqd': SheetInfo[i].OPTM_SHEETREQ,
+        'Total_Area': this.convertTodecimal(SheetInfo[i].OPTM_TOTAL_AREA),
+        'Sheet_Width': this.convertTodecimal(SheetInfo[i].OPTM_SHEET_WIDTH),
+        'Sheet_Lg': this.convertTodecimal(SheetInfo[i].OPTM_SHEET_LENGTH),
+        'Sheet_Area': this.convertTodecimal(SheetInfo[i].OPTM_SHEET_AREA),
+        'Parts_Per_Sheet': this.convertTodecimal(SheetInfo[i].OPTM_PARTSPER_SHEET),
+        'Sheets_Reqd': this.convertTodecimal(SheetInfo[i].OPTM_SHEETREQ),
         'rowIndex': i
       })
       this.SheetGridindex = i + 1;
@@ -138,32 +135,32 @@ export class MaterialComponent implements OnInit {
     let intVal: string = '0.00';
     for (let i = 0; i < materialData.length; i++) {
       this.material_data.push({
-        'Thickness': materialData[i].OPTM_THICKNESS,
+        'Thickness': this.convertTodecimal(materialData[i].OPTM_THICKNESS),
         'MaterialCode': materialData[i].OPTM_MATERIALCODE,
         'Material': materialData[i].OPTM_MATERIAL,
         'Type': materialData[i].OPTM_TYPE,
         'Description': materialData[i].OPTM_DESCRIPTION,
-        'Length': materialData[i].OPTM_LENGTH,
-        'Width': materialData[i].OPTM_WIDTH,
-        'Area': materialData[i].OPTM_AREA,
-        'Perimeter': materialData[i].OPTM_PERIMETER,
-        'Drop': materialData[i].OPTM_DROP,
-        'Total_Area': materialData[i].OPTM_TOTALAREA,
-        'Inner_Area': materialData[i].OPTM_INNERAREA,
-        'Holes': materialData[i].OPTM_HOLES_QTY,
-        'Hole_Size': materialData[i].OPTM_HOLESSIZE,
-        'Circumference': materialData[i].OPTM_CIRCUMFERENCE,
-        'Slots': materialData[i].OPTM_SLOTS_QTY,
-        'Slots_Lg': materialData[i].OPTM_SLOT_LENGTH,
-        'Slots_Width': materialData[i].OPTM_SLOT_WIDTH,
-        'Circumference1': materialData[i].OPTM_SLOT_CIRCUMFERENCE,
-        'Insets': materialData[i].OPTM_INSERT,
+        'Length': this.convertTodecimal(materialData[i].OPTM_LENGTH),
+        'Width': this.convertTodecimal(materialData[i].OPTM_WIDTH),
+        'Area': this.convertTodecimal(materialData[i].OPTM_AREA),
+        'Perimeter': this.convertTodecimal(materialData[i].OPTM_PERIMETER),
+        'Drop': this.convertTodecimal(materialData[i].OPTM_DROP),
+        'Total_Area': this.convertTodecimal(materialData[i].OPTM_TOTALAREA),
+        'Inner_Area': this.convertTodecimal(materialData[i].OPTM_INNERAREA),
+        'Holes': this.convertTodecimal(materialData[i].OPTM_HOLES_QTY),
+        'Hole_Size': this.convertTodecimal(materialData[i].OPTM_HOLESSIZE),
+        'Circumference': this.convertTodecimal(materialData[i].OPTM_CIRCUMFERENCE),
+        'Slots': this.convertTodecimal(materialData[i].OPTM_SLOTS_QTY),
+        'Slots_Lg': this.convertTodecimal(materialData[i].OPTM_SLOT_LENGTH),
+        'Slots_Width': this.convertTodecimal(materialData[i].OPTM_SLOT_WIDTH),
+        'Circumference1': this.convertTodecimal(materialData[i].OPTM_SLOT_CIRCUMFERENCE),
+        'Insets': this.convertTodecimal(materialData[i].OPTM_INSERT),
         'Sheet_Width': intVal,
         'Sheet_Lg': intVal,
         'Sheet_Area': intVal,
         'Parts_Per_Sheet': intVal,
         'Sheets_Reqd': intVal,
-        'Qty': materialData[i].OPTM_QUANTITY,
+        'Qty': this.convertTodecimal(materialData[i].OPTM_QUANTITY),
         'rowIndex': i
       })
       this.index = i + 1;
@@ -171,25 +168,25 @@ export class MaterialComponent implements OnInit {
 
     for (let i = 0; i < materialDetails.length; i++) {
       this.material_Griddata.push({
-        'Design_Total_Min': materialDetails[i].OPTM_DES_TOTALMINS,
-        'Design_Total_hrs': materialDetails[i].OPTM_DES_TOTALHRS,
-        'Program': materialDetails[i].OPTM_PROGRAM,
-        'Deburr_Inches': materialDetails[i].OPTM_DEBURRINCHES,
-        'Deburr_Total_Min': materialDetails[i].OPTM_DEBURR_TOTALMINS,
-        'Deburr_Total_Hrs': materialDetails[i].OPTM_DEBURR_TOTALHRS,
-        'Machine_Passes': materialDetails[i].OPTM_MACHINEPASSES,
-        'Machine_Total_Min': materialDetails[i].OPTM_MACHINE_TOTALMINS,
-        'Machine_Total_Hrs': materialDetails[i].OPTM_MACHINE_TOTALHRS,
-        'Machine_SetUp_Time': materialDetails[i].OPTM_MACHINESETUPTIME,
-        'Fit_Min_Parts': materialDetails[i].OPTM_FITMINS_PART,
-        'Fit_Total_Min': materialDetails[i].OPTM_FIT_TOTALMINS,
-        'Fit_Total_Hrs': materialDetails[i].OPTM_FIT_TOTALHRS,
-        'Weld': materialDetails[i].OPTM_WELD,
-        'Weld_Total_Min': materialDetails[i].OPTM_WELD_TOTALMINS,
-        'Weld_Total_Hrs': materialDetails[i].OPTM_WELD_TOTALHRS,
-        'Plumbing_Total_Min': materialDetails[i].OPTM_PLUMBING_TOTALMINS,
-        'Plumbing_Total_Hrs': materialDetails[i].OPTM_PLUMBING_TOTALHRS,
-        'OPTM_QUANTITY': materialDetails[i].OPTM_QUANTITY,
+        'Design_Total_Min': this.convertTodecimal(materialDetails[i].OPTM_DES_TOTALMINS),
+        'Design_Total_hrs': this.convertTodecimal(materialDetails[i].OPTM_DES_TOTALHRS),
+        'Program': this.convertTodecimal(materialDetails[i].OPTM_PROGRAM),
+        'Deburr_Inches': this.convertTodecimal(materialDetails[i].OPTM_DEBURRINCHES),
+        'Deburr_Total_Min': this.convertTodecimal(materialDetails[i].OPTM_DEBURR_TOTALMINS),
+        'Deburr_Total_Hrs': this.convertTodecimal(materialDetails[i].OPTM_DEBURR_TOTALHRS),
+        'Machine_Passes': this.convertTodecimal(materialDetails[i].OPTM_MACHINEPASSES),
+        'Machine_Total_Min': this.convertTodecimal(materialDetails[i].OPTM_MACHINE_TOTALMINS),
+        'Machine_Total_Hrs': this.convertTodecimal(materialDetails[i].OPTM_MACHINE_TOTALHRS),
+        'Machine_SetUp_Time': this.convertTodecimal(materialDetails[i].OPTM_MACHINESETUPTIME),
+        'Fit_Min_Parts': this.convertTodecimal(materialDetails[i].OPTM_FITMINS_PART),
+        'Fit_Total_Min': this.convertTodecimal(materialDetails[i].OPTM_FIT_TOTALMINS),
+        'Fit_Total_Hrs': this.convertTodecimal(materialDetails[i].OPTM_FIT_TOTALHRS),
+        'Weld': this.convertTodecimal(materialDetails[i].OPTM_WELD),
+        'Weld_Total_Min': this.convertTodecimal(materialDetails[i].OPTM_WELD_TOTALMINS),
+        'Weld_Total_Hrs': this.convertTodecimal(materialDetails[i].OPTM_WELD_TOTALHRS),
+        'Plumbing_Total_Min': this.convertTodecimal(materialDetails[i].OPTM_PLUMBING_TOTALMINS),
+        'Plumbing_Total_Hrs': this.convertTodecimal(materialDetails[i].OPTM_PLUMBING_TOTALHRS),
+        'OPTM_QUANTITY': this.convertTodecimal(materialDetails[i].OPTM_QUANTITY),
         'OPTM_DESCRIPTION': materialDetails[i].OPTM_DESCRIPTION,
         'rowIndex': i
       })
@@ -197,6 +194,13 @@ export class MaterialComponent implements OnInit {
 
   }
 
+  convertTodecimal(value: any){
+    if (!isNaN(value)) {
+      return parseFloat(value).toFixed(2);
+    } else {
+      return value;
+    }
+  }
   deleteDuplicateData(index: any) {
     for (let i = 0; i < this.material_Griddata.length; i++) {
       if (this.material_Griddata[i].rowIndex == index) {
@@ -318,8 +322,6 @@ export class MaterialComponent implements OnInit {
         this.onAddRow(this.material_data[rowIndex]["Qty"], this.material_data[rowIndex]["Description"], rowIndex);
       }
     }
-
-
     console.log(this.material_data);
     if (key == "Qty" || key == "Length" || key == "Width") {
       if (this.material_data[rowIndex]["Qty"] != "" && this.material_data[rowIndex]["Length"] != "" && this.material_data[rowIndex]["Width"] != "") {
@@ -382,7 +384,6 @@ export class MaterialComponent implements OnInit {
     if (this.material_Griddata.length >= rowIndex + 1) {
       this.material_Griddata[rowIndex]["Program"] = this.programHrs.toFixed(2);
     }
-
   }
 
   onChangegrid(rowIndex: any, value: any, key: any) {
@@ -446,25 +447,26 @@ export class MaterialComponent implements OnInit {
   }
 
   onAddRow(qty: any, desc: any, index: any) {
+    let initVal: string = '0.00'
     this.material_Griddata.push({
-      'Design_Total_Min': 0,
-      'Design_Total_hrs': 0,
-      'Program': 0,
-      'Deburr_Inches': 0,
-      'Deburr_Total_Min': 0,
-      'Deburr_Total_Hrs': 0,
-      'Machine_Passes': 0,
-      'Machine_Total_Min': 0,
-      'Machine_Total_Hrs': 0,
-      'Machine_SetUp_Time': 0,
-      'Fit_Min_Parts': 0,
-      'Fit_Total_Min': 0,
-      'Fit_Total_Hrs': 0,
-      'Weld': 0,
-      'Weld_Total_Min': 0,
-      'Weld_Total_Hrs': 0,
-      'Plumbing_Total_Min': 0,
-      'Plumbing_Total_Hrs': 0,
+      'Design_Total_Min': initVal,
+      'Design_Total_hrs': initVal,
+      'Program': initVal,
+      'Deburr_Inches': initVal,
+      'Deburr_Total_Min': initVal,
+      'Deburr_Total_Hrs': initVal,
+      'Machine_Passes': initVal,
+      'Machine_Total_Min': initVal,
+      'Machine_Total_Hrs': initVal,
+      'Machine_SetUp_Time': initVal,
+      'Fit_Min_Parts': initVal,
+      'Fit_Total_Min': initVal,
+      'Fit_Total_Hrs': initVal,
+      'Weld': initVal,
+      'Weld_Total_Min': initVal,
+      'Weld_Total_Hrs': initVal,
+      'Plumbing_Total_Min': initVal,
+      'Plumbing_Total_Hrs': initVal,
       'OPTM_QUANTITY': qty,
       'OPTM_DESCRIPTION': desc,
       'rowIndex': index
@@ -586,16 +588,6 @@ export class MaterialComponent implements OnInit {
     }
   }
 
-  resetFields() {
-    this.material_Griddata = [];
-    this.material_data = [];
-    this.SheetGridRow=[];
-    this.index = 0;
-    this.gridIndex = 0;
-    this.product_code = "";
-    this.product_name = "";
-  }
-
   onSave() {
     let OPCONFIG_MATERIALHEADER = [];
     OPCONFIG_MATERIALHEADER.push({
@@ -605,16 +597,6 @@ export class MaterialComponent implements OnInit {
       "OPTM_CODE": this.product_code,
       CompanyDBID: sessionStorage.getItem("selectedComp"),
     })
-    this.material_Griddata = this.material_Griddata.filter(function (obj) {
-      obj['Design_Total_Min'] = parseInt(obj['Design_Total_Min'])
-      obj['Deburr_Total_Min'] = parseInt(obj['Deburr_Total_Min'])
-      obj['Machine_Total_Min'] = parseInt(obj['Machine_Total_Min'])
-      obj['Fit_Total_Min'] = parseInt(obj['Fit_Total_Min'])
-      obj['Weld_Total_Min'] = parseInt(obj['Weld_Total_Min'])
-      obj['Plumbing_Total_Min'] = parseInt(obj['Plumbing_Total_Min'])
-
-      return obj;
-    });
     this.showLookupLoader = true;
     this.service.SaveMaterial(OPCONFIG_MATERIALHEADER, this.material_data, this.material_Griddata, this.sheet_summary).subscribe(
       data => {
@@ -631,7 +613,12 @@ export class MaterialComponent implements OnInit {
         if (data === "True") {
           CommonData.made_changes = false
           this.CommonService.show_notification(this.language.DataSaved, 'success');
-          this.resetFields();
+          //this.material_Griddata = [];
+          //this.material_data = [];
+          //this.index = 0;
+          //this.gridIndex = 0;
+          //this.product_code = "";
+          //this.product_name = "";
           return;
         }
         else {
