@@ -385,6 +385,9 @@ export class EstimetSheetComponent implements OnInit {
   }
 
   onSave() {
+    this.OPCONFIG_EST_HEADER = [];
+    this.OPCONFIG_EST_LABOR = [];
+    this.OPCONFIG_EST_MATERIAL = [];
 
     this.OPCONFIG_EST_HEADER.push({
       "OPTM_CUSTOMER": this.nXP_Chandler_Site,
