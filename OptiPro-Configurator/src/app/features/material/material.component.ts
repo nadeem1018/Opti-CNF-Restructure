@@ -13,19 +13,22 @@ import { EstimatetoolService } from 'src/app/core/service/estimationtool'
 export class MaterialComponent implements OnInit {
 
   public material_data = [];
+  public sheet_summary = [];
   public material_Griddata = [];
   public index = 0;
-  public page_main_title = "Material Master"
+  public SheetGridindex = 0;
+  public programHrs = 0;
+  public page_main_title = "Estimation - Working"
   public gridIndex = 0;
   public product_code = "";
   public serviceData = [];
   public lookupfor = "";
   public product_name = "";
   public showLookupLoader = false;
-  public SheetGridRow = [];
   language = JSON.parse(sessionStorage.getItem('current_lang'));
   public commonData = new CommonData();
   public fetchData: any = [];
+  public SheetGridRow=[]; 
 
   constructor(private router: Router, private httpclient: HttpClient, private CommonService: CommonService, private service: EstimatetoolService) { }
 
@@ -34,67 +37,109 @@ export class MaterialComponent implements OnInit {
   }
 
   addRow() {
-
-
+    if (this.product_code == '' || this.product_code == undefined) {
+      // show error to select product code first
+      return;
+    }
+    let intVal: string = '0.00';
     this.material_data.push({
-      'Thickness': "",
+      'MaterialCode': '',
+      'Thickness': intVal,
       'Material': "",
       'Type': "",
       'Description': "",
-      'Length': "",
-      'Width': "",
-      'Area': "",
-      'Perimeter': "",
-      'Drop': "",
-      'Total_Area': "",
-      'Inner_Area': "",
-      'Holes': "",
-      'Hole_Size': "",
-      'Circumference': "",
-      'Slots': "",
-      'Slots_Lg': "",
-      'Slots_Width': "",
-      'Circumference1': "",
-      'Insets': "",
-      'Qty': "",
-      'rowIndex': this.index,
-      'OPTM_LINENO': this.index + 1
+      'Length': intVal,
+      'Width': intVal,
+      'Area': intVal,
+      'Perimeter': intVal,
+      'Drop': intVal,
+      'Total_Area': intVal,
+      'Inner_Area': intVal,
+      'Holes': intVal,
+      'Hole_Size': intVal,
+      'Circumference': intVal,
+      'Slots': intVal,
+      'Slots_Lg': intVal,
+      'Slots_Width': intVal,
+      'Circumference1': intVal,
+      'Insets': intVal,
+      'Qty': intVal,
+      'rowIndex': this.index
     })
     this.index = this.index + 1;
 
 
   }
 
-  addSheetRow(area, desc, index) {
-    this.SheetGridRow.push({
-      'Thickness': "",
-      'Material': "",
-      'Description': desc,
-      'Total_Area': area,
-      'Sheet_Width': "",
-      'Sheet_Lg': "",
-      'Sheet_Area': "",
-      'Parts_Per_Sheet': "",
-      'Sheets_Reqd': "",
-      'rowIndex': index,
-      'OPTM_LINENO': index + 1
-    })
+  UpdateSheetSummary(materialCode: string, thickness: number, material: string, type: string, totalArea: number, oldArea: number) {
+    let intVal: string = '0.00';
+    let recIndex = this.sheet_summary.findIndex(rec => rec.MaterialCode == materialCode);      
 
+      if (recIndex == -1) {
+        this.sheet_summary.push({
+          'MaterialCode': materialCode,
+          'Thickness': thickness.toFixed(2),
+          'Material': material,
+          'Type': type,
+          'Total_Area': totalArea.toFixed(2),
+          'Sheet_Width': intVal,
+          'Sheet_Lg': intVal,
+          'Sheet_Area': intVal,
+          'Parts_Per_Sheet': intVal,
+          'Sheets_Reqd': intVal,
+          'rowIndex': this.SheetGridindex
+        });
+        this.SheetGridindex = this.SheetGridindex + 1;
+
+      } else {
+        let TotalArea: number = parseFloat(this.sheet_summary[recIndex].Total_Area) - oldArea + totalArea;
+        if (TotalArea <= 0) {
+          if ((oldArea > 0 || totalArea > 0) && parseFloat(this.sheet_summary[recIndex].Total_Area) > 0) {          
+            this.sheet_summary.splice(recIndex, 1);
+          }
+        } else {
+          this.sheet_summary[recIndex].Total_Area = TotalArea.toFixed(2);
+          this.CalculateSheetsRequired(recIndex);
+        }
+      }
+    
   }
 
   setEditData() {
     let materialData = this.fetchData.Material;
     let materialDetails = this.fetchData.MaterialDetails;
     let materialHeader = this.fetchData.MateriaHeader;
-    let materialSheet = this.fetchData.MaterialSummary;
-
     this.product_name = materialHeader[0].OPTM_DESCRIPTION;
     this.product_code = materialHeader[0].OPTM_CODE;
+    let SheetInfo = this.fetchData.sheet_summary;
 
+    //Initialize Sheet Summary data table
+    this.sheet_summary =[];
+    this.material_data =[];
+    this.material_Griddata =[];
+    
+    for (let i = 0; i < SheetInfo.length; i++) {
+      this.sheet_summary.push({        
+        'MaterialCode': SheetInfo[i].OPTM_MATERIALCODE,
+        'Thickness': SheetInfo[i].OPTM_THICKNESS,
+        'Material': SheetInfo[i].OPTM_MATERIAL,
+        'Type': SheetInfo[i].OPTM_TYPE,
+        'Total_Area': SheetInfo[i].OPTM_TOTAL_AREA,
+        'Sheet_Width': SheetInfo[i].OPTM_SHEET_WIDTH,
+        'Sheet_Lg': SheetInfo[i].OPTM_SHEET_LENGTH,
+        'Sheet_Area': SheetInfo[i].OPTM_SHEET_AREA,
+        'Parts_Per_Sheet': SheetInfo[i].OPTM_PARTSPER_SHEET,
+        'Sheets_Reqd': SheetInfo[i].OPTM_SHEETREQ,
+        'rowIndex': i
+      })
+      this.SheetGridindex = i + 1;
+    }
 
+    let intVal: string = '0.00';
     for (let i = 0; i < materialData.length; i++) {
       this.material_data.push({
         'Thickness': materialData[i].OPTM_THICKNESS,
+        'MaterialCode': materialData[i].OPTM_MATERIALCODE,
         'Material': materialData[i].OPTM_MATERIAL,
         'Type': materialData[i].OPTM_TYPE,
         'Description': materialData[i].OPTM_DESCRIPTION,
@@ -113,35 +158,16 @@ export class MaterialComponent implements OnInit {
         'Slots_Width': materialData[i].OPTM_SLOT_WIDTH,
         'Circumference1': materialData[i].OPTM_SLOT_CIRCUMFERENCE,
         'Insets': materialData[i].OPTM_INSERT,
-        'Sheet_Width': materialData[i].OPTM_SHEET_WIDTH,
-        'Sheet_Lg': materialData[i].OPTM_SHEET_LENGTH,
-        'Sheet_Area': materialData[i].OPTM_SHEET_AREA,
-        'Parts_Per_Sheet': materialData[i].OPTM_PARTSPER_SHEET,
-        'Sheets_Reqd': materialData[i].OPTM_SHEETREQ,
+        'Sheet_Width': intVal,
+        'Sheet_Lg': intVal,
+        'Sheet_Area': intVal,
+        'Parts_Per_Sheet': intVal,
+        'Sheets_Reqd': intVal,
         'Qty': materialData[i].OPTM_QUANTITY,
-        'OPTM_LINENO': materialData[i].OPTM_LINENO,
         'rowIndex': i
       })
       this.index = i + 1;
     }
-
-    for (let i = 0; i < materialSheet.length; i++) {
-      this.SheetGridRow.push({
-        'Thickness': materialSheet[i].OPTM_THICKNESS,
-        'Material': materialSheet[i].OPTM_MATERIAL,
-        'Description': materialSheet[i].OPTM_DESCRIPTION,
-        'Sheet_Width': materialSheet[i].OPTM_SHEET_WIDTH,
-        'Sheet_Lg': materialSheet[i].OPTM_SHEET_LENGTH,
-        'Sheet_Area': materialSheet[i].OPTM_SHEET_AREA,
-        'Parts_Per_Sheet': materialSheet[i].OPTM_PARTSPER_SHEET,
-        'Sheets_Reqd': materialSheet[i].OPTM_SHEETREQ,
-        'OPTM_LINENO': materialSheet[i].OPTM_LINENO,
-        'Total_Area': materialSheet[i].OPTM_TOTAL_AREA,
-        'rowIndex': i
-      })
-
-    }
-
 
     for (let i = 0; i < materialDetails.length; i++) {
       this.material_Griddata.push({
@@ -165,8 +191,7 @@ export class MaterialComponent implements OnInit {
         'Plumbing_Total_Hrs': materialDetails[i].OPTM_PLUMBING_TOTALHRS,
         'OPTM_QUANTITY': materialDetails[i].OPTM_QUANTITY,
         'OPTM_DESCRIPTION': materialDetails[i].OPTM_DESCRIPTION,
-        'rowIndex': i,
-        'OPTM_LINENO': materialDetails[i].OPTM_LINENO
+        'rowIndex': i
       })
     }
 
@@ -175,49 +200,116 @@ export class MaterialComponent implements OnInit {
   deleteDuplicateData(index: any) {
     for (let i = 0; i < this.material_Griddata.length; i++) {
       if (this.material_Griddata[i].rowIndex == index) {
+        this.UpdateSheetSummary(this.material_data[i]["MaterialCode"], parseFloat(this.material_data[i]["Thickness"]),this.material_data[i]["Material"],
+        this.material_data[i]["Type"],0,parseFloat(this.material_data[i]["Total_Area"]));        
         this.material_Griddata.splice(i, 1);
         i = i - 1;
       }
     }
   }
 
-  deleteSheetDuplicateData(index: any) {
-    for (let i = 0; i < this.SheetGridRow.length; i++) {
-      if (this.SheetGridRow[i].rowIndex == index) {
-        this.SheetGridRow.splice(i, 1);
-        i = i - 1;
-      }
+  onMaterialCodeChange(rowIndex: any, value: any) {     
+    //this.showLookupLoader = true;
+    if (value == undefined || value == '') {
+      //show user message to select code
+      return;
     }
+    this.service.getSelectedMaterialInfo(value).subscribe(
+      data => {
+        this.showLookupLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.router, 'Sessionout');
+            return;
+          }
+        }
+        if (data != undefined) {
+          this.material_data[rowIndex]["MaterialCode"] = data.SelectedMaterialInfo[0]["OPTM_MATERIALCODE"];
+          this.material_data[rowIndex]["Type"] = data.SelectedMaterialInfo[0]["OPTM_COLOR"];
+          this.material_data[rowIndex]["Material"] = data.SelectedMaterialInfo[0]["OPTM_DESCRIPTION"];
+          this.material_data[rowIndex]["Thickness"] = parseFloat(data.SelectedMaterialInfo[0]["OPTM_THICKNESS"]).toFixed(2);
+          this.UpdateSheetSummary(this.material_data[rowIndex]["MaterialCode"], 
+                                  parseFloat(this.material_data[rowIndex]["Thickness"]),
+                                  this.material_data[rowIndex]["Material"],
+                                  this.material_data[rowIndex]["Type"],
+                                  0,
+                                  parseFloat(this.material_data[rowIndex]["Total_Area"])); 
+        }
+        else {
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
   }
 
-  onChangesheetGrid(rowIndex: any, value: any, key: any) {
-    this.SheetGridRow[rowIndex][key] = value;
+  onSheetChange(rowIndex: any, value: any, key: any) {        
     if (key == "Sheet_Lg" || key == "Sheet_Width") {
-      if (this.SheetGridRow[rowIndex]["Sheet_Lg"] != "" && this.SheetGridRow[rowIndex]["Sheet_Width"] != "") {
-        this.SheetGridRow[rowIndex]["Sheet_Area"] = (parseFloat(this.SheetGridRow[rowIndex]["Sheet_Lg"]) * parseFloat(this.SheetGridRow[rowIndex]["Sheet_Width"])).toFixed(2)
+      let numVal: number;
+      if (!isNaN(value)) {
+        numVal = parseFloat(value);
+        if (numVal <= 0) {
+          this.sheet_summary[rowIndex][key] = '0.00';
+          return;
+        } 
+        this.sheet_summary[rowIndex][key] = numVal.toFixed(2);                
+      } else {
+        this.sheet_summary[rowIndex][key] = '0.00';
+        return;
+      } 
+
+      if (this.sheet_summary[rowIndex]["Sheet_Lg"] != 0 && this.sheet_summary[rowIndex]["Sheet_Width"] != 0) {
+        this.sheet_summary[rowIndex]["Sheet_Area"] = (parseFloat(this.sheet_summary[rowIndex]["Sheet_Lg"]) * parseFloat(this.sheet_summary[rowIndex]["Sheet_Width"])).toFixed(2)
       }
       else {
-        this.SheetGridRow[rowIndex]["Sheet_Area"] = "";
+        this.sheet_summary[rowIndex]["Sheet_Area"] = '0.00';
       }
     }
-    if (this.SheetGridRow[rowIndex]["Sheet_Area"] != "") {
-      if (this.SheetGridRow[rowIndex]["Thickness"] != "") {
-        if (this.material_data[rowIndex]["Total_Area"] != "") {
-          this.SheetGridRow[rowIndex]["Parts_Per_Sheet"] = ((parseFloat(this.SheetGridRow[rowIndex]["Thickness"]) * parseFloat(this.SheetGridRow[rowIndex]["Sheet_Area"])) / parseFloat(this.material_data[rowIndex]["Total_Area"])).toFixed(2)
-          this.SheetGridRow[rowIndex]["Sheets_Reqd"] = (parseFloat(this.material_data[rowIndex]["Total_Area"]) / (parseFloat(this.SheetGridRow[rowIndex]["Thickness"]) * parseFloat(this.SheetGridRow[rowIndex]["Sheet_Area"]))).toFixed(2)
-        }
-      }
-
-    }
-    else {
-      this.SheetGridRow[rowIndex]["Parts_Per_Sheet"] = "";
-      this.SheetGridRow[rowIndex]["Sheets_Reqd"] = "";
-    }
-
+    this.CalculateSheetsRequired(rowIndex);
   }
 
+  CalculateSheetsRequired(rowIndex: number) {    
+    if (this.sheet_summary[rowIndex]["Sheet_Area"] != 0) {
+      if (this.sheet_summary[rowIndex]["Total_Area"] != 0) {
+        this.sheet_summary[rowIndex]["Parts_Per_Sheet"] = (parseFloat(this.sheet_summary[rowIndex]["Sheet_Area"]) / parseFloat(this.sheet_summary[rowIndex]["Total_Area"])).toFixed(2)
+        this.sheet_summary[rowIndex]["Sheets_Reqd"] = (parseFloat(this.sheet_summary[rowIndex]["Total_Area"]) / parseFloat(this.sheet_summary[rowIndex]["Sheet_Area"])).toFixed(2)
+      }
+    }
+    else {
+      this.sheet_summary[rowIndex]["Parts_Per_Sheet"] = '0.00';
+      this.sheet_summary[rowIndex]["Sheets_Reqd"] = '0.00';
+    }
+
+  }  
+
   onChange(rowIndex: any, value: any, key: any) {
-    this.material_data[rowIndex][key] = value;
+    if (key == "Material" || key == "Description" || key == "Type") {
+      this.material_data[rowIndex][key] = value;
+    } else {
+      let numVal: number;
+      if (!isNaN(value)) {
+        numVal = parseFloat(value);
+        if (numVal <= 0) {
+          this.material_data[rowIndex][key] = '0.00';
+          return;
+        } 
+        this.material_data[rowIndex][key] = numVal.toFixed(2);                
+      } else {
+        this.material_data[rowIndex][key] = '0.00';
+        return;
+      }      
+    }
+    
+    let oldArea: number = 0;
     if (key == "Qty" || key == "Description") {
       if (this.material_data[rowIndex]["Qty"] != "" && this.material_data[rowIndex]["Description"] != "") {
         if (this.material_Griddata.length > 0) {
@@ -232,25 +324,28 @@ export class MaterialComponent implements OnInit {
     if (key == "Qty" || key == "Length" || key == "Width") {
       if (this.material_data[rowIndex]["Qty"] != "" && this.material_data[rowIndex]["Length"] != "" && this.material_data[rowIndex]["Width"] != "") {
         this.material_data[rowIndex]["Area"] = (parseFloat(this.material_data[rowIndex]["Qty"]) * parseFloat(this.material_data[rowIndex]["Length"]) * parseFloat(this.material_data[rowIndex]["Width"])).toFixed(2)
-        if (this.SheetGridRow.length > 0) {
-          this.deleteSheetDuplicateData(rowIndex);
-        }
       }
       else {
-        this.material_data[rowIndex]["Area"] = "";
-      }
+        this.material_data[rowIndex]["Area"] = '0.00';
+      }      
     }
-    if (this.material_data[rowIndex]["Area"] != "") {
+
+    if (this.material_data[rowIndex]["Total_Area"] != "") {
+      oldArea = parseFloat(this.material_data[rowIndex]["Total_Area"]);
+    }
+    if (this.material_data[rowIndex]["Area"] != 0) {
       this.material_data[rowIndex]["Perimeter"] = (2 * (parseFloat(this.material_data[rowIndex]["Length"]) + parseFloat(this.material_data[rowIndex]["Width"]))).toFixed(2)
       this.material_data[rowIndex]["Drop"] = (parseFloat(this.material_data[rowIndex]["Area"]) * 0.18).toFixed(2);
       this.material_data[rowIndex]["Inner_Area"] = this.material_data[rowIndex]["Inner_Area"] == "" ? parseInt("0") : this.material_data[rowIndex]["Inner_Area"]
-      this.material_data[rowIndex]["Total_Area"] = (parseFloat(this.material_data[rowIndex]["Qty"]) * (parseFloat(this.material_data[rowIndex]["Area"]) + parseFloat(this.material_data[rowIndex]["Drop"])) - parseFloat(this.material_data[rowIndex]["Inner_Area"])).toFixed(2)
-
+      this.material_data[rowIndex]["Total_Area"] = (parseFloat(this.material_data[rowIndex]["Area"]) + parseFloat(this.material_data[rowIndex]["Drop"])
+                                  - parseFloat(this.material_data[rowIndex]["Inner_Area"])).toFixed(2)
+      this.UpdateSheetSummary(this.material_data[rowIndex]["MaterialCode"], parseFloat(this.material_data[rowIndex]["Thickness"]),this.material_data[rowIndex]["Material"],
+        this.material_data[rowIndex]["Type"],parseFloat(this.material_data[rowIndex]["Total_Area"]), oldArea)
     }
     else {
-      this.material_data[rowIndex]["Perimeter"] = "";
-      this.material_data[rowIndex]["Drop"] = "";
-      this.material_data[rowIndex]["Total_Area"] = "";
+      this.material_data[rowIndex]["Perimeter"] = '0.00';
+      this.material_data[rowIndex]["Drop"] = '0.00';
+      this.material_data[rowIndex]["Total_Area"] = '0.00';
 
     }
     if (key == "Holes" || key == "Hole_Size") {
@@ -258,7 +353,7 @@ export class MaterialComponent implements OnInit {
         this.material_data[rowIndex]["Circumference"] = (parseFloat(this.material_data[rowIndex]["Holes"]) * (parseFloat(this.material_data[rowIndex]["Hole_Size"]) * 3.14)).toFixed(2)
       }
       else {
-        this.material_data[rowIndex]["Circumference"] = "";
+        this.material_data[rowIndex]["Circumference"] = '0.00';
       }
     }
     if (key == "Slots" || key == "Slots_Lg" || key == "Slots_Width") {
@@ -266,37 +361,69 @@ export class MaterialComponent implements OnInit {
         this.material_data[rowIndex]["Circumference1"] = (parseFloat(this.material_data[rowIndex]["Slots"]) * (parseFloat(this.material_data[rowIndex]["Slots_Lg"]) * 2) * (parseFloat(this.material_data[rowIndex]["Slots_Width"]) * 3.14)).toFixed(2)
       }
       else {
-        this.material_data[rowIndex]["Circumference1"] = "";
+        this.material_data[rowIndex]["Circumference1"] = '0.00';
       }
     }
-    if (this.material_data[rowIndex]["Total_Area"] != "" && this.material_data[rowIndex]["Description"] != "") {
-      if (this.SheetGridRow.length > 0) {
-        this.deleteSheetDuplicateData(rowIndex);
-      }
-      this.addSheetRow(this.material_data[rowIndex]["Total_Area"], this.material_data[rowIndex]["Description"], rowIndex);
+    if (this.material_data[rowIndex]["Qty"] == "") {
+      this.material_data[rowIndex]["Qty"] = '0.00';
+    }
+    if (this.material_data[rowIndex]["Holes"] == "") {
+      this.material_data[rowIndex]["Holes"] = '0.00';
+    }
+    if (this.material_data[rowIndex]["Slots"] == "") {
+      this.material_data[rowIndex]["Slots"] = '0.00';
+    }
+    if (this.material_data[rowIndex]["Insets"] == "") {
+      this.material_data[rowIndex]["Insets"] = '0.00';
+    }
+    this.programHrs = (parseFloat(this.material_data[rowIndex]["Qty"]) * 5 + parseFloat(this.material_data[rowIndex]["Holes"]) * 2 + 
+    parseFloat(this.material_data[rowIndex]["Slots"]) * 2 + parseFloat(this.material_data[rowIndex]["Insets"]) * 5) / 60;
+
+    if (this.material_Griddata.length >= rowIndex + 1) {
+      this.material_Griddata[rowIndex]["Program"] = this.programHrs.toFixed(2);
     }
 
   }
 
   onChangegrid(rowIndex: any, value: any, key: any) {
-    this.material_Griddata[rowIndex][key] = value;
+    if (key == "Material" || key == "Description" || key == "Type") {
+      this.material_Griddata[rowIndex][key] = value;
+    } else {
+      let numVal: number;
+      if (!isNaN(value)) {
+        numVal = parseFloat(value);
+        if (numVal <= 0) {
+          this.material_Griddata[rowIndex][key] = '0.00';
+          return;
+        } 
+        this.material_Griddata[rowIndex][key] = numVal.toFixed(2);                
+      } else {
+        this.material_Griddata[rowIndex][key] = '0.00';
+        return;
+      }     
+    }    
+    
     if (key == "Design_Total_Min") {
       this.material_Griddata[rowIndex]['Design_Total_hrs'] = (parseFloat(this.material_Griddata[rowIndex]['Design_Total_Min']) / 60).toFixed(2)
     }
-    if (key == "Deburr_Total_Min") {
+    if (key == "Deburr_Inches") {
+      this.material_Griddata[rowIndex]['Deburr_Total_Min'] = (parseFloat(this.material_data[rowIndex]['Perimeter']) * parseFloat(this.material_data[rowIndex]['Qty']) / parseFloat(this.material_Griddata[rowIndex]['Deburr_Inches']))
       this.material_Griddata[rowIndex]['Deburr_Total_Hrs'] = (parseFloat(this.material_Griddata[rowIndex]['Deburr_Total_Min']) / 60).toFixed(2)
     }
-    if (key == "Fit_Total_Min") {
+    if (key == "Fit_Min_Parts") {
+      this.material_Griddata[rowIndex]['Fit_Total_Min'] = parseFloat(this.material_data[rowIndex]['Qty']) * parseFloat(this.material_Griddata[rowIndex]['Fit_Min_Parts'])
       this.material_Griddata[rowIndex]['Fit_Total_Hrs'] = (parseFloat(this.material_Griddata[rowIndex]['Fit_Total_Min']) / 60).toFixed(2)
     }
-    if (key == "Machine_Total_Min") {
+    if (key == "Machine_Passes") {
+      this.material_Griddata[rowIndex]['Machine_Total_Min'] = (parseFloat(this.material_data[rowIndex]['Perimeter']) * parseFloat(this.material_data[rowIndex]['Qty']) * parseFloat(this.material_Griddata[rowIndex]['Machine_Passes'])/80)
       this.material_Griddata[rowIndex]['Machine_Total_Hrs'] = (parseFloat(this.material_Griddata[rowIndex]['Machine_Total_Min']) / 60).toFixed(2)
     }
-    if (key == "Weld_Total_Min") {
+    if (key == "Weld") {
+      this.material_Griddata[rowIndex]['Weld_Total_Min'] = (parseFloat(this.material_data[rowIndex]['Perimeter']) * parseFloat(this.material_data[rowIndex]['Qty']) * parseFloat(this.material_Griddata[rowIndex]['Weld']) * 4) / 12;
       this.material_Griddata[rowIndex]['Weld_Total_Hrs'] = (parseFloat(this.material_Griddata[rowIndex]['Weld_Total_Min']) / 60).toFixed(2)
     }
     if (key == "Plumbing_Total_Min") {
-      this.material_Griddata[rowIndex]['Plumbing_Total_Hrs'] = (parseFloat(this.material_Griddata[rowIndex]['Plumbing_Total_Min']) / 60).toFixed(2)
+      this.material_Griddata[rowIndex]['Plumbing_Total_Hrs'] = (parseFloat(this.material_Griddata[rowIndex]['Plumbing_Total_Min']) * parseFloat(this.material_data[rowIndex]['Qty'])/ 60).toFixed(2)
     }
   }
 
@@ -320,28 +447,27 @@ export class MaterialComponent implements OnInit {
 
   onAddRow(qty: any, desc: any, index: any) {
     this.material_Griddata.push({
-      'Design_Total_Min': "",
-      'Design_Total_hrs': "",
-      'Program': "",
-      'Deburr_Inches': "",
-      'Deburr_Total_Min': "",
-      'Deburr_Total_Hrs': "",
-      'Machine_Passes': "",
-      'Machine_Total_Min': "",
-      'Machine_Total_Hrs': "",
-      'Machine_SetUp_Time': "",
-      'Fit_Min_Parts': "",
-      'Fit_Total_Min': "",
-      'Fit_Total_Hrs': "",
-      'Weld': "",
-      'Weld_Total_Min': "",
-      'Weld_Total_Hrs': "",
-      'Plumbing_Total_Min': "",
-      'Plumbing_Total_Hrs': "",
+      'Design_Total_Min': 0,
+      'Design_Total_hrs': 0,
+      'Program': 0,
+      'Deburr_Inches': 0,
+      'Deburr_Total_Min': 0,
+      'Deburr_Total_Hrs': 0,
+      'Machine_Passes': 0,
+      'Machine_Total_Min': 0,
+      'Machine_Total_Hrs': 0,
+      'Machine_SetUp_Time': 0,
+      'Fit_Min_Parts': 0,
+      'Fit_Total_Min': 0,
+      'Fit_Total_Hrs': 0,
+      'Weld': 0,
+      'Weld_Total_Min': 0,
+      'Weld_Total_Hrs': 0,
+      'Plumbing_Total_Min': 0,
+      'Plumbing_Total_Hrs': 0,
       'OPTM_QUANTITY': qty,
       'OPTM_DESCRIPTION': desc,
-      'rowIndex': index,
-      'OPTM_LINENO': index + 1
+      'rowIndex': index
     })
 
 
@@ -353,6 +479,8 @@ export class MaterialComponent implements OnInit {
     if (this.material_data.length > 0) {
       for (let i = 0; i < this.material_data.length; ++i) {
         if (this.material_data[i].rowIndex === rowindex) {
+          this.UpdateSheetSummary(this.material_data[i]["MaterialCode"], parseFloat(this.material_data[i]["Thickness"]),this.material_data[i]["Material"],
+          this.material_data[i]["Type"],0,parseFloat(this.material_data[i]["Total_Area"])); 
           this.material_data.splice(i, 1);
           i = i - 1;
           this.index = this.index - 1;
@@ -377,7 +505,6 @@ export class MaterialComponent implements OnInit {
 
 
   fetchFullProducts(productCode: any) {
-    this.resetFields();
     this.showLookupLoader = true;
     this.service.getMaterialDetails(productCode).subscribe(
       data => {
@@ -489,7 +616,7 @@ export class MaterialComponent implements OnInit {
       return obj;
     });
     this.showLookupLoader = true;
-    this.service.SaveMaterial(OPCONFIG_MATERIALHEADER, this.material_data, this.material_Griddata, this.SheetGridRow).subscribe(
+    this.service.SaveMaterial(OPCONFIG_MATERIALHEADER, this.material_data, this.material_Griddata, this.sheet_summary).subscribe(
       data => {
         this.showLookupLoader = false;
         if (data != undefined && data.length > 0) {

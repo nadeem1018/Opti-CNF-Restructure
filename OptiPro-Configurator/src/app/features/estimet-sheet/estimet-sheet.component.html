@@ -1136,6 +1136,134 @@
                             </div>
                         </div>
                         <div class="col-md-12 mt-6">
+                                <div class="tab">
+                                    <button class="tablinks" (click)="openGridTab($event, 'sct')">Subcontracting</button>
+                                    <!-- <button class="tablinks" (click)="openGridTab($event, 'Labour')">Labour</button> -->
+                                </div>
+    
+                                <div id="sct" class="tabcontent active h-100">
+    
+                                    <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
+    
+                                        <kendo-grid [kendoGridBinding]="subContractingGrid" [reorderable]="true" [resizable]="true"
+                                            [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
+                                            [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'height':'100%', 'max-width':'100%'}"
+                                            [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
+                                            <ng-template kendoGridToolbarTemplate>
+
+                                                    <div class="d-flex align-items-center">
+        
+                                                        <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button"
+                                                            title="Add Row" (click)="addsubcontracting()" #button class="btn btn-sm btn-primary with-icon mr-2"><svg
+                                                                viewBox="0 0 81500 81500" class="icon">
+        
+                                                                <use xlink:href="#add"></use>
+        
+                                                            </svg> Add Rows
+        
+                                                        </button>
+        
+                                                    </div>
+        
+                                                </ng-template>
+                                            <kendo-grid-column field="" title="Subcontracting" filter="text" [width]="150"
+                                                [minResizableWidth]="150">
+    
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+    
+                                                    <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_LABOR}}
+                                                        (change)="onSubContractChange(dataItem.rowIndex,OPTM_LABOR.value,OPTM_LABOR.title)"
+                                                        #OPTM_LABOR title="OPTM_LABOR" />
+    
+                                                </ng-template>
+    
+                                            </kendo-grid-column>
+    
+                                            <kendo-grid-column field="OPTM_DESCRIPTION" title="Description" filter="text"
+                                                [width]="150" [minResizableWidth]="150">
+    
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+    
+                                                    <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_DESCRIPTION}}
+                                                        (change)="onSubContractChange(dataItem.rowIndex,OPTM_DESCRIPTION.value,OPTM_DESCRIPTION.title)"
+                                                        #OPTM_DESCRIPTION title="OPTM_DESCRIPTION" />
+    
+                                                </ng-template>
+    
+                                            </kendo-grid-column>
+    
+                                            <kendo-grid-column field="OPTM_QUANTITY" title="Quantity" filter="text" [width]="150"
+                                                [minResizableWidth]="150">
+    
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+    
+                                                    <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_QUANTITY}}
+                                                        (change)="onSubContractChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
+                                                        #OPTM_QUANTITY title="OPTM_QUANTITY" />
+    
+                                                </ng-template>
+    
+                                            </kendo-grid-column>
+    
+                                            <kendo-grid-column field="OPTM_PER_UNIT_PRICE" title="Per Unit Price" filter="text"
+                                                [width]="150" [minResizableWidth]="150">
+    
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+    
+                                                    <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_PER_UNIT_PRICE}}
+                                                        (change)="onSubContractChange(dataItem.rowIndex,OPTM_PER_UNIT_PRICE.value,OPTM_PER_UNIT_PRICE.title)"
+                                                        #OPTM_PER_UNIT_PRICE title="OPTM_PER_UNIT_PRICE" />
+    
+                                                </ng-template>
+    
+                                            </kendo-grid-column>
+    
+                                            <kendo-grid-column field="OPTM_PROJECTED_COST" title="Projected Cost" filter="text"
+                                                [width]="150" [minResizableWidth]="150">
+    
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+    
+                                                    <input type="text" disabled="true" class="form-control form-control-sm"
+                                                        id="" value={{dataItem.OPTM_PROJECTED_COST}} (change)="onSubContractChange(dataItem.rowIndex,OPTM_PROJECTED_COST.value,OPTM_PROJECTED_COST.title)"
+                                                        #OPTM_PROJECTED_COST title="OPTM_PROJECTED_COST" />
+    
+                                                </ng-template>
+    
+                                            </kendo-grid-column>
+    
+                                            <kendo-grid-column field="OPTM_MARKUP" title="MarkUp" filter="text" [width]="150"
+                                                [minResizableWidth]="150">
+    
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+    
+                                                    <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_MARKUP}}
+                                                        (change)="onSubContractChange(dataItem.rowIndex,OPTM_MARKUP.value,OPTM_MARKUP.title)"
+                                                        #OPTM_MARKUP title="OPTM_MARKUP" />
+    
+                                                </ng-template>
+    
+                                            </kendo-grid-column>
+    
+                                            <kendo-grid-column field="OPTM_AMOUNT" title="Amount" filter="text" [width]="150"
+                                                [minResizableWidth]="150">
+    
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+    
+                                                    <input type="text" disabled="true" class="form-control form-control-sm"
+                                                        id="" value={{dataItem.OPTM_AMOUNT}} (change)="onSubContractChange(dataItem.rowIndex,OPTM_AMOUNT.value,OPTM_AMOUNT.title)"
+                                                        #OPTM_AMOUNT title="OPTM_AMOUNT" />
+    
+                                                </ng-template>
+    
+                                            </kendo-grid-column>
+    
+    
+    
+                                        </kendo-grid>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="col-md-12 mt-6">
                             <div class="tab">
                                 <button class="tablinks" (click)="openGridTab($event, 'Shipping')">Shipping</button>
                                 <!-- <button class="tablinks" (click)="openGridTab($event, 'Labour')">Labour</button> -->

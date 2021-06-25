@@ -75,6 +75,18 @@ export class EstimatetoolService {
         return this.httpclient.post(this.config_params.service_url + "/Material/GetMaterialByCode", jObject, this.common_params.httpOptions);
     }
 
+    getSelectedMaterialInfo(Code): Observable<any> {
+        let jObject = {
+            GetData: JSON.stringify([{
+                CompanyDBID: sessionStorage.selectedComp,
+                GUID: sessionStorage.getItem("GUID"), 
+                UsernameForLic: sessionStorage.getItem("loggedInUser"), 
+                OPTM_CODE: Code
+            }])
+        }
+        return this.httpclient.post(this.config_params.service_url + "/Material/getSelectedMaterialInfo", jObject, this.common_params.httpOptions);
+    }
+
     getProductlDetails(): Observable<any> {
         let jObject = {
             GetData: JSON.stringify([{

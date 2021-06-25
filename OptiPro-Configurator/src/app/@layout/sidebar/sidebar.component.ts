@@ -48,8 +48,8 @@ export class SidebarComponent implements OnInit, DoCheck {
         //     { "itemCode": "0", "itemName": this.language.dashboard, "itemNav": "/home", "itemIcon": "#home", "itemIconSize": "0 0 512 512", "permission": true },
         //     { "itemCode": "207", "itemName": this.language.archiving, "itemNav": "/archive", "itemIcon": "#archive", "itemIconSize": "0 0 58 58", "permission": true }]
         // },
-        { "itemCode": "205", "itemName": "Material Master", "itemNav": "/material-master", "itemIcon": "#dealerCustomerMapping", "itemIconSize": "0 0 512 512", "permission": true },
-        { "itemCode": "205", "itemName": "Estimate Master", "itemNav": "/estimate-master", "itemIcon": "#dealerCustomerMapping", "itemIconSize": "0 0 512 512", "permission": true }
+        { "itemCode": "205", "itemName": "Estimation - Workings", "itemNav": "/material-master", "itemIcon": "#dealerCustomerMapping", "itemIconSize": "0 0 512 512", "permission": true },
+        { "itemCode": "205", "itemName": "Estimation - Summary", "itemNav": "/estimate-master", "itemIcon": "#dealerCustomerMapping", "itemIconSize": "0 0 512 512", "permission": true }
         
       //  { "itemCode": "211", "itemName": this.language.config_need_Assessment, "itemNav": "/configuration-needAssesment", "itemIcon": "#configurationAssesment", "itemIconSize": "0 0 512 512", "permission": true },
       //  { "itemCode": "200", "itemName": this.language.itemcodegeneration, "itemNav": "/item-code-generation", "itemIcon": "#code", "itemIconSize": "0 0 612 619.2", "permission": true },

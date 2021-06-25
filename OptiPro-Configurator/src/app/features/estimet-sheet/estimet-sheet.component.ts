@@ -64,6 +64,8 @@ export class EstimetSheetComponent implements OnInit {
   public OPCONFIG_EST_HEADER: any = [];
   public OPCONFIG_EST_LABOR: any = [];
   public OPCONFIG_EST_MATERIAL: any = [];
+  public subContractingGrid: any = [];
+  public subContractingindex: any = 0;
 
 
 
@@ -179,6 +181,24 @@ export class EstimetSheetComponent implements OnInit {
     this.travelIndex = this.travelIndex + 1;
   }
 
+  addsubcontracting() {
+    this.subContractingGrid.push({
+      'OPTM_DESCRIPTION': "",
+      'OPTM_QUANTITY': "",
+      'OPTM_PER_UNIT_PRICE': "",
+      'OPTM_MARKUP': "",
+      'OPTM_PROJECTED_COST': "",
+      'OPTM_AMOUNT': "",
+      'OPTM_LABOR': "",
+      'GROUP_NAME': "SubContracting",
+      'OPTM_LINENO': this.subContractingindex + 1,
+      'rowIndex': this.subContractingindex
+    })
+
+    this.subContractingindex = this.subContractingindex + 1;
+
+  }
+
   addSiteLaborRow() {
     this.onSiteGrid.push({
       'OPTM_DESCRIPTION': "",
@@ -274,7 +294,7 @@ export class EstimetSheetComponent implements OnInit {
             this.laborGrid.push(data.EstimateMaterialDetails[i]);
             this.laborGrid[i]['rowIndex'] = i;
             this.laborGrid[i]['OPTM_MARKUP'] = "";
-            this.laborGrid[i]['OPTM_LINENO'] = i+1;
+            this.laborGrid[i]['OPTM_LINENO'] = i + 1;
           }
           for (let i = 0; i < data.EstimateMateriaHeader.length; i++) {
             this.gridData.push(data.EstimateMateriaHeader[i]);
@@ -306,6 +326,17 @@ export class EstimetSheetComponent implements OnInit {
     }
     if (this.gridData[rowIndex]["OPTM_PROJECTED_COST"] != "" && this.gridData[rowIndex]["OPTM_MARKUP"] != "" && this.gridData[rowIndex]["OPTM_MARKUP"] != undefined) {
       this.gridData[rowIndex]["OPTM_AMOUNT"] = (parseFloat(this.gridData[rowIndex]["OPTM_PROJECTED_COST"]) + (parseFloat(this.gridData[rowIndex]["OPTM_PROJECTED_COST"]) * (parseFloat(this.gridData[rowIndex]["OPTM_MARKUP"]) / 100))).toFixed(2)
+    }
+  }
+
+  onSubContractChange(rowIndex: any, value: any, key: any)
+  {
+    this.subContractingGrid[rowIndex][key] = value;
+    if (this.subContractingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.subContractingGrid[rowIndex]["OPTM_QUANTITY"] != "") {
+      this.subContractingGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.subContractingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.subContractingGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
+    }
+    if (this.subContractingGrid[rowIndex]["OPTM_PROJECTED_COST"] != "" && this.subContractingGrid[rowIndex]["OPTM_MARKUP"] != "" && this.subContractingGrid[rowIndex]["OPTM_MARKUP"] != undefined) {
+      this.subContractingGrid[rowIndex]["OPTM_AMOUNT"] = (parseFloat(this.subContractingGrid[rowIndex]["OPTM_PROJECTED_COST"]) + (parseFloat(this.subContractingGrid[rowIndex]["OPTM_PROJECTED_COST"]) * (parseFloat(this.subContractingGrid[rowIndex]["OPTM_MARKUP"]) / 100))).toFixed(2)
     }
   }
 
@@ -446,6 +477,13 @@ export class EstimetSheetComponent implements OnInit {
       for (let i = 0; i < this.shippingGrid.length; i++) {
         this.shippingGrid[i]['OPTM_CODE'] = this.product_code;
         this.OPCONFIG_EST_LABOR.push(this.shippingGrid[i]);
+      }
+    }
+
+    if (this.subContractingGrid.length > 0) {
+      for (let i = 0; i < this.subContractingGrid.length; i++) {
+        this.subContractingGrid[i]['OPTM_CODE'] = this.product_code;
+        this.OPCONFIG_EST_LABOR.push(this.subContractingGrid[i]);
       }
     }
 
