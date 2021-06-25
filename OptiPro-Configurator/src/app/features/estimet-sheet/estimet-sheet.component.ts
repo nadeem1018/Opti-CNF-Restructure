@@ -261,6 +261,10 @@ export class EstimetSheetComponent implements OnInit {
     this.lookupfor = "";
     this.state = "";
     this.zip = "";
+    this.onSiteGrid = [];
+    this.subContractingGrid = [];
+    this.subContractingindex = 0;
+    this.siteLaborIndex = 0;
     this.showLookupLoader = false;
 
   }
@@ -294,12 +298,21 @@ export class EstimetSheetComponent implements OnInit {
             this.laborGrid.push(data.EstimateMaterialDetails[i]);
             this.laborGrid[i]['rowIndex'] = i;
             this.laborGrid[i]['OPTM_MARKUP'] = "";
+            this.laborGrid[i]['OPTM_PROJECTED_COST'] = "";
+            this.laborGrid[i]['OPTM_MARKUP'] = "";
+            this.laborGrid[i]['OPTM_AMOUNT'] = "";
+            this.laborGrid[i]['OPTM_PER_UNIT_PRICE'] = "";
             this.laborGrid[i]['OPTM_LINENO'] = i + 1;
           }
           for (let i = 0; i < data.EstimateMateriaHeader.length; i++) {
             this.gridData.push(data.EstimateMateriaHeader[i]);
             this.gridData[i]['rowIndex'] = i;
             this.gridData[i]['OPTM_MARKUP'] = "";
+            this.gridData[i]['OPTM_MANUFACTURER'] = "";
+            this.gridData[i]['OPTM_PART_NUMBER'] = "";
+            this.gridData[i]['OPTM_VENDOR'] = "";
+            this.gridData[i]['OPTM_LEAD_TIME'] = "";
+            this.gridData[i]['OPTM_AMOUNT'] = "";
             this.gridData[i]["OPTM_PROJECTED_COST"] = (parseFloat(this.gridData[i]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.gridData[i]["OPTM_QUANTITY"])).toFixed(2)
           }
 
@@ -545,13 +558,13 @@ export class EstimetSheetComponent implements OnInit {
       "OPTM_REDY_TO_SHIPDT": this.ready_to_Ship_Date,
       "OPTM_ANTICIPATED_LG": this.alp,
       "OPTM_ONSITEDT": this.on_site_date,
-      "OPTM_TOTAL_COST":this.total_Cost,
-      "OPTM_TOTAL_PRICE":this.total_Price,
-      "OPTM_PRICE_PER_UNIT":this.per_Unit_Price,
-      "OPTM_PER_UNIT_COST":this.per_Unit_Cost,
-      "OPTM_SUB_TOTAL":this.subtotal,
-      "OPTM_EXPEDITE_FEE":this.expedite_Fee,
-      "OPTM_OVERHEAD":this.overhead,
+      "OPTM_TOTAL_COST": this.total_Cost,
+      "OPTM_TOTAL_PRICE": this.total_Price,
+      "OPTM_PRICE_PER_UNIT": this.per_Unit_Price,
+      "OPTM_PER_UNIT_COST": this.per_Unit_Cost,
+      "OPTM_SUB_TOTAL": this.subtotal,
+      "OPTM_EXPEDITE_FEE": this.expedite_Fee,
+      "OPTM_OVERHEAD": this.overhead,
       GUID: sessionStorage.getItem("GUID"),
       UsernameForLic: sessionStorage.getItem("loggedInUser"),
       CompanyDBID: sessionStorage.getItem("selectedComp")
