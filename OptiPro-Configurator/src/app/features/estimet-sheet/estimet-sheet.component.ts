@@ -300,6 +300,7 @@ export class EstimetSheetComponent implements OnInit {
             this.gridData.push(data.EstimateMateriaHeader[i]);
             this.gridData[i]['rowIndex'] = i;
             this.gridData[i]['OPTM_MARKUP'] = "";
+            this.gridData[i]["OPTM_PROJECTED_COST"] = (parseFloat(this.gridData[i]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.gridData[i]["OPTM_QUANTITY"])).toFixed(2)
           }
 
         }
@@ -329,8 +330,7 @@ export class EstimetSheetComponent implements OnInit {
     }
   }
 
-  onSubContractChange(rowIndex: any, value: any, key: any)
-  {
+  onSubContractChange(rowIndex: any, value: any, key: any) {
     this.subContractingGrid[rowIndex][key] = value;
     if (this.subContractingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.subContractingGrid[rowIndex]["OPTM_QUANTITY"] != "") {
       this.subContractingGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.subContractingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.subContractingGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
@@ -416,6 +416,53 @@ export class EstimetSheetComponent implements OnInit {
     )
   }
 
+  calculateTotalCost() {
+    let Amount = 0;
+    if (this.gridData.length > 0) {
+      for (let i = 0; i < this.gridData.length; i++) {
+        if (this.gridData[i]['OPTM_AMOUNT'] != "" && this.gridData[i]['OPTM_AMOUNT'] != undefined && this.gridData[i]['OPTM_AMOUNT'] != NaN) {
+          Amount = Amount + this.gridData[i]['OPTM_AMOUNT'];
+        }
+      }
+    }
+    if (this.laborGrid.length > 0) {
+      for (let i = 0; i < this.laborGrid.length; i++) {
+        if (this.laborGrid[i]['OPTM_AMOUNT'] != "" && this.laborGrid[i]['OPTM_AMOUNT'] != undefined && this.laborGrid[i]['OPTM_AMOUNT'] != NaN) {
+          Amount = Amount + this.laborGrid[i]['OPTM_AMOUNT'];
+        }
+      }
+    }
+    if (this.shippingGrid.length > 0) {
+      for (let i = 0; i < this.shippingGrid.length; i++) {
+        if (this.shippingGrid[i]['OPTM_AMOUNT'] != "" && this.shippingGrid[i]['OPTM_AMOUNT'] != undefined && this.shippingGrid[i]['OPTM_AMOUNT'] != NaN) {
+          Amount = Amount + this.shippingGrid[i]['OPTM_AMOUNT'];
+        }
+      }
+    }
+    if (this.travelGrid.length > 0) {
+      for (let i = 0; i < this.travelGrid.length; i++) {
+        if (this.travelGrid[i]['OPTM_AMOUNT'] != "" && this.travelGrid[i]['OPTM_AMOUNT'] != undefined && this.travelGrid[i]['OPTM_AMOUNT'] != NaN) {
+          Amount = Amount + this.travelGrid[i]['OPTM_AMOUNT'];
+        }
+      }
+    }
+    if (this.onSiteGrid.length > 0) {
+      for (let i = 0; i < this.onSiteGrid.length; i++) {
+        if (this.onSiteGrid[i]['OPTM_AMOUNT'] != "" && this.onSiteGrid[i]['OPTM_AMOUNT'] != undefined && this.onSiteGrid[i]['OPTM_AMOUNT'] != NaN) {
+          Amount = Amount + this.onSiteGrid[i]['OPTM_AMOUNT'];
+        }
+      }
+    }
+    if (this.subContractingGrid.length > 0) {
+      for (let i = 0; i < this.subContractingGrid.length; i++) {
+        if (this.subContractingGrid[i]['OPTM_AMOUNT'] != "" && this.subContractingGrid[i]['OPTM_AMOUNT'] != undefined && this.subContractingGrid[i]['OPTM_AMOUNT'] != NaN) {
+          Amount = Amount + this.subContractingGrid[i]['OPTM_AMOUNT'];
+        }
+      }
+    }
+    this.total_Cost = Amount;
+  }
+
   onSave() {
     this.OPCONFIG_EST_HEADER = [];
     this.OPCONFIG_EST_LABOR = [];
@@ -486,6 +533,8 @@ export class EstimetSheetComponent implements OnInit {
         this.OPCONFIG_EST_LABOR.push(this.subContractingGrid[i]);
       }
     }
+
+
 
     this.showLookupLoader = true;
     this.service.SaveEstimateMaster(this.OPCONFIG_EST_HEADER, this.OPCONFIG_EST_MATERIAL, this.OPCONFIG_EST_LABOR).subscribe(
