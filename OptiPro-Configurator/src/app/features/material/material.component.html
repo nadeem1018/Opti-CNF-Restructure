@@ -80,6 +80,12 @@
                                                 </button>
                                             </div>
                                         </ng-template>
+                                        <kendo-grid-column field="" title="LineNo" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" disabled ="true" class="form-control  form-control-sm" id="" value='{{dataItem.rowIndex}}' />
+                                            </ng-template>
+                                        </kendo-grid-column>
                                         <kendo-grid-column field="" title="Description" filter="text" [width]="150"
                                             [minResizableWidth]="150">
                                             <ng-template kendoGridCellTemplate let-dataItem>
@@ -158,6 +164,14 @@
                                                 <input type="text" disabled="true" class="form-control  form-control-sm text-right"
                                                     id="" value={{dataItem.Perimeter}} (change)="onChange(dataItem.rowIndex,Perimeter.value,Perimeter.title)"
                                                     #Perimeter title="Perimeter" />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="DropPerc" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text"  class="form-control  form-control-sm text-right"
+                                                    id="" value={{dataItem.MatAllowPerc}} (change)="onChange(dataItem.rowIndex,MatAllowPerc.value,MatAllowPerc.title)"
+                                                    #MatAllowPerc title="MatAllowPerc" />
                                             </ng-template>
                                         </kendo-grid-column>
                                         <kendo-grid-column field="" title="Drop" filter="text" [width]="150"
@@ -356,7 +370,7 @@
                                         <kendo-grid-column field="" title="Sheet Lg" filter="text" [width]="150"
                                             [minResizableWidth]="150">
                                             <ng-template kendoGridCellTemplate let-dataItem>
-                                                <input type="text" class="form-control  form-control-sm text-right" id="" value={{dataItem.Sheet_Lg}}
+                                                <input type="text" disabled="true" class="form-control  form-control-sm text-right" id="" value={{dataItem.Sheet_Lg}}
                                                     (change)="onSheetChange(dataItem.rowIndex,Sheet_Lg.value,Sheet_Lg.title)"
                                                     #Sheet_Lg title="Sheet_Lg" />
                                             </ng-template>
@@ -364,7 +378,7 @@
                                         <kendo-grid-column field="" title="Sheet Width" filter="text" [width]="150"
                                             [minResizableWidth]="150">
                                             <ng-template kendoGridCellTemplate let-dataItem>
-                                                <input type="text" class="form-control  form-control-sm text-right" id="" value={{dataItem.Sheet_Width}}
+                                                <input type="text" disabled="true" class="form-control  form-control-sm text-right" id="" value={{dataItem.Sheet_Width}}
                                                     (change)="onSheetChange(dataItem.rowIndex,Sheet_Width.value,Sheet_Width.title)"
                                                     #Sheet_Width title="Sheet_Width" />
                                             </ng-template>
@@ -414,11 +428,22 @@
                                                 </button>
                                             </div>
                                         </ng-template> -->
-
+                                        <kendo-grid-column field="" title="LineNo" filter="text" [width]="50"
+                                            [minResizableWidth]="50">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" disabled ="true" class="form-control  form-control-sm" id="" value='{{dataItem.rowIndex}}' />
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="" title="MaterialCode" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <input type="text" disabled ="true" class="form-control  form-control-sm" id="" value={{dataItem.MaterialCode}} />
+                                            </ng-template>
+                                        </kendo-grid-column>
                                         <kendo-grid-column field="" title="Description" filter="text" [width]="150"
                                             [minResizableWidth]="150">
                                             <ng-template kendoGridCellTemplate let-dataItem>
-                                                <input type="text" disabled ="true" class="form-control  form-control-sm" id="" value={{dataItem.OPTM_DESCRIPTION}}
+                                                <input type="text" disabled ="true" class="form-control  form-control-sm" id="" value={{dataItem.Description}}
                                                     (change)="onChange(dataItem.rowIndex,Description.value,Description.title)"
                                                     #Description title="Description" />
                                             </ng-template>
@@ -426,7 +451,7 @@
                                         <kendo-grid-column field="" title="Qty" filter="text" [width]="150"
                                             [minResizableWidth]="150">
                                             <ng-template kendoGridCellTemplate let-dataItem>
-                                                <input type="text" disabled ="true" class="form-control  form-control-sm text-right" id="" value={{dataItem.OPTM_QUANTITY}}
+                                                <input type="text" disabled ="true" class="form-control  form-control-sm text-right" id="" value={{dataItem.Qty}}
                                                     (change)="onChange(dataItem.rowIndex,Qty.value,Qty.title)" #Qty
                                                     title="Qty" />
                                             </ng-template>
