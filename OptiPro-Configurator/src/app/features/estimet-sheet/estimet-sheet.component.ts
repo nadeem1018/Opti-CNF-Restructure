@@ -307,13 +307,14 @@ export class EstimetSheetComponent implements OnInit {
           for (let i = 0; i < data.EstimateMateriaHeader.length; i++) {
             this.gridData.push(data.EstimateMateriaHeader[i]);
             this.gridData[i]['rowIndex'] = i;
-            this.gridData[i]['OPTM_MARKUP'] = "";
+            // this.gridData[i]['OPTM_MARKUP'] = "";
             this.gridData[i]['OPTM_MANUFACTURER'] = "";
             this.gridData[i]['OPTM_PART_NUMBER'] = "";
             this.gridData[i]['OPTM_VENDOR'] = "";
             this.gridData[i]['OPTM_LEAD_TIME'] = "";
             this.gridData[i]['OPTM_AMOUNT'] = "";
             this.gridData[i]["OPTM_PROJECTED_COST"] = (parseFloat(this.gridData[i]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.gridData[i]["OPTM_QUANTITY"])).toFixed(2)
+            this.gridData[i]["OPTM_AMOUNT"] = (parseFloat(this.gridData[i]["OPTM_PROJECTED_COST"]) + (parseFloat(this.gridData[i]["OPTM_PROJECTED_COST"]) * (parseFloat(this.gridData[i]["OPTM_MARKUP"]) / 100))).toFixed(2)
           }
 
         }
@@ -333,10 +334,40 @@ export class EstimetSheetComponent implements OnInit {
     )
   }
 
+  onChangeQuantity() {
+    if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
+      if (this.gridData.length > 0) {
+        for (let i = 0; i < this.gridData.length; i++) {
+          if (this.gridData[i]["OPTM_PER_UNIT_PRICE"] != "" && this.gridData[i]["OPTM_QUANTITY"] != "") {
+            this.gridData[i]["OPTM_PROJECTED_COST"] = (parseFloat(this.gridData[i]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.gridData[i]["OPTM_QUANTITY"]) * parseFloat(this.quantity)).toFixed(2)
+          }
+        }
+      }
+      if (this.laborGrid.length > 0) {
+        for (let i = 0; i < this.laborGrid.length; i++) {
+          if (this.laborGrid[i]["OPTM_LABOR"] != "PROGRAMMING") {
+            if (this.laborGrid[i]["OPTM_PER_UNIT_PRICE"] != "" && this.laborGrid[i]["OPTM_QUANTITY"] != "") {
+              this.laborGrid[i]["OPTM_PROJECTED_COST"] = (parseFloat(this.laborGrid[i]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.laborGrid[i]["OPTM_QUANTITY"]) * parseFloat(this.quantity)).toFixed(2)
+            }
+          }
+
+        }
+      }
+
+      this.calculateTotalCost();
+    }
+  }
+
   onChange(rowIndex: any, value: any, key: any) {
     this.gridData[rowIndex][key] = value;
     if (this.gridData[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.gridData[rowIndex]["OPTM_QUANTITY"] != "") {
-      this.gridData[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.gridData[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.gridData[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
+      if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
+        this.gridData[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.gridData[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.gridData[rowIndex]["OPTM_QUANTITY"]) * parseFloat(this.quantity)).toFixed(2)
+      }
+      else {
+        this.gridData[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.gridData[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.gridData[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
+      }
+
     }
     if (this.gridData[rowIndex]["OPTM_PROJECTED_COST"] != "" && this.gridData[rowIndex]["OPTM_MARKUP"] != "" && this.gridData[rowIndex]["OPTM_MARKUP"] != undefined) {
       this.gridData[rowIndex]["OPTM_AMOUNT"] = (parseFloat(this.gridData[rowIndex]["OPTM_PROJECTED_COST"]) + (parseFloat(this.gridData[rowIndex]["OPTM_PROJECTED_COST"]) * (parseFloat(this.gridData[rowIndex]["OPTM_MARKUP"]) / 100))).toFixed(2)
@@ -348,6 +379,10 @@ export class EstimetSheetComponent implements OnInit {
     this.subContractingGrid[rowIndex][key] = value;
     if (this.subContractingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.subContractingGrid[rowIndex]["OPTM_QUANTITY"] != "") {
       this.subContractingGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.subContractingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.subContractingGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
+      if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
+        this.subContractingGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.subContractingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.subContractingGrid[rowIndex]["OPTM_QUANTITY"]) * parseFloat(this.quantity)).toFixed(2)
+      }
+
     }
     if (this.subContractingGrid[rowIndex]["OPTM_PROJECTED_COST"] != "" && this.subContractingGrid[rowIndex]["OPTM_MARKUP"] != "" && this.subContractingGrid[rowIndex]["OPTM_MARKUP"] != undefined) {
       this.subContractingGrid[rowIndex]["OPTM_AMOUNT"] = (parseFloat(this.subContractingGrid[rowIndex]["OPTM_PROJECTED_COST"]) + (parseFloat(this.subContractingGrid[rowIndex]["OPTM_PROJECTED_COST"]) * (parseFloat(this.subContractingGrid[rowIndex]["OPTM_MARKUP"]) / 100))).toFixed(2)
@@ -359,6 +394,9 @@ export class EstimetSheetComponent implements OnInit {
     this.onSiteGrid[rowIndex][key] = value;
     if (this.onSiteGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.onSiteGrid[rowIndex]["OPTM_QUANTITY"] != "") {
       this.onSiteGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.onSiteGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.onSiteGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
+      if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
+        this.onSiteGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.onSiteGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.onSiteGrid[rowIndex]["OPTM_QUANTITY"]) * parseFloat(this.quantity)).toFixed(2)
+      }
     }
     if (this.onSiteGrid[rowIndex]["OPTM_PROJECTED_COST"] != "" && this.onSiteGrid[rowIndex]["OPTM_MARKUP"] != "" && this.onSiteGrid[rowIndex]["OPTM_MARKUP"] != undefined) {
       this.onSiteGrid[rowIndex]["OPTM_AMOUNT"] = (parseFloat(this.onSiteGrid[rowIndex]["OPTM_PROJECTED_COST"]) + (parseFloat(this.onSiteGrid[rowIndex]["OPTM_PROJECTED_COST"]) * (parseFloat(this.onSiteGrid[rowIndex]["OPTM_MARKUP"]) / 100))).toFixed(2)
@@ -369,7 +407,19 @@ export class EstimetSheetComponent implements OnInit {
   onLaborChange(rowIndex: any, value: any, key: any) {
     this.laborGrid[rowIndex][key] = value;
     if (this.laborGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.laborGrid[rowIndex]["OPTM_QUANTITY"] != "" && this.laborGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != undefined) {
-      this.laborGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.laborGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.laborGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
+      if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
+        if (this.laborGrid[rowIndex]["OPTM_LABOR"] != "PROGRAMMING") {
+          this.laborGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.laborGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.laborGrid[rowIndex]["OPTM_QUANTITY"]) * parseFloat(this.quantity)).toFixed(2)
+        }
+        else {
+          this.laborGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.laborGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.laborGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
+        }
+
+      }
+      else {
+        this.laborGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.laborGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.laborGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
+      }
+
     }
     if (this.laborGrid[rowIndex]["OPTM_PROJECTED_COST"] != "" && this.laborGrid[rowIndex]["OPTM_MARKUP"] != "" && this.laborGrid[rowIndex]["OPTM_MARKUP"] != undefined && this.laborGrid[rowIndex]["OPTM_PROJECTED_COST"] != undefined) {
       this.laborGrid[rowIndex]["OPTM_AMOUNT"] = (parseFloat(this.laborGrid[rowIndex]["OPTM_PROJECTED_COST"]) + (parseFloat(this.laborGrid[rowIndex]["OPTM_PROJECTED_COST"]) * (parseFloat(this.laborGrid[rowIndex]["OPTM_MARKUP"]) / 100))).toFixed(2)
@@ -381,6 +431,9 @@ export class EstimetSheetComponent implements OnInit {
     this.shippingGrid[rowIndex][key] = value;
     if (this.shippingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.shippingGrid[rowIndex]["OPTM_QUANTITY"] != "") {
       this.shippingGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.shippingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.shippingGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
+      if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
+        this.shippingGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.shippingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.shippingGrid[rowIndex]["OPTM_QUANTITY"]) * parseFloat(this.quantity)).toFixed(2)
+      }
     }
     if (this.shippingGrid[rowIndex]["OPTM_PROJECTED_COST"] != "" && this.shippingGrid[rowIndex]["OPTM_MARKUP"] != "") {
       this.shippingGrid[rowIndex]["OPTM_AMOUNT"] = (parseFloat(this.shippingGrid[rowIndex]["OPTM_PROJECTED_COST"]) + (parseFloat(this.shippingGrid[rowIndex]["OPTM_PROJECTED_COST"]) * (parseFloat(this.shippingGrid[rowIndex]["OPTM_MARKUP"]) / 100))).toFixed(2)
@@ -392,6 +445,9 @@ export class EstimetSheetComponent implements OnInit {
     this.travelGrid[rowIndex][key] = value;
     if (this.travelGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.travelGrid[rowIndex]["OPTM_QUANTITY"] != "") {
       this.travelGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.travelGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.travelGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
+      if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
+        this.travelGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.travelGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.travelGrid[rowIndex]["OPTM_QUANTITY"]) * parseFloat(this.quantity)).toFixed(2)
+      }
     }
     if (this.travelGrid[rowIndex]["OPTM_PROJECTED_COST"] != "" && this.travelGrid[rowIndex]["OPTM_MARKUP"] != "") {
       this.travelGrid[rowIndex]["OPTM_AMOUNT"] = (parseFloat(this.travelGrid[rowIndex]["OPTM_PROJECTED_COST"]) + (parseFloat(this.travelGrid[rowIndex]["OPTM_PROJECTED_COST"]) * (parseFloat(this.travelGrid[rowIndex]["OPTM_MARKUP"]) / 100))).toFixed(2)
@@ -508,16 +564,16 @@ export class EstimetSheetComponent implements OnInit {
         }
       }
     }
-    this.total_Cost = Amount;
+    this.total_Cost = (Amount).toFixed(2);
     if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
       this.per_Unit_Cost = (parseFloat(this.total_Cost) / parseFloat(this.quantity)).toFixed(2)
     }
-    this.subtotal = subAmount;
+    this.subtotal = this.subtotal = (subAmount).toFixed(2);;
     this.overhead = (parseFloat(subAmount) * 0.1).toFixed(2);
     if (this.expedite_Fee == "") {
       this.expedite_Fee = 0;
     }
-    this.total_Price = parseFloat(this.subtotal) + parseFloat(this.overhead) + parseFloat(this.expedite_Fee)
+    this.total_Price = (parseFloat(this.subtotal) + parseFloat(this.overhead) + parseFloat(this.expedite_Fee)).toFixed(2)
     if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
       this.per_Unit_Price = (parseFloat(this.total_Price) / parseFloat(this.quantity)).toFixed(2)
     }

@@ -239,7 +239,8 @@
                                                         </div>
                                                     </label>
                                                     <div class="col-sm-9 d-inline-flex align-items-center">
-                                                        <input type="text" [(ngModel)]="quantity" name="quantity" class="form-control form-control-sm">
+                                                        <input type="text" [(ngModel)]="quantity" name="quantity"
+                                                            (change)="onChangeQuantity()" class="form-control form-control-sm">
                                                     </div>
                                                 </div>
                                             </div>
@@ -529,7 +530,7 @@
 
                                 <kendo-grid [kendoGridBinding]="gridData" [reorderable]="true" [resizable]="true"
                                     [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                    [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
+                                    [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'100px', 'max-width':'100%'}"
                                     [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
                                     <!-- <ng-template kendoGridToolbarTemplate>
@@ -776,7 +777,7 @@
 
                                     <kendo-grid [kendoGridBinding]="laborGrid" [reorderable]="true" [resizable]="true"
                                         [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
+                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'100px', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
                                         <kendo-grid-column field="" title="Labor" filter="text" [width]="150"
@@ -883,11 +884,11 @@
                             </div>
                             <div id="osl" class="tabcontent h-100">
 
-                                <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
+                                <div class="d-flex" [ngStyle]="{'height':'50%', 'flex':'0 1 100%'}">
 
                                     <kendo-grid [kendoGridBinding]="onSiteGrid" [reorderable]="true" [resizable]="true"
                                         [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
+                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'100px', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
                                         <ng-template kendoGridToolbarTemplate>
@@ -1013,11 +1014,11 @@
 
                             <div id="Travel" class="tabcontent active h-100">
 
-                                <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
+                                <div class="d-flex" [ngStyle]="{'height':'50%', 'flex':'0 1 100%'}">
 
                                     <kendo-grid [kendoGridBinding]="travelGrid" [reorderable]="true" [resizable]="true"
                                         [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
+                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'100px', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
                                         <ng-template kendoGridToolbarTemplate>
@@ -1143,11 +1144,11 @@
 
                             <div id="sct" class="tabcontent active h-100">
 
-                                <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
+                                <div class="d-flex" [ngStyle]="{'height':'50%', 'flex':'0 1 100%'}">
 
                                     <kendo-grid [kendoGridBinding]="subContractingGrid" [reorderable]="true"
                                         [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false"
-                                        [selectable]="selectableSettings" [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
+                                        [selectable]="selectableSettings" [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'100px', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
                                         <ng-template kendoGridToolbarTemplate>
 
@@ -1270,11 +1271,11 @@
                             </div>
                             <div id="Shipping" class="tabcontent h-100">
 
-                                <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
+                                <div class="d-flex" [ngStyle]="{'height':'50%', 'flex':'0 1 100%'}">
 
                                     <kendo-grid [kendoGridBinding]="shippingGrid" [reorderable]="true" [resizable]="true"
                                         [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
+                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'100px', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
                                         <ng-template kendoGridToolbarTemplate>
@@ -1409,41 +1410,41 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                    <div class="form-group row clearfix">
-                                                        <label class="col-sm-3 col-form-label">
-                                                            <div class="d-flex align-items-center"><span>Total Price</span></div>
-                                                        </label>
-                                                        <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                                type="text" [(ngModel)]="total_Price" name="total_Price"></div>
-                                                    </div>
+                                                <div class="form-group row clearfix">
+                                                    <label class="col-sm-3 col-form-label">
+                                                        <div class="d-flex align-items-center"><span>Total Price</span></div>
+                                                    </label>
+                                                    <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
+                                                            type="text" [(ngModel)]="total_Price" name="total_Price"></div>
                                                 </div>
-                                          
+                                            </div>
+
                                         </div>
 
                                         <div class="row">
-                                            
+
                                             <div class="col-md-6">
-                                                    <div class="form-group row clearfix">
-                                                        <label class="col-sm-3 col-form-label">
-                                                            <div class="d-flex align-items-center"><span>Per Unit Cost</span></div>
-                                                        </label>
-                                                        <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                                type="text" [(ngModel)]="per_Unit_Cost" name="per_Unit_Cost"></div>
-                                                    </div>
+                                                <div class="form-group row clearfix">
+                                                    <label class="col-sm-3 col-form-label">
+                                                        <div class="d-flex align-items-center"><span>Per Unit Cost</span></div>
+                                                    </label>
+                                                    <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
+                                                            type="text" [(ngModel)]="per_Unit_Cost" name="per_Unit_Cost"></div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                        <div class="form-group row clearfix">
-                                                            <label class="col-sm-3 col-form-label">
-                                                                <div class="d-flex align-items-center"><span>Subtotal</span></div>
-                                                            </label>
-                                                            <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                                    type="text" [(ngModel)]="subtotal" name="subtotal"></div>
-                                                        </div>
-                                                    </div>
-                                         
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row clearfix">
+                                                    <label class="col-sm-3 col-form-label">
+                                                        <div class="d-flex align-items-center"><span>Subtotal</span></div>
+                                                    </label>
+                                                    <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
+                                                            type="text" [(ngModel)]="subtotal" name="subtotal"></div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                         <div class="row justify-content-end">
-                                        <div class="col-md-6">
+                                            <div class="col-md-6">
                                                 <div class="form-group row clearfix">
                                                     <label class="col-sm-3 col-form-label">
                                                         <div class="d-flex align-items-center"><span>Overhead</span></div>
@@ -1464,7 +1465,7 @@
                                                             type="text" [(ngModel)]="expedite_Fee" name="expedite_Fee"></div>
                                                 </div>
                                             </div>
-                                          
+
                                         </div>
 
                                         <div class="row justify-content-end">

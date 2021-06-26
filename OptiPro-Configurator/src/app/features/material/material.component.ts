@@ -155,7 +155,7 @@ export class MaterialComponent implements OnInit {
     let materialHeader = this.fetchData.MateriaHeader;
     this.product_name = materialHeader[0].OPTM_DESCRIPTION;
     this.product_code = materialHeader[0].OPTM_CODE;
-    let SheetInfo = this.fetchData.MaterialSummary;
+    let SheetInfo = this.fetchData.sheet_summary;
 
     //Initialize Sheet Summary data table
     this.sheet_summary =[];
