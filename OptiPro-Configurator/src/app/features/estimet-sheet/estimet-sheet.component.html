@@ -453,8 +453,14 @@
                                                     <label class="col-sm-3 col-form-label">
                                                         <div class="d-flex align-items-center"><span>Estimate Due Date</span></div>
                                                     </label>
-                                                    <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                            type="date" [(ngModel)]="estimate_Due_Date" name="estimate_Due_Date"></div>
+                                                    <div class="col-sm-9 d-inline-flex align-items-center">
+                                                        <!-- <input class="form-control form-control-sm"
+                                                            type="text" value= "estimate_Due_Date" [(ngModel)]="estimate_Due_Date" name="estimate_Due_Date"> -->
+                                                            <kendo-datepicker #dt13 value="" [min]="min" id="delivery_until"
+                                                            class="w-100 mb-calendra" name="estimate_Due_Date"
+                                                            [(ngModel)]="estimate_Due_Date" [format]="'MM/dd/yyyy'"></kendo-datepicker>
+                                                        </div>
+                                                           
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -462,8 +468,13 @@
                                                     <label class="col-sm-3 col-form-label">
                                                         <div class="d-flex align-items-center"><span>Project Due Date</span></div>
                                                     </label>
-                                                    <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                            type="date" [(ngModel)]="project_Due_Date" name="project_Due_Date"></div>
+                                                    <div class="col-sm-9 d-inline-flex align-items-center">
+                                                        <!-- <input class="form-control form-control-sm"
+                                                            type="date" value = {{project_Due_Date}} [(ngModel)]="project_Due_Date" name="project_Due_Date"> -->
+                                                            <kendo-datepicker #dt13 value="" [min]="min" id="delivery_until"
+                                                            class="w-100 mb-calendra" name="project_Due_Date"
+                                                            [(ngModel)]="project_Due_Date" [format]="'MM/dd/yyyy'"></kendo-datepicker>
+                                                        </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -474,8 +485,13 @@
                                                         <div class="d-flex align-items-center"><span>Submittal
                                                                 Required?</span></div>
                                                     </label>
-                                                    <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                            type="date" [(ngModel)]="submittal_Required" name="submittal_Required"></div>
+                                                    <div class="col-sm-9 d-inline-flex align-items-center">
+                                                        <!-- <input class="form-control form-control-sm"
+                                                            type="date" [(ngModel)]="submittal_Required" name="submittal_Required"> -->
+                                                            <kendo-datepicker #dt13 value="" [min]="min" id="delivery_until"
+                                                            class="w-100 mb-calendra" name="submittal_Required"
+                                                            [(ngModel)]="submittal_Required" [format]="'MM/dd/yyyy'"></kendo-datepicker>
+                                                        </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -483,8 +499,13 @@
                                                     <label class="col-sm-3 col-form-label">
                                                         <div class="d-flex align-items-center"><span>Submittal Due Date</span></div>
                                                     </label>
-                                                    <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                            type="date" [(ngModel)]="submittal_Due_Date" name="submittal_Due_Date"></div>
+                                                    <div class="col-sm-9 d-inline-flex align-items-center">
+                                                        <!-- <input class="form-control form-control-sm"
+                                                            type="date" [(ngModel)]="submittal_Due_Date" name="submittal_Due_Date"> -->
+                                                            <kendo-datepicker #dt13 value="" [min]="min" id="delivery_until"
+                                                            class="w-100 mb-calendra" name="submittal_Due_Date"
+                                                            [(ngModel)]="submittal_Due_Date" [format]="'MM/dd/yyyy'"></kendo-datepicker>
+                                                        </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -494,8 +515,13 @@
                                                     <label class="col-sm-3 col-form-label">
                                                         <div class="d-flex align-items-center"><span>Ready to Ship Date</span></div>
                                                     </label>
-                                                    <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                            type="date" [(ngModel)]="ready_to_Ship_Date" name="ready_to_Ship_Date"></div>
+                                                    <div class="col-sm-9 d-inline-flex align-items-center">
+                                                        <!-- <input class="form-control form-control-sm"
+                                                            type="date" [(ngModel)]="ready_to_Ship_Date" name="ready_to_Ship_Date"> -->
+                                                            <kendo-datepicker #dt13 value="" [min]="min" id="delivery_until"
+                                                            class="w-100 mb-calendra" name="ready_to_Ship_Date"
+                                                            [(ngModel)]="ready_to_Ship_Date" [format]="'MM/dd/yyyy'"></kendo-datepicker>
+                                                        </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -515,8 +541,13 @@
                                                     <label class="col-sm-3 col-form-label">
                                                         <div class="d-flex align-items-center"><span>On Site Date</span></div>
                                                     </label>
-                                                    <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                            type="date" [(ngModel)]="on_site_date" name="on_site_date"></div>
+                                                    <div class="col-sm-8 d-inline-flex align-items-center">
+                                                        <!-- <input class="form-control form-control-sm"
+                                                            type="date" [(ngModel)]="on_site_date" name="on_site_date"> -->
+                                                            <kendo-datepicker #dt13 value="" [min]="min" id="delivery_until"
+                                                            class="w-100 mb-calendra" name="on_site_date" 
+                                                            [(ngModel)]="on_site_date" [format]="'MM/dd/yyyy'"></kendo-datepicker>
+                                                        </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">

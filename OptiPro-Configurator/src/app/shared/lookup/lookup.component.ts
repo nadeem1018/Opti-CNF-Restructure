@@ -344,12 +344,11 @@ export class LookupComponent implements OnInit {
       if (this.popup_lookupfor == "Product_Details") {
         this.getProductsList();
       }
-      if(this.lookupfor == "save_product_details")
-      {
-        this.getProductsList();
+      if (this.lookupfor == "save_product_details") {
+        this.getSavedProductsList();
       }
 
-      
+
 
     }
   }
@@ -2748,8 +2747,7 @@ export class LookupComponent implements OnInit {
     }
   }
 
-  getFeatureItemList()
-  {
+  getFeatureItemList() {
     this.popup_title = this.language.ItemList;
     this.LookupDataLoaded = false;
     this.showLoader = true;
@@ -2821,8 +2819,7 @@ export class LookupComponent implements OnInit {
     }
   }
 
-  getProductsList()
-  {
+  getProductsList() {
     this.popup_title = "Product Details";
     this.LookupDataLoaded = false;
     this.showLoader = true;
@@ -2839,6 +2836,94 @@ export class LookupComponent implements OnInit {
       {
         field: 'OPTM_DESCRIPTION',
         title: "Product Name",
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+
+    ];
+    this.table_head_hidden_elements = [false];
+    this.width_value = ((100 / this.table_head.length) + '%');
+
+    this.showLoader = false;
+    this.LookupDataLoaded = true;
+    if (this.serviceData !== undefined) {
+      if (this.serviceData.length > 0) {
+        this.dialogOpened = true;
+        this.loadServerData(this.serviceData);
+        // $("#lookup_modal").modal('show');
+      }
+    }
+  }
+
+
+  getSavedProductsList() {
+    this.popup_title = "Product Details";
+    this.LookupDataLoaded = false;
+    this.showLoader = true;
+    this.fill_input_id = 'OPTM_SEQ';
+    this.lookup_key = 'OPTM_SEQ';
+    this.table_head = [
+      {
+        field: 'OPTM_SEQ',
+        title: "Sequance No.",
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+      {
+        field: 'OPTM_CUSTOMER',
+        title: "Customer",
+        type: 'text',
+        width: '150',
+        attrType: 'text'
+      },
+      {
+        field: 'OPTM_CODE',
+        title: "Product Code",
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+      {
+        field: 'OPTM_PROJECT_DESC',
+        title: "Product Name",
+        type: 'text',
+        width: '150',
+        attrType: 'text'
+      },
+      {
+        field: 'OPTM_PARTNO',
+        title: "Part Number",
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+      {
+        field: 'OPTM_ESTIMATE_DUEDT',
+        title: "Estimetion Date",
+        type: 'text',
+        width: '150',
+        attrType: 'text'
+      },
+      {
+        field: 'OPTM_SALES_REP',
+        title: "Sales Representative",
+        type: 'text',
+        width: '150',
+        attrType: 'text'
+      },
+
+      {
+        field: 'OPTM_TOTAL_COST',
+        title: "Total Cost",
+        type: 'text',
+        width: '100',
+        attrType: 'text'
+      },
+      {
+        field: 'OPTM_TOTAL_PRICE',
+        title: "Total Price",
         type: 'text',
         width: '100',
         attrType: 'text'
