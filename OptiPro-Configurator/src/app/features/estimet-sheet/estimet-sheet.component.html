@@ -551,7 +551,7 @@
 
                                 <kendo-grid [kendoGridBinding]="gridData" [reorderable]="true" [resizable]="true"
                                     [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                    [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'100px', 'max-width':'100%'}"
+                                    [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'100px', 'max-width':'100%','max-height': '300px'}"
                                     [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
                                     <!-- <ng-template kendoGridToolbarTemplate>
@@ -593,8 +593,8 @@
 
                                         <ng-template kendoGridCellTemplate let-dataItem>
 
-                                            <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_THICKNESS}}
-                                                (change)="onChange(dataItem.rowIndex,OPTM_THICKNESS.value,OPTM_THICKNESS.title)"
+                                            <input type="text" class="form-control form-control-sm text-right" id=""
+                                                value={{dataItem.OPTM_THICKNESS}} (change)="onChange(dataItem.rowIndex,OPTM_THICKNESS.value,OPTM_THICKNESS.title)"
                                                 #OPTM_THICKNESS title="OPTM_THICKNESS" />
 
                                         </ng-template>
@@ -636,8 +636,8 @@
 
                                         <ng-template kendoGridCellTemplate let-dataItem>
 
-                                            <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_LENGTH}}
-                                                (change)="onChange(dataItem.rowIndex,OPTM_LENGTH.value,OPTM_LENGTH.title)"
+                                            <input type="text" class="form-control form-control-sm text-right" id=""
+                                                value={{dataItem.OPTM_LENGTH}} (change)="onChange(dataItem.rowIndex,OPTM_LENGTH.value,OPTM_LENGTH.title)"
                                                 #Length title="OPTM_LENGTH" />
 
                                         </ng-template>
@@ -649,8 +649,8 @@
 
                                         <ng-template kendoGridCellTemplate let-dataItem>
 
-                                            <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_WIDTH}}
-                                                (change)="onChange(dataItem.rowIndex,OPTM_WIDTH.value,OPTM_WIDTH.title)"
+                                            <input type="text" class="form-control form-control-sm text-right" id=""
+                                                value={{dataItem.OPTM_WIDTH}} (change)="onChange(dataItem.rowIndex,OPTM_WIDTH.value,OPTM_WIDTH.title)"
                                                 #OPTM_WIDTH title="OPTM_WIDTH" />
 
                                         </ng-template>
@@ -675,8 +675,8 @@
 
                                         <ng-template kendoGridCellTemplate let-dataItem>
 
-                                            <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_PART_NUMBER}}
-                                                (change)="onChange(dataItem.rowIndex,OPTM_PART_NUMBER.value,OPTM_PART_NUMBER.title)"
+                                            <input type="text" class="form-control form-control-sm text-right" id=""
+                                                value={{dataItem.OPTM_PART_NUMBER}} (change)="onChange(dataItem.rowIndex,OPTM_PART_NUMBER.value,OPTM_PART_NUMBER.title)"
                                                 #OPTM_PART_NUMBER title="OPTM_PART_NUMBER" />
 
                                         </ng-template>
@@ -714,8 +714,8 @@
 
                                         <ng-template kendoGridCellTemplate let-dataItem>
 
-                                            <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_PER_UNIT_PRICE}}
-                                                (change)="onChange(dataItem.rowIndex,OPTM_PER_UNIT_PRICE.value,OPTM_PER_UNIT_PRICE.title)"
+                                            <input type="text" class="form-control form-control-sm text-right" id=""
+                                                value={{dataItem.OPTM_PER_UNIT_PRICE}} (change)="onChange(dataItem.rowIndex,OPTM_PER_UNIT_PRICE.value,OPTM_PER_UNIT_PRICE.title)"
                                                 #OPTM_PER_UNIT_PRICE title="OPTM_PER_UNIT_PRICE" />
 
                                         </ng-template>
@@ -726,8 +726,8 @@
 
                                         <ng-template kendoGridCellTemplate let-dataItem>
 
-                                            <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_QUANTITY}}
-                                                (change)="onChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
+                                            <input type="text" class="form-control form-control-sm text-right" id=""
+                                                value={{dataItem.OPTM_QUANTITY}} (change)="onChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
                                                 #OPTM_QUANTITY title="OPTM_QUANTITY" />
 
                                         </ng-template>
@@ -739,8 +739,8 @@
 
                                         <ng-template kendoGridCellTemplate let-dataItem>
 
-                                            <input type="text" disabled="true" class="form-control form-control-sm" id=""
-                                                value={{dataItem.OPTM_PROJECTED_COST}} (change)="onChange(dataItem.rowIndex,OPTM_PROJECTED_COST.value,OPTM_PROJECTED_COST.title)"
+                                            <input type="text" disabled="true" class="form-control form-control-sm text-right"
+                                                id="" value={{dataItem.OPTM_PROJECTED_COST}} (change)="onChange(dataItem.rowIndex,OPTM_PROJECTED_COST.value,OPTM_PROJECTED_COST.title)"
                                                 #OPTM_PROJECTED_COST title="OPTM_PROJECTED_COST" />
 
                                         </ng-template>
@@ -752,8 +752,8 @@
 
                                         <ng-template kendoGridCellTemplate let-dataItem>
 
-                                            <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_MARKUP}}
-                                                (change)="onChange(dataItem.rowIndex,OPTM_MARKUP.value,OPTM_MARKUP.title)"
+                                            <input type="text" class="form-control form-control-sm text-right" id=""
+                                                value={{dataItem.OPTM_MARKUP}} (change)="onChange(dataItem.rowIndex,OPTM_MARKUP.value,OPTM_MARKUP.title)"
                                                 #OPTM_MARKUP title="OPTM_MARKUP" />
 
                                         </ng-template>
@@ -765,8 +765,8 @@
 
                                         <ng-template kendoGridCellTemplate let-dataItem>
 
-                                            <input type="text" disabled="true" class="form-control form-control-sm" id=""
-                                                value={{dataItem.OPTM_AMOUNT}} (change)="onChange(dataItem.rowIndex,OPTM_AMOUNT.value,OPTM_AMOUNT.title)"
+                                            <input type="text" disabled="true" class="form-control form-control-sm text-right"
+                                                id="" value={{dataItem.OPTM_AMOUNT}} (change)="onChange(dataItem.rowIndex,OPTM_AMOUNT.value,OPTM_AMOUNT.title)"
                                                 #OPTM_AMOUNT title="OPTM_AMOUNT" />
 
                                         </ng-template>
@@ -832,8 +832,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_QUANTITY}}
-                                                    (change)="onLaborChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_QUANTITY}} (change)="onLaborChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
                                                     #OPTM_QUANTITY title="OPTM_QUANTITY" />
 
                                             </ng-template>
@@ -845,8 +845,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_PER_UNIT_PRICE}}
-                                                    (change)="onLaborChange(dataItem.rowIndex,OPTM_PER_UNIT_PRICE.value,OPTM_PER_UNIT_PRICE.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_PER_UNIT_PRICE}} (change)="onLaborChange(dataItem.rowIndex,OPTM_PER_UNIT_PRICE.value,OPTM_PER_UNIT_PRICE.title)"
                                                     #OPTM_PER_UNIT_PRICE title="OPTM_PER_UNIT_PRICE" />
 
                                             </ng-template>
@@ -858,7 +858,7 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" disabled="true" class="form-control form-control-sm"
+                                                <input type="text" disabled="true" class="form-control form-control-sm text-right"
                                                     id="" value={{dataItem.OPTM_PROJECTED_COST}} (change)="onLaborChange(dataItem.rowIndex,OPTM_PROJECTED_COST.value,OPTM_PROJECTED_COST.title)"
                                                     #OPTM_PROJECTED_COST title="OPTM_PROJECTED_COST" />
 
@@ -871,8 +871,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_MARKUP}}
-                                                    (change)="onLaborChange(dataItem.rowIndex,OPTM_MARKUP.value,OPTM_MARKUP.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_MARKUP}} (change)="onLaborChange(dataItem.rowIndex,OPTM_MARKUP.value,OPTM_MARKUP.title)"
                                                     #OPTM_MARKUP title="OPTM_MARKUP" />
 
                                             </ng-template>
@@ -884,7 +884,7 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" disabled="true" class="form-control form-control-sm"
+                                                <input type="text" disabled="true" class="form-control form-control-sm text-right"
                                                     id="" value={{dataItem.OPTM_AMOUNT}} (change)="onLaborChange(dataItem.rowIndex,OPTM_AMOUNT.value,OPTM_AMOUNT.title)"
                                                     #OPTM_AMOUNT title="OPTM_AMOUNT" />
 
@@ -961,8 +961,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_QUANTITY}}
-                                                    (change)="onSiteLbrChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_QUANTITY}} (change)="onSiteLbrChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
                                                     #OPTM_QUANTITY title="OPTM_QUANTITY" />
 
                                             </ng-template>
@@ -974,8 +974,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_PER_UNIT_PRICE}}
-                                                    (change)="onSiteLbrChange(dataItem.rowIndex,OPTM_PER_UNIT_PRICE.value,OPTM_PER_UNIT_PRICE.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_PER_UNIT_PRICE}} (change)="onSiteLbrChange(dataItem.rowIndex,OPTM_PER_UNIT_PRICE.value,OPTM_PER_UNIT_PRICE.title)"
                                                     #OPTM_PER_UNIT_PRICE title="OPTM_PER_UNIT_PRICE" />
 
                                             </ng-template>
@@ -987,8 +987,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_PROJECTED_COST}}
-                                                    (change)="onSiteLbrChange(dataItem.rowIndex,OPTM_PROJECTED_COST.value,OPTM_PROJECTED_COST.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_PROJECTED_COST}} (change)="onSiteLbrChange(dataItem.rowIndex,OPTM_PROJECTED_COST.value,OPTM_PROJECTED_COST.title)"
                                                     #OPTM_PROJECTED_COST title="OPTM_PROJECTED_COST" />
 
                                             </ng-template>
@@ -1000,8 +1000,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_MARKUP}}
-                                                    (change)="onSiteLbrChange(dataItem.rowIndex,OPTM_MARKUP.value,OPTM_MARKUP.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_MARKUP}} (change)="onSiteLbrChange(dataItem.rowIndex,OPTM_MARKUP.value,OPTM_MARKUP.title)"
                                                     #OPTM_MARKUP title="OPTM_MARKUP" />
 
                                             </ng-template>
@@ -1013,7 +1013,7 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" disabled="true" class="form-control form-control-sm"
+                                                <input type="text" disabled="true" class="form-control form-control-sm text-right"
                                                     id="" value={{dataItem.OPTM_AMOUNT}} (change)="onSiteLbrChange(dataItem.rowIndex,OPTM_AMOUNT.value,OPTM_AMOUNT.title)"
                                                     #OPTM_AMOUNT title="OPTM_AMOUNT" />
 
@@ -1091,8 +1091,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_QUANTITY}}
-                                                    (change)="ontravelChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_QUANTITY}} (change)="ontravelChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
                                                     #OPTM_QUANTITY title="OPTM_QUANTITY" />
 
                                             </ng-template>
@@ -1104,8 +1104,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_PER_UNIT_PRICE}}
-                                                    (change)="ontravelChange(dataItem.rowIndex,OPTM_PER_UNIT_PRICE.value,OPTM_PER_UNIT_PRICE.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_PER_UNIT_PRICE}} (change)="ontravelChange(dataItem.rowIndex,OPTM_PER_UNIT_PRICE.value,OPTM_PER_UNIT_PRICE.title)"
                                                     #OPTM_PER_UNIT_PRICE title="OPTM_PER_UNIT_PRICE" />
 
                                             </ng-template>
@@ -1117,8 +1117,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_PROJECTED_COST}}
-                                                    (change)="ontravelChange(dataItem.rowIndex,OPTM_PROJECTED_COST.value,OPTM_PROJECTED_COST.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_PROJECTED_COST}} (change)="ontravelChange(dataItem.rowIndex,OPTM_PROJECTED_COST.value,OPTM_PROJECTED_COST.title)"
                                                     #OPTM_PROJECTED_COST title="OPTM_PROJECTED_COST" />
 
                                             </ng-template>
@@ -1130,8 +1130,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_MARKUP}}
-                                                    (change)="ontravelChange(dataItem.rowIndex,OPTM_MARKUP.value,OPTM_MARKUP.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_MARKUP}} (change)="ontravelChange(dataItem.rowIndex,OPTM_MARKUP.value,OPTM_MARKUP.title)"
                                                     #OPTM_MARKUP title="OPTM_MARKUP" />
 
                                             </ng-template>
@@ -1143,7 +1143,7 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" disabled="true" class="form-control form-control-sm"
+                                                <input type="text" disabled="true" class="form-control form-control-sm text-right"
                                                     id="" value={{dataItem.OPTM_AMOUNT}} (change)="ontravelChange(dataItem.rowIndex,OPTM_AMOUNT.value,OPTM_AMOUNT.title)"
                                                     #OPTM_AMOUNT title="OPTM_AMOUNT" />
 
@@ -1219,8 +1219,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_QUANTITY}}
-                                                    (change)="onSubContractChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_QUANTITY}} (change)="onSubContractChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
                                                     #OPTM_QUANTITY title="OPTM_QUANTITY" />
 
                                             </ng-template>
@@ -1232,8 +1232,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_PER_UNIT_PRICE}}
-                                                    (change)="onSubContractChange(dataItem.rowIndex,OPTM_PER_UNIT_PRICE.value,OPTM_PER_UNIT_PRICE.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_PER_UNIT_PRICE}} (change)="onSubContractChange(dataItem.rowIndex,OPTM_PER_UNIT_PRICE.value,OPTM_PER_UNIT_PRICE.title)"
                                                     #OPTM_PER_UNIT_PRICE title="OPTM_PER_UNIT_PRICE" />
 
                                             </ng-template>
@@ -1245,7 +1245,7 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" disabled="true" class="form-control form-control-sm"
+                                                <input type="text" disabled="true" class="form-control form-control-sm text-right"
                                                     id="" value={{dataItem.OPTM_PROJECTED_COST}} (change)="onSubContractChange(dataItem.rowIndex,OPTM_PROJECTED_COST.value,OPTM_PROJECTED_COST.title)"
                                                     #OPTM_PROJECTED_COST title="OPTM_PROJECTED_COST" />
 
@@ -1258,8 +1258,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_MARKUP}}
-                                                    (change)="onSubContractChange(dataItem.rowIndex,OPTM_MARKUP.value,OPTM_MARKUP.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_MARKUP}} (change)="onSubContractChange(dataItem.rowIndex,OPTM_MARKUP.value,OPTM_MARKUP.title)"
                                                     #OPTM_MARKUP title="OPTM_MARKUP" />
 
                                             </ng-template>
@@ -1271,7 +1271,7 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" disabled="true" class="form-control form-control-sm"
+                                                <input type="text" disabled="true" class="form-control form-control-sm text-right"
                                                     id="" value={{dataItem.OPTM_AMOUNT}} (change)="onSubContractChange(dataItem.rowIndex,OPTM_AMOUNT.value,OPTM_AMOUNT.title)"
                                                     #OPTM_AMOUNT title="OPTM_AMOUNT" />
 
@@ -1348,8 +1348,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_QUANTITY}}
-                                                    (change)="onShippingChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_QUANTITY}} (change)="onShippingChange(dataItem.rowIndex,OPTM_QUANTITY.value,OPTM_QUANTITY.title)"
                                                     #OPTM_QUANTITY title="OPTM_QUANTITY" />
 
                                             </ng-template>
@@ -1361,8 +1361,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_PER_UNIT_PRICE}}
-                                                    (change)="onShippingChange(dataItem.rowIndex,OPTM_PER_UNIT_PRICE.value,OPTM_PER_UNIT_PRICE.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_PER_UNIT_PRICE}} (change)="onShippingChange(dataItem.rowIndex,OPTM_PER_UNIT_PRICE.value,OPTM_PER_UNIT_PRICE.title)"
                                                     #OPTM_PER_UNIT_PRICE title="OPTM_PER_UNIT_PRICE" />
 
                                             </ng-template>
@@ -1374,8 +1374,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_PROJECTED_COST}}
-                                                    (change)="onShippingChange(dataItem.rowIndex,OPTM_PROJECTED_COST.value,OPTM_PROJECTED_COST.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_PROJECTED_COST}} (change)="onShippingChange(dataItem.rowIndex,OPTM_PROJECTED_COST.value,OPTM_PROJECTED_COST.title)"
                                                     #OPTM_PROJECTED_COST title="OPTM_PROJECTED_COST" />
 
                                             </ng-template>
@@ -1387,8 +1387,8 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" class="form-control form-control-sm" id="" value={{dataItem.OPTM_MARKUP}}
-                                                    (change)="onShippingChange(dataItem.rowIndex,OPTM_MARKUP.value,OPTM_MARKUP.title)"
+                                                <input type="text" class="form-control form-control-sm text-right" id=""
+                                                    value={{dataItem.OPTM_MARKUP}} (change)="onShippingChange(dataItem.rowIndex,OPTM_MARKUP.value,OPTM_MARKUP.title)"
                                                     #OPTM_MARKUP title="OPTM_MARKUP" />
 
                                             </ng-template>
@@ -1400,7 +1400,7 @@
 
                                             <ng-template kendoGridCellTemplate let-dataItem>
 
-                                                <input type="text" disabled="true" class="form-control form-control-sm"
+                                                <input type="text" disabled="true" class="form-control form-control-sm text-right"
                                                     id="" value={{dataItem.OPTM_AMOUNT}} (change)="onShippingChange(dataItem.rowIndex,OPTM_AMOUNT.value,OPTM_AMOUNT.title)"
                                                     #OPTM_AMOUNT title="OPTM_AMOUNT" />
 

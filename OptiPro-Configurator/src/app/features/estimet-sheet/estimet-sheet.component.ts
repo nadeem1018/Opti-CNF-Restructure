@@ -382,6 +382,7 @@ export class EstimetSheetComponent implements OnInit {
             this.laborGrid[i]['OPTM_PROJECTED_COST'] = "";
             this.laborGrid[i]['OPTM_MARKUP'] = "";
             this.laborGrid[i]['OPTM_AMOUNT'] = "";
+            this.laborGrid[i]['OPTM_QUANTITY'] = parseFloat(this.laborGrid[i]["OPTM_QUANTITY"]).toFixed(2);
             this.laborGrid[i]['OPTM_PER_UNIT_PRICE'] = "";
             this.laborGrid[i]['OPTM_LINENO'] = i + 1;
           }
@@ -394,6 +395,10 @@ export class EstimetSheetComponent implements OnInit {
             this.gridData[i]['OPTM_VENDOR'] = "";
             this.gridData[i]['OPTM_LEAD_TIME'] = "";
             this.gridData[i]['OPTM_AMOUNT'] = "";
+            this.gridData[i]['OPTM_LENGTH'] = parseFloat(this.gridData[i]["OPTM_LENGTH"]).toFixed(2);
+            this.gridData[i]['OPTM_WIDTH'] = parseFloat(this.gridData[i]["OPTM_WIDTH"]).toFixed(2);
+            this.gridData[i]['OPTM_THICKNESS'] = parseFloat(this.gridData[i]["OPTM_THICKNESS"]).toFixed(2);
+            this.gridData[i]['OPTM_PER_UNIT_PRICE'] = parseFloat(this.gridData[i]["OPTM_PER_UNIT_PRICE"]).toFixed(2);
             this.gridData[i]["OPTM_PROJECTED_COST"] = (parseFloat(this.gridData[i]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.gridData[i]["OPTM_QUANTITY"])).toFixed(2)
             this.gridData[i]["OPTM_AMOUNT"] = (parseFloat(this.gridData[i]["OPTM_PROJECTED_COST"]) + (parseFloat(this.gridData[i]["OPTM_PROJECTED_COST"]) * (parseFloat(this.gridData[i]["OPTM_MARKUP"]) / 100))).toFixed(2)
           }
@@ -482,9 +487,13 @@ export class EstimetSheetComponent implements OnInit {
   onChange(rowIndex: any, value: any, key: any) {
     this.gridData[rowIndex][key] = value;
     if (key == "OPTM_QUANTITY") {
+      this.gridData[rowIndex]["OPTM_QUANTITY"] = parseFloat(this.gridData[rowIndex]["OPTM_QUANTITY"]).toFixed(2);
       if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
         this.gridData[rowIndex]["OPTM_QUANTITY"] = (parseFloat(this.gridData[rowIndex]["OPTM_QUANTITY"]) * parseFloat(this.quantity)).toFixed(2)
       }
+    }
+    if (key == "OPTM_PER_UNIT_PRICE") {
+      this.gridData[rowIndex]["OPTM_PER_UNIT_PRICE"] = parseFloat(this.gridData[rowIndex]["OPTM_PER_UNIT_PRICE"]).toFixed(2);
     }
     if (this.gridData[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.gridData[rowIndex]["OPTM_QUANTITY"] != "") {
 
@@ -499,9 +508,13 @@ export class EstimetSheetComponent implements OnInit {
   onSubContractChange(rowIndex: any, value: any, key: any) {
     this.subContractingGrid[rowIndex][key] = value;
     if (key == "OPTM_QUANTITY") {
+      this.subContractingGrid[rowIndex]["OPTM_QUANTITY"] = parseFloat(this.subContractingGrid[rowIndex]["OPTM_QUANTITY"]).toFixed(2) 
       if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
         this.subContractingGrid[rowIndex]["OPTM_QUANTITY"] = (parseFloat(this.subContractingGrid[rowIndex]["OPTM_QUANTITY"]) * parseFloat(this.quantity)).toFixed(2)
       }
+    }
+    if (key == "OPTM_PER_UNIT_PRICE") {
+      this.subContractingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] = parseFloat(this.subContractingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]).toFixed(2);
     }
     if (this.subContractingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.subContractingGrid[rowIndex]["OPTM_QUANTITY"] != "") {
       this.subContractingGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.subContractingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.subContractingGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
@@ -516,9 +529,13 @@ export class EstimetSheetComponent implements OnInit {
   onSiteLbrChange(rowIndex: any, value: any, key: any) {
     this.onSiteGrid[rowIndex][key] = value;
     if (key == "OPTM_QUANTITY") {
+      this.onSiteGrid[rowIndex]["OPTM_QUANTITY"] = parseFloat(this.onSiteGrid[rowIndex]["OPTM_QUANTITY"]).toFixed(2);
       if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
         this.onSiteGrid[rowIndex]["OPTM_QUANTITY"] = (parseFloat(this.onSiteGrid[rowIndex]["OPTM_QUANTITY"]) * parseFloat(this.quantity)).toFixed(2)
       }
+    }
+    if (key == "OPTM_PER_UNIT_PRICE") {
+      this.onSiteGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] = parseFloat(this.onSiteGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]).toFixed(2);
     }
     if (this.onSiteGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.onSiteGrid[rowIndex]["OPTM_QUANTITY"] != "") {
       this.onSiteGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.onSiteGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.onSiteGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
@@ -531,6 +548,7 @@ export class EstimetSheetComponent implements OnInit {
 
   onLaborChange(rowIndex: any, value: any, key: any) {
     this.laborGrid[rowIndex][key] = value;
+    this.laborGrid[rowIndex]["OPTM_QUANTITY"] = parseFloat(this.laborGrid[rowIndex]["OPTM_QUANTITY"]).toFixed(2); 
     if (key == "OPTM_QUANTITY") {
       if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
         if (this.laborGrid[rowIndex]["OPTM_LABOR"] != "PROGRAMMING") {
@@ -538,6 +556,9 @@ export class EstimetSheetComponent implements OnInit {
         }
 
       }
+    }
+    if (key == "OPTM_PER_UNIT_PRICE") {
+      this.laborGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] = parseFloat(this.laborGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]).toFixed(2);
     }
     if (this.laborGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.laborGrid[rowIndex]["OPTM_QUANTITY"] != "" && this.laborGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != undefined) {
       this.laborGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.laborGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.laborGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
@@ -551,9 +572,13 @@ export class EstimetSheetComponent implements OnInit {
   onShippingChange(rowIndex: any, value: any, key: any) {
     this.shippingGrid[rowIndex][key] = value;
     if (key == "OPTM_QUANTITY") {
+      this.shippingGrid[rowIndex]["OPTM_QUANTITY"] = parseFloat(this.shippingGrid[rowIndex]["OPTM_QUANTITY"]).toFixed(2)
       if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
         this.shippingGrid[rowIndex]["OPTM_QUANTITY"] = (parseFloat(this.shippingGrid[rowIndex]["OPTM_QUANTITY"]) * parseFloat(this.quantity)).toFixed(2)
       }
+    }
+    if (key == "OPTM_PER_UNIT_PRICE") {
+      this.shippingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] = parseFloat(this.shippingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]).toFixed(2);
     }
     if (this.shippingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.shippingGrid[rowIndex]["OPTM_QUANTITY"] != "") {
       this.shippingGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.shippingGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.shippingGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
@@ -567,10 +592,15 @@ export class EstimetSheetComponent implements OnInit {
 
   ontravelChange(rowIndex: any, value: any, key: any) {
     this.travelGrid[rowIndex][key] = value;
+
     if (key == "OPTM_QUANTITY") {
+      this.travelGrid[rowIndex]["OPTM_QUANTITY"] = parseFloat(this.travelGrid[rowIndex]["OPTM_QUANTITY"]).toFixed(2)
       if (this.quantity != "" && this.quantity != 0 && this.quantity != undefined) {
         this.travelGrid[rowIndex]["OPTM_QUANTITY"] = (parseFloat(this.travelGrid[rowIndex]["OPTM_QUANTITY"]) * parseFloat(this.quantity)).toFixed(2)
       }
+    }
+    if (key == "OPTM_PER_UNIT_PRICE") {
+      this.travelGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] = parseFloat(this.travelGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]).toFixed(2);
     }
     if (this.travelGrid[rowIndex]["OPTM_PER_UNIT_PRICE"] != "" && this.travelGrid[rowIndex]["OPTM_QUANTITY"] != "") {
       this.travelGrid[rowIndex]["OPTM_PROJECTED_COST"] = (parseFloat(this.travelGrid[rowIndex]["OPTM_PER_UNIT_PRICE"]) * parseFloat(this.travelGrid[rowIndex]["OPTM_QUANTITY"])).toFixed(2)
@@ -718,8 +748,8 @@ export class EstimetSheetComponent implements OnInit {
 
   setEditSaveData(data: any) {
     let estmationFields = data.OPCONFIG_EST_HEADER;
-    let estimationmaterialGrid =  data.OPCONFIG_EST_MATERIAL;
-    let estmationLaborGrid =  data.OPCONFIG_EST_LABOR;
+    let estimationmaterialGrid = data.OPCONFIG_EST_MATERIAL;
+    let estmationLaborGrid = data.OPCONFIG_EST_LABOR;
     this.nXP_Chandler_Site = estmationFields[0].OPTM_CUSTOMER;
     this.product_code = estmationFields[0].OPTM_CODE;
     this.shipping = estmationFields[0].OPTM_SHIPPING;
