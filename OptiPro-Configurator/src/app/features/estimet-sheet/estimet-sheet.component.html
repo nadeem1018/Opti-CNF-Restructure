@@ -40,6 +40,27 @@
                                                             type="text"></div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row clearfix">
+                                                    <label class="col-sm-3 col-form-label">
+                                                        <div class="d-flex align-items-center">
+                                                            <span>Project Details</span>
+                                                        </div>
+                                                    </label>
+                                                    <div class="col-sm-9 d-inline-flex align-items-center">
+                                                        <input type="text" [(ngModel)]="save_product_code" name="save_product_code"
+                                                            class="form-control form-control-sm">
+                                                        <div class="input-group-append">
+                                                            <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
+                                                                id="basic-addon2" (click)="getProductFetch()">
+                                                                <svg viewBox="0 -96 512 512" class="icon m-0">
+                                                                    <use xlink:href="#menu"></use>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1406,7 +1427,7 @@
                                                         <div class="d-flex align-items-center"><span>Total Cost</span></div>
                                                     </label>
                                                     <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                            type="text" [(ngModel)]="total_Cost" name="total_Cost"></div>
+                                                            type="text" disabled="true" [(ngModel)]="total_Cost" name="total_Cost"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -1415,7 +1436,7 @@
                                                         <div class="d-flex align-items-center"><span>Total Price</span></div>
                                                     </label>
                                                     <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                            type="text" [(ngModel)]="total_Price" name="total_Price"></div>
+                                                            type="text" disabled="true" [(ngModel)]="total_Price" name="total_Price"></div>
                                                 </div>
                                             </div>
 
@@ -1429,7 +1450,8 @@
                                                         <div class="d-flex align-items-center"><span>Per Unit Cost</span></div>
                                                     </label>
                                                     <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                            type="text" [(ngModel)]="per_Unit_Cost" name="per_Unit_Cost"></div>
+                                                            type="text" disabled="true" [(ngModel)]="per_Unit_Cost"
+                                                            name="per_Unit_Cost"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -1438,7 +1460,7 @@
                                                         <div class="d-flex align-items-center"><span>Subtotal</span></div>
                                                     </label>
                                                     <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                            type="text" [(ngModel)]="subtotal" name="subtotal"></div>
+                                                            type="text" disabled="true" [(ngModel)]="subtotal" name="subtotal"></div>
                                                 </div>
                                             </div>
 
@@ -1450,7 +1472,7 @@
                                                         <div class="d-flex align-items-center"><span>Overhead</span></div>
                                                     </label>
                                                     <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                            type="text" [(ngModel)]="overhead" name="overhead"></div>
+                                                            type="text" disabled="true" [(ngModel)]="overhead" name="overhead"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1477,7 +1499,8 @@
                                                         <div class="d-flex align-items-center"><span>Per Unit Price</span></div>
                                                     </label>
                                                     <div class="col-sm-9 d-inline-flex align-items-center"><input class="form-control form-control-sm"
-                                                            type="text" [(ngModel)]="per_Unit_Price" name="per_Unit_Price"></div>
+                                                            type="text" disabled="true" [(ngModel)]="per_Unit_Price"
+                                                            name="per_Unit_Price"></div>
                                                 </div>
                                             </div>
 

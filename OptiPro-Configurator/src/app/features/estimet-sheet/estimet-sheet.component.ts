@@ -66,6 +66,7 @@ export class EstimetSheetComponent implements OnInit {
   public OPCONFIG_EST_MATERIAL: any = [];
   public subContractingGrid: any = [];
   public subContractingindex: any = 0;
+  public save_product_code: any = ""
 
 
 
@@ -94,17 +95,97 @@ export class EstimetSheetComponent implements OnInit {
 
   }
 
+  getProductFetch() {
+    CommonData.made_changes = true;
+    this.serviceData = []
+    this.lookupfor = 'save_product_details';
+    this.showLookupLoader = true;
+    this.service.getSaveProductlDetails().subscribe(
+      data => {
+        this.showLookupLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.router, 'Sessionout');
+            return;
+          }
+        }
+        if (data.length > 0) {
+          this.serviceData = data;
+        }
+        else {
+          this.lookupfor = "";
+          this.serviceData = [];
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
+  }
+
   getLookupValue($event) {
     if ($event.length == 0) {
       this.lookupfor = "";
       return;
     }
     CommonData.made_changes = true;
-    this.product_code = $event[2];
-    let productCode = $event[2];
-    this.lookupfor = "";
-    this.fetchFullProducts(productCode);
+    if (this.lookupfor == "Product_Details") {
+      this.product_code = $event[2];
+      let productCode = $event[2];
+      this.lookupfor = "";
+      this.fetchFullProducts(productCode);
+    }
+    if (this.lookupfor == "save_product_details") {
+      this.save_product_code = $event[2];
 
+      this.lookupfor = "";
+      this.fetchSaveProducts(this.save_product_code);
+    }
+
+
+
+  }
+
+  fetchSaveProducts(productCode: any) {
+    this.resetFields();
+    this.showLookupLoader = true;
+    this.service.getFullEstimateDetails(productCode).subscribe(
+      data => {
+        this.showLookupLoader = false;
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.router, 'Sessionout');
+            return;
+          }
+        }
+        if (data != undefined) {
+          this.setEditSaveData(data);
+        }
+        else {
+
+
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
   }
 
   addRow() {
@@ -208,7 +289,7 @@ export class EstimetSheetComponent implements OnInit {
       'OPTM_PROJECTED_COST': "",
       'OPTM_AMOUNT': "",
       'OPTM_LABOR': "",
-      'GROUP_NAME': "Travel",
+      'GROUP_NAME': "OnSite",
       'OPTM_LINENO': this.siteLaborIndex + 1,
       'rowIndex': this.siteLaborIndex
     })
@@ -633,6 +714,70 @@ export class EstimetSheetComponent implements OnInit {
     }
     this.total_Price = (parseFloat(this.subtotal) + parseFloat(this.overhead) + parseFloat(this.expedite_Fee)).toFixed(2)
 
+  }
+
+  setEditSaveData(data: any) {
+    let estmationFields = data.OPCONFIG_EST_HEADER;
+    let estimationmaterialGrid =  data.OPCONFIG_EST_MATERIAL;
+    let estmationLaborGrid =  data.OPCONFIG_EST_LABOR;
+    this.nXP_Chandler_Site = estmationFields[0].OPTM_CUSTOMER;
+    this.product_code = estmationFields[0].OPTM_CODE;
+    this.shipping = estmationFields[0].OPTM_SHIPPING;
+    this.warehouse_Manager = estmationFields[0].OPTM_WAREHPUSE_MGR;
+    this.shipping_Address_1 = estmationFields[0].OPTM_SHIP_ADD1;
+    this.shipping_Address_2 = estmationFields[0].OPTM_SHIP_ADD2;
+    this.city = estmationFields[0].OPTM_CITY;
+    this.state = estmationFields[0].OPTM_STATE;
+    this.zip = estmationFields[0].OPTM_ZIP;
+    this.Phone_1 = estmationFields[0].OPTM_PHONE1;
+    this.phone_2 = estmationFields[0].OPTM_PHONE2;
+    this.shipping_email = estmationFields[0].OPTM_SHIP_EMAIL;
+    this.part_Number = estmationFields[0].OPTM_PARTNO;
+    this.Project_Description = estmationFields[0].OPTM_PROJECT_DESC;
+    this.quantity = estmationFields[0].OPTM_QUANTITY;
+    this.sales_Representative = estmationFields[0].OPTM_SALES_REP;
+    this.Phone_Number = estmationFields[0].OPTM_PROJECT_PHONE;
+    this.project_email = estmationFields[0].OPTM_PROJECT_EMAIL;
+    this.estimator = estmationFields[0].OPTM_ESTIMATOR;
+    this.estimate_Number = estmationFields[0].OPTM_ESTIMATOR_NO;
+    this.estimate_Due_Date = estmationFields[0].OPTM_ESTIMATE_DUEDT;
+    this.project_Due_Date = estmationFields[0].OPTM_PROJECT_DUEDT;
+    this.submittal_Required = estmationFields[0].OPTM_SUBMITTAL_REQ;
+    this.submittal_Due_Date = estmationFields[0].OPTM_SUBMITTAL_DUEDT;
+    this.ready_to_Ship_Date = estmationFields[0].OPTM_REDY_TO_SHIPDT;
+    this.alp = estmationFields[0].OPTM_ANTICIPATED_LG;
+    this.on_site_date = estmationFields[0].OPTM_ONSITEDT;
+    this.total_Cost = estmationFields[0].OPTM_TOTAL_COST;
+    this.total_Price = estmationFields[0].OPTM_TOTAL_PRICE;
+    this.per_Unit_Price = estmationFields[0].OPTM_PRICE_PER_UNIT;
+    this.per_Unit_Cost = estmationFields[0].OPTM_PER_UNIT_COST;
+    this.subtotal = estmationFields[0].OPTM_SUB_TOTAL;
+    this.expedite_Fee = estmationFields[0].OPTM_EXPEDITE_FEE;
+    this.overhead = estmationFields[0].OPTM_OVERHEAD;
+
+    for (let i = 0; i < estimationmaterialGrid.length; i++) {
+      this.gridData.push(estimationmaterialGrid[i]);
+
+    }
+
+    for (let i = 0; i < estmationLaborGrid.length; i++) {
+      if (estmationLaborGrid[i].GROUP_NAME == "Labor") {
+        this.laborGrid.push(estmationLaborGrid[i]);
+      }
+      if (estmationLaborGrid[i].GROUP_NAME == "Shipping") {
+        this.shippingGrid.push(estmationLaborGrid[i]);
+      }
+      if (estmationLaborGrid[i].GROUP_NAME == "Travel") {
+        this.travelGrid.push(estmationLaborGrid[i]);
+      }
+      if (estmationLaborGrid[i].GROUP_NAME == "SubContracting") {
+        this.subContractingGrid.push(estmationLaborGrid[i]);
+      }
+      if (estmationLaborGrid[i].GROUP_NAME == "OnSite") {
+        this.onSiteGrid.push(estmationLaborGrid[i]);
+      }
+
+    }
   }
 
   onSave() {

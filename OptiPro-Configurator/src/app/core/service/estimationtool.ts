@@ -56,11 +56,11 @@ export class EstimatetoolService {
         return this.httpclient.post(this.config_params.service_url + "/NeedsAssessmentConfiguration/CheckValidTemplateForNeedsAssessmentConfiguration", jObject, this.common_params.httpOptions);
     }
 
-    SaveMaterial(OPCONFIG_MATERIALHEADER, OPCONFIG_MATERIAL, OPCONFIG_MATERIALDETAILS,OPCONFIG_MATERIAL_SUMMARY): Observable<any> {
+    SaveMaterial(OPCONFIG_MATERIALHEADER, OPCONFIG_MATERIAL, OPCONFIG_MATERIALDETAILS, OPCONFIG_MATERIAL_SUMMARY): Observable<any> {
 
         //JSON Obeject Prepared to be send as a param to API
         // let jObject = { AddressDetail: JSON.stringify([{ CompanyDBID: CompanyDBID,Customer: Customer,ShipTo:ShipTo }]) };
-        let jObject: any = { GetData: JSON.stringify({ OPCONFIG_MATERIALHEADER: OPCONFIG_MATERIALHEADER, OPCONFIG_MATERIAL: OPCONFIG_MATERIAL, OPCONFIG_MATERIALDETAILS: OPCONFIG_MATERIALDETAILS,OPCONFIG_MATERIAL_SUMMARY:OPCONFIG_MATERIAL_SUMMARY }) };
+        let jObject: any = { GetData: JSON.stringify({ OPCONFIG_MATERIALHEADER: OPCONFIG_MATERIALHEADER, OPCONFIG_MATERIAL: OPCONFIG_MATERIAL, OPCONFIG_MATERIALDETAILS: OPCONFIG_MATERIALDETAILS, OPCONFIG_MATERIAL_SUMMARY: OPCONFIG_MATERIAL_SUMMARY }) };
         //Return the response form the API  
         return this.httpclient.post(this.config_params.service_url + "/Material/AddUpdateMaterial", jObject, this.common_params.httpOptions);
     }
@@ -79,8 +79,8 @@ export class EstimatetoolService {
         let jObject = {
             GetData: JSON.stringify([{
                 CompanyDBID: sessionStorage.selectedComp,
-                GUID: sessionStorage.getItem("GUID"), 
-                UsernameForLic: sessionStorage.getItem("loggedInUser"), 
+                GUID: sessionStorage.getItem("GUID"),
+                UsernameForLic: sessionStorage.getItem("loggedInUser"),
                 OPTM_CODE: Code
             }])
         }
@@ -111,9 +111,30 @@ export class EstimatetoolService {
 
         //JSON Obeject Prepared to be send as a param to API
         // let jObject = { AddressDetail: JSON.stringify([{ CompanyDBID: CompanyDBID,Customer: Customer,ShipTo:ShipTo }]) };
-        let jObject: any = { GetData: JSON.stringify({ OPCONFIG_EST_HEADER: OPCONFIG_EST_HEADER, OPCONFIG_EST_MATERIAL: OPCONFIG_EST_MATERIAL, OPCONFIG_EST_LABOR: OPCONFIG_EST_LABOR}) };
+        let jObject: any = { GetData: JSON.stringify({ OPCONFIG_EST_HEADER: OPCONFIG_EST_HEADER, OPCONFIG_EST_MATERIAL: OPCONFIG_EST_MATERIAL, OPCONFIG_EST_LABOR: OPCONFIG_EST_LABOR }) };
         //Return the response form the API  
         return this.httpclient.post(this.config_params.service_url + "/Estimate/AddEstimateData", jObject, this.common_params.httpOptions);
+    }
+    getSaveProductlDetails(): Observable<any> {
+        let jObject = {
+            GetData: JSON.stringify([{
+                CompanyDBID: sessionStorage.selectedComp,
+                GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+            }])
+        }
+        return this.httpclient.post(this.config_params.service_url + "/Estimate/GetEstimationList", jObject, this.common_params.httpOptions);
+    }
+
+
+
+    getFullEstimateDetails(Code): Observable<any> {
+        let jObject = {
+            GetData: JSON.stringify([{
+                CompanyDBID: sessionStorage.selectedComp,
+                GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"), OPTM_CODE: Code
+            }])
+        }
+        return this.httpclient.post(this.config_params.service_url + "/Estimate/GetEstimationByID", jObject, this.common_params.httpOptions);
     }
 
 

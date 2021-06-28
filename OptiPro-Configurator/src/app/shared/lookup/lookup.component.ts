@@ -344,6 +344,10 @@ export class LookupComponent implements OnInit {
       if (this.popup_lookupfor == "Product_Details") {
         this.getProductsList();
       }
+      if(this.lookupfor == "save_product_details")
+      {
+        this.getProductsList();
+      }
 
       
 
