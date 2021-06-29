@@ -111,7 +111,7 @@ export class MaterialComponent implements OnInit {
     }
   }
 
-  UpdateSheetSummary(materialCode: string, thickness: number, material: string, type: string, totalArea: number, oldArea: number) {
+  UpdateSheetSummary(materialCode: string, thickness: number, material: string, type: string, totalArea: number, oldArea: number,sheet_lg:number,sheet_width:number,) {
     if (materialCode.trim() == '' || materialCode == undefined) {
       return;
     }
@@ -126,9 +126,9 @@ export class MaterialComponent implements OnInit {
           'Material': material,
           'Type': type,
           'Total_Area': totalArea.toFixed(this.decimalPrec),
-          'Sheet_Width': intVal,
-          'Sheet_Lg': intVal,
-          'Sheet_Area': intVal,
+          'Sheet_Width': sheet_width,
+          'Sheet_Lg': sheet_lg,
+          'Sheet_Area': (sheet_width * sheet_lg).toFixed(this.decimalPrec),
           'Parts_Per_Sheet': intVal,
           'Sheets_Reqd': intVal,
           'rowIndex': this.SheetGridindex
@@ -248,7 +248,7 @@ export class MaterialComponent implements OnInit {
       if (this.material_Griddata[i].rowIndex == index) {
         if (Number(this.material_data[i]["MaterialType"]) == 2) {
           this.UpdateSheetSummary(this.material_data[i]["MaterialCode"], parseFloat(this.material_data[i]["Thickness"]),this.material_data[i]["Material"],
-          this.material_data[i]["Type"],0,parseFloat(this.material_data[i]["Total_Area"]));  
+          this.material_data[i]["Type"],0,parseFloat(this.material_data[i]["Total_Area"]),0,0);  
         }      
         this.material_Griddata.splice(i, 1);
         i = i - 1;
@@ -269,7 +269,7 @@ export class MaterialComponent implements OnInit {
                                 this.material_data[rowIndex]["Material"],
                                 this.material_data[rowIndex]["Type"],
                                 0,
-                                parseFloat(this.material_data[rowIndex]["Total_Area"])); 
+                                parseFloat(this.material_data[rowIndex]["Total_Area"]),0,0); 
       }
     }
     this.service.getSelectedMaterialInfo(value).subscribe(
@@ -292,12 +292,15 @@ export class MaterialComponent implements OnInit {
             this.material_data[rowIndex]["Type"] = data.SelectedMaterialInfo[0]["OPTM_COLOR"];
             this.material_data[rowIndex]["Material"] = data.SelectedMaterialInfo[0]["OPTM_DESCRIPTION"];
             this.material_data[rowIndex]["Thickness"] = parseFloat(data.SelectedMaterialInfo[0]["OPTM_THICKNESS"]).toFixed(this.decimalPrec);
+            this.material_data[rowIndex]["Sheet_Lg"] = data.SelectedMaterialInfo[0]["OPTM_LENGTH"];
+            this.material_data[rowIndex]["Sheet_Width"] = data.SelectedMaterialInfo[0]["OPTM_WIDTH"];
             if (Number(this.material_data[rowIndex]["MaterialType"]) == 2) {
               this.UpdateSheetSummary(this.material_data[rowIndex]["MaterialCode"], 
                                       parseFloat(this.material_data[rowIndex]["Thickness"]),
                                       this.material_data[rowIndex]["Material"],
                                       this.material_data[rowIndex]["Type"],
-                                      parseFloat(this.material_data[rowIndex]["Total_Area"]), 0); 
+                                      parseFloat(this.material_data[rowIndex]["Total_Area"]), 0, parseFloat(this.material_data[rowIndex]["Sheet_Lg"]),                           
+                                                 parseFloat(this.material_data[rowIndex]["Sheet_Width"]),); 
             }
           } else {
             this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
@@ -418,7 +421,7 @@ export class MaterialComponent implements OnInit {
                                   - parseFloat(this.material_data[rowIndex]["Inner_Area"])).toFixed(this.decimalPrec);
       if (Number(this.material_data[rowIndex]["MaterialType"]) == 2) {
         this.UpdateSheetSummary(this.material_data[rowIndex]["MaterialCode"], parseFloat(this.material_data[rowIndex]["Thickness"]),this.material_data[rowIndex]["Material"],
-        this.material_data[rowIndex]["Type"],parseFloat(this.material_data[rowIndex]["Total_Area"]), oldArea);
+        this.material_data[rowIndex]["Type"],parseFloat(this.material_data[rowIndex]["Total_Area"]), oldArea,0,0);
       }      
     }
     else {
@@ -561,7 +564,7 @@ export class MaterialComponent implements OnInit {
         if (this.material_data[i].rowIndex === rowindex) {
           if (Number(this.material_data[i]["MaterialType"]) == 2) {
             this.UpdateSheetSummary(this.material_data[i]["MaterialCode"], parseFloat(this.material_data[i]["Thickness"]),this.material_data[i]["Material"],
-            this.material_data[i]["Type"],0,parseFloat(this.material_data[i]["Total_Area"]));
+            this.material_data[i]["Type"],0,parseFloat(this.material_data[i]["Total_Area"]),0,0);
           } 
           this.material_data.splice(i, 1);
           i = i - 1;

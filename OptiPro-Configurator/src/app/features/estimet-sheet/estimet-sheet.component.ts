@@ -856,28 +856,49 @@ export class EstimetSheetComponent implements OnInit {
     this.overhead = estmationFields[0].OPTM_OVERHEAD;
 
     for (let i = 0; i < estimationmaterialGrid.length; i++) {
+      estimationmaterialGrid[i]['rowIndex'] = i;
       this.gridData.push(estimationmaterialGrid[i]);
 
     }
 
+
+    let shippingGrid = 0;
+    let travelGrid = 0;
+    let SiteGrid = 0;
+    let laborGrid = 0;
+
     for (let i = 0; i < estmationLaborGrid.length; i++) {
       if (estmationLaborGrid[i].GROUP_NAME == "Labor") {
+        estmationLaborGrid[i]['rowIndex'] = laborGrid;
         this.laborGrid.push(estmationLaborGrid[i]);
+        laborGrid = laborGrid + 1;
       }
       if (estmationLaborGrid[i].GROUP_NAME == "Shipping") {
         this.shippingGrid.push(estmationLaborGrid[i]);
       }
       if (estmationLaborGrid[i].GROUP_NAME == "Travel") {
+        estmationLaborGrid[i]['rowIndex'] = travelGrid;
         this.travelGrid.push(estmationLaborGrid[i]);
+        travelGrid = travelGrid + 1;
       }
       if (estmationLaborGrid[i].GROUP_NAME == "SubContracting") {
+        estmationLaborGrid[i]['rowIndex'] = SiteGrid;
         this.subContractingGrid.push(estmationLaborGrid[i]);
+        SiteGrid = SiteGrid + 1;
       }
       if (estmationLaborGrid[i].GROUP_NAME == "OnSite") {
+        estmationLaborGrid[i]['rowIndex'] = shippingGrid;
         this.onSiteGrid.push(estmationLaborGrid[i]);
+        shippingGrid = shippingGrid + 1;
       }
 
     }
+
+    this.subContractingindex = this.subContractingGrid.length;
+    this.siteLaborIndex = this.onSiteGrid.length;
+    this.shippingIndex = this.shippingGrid.length;
+    this.travelIndex = this.travelGrid.length;
+
   }
 
   onSave() {
@@ -992,6 +1013,65 @@ export class EstimetSheetComponent implements OnInit {
       }
     )
 
+
+  }
+
+  onDeleteSubContractRow(row: any) {
+    if (this.subContractingGrid.length > 0) {
+      for (let i = 0; i < this.subContractingGrid.length; ++i) {
+        if (this.subContractingGrid[i].rowIndex === row) {
+
+          this.subContractingGrid.splice(i, 1);
+          i = i - 1;
+          this.subContractingindex = this.subContractingindex - 1;
+
+        }
+      }
+    }
+  }
+
+  onDeleteSiteRow(row: any) {
+    if (this.onSiteGrid.length > 0) {
+      for (let i = 0; i < this.onSiteGrid.length; ++i) {
+        if (this.onSiteGrid[i].rowIndex === row) {
+
+          this.onSiteGrid.splice(i, 1);
+          i = i - 1;
+          this.siteLaborIndex = this.siteLaborIndex - 1;
+
+        }
+      }
+    }
+
+  }
+
+  onDeleteShippingRow(row: any) {
+    if (this.shippingGrid.length > 0) {
+      for (let i = 0; i < this.shippingGrid.length; ++i) {
+        if (this.shippingGrid[i].rowIndex === row) {
+
+          this.shippingGrid.splice(i, 1);
+          i = i - 1;
+          this.shippingIndex = this.shippingIndex - 1;
+
+        }
+      }
+    }
+
+  }
+
+  onDeleteTravelRow(row: any) {
+    if (this.travelGrid.length > 0) {
+      for (let i = 0; i < this.travelGrid.length; ++i) {
+        if (this.travelGrid[i].rowIndex === row) {
+
+          this.travelGrid.splice(i, 1);
+          i = i - 1;
+          this.travelIndex = this.travelIndex - 1;
+
+        }
+      }
+    }
 
   }
 

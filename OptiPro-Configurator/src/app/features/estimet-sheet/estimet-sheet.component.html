@@ -940,7 +940,7 @@
 
                                     <kendo-grid [kendoGridBinding]="onSiteGrid" [reorderable]="true" [resizable]="true"
                                         [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'100px', 'max-width':'100%'}"
+                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
                                         <ng-template kendoGridToolbarTemplate>
@@ -1052,7 +1052,16 @@
 
                                         </kendo-grid-column>
 
-
+                               <kendo-grid-column field="delete" title="" template="" [width]="60"
+                                            [minResizableWidth]="60">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <button type="button" class="btn btn-danger btn-sm btn-icon" (click)="onDeleteSiteRow(dataItem.rowIndex)">
+                                                    <svg viewBox="0 0 753.23 753.23" class="icon">
+                                                        <use xlink:href="#bin"></use>
+                                                    </svg>
+                                                </button>
+                                            </ng-template>
+                                        </kendo-grid-column>
 
                                     </kendo-grid>
                                 </div>
@@ -1070,7 +1079,7 @@
 
                                     <kendo-grid [kendoGridBinding]="travelGrid" [reorderable]="true" [resizable]="true"
                                         [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'100px', 'max-width':'100%'}"
+                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
                                         <ng-template kendoGridToolbarTemplate>
@@ -1181,6 +1190,16 @@
                                             </ng-template>
 
                                         </kendo-grid-column>
+                                        <kendo-grid-column field="delete" title="" template="" [width]="60"
+                                        [minResizableWidth]="60">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <button type="button" class="btn btn-danger btn-sm btn-icon" (click)="onDeleteTravelRow(dataItem.rowIndex)">
+                                                <svg viewBox="0 0 753.23 753.23" class="icon">
+                                                    <use xlink:href="#bin"></use>
+                                                </svg>
+                                            </button>
+                                        </ng-template>
+                                    </kendo-grid-column>
 
 
 
@@ -1200,7 +1219,7 @@
 
                                     <kendo-grid [kendoGridBinding]="subContractingGrid" [reorderable]="true"
                                         [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false"
-                                        [selectable]="selectableSettings" [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'100px', 'max-width':'100%'}"
+                                        [selectable]="selectableSettings" [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
                                         <ng-template kendoGridToolbarTemplate>
 
@@ -1310,7 +1329,16 @@
 
                                         </kendo-grid-column>
 
-
+                                        <kendo-grid-column field="delete" title="" template="" [width]="60"
+                                        [minResizableWidth]="60">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <button type="button" class="btn btn-danger btn-sm btn-icon" (click)="onDeleteSubContractRow(dataItem.rowIndex)">
+                                                <svg viewBox="0 0 753.23 753.23" class="icon">
+                                                    <use xlink:href="#bin"></use>
+                                                </svg>
+                                            </button>
+                                        </ng-template>
+                                    </kendo-grid-column>
 
                                     </kendo-grid>
                                 </div>
@@ -1327,7 +1355,7 @@
 
                                     <kendo-grid [kendoGridBinding]="shippingGrid" [reorderable]="true" [resizable]="true"
                                         [sortable]="false" [groupable]="false" [filterable]="false" [selectable]="selectableSettings"
-                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'100px', 'max-width':'100%'}"
+                                        [kendoGridSelectBy]="'rowIndex'" [ngStyle]="{'min-height':'200px', 'max-width':'100%'}"
                                         [selectedKeys]="row_selection" (selectionChange)="getSelectedRowDetail($event)">
 
                                         <ng-template kendoGridToolbarTemplate>
@@ -1439,7 +1467,16 @@
 
                                         </kendo-grid-column>
 
-
+                                        <kendo-grid-column field="delete" title="" template="" [width]="60"
+                                        [minResizableWidth]="60">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <button type="button" class="btn btn-danger btn-sm btn-icon" (click)="onDeleteShippingRow(dataItem.rowIndex)">
+                                                <svg viewBox="0 0 753.23 753.23" class="icon">
+                                                    <use xlink:href="#bin"></use>
+                                                </svg>
+                                            </button>
+                                        </ng-template>
+                                    </kendo-grid-column>
 
                                     </kendo-grid>
                                 </div>
