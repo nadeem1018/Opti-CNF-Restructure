@@ -2703,7 +2703,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           }
 
           this.groupData = data.GroupDataList;
-          this.groupData.sort((a,b) => (a.OPTM_DSPGROUP_ORDER > b.OPTM_DSPGROUP_ORDER) ? 1 : ((b.OPTM_DSPGROUP_ORDER > a.OPTM_DSPGROUP_ORDER) ? -1 : 0))
+          this.groupData.sort((a, b) => (a.OPTM_DSPGROUP_ORDER > b.OPTM_DSPGROUP_ORDER) ? 1 : ((b.OPTM_DSPGROUP_ORDER > a.OPTM_DSPGROUP_ORDER) ? -1 : 0))
 
           data.ModelHeaderData = data.ModelHeaderData.filter(function (obj) {
             obj['OPTM_LEVEL'] = 0;
@@ -3147,7 +3147,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             HEADER_LINENO: 0,
             unique_key: ItemData.unique_key,
             nodeid: ItemData.nodeid,
-            sort_key: "999999"
+            sort_key: "999999",
+            OPTM_OPTIONAL: ItemData.OPTM_OPTIONAL,
+            OPTM_RET_TO_INV: ItemData.OPTM_RET_TO_INV
           });
         }
 
@@ -3779,6 +3781,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                           OPTM_TYPE: DataForSelectedFeatureModelItem[i].OPTM_TYPE,
                           OPTM_VALUE: DataForSelectedFeatureModelItem[i].OPTM_VALUE,
                           OPTM_MODELID: DataForSelectedFeatureModelItem[i].OPTM_MODELID,
+                          OPTM_OPTIONAL: DataForSelectedFeatureModelItem[i].OPTM_OPTIONAL,
+                          OPTM_RET_TO_INV: DataForSelectedFeatureModelItem[i].OPTM_RET_TO_INV,
                           feature_code: DataForSelectedFeatureModelItem[i].feature_code,
                           parent_code: DataForSelectedFeatureModelItem[i].parent_code,
                           checked: checkeddefault,
@@ -5013,6 +5017,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           OPTM_TYPE: dtFeatureDataWithDefault[idtfeature].OPTM_TYPE,
           OPTM_VALUE: dtFeatureDataWithDefault[idtfeature].OPTM_VALUE,
           OPTM_MODELID: dtFeatureDataWithDefault[idtfeature].OPTM_MODELID,
+          OPTM_OPTIONAL: dtFeatureDataWithDefault[idtfeature].OPTM_OPTIONAL,
+          OPTM_RET_TO_INV: dtFeatureDataWithDefault[idtfeature].OPTM_RET_TO_INV,
           feature_code: dtFeatureDataWithDefault[idtfeature].feature_code,
           parent_code: dtFeatureDataWithDefault[idtfeature].parent_code,
           checked: checkeddefault,
@@ -5265,7 +5271,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
         }
       }
-    } 
+    }
     // else {
     //   for (let index = 0; index < this.feature_itm_list_table.length; index++) {
     //     if (this.feature_itm_list_table[index].nodeid == uniqueKey && this.feature_itm_list_table[index].ModelId == featureModelData.parentmodelid && this.feature_itm_list_table[index].nodeid != featureModelData.unique_key) {
@@ -5485,7 +5491,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                 unique_key: featureModelData.unique_key,
                 nodeid: featureModelData.nodeid,
                 sort_key: featureModelData.sort_key,
-                parentmodelid: featureModelData.parentmodelid
+                parentmodelid: featureModelData.parentmodelid,
+                OPTM_OPTIONAL: featureModelData.OPTM_OPTIONAL,
+                OPTM_RET_TO_INV: featureModelData.OPTM_RET_TO_INV
               });
             } else if (isDefaultItem) {
               this.feature_itm_list_table.push({
@@ -5514,6 +5522,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                 unique_key: ItemData[0].unique_key,
                 nodeid: ItemData[0].nodeid,
                 sort_key: ItemData[0].sort_key,
+                OPTM_OPTIONAL: ItemData[0].OPTM_OPTIONAL,
+                OPTM_RET_TO_INV: ItemData[0].OPTM_RET_TO_INV,
                 parentmodelid: featureModelData.parentmodelid
               });
             }
@@ -7371,7 +7381,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                   "OPTM_OUTPUTID": "",
                   "OPTM_OUTPUTDTLID": "",
                   "OPTM_ITEMNUMBER": step3_data_row.feature[ifeature].ItemNumber,
-                  "OPTM_ITEMCODE": step3_data_row.feature[ifeature].Item.trim() ,
+                  "OPTM_ITEMCODE": step3_data_row.feature[ifeature].Item.trim(),
                   "OPTM_KEY": "",
                   "OPTM_PARENTKEY": "",
                   "OPTM_TEMPLATEID": "",
@@ -7587,7 +7597,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             "UNIQUE_KEY": temp_step2_final_dataset_save[itempsavefinal].UNIQUE_KEY,
             "NODEID": temp_step2_final_dataset_save[itempsavefinal].NODEID,
             "temp_model_id": temp_step2_final_dataset_save[itempsavefinal].temp_model_id,
-            "MODEL_UNIQUE_KEY": temp_step2_final_dataset_save[itempsavefinal].MODEL_UNIQUE_KEY
+            "MODEL_UNIQUE_KEY": temp_step2_final_dataset_save[itempsavefinal].MODEL_UNIQUE_KEY,
+            "OPTM_OPTIONAL": temp_step2_final_dataset_save[itempsavefinal].OPTM_OPTIONAL,
+            "OPTM_RET_TO_INV": temp_step2_final_dataset_save[itempsavefinal].OPTM_RET_TO_INV
+
           })
         }
 
@@ -7992,7 +8005,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       // console.log(this.feature_accessory_list);
 
     }
-   }
+  }
 
 
   setHeaderAccessoryData(AccarrayData) {
@@ -8411,6 +8424,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             pricehide: isPricehide,
             isQuantityDisabled: false,
             ispropogateqty: ItemData[i].OPTM_PROPOGATEQTY,
+            OPTM_OPTIONAL: ItemData[i].OPTM_OPTIONAL,
+            OPTM_RET_TO_INV: ItemData[i].OPTM_RET_TO_INV,
             OPTM_LINENO: parseInt(ItemData[i].OPTM_LINENO),
             OPTM_TYPE: parseInt(ItemData[i].OPTM_TYPE),
             HEADER_LINENO: isheadercounter,
@@ -8488,6 +8503,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           HEADER_LINENO: DefaultData[idefault].HEADER_LINENO,
           parent_featureid: DefaultData[idefault].parent_featureid,
           nodeid: DefaultData[idefault].nodeid,
+          OPTM_OPTIONAL: DefaultData[idefault].OPTM_OPTIONAL,
+          OPTM_RET_TO_INV: DefaultData[idefault].OPTM_RET_TO_INV,
           unique_key: DefaultData[idefault].unique_key,
           sort_key: DefaultData[idefault].sort_key
         });
@@ -8563,6 +8580,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           OPTM_ITEMTYPE: 1,
           unique_key: ModelData[imodelarray].unique_key,
           nodeid: ModelData[imodelarray].nodeid,
+          OPTM_OPTIONAL: ModelData[imodelarray].OPTM_OPTIONAL,
+          OPTM_RET_TO_INV: ModelData[imodelarray].OPTM_RET_TO_INV,
           sort_key: ModelData[imodelarray].sort_key
         });
         //   console.log("this.feature_itm_list_table - ", this.feature_itm_list_table);
@@ -8624,6 +8643,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             isQuantityDisabled: true,
             OPTM_LINENO: ModelItemsArray[imodelItemsarray].OPTM_LINENO,
             HEADER_LINENO: ModelItemsArray[imodelItemsarray].HEADER_LINENO,
+            OPTM_OPTIONAL: ModelItemsArray[imodelItemsarray].OPTM_OPTIONAL,
+            OPTM_RET_TO_INV: ModelItemsArray[imodelItemsarray].OPTM_RET_TO_INV,
             nodeid: ModelItemsArray[imodelItemsarray].nodeid,
             unique_key: ModelItemsArray[imodelItemsarray].unique_key,
             sort_key: ModelItemsArray[imodelItemsarray].sort_key
@@ -8720,6 +8741,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           isQuantityDisabled: true,
           OPTM_LINENO: ModelData[imodelarray].OPTM_LINENO,
           HEADER_LINENO: ModelData[imodelarray].OPTM_LINENO,
+          OPTM_OPTIONAL: ModelData[imodelarray].OPTM_OPTIONAL,
+          OPTM_RET_TO_INV: ModelData[imodelarray].OPTM_RET_TO_INV,
           OPTM_ITEMTYPE: 1,
           nodeid: nodeid,
           sort_key: ModelData[imodelarray].sort_key
@@ -8799,6 +8822,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             isQuantityDisabled: true,
             OPTM_LINENO: ModelItemsArray[imodelItemsarray].OPTM_LINENO,
             HEADER_LINENO: ModelItemsArray[imodelItemsarray].HEADER_LINENO,
+            OPTM_OPTIONAL: ModelItemsArray[imodelItemsarray].OPTM_OPTIONAL,
+            OPTM_RET_TO_INV: ModelItemsArray[imodelItemsarray].OPTM_RET_TO_INV,
             nodeid: nodeid,
             unique_key: unique_key,
             sort_key: ModelItemsArray[imodelItemsarray].sort_key
@@ -8861,6 +8886,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           isQuantityDisabled: true,
           OPTM_LINENO: ModelItemsData[imodelarray].OPTM_LINENO,
           HEADER_LINENO: ModelItemsData[imodelarray].OPTM_LINENO,
+          OPTM_OPTIONAL: ModelItemsData[imodelarray].OPTM_OPTIONAL,
+          OPTM_RET_TO_INV: ModelItemsData[imodelarray].OPTM_RET_TO_INV,
           nodeid: ModelItemsData[imodelarray].nodeid,
           unique_key: ModelItemsData[imodelarray].unique_key,
           sort_key: ModelItemsData[imodelarray].sort_key
@@ -8959,6 +8986,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           isQuantityDisabled: true,
           OPTM_LINENO: DefaultData[idefault].OPTM_LINENO,
           HEADER_LINENO: DefaultData[idefault].HEADER_LINENO,
+          OPTM_OPTIONAL: DefaultData[idefault].OPTM_OPTIONAL,
+          OPTM_RET_TO_INV: DefaultData[idefault].OPTM_RET_TO_INV,
           unique_key: unqiue_key,
           nodeid: nodeid,
           sort_key: DefaultData[idefault].sort_key
@@ -9963,6 +9992,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             ModelId: filtemodeldataheader[0].OPTM_MODELID,
             OPTM_LEVEL: getmodelsavedata[imodelsavedata].OPTM_LEVEL,
             OPTM_TYPE: getmodelsavedata[imodelsavedata].OPTM_TYPE,
+            OPTM_OPTIONAL: getmodelsavedata[imodelsavedata].OPTM_OPTIONAL,
+            OPTM_RET_TO_INV: getmodelsavedata[imodelsavedata].OPTM_RET_TO_INV,
             isQuantityDisabled: true,
             OPTM_LINENO: parseFloat(imodelsavedata) + 1,
             HEADER_LINENO: parseFloat(imodelsavedata) + 1,
@@ -10006,6 +10037,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               ModelId: ModelItemsArray[0].OPTM_MODELID,
               OPTM_LEVEL: getmodelsavedata[imodelsavedata].OPTM_LEVEL,
               OPTM_TYPE: getmodelsavedata[imodelsavedata].OPTM_TYPE,
+              OPTM_OPTIONAL: getmodelsavedata[imodelsavedata].OPTM_OPTIONAL,
+              OPTM_RET_TO_INV: getmodelsavedata[imodelsavedata].OPTM_RET_TO_INV,
               isQuantityDisabled: true,
               OPTM_LINENO: parseFloat(imodelsavedata) + 1,
               HEADER_LINENO: parseFloat(imodelsavedata) + 1,
@@ -10065,6 +10098,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               ModelId: ItemsArray[0].OPTM_MODELID,
               OPTM_LEVEL: getmodelsavedata[imodelsavedata].OPTM_LEVEL,
               OPTM_TYPE: getmodelsavedata[imodelsavedata].OPTM_TYPE,
+              OPTM_OPTIONAL: getmodelsavedata[imodelsavedata].OPTM_OPTIONAL,
+              OPTM_RET_TO_INV: getmodelsavedata[imodelsavedata].OPTM_RET_TO_INV,
               isQuantityDisabled: true,
               OPTM_LINENO: parseFloat(imodelsavedata) + 1,
               HEADER_LINENO: parseFloat(imodelsavedata) + 1,
@@ -11984,6 +12019,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       ModelId: this.step2_data.model_id,
       // OPTM_LEVEL: "",
       isQuantityDisabled: true,
+      OPTM_OPTIONAL:"N",
+      OPTM_RET_TO_INV: "N",
       HEADER_LINENO: 1,
       sort_key: "",
       newItem: this.isNewAccesorries,
