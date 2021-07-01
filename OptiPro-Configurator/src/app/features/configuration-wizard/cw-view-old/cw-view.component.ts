@@ -4518,8 +4518,28 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           this.SecondCallAPI = false;
           this.onselectionchange(selecteditem[0], true, 0, true, selecteditem[0].unique_key, false, false, true);
         }
-        this.ReturnToInventory = data.ReturnToInventory;
-        this.AddFeatureList();
+        if (data.ReturnToInventory != undefined) {
+          if (data.ReturnToInventory.length > 0) {
+            for (let i = 0; i < data.ReturnToInventory.length; i++) {
+              if (this.ReturnToInventory.length > 0) {
+                for (let j = 0; j < this.ReturnToInventory.length; j++) {
+                  if (this.ReturnToInventory[j].nodeid == data.ReturnToInventory[id].nodeid) {
+                    this.ReturnToInventory.splice(j, 1);
+                    j = j - 1;
+                  }
+                }
+              }
+
+            }
+            for (let i = 0; i < data.ReturnToInventory.length; i++) {
+              this.ReturnToInventory.push(data.ReturnToInventory[i]);
+            }
+          }
+        }
+        if (this.ReturnToInventory.length > 0) {
+          this.AddFeatureList();
+        }
+
       },//end data
       error => {
 
@@ -6750,7 +6770,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         "model_description": this.model_description,
         "featureDescriptionList": this.featureDescriptionList,
         "descriptionString": this.descriptionString,
-        "ReturnToInventory":this.ReturnToInventory
+        "ReturnToInventory": this.ReturnToInventory
 
       });
     } else {
@@ -12098,20 +12118,24 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     //   return obj['nodeid'];
     // });
 
+
+
+
+
+    for (let i = 0; i < this.feature_itm_list_table.length; i++) {
+      if (this.feature_itm_list_table[i].OPTM_RET_TO_INV == "Y") {
+        this.feature_itm_list_table.splice(i, 1);
+        i = i - 1;
+      }
+
+    }
+
     this.feature_itm_list_table.forEach(element => {
       array.push(element.nodeid)
     });
 
     var uniqueNodeId = array.filter((v, i, a) => a.indexOf(v) === i);
-    for (let j = 0; j < ret_to_array.length; j++) {
-      for (let i = 0; i < this.feature_itm_list_table.length; i++) {
-        if (this.feature_itm_list_table[i].OPTM_RET_TO_INV == "Y") {
-          this.feature_itm_list_table.splice(i, 1);
-          i = i - 1;
-        }
 
-      }
-    }
 
     if (uniqueNodeId.length > 0) {
 
