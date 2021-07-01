@@ -2749,10 +2749,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             }
 
             if (data.FeatureBOMDataForSecondLevel[i].disable == "true") {
-              data.FeatureBOMDataForSecondLevel[i].checked = true
+              data.FeatureBOMDataForSecondLevel[i].disable = true
             }
             else {
-              data.FeatureBOMDataForSecondLevel[i].checked = false
+              data.FeatureBOMDataForSecondLevel[i].disable = false
             }
             if (data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != "" && data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != null && data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != undefined) {
               //data.FeatureBOMDataForSecondLevel[i].IMAGEPATH = this.commonData.get_current_url() + data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT
