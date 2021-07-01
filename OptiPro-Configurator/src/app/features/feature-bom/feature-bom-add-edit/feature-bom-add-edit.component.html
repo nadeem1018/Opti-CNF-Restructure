@@ -200,13 +200,13 @@
 
                                     <div class="col-sm-6 pl-0">
                                         <label class="custom-checkbox mb-0 w-100 curser-pointer">
-                                          <input type="checkbox" id="descModelLevel" name="descModelLevel" value=feature_bom_data.OPTM_MODELLEVEL_DESC
-                                             #desModelLevel [(checked)]=feature_bom_data.OPTM_MODELLEVEL_DESC
-                                            [(ngModel)]="feature_bom_data.OPTM_MODELLEVEL_DESC" title="{{feature_bom_data.OPTM_MODELLEVEL_DESC}}">
-                                          <span class="checkbox"></span>
-                                          <span>{{language.Include_desc_Model_Level}}</span>
+                                            <input type="checkbox" id="descModelLevel" name="descModelLevel" value=feature_bom_data.OPTM_MODELLEVEL_DESC
+                                                #desModelLevel [(checked)]=feature_bom_data.OPTM_MODELLEVEL_DESC
+                                                [(ngModel)]="feature_bom_data.OPTM_MODELLEVEL_DESC" title="{{feature_bom_data.OPTM_MODELLEVEL_DESC}}">
+                                            <span class="checkbox"></span>
+                                            <span>{{language.Include_desc_Model_Level}}</span>
                                         </label>
-                                      </div>
+                                    </div>
 
 
                                     <!-- <div class="form-group row clearfix mb-2">
@@ -228,14 +228,14 @@
                                     </div> -->
                                 </div>
                                 <div class="col-sm-6 pl-0" *ngIf="isModelLevel" [hidden]="feature_bom_data.is_accessory=='N'">
-                                        <label class="custom-checkbox mb-0 w-100 curser-pointer">
-                                          <input type="checkbox" id="descModelLevel" name="descModelLevel" value=feature_bom_data.OPTM_MODELLEVEL_DESC
-                                             #desModelLevel [(checked)]=feature_bom_data.OPTM_MODELLEVEL_DESC
+                                    <label class="custom-checkbox mb-0 w-100 curser-pointer">
+                                        <input type="checkbox" id="descModelLevel" name="descModelLevel" value=feature_bom_data.OPTM_MODELLEVEL_DESC
+                                            #desModelLevel [(checked)]=feature_bom_data.OPTM_MODELLEVEL_DESC
                                             [(ngModel)]="feature_bom_data.OPTM_MODELLEVEL_DESC" title="{{feature_bom_data.OPTM_MODELLEVEL_DESC}}">
-                                          <span class="checkbox"></span>
-                                          <span>{{language.Include_desc_Model_Level}}</span>
-                                        </label>
-                                      </div>
+                                        <span class="checkbox"></span>
+                                        <span>{{language.Include_desc_Model_Level}}</span>
+                                    </label>
+                                </div>
                             </div>
 
                             <!-- Add Row Grid -->
@@ -331,7 +331,7 @@
                                                 value={{dataItem.bom_description}} #bom_description title="{{dataItem.bom_description}}" />
                                         </ng-template>
                                     </kendo-grid-column>
-                                   
+
                                     <kendo-grid-column field="Bom_Qty" title="{{language.Bom_Qty}}" filter="text"
                                         [width]="90" [minResizableWidth]="90">
                                         <ng-template kendoGridCellTemplate let-dataItem>
@@ -386,20 +386,22 @@
                                                     </svg> </button>
                                             </ng-template>
                                         </kendo-grid-column>
-                                        <kendo-grid-column field="Bom_SLCTUSATTR" headerClass="text-center" class="text-center" title="{{language.SLCTUSATTR}}"
-                                        filter="text" [width]="150" [minResizableWidth]="150">
-                                        <ng-template kendoGridCellTemplate let-dataItem>
-                                          <ng-container>
-                                            <label class="custom-checkbox mb-0 without-label">
-                                              <input type="checkbox" value="1" name="select_using_attr" id="select_using_attr_{{dataItem.rowindex}}"
-                                                (change)="on_slctUsAttr_change(OPTM_SELUATTRIBUTE,dataItem.rowindex)" value={{dataItem.OPTM_SELUATTRIBUTE}}
-                                                #OPTM_SELUATTRIBUTE [(checked)]=dataItem.OPTM_SELUATTRIBUTE [disabled]="dataItem.is_slctUsAttr"
-                                                title="{{dataItem.OPTM_SELUATTRIBUTE}}">
-                                              <span class="checkbox"></span>
-                                            </label>
-                                          </ng-container>
-                                        </ng-template>
-                                      </kendo-grid-column>
+                                        <kendo-grid-column field="Bom_SLCTUSATTR" headerClass="text-center" class="text-center"
+                                            title="{{language.SLCTUSATTR}}" filter="text" [width]="150"
+                                            [minResizableWidth]="150">
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <ng-container>
+                                                    <label class="custom-checkbox mb-0 without-label">
+                                                        <input type="checkbox" value="1" name="select_using_attr" id="select_using_attr_{{dataItem.rowindex}}"
+                                                            (change)="on_slctUsAttr_change(OPTM_SELUATTRIBUTE,dataItem.rowindex)"
+                                                            value={{dataItem.OPTM_SELUATTRIBUTE}} #OPTM_SELUATTRIBUTE
+                                                            [(checked)]=dataItem.OPTM_SELUATTRIBUTE [disabled]="dataItem.is_slctUsAttr"
+                                                            title="{{dataItem.OPTM_SELUATTRIBUTE}}">
+                                                        <span class="checkbox"></span>
+                                                    </label>
+                                                </ng-container>
+                                            </ng-template>
+                                        </kendo-grid-column>
                                     </li>
                                     <kendo-grid-column field="propagate_qty" headerClass="text-center" class="text-center"
                                         title="{{language.propagate_qty}}" filter="numeric" [width]="120"
@@ -456,6 +458,28 @@
                                             </a>
                                         </ng-template>
                                     </kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_OPTIONAL" headerClass="text-center" class="text-center"
+                                        title="Optional" filter="numeric" [width]="120" [minResizableWidth]="120">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <label class="custom-checkbox mb-0 without-label">
+                                                <input type="checkbox" id="OPTM_OPTIONAL{{dataItem.rowindex}}" value={{dataItem.OPTM_OPTIONAL}}
+                                                    (change)="optm_optional_change(optm_optional,dataItem.rowindex)"
+                                                    [(checked)]=dataItem.OPTM_OPTIONAL #optm_optional title="{{dataItem.OPTM_OPTIONAL}}">
+                                                <span class="checkbox"></span>
+                                            </label>
+                                        </ng-template>
+                                    </kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_RET_TO_INV" headerClass="text-center" class="text-center"
+                                        title="ReturnToInv" filter="numeric" [width]="120" [minResizableWidth]="120">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <label class="custom-checkbox mb-0 without-label">
+                                                <input type="checkbox" id="OPTM_OPTIONAL{{dataItem.rowindex}}" value={{dataItem.OPTM_RET_TO_INV}}
+                                                    (change)="optm_return_change(optm_return,dataItem.rowindex)"
+                                                    [(checked)]=dataItem.OPTM_RET_TO_INV #optm_return title="{{dataItem.OPTM_RET_TO_INV}}">
+                                                <span class="checkbox"></span>
+                                            </label>
+                                        </ng-template>
+                                    </kendo-grid-column>
                                     <kendo-grid-column field="print_on_report" headerClass="text-center" class="text-center"
                                         title="{{language.print_on_report}}" filter="numeric" [width]="120"
                                         [minResizableWidth]="120">
@@ -469,14 +493,14 @@
                                             </label>
                                         </ng-template>
                                     </kendo-grid-column>
-                                    <kendo-grid-column field="OPTM_ABBREVIATION" title="{{language.Abbreviation}}" filter="text" [width]="145"
-                                    [minResizableWidth]="145">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                      <input  type="text" class="form-control  form-control-sm"
-                                        id="bom_abbreviation" (change)="on_abbreviation_description_change(OPTM_ABBREVIATION.value,dataItem.rowindex)"
-                                        value={{dataItem.OPTM_ABBREVIATION}} #OPTM_ABBREVIATION title="{{dataItem.OPTM_ABBREVIATION}}" />
-                                    </ng-template>
-                                  </kendo-grid-column>
+                                    <kendo-grid-column field="OPTM_ABBREVIATION" title="{{language.Abbreviation}}"
+                                        filter="text" [width]="145" [minResizableWidth]="145">
+                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                            <input type="text" class="form-control  form-control-sm" id="bom_abbreviation"
+                                                (change)="on_abbreviation_description_change(OPTM_ABBREVIATION.value,dataItem.rowindex)"
+                                                value={{dataItem.OPTM_ABBREVIATION}} #OPTM_ABBREVIATION title="{{dataItem.OPTM_ABBREVIATION}}" />
+                                        </ng-template>
+                                    </kendo-grid-column>
                                     <kendo-grid-column field="delete" title="" template="" [width]="60"
                                         [minResizableWidth]="60">
                                         <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
@@ -603,7 +627,8 @@
                                 <use xlink:href="#associate"></use>
                             </svg> {{language.associated_BOM}}
                         </button>
-                        <button [style.display]="isAttribute ? 'block' : 'none'" type="button" class="btn btn-sm btn-success with-icon" (click)="onViewAttribute()">
+                        <button [style.display]="isAttribute ? 'block' : 'none'" type="button" class="btn btn-sm btn-success with-icon"
+                            (click)="onViewAttribute()">
                             {{language.view_attribute}}
                         </button>
 

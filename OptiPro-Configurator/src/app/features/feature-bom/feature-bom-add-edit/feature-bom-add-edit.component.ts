@@ -318,6 +318,21 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               print_on_report_disabled = true;
             }
 
+            if (data.FeatureDetail[i].OPTM_OPTIONAL == 'Y' || data.FeatureDetail[i].OPTM_OPTIONAL == 'y') {
+              data.FeatureDetail[i].OPTM_OPTIONAL = true;
+            } else {
+              data.FeatureDetail[i].OPTM_OPTIONAL = false;
+            }
+
+            if (data.FeatureDetail[i].OPTM_RET_TO_INV == 'Y' || data.FeatureDetail[i].OPTM_RET_TO_INV == 'y') {
+              data.FeatureDetail[i].OPTM_RET_TO_INV = true;
+            } else {
+              data.FeatureDetail[i].OPTM_RET_TO_INV = false;
+            }
+
+
+
+
 
             this.feature_bom_table.push({
               rowindex: this.counter,
@@ -353,7 +368,9 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               print_on_report: print_on_report,
               print_on_report_disabled: print_on_report_disabled,
               is_slctUsAttr: data.FeatureDetail[i].is_slctUsAttr,
-              OPTM_SELUATTRIBUTE: data.FeatureDetail[i].OPTM_SELUATTRIBUTE
+              OPTM_SELUATTRIBUTE: data.FeatureDetail[i].OPTM_SELUATTRIBUTE,
+              OPTM_RET_TO_INV: data.FeatureDetail[i].OPTM_RET_TO_INV,
+              OPTM_OPTIONAL: data.FeatureDetail[i].OPTM_OPTIONAL,
             });
           }
         } else {
@@ -649,7 +666,9 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
       print_on_report: print_on_report_flag,
       print_on_report_disabled: print_on_report_disabled_flag,
       is_slctUsAttr: isSelectAttr,
-      OPTM_SELUATTRIBUTE: false
+      OPTM_SELUATTRIBUTE: false,
+      OPTM_OPTIONAL: false,
+      OPTM_RET_TO_INV: false
     });
     CommonData.made_changes = true;
   };
@@ -915,6 +934,20 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
           this.feature_bom_table[i].OPTM_SELUATTRIBUTE = "Y"
         }
 
+        if (this.feature_bom_table[i].OPTM_OPTIONAL == false) {
+          this.feature_bom_table[i].OPTM_OPTIONAL = "N"
+        }
+        else {
+          this.feature_bom_table[i].OPTM_OPTIONAL = "Y"
+        }
+
+        if (this.feature_bom_table[i].OPTM_RET_TO_INV == false) {
+          this.feature_bom_table[i].OPTM_RET_TO_INV = "N"
+        }
+        else {
+          this.feature_bom_table[i].OPTM_RET_TO_INV = "Y"
+        }
+
         this.feature_bom_table[i].quantity = this.feature_bom_table[i].quantity.toString();
         if (this.feature_bom_data.OPTM_MODELLEVEL_DESC == false || this.feature_bom_data.OPTM_MODELLEVEL_DESC == undefined) {
           this.feature_bom_table[i].OPTM_MODELLEVEL_DESC = "N"
@@ -1027,6 +1060,8 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
           this.feature_bom_table[i].print_on_report_disabled = true;
           this.feature_bom_table[i].is_slctUsAttr = true;
           this.feature_bom_table[i].OPTM_SELUATTRIBUTE = false;
+          this.feature_bom_table[i].OPTM_OPTIONAL = false;
+          this.feature_bom_table[i].OPTM_RET_TO_INV = false;
         }
         else {
           this.feature_bom_table[i].isDisplayNameDisabled = false
@@ -1043,6 +1078,8 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
             this.feature_bom_table[i].print_on_report_disabled = false;
             this.feature_bom_table[i].is_slctUsAttr = true;
             this.feature_bom_table[i].OPTM_SELUATTRIBUTE = false;
+            this.feature_bom_table[i].OPTM_OPTIONAL = false;
+            this.feature_bom_table[i].OPTM_RET_TO_INV = false;
           }
           else {
             this.feature_bom_table[i].type = 1
@@ -1056,6 +1093,8 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
             this.feature_bom_table[i].print_on_report_disabled = true;
             this.feature_bom_table[i].is_slctUsAttr = false;
             this.feature_bom_table[i].OPTM_SELUATTRIBUTE = false;
+            this.feature_bom_table[i].OPTM_OPTIONAL = false;
+            this.feature_bom_table[i].OPTM_RET_TO_INV = false;
           }
         }
 
@@ -1795,6 +1834,36 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
         }
         else {
           this.feature_bom_table[i].print_on_report = false
+        }
+      }
+    }
+  }
+
+  optm_return_change(value, rowindex) {
+    CommonData.made_changes = true;
+    this.currentrowindex = rowindex
+    for (let i = 0; i < this.feature_bom_table.length; ++i) {
+      if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
+        if (value.checked == true) {
+          this.feature_bom_table[i].OPTM_RET_TO_INV = true
+        }
+        else {
+          this.feature_bom_table[i].OPTM_RET_TO_INV = false
+        }
+      }
+    }
+  }
+
+  optm_optional_change(value, rowindex) {
+    CommonData.made_changes = true;
+    this.currentrowindex = rowindex
+    for (let i = 0; i < this.feature_bom_table.length; ++i) {
+      if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
+        if (value.checked == true) {
+          this.feature_bom_table[i].OPTM_OPTIONAL = true
+        }
+        else {
+          this.feature_bom_table[i].OPTM_OPTIONAL = false
         }
       }
     }
