@@ -2747,6 +2747,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             else {
               data.FeatureBOMDataForSecondLevel[i].checked = false
             }
+
+            if (data.FeatureBOMDataForSecondLevel[i].disable == "true") {
+              data.FeatureBOMDataForSecondLevel[i].checked = true
+            }
+            else {
+              data.FeatureBOMDataForSecondLevel[i].checked = false
+            }
             if (data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != "" && data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != null && data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != undefined) {
               //data.FeatureBOMDataForSecondLevel[i].IMAGEPATH = this.commonData.get_current_url() + data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT
               data.FeatureBOMDataForSecondLevel[i].IMAGEPATH = this.config_params.service_url + '/web' + data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT;
@@ -6977,6 +6984,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             "PARENTID": step3_data_row.model_id,
             "OPTM_FGCREATEDATE": "",
             "OPTM_REFITEMCODE": "",
+            "OPTM_OPTIONAL":"N",
+            "OPTM_RET_TO_INV":"N",
             "OPTM_PARENTID": step3_data_row.model_id,
             "OPTM_PARENTTYPE": 2,
             "UNIQUE_KEY": step3_data_row.MainModelDetails[0].UNIQUE_KEY,
@@ -7156,6 +7165,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                       "OPTM_MODIFIEDBY": this.common_output_data.username,
                       "UNIQUEIDNT": imodelfilteritems[i].OPTM_UNIQUEIDNT,
                       "PARENTID": imodelfilteritems[i].OPTM_MODELID,
+                      "OPTM_OPTIONAL": imodelfilteritems[i].OPTM_OPTIONAL,
+                      "OPTM_RET_TO_INV": imodelfilteritems[i].OPTM_RET_TO_INV,
                       "OPTM_DSP_GROUP": "",
                       "OPTM_DSPGROUP_ORDER": 0,
                       "OPTM_DSP_ORDERINGROUP": 0,
@@ -7203,6 +7214,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                 "OPTM_MODIFIEDBY": this.common_output_data.username,
                 "UNIQUEIDNT": imodelData[0].OPTM_UNIQUEIDNT,
                 "PARENTID": imodelData[0].OPTM_MODELID,
+                "OPTM_OPTIONAL": imodelData[0].OPTM_OPTIONAL,
+                "OPTM_RET_TO_INV": imodelData[0].OPTM_RET_TO_INV,
                 "OPTM_FGCREATEDATE": "",
                 "OPTM_REFITEMCODE": "",
                 "OPTM_DSP_GROUP": "",
@@ -7354,6 +7367,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                     "OPTM_PARENTTYPE": 1,
                     "UNIQUE_KEY": step3_data_row.feature[ifeature].unique_key,
                     "NODEID": step3_data_row.feature[ifeature].nodeid,
+                    "OPTM_OPTIONAL": step3_data_row.feature[ifeature].OPTM_OPTIONAL,
+                    "OPTM_RET_TO_INV": step3_data_row.feature[ifeature].OPTM_RET_TO_INV,
                     "temp_model_id": parseInt(temp_model_id_default),
                     "OPTM_FILL_POINT": "4",
                     "MODEL_UNIQUE_KEY": modelUniqueKey1
@@ -7402,6 +7417,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                   "OPTM_DSPGROUP_ORDER": ifeatureHeaderData[0].OPTM_DSPGROUP_ORDER,
                   "OPTM_DSP_ORDERINGROUP": ifeatureHeaderData[0].OPTM_DSP_ORDERINGROUP,
                   "PARENTID": step3_data_row.feature[ifeature].FeatureId,
+                  "OPTM_OPTIONAL": step3_data_row.feature[ifeature].OPTM_OPTIONAL,
+                  "OPTM_RET_TO_INV": step3_data_row.feature[ifeature].OPTM_RET_TO_INV,
                   "OPTM_FGCREATEDATE": "",
                   "OPTM_REFITEMCODE": "",
                   "OPTM_PARENTID": step3_data_row.feature[ifeature].FeatureId,
@@ -7537,6 +7554,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               "OPTM_DSP_GROUP": iValueData[itempsavefinal].OPTM_DSP_GROUP,
               "OPTM_DSPGROUP_ORDER": iValueData[itempsavefinal].OPTM_DSPGROUP_ORDER,
               "OPTM_DSP_ORDERINGROUP": iValueData[itempsavefinal].OPTM_DSP_ORDERINGROUP,
+              "OPTM_OPTIONAL":iValueData[itempsavefinal].OPTM_OPTIONAL,
+              "OPTM_RET_TO_INV":iValueData[itempsavefinal].OPTM_RET_TO_INV,
               "OPTM_QUANTITY": parseFloat(iValueData[itempsavefinal].OPTM_QUANTITY).toFixed(3),
               "OPTM_ORIGINAL_QUANTITY": parseFloat(iValueData[itempsavefinal].OPTM_QUANTITY).toFixed(3),
               "OPTM_PRICELIST": Number(0),
