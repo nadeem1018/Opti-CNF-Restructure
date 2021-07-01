@@ -252,6 +252,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
   public SkipAssementModel = false;
   public itemFeatureID: any = 0;
   public filterList: any = [];
+  public ReturnToInventory: any = [];
   public descriptionString: any = "";
   public color = ['#f2f2f2', '#32cd32', '#00B8FA'];
   public count = 0;
@@ -2747,13 +2748,6 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             else {
               data.FeatureBOMDataForSecondLevel[i].checked = false
             }
-
-            if (data.FeatureBOMDataForSecondLevel[i].disable == "true") {
-              data.FeatureBOMDataForSecondLevel[i].disable = true
-            }
-            else {
-              data.FeatureBOMDataForSecondLevel[i].disable = false
-            }
             if (data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != "" && data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != null && data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT != undefined) {
               //data.FeatureBOMDataForSecondLevel[i].IMAGEPATH = this.commonData.get_current_url() + data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT
               data.FeatureBOMDataForSecondLevel[i].IMAGEPATH = this.config_params.service_url + '/web' + data.FeatureBOMDataForSecondLevel[i].OPTM_ATTACHMENT;
@@ -2937,6 +2931,11 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               this.getCustomeAttributeValue();
             }
 
+          }
+
+          this.ReturnToInventory = data.ReturnToInventory;
+          if (this.ReturnToInventory.length > 0) {
+            this.AddFeatureList();
           }
 
 
@@ -4519,6 +4518,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           this.SecondCallAPI = false;
           this.onselectionchange(selecteditem[0], true, 0, true, selecteditem[0].unique_key, false, false, true);
         }
+        this.ReturnToInventory = data.ReturnToInventory;
+        this.AddFeatureList();
       },//end data
       error => {
 
@@ -6748,7 +6749,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         "AbbreviationDataList": this.featureAbbreviationList,
         "model_description": this.model_description,
         "featureDescriptionList": this.featureDescriptionList,
-        "descriptionString": this.descriptionString
+        "descriptionString": this.descriptionString,
+        "ReturnToInventory":this.ReturnToInventory
 
       });
     } else {
@@ -6778,6 +6780,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       this.step3_data_final[row_id]["ModelHeaderItemsArray"] = this.ModelHeaderItemsArray;
       this.step3_data_final[row_id]["Accessoryarray"] = this.selectedAccessoryHeader;
       this.step3_data_final[row_id]["RuleOutputData"] = this.RuleOutputData;
+      this.step3_data_final[row_id]["ReturnToInventory"] = this.ReturnToInventory;
       this.CommonService.show_notification(this.language.multiple_model_update, 'success');
     }
 
@@ -6984,8 +6987,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             "PARENTID": step3_data_row.model_id,
             "OPTM_FGCREATEDATE": "",
             "OPTM_REFITEMCODE": "",
-            "OPTM_OPTIONAL":"N",
-            "OPTM_RET_TO_INV":"N",
+            "OPTM_OPTIONAL": "N",
+            "OPTM_RET_TO_INV": "N",
             "OPTM_PARENTID": step3_data_row.model_id,
             "OPTM_PARENTTYPE": 2,
             "UNIQUE_KEY": step3_data_row.MainModelDetails[0].UNIQUE_KEY,
@@ -7554,8 +7557,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               "OPTM_DSP_GROUP": iValueData[itempsavefinal].OPTM_DSP_GROUP,
               "OPTM_DSPGROUP_ORDER": iValueData[itempsavefinal].OPTM_DSPGROUP_ORDER,
               "OPTM_DSP_ORDERINGROUP": iValueData[itempsavefinal].OPTM_DSP_ORDERINGROUP,
-              "OPTM_OPTIONAL":iValueData[itempsavefinal].OPTM_OPTIONAL,
-              "OPTM_RET_TO_INV":iValueData[itempsavefinal].OPTM_RET_TO_INV,
+              "OPTM_OPTIONAL": iValueData[itempsavefinal].OPTM_OPTIONAL,
+              "OPTM_RET_TO_INV": iValueData[itempsavefinal].OPTM_RET_TO_INV,
               "OPTM_QUANTITY": parseFloat(iValueData[itempsavefinal].OPTM_QUANTITY).toFixed(3),
               "OPTM_ORIGINAL_QUANTITY": parseFloat(iValueData[itempsavefinal].OPTM_QUANTITY).toFixed(3),
               "OPTM_PRICELIST": Number(0),
@@ -12038,7 +12041,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       ModelId: this.step2_data.model_id,
       // OPTM_LEVEL: "",
       isQuantityDisabled: true,
-      OPTM_OPTIONAL:"N",
+      OPTM_OPTIONAL: "N",
       OPTM_RET_TO_INV: "N",
       HEADER_LINENO: 1,
       sort_key: "",
@@ -12082,4 +12085,76 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         })
     }
   }
+
+  // function for add list in feature table using return Inventory 
+
+  AddFeatureList() {
+
+    let array = [];
+    let ret_to_array = this.ReturnToInventory;
+
+
+    // array = this.feature_itm_list_table.filter(function (obj) {
+    //   return obj['nodeid'];
+    // });
+
+    this.feature_itm_list_table.forEach(element => {
+      array.push(element.nodeid)
+    });
+
+    var uniqueNodeId = array.filter((v, i, a) => a.indexOf(v) === i);
+    for (let j = 0; j < ret_to_array.length; j++) {
+      for (let i = 0; i < this.feature_itm_list_table.length; i++) {
+        if (this.feature_itm_list_table[i].OPTM_RET_TO_INV == "Y") {
+          this.feature_itm_list_table.splice(i, 1);
+          i = i - 1;
+        }
+
+      }
+    }
+
+    if (uniqueNodeId.length > 0) {
+
+      for (let i = 0; i < uniqueNodeId.length; i++) {
+        for (let j = 0; j < ret_to_array.length; j++) {
+          if (uniqueNodeId[i] == ret_to_array[j].nodeid) {
+            var priceextn: any = ret_to_array[j].OPTM_QUANTITY * ret_to_array[j].Price
+
+            this.feature_itm_list_table.push({
+              FeatureId: ret_to_array[j].OPTM_FEATUREID,
+              featureName: ret_to_array[j].parent_code,
+              Item: ret_to_array[j].OPTM_ITEMKEY,
+              discount: 0,
+              ItemNumber: ret_to_array[j].DocEntry,
+              Description: ret_to_array[j].OPTM_DISPLAYNAME,
+              progateqty: parseFloat(ret_to_array[j].OPTM_QUANTITY).toFixed(3),
+              quantity: parseFloat(ret_to_array[j].OPTM_QUANTITY).toFixed(3),
+              original_quantity: parseFloat(ret_to_array[j].OPTM_QUANTITY).toFixed(3),
+              price: ret_to_array[j].Price,
+              Actualprice: parseFloat(ret_to_array[j].Price).toFixed(3),
+              pricextn: parseFloat(priceextn).toFixed(3),
+              is_accessory: "N",
+              isPriceDisabled: true,
+              pricehide: true,
+              ModelId: this.step2_data.model_id,
+              OPTM_LEVEL: 1,
+              OPTM_TYPE: ret_to_array[j].OPTM_TYPE,
+              isQuantityDisabled: true,
+              OPTM_LINENO: ret_to_array[j].OPTM_LINENO,
+              HEADER_LINENO: ret_to_array[j].HEADER_LINENO,
+              parent_featureid: ret_to_array[j].parent_featureid,
+              nodeid: ret_to_array[j].nodeid,
+              OPTM_OPTIONAL: ret_to_array[j].OPTM_OPTIONAL,
+              OPTM_RET_TO_INV: ret_to_array[j].OPTM_RET_TO_INV,
+              unique_key: ret_to_array[j].unique_key,
+              sort_key: ret_to_array[j].sort_key
+            });
+          }
+        }
+      }
+
+    }
+    this.feature_price_calculate();
+  }
+
 }
