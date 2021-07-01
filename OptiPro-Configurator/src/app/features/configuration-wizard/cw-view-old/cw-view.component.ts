@@ -5265,23 +5265,24 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
         }
       }
-    } else {
-      for (let index = 0; index < this.feature_itm_list_table.length; index++) {
-        if (this.feature_itm_list_table[index].nodeid == uniqueKey && this.feature_itm_list_table[index].ModelId == featureModelData.parentmodelid && this.feature_itm_list_table[index].nodeid != featureModelData.unique_key) {
-          let currentSelection = this.feature_itm_list_table[index];
-          if (currentSelection.OPTM_TYPE == 3) {
-            if (featureModelData.unique_key != currentSelection.unique_key) {
-              this.feature_itm_list_table.splice(index, 1);
-            }
-          } else {
-            if (featureModelData.unique_key != currentSelection.nodeid) {
-              this.feature_itm_list_table.splice(index, 1);
-            }
-          }
-          this.removeAllSubmodelChild(currentSelection.unique_key, featureModelData, true);
-        }
-      }
-    }
+    } 
+    // else {
+    //   for (let index = 0; index < this.feature_itm_list_table.length; index++) {
+    //     if (this.feature_itm_list_table[index].nodeid == uniqueKey && this.feature_itm_list_table[index].ModelId == featureModelData.parentmodelid && this.feature_itm_list_table[index].nodeid != featureModelData.unique_key) {
+    //       let currentSelection = this.feature_itm_list_table[index];
+    //       if (currentSelection.OPTM_TYPE == 3) {
+    //         if (featureModelData.unique_key != currentSelection.unique_key) {
+    //           this.feature_itm_list_table.splice(index, 1);
+    //         }
+    //       } else {
+    //         if (featureModelData.unique_key != currentSelection.nodeid) {
+    //           this.feature_itm_list_table.splice(index, 1);
+    //         }
+    //       }
+    //       this.removeAllSubmodelChild(currentSelection.unique_key, featureModelData, true);
+    //     }
+    //   }
+    // }
   }
 
   setItemDataForFeature(ItemData, parentarray, propagateqtychecked, propagateqty, tempfeaturecode, lineno, type, parentArrayElemType, isValue, featureModelData) {
