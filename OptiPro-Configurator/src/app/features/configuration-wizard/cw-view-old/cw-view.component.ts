@@ -4523,7 +4523,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             for (let i = 0; i < data.ReturnToInventory.length; i++) {
               if (this.ReturnToInventory.length > 0) {
                 for (let j = 0; j < this.ReturnToInventory.length; j++) {
-                  if (this.ReturnToInventory[j].nodeid == data.ReturnToInventory[id].nodeid) {
+                  if (this.ReturnToInventory[j].nodeid == data.ReturnToInventory[i].nodeid) {
                     this.ReturnToInventory.splice(j, 1);
                     j = j - 1;
                   }
@@ -7607,6 +7607,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         // key generation array iteration - end 
         //  this.step2_final_dataset_to_save.push(temp_step2_final_dataset_save);
         for (let itempsavefinal = 0; itempsavefinal < temp_step2_final_dataset_save.length; itempsavefinal++) {
+          if( temp_step2_final_dataset_save[itempsavefinal].OPTM_RET_TO_INV == "Y")
+          {
+            temp_step2_final_dataset_save[itempsavefinal].OPTM_QUANTITY = "-" + temp_step2_final_dataset_save[itempsavefinal].OPTM_QUANTITY;
+            temp_step2_final_dataset_save[itempsavefinal].OPTM_ORIGINAL_QUANTITY = "-" + temp_step2_final_dataset_save[itempsavefinal].OPTM_ORIGINAL_QUANTITY;
+
+          }
           this.step2_final_dataset_to_save.push({
             "OPTM_OUTPUTID": temp_step2_final_dataset_save[itempsavefinal].OPTM_OUTPUTID,
             "OPTM_OUTPUTDTLID": temp_step2_final_dataset_save[itempsavefinal].OPTM_OUTPUTDTLID,
