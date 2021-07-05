@@ -5892,7 +5892,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           "OPTM_CONTACTPERSON": this.step1_data.person_name,
           "OPTM_TAX": this.acc_item_tax,
           "OPTM_PAYMENTTERM": 0,
-          "OPTM_FGITEM": this.descriptionString,
+          "OPTM_FGITEM": this.descriptionString == "" ? this.step3_data_final[iHdrCount].model_description : this.descriptionString,
           "OPTM_KEY": "",
           "OPTM_DELIVERYDATE": delivery_date_string,
           "OPTM_QUANTITY": parseFloat(this.step3_data_final[iHdrCount].quantity).toFixed(3),
@@ -7609,8 +7609,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         // key generation array iteration - end 
         //  this.step2_final_dataset_to_save.push(temp_step2_final_dataset_save);
         for (let itempsavefinal = 0; itempsavefinal < temp_step2_final_dataset_save.length; itempsavefinal++) {
-          if( temp_step2_final_dataset_save[itempsavefinal].OPTM_RET_TO_INV == "Y")
-          {
+          if (temp_step2_final_dataset_save[itempsavefinal].OPTM_RET_TO_INV == "Y") {
             temp_step2_final_dataset_save[itempsavefinal].OPTM_QUANTITY = "-" + temp_step2_final_dataset_save[itempsavefinal].OPTM_QUANTITY;
             temp_step2_final_dataset_save[itempsavefinal].OPTM_ORIGINAL_QUANTITY = "-" + temp_step2_final_dataset_save[itempsavefinal].OPTM_ORIGINAL_QUANTITY;
 

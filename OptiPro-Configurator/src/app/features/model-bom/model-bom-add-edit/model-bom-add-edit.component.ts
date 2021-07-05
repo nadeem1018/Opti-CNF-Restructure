@@ -1001,7 +1001,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
   }
 
   getLookupValue($event) {
-    if ($event.length == 0) {
+    if ($event.length == 0 && this.lookupfor != 'rule_section_lookup') {
       this.lookupfor = "";
       return;
     }
@@ -1065,7 +1065,15 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
     }
     else if (this.lookupfor == 'rule_section_lookup') {
       CommonData.made_changes = true;
-      this.rule_data = $event;
+      if ($event.length == 0) {
+        this.rule_data = [];
+        this.lookupfor = "";
+      }
+      else {
+        this.rule_data = $event;
+        this.lookupfor = "";
+      }
+
     }
     else if (this.lookupfor == 'Item_Detail_lookup') {
       CommonData.made_changes = true;
