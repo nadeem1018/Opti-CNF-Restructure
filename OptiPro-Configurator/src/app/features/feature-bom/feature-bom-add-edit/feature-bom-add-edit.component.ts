@@ -667,7 +667,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
       print_on_report_disabled: print_on_report_disabled_flag,
       is_slctUsAttr: isSelectAttr,
       OPTM_SELUATTRIBUTE: false,
-      OPTM_OPTIONAL: false,
+      OPTM_OPTIONAL: true,
       OPTM_RET_TO_INV: false
     });
     CommonData.made_changes = true;
@@ -1060,7 +1060,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
           this.feature_bom_table[i].print_on_report_disabled = true;
           this.feature_bom_table[i].is_slctUsAttr = true;
           this.feature_bom_table[i].OPTM_SELUATTRIBUTE = false;
-          this.feature_bom_table[i].OPTM_OPTIONAL = false;
+          this.feature_bom_table[i].OPTM_OPTIONAL = true;
           this.feature_bom_table[i].OPTM_RET_TO_INV = false;
         }
         else {
@@ -1078,7 +1078,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
             this.feature_bom_table[i].print_on_report_disabled = false;
             this.feature_bom_table[i].is_slctUsAttr = true;
             this.feature_bom_table[i].OPTM_SELUATTRIBUTE = false;
-            this.feature_bom_table[i].OPTM_OPTIONAL = false;
+            this.feature_bom_table[i].OPTM_OPTIONAL = true;
             this.feature_bom_table[i].OPTM_RET_TO_INV = false;
           }
           else {
@@ -1093,7 +1093,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
             this.feature_bom_table[i].print_on_report_disabled = true;
             this.feature_bom_table[i].is_slctUsAttr = false;
             this.feature_bom_table[i].OPTM_SELUATTRIBUTE = false;
-            this.feature_bom_table[i].OPTM_OPTIONAL = false;
+            this.feature_bom_table[i].OPTM_OPTIONAL = true;
             this.feature_bom_table[i].OPTM_RET_TO_INV = false;
           }
         }

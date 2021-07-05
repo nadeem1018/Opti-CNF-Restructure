@@ -1284,7 +1284,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
       this.descriptionString = string;
 
-      for (var i in data.ModelBOMDataForSecondLevel) {
+      for (var i in data.ModelBOMDataForSecondfLevel) {
         if (data.ModelBOMDataForSecondLevel[i].IMAGEPATH != "" && data.ModelBOMDataForSecondLevel[i].IMAGEPATH != null && data.ModelBOMDataForSecondLevel[i].IMAGEPATH != undefined) {
           //data.ModelBOMDataForSecondLevel[i].IMAGEPATH = this.commonData.get_current_url() + data.ModelBOMDataForSecondLevel[i].IMAGEPATH;
           data.ModelBOMDataForSecondLevel[i].IMAGEPATH = this.config_params.service_url + '/web' + data.ModelBOMDataForSecondLevel[i].IMAGEPATH;
@@ -5915,7 +5915,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           "OPTM_TOTALDISCOUNT": (parseFloat(this.step3_data_final[iHdrCount].discount_amount) +
             parseFloat(this.step3_data_final[iHdrCount].accessory_discount_amount)).toFixed(3),
           "model_index": iHdrCount,
-          "OPTM_MODELTYPE": this.MainModelDetails[0].OPTM_MODELTYPE
+          "OPTM_MODELTYPE": this.MainModelDetails[0].OPTM_MODELTYPE,
+          "OPTM_MODELID": this.step3_data_final[iHdrCount].model_id
         })
       }
     } else {
@@ -5949,7 +5950,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         "OPTM_ACCESSORYDIS": 0.000,
         "OPTM_ACCESSORYTOTAL": 0.000,
         "OPTM_TOTALDISCOUNT": 0.000,
-        "OPTM_MODELTYPE": this.MainModelDetails[0].OPTM_MODELTYPE
+        "OPTM_MODELTYPE": this.MainModelDetails[0].OPTM_MODELTYPE,
+        "OPTM_MODELID": this.MainModelDetails[0].OPTM_MODELIDs
       });
     }
 
