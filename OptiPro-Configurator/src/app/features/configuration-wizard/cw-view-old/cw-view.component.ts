@@ -2627,6 +2627,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.ModelHeaderData = [];
     this.ModelHeaderItemsArray = [];
     this.groupData = [];
+    this.ReturnToInventory = [];
     this.RuleOutputData = [];
     this.ModelBOMDataForSecondLevel = [];
     this.FeatureBOMDataForSecondLevel = [];
@@ -6500,6 +6501,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.model_description = "";
     this.featureDescriptionList = [];
     this.descriptionString = "";
+    this.ReturnToInventory = [];
     this.FeatureBOMDataForSecondLevel = [];
     this.ModelBOMDataForSecondLevel = [];
   }
