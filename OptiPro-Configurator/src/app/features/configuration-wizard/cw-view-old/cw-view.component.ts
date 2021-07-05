@@ -5951,7 +5951,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         "OPTM_ACCESSORYTOTAL": 0.000,
         "OPTM_TOTALDISCOUNT": 0.000,
         "OPTM_MODELTYPE": this.MainModelDetails[0].OPTM_MODELTYPE,
-        "OPTM_MODELID": this.MainModelDetails[0].OPTM_MODELIDs
+        "OPTM_MODELID": this.MainModelDetails[0].OPTM_MODELID
       });
     }
 
