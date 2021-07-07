@@ -730,7 +730,7 @@ export class LookupComponent implements OnInit {
 
   showAssociatedBOMs() {
 
-    this.popup_title = this.language.associated_BOM + " " + this.inputTitle;
+    this.popup_title = this.language.associated_BOM + " " + "For" + " " + this.inputTitle;
     this.LookupDataLoaded = false;
     this.showLoader = true;
 
@@ -941,7 +941,7 @@ export class LookupComponent implements OnInit {
   }
 
   ruleSelection() {
-    this.popup_title = this.language.rule_selection;
+    this.popup_title = this.language.rule_selection + " " + "For" + " " + this.inputTitle;
     this.LookupDataLoaded = false;
     this.showLoader = true;
     this.lookup_key = 'code';
@@ -1502,7 +1502,7 @@ export class LookupComponent implements OnInit {
     }, 10);
   }
   add_atttribute_master_lookup() {
-    this.attribute_popup_title = this.language.attach_attribute + " " + this.inputTitle;
+    this.attribute_popup_title = this.language.attach_attribute + " " + "For" + " " + this.inputTitle;
     this.detail_select_options = this.commonData.option_type();
     this.showLoader = false;
     this.LookupDataLoaded = true;

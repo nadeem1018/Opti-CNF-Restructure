@@ -40,7 +40,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
   public isModelIdEnable: boolean = true;
   public ModelLookupBtnhide: boolean = true;
   public rule_data: any = [];
-  public inputTitle : any = "";
+  public inputTitle: any = "";
   ruleselected: any;
   public header_image_data: string = "";
   public live_tree_view_data = [];
@@ -1002,6 +1002,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
   }
 
   getLookupValue($event) {
+    this.inputTitle = "";
     if ($event.length == 0 && this.lookupfor != 'rule_section_lookup') {
       this.lookupfor = "";
       return;
@@ -2164,6 +2165,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
 
         if (data.length > 0) {
           this.serviceData = data;
+          this.inputTitle = this.modelbom_data.feature_name;
         }
         else {
 
