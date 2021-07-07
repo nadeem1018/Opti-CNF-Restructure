@@ -1111,7 +1111,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                 this.onclearselection(1);
                 this.step2_data.quantity = parseFloat(data[isavedmultimodel].AddedModelHeaderData[0].OPTM_QUANTITY);
                 this.step2_data.model_id = data[isavedmultimodel].AddedModelHeaderData[0].OPTM_MODELID
-                this.step2_data.model_code = data[isavedmultimodel].AddedModelHeaderData[0].feature_code
+                this.step2_data.model_code = data[isavedmultimodel].AddedModelHeaderData[0].OPTM_FEATURECODE
                 this.step2_data.model_name = data[isavedmultimodel].AddedModelHeaderData[0].OPTM_DISPLAYNAME
                 this.step2_data.templateid = data[isavedmultimodel].AddedModelHeaderData[0].OPTM_MODELTEMPLATEITEM
                 this.step2_data.itemcodegenkey = data[isavedmultimodel].AddedModelHeaderData[0].OPTM_ITEMCODEGENREF
@@ -1181,19 +1181,19 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         return obj; // data.FeatureBOMDataForSecondLevel
       })
       data.FeatureBOMDataForSecondLevel.filter(function (obj) {
-        if (obj.isRuleApplied == "True") {
+        if (obj.isRuleApplied == "True" || obj.isRuleApplied == "true") {
           obj['isRuleApplied'] = true
-        } else if (obj.isRuleApplied == "False") {
+        } else if (obj.isRuleApplied == "False" || obj.isRuleApplied == "false") {
           obj['isRuleApplied'] = false
         }
-        if (obj.isSecondIteration == "True") {
+        if (obj.isSecondIteration == "True" || obj.isSecondIteration == "true") {
           obj['isSecondIteration'] = true
-        } else if (obj.isSecondIteration == "False") {
+        } else if (obj.isSecondIteration == "False" || obj.isSecondIteration == "false") {
           obj['isSecondIteration'] = false
         }
-        if (obj.isManuallyChecked == "True") {
+        if (obj.isManuallyChecked == "True" || obj.isManuallyChecked == "true") {
           obj['isManuallyChecked'] = true
-        } else if (obj.isManuallyChecked == "False") {
+        } else if (obj.isManuallyChecked == "False" || obj.isManuallyChecked == "false") {
           obj['isManuallyChecked'] = false
         }
       })
@@ -1205,19 +1205,19 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       })
 
       data.ModelBOMDataForSecondLevel.filter(function (obj) {
-        if (obj.isRuleApplied == "True") {
+        if (obj.isRuleApplied == "True" || obj.isRuleApplied == "true") {
           obj['isRuleApplied'] = true
-        } else if (obj.isRuleApplied == "False") {
+        } else if (obj.isRuleApplied == "False" || obj.isRuleApplied == "false") {
           obj['isRuleApplied'] = false
         }
-        if (obj.isSecondIteration == "True") {
+        if (obj.isSecondIteration == "True" || obj.isSecondIteration == "true") {
           obj['isSecondIteration'] = true
-        } else if (obj.isSecondIteration == "False") {
+        } else if (obj.isSecondIteration == "False" || obj.isSecondIteration == "false") {
           obj['isSecondIteration'] = false
         }
-        if (obj.isManuallyChecked == "True") {
+        if (obj.isManuallyChecked == "True" || obj.isManuallyChecked == "true") {
           obj['isManuallyChecked'] = true
-        } else if (obj.isManuallyChecked == "False") {
+        } else if (obj.isManuallyChecked == "False" || obj.isManuallyChecked == "false") {
           obj['isManuallyChecked'] = false
         }
       })
@@ -1237,13 +1237,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       })
 
       for (var i in data.FeatureBOMDataForSecondLevel) {
-        if (data.FeatureBOMDataForSecondLevel[i].checked == "True") {
+        if (data.FeatureBOMDataForSecondLevel[i].checked == "True" || data.FeatureBOMDataForSecondLevel[i].checked == "true") {
           data.FeatureBOMDataForSecondLevel[i].checked = true
         }
         else {
           data.FeatureBOMDataForSecondLevel[i].checked = false
         }
-        if (data.FeatureBOMDataForSecondLevel[i].disable == "False") {
+        if (data.FeatureBOMDataForSecondLevel[i].disable == "False" || data.FeatureBOMDataForSecondLevel[i].checked == "false") {
           data.FeatureBOMDataForSecondLevel[i].disable = false
         } else if (data.FeatureBOMDataForSecondLevel[i].disable == "True") {
           data.FeatureBOMDataForSecondLevel[i].disable = true
