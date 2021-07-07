@@ -12,15 +12,18 @@ import { NotificationService } from '@progress/kendo-angular-notification';
 })
 export class CommonService {
 
-  common_params = new CommonData();  
+  common_params = new CommonData();
   public logged_in_company = sessionStorage.selectedComp;
   public config_params: any = "";
   public needAssesmentMenu: any = false;
   public attributeMenu: any = false;
-  public delarMappingMenu : any = false;
-  public globalSearch : any = false;
-  public usertype  = "";
+  public delarMappingMenu: any = false;
+  public globalSearch: any = false;
+  public userCustomerWise: any = false;
+  public usertype = "";
   public navMenuList: Array<Object> = [];
+  public needMenuList: any = [];
+  public isSetNeedcall : any = false;
   public customerDelarAddress = [];
   config_parameter;
 

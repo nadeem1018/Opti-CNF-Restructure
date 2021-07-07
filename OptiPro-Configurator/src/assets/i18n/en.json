@@ -686,7 +686,7 @@
     "Notype": "Select Condition at Row",
     "SaveConfirmation": "Rule is not Exist for this template.Do you want to continue ?",
     "Confirmation": "Do you want to continue ?",
-    "ConfigAttribute": "Apply Attribute Master",
+    "ConfigAttribute": "Apply Attribute Mapping",
     "ConfigAssesment": "Apply Need's Assessment",
     "ConfigUserApply": "Use Customerwise Need's Assessment",
     "ConfigDefaultTemplate": "Default Need's Assessment Template",
@@ -701,7 +701,7 @@
     "Customer": "Customer",
     "delar_name": "Dealer Name",
     "delar": "Dealer Code",
-    "DealerApply": "Apply Dealer Customer Mapping",
+    "DealerApply": "Apply Dealer User Mapping",
     "Dealer_Customer": "Dealer Customer",
     "Dealer_Customer_Name": "Dealer Customer Name",
     "CopytoShippAddress": "Copy to Shipping Address",
@@ -728,7 +728,7 @@
     "SLCTUSATTR": "Select Using Attributes",
     "BOM_Display_Order": "Display Group Order ",
     "BOM_Display_Name": "Display Group",
-    "BOM_Group": "Display Ordering Group",
+    "BOM_Group": "Display Order in Group",
     "Display_Order_field": "Enter Display Group Order at row index: ",
     "Display_Name_field": "Enter Display Group at row index: ",
     "Group_field": "Enter Display Ordering Group at row index: ",
@@ -737,7 +737,7 @@
     "MODEL_TYPE": "Model Type",
     "production_type": "Production",
     "TypeSelect": "Kindly Select Model Type",
-    "Global_Search": "Enable Global Search",
+    "Global_Search": "Enable Search on Wizard",
     "Reset": "Reset",
     "Preview": "Preview",
     "Create_Order": "Create Order",
@@ -745,5 +745,6 @@
     "SelectData":"Kindly Select Item",
     "OrderCreated":"Order has been created with Order No:",
     "Invalid_Display_Order_field":"Enter Valid Display Group Order at row index:",
-    "NOT_Assessment":"Need's Assessment Template Data is Not Available"
+    "NOT_Assessment":"Need's Assessment Template Data is Not Available",
+    "attribute_Mapping":"Mapped Attributes"
 }

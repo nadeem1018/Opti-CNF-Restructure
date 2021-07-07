@@ -160,6 +160,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
 
   onCheckDefaultTemplate() {
     if (this.OPTM_DEFAULT_TEMPLATE == "") {
+      this.islink = false;
       return false;
     }
     CommonData.made_changes = true;
@@ -174,6 +175,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
         }
         else {
           this.islink = true;
+          this.teplateOptm_ID = data[0].OPTM_TEMPLATEID;
         }
       }, error => {
         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
@@ -245,6 +247,8 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
         this.CommonService.attributeMenu = this.applyAttributeMaster;
         this.CommonService.delarMappingMenu = this.applyDealarMapping;
         this.CommonService.globalSearch = this.applyGloabalSearch;
+        this.CommonService.userCustomerWise = this.customerWiseAssesment;
+        this.CommonService.isSetNeedcall = true;
         this.CommonService.show_notification(this.language.DataSaved, 'success');
         return;
       } else if (data === "Rule is not Exist for this template") {

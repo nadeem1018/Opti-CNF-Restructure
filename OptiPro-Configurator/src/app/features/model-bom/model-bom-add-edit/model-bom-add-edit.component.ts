@@ -40,6 +40,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
   public isModelIdEnable: boolean = true;
   public ModelLookupBtnhide: boolean = true;
   public rule_data: any = [];
+  public inputTitle : any = "";
   ruleselected: any;
   public header_image_data: string = "";
   public live_tree_view_data = [];

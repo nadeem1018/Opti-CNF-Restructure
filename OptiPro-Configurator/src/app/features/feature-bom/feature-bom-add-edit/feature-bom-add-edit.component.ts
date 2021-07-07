@@ -42,6 +42,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
   public isFeatureIdEnable: boolean = true;
   public FeatureLookupBtnhide: boolean = true;
   public showImageBlock: boolean = false;
+  public inputTitle: any = "";
   public selectedImage = "";
   config_params: any;
   serviceData: any;
@@ -758,6 +759,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
           this.lookupfor = 'add_attribute_lookup';
           this.showLookupLoader = false;
           this.serviceData.attributeList = data;
+          this.inputTitle = this.feature_bom_data.feature_code;
         }
         else {
           this.lookupfor = 'add_attribute_lookup';
@@ -797,12 +799,14 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
           }
 
           this.lookupfor = 'view_attribute_lookup';
+          this.inputTitle = this.feature_bom_data.featureCode
           this.showLookupLoader = false;
           this.serviceData.attributeList = data.ViewAttributes;
           this.serviceData.atttributeColumn = data.FeatureAttribute;
         }
         else {
           this.lookupfor = 'view_attribute_lookup';
+          this.inputTitle = this.feature_bom_data.featureCode
           this.showLookupLoader = false;
           this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
           return;
@@ -1347,6 +1351,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
 
 
   getLookupValue($event) {
+    this.inputTitle = "";
     if ($event.length == 0) {
       this.lookupfor = "";
       return;
@@ -1990,6 +1995,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               this.serviceData = data;
               this.lookupfor = 'associated_BOM';
               this.showLookupLoader = false;
+              this.inputTitle = this.feature_bom_data.feature_code;
             }
             else {
               // this.toastr.error('', this.language.no_assocaited_bom_with_feature + " : " + this.feature_bom_data.feature_code, this.commonData.toast_config);

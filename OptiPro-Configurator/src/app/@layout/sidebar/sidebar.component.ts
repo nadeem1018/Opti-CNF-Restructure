@@ -10,7 +10,7 @@ import { CommonService } from 'src/app/core/service/common.service';
 })
 export class SidebarComponent implements OnInit, DoCheck {
   navList: Array<Object> = [];
-  navNeedAssesmentList: Array<Object> = [];
+  navNeedAssesmentList: any = [];
   needIsToggled = false;
   menuList: Array<Object> = [];
   menuSettingFirst: any = true;
@@ -92,6 +92,7 @@ export class SidebarComponent implements OnInit, DoCheck {
               }
               else {
                 this.navNeedAssesmentList.push(menu_data);
+                this.CommonService.needMenuList.push(menu_data);
               }
             }
             else {
@@ -130,6 +131,8 @@ export class SidebarComponent implements OnInit, DoCheck {
         this.CommonService.attributeMenu = data[0].OPTM_ISATTR_MASTER == "Y" ? true : false;
         this.CommonService.delarMappingMenu = data[0].OPTM_ISDEALER_CUST_MAP == "Y" ? true : false;
         this.CommonService.globalSearch = data[0].OPTM_GLBSRCHENABLE == "Y" ? true : false;
+        this.CommonService.userCustomerWise = data[0].OPTM_ISAPPLICABLE_CUST == "Y" ? true : false;
+        this.setNeedsMenu();
         if (this.CommonService.attributeMenu == false && this.dealarMenu == false) {
           this.CheckMenuCondition(this.language.DelarCustomerMapping, this.language.attribute);
         }
@@ -150,10 +153,30 @@ export class SidebarComponent implements OnInit, DoCheck {
 
   }
 
+  setNeedsMenu() {
+    let navNeedAssesmentList: any = this.CommonService.needMenuList;
+    this.navNeedAssesmentList = [];
+    for (let i = 0; i < navNeedAssesmentList.length; i++) {
+      if (navNeedAssesmentList[i].itemCode == "212") {
+        navNeedAssesmentList.splice(i, 1);
+        i = i - 1;
+      }
+    }
+    this.navNeedAssesmentList = navNeedAssesmentList;
+    if (this.CommonService.userCustomerWise) {
+      this.navNeedAssesmentList.push({ "itemCode": "212", "itemName": this.language.need_Customer_mapping, "itemNav": "/needAssesment-customer-mapping", "itemIcon": "#assessmentTemplateMapping", "itemIconSize": "0 0 400 512", "permission": true })
+    }
+  }
+
   ngDoCheck() {
     if (this.CommonService.usertype != "D") {
       this.needassesmentMenu = this.CommonService.needAssesmentMenu;
       this.dealarMenu = this.CommonService.delarMappingMenu;
+      if (this.CommonService.isSetNeedcall) {
+        this.setNeedsMenu();
+        this.CommonService.isSetNeedcall = false;
+      }
+
       if (this.CommonService.attributeMenu == false && this.dealarMenu == false) {
         this.CheckMenuCondition(this.language.DelarCustomerMapping, this.language.attribute);
       }
@@ -176,9 +199,11 @@ export class SidebarComponent implements OnInit, DoCheck {
       list.push(element);
     });
     this.menuList = list;
+
   }
 
   CheckMenuCondition(value1: any, value2: any) {
+
     this.resetMenu();
     let array = this.menuList;
     for (let i = 0; i < array.length; i++) {

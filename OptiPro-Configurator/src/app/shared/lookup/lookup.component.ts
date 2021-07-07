@@ -20,6 +20,7 @@ export class LookupComponent implements OnInit {
   @Input() serviceData: any;
   @Input() lookupfor: any;
   @Input() selectedImage: any
+  @Input() inputTitle: any
   @Output() lookupvalue = new EventEmitter();
   @Output() lookupvalues = new EventEmitter();
 
@@ -729,7 +730,7 @@ export class LookupComponent implements OnInit {
 
   showAssociatedBOMs() {
 
-    this.popup_title = this.language.associated_BOM;
+    this.popup_title = this.language.associated_BOM + " " + this.inputTitle;
     this.LookupDataLoaded = false;
     this.showLoader = true;
 
@@ -1501,7 +1502,7 @@ export class LookupComponent implements OnInit {
     }, 10);
   }
   add_atttribute_master_lookup() {
-    this.attribute_popup_title = this.language.attach_attribute;
+    this.attribute_popup_title = this.language.attach_attribute + " " + this.inputTitle;
     this.detail_select_options = this.commonData.option_type();
     this.showLoader = false;
     this.LookupDataLoaded = true;
