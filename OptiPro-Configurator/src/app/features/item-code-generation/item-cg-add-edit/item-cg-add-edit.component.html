@@ -25,9 +25,12 @@
         <div class="row no-gutters">
           <div class="col-md-6 pt-2">
             <div class="form-group row no-gutters">
-              <label class="control-label col-sm-2 d-flex align-items-center mb-0 required" for="feature"><span>{{language.code}}</span></label>
+              <label class="control-label col-sm-2 d-flex align-items-center mb-0 required"
+                for="feature"><span>{{language.code}}</span></label>
               <div class="col-sm-5">
-                <input type="text" [disabled]="!isCodeDisabled" class="form-control form-control-sm" placeholder="{{language.code}}" id="usrID" maxlength="50" name="code" (change)="CheckDuplicateCode()" [(ngModel)]="codekey" #inputBox title="{{codekey}}" (blur)="onCodeStrBlur(codekey)">
+                <input type="text" [disabled]="!isCodeDisabled" class="form-control form-control-sm"
+                  placeholder="{{language.code}}" id="usrID" maxlength="50" name="code" (change)="CheckDuplicateCode()"
+                  [(ngModel)]="codekey" #inputBox title="{{codekey}}" (blur)="onCodeStrBlur(codekey)">
               </div>
             </div>
           </div>
@@ -35,39 +38,56 @@
 
         <!-- <hr> -->
 
-        
-        <kendo-grid [kendoGridBinding]="itemcodetable"  [reorderable]="true" [resizable]="true" [sortable]="false" [groupable]="false" [filterable]="false">
+
+        <kendo-grid [kendoGridBinding]="itemcodetable" [reorderable]="true" [resizable]="true" [sortable]="false"
+          [groupable]="false" [filterable]="false">
           <ng-template kendoGridToolbarTemplate>
-            <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" *ngIf="showAddRowbtn" class="btn btn-sm btn-primary with-icon" title="{{language.add_row}} " (click)="onAddRow(0)"><svg viewBox="0 0 8500 8500" class="icon"><use xlink:href="#add"></use></svg> {{language.add_row}}
+            <button [ngStyle]="{'padding':'3px 5px','min-height':'22px'}" type="button" *ngIf="showAddRowbtn"
+              class="btn btn-sm btn-primary with-icon" title="{{language.add_row}} " (click)="onAddRow(0)"><svg
+                viewBox="0 0 8500 8500" class="icon">
+                <use xlink:href="#add"></use>
+              </svg> {{language.add_row}}
             </button>
           </ng-template>
           <kendo-grid-column field="rowindex" title="#" [width]="35" [minResizableWidth]="35" filter="numeric">
           </kendo-grid-column>
-          <kendo-grid-column field="stringtypevalue" title="{{language.string_number}}" [width]="105" [minResizableWidth]="105">
+          <kendo-grid-column field="stringtypevalue" title="{{language.string_number}}" [width]="105"
+            [minResizableWidth]="105">
             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="dropdown_index">
-              <select class="form-control  form-control-sm" #selectedvalue (change)="onStringTypeSelectChange(selectedvalue.value, dataItem.rowindex)">
-                <option *ngFor="let v of stringtypevalue " [value]="v.value" [selected]="dataItem.stringtype==v.value"> {{v.Name}}</option>
+              <select class="form-control  form-control-sm" #selectedvalue
+                (change)="onStringTypeSelectChange(selectedvalue.value, dataItem.rowindex)">
+                <option *ngFor="let v of stringtypevalue " [value]="v.value" [selected]="dataItem.stringtype==v.value">
+                  {{v.Name}}</option>
               </select>
             </ng-template>
           </kendo-grid-column>
-          <kendo-grid-column field="string"  title="{{language.string}}" headerClass = "required" filter="text" [width]="430"
-            [minResizableWidth]="430">
+          <kendo-grid-column field="string" title="{{language.string}}" headerClass="required" filter="text"
+            [width]="430" [minResizableWidth]="430">
             <ng-template kendoGridCellTemplate let-dataItem>
-              <input type="text" class="form-control  form-control-sm" id="stringtxt" value={{dataItem.string}} title="{{dataItem.string}}" #stringtxtvalue (blur)="onStrBlur(stringtxtvalue.value, dataItem.rowindex, dataItem.stringtype)" />
+              <input type="text" class="form-control  form-control-sm" id="stringtxt" value={{dataItem.string}}
+                title="{{dataItem.string}}" #stringtxtvalue
+                (blur)="onStrBlur(stringtxtvalue.value, dataItem.rowindex, dataItem.stringtype)" />
             </ng-template>
           </kendo-grid-column>
-          <kendo-grid-column field="operations" title="{{language.operations}}" filter="text" [width]="105" [minResizableWidth]="105">
+          <kendo-grid-column field="operations" title="{{language.operations}}" filter="text" [width]="105"
+            [minResizableWidth]="105">
             <ng-template kendoGridCellTemplate let-dataItem>
-              <select class="form-control  form-control-sm" #selectedoperationvalue [disabled]="dataItem.isOperationDisable" (change)="onStringOperationsSelectChange(selectedoperationvalue.value, dataItem.rowindex)">
-                <option *ngFor="let v of opertions " [value]="v.value" [selected]="dataItem.operations==v.value">{{v.Name}}</option>
+              <select class="form-control  form-control-sm" #selectedoperationvalue
+                [disabled]="dataItem.isOperationDisable"
+                (change)="onStringOperationsSelectChange(selectedoperationvalue.value, dataItem.rowindex)">
+                <option *ngFor="let v of opertions " [value]="v.value" [selected]="dataItem.operations==v.value">
+                  {{v.Name}}</option>
               </select>
             </ng-template>
           </kendo-grid-column>
 
-          <kendo-grid-column field="delete" title="" template="" [width]="60" [minResizableWidth]="60">            
+          <kendo-grid-column field="delete" title="" template="" [width]="60" [minResizableWidth]="60">
             <ng-template kendoGridCellTemplate let-dataItem>
-              <button type="button" class="btn btn-sm btn-icon mr-2 btn-danger" (click)="onDeleteRow(dataItem.rowindex)" title="{{this.language.delete}}">
-                <svg viewBox="0 0 192 192" class="icon"><use xlink:href="#binAlt"></use></svg>
+              <button type="button" class="btn btn-sm btn-icon mr-2 btn-danger" (click)="onDeleteRow(dataItem.rowindex)"
+                title="{{this.language.delete}}">
+                <svg viewBox="0 0 192 192" class="icon">
+                  <use xlink:href="#binAlt"></use>
+                </svg>
               </button>
             </ng-template>
           </kendo-grid-column>
@@ -76,9 +96,11 @@
         <div class="row no-gutters">
           <div class="col-md-6">
             <div class="form-group row no-gutters">
-              <label class="control-label col-sm-2 mb-0 d-flex align-items-center" for="feature">{{language.final_string}}</label>
+              <label class="control-label col-sm-2 mb-0 d-flex align-items-center"
+                for="feature">{{language.final_string}}</label>
               <div class="col-sm-5">
-                <input type="text" class="form-control form-control-sm" placeholder="{{language.final_string}}" name="finaltxtstring" [(ngModel)]="finalstring" title="{{finalstring}}" id="finalstring"
+                <input type="text" class="form-control form-control-sm" placeholder="{{language.final_string}}"
+                  name="finaltxtstring" [(ngModel)]="finalstring" title="{{finalstring}}" id="finalstring"
                   [readonly]="true">
               </div>
             </div>
@@ -86,18 +108,31 @@
         </div>
       </div>
       <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
-        <button type="button" (click)="onSaveClick()" *ngIf="isSaveButtonVisible" class="btn btn-sm btn-success with-icon mr-2 ">
-          <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.save}}
-        </button>
-        <button type="button" (click)="onSaveClick()" *ngIf="isUpdateButtonVisible" class="btn btn-sm btn-primary with-icon mr-2">
-          <svg viewBox="0 0 512 512" class="icon"><use xlink:href="#saveDisk"></use></svg> {{language.update}}
-        </button>
-        <button type="button" class="btn btn-sm btn-danger mr-2 with-icon" *ngIf="isDeleteButtonVisible" (click)="onDeleteClick()">
-          <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg><span>{{language.delete}}</span>
+        <div class="mr-auto d-flex align-items-center flex-wrap">
+          <button type="button" (click)="onSaveClick()" *ngIf="isSaveButtonVisible"
+            class="btn btn-sm btn-success with-icon mr-2 ">
+            <svg viewBox="0 0 512 512" class="icon">
+              <use xlink:href="#saveDisk"></use>
+            </svg> {{language.save}}
+          </button>
+          <button type="button" (click)="onSaveClick()" *ngIf="isUpdateButtonVisible"
+            class="btn btn-sm btn-primary with-icon mr-2">
+            <svg viewBox="0 0 512 512" class="icon">
+              <use xlink:href="#saveDisk"></use>
+            </svg> {{language.update}}
+          </button>
+        </div>
+        <button type="button" class="btn btn-sm btn-danger mr-2 with-icon" *ngIf="isDeleteButtonVisible"
+          (click)="onDeleteClick()">
+          <svg viewBox="0 0 753.23 753.23" class="icon">
+            <use xlink:href="#bin"></use>
+          </svg><span>{{language.delete}}</span>
         </button>
         <!-- only view when edit mode -->
         <button type="button" routerLink="{{view_route_link}}" class="btn btn-sm btn-secondary with-icon">
-          <svg viewBox="0 0 489 489" class="icon"><use xlink:href="#cancel"></use></svg><span>{{language.cancel}}</span>
+          <svg viewBox="0 0 489 489" class="icon">
+            <use xlink:href="#cancel"></use>
+          </svg><span>{{language.cancel}}</span>
         </button>
       </div>
     </div>

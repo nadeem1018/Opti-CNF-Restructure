@@ -26,21 +26,24 @@
                         <label class="k-label col-sm-4 col-form-label">{{language.ConfigAttribute}}
                         </label>
                         <div class="col-sm-6">
-                            <input type="checkbox" name="applyAttributeMaster" kendoCheckBox [(ngModel)]="applyAttributeMaster" />
+                            <input type="checkbox" name="applyAttributeMaster" kendoCheckBox
+                                [(ngModel)]="applyAttributeMaster" />
                         </div>
                     </div>
                     <div class="form-group row clearfix">
                         <label class="k-label col-sm-4 col-form-label">{{language.DealerApply}}
                         </label>
                         <div class="col-sm-6">
-                            <input type="checkbox" name="applyDealarMapping" kendoCheckBox [(ngModel)]="applyDealarMapping" />
+                            <input type="checkbox" name="applyDealarMapping" kendoCheckBox
+                                [(ngModel)]="applyDealarMapping" />
                         </div>
                     </div>
                     <div class="form-group row clearfix">
                         <label class="k-label col-sm-4 col-form-label">{{language.Global_Search}}
                         </label>
                         <div class="col-sm-6">
-                            <input type="checkbox" name="applyGloabalSearch" kendoCheckBox [(ngModel)]="applyGloabalSearch" />
+                            <input type="checkbox" name="applyGloabalSearch" kendoCheckBox
+                                [(ngModel)]="applyGloabalSearch" />
                         </div>
                     </div>
 
@@ -48,7 +51,8 @@
                         <label class="k-label col-sm-4 col-form-label">{{language.ConfigAssessment}}
                         </label>
                         <div class="col-sm-6">
-                            <input type="checkbox" name="applyNeedAssesment" kendoCheckBox [(ngModel)]="applyNeedAssesment" />
+                            <input type="checkbox" name="applyNeedAssesment" kendoCheckBox
+                                [(ngModel)]="applyNeedAssesment" />
                         </div>
                     </div>
                     <div [style.display]="applyNeedAssesment ? 'block' : 'none'">
@@ -56,7 +60,8 @@
                             <label class="k-label col-sm-4 col-form-label">{{language.ConfigUserApply}}
                             </label>
                             <div class="col-sm-6">
-                                <input type="checkbox" name="customerWiseAssesment" kendoCheckBox [(ngModel)]="customerWiseAssesment" />
+                                <input type="checkbox" name="customerWiseAssesment" kendoCheckBox
+                                    [(ngModel)]="customerWiseAssesment" />
                             </div>
                         </div>
                     </div>
@@ -78,7 +83,8 @@
                                 <input type="text" class="form-control  form-control-sm" name="OPTM_DEFAULT_TEMPLATE"
                                     [(ngModel)]="OPTM_DEFAULT_TEMPLATE" (change)="onCheckDefaultTemplate()">
                                 <div class="input-group-append">
-                                    <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="getListDefaultNeedAssementTemplate()">
+                                    <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
+                                        (click)="getListDefaultNeedAssementTemplate()">
                                         <svg class="icon m-0" viewBox="0 -96 512 512">
                                             <use xlink:href="#menu"></use>
                                         </svg>
@@ -89,18 +95,19 @@
                     </div>
                 </div>
                 <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">
-                    <!-- <div class="mr-auto  flex-wrap"> -->
+                    <div class="mr-auto  flex-wrap">
                         <button type="button" (click)="onSaveClick('N')" class="btn btn-sm btn-success with-icon mr-2">
                             <svg viewBox="0 0 512 512" class="icon">
                                 <use xlink:href="#saveDisk"></use>
                             </svg> Save
                         </button>
-                        <button type="button" class="btn btn-sm btn-secondary with-icon" (click)="onCancel()">
-                            <svg viewBox="0 0 489 489" class="icon">
-                                <use xlink:href="#associate"></use>
-                            </svg> Cancel
-                        </button>
-                    <!-- </div> -->
+                    </div>
+                    <button type="button" class="btn btn-sm btn-secondary with-icon" (click)="onCancel()">
+                        <svg viewBox="0 0 489 489" class="icon">
+                            <use xlink:href="#associate"></use>
+                        </svg> Cancel
+                    </button>
+
                 </div>
             </form>
         </div>
@@ -108,7 +115,8 @@
 </div>
 
 
-<app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)"></app-custom-dialogs>
+<app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)">
+</app-custom-dialogs>
 
 <span [hidden]="showLookupLoader">
     <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' (lookupvalue)="getLookupValue($event)"

@@ -1322,31 +1322,28 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         return obj['ACCESSORY'] == "Y";
       });
 
-      if (data.SelectedAccessoryHDR !== undefined) {
-        if (data.SelectedAccessoryHDR.length > 0) {
+      this.selectedAccessoryHeader = data.SelectedAccessory;
 
-          this.selectedAccessoryHeader = data.SelectedAccessoryHDR;
-          this.getAccessoryData(this.selectedAccessoryHeader);
+      this.getAccessoryData(this.selectedAccessoryHeader)
 
-          this.selectedAccessoryBOM = data.SelectedAccessoryBOM;
-
-          this.selectedAccessoryBOM = this.selectedAccessoryBOM.filter(function (obj) {
-            if (obj.Checked == 'True') {
-              obj.Checked = true;
-              obj.checked = true;
-            } else {
-              obj.Checked = false;
-              obj.checked = false;
-            }
-            return obj;
-          });
-          this.SelectedAccessory = data.SelectedAccessory;
+      this.selectedAccessoryBOM = data.SelectedAccessoryBOM
+      this.selectedAccessoryBOM = this.selectedAccessoryBOM.filter(function (obj) {
+        if (obj.Checked == 'True' || obj.Checked == 'true') {
+          obj.Checked = true;
+          obj.checked = true;
+        } else {
+          obj.Checked = false;
+          obj.checked = false;
         }
-      }
-      this.Accessoryarray = data.SelectedAccessory;
+        return obj;
+      });
+      this.setAccesoryItems();
+
       if (this.Accessoryarray.length == 0 && this.AccessModel.length > 0) {
         this.Accessoryarray = this.AccessModel
       }
+
+     
 
       var ModelArray = [];
       ModelArray = data.ModelHeaderData.filter(function (obj) {
@@ -1427,6 +1424,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         }
       }
       this.feature_itm_list_table.sort((a, b) => a.sort_key.localeCompare(b.sort_key));
+      this.ReturnToInventory = data.ReturnToInventory;
+      if (this.ReturnToInventory.length > 0) {
+        this.AddFeatureList();
+      }
       this.showLookupLoader = false;
     }
     else {
