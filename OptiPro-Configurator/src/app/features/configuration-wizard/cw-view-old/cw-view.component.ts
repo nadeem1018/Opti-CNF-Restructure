@@ -1337,7 +1337,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         }
         return obj;
       });
-      this.setAccesoryItems();
+     // this.setAccesoryItems();
 
       if (this.Accessoryarray.length == 0 && this.AccessModel.length > 0) {
         this.Accessoryarray = this.AccessModel
@@ -1415,11 +1415,15 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         }
 
         //this.setAccesoryItems();
-        if (this.selectedAccessoryHeader.length > 0) {
-          for (let acchdr_i = 0; acchdr_i < this.selectedAccessoryHeader.length; acchdr_i++) {
+        if (this.selectedAccessoryBOM.length > 0) {
+          for (let acchdr_i = 0; acchdr_i < this.selectedAccessoryBOM.length; acchdr_i++) {
             let accessoryData = [];
-            accessoryData.push(this.selectedAccessoryHeader[acchdr_i])
-            this.setItemDataForFeatureAccessory(this.SelectedAccessory, accessoryData, '', data.Savedgetmodelsavedata, this.step2_data);
+            if(this.selectedAccessoryBOM[acchdr_i].checked == true)
+            {
+              accessoryData.push(this.selectedAccessoryBOM[acchdr_i])
+              this.setItemDataForFeatureAccessory(accessoryData, '', '', data.Savedgetmodelsavedata, this.step2_data);
+            }
+ 
           }
         }
       }

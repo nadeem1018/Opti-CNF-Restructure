@@ -175,7 +175,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
         }
         else {
           this.islink = true;
-          this.teplateOptm_ID = data[0].OPTM_TEMPLATEID;
+          this.teplateOptm_ID = data[0].OPTM_ID;
         }
       }, error => {
         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
