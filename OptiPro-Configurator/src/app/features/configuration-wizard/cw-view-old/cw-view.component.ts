@@ -1421,7 +1421,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             if(this.selectedAccessoryBOM[acchdr_i].checked == true)
             {
               accessoryData.push(this.selectedAccessoryBOM[acchdr_i])
-              this.setItemDataForFeatureAccessory(accessoryData, '', '', data.Savedgetmodelsavedata, this.step2_data);
+              this.setItemDataForFeatureAccessory(accessoryData, this.selectedAccessoryHeader, '', data.Savedgetmodelsavedata, this.step2_data);
             }
  
           }
@@ -8406,7 +8406,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         } else {
 
           let tempdata = saved_data_from_dtl.filter(function (obj) {
-            return obj['UNIQUE_KEY'] == ItemData[i].unique_key;
+            return obj['unique_key'] == ItemData[i].unique_key;
           });
 
           rowData = tempdata[0];
@@ -8439,8 +8439,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               price = rowData.OPTM_UNITPRICE;
             }
             price_list = (rowData.OPTM_PRICELIST != undefined) ? rowData.OPTM_PRICELIST : "0";
-            unique_key = (rowData.UNIQUE_KEY != undefined) ? rowData.UNIQUE_KEY : "0";
-            nodeid = (rowData.NODEID != undefined) ? rowData.NODEID : "0";
+            unique_key = (rowData.unique_key != undefined) ? rowData.unique_key : "0";
+            nodeid = (rowData.nodeid != undefined) ? rowData.nodeid : "0";
           } else {
             price = parseFloat("0").toFixed(3);
             price_list = 0;
