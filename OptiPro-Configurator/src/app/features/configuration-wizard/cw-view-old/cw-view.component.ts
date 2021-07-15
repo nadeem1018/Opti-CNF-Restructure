@@ -1176,6 +1176,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       })
 
       this.groupData = data.GroupDataList;
+      this.groupData.sort((a, b) => (a.OPTM_DSPGROUP_ORDER > b.OPTM_DSPGROUP_ORDER) ? 1 : ((b.OPTM_DSPGROUP_ORDER > a.OPTM_DSPGROUP_ORDER) ? -1 : 0))
       data.FeatureBOMDataForSecondLevel = data.FeatureBOMDataForSecondLevel.filter(function (obj) {
         obj['OPTM_LEVEL'] = 1
         return obj; // data.FeatureBOMDataForSecondLevel
@@ -1274,7 +1275,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       this.featureDescriptionList.sort(function (a, b) {
         return a.DESCORDER - b.DESCORDER;
       });
-
+      this.model_description = data.MainModelDetails[0].OPTM_FEATUREDESC;
       let string: any = this.model_description;
       if (this.featureDescriptionList.length > 0) {
         this.featureDescriptionList.forEach(element => {
@@ -1337,13 +1338,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         }
         return obj;
       });
-     // this.setAccesoryItems();
+      // this.setAccesoryItems();
 
       if (this.Accessoryarray.length == 0 && this.AccessModel.length > 0) {
         this.Accessoryarray = this.AccessModel
       }
 
-     
+
 
       var ModelArray = [];
       ModelArray = data.ModelHeaderData.filter(function (obj) {
@@ -1418,12 +1419,20 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         if (this.selectedAccessoryBOM.length > 0) {
           for (let acchdr_i = 0; acchdr_i < this.selectedAccessoryBOM.length; acchdr_i++) {
             let accessoryData = [];
-            if(this.selectedAccessoryBOM[acchdr_i].checked == true)
-            {
-              accessoryData.push(this.selectedAccessoryBOM[acchdr_i])
-              this.setItemDataForFeatureAccessory(accessoryData, this.selectedAccessoryHeader, '', data.Savedgetmodelsavedata, this.step2_data);
+            if (this.selectedAccessoryBOM[acchdr_i].checked == true) {
+              if (this.selectedAccessoryBOM[acchdr_i].OPTM_TYPE == "2") {
+                accessoryData.push(this.selectedAccessoryBOM[acchdr_i])
+                this.setItemDataForFeatureAccessory(accessoryData, this.selectedAccessoryHeader, '', data.Savedgetmodelsavedata, this.step2_data);
+              }
+              else
+              {
+                if (this.selectedAccessoryBOM[acchdr_i].OPTM_TYPE == "3") {
+                  this.feature_value_list_table.push(this.selectedAccessoryBOM[acchdr_i]);
+                }
+                
+              }
+
             }
- 
           }
         }
       }
@@ -6564,6 +6573,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       this.descriptionString = this.step2_selected_model.descriptionString;
       this.featureDescriptionList = this.step2_selected_model.featureDescriptionList;
       this.model_description = this.step2_selected_model.model_description;
+      this.isModelVisible = true;
       this.feature_price_calculate();
       this.showLookupLoader = false;
 
@@ -6809,6 +6819,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       this.step3_data_final[row_id]["ModelHeaderItemsArray"] = this.ModelHeaderItemsArray;
       this.step3_data_final[row_id]["Accessoryarray"] = this.selectedAccessoryHeader;
       this.step3_data_final[row_id]["RuleOutputData"] = this.RuleOutputData;
+      this.step3_data_final[row_id]["descriptionString"] = this.descriptionString;
       this.step3_data_final[row_id]["ReturnToInventory"] = this.ReturnToInventory;
       this.CommonService.show_notification(this.language.multiple_model_update, 'success');
     }
