@@ -1012,7 +1012,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       data => {
         if (data != undefined) {
           this.showLookupLoader = false;
-
+          this.FeatureBOMDetailAttribute = [];
+          this.ModelBOMDetailAttribute = [];
           let dataList = data.GetSavedAttributeData;
           this.FeatureBOMCustomAttr = data.GetSavedCustomAttributeData;
           this.FeatureBOMDetailAttribute = dataList.filter(function (obj) {
@@ -1416,6 +1417,17 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         }
 
         //this.setAccesoryItems();
+        if (this.FeatureBOMDataForSecondLevel.length > 0) {
+          for (let acchdr_i = 0; acchdr_i < this.FeatureBOMDataForSecondLevel.length; acchdr_i++) {
+            if (this.FeatureBOMDataForSecondLevel[acchdr_i].checked == true) {
+
+              if (this.FeatureBOMDataForSecondLevel[acchdr_i].OPTM_TYPE == "3" && this.FeatureBOMDataForSecondLevel[acchdr_i].OPTM_VALUE != "") {
+                this.feature_value_list_table.push(this.FeatureBOMDataForSecondLevel[acchdr_i]);
+              }
+            }
+          }
+        }
+
         if (this.selectedAccessoryBOM.length > 0) {
           for (let acchdr_i = 0; acchdr_i < this.selectedAccessoryBOM.length; acchdr_i++) {
             let accessoryData = [];
@@ -1424,17 +1436,18 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                 accessoryData.push(this.selectedAccessoryBOM[acchdr_i])
                 this.setItemDataForFeatureAccessory(accessoryData, this.selectedAccessoryHeader, '', data.Savedgetmodelsavedata, this.step2_data);
               }
-              else
-              {
+              else {
                 if (this.selectedAccessoryBOM[acchdr_i].OPTM_TYPE == "3") {
                   this.feature_value_list_table.push(this.selectedAccessoryBOM[acchdr_i]);
                 }
-                
+
               }
 
             }
           }
         }
+
+
       }
       this.feature_itm_list_table.sort((a, b) => a.sort_key.localeCompare(b.sort_key));
       this.ReturnToInventory = data.ReturnToInventory;
@@ -1833,6 +1846,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             return;
           }
           this.showLookupLoader = false;
+          this.FeatureBOMDetailAttribute = [];
+          this.ModelBOMDetailAttribute = [];
           this.ModelBOMDetailAttribute = data.SelectedModelAttributes;
           this.FeatureBOMDetailAttribute = data.SelectedFeatureAttributes;
           this.openAttributeListForModel();
@@ -2626,6 +2641,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.selectedAccessoryBOM = [];
     this.SelectedAccessory = [];
     this.feature_itm_list_table = [];
+    this.feature_value_list_table = [];
     this.feature_item_tax = 0;
     this.feature_item_total = 0;
     this.acc_item_tax = 0;
@@ -2847,6 +2863,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           this.feature_value_list_table = data.FeatureBOMDataForSecondLevel.filter(function (obj) {
             return obj['OPTM_TYPE'] == "3" && obj['OPTM_VALUE'] != null && obj['OPTM_DEFAULT'] == "Y"
           })
+          this.FeatureBOMDetailAttribute = [];
+          this.ModelBOMDetailAttribute = [];
           this.ModelBOMDetailAttribute = data.ModelBOMDetailAttribute;
           this.FeatureBOMDetailAttribute = data.FeatureBOMDetailAttribute
           this.FeatureBOMDataForSecondLevel = data.FeatureBOMDataForSecondLevel.filter(function (obj) {
@@ -3063,6 +3081,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             return;
           }
           this.showLookupLoader = false;
+          this.FeatureBOMDetailAttribute = [];
+          this.ModelBOMDetailAttribute = [];
           // this.SelectedFeatureAttributes.push.apply(this.SelectedFeatureAttributes, data.SelectedFeatureAttributes); 
           this.ModelBOMDetailAttribute = data.SelectedModelAttributes;
           this.FeatureBOMDetailAttribute = data.SelectedFeatureAttributes;
@@ -5863,7 +5883,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     })
 
     // selected attribute add
-    this.onCalculateAttributeItem();
+    if (this.SelectedFeatureAttributes.length == 0) {
+      this.onCalculateAttributeItem();
+    }
+
     let final_SelectedAttributes = this.SelectedFeatureAttributes;
     if (final_SelectedAttributes.length > 0) {
       final_SelectedAttributes.push.apply(final_SelectedAttributes, this.SelectModelAttributes);
@@ -6556,6 +6579,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       this.step2_data.quantity = parseInt(this.step2_selected_model.quantity);
       this.feature_accessory_list = this.step2_selected_model.accesories;
       this.feature_itm_list_table = this.step2_selected_model.feature;
+      this.feature_value_list_table = this.step2_selected_model.feature_value_list_table;
       this.ModelHeaderData = this.step2_selected_model.ModelHeaderData;
       this.RuleOutputData = this.step2_selected_model.RuleOutputData;
       this.FeatureBOMDataForSecondLevel = this.step2_selected_model.FeatureBOMDataForSecondLevel;
@@ -6768,6 +6792,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         "accessory_total_before_dis": parseFloat(acc_total_before_dis).toFixed(3),
         "feature": this.feature_itm_list_table,
         "accesories": this.feature_accessory_list,
+        "feature_value_list_table":this.feature_value_list_table,
         "selectedAccessoryBOM": this.selectedAccessoryBOM,
         "accessory_item_total": (this.accessory_item_total).toFixed(3),
         "model_id": this.step2_data.model_id,
@@ -6820,7 +6845,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       this.step3_data_final[row_id]["Accessoryarray"] = this.selectedAccessoryHeader;
       this.step3_data_final[row_id]["RuleOutputData"] = this.RuleOutputData;
       this.step3_data_final[row_id]["descriptionString"] = this.descriptionString;
-      this.step3_data_final[row_id]["ReturnToInventory"] = this.ReturnToInventory;
+      this.step3_data_final[row_id]["ReturnToInventory"] = this.ReturnToInventory
+      this.step3_data_final[row_id]["feature_value_list_table"] = this.feature_value_list_table
       this.CommonService.show_notification(this.language.multiple_model_update, 'success');
     }
 
