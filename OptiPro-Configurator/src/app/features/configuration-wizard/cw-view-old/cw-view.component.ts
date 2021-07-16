@@ -6595,11 +6595,18 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       this.selectedAccessoryBOM = this.step2_selected_model.selectedAccessoryBOM;
       this.groupData = this.step2_selected_model.GroupDataList;
       this.descriptionString = this.step2_selected_model.descriptionString;
+      this.featureAbbreviationList = this.step2_selected_model.AbbreviationDataList;
       this.featureDescriptionList = this.step2_selected_model.featureDescriptionList;
       this.model_description = this.step2_selected_model.model_description;
       this.isModelVisible = true;
       this.feature_price_calculate();
       this.showLookupLoader = false;
+      if (this.isAttribute) {
+        if (this.ModelBOMDetailAttribute.length > 0 || this.FeatureBOMDetailAttribute.length > 0) {
+          this.getCustomeAttributeValue();
+        }
+
+      }
 
     } else {
       this.onclearselection(1);
@@ -6814,9 +6821,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         "model_description": this.model_description,
         "featureDescriptionList": this.featureDescriptionList,
         "descriptionString": this.descriptionString,
-        "ReturnToInventory": this.ReturnToInventory
-
-      });
+        "ReturnToInventory": this.ReturnToInventory,
+  });
     } else {
       this.step3_data_final[row_id]["item"] = this.step2_data.model_code;
       this.step3_data_final[row_id]["quantity"] = parseFloat(this.step2_data.quantity).toFixed(3);
@@ -6828,6 +6834,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       this.step3_data_final[row_id]["accessory_total_before_dis"] = parseFloat(acc_total_before_dis).toFixed(3);
       this.step3_data_final[row_id]["feature"] = this.feature_itm_list_table;
       this.step3_data_final[row_id]["accesories"] = this.feature_accessory_list;
+      this.step3_data_final[row_id]["AbbreviationDataList"] = this.featureAbbreviationList;
+      this.step3_data_final[row_id]["featureDescriptionList"] = this.featureDescriptionList;
       this.step3_data_final[row_id]["selectedAccessoryBOM"] = this.selectedAccessoryBOM;
       this.step3_data_final[row_id]["model_id"] = this.step2_data.model_id;
       this.step3_data_final[row_id]["desc"] = this.step2_data.model_name;
