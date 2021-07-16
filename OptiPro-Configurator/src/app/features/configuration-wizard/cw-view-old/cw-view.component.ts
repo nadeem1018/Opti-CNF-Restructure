@@ -1714,6 +1714,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         obj['OPTM_FEATURECODE'] = obj['OPTM_MODELCODE']
       }
     });
+    this.ModelHeaderData = this.ModelHeaderData.filter(function (obj) {
+      return obj['ACCESSORY'] == "N";
+    });
     this.SelectModelAttributes = selectAttributesList;
     this.SelectedModelFeature = this.ModelHeaderData;
     if (this.Accessoryarray.length > 0) {
