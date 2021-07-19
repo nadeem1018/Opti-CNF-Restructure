@@ -2776,7 +2776,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           })
 
           for (var i in data.FeatureBOMDataForSecondLevel) {
-            if (data.FeatureBOMDataForSecondLevel[i].checked == "True") {
+            if (data.FeatureBOMDataForSecondLevel[i].checked == "True" || data.FeatureBOMDataForSecondLevel[i].checked == "true") {
               data.FeatureBOMDataForSecondLevel[i].checked = true
             }
             else {
@@ -3116,7 +3116,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               let optmfeatureId = uniqueFeatureID[i];
               this.FeatureBOMDataForSecondLevel.filter(function (obj) {
                 if (optmfeatureId == obj['OPTM_FEATUREID'])
-                  if (obj['OPTM_DEFAULT'] != "Y") {
+                  if (obj['OPTM_DEFAULT'] != "Y" && obj['checked'] != true) {
                     obj['checked'] = false
                   }
               })
