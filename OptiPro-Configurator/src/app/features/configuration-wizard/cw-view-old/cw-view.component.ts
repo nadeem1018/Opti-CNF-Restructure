@@ -8492,8 +8492,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           } else {
             price = parseFloat("0").toFixed(3);
             price_list = 0;
-            unique_key = 0;
-            nodeid = 0;
+            unique_key = ItemData[i].unique_key;
+            nodeid = ItemData[i].nodeid;
           }
 
         }
