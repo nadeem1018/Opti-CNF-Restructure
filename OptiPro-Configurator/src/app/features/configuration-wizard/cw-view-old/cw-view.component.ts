@@ -1927,6 +1927,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           if (obj['OPTM_FEATUREID'] == featuretableData.FeatureId)
             obj['checked'] = false;
         });
+        this.selectedAccessoryBOM.filter(function (obj) {
+          if (obj['OPTM_FEATUREID'] == featuretableData.FeatureId)
+            obj['checked'] = false;
+        });
         featureTableList.splice(i, 1);
         i = i - 1;
         this.createDescriptionList();
@@ -4608,10 +4612,24 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     let defaultFeatureSelectList = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
       return obj['checked'] == true;
     });
+
+    let defaultAccesorySelectList = this.selectedAccessoryBOM.filter(function (obj) {
+      return obj['checked'] == true;
+    });
     let descriptionList = this.featureAbbreviationList;
     this.featureDescriptionList = [];
 
     defaultFeatureSelectList.forEach(element => {
+      descriptionList.forEach(elementList => {
+        if (element.OPTM_FEATUREID == elementList.OPTM_FEATUREID) {
+          if (element.OPTM_LINENO == elementList.ITEMLINENO) {
+            this.featureDescriptionList.push({ "description": elementList.DESCRIPTION, "DESCORDER": elementList.DESCORDER })
+          }
+        }
+      });
+    });
+
+    defaultAccesorySelectList.forEach(element => {
       descriptionList.forEach(elementList => {
         if (element.OPTM_FEATUREID == elementList.OPTM_FEATUREID) {
           if (element.OPTM_LINENO == elementList.ITEMLINENO) {

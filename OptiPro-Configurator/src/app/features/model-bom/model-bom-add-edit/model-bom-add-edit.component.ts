@@ -424,8 +424,8 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               is_slctUsAttr: data.ModelDetail[i].is_slctUsAttr,
               OPTM_SELUATTRIBUTE: data.ModelDetail[i].OPTM_SELUATTRIBUTE,
               OPTM_DSP_GROUP: data.ModelDetail[i].OPTM_DSP_GROUP,
-              OPTM_DSP_ORDERINGROUP: data.ModelDetail[i].OPTM_DSP_ORDERINGROUP,
-              OPTM_DSPGROUP_ORDER: data.ModelDetail[i].OPTM_DSPGROUP_ORDER
+              OPTM_DSP_ORDERINGROUP: data.ModelDetail[i].OPTM_DSP_ORDERINGROUP == 0 ? "" : data.ModelDetail[i].OPTM_DSP_ORDERINGROUP,
+              OPTM_DSPGROUP_ORDER: data.ModelDetail[i].OPTM_DSPGROUP_ORDER == 0 ? "" : data.ModelDetail[i].OPTM_DSPGROUP_ORDER
             });
 
           }
@@ -832,8 +832,8 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
                   this.modelbom_data[i].bom_description = data[0].OPTM_DISPLAYNAME;
                   this.modelbom_data[i].OPTM_ABBREVIATION = data[0].OPTM_ABBREVIATION;
                   this.modelbom_data[i].OPTM_ITEMCODE_PRT = data[0].OPTM_ITEMCODE_PRT;
-                  this.modelbom_data[i].OPTM_DSP_ORDERINGROUP = data[0].OPTM_DSP_ORDERINGROUP;
-                  this.modelbom_data[i].OPTM_DSPGROUP_ORDER = data[0].OPTM_DSPGROUP_ORDER;
+                  this.modelbom_data[i].OPTM_DSP_ORDERINGROUP = data[0].OPTM_DSP_ORDERINGROUP == 0 ? "" : data[0].OPTM_DSP_ORDERINGROUP;
+                  this.modelbom_data[i].OPTM_DSPGROUP_ORDER = data[0].OPTM_DSPGROUP_ORDER == 0 ? "" : data[0].OPTM_DSPGROUP_ORDER;
                   this.modelbom_data[i].OPTM_DSP_GROUP = data[0].OPTM_DSP_GROUP;
                   this.modelbom_data[i].min_selected = data[0].OPTM_MIN_SELECTABLE;
                   this.modelbom_data[i].max_selected = (data[0].OPTM_MAX_SELECTABLE != "" && data[0].OPTM_MAX_SELECTABLE != 0) ? data[0].OPTM_MAX_SELECTABLE : 1;
@@ -1149,8 +1149,8 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
                   this.modelbom_data[i].bom_description = data[0].OPTM_DISPLAYNAME
                   this.modelbom_data[i].OPTM_ABBREVIATION = data[0].OPTM_ABBREVIATION;
                   this.modelbom_data[i].OPTM_ITEMCODE_PRT = data[0].OPTM_ITEMCODE_PRT;
-                  this.modelbom_data[i].OPTM_DSP_ORDERINGROUP = data[0].OPTM_DSP_ORDERINGROUP
-                  this.modelbom_data[i].OPTM_DSPGROUP_ORDER = data[0].OPTM_DSPGROUP_ORDER
+                  this.modelbom_data[i].OPTM_DSP_ORDERINGROUP = data[0].OPTM_DSP_ORDERINGROUP == 0 ? "" : data[0].OPTM_DSP_ORDERINGROUP
+                  this.modelbom_data[i].OPTM_DSPGROUP_ORDER = data[0].OPTM_DSPGROUP_ORDER == 0 ? "" : data[0].OPTM_DSPGROUP_ORDER
                   this.modelbom_data[i].OPTM_DSP_GROUP = data[0].OPTM_DSP_GROUP
 
                   this.live_tree_view_data.push({ "display_name": data[0].OPTM_DISPLAYNAME, "tree_index": this.currentrowindex, "branchType": 'modal', "icon": 'modal' });
@@ -1240,8 +1240,8 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
         this.modelbom_data[i].bom_description = selectedDataDetails[0].Description
         this.modelbom_data[i].OPTM_ABBREVIATION = selectedDataDetails[0].OPTM_ABBREVIATION
         this.modelbom_data[i].OPTM_ITEMCODE_PRT = selectedDataDetails[0].OPTM_ITEMCODE_PRT
-        this.modelbom_data[i].OPTM_DSP_ORDERINGROUP = selectedDataDetails[0].OPTM_DSP_ORDERINGROUP
-        this.modelbom_data[i].OPTM_DSPGROUP_ORDER = selectedDataDetails[0].OPTM_DSPGROUP_ORDER
+        this.modelbom_data[i].OPTM_DSP_ORDERINGROUP = selectedDataDetails[0].OPTM_DSP_ORDERINGROUP == 0 ? "" : selectedDataDetails[0].OPTM_DSP_ORDERINGROUP 
+        this.modelbom_data[i].OPTM_DSPGROUP_ORDER = selectedDataDetails[0].OPTM_DSPGROUP_ORDER == 0 ? "" : selectedDataDetails[0].OPTM_DSPGROUP_ORDER
         this.modelbom_data[i].OPTM_DSP_GROUP = selectedDataDetails[0].OPTM_DSP_GROUP
         this.modelbom_data[i].uom = selectedDataDetails[0].InvUOM
         this.modelbom_data[i].price_source = selectedDataDetails[0].ListName;
@@ -1440,11 +1440,11 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
     this.currentrowindex = rowindex
     CommonData.made_changes = true;
     for (let i = 0; i < this.modelbom_data.length; ++i) {
-      if (this.modelbom_data[i].rowindex === this.currentrowindex) {
+      if (this.modelbom_data[i].rowindex === this.currentrowindex) { 
         this.modelbom_data[i].OPTM_DSP_ORDERINGROUP = value;
-      }
-    }
+   }
   }
+}
 
   on_quantity_change(value, rowindex) {
     this.currentrowindex = rowindex;
@@ -2397,6 +2397,13 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
         else {
           this.modelbom_data[i].print_on_report = "Y"
         }
+        if (temp_model_data[i].OPTM_DSPGROUP_ORDER == "") {
+          temp_model_data[i].OPTM_DSPGROUP_ORDER = 0;
+        }
+        if (temp_model_data[i].OPTM_DSP_ORDERINGROUP == "") {
+          temp_model_data[i].OPTM_DSP_ORDERINGROUP = 0;
+        }
+
 
         if (temp_model_data[i].default == true || temp_model_data[i].default == "Y") {
           temp_model_data[i].default = "Y"
