@@ -717,7 +717,8 @@
     "SelectData":"Kindly Select Item",
     "OrderCreated":"Order has been created with Order No:",
     "Invalid_Display_Order_field":"Enter Valid Display Group Order at row index:",
-    "NOT_Assessment":"Need's Assessment Template Data is Not Available"
+    "NOT_Assessment":"Need's Assessment Template Data is Not Available",
+    "itemcode_field":"Enter Item Code Part at row index"
    
 
 }

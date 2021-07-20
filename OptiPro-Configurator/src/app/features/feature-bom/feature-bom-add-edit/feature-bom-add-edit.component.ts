@@ -345,6 +345,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               display_name: data.FeatureDetail[i].OPTM_DISPLAYNAME,
               bom_description: data.FeatureDetail[i].OPTM_FEATUREDEC,
               OPTM_ABBREVIATION: data.FeatureDetail[i].OPTM_ABBREVIATION,
+              OPTM_ITEMCODE_PRT:data.FeatureDetail[i].OPTM_ITEMCODE_PRT,
               OPTM_MODELLEVEL_DESC: data.FeatureDetail[i].OPTM_MODELLEVEL_DESC,
               quantity: this.isQuanity,
               default: this.defaultcheckbox,
@@ -640,6 +641,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
       FeatureId: this.feature_bom_data.feature_id,
       type: table_default_type,
       OPTM_ABBREVIATION: "",
+      OPTM_ITEMCODE_PRT:"",
       OPTM_MODELLEVEL_DESC: false,
       type_value: "",
       type_value_code: "",
@@ -892,6 +894,10 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
             this.CommonService.show_notification(this.language.Abbreviation_field + currentrow, 'error');
             return false;
           }
+          if (this.feature_bom_table[i].OPTM_ITEMCODE_PRT == "") {
+            this.CommonService.show_notification(this.language.itemcode_field + currentrow, 'error');
+            return false;
+          }
         }
       }
 
@@ -1047,6 +1053,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
         this.feature_bom_table[i].display_name = ""
         this.feature_bom_table[i].bom_description = ""
         this.feature_bom_table[i].OPTM_ABBREVIATION = ""
+        this.feature_bom_table[i].OPTM_ITEMCODE_PRT = ""
         this.feature_bom_table[i].is_accessory = "N"
         if (selectedvalue == 3) {
           this.feature_bom_table[i].isDisplayNameDisabled = false
@@ -1199,6 +1206,17 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
     for (let i = 0; i < this.feature_bom_table.length; ++i) {
       if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
         this.feature_bom_table[i].OPTM_ABBREVIATION = value;
+      }
+    }
+  }
+
+  on_itemcode_change(value, rowindex)
+  {
+    this.currentrowindex = rowindex
+    CommonData.made_changes = true;
+    for (let i = 0; i < this.feature_bom_table.length; ++i) {
+      if (this.feature_bom_table[i].rowindex === this.currentrowindex) {
+        this.feature_bom_table[i].OPTM_ITEMCODE_PRT = value;
       }
     }
   }
@@ -1547,6 +1565,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
         this.feature_bom_table[i].default = false;
         this.feature_bom_table[i].bom_description = selectedDataDetails[0].Description;
         this.feature_bom_table[i].OPTM_ABBREVIATION = selectedDataDetails[0].OPTM_ABBREVIATION;
+        this.feature_bom_table[i].OPTM_ITEMCODE_PRT = selectedDataDetails[0].OPTM_ITEMCODE_PRT;
         this.feature_bom_table[i].display_name = selectedDataDetails[0].Description;
         this.feature_bom_table[i].price_source = selectedDataDetails[0].ListName;
         this.feature_bom_table[i].price_source_id = selectedDataDetails[0].PriceListID;

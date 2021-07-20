@@ -343,6 +343,14 @@
                         value={{dataItem.OPTM_ABBREVIATION}} #OPTM_ABBREVIATION title="{{dataItem.OPTM_ABBREVIATION}}" />
                     </ng-template>
                   </kendo-grid-column>
+                  <kendo-grid-column field="OPTM_ITEMCODE_PRT" title="Item Code Part"
+                  filter="text" [width]="145" [minResizableWidth]="145">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                      <input type="text" class="form-control  form-control-sm" id="bom_abbreviation"
+                          (change)="on_itemcode_change(OPTM_ITEMCODE_PRT.value,dataItem.rowindex)"
+                          value={{dataItem.OPTM_ITEMCODE_PRT}} #OPTM_ITEMCODE_PRT title="{{dataItem.OPTM_ITEMCODE_PRT}}" />
+                  </ng-template>
+              </kendo-grid-column>
                   <kendo-grid-column field="BOM_Display_Name" title="{{language.BOM_Display_Name}}" filter="text"
                     [width]="100" [minResizableWidth]="100">
                     <ng-template kendoGridCellTemplate let-dataItem>
