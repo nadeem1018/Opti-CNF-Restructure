@@ -256,6 +256,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
   public descriptionString: any = "";
   public color = ['#f2f2f2', '#32cd32', '#00B8FA'];
   public count = 0;
+  public featureItemList : any  = [];
+  public itemCodeList : any = [];
 
 
   constructor(private ActivatedRouter: ActivatedRoute,
@@ -1285,6 +1287,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       }
 
       this.descriptionString = string;
+     
+
 
       for (var i in data.ModelBOMDataForSecondfLevel) {
         if (data.ModelBOMDataForSecondLevel[i].IMAGEPATH != "" && data.ModelBOMDataForSecondLevel[i].IMAGEPATH != null && data.ModelBOMDataForSecondLevel[i].IMAGEPATH != undefined) {
@@ -1449,6 +1453,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
 
       }
+      this.itemCodeList = data.ItemCodePartList;
+      this.createItemCodeList();
       this.feature_itm_list_table.sort((a, b) => a.sort_key.localeCompare(b.sort_key));
       this.ReturnToInventory = data.ReturnToInventory;
       if (this.ReturnToInventory.length > 0) {
@@ -1934,6 +1940,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         featureTableList.splice(i, 1);
         i = i - 1;
         this.createDescriptionList();
+        this.createItemCodeList();
       }
     }
     this.feature_itm_list_table = featureTableList;
@@ -2675,6 +2682,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.step3_acc_price_bef_dis = 0;
     this.featureDescriptionList = [];
     this.featureAbbreviationList = [];
+    this.itemCodeList = [];
+    this.featureItemList=[];
     this.previousquantity = parseFloat("1");
     this.ruleIndex = 0;
     this.isSecondIteration = false;
@@ -2840,6 +2849,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
           let descriptionList = data.AbbreviationDataList;
           this.featureAbbreviationList = data.AbbreviationDataList;
+        
 
           defaultFeatureSelectList.forEach(element => {
             descriptionList.forEach(elementList => {
@@ -2972,7 +2982,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             }
 
           }
-
+          this.itemCodeList = data.ItemCodePartList;
+          this.createItemCodeList();
           this.ReturnToInventory = data.ReturnToInventory;
           if (this.ReturnToInventory.length > 0) {
             this.AddFeatureList();
@@ -3126,6 +3137,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               })
             }
             this.createDescriptionList();
+            this.createItemCodeList();
           }
 
         }
@@ -4602,6 +4614,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       return obj['ACCESSORY'] != "Y"
     })
     this.createDescriptionList();
+    this.createItemCodeList();
 
 
   }
@@ -4651,6 +4664,43 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     }
     this.descriptionString = string;
 
+  }
+
+  createItemCodeList ()
+  {
+    let defaultItemSelectList = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
+       return obj['checked'] == true && obj['OPTM_TYPE'] == "2";
+    });
+
+    let defaultAccesoryitemSelectList = this.selectedAccessoryBOM.filter(function (obj) {
+      return obj['checked'] == true && obj['OPTM_TYPE'] == "2";
+    });
+    let ItemCodeList = this.itemCodeList;
+    this.featureItemList = [];
+
+    defaultItemSelectList.forEach(element => {
+      ItemCodeList.forEach(elementList => {
+        if (element.OPTM_FEATUREID == elementList.OPTM_FEATUREID) {
+          if (element.OPTM_LINENO == elementList.ITEMLINENO) {
+            this.featureItemList.push({ "code": elementList.OPTM_ITEMCODE_PRT, "DESCORDER": elementList.DESCORDER })
+          }
+        }
+      });
+    });
+
+    defaultAccesoryitemSelectList.forEach(element => {
+      ItemCodeList.forEach(elementList => {
+        if (element.OPTM_FEATUREID == elementList.OPTM_FEATUREID) {
+          if (element.OPTM_LINENO == elementList.ITEMLINENO) {
+            this.featureItemList.push({ "code": elementList.OPTM_ITEMCODE_PRT, "DESCORDER": elementList.DESCORDER })
+          }
+        }
+      });
+    });
+
+    this.featureItemList.sort(function (a, b) {
+      return a.DESCORDER - b.DESCORDER;
+    });
   }
 
   addAttributeForSelection(selecteditem) {
@@ -6619,6 +6669,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       this.featureAbbreviationList = this.step2_selected_model.AbbreviationDataList;
       this.featureDescriptionList = this.step2_selected_model.featureDescriptionList;
       this.model_description = this.step2_selected_model.model_description;
+      this.featureItemList = this.step2_selected_model.featureItemList;
+      this.itemCodeList = this.step2_selected_model.itemCodeList;
       this.isModelVisible = true;
       this.feature_price_calculate();
       this.showLookupLoader = false;
@@ -6843,6 +6895,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         "featureDescriptionList": this.featureDescriptionList,
         "descriptionString": this.descriptionString,
         "ReturnToInventory": this.ReturnToInventory,
+        "itemCodeList": this.itemCodeList,
+        "featureItemList": this.featureItemList
   });
     } else {
       this.step3_data_final[row_id]["item"] = this.step2_data.model_code;
@@ -6860,6 +6914,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       this.step3_data_final[row_id]["selectedAccessoryBOM"] = this.selectedAccessoryBOM;
       this.step3_data_final[row_id]["model_id"] = this.step2_data.model_id;
       this.step3_data_final[row_id]["desc"] = this.step2_data.model_name;
+      this.step3_data_final[row_id]["featureItemList"] = this.featureItemList;
+      this.step3_data_final[row_id]["itemCodeList"] = this.itemCodeList;
       this.step3_data_final[row_id]["MainModelDetails"] = this.MainModelDetails;
       this.step3_data_final[row_id]["ModelHeaderData"] = this.ModelHeaderData;
       this.step3_data_final[row_id]["FeatureBOMDataForSecondLevel"] = this.FeatureBOMDataForSecondLevel;

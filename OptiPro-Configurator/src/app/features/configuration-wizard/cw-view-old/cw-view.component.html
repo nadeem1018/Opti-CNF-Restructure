@@ -1332,6 +1332,12 @@
                                                         <span *ngFor="let featurerow of featureDescriptionList" class="col-sm-6 bg-light border border-primary">{{featurerow.description}}</span>
                                                         <hr>
                                                     </div>
+                                                    <div class="form-group col-md-12 clearfix pl-0 pr-0" *ngIf="featureItemList.length > 0">
+                                                        <span class="col-sm-6 bg-light">{{language.ITEM_CODE}}
+                                                            :</span>
+                                                         <span *ngFor="let featurerow of featureItemList" class="col-sm-6 bg-light border border-primary">{{featurerow.code}}</span>
+                                                        <hr>
+                                                    </div>
                                                 </div>
                                                 <div class="feature_block">
                                                     <div class="feature_table">
@@ -1528,6 +1534,12 @@
                                                                     <span class="col-sm-6 bg-light border border-primary">{{model_description}}</span>
                                                                     <span *ngFor="let featurerow of featureDescriptionList"
                                                                         class="col-sm-6 bg-light border border-primary">{{featurerow.description}}</span>
+                                                                    <hr>
+                                                                </div>
+                                                                <div class="form-group col-md-12 clearfix pl-0 pr-0" *ngIf="featureItemList.length > 0">
+                                                                    <span class="col-sm-6 bg-light">{{language.ITEM_CODE}}
+                                                                        :</span>
+                                                                     <span *ngFor="let featurerow of featureItemList" class="col-sm-6 bg-light border border-primary">{{featurerow.code}}</span>
                                                                     <hr>
                                                                 </div>
                                                             </div>
