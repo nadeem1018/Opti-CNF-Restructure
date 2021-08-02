@@ -78,6 +78,7 @@ export class SidebarComponent implements OnInit, DoCheck {
 
     let allowed_menus_ids = ["0"];
     this.CommonService.navMenuList = [];
+    this.CommonService.needMenuList = [];
     this.CommonService.getMenuRecord().subscribe(
       menu_items => {
         for (let menu_item of menu_items) {
