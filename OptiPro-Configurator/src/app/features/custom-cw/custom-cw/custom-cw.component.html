@@ -29,15 +29,17 @@
                     <div class="form-group row align-items-center">
                         <div class="col-sm-3">
                             <div class="row">
-                                <label class="col-sm-4 col-form-label required" for="customer_doc"> Customer Code</label>
+                                <label class="col-sm-4 col-form-label required" for="customer_doc"> Customer
+                                    Code</label>
                                 <div class="col-sm-8">
                                     <div class="input-group">
-                                        <input [disabled]="isCustomer" type="text" ngValue="" class="form-control form-control-sm"
-                                            (change)="onCustomerChange('')" name="customer" id="customer" placeholder="{{language.customer}}"
+                                        <input [disabled]="isCustomer" type="text" ngValue=""
+                                            class="form-control form-control-sm" (change)="onCustomerChange('')"
+                                            name="customer" id="customer" placeholder="{{language.customer}}"
                                             [(ngModel)]="customer_code" #customer>
                                         <div class="input-group-append">
-                                            <span class="btn btn-sm btn-primary cursor-pointer btn-icon" id="basic-addon2"
-                                                (click)="openCustomerLookUp()">
+                                            <span class="btn btn-sm btn-primary cursor-pointer btn-icon"
+                                                id="basic-addon2" (click)="openCustomerLookUp()">
                                                 <svg viewBox="0 -96 512 512" class="icon m-0">
                                                     <use xlink:href="#menu"></use>
                                                 </svg>
@@ -49,31 +51,36 @@
                         </div>
                         <div class="col-sm-3">
                             <div class="row">
-                                <label class="col-sm-4 col-form-label" for="customer_doc">{{language.customer_name}}</label>
+                                <label class="col-sm-4 col-form-label"
+                                    for="customer_doc">{{language.customer_name}}</label>
                                 <div class="col-sm-8">
-                                    <input type="text" ngValue="" readonly class="form-control form-control-sm" name="customer_name"
-                                        disabled="true" id="customer_name" placeholder="{{language.name}}" [(ngModel)]="customer_name"
-                                        #customername>
+                                    <input type="text" ngValue="" readonly class="form-control form-control-sm"
+                                        name="customer_name" disabled="true" id="customer_name"
+                                        placeholder="{{language.name}}" [(ngModel)]="customer_name" #customername>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="row align-items-center">
-                                <label class="col-sm-4 col-form-label" for="ship_to_address">{{language.ship_to_address}}</label>
+                                <label class="col-sm-4 col-form-label"
+                                    for="ship_to_address">{{language.ship_to_address}}</label>
                                 <div class="col-sm-8">
-                                    <textarea type="text" rows="3" readonly ngValue="" class="form-control form-control-sm"
-                                        name="ship_to_address" id="ship_to_address" placeholder="{{language.ship_to_address}}"
-                                        [(ngModel)]="ship_to_address" #shipto></textarea>
+                                    <textarea type="text" rows="3" readonly ngValue=""
+                                        class="form-control form-control-sm" name="ship_to_address" id="ship_to_address"
+                                        placeholder="{{language.ship_to_address}}" [(ngModel)]="ship_to_address"
+                                        #shipto></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="row align-items-center">
-                                <label class="col-sm-4col-form-label" for="bill_to_address">{{language.bill_to_address}}</label>
+                                <label class="col-sm-4col-form-label"
+                                    for="bill_to_address">{{language.bill_to_address}}</label>
                                 <div class="col-sm-8">
-                                    <textarea type="text" rows="3" readonly ngValue="" class="form-control form-control-sm"
-                                        name="bill_to_address" id="bill_to_address" placeholder="{{language.bill_to_address}}"
-                                        [(ngModel)]="bill_to_address" #billto></textarea>
+                                    <textarea type="text" rows="3" readonly ngValue=""
+                                        class="form-control form-control-sm" name="bill_to_address" id="bill_to_address"
+                                        placeholder="{{language.bill_to_address}}" [(ngModel)]="bill_to_address"
+                                        #billto></textarea>
                                 </div>
                             </div>
                         </div>
@@ -86,9 +93,10 @@
 
                     <div class="col-md-12 d-flex flex-column" id="left-table-section">
                         <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
-                            <kendo-grid [data]="gridView" [reorderable]="true" [resizable]="true" (pageChange)="pageChange($event)"
-                                [selectable]="true" [skip]="skip" [sortable]="false" [filterable]="isColumnFilter"
-                                [filter]="filter" [ngStyle]="{'height':'100%', 'max-width':'100%'}" [pageSize]="selectedValue"
+                            <kendo-grid [data]="gridView" [reorderable]="true" [resizable]="true"
+                                (pageChange)="pageChange($event)" [selectable]="true" [skip]="skip" [sortable]="false"
+                                [filterable]="isColumnFilter" [filter]="filter"
+                                [ngStyle]="{'height':'100%', 'max-width':'100%'}" [pageSize]="selectedValue"
                                 [pageable]="true" (filterChange)="filterChange($event)">
                                 <ng-template kendoGridToolbarTemplate>
                                     <label class="custom-checkbox mb-0">
@@ -112,13 +120,75 @@
                                     </ng-template>
                                 </kendo-grid-column> -->
                                 <kendo-grid-column field="LINENO" title="Index" filter="text" [width]="50"
-                                [minResizableWidth]="145" [filterable]="true">
-                                <ng-template kendoGridCellTemplate let-dataItem>
-                                    <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                        #LINENO value={{dataItem.LINENO}} />
-                                </ng-template>
-                            </kendo-grid-column>
-                                <kendo-grid-column field="BodyPart" title="Body Part" filter="text" [width]="100"
+                                    [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
+                                            #LINENO value={{dataItem.LINENO}} />
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_ITEM_CODE" title="Item Code" filter="text" [width]="100"
+                                    [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
+                                            #OPTM_ITEM_CODE value={{dataItem.OPTM_ITEM_CODE}} />
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_ITEMDESC" title="Item Description" filter="text" [width]="100"
+                                    [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
+                                            #OPTM_ITEMDESC value={{dataItem.OPTM_ITEMDESC}} />
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_DEL_LUMENUS" title="DELIVERED LUMENS" filter="text" [width]="100" [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
+                                            #OPTM_DEL_LUMENUS value={{dataItem.OPTM_DEL_LUMENUS}} />
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SYSTEM_WATTS" title="System Watts" filter="text" [width]="100"
+                                    [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
+                                            #OPTM_SYSTEM_WATTS value={{dataItem.OPTM_SYSTEM_WATTS}} />
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_LUM_EFFICASY" title="LUMINAIRE EFFICIENCY" filter="text" [width]="100"
+                                    [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
+                                            #OPTM_LUM_EFFICASY value={{dataItem.OPTM_LUM_EFFICASY}} />
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_SYSTEM_WATTS" title="LUMINAIRE EFFICIENCY" filter="text" [width]="100"
+                                    [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
+                                            #Category value={{dataItem.Category}} />
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_TEMP" title="AMBIENT TEMP." filter="text" [width]="100"
+                                    [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
+                                            #OPTM_TEMP value={{dataItem.OPTM_TEMP}} />
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_EQVILANT" title="FLUORESCENT EQUIVALENT" filter="text" [width]="100"
+                                    [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
+                                            #OPTM_EQVILANT value={{dataItem.OPTM_EQVILANT}} />
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="OPTM_IES" title="IES FILES" filter="text" [width]="100"
+                                    [minResizableWidth]="145" [filterable]="true">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
+                                            #Category value={{dataItem.Category}} />
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <!-- <kendo-grid-column field="BodyPart" title="Body Part" filter="text" [width]="100"
                                     [minResizableWidth]="145" [filterable]="true">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="true" class="form-control  form-control-sm"
@@ -145,19 +215,21 @@
                                         <input type="text" [disabled]="true" class="form-control  form-control-sm"
                                             #component value={{dataItem.component}} />
                                     </ng-template>
-                                </kendo-grid-column>
+                                </kendo-grid-column> -->
                                 <kendo-grid-column field="Quantity" title="Quantity" filter="text" [width]="80"
                                     [minResizableWidth]="145" [filterable]="false">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="false" class="form-control  form-control-sm"
-                                            #Quantity value={{dataItem.Quantity}} (change)="onChangeQuantity(dataItem.rowindex,Quantity.value)" />
+                                            #Quantity value={{dataItem.Quantity}}
+                                            (change)="onChangeQuantity(dataItem.rowindex,Quantity.value)" />
                                     </ng-template>
                                 </kendo-grid-column>
-                                <kendo-grid-column field="Price" title="Price" filter="text" [width]="80"
+                                <kendo-grid-column field="OPTM_Price" title="Price" filter="text" [width]="80"
                                     [minResizableWidth]="145" [filterable]="false">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="false" class="form-control  form-control-sm"
-                                            #Price value={{dataItem.Price}} (change)="onChangePrice(dataItem.rowindex,Price.value)" />
+                                            #OPTM_Price value={{dataItem.OPTM_Price}}
+                                            (change)="onChangePrice(dataItem.rowindex,OPTM_Price.value)" />
                                     </ng-template>
                                 </kendo-grid-column>
                                 <kendo-grid-column field="TotalPrice" title="Total Price" filter="text" [width]="80"
@@ -167,7 +239,8 @@
                                             #TotalPrice value={{dataItem.TotalPrice}} />
                                     </ng-template>
                                 </kendo-grid-column>
-                                <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                                <ng-template kendoPagerTemplate let-totalPages="totalPages"
+                                    let-currentPage="currentPage">
                                     <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
                                     <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
                                     <kendo-pager-next-buttons></kendo-pager-next-buttons>
@@ -188,15 +261,17 @@
                     {{language.Preview}}
                 </button>
                 &nbsp;&nbsp;
-                <button type="button" (click)="onSaveClick()" class="btn btn-sm btn-success">{{language.Create_Order}}</button>
+                <button type="button" (click)="onSaveClick()"
+                    class="btn btn-sm btn-success">{{language.Create_Order}}</button>
             </div>
         </div>
     </div>
 </div>
 
-<app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)"></app-custom-dialogs>
+<app-custom-dialogs *ngIf="show_dialog" [dialogParams]="dialog_params" (userSelectionValue)="get_dialog_value($event)">
+</app-custom-dialogs>
 
 <span [hidden]="showLookupLoader">
-    <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' [selectedImage]="selectedImage" (lookupvalue)="getLookupValue($event)"
-        (lookupvalues)="getLookupValues($event)"></app-lookup>
+    <app-lookup [lookupfor]='lookupfor' [serviceData]='serviceData' [selectedImage]="selectedImage"
+        (lookupvalue)="getLookupValue($event)" (lookupvalues)="getLookupValues($event)"></app-lookup>
 </span>

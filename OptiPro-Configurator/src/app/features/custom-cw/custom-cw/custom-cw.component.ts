@@ -498,8 +498,8 @@ export class CustomCwComponent implements OnInit {
 
       this.setFinalData.forEach(element => {
         finalArray.push({
-          "ItemCode": element.ItemKey,
-          "ItemDescription": element.component,
+          "ItemCode": element.OPTM_ITEM_CODE,
+          "ItemDescription": element.OPTM_ITEMDESC,
           "Quantity": parseFloat(element.Quantity),
           "Price": parseFloat(element.Price)
         })

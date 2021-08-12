@@ -489,7 +489,7 @@ export class OutputService {
       }])
     };
     //Return the response form the API  
-    return this.httpclient.post(this.config_params.service_url + "/ModelBOM/GetDataForCreatingOrderForModelBOM", jObject, this.common_params.httpOptions);
+    return this.httpclient.post(this.config_params.service_url + "/ModelBOM/GetDataForCreatingOrderForLALIGHT", jObject, this.common_params.httpOptions);
   }
 
   AddUpdateCustomCw(model): Observable<any> {
