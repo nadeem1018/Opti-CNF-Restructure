@@ -164,7 +164,7 @@
                                     [minResizableWidth]="145" [filterable]="true">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #Category value={{dataItem.Category}} />
+                                            #OPTM_SYSTEM_WATTS value={{dataItem.OPTM_SYSTEM_WATTS}} />
                                     </ng-template>
                                 </kendo-grid-column>
                                 <kendo-grid-column field="OPTM_TEMP" title="AMBIENT TEMP." filter="text" [width]="100"
@@ -185,7 +185,7 @@
                                     [minResizableWidth]="145" [filterable]="true">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #Category value={{dataItem.Category}} />
+                                            #OPTM_IES value={{dataItem.OPTM_IES}} />
                                     </ng-template>
                                 </kendo-grid-column>
                                 <!-- <kendo-grid-column field="BodyPart" title="Body Part" filter="text" [width]="100"
@@ -216,12 +216,12 @@
                                             #component value={{dataItem.component}} />
                                     </ng-template>
                                 </kendo-grid-column> -->
-                                <kendo-grid-column field="Quantity" title="Quantity" filter="text" [width]="80"
+                                <kendo-grid-column field="OPTM_QUANTITY" title="Quantity" filter="text" [width]="80"
                                     [minResizableWidth]="145" [filterable]="false">
                                     <ng-template kendoGridCellTemplate let-dataItem>
                                         <input type="text" [disabled]="false" class="form-control  form-control-sm"
-                                            #Quantity value={{dataItem.Quantity}}
-                                            (change)="onChangeQuantity(dataItem.rowindex,Quantity.value)" />
+                                            #OPTM_QUANTITY value={{dataItem.OPTM_QUANTITY}}
+                                            (change)="onChangeQuantity(dataItem.rowindex,OPTM_QUANTITY.value)" />
                                     </ng-template>
                                 </kendo-grid-column>
                                 <kendo-grid-column field="OPTM_Price" title="Price" filter="text" [width]="80"

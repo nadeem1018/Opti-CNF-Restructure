@@ -482,7 +482,7 @@ export class OutputService {
     let jObject = {
       GetData: JSON.stringify([{
         CompanyDBID: sessionStorage.selectedComp,
-        ModelID: 707, ModelDisplayName: "Body Vision Jewelry",
+        ModelID: 785, ModelDisplayName: "STW100-01",
         GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
 
 

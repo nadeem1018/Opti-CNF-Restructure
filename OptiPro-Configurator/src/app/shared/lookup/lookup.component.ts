@@ -2755,43 +2755,29 @@ export class LookupComponent implements OnInit {
     this.fill_input_id = 'ItemKey';
     this.lookup_key = 'ItemKey';
     this.table_head = [
-      {
-        field: 'BodyPart',
-        title: "Body Part",
-        type: 'text',
-        width: '100',
-        attrType: 'text'
-      },
-      {
-        field: 'Category',
-        title: "Category",
-        type: 'text',
-        width: '100',
-        attrType: 'text'
-      },
-      {
-        field: 'ItemKey',
+     {
+        field: 'OPTM_ITEMCODE',
         title: "Item Code",
         type: 'text',
         width: '100',
         attrType: 'text'
       },
       {
-        field: 'component',
+        field: 'OPTM_ITEMDESC',
         title: "Item Name",
         type: 'text',
         width: '100',
         attrType: 'text'
       },
       {
-        field: 'Quantity',
+        field: 'OPTM_QUANTITY',
         title: "Quantity",
         type: 'text',
         width: '80',
         attrType: 'text'
       },
       {
-        field: 'Price',
+        field: 'OPTM_Price',
         title: "Price",
         type: 'text',
         width: '80',

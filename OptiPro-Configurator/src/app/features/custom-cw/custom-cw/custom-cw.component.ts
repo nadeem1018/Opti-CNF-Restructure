@@ -83,7 +83,7 @@ export class CustomCwComponent implements OnInit {
         }
         if (data.length > 0) {
           for (let i = 0; i < data.length; i++) {
-            data[i].TotalPrice = parseInt(data[i].Quantity) * parseInt(data[i].Price);
+            data[i].TotalPrice = parseInt(data[i].OPTM_QUANTITY) * parseInt(data[i].OPTM_Price);
             data[i]["rowindex"] = i;
             data[i]["checked"] = false;
             data[i]["LINENO"] = i + 1;
@@ -163,7 +163,7 @@ export class CustomCwComponent implements OnInit {
     }
     else {
       if (this.setFinalData.length > 0) {
-        this.checkExistSetFinalData(data.component);
+        this.checkExistSetFinalData(data.OPTM_ITEMDESC);
       }
     }
     data.checked = value;
@@ -175,7 +175,7 @@ export class CustomCwComponent implements OnInit {
     let isvalid = false;
     for (let i = 0; i < array.length; i++) {
       let element: any = array[i];
-      if (element.component == itemCode) {
+      if (element.OPTM_ITEMDESC == itemCode) {
         array.splice(i, 1);
         i = i - 1;
         isvalid = true;
@@ -441,9 +441,9 @@ export class CustomCwComponent implements OnInit {
   onChangeQuantity(rowindex, value) {
     CommonData.made_changes = true;
     this.currentrowIndex = rowindex
-    this.dataList[this.currentrowIndex].Quantity = parseInt(value);
-    this.dataList[this.currentrowIndex].TotalPrice = parseInt(this.dataList[this.currentrowIndex].Quantity) * parseInt(this.dataList[this.currentrowIndex].Price);
-    this.checkExistSetFinalData(this.dataList[this.currentrowIndex].component);
+    this.dataList[this.currentrowIndex].OPTM_QUANTITY = parseInt(value);
+    this.dataList[this.currentrowIndex].TotalPrice = parseInt(this.dataList[this.currentrowIndex].OPTM_QUANTITY) * parseInt(this.dataList[this.currentrowIndex].OPTM_Price);
+    this.checkExistSetFinalData(this.dataList[this.currentrowIndex].OPTM_ITEMDESC);
     let dataItem = this.dataList[this.currentrowIndex];
     if (parseInt(value) > 0) {
       this.setFinalData.push(dataItem);
@@ -455,9 +455,9 @@ export class CustomCwComponent implements OnInit {
   onChangePrice(rowindex, value) {
     CommonData.made_changes = true;
     this.currentrowIndex = rowindex
-    this.dataList[this.currentrowIndex].Price = value;
-    this.dataList[this.currentrowIndex].TotalPrice = parseInt(this.dataList[this.currentrowIndex].Quantity) * parseInt(this.dataList[this.currentrowIndex].Price);
-    let dataexist = this.checkExistSetFinalData(this.dataList[this.currentrowIndex].component);
+    this.dataList[this.currentrowIndex].OPTM_Price = value;
+    this.dataList[this.currentrowIndex].TotalPrice = parseInt(this.dataList[this.currentrowIndex].OPTM_QUANTITY) * parseInt(this.dataList[this.currentrowIndex].OPTM_Price);
+    let dataexist = this.checkExistSetFinalData(this.dataList[this.currentrowIndex].OPTM_ITEMDESC);
     if (dataexist) {
       let dataItem = this.dataList[this.currentrowIndex];
       this.setFinalData.push(dataItem);
@@ -500,8 +500,8 @@ export class CustomCwComponent implements OnInit {
         finalArray.push({
           "ItemCode": element.OPTM_ITEM_CODE,
           "ItemDescription": element.OPTM_ITEMDESC,
-          "Quantity": parseFloat(element.Quantity),
-          "Price": parseFloat(element.Price)
+          "Quantity": parseFloat(element.OPTM_QUANTITY),
+          "Price": parseFloat(element.OPTM_Price)
         })
       });
     }
