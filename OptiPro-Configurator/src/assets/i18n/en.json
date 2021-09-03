@@ -749,5 +749,6 @@
     "attribute_Mapping":"Mapped Attributes",
     "itemcode_field":"Enter Item Code Part at row index",
     "ITEM_CODE":"Item Code",
-    "mailSentSuccessfully":"Email Sent Successfully"
+    "mailSentSuccessfully":"Email Sent Successfully",
+    "notSelectedEmail":"Email Id is not exists for selected Customer"
 }

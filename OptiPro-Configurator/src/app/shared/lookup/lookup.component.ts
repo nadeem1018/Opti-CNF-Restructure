@@ -3002,6 +3002,11 @@ export class LookupComponent implements OnInit, DoCheck {
 
   sendEmailtoCustomer()
   {
+    if(this.CommonService.customerEmail == "")
+    {
+      this.CommonService.show_notification(this.language.notSelectedEmail, 'warning');
+      return false;
+    }
     this.cnfService.sendEmail(this.CommonService.customerName,this.CommonService.custmerCode,this.CommonService.customerEmail,this.CommonService.filePath).subscribe(
       data => {
         if (data != null && data != undefined) {
@@ -3017,6 +3022,8 @@ export class LookupComponent implements OnInit, DoCheck {
           if (data[0].Status == "True") {
           
             this.CommonService.show_notification(this.language.mailSentSuccessfully, 'success');
+            this.CommonService.customerEmail = "";
+            this.CommonService.filePath = "";
 
            
           }
