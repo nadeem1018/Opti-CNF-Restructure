@@ -175,6 +175,19 @@ export class OutputService {
     return this.httpclient.post(this.config_params.service_url + "/Wizard/GetCustomerName?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
 
+  GetCustomerDiscountDetail(CompanyDBID: string, Customer: string): Observable<any> {
+    let cache_control = this.common_params.random_string(40);
+    //JSON Obeject Prepared to be send as a param to API
+    let jObject = {
+      Customer: JSON.stringify([{
+        currentDate: this.formatted_date, CompanyDBID: CompanyDBID, CustID: Customer,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetDiscountDetailByCustId?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
+  }
+
   AddUpdateCustomerData(final_dataset_to_save): Observable<any> {
     let cache_control = this.common_params.random_string(40);
     var jObject = { GetData: JSON.stringify(final_dataset_to_save) };
@@ -493,12 +506,26 @@ export class OutputService {
   }
 
   AddUpdateCustomCw(model): Observable<any> {
-   
+
     let jObject = {
       GetData: JSON.stringify(model)
     }
     //Return the response form the API  
     return this.httpclient.post(this.config_params.service_url + "/ModelBOM/CreateOrders", jObject, this.common_params.httpOptions);
+  }
+
+  sendEmail(custName: any, custCode: any, email: any, filePath: any): Observable<any> {
+    let cache_control = this.common_params.random_string(40);
+
+    //JSON Obeject Prepared to be send as a param to API
+    let jObject = {
+      Customer: JSON.stringify([{
+        currentDate: this.formatted_date, CompanyDBID: sessionStorage.selectedComp,
+        GUID: sessionStorage.getItem("GUID"), Email: email, FileName: filePath, UsernameForLic: sessionStorage.getItem("loggedInUser")
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/SendEmail?cache_control=" + cache_control, jObject, this.common_params.httpOptions);
   }
 
 

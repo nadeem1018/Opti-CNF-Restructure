@@ -21,6 +21,7 @@
     <div class="page-header">
         <h4>{{language.Custom_CW}}</h4>
     </div>
+    
     <div class="card" fxFlex>
         <div class="card-body pb-2" fxFlex fxLayout="column">
             <div class="main-portion">
@@ -88,169 +89,135 @@
 
                     </div>
 
+                    <kendo-grid
+                    [kendoGridBinding]="gridData"
+                    [pageSize]="18"
+                    [sortable]="true"
+                    [pageable]="true"
+                    [ngStyle]="{'height':'100%', 'max-width':'100%'}"
+                    [filterable]="true"
+                  >
+                   
+                   
+                    <kendo-grid-column field="OPTM_ITEM_CODE" [width]="120" title="Item Code">
+                      <ng-template kendoGridFilterCellTemplate let-filter>
+                        <my-dropdown-filter
+                          [filter]="filter"
+                          [data]="distinctCategories"
+                          textField="OPTM_ITEM_CODE"
+                          valueField="OPTM_ITEM_CODE"
+                        >
+                        </my-dropdown-filter>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="OPTM_ITEMDESC" [width]="170" title="Item Description">
+                        <ng-template kendoGridFilterCellTemplate let-filter>
+                          <my-dropdown-filter
+                            [filter]="filter"
+                            [data]="distinctCategories"
+                            textField="OPTM_ITEMDESC"
+                            valueField="OPTM_ITEMDESC"
+                          >
+                          </my-dropdown-filter>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="OPTM_DEL_LUMENUS" [width]="120" title="DELIVERED LUMENS">
+                        <ng-template kendoGridFilterCellTemplate let-filter>
+                          <my-dropdown-filter
+                            [filter]="filter"
+                            [data]="distinctCategories"
+                            textField="OPTM_DEL_LUMENUS"
+                            valueField="OPTM_DEL_LUMENUS"
+                          >
+                          </my-dropdown-filter>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="OPTM_SYSTEM_WATTS" [width]="100" title="System Watts">
+                        <ng-template kendoGridFilterCellTemplate let-filter>
+                          <my-dropdown-filter
+                            [filter]="filter"
+                            [data]="distinctCategories"
+                            textField="OPTM_SYSTEM_WATTS"
+                            valueField="OPTM_SYSTEM_WATTS"
+                          >
+                          </my-dropdown-filter>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="OPTM_LUM_EFFICASY" [width]="100" title="LUMINAIRE EFFICIENCY">
+                        <ng-template kendoGridFilterCellTemplate let-filter>
+                          <my-dropdown-filter
+                            [filter]="filter"
+                            [data]="distinctCategories"
+                            textField="OPTM_LUM_EFFICASY"
+                            valueField="OPTM_LUM_EFFICASY"
+                          >
+                          </my-dropdown-filter>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="OPTM_TEMP" [width]="140" title="AMBIENT TEMP.">
+                        <ng-template kendoGridFilterCellTemplate let-filter>
+                          <my-dropdown-filter
+                            [filter]="filter"
+                            [data]="distinctCategories"
+                            textField="OPTM_TEMP"
+                            valueField="OPTM_TEMP"
+                          >
+                          </my-dropdown-filter>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="OPTM_EQVILANT" [width]="140" title="FLUORESCENT EQUIVALENT">
+                        <ng-template kendoGridFilterCellTemplate let-filter>
+                          <my-dropdown-filter
+                            [filter]="filter"
+                            [data]="distinctCategories"
+                            textField="OPTM_EQVILANT"
+                            valueField="OPTM_EQVILANT"
+                          >
+                          </my-dropdown-filter>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="OPTM_IES" [width]="80" title="IES FILES">
+                        <ng-template kendoGridFilterCellTemplate let-filter>
+                          <my-dropdown-filter
+                            [filter]="filter"
+                            [data]="distinctCategories"
+                            textField="OPTM_IES"
+                            valueField="OPTM_IES"
+                          >
+                          </my-dropdown-filter>
+                        </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-column field="OPTM_QUANTITY" title="Quantity" filter="text" [width]="80"
+                      [minResizableWidth]="100" [filterable]="false">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                          <input type="text" [disabled]="false" class="form-control  form-control-sm"
+                              #OPTM_QUANTITY value={{dataItem.OPTM_QUANTITY}}
+                              (change)="onChangeQuantity(dataItem.rowindex,OPTM_QUANTITY.value)" />
+                      </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column field="OPTM_Price" title="Price" filter="text" [width]="80"
+                      [minResizableWidth]="145" [filterable]="false">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                          <input type="text" [disabled]="false" class="form-control  form-control-sm"
+                              #OPTM_Price value={{dataItem.OPTM_Price}}
+                              (change)="onChangePrice(dataItem.rowindex,OPTM_Price.value)" />
+                      </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column field="TotalPrice" title="Total Price" filter="text" [width]="80"
+                      [minResizableWidth]="100" [filterable]="false">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                          <input type="text" [disabled]="true" class="form-control  form-control-sm"
+                              #TotalPrice value={{dataItem.TotalPrice}} />
+                      </ng-template>
+                  </kendo-grid-column>
+                 
+                  </kendo-grid>
+                  
+                   
 
 
 
-                    <div class="col-md-12 d-flex flex-column" id="left-table-section">
-                        <div class="d-flex" [ngStyle]="{'height':'100%', 'flex':'0 1 100%'}">
-                            <kendo-grid [data]="gridView" [reorderable]="true" [resizable]="true"
-                                (pageChange)="pageChange($event)" [selectable]="true" [skip]="skip" [sortable]="false"
-                                [filterable]="isColumnFilter" [filter]="filter"
-                                [ngStyle]="{'height':'100%', 'max-width':'100%'}" [pageSize]="selectedValue"
-                                [pageable]="true" (filterChange)="filterChange($event)">
-                                <ng-template kendoGridToolbarTemplate>
-                                    <label class="custom-checkbox mb-0">
-                                        <input #chkFilter type="checkbox" id="columnFilter" [(ngModel)]="isColumnFilter"
-                                            (change)="saveFilterState()" name="columnfilter">
-                                        <span class="checkbox"></span>
-                                        <span class="text-inverse">{{language.enable_filter}}</span>
-                                    </label>
-                                </ng-template>
-
-                                <!-- <kendo-grid-column field="checkbox" [sortable]="false" title="" filter="numeric"
-                                    [width]="38" [minResizableWidth]="38" class="text-center" headerClass="text-center"
-                                    [filterable]="false">
-                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-                                        <label class="custom-checkbox mb-0 wihtout-label">
-                                            <input type="checkbox" name="child_checkbox" class="child_checkbox"
-                                                #checkedvalue (change)="on_checkbox_checked(checkedvalue.checked,dataItem)"
-                                                [checked]="dataItem.checked" id="child_checkbox_{{rowIndex}}">
-                                            <span class="checkbox"></span>
-                                        </label>
-                                    </ng-template>
-                                </kendo-grid-column> -->
-                                <kendo-grid-column field="LINENO" title="Index" filter="text" [width]="50"
-                                    [minResizableWidth]="145" [filterable]="true">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #LINENO value={{dataItem.LINENO}} />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_ITEM_CODE" title="Item Code" filter="text" [width]="100"
-                                    [minResizableWidth]="145" [filterable]="true">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #OPTM_ITEM_CODE value={{dataItem.OPTM_ITEM_CODE}} />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_ITEMDESC" title="Item Description" filter="text" [width]="100"
-                                    [minResizableWidth]="145" [filterable]="true">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #OPTM_ITEMDESC value={{dataItem.OPTM_ITEMDESC}} />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_DEL_LUMENUS" title="DELIVERED LUMENS" filter="text" [width]="100" [minResizableWidth]="145" [filterable]="true">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #OPTM_DEL_LUMENUS value={{dataItem.OPTM_DEL_LUMENUS}} />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_SYSTEM_WATTS" title="System Watts" filter="text" [width]="100"
-                                    [minResizableWidth]="145" [filterable]="true">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #OPTM_SYSTEM_WATTS value={{dataItem.OPTM_SYSTEM_WATTS}} />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_LUM_EFFICASY" title="LUMINAIRE EFFICIENCY" filter="text" [width]="100"
-                                    [minResizableWidth]="145" [filterable]="true">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #OPTM_LUM_EFFICASY value={{dataItem.OPTM_LUM_EFFICASY}} />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_SYSTEM_WATTS" title="LUMINAIRE EFFICIENCY" filter="text" [width]="100"
-                                    [minResizableWidth]="145" [filterable]="true">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #OPTM_SYSTEM_WATTS value={{dataItem.OPTM_SYSTEM_WATTS}} />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_TEMP" title="AMBIENT TEMP." filter="text" [width]="100"
-                                    [minResizableWidth]="145" [filterable]="true">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #OPTM_TEMP value={{dataItem.OPTM_TEMP}} />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_EQVILANT" title="FLUORESCENT EQUIVALENT" filter="text" [width]="100"
-                                    [minResizableWidth]="145" [filterable]="true">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #OPTM_EQVILANT value={{dataItem.OPTM_EQVILANT}} />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_IES" title="IES FILES" filter="text" [width]="100"
-                                    [minResizableWidth]="145" [filterable]="true">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #OPTM_IES value={{dataItem.OPTM_IES}} />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <!-- <kendo-grid-column field="BodyPart" title="Body Part" filter="text" [width]="100"
-                                    [minResizableWidth]="145" [filterable]="true">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #BodyPart value={{dataItem.BodyPart}} />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="Category" title="Category" filter="text" [width]="100"
-                                    [minResizableWidth]="145" [filterable]="true">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #Category value={{dataItem.Category}} />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="ItemKey" title="Item Code" filter="text" [width]="100"
-                                    [minResizableWidth]="145" [filterable]="true">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #ItemKey value={{dataItem.ItemKey}} />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="component" title="Item Name" filter="text" [width]="145"
-                                    [minResizableWidth]="145" [filterable]="true">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #component value={{dataItem.component}} />
-                                    </ng-template>
-                                </kendo-grid-column> -->
-                                <kendo-grid-column field="OPTM_QUANTITY" title="Quantity" filter="text" [width]="80"
-                                    [minResizableWidth]="145" [filterable]="false">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="false" class="form-control  form-control-sm"
-                                            #OPTM_QUANTITY value={{dataItem.OPTM_QUANTITY}}
-                                            (change)="onChangeQuantity(dataItem.rowindex,OPTM_QUANTITY.value)" />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="OPTM_Price" title="Price" filter="text" [width]="80"
-                                    [minResizableWidth]="145" [filterable]="false">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="false" class="form-control  form-control-sm"
-                                            #OPTM_Price value={{dataItem.OPTM_Price}}
-                                            (change)="onChangePrice(dataItem.rowindex,OPTM_Price.value)" />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="TotalPrice" title="Total Price" filter="text" [width]="80"
-                                    [minResizableWidth]="145" [filterable]="false">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <input type="text" [disabled]="true" class="form-control  form-control-sm"
-                                            #TotalPrice value={{dataItem.TotalPrice}} />
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <ng-template kendoPagerTemplate let-totalPages="totalPages"
-                                    let-currentPage="currentPage">
-                                    <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
-                                    <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
-                                    <kendo-pager-next-buttons></kendo-pager-next-buttons>
-                                    <!-- <kendo-dropdownlist [data]="listItems" class="form-control-sm ml-3 form-control d-inline-flex w-auto"
-                                        (selectionChange)="getcurrentPageSize($event)" [(ngModel)]="selectedValue"></kendo-dropdownlist> -->
-                                    <kendo-pager-info></kendo-pager-info>
-                                </ng-template>
-                            </kendo-grid>
-                        </div>
-                    </div>
+                  
                 </div>
             </div>
             <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2">

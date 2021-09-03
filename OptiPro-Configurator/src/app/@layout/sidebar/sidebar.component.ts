@@ -29,8 +29,8 @@ export class SidebarComponent implements OnInit, DoCheck {
   public dealarMenu = this.CommonService.delarMappingMenu;
   needMenuData = [{ "itemCode": "208", "itemName": "Need's Assessment", "itemNav": "/need-assessment", "itemIcon": "#assessmentScreen", "itemIconSize": "0 0 512 512", "permission": true }];
   // delarMappingData = [{ "itemCode": "205", "itemName": this.language.DelarCustomerMapping, "itemNav": "/delar-customer-mapping", "itemIcon": "#configure", "itemIconSize": "0 0 400 512", "permission": true }];
-  configureWizard = [{ "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }, { "itemCode": "205", "itemName": this.language.Custom_CW, "itemNav": "/custom-configure-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }];
-  // configureWizard = [{ "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }];
+  //configureWizard = [{ "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }, { "itemCode": "205", "itemName": this.language.Custom_CW, "itemNav": "/custom-configure-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }];
+  configureWizard = [{ "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }];
 
   ngOnInit() {
 
@@ -66,8 +66,8 @@ export class SidebarComponent implements OnInit, DoCheck {
       ];
     }
     else {
-      temp_menu_data = [{ "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }, { "itemCode": "205", "itemName": this.language.Custom_CW, "itemNav": "/custom-configure-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }];
-      // temp_menu_data = [{ "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }];
+      // temp_menu_data = [{ "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }, { "itemCode": "205", "itemName": this.language.Custom_CW, "itemNav": "/custom-configure-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }];
+      temp_menu_data = [{ "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }];
       this.CommonService.needAssesmentMenu = false;
       this.needassesmentMenu = false;
       this.CommonService.attributeMenu = false;

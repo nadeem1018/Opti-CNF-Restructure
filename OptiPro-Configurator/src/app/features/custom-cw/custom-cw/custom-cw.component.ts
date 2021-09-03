@@ -1,10 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonData } from 'src/app/core/data/CommonData';
+import { process, State } from "@progress/kendo-data-query";
 import { CommonService } from 'src/app/core/service/common.service';
-import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
+
+import {
+  GridComponent,
+  GridDataResult,
+  DataStateChangeEvent, PageChangeEvent
+} from '@progress/kendo-angular-grid';
 import { filterBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { OutputService } from '../../../core/service/output.service';
+
 
 @Component({
   selector: 'app-custom-cw',
@@ -12,7 +19,8 @@ import { OutputService } from '../../../core/service/output.service';
   styleUrls: ['./custom-cw.component.scss']
 })
 export class CustomCwComponent implements OnInit {
-
+  public distinctCategories: any[];
+  public gridData: any[];
   public customer_code: any = "";
   public customer_name: any = "";
   public ship_to_address: any = "";
@@ -89,7 +97,14 @@ export class CustomCwComponent implements OnInit {
             data[i]["LINENO"] = i + 1;
           }
           this.dataList = data;
+
+          this.gridData = data;
+          this.distinctCategories = data.filter(function (obj) {
+            return obj.OPTM_ITEM_CODE;
+          })
+            ;
           this.featureList = data;
+
           this.loadItems();
         }
         else {
@@ -122,10 +137,10 @@ export class CustomCwComponent implements OnInit {
     this.filter = filter;
     let gridData = filterBy(this.dataList, filter);
     this.gridView =
-      {
-        data: gridData.slice(this.skip, this.skip + this.selectedValue),
-        total: gridData.length
-      }
+    {
+      data: gridData.slice(this.skip, this.skip + this.selectedValue),
+      total: gridData.length
+    }
   }
 
   // function for load items  in grid .
@@ -194,6 +209,11 @@ export class CustomCwComponent implements OnInit {
     this.ship_to_address = "";
     this.bill_to_address = "";
     this.setFinalData = [];
+    this.distinctCategories = [];
+    let currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
     this.getFeatureList();
   }
 
@@ -217,10 +237,10 @@ export class CustomCwComponent implements OnInit {
         if (data === "False") {
           this.showLookupLoader = false;
           this.CommonService.show_notification(this.language.invalidcustomer, 'error');
-         this.customer_code = "";
-         this.customer_name = "";
-         this.ship_to_address = "";
-         this.bill_to_address = "";
+          this.customer_code = "";
+          this.customer_name = "";
+          this.ship_to_address = "";
+          this.bill_to_address = "";
           return;
         }
 
@@ -441,8 +461,8 @@ export class CustomCwComponent implements OnInit {
   onChangeQuantity(rowindex, value) {
     CommonData.made_changes = true;
     this.currentrowIndex = rowindex
-    this.dataList[this.currentrowIndex].OPTM_QUANTITY = parseInt(value);
-    this.dataList[this.currentrowIndex].TotalPrice = parseInt(this.dataList[this.currentrowIndex].OPTM_QUANTITY) * parseInt(this.dataList[this.currentrowIndex].OPTM_Price);
+    this.dataList[this.currentrowIndex].OPTM_QUANTITY = parseInt(value) + ".0";
+    this.dataList[this.currentrowIndex].TotalPrice = (parseInt(this.dataList[this.currentrowIndex].OPTM_QUANTITY) * parseInt(this.dataList[this.currentrowIndex].OPTM_Price)) + ".0";
     this.checkExistSetFinalData(this.dataList[this.currentrowIndex].OPTM_ITEMDESC);
     let dataItem = this.dataList[this.currentrowIndex];
     if (parseInt(value) > 0) {
@@ -455,8 +475,8 @@ export class CustomCwComponent implements OnInit {
   onChangePrice(rowindex, value) {
     CommonData.made_changes = true;
     this.currentrowIndex = rowindex
-    this.dataList[this.currentrowIndex].OPTM_Price = value;
-    this.dataList[this.currentrowIndex].TotalPrice = parseInt(this.dataList[this.currentrowIndex].OPTM_QUANTITY) * parseInt(this.dataList[this.currentrowIndex].OPTM_Price);
+    this.dataList[this.currentrowIndex].OPTM_Price = parseInt(value) + ".0";
+    this.dataList[this.currentrowIndex].TotalPrice = (parseInt(this.dataList[this.currentrowIndex].OPTM_QUANTITY) * parseInt(this.dataList[this.currentrowIndex].OPTM_Price)) + ".0";
     let dataexist = this.checkExistSetFinalData(this.dataList[this.currentrowIndex].OPTM_ITEMDESC);
     if (dataexist) {
       let dataItem = this.dataList[this.currentrowIndex];
@@ -474,8 +494,7 @@ export class CustomCwComponent implements OnInit {
       this.showLookupLoader = false;
       this.serviceData = this.setFinalData;
     }
-    else
-    {
+    else {
       this.CommonService.show_notification(this.language.SelectData, 'error');
       return false;
     }
@@ -505,8 +524,7 @@ export class CustomCwComponent implements OnInit {
         })
       });
     }
-    else
-    {
+    else {
       this.CommonService.show_notification(this.language.SelectData, 'error');
       return false;
     }
@@ -522,12 +540,11 @@ export class CustomCwComponent implements OnInit {
     this.service.AddUpdateCustomCw(obj).subscribe(
       data => {
         this.showLookupLoader = false;
-        if(data.Table1[0].DocNo != "")
-        {
-          this.CommonService.show_notification(this.language.OrderCreated + data.Table1[0].DocNo , 'success');
+        if (data.Table1[0].DocNo != "") {
+          this.CommonService.show_notification(this.language.OrderCreated + data.Table1[0].DocNo, 'success');
           this.resetGrid();
         }
-        else{
+        else {
           this.CommonService.show_notification(data.Table1[0].ErrorMsg, 'error');
         }
       }, error => {

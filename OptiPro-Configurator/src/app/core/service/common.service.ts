@@ -21,6 +21,10 @@ export class CommonService {
   public globalSearch: any = false;
   public userCustomerWise: any = false;
   public usertype = "";
+  public custmerCode : any ="";
+  public customerName : any = "";
+  public customerEmail: any = "";
+  public filePath : any ="";
   public navMenuList: Array<Object> = [];
   public needMenuList: any = [];
   public isSetNeedcall : any = false;

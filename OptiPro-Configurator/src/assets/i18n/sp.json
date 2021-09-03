@@ -353,7 +353,7 @@
     "Between": "Between",
     "In": "In",
     "on_row": "on row",
-    "delivery_date": "Delivery Date",
+    "delivery_date": "Estimated Ship Date",
     "serial": "Sl#",
     "ReadyToUse": "Ready To Use",
     "pricevalid": "Price cannot be negative",
@@ -719,7 +719,8 @@
     "Invalid_Display_Order_field":"Enter Valid Display Group Order at row index:",
     "NOT_Assessment":"Need's Assessment Template Data is Not Available",
     "itemcode_field":"Enter Item Code Part at row index",
-    "ITEM_CODE":"Item Code"
+    "ITEM_CODE":"Item Code",
+    "mailSentSuccessfully":"Email Sent Successfully"
    
 
 }

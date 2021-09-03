@@ -1,14 +1,15 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, DoCheck, Input, Output, EventEmitter } from '@angular/core';
 import { CommonData, ColumnSetting } from 'src/app/core/data/CommonData';
 import { RoutingService } from 'src/app/core/service/routing.service';
 import { CommonService } from 'src/app/core/service/common.service';
 import { Router } from '@angular/router';
-import { GridDataResult } from '@progress/kendo-angular-grid';
-import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
+import { GridDataResult,PageChangeEvent } from '@progress/kendo-angular-grid';
+import { SortDescriptor, orderBy, process } from '@progress/kendo-data-query';
 import { ModelbomService } from 'src/app/core/service/modelbom.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { FeaturebomService } from 'src/app/core/service/featurebom.service';
 import { FeaturemodelService } from 'src/app/core/service/featuremodel.service';
+import {OutputService} from 'src/app/core/service/output.service';
 import { NeedsAssessmentTemplateService } from 'src/app/core/service/needs-assessment-template.service';
 
 @Component({
@@ -16,13 +17,14 @@ import { NeedsAssessmentTemplateService } from 'src/app/core/service/needs-asses
   templateUrl: './lookup.component.html',
   styleUrls: ['./lookup.component.scss']
 })
-export class LookupComponent implements OnInit {
+export class LookupComponent implements OnInit, DoCheck {
   @Input() serviceData: any;
   @Input() lookupfor: any;
   @Input() selectedImage: any
   @Input() inputTitle: any
   @Output() lookupvalue = new EventEmitter();
   @Output() lookupvalues = new EventEmitter();
+  @ViewChild('search', { static: false }) text_input_elem: ElementRef;
 
 
   public commonData = new CommonData();
@@ -37,6 +39,7 @@ export class LookupComponent implements OnInit {
   public popup_resource: boolean = false;
   public skip: number = 0;
   public popup_lookupfor = "";
+  public selectedValue : any = 50;
   public showLookupLoader: boolean = false;
   public showLoader: boolean = false;
   public LookupDataLoaded: boolean = false;
@@ -70,6 +73,7 @@ export class LookupComponent implements OnInit {
   public rule_output_title: any;
   public resource_popup_title = '';
   public delar_mapping_model: boolean = false;
+  public customerlookup: boolean = false;
 
   public resource_basisdd: any[];
   public resourceServiceOper: any = "";
@@ -81,6 +85,7 @@ export class LookupComponent implements OnInit {
   public enlargeImage: any;
   public reportDialogOpened: boolean = false;
   public reportBase64String: any;
+  public isfocus: boolean = true;
   public isColumnFilter: boolean = false;
   public isColumnFilter1: boolean = false;
   public attributeServiceData: any = [];
@@ -114,7 +119,8 @@ export class LookupComponent implements OnInit {
     private router: Router,
     private mbom: ModelbomService,
     private assessmentService: NeedsAssessmentTemplateService,
-    private fms: FeaturemodelService
+    private fms: FeaturemodelService,
+    private cnfService : OutputService
   ) {
   }
 
@@ -354,8 +360,20 @@ export class LookupComponent implements OnInit {
     }
   }
 
+  ngDoCheck() {
+    if (this.isfocus)
+      if (this.text_input_elem != undefined) {
+        this.text_input_elem.nativeElement.focus();
+        this.isfocus = false;
+      }
+
+  }
+
+
+
   output_invoice_print_new() {
     this.popup_title = this.language.print_quote;
+    let a = this.CommonService.custmerCode;
     this.reportBase64String = "data:application/pdf;base64," + this.serviceData;
     console.log("this", this.reportBase64String);
     if (this.reportBase64String != null && this.reportBase64String != "") {
@@ -481,6 +499,53 @@ export class LookupComponent implements OnInit {
     }
   }
 
+  
+  public loadItems(): void {
+    this.gridView = {
+      data: this.serviceData.slice(this.skip, this.skip + this.selectedValue),
+      total: this.serviceData.length
+    };
+  }
+
+
+  // function for page change in grid.
+
+  public pageChange(event: PageChangeEvent): void {
+    this.skip = event.skip;
+    this.selectedValue = event.take;
+    this.loadItems();
+    
+  }
+
+  public onFilter(inputValue: string): void {
+    let gridData = process(this.serviceData, {
+      filter: {
+        logic: "or",
+        filters: [
+          {
+            field: "CustID",
+            operator: "contains",
+            value: inputValue,
+          },
+          {
+            field: "Name",
+            operator: "contains",
+            value: inputValue,
+          },
+
+        ],
+      },
+    }).data;
+
+    this.gridView =
+    {
+      data: gridData.slice(this.skip, this.skip + this.selectedValue),
+      total: gridData.length
+    }
+
+
+  }
+
   customer_remark_lookup() {
     this.popup_title = this.language.remark;
     this.remarkCustomerDialogOpened = true;
@@ -528,8 +593,11 @@ export class LookupComponent implements OnInit {
     this.LookupDataLoaded = true;
     if (this.serviceData !== undefined) {
       if (this.serviceData.length > 0) {
-        this.dialogOpened = true;
-        this.loadServerData(this.serviceData);
+        this.isColumnFilter = true;
+        // this.dialogOpened = true;
+        this.customerlookup = true;
+       // this.loadServerData(this.serviceData);
+       this.loadItems();
       }
     }
   }
@@ -2486,6 +2554,7 @@ export class LookupComponent implements OnInit {
       this.lookupvalue.emit('');
       this.dialogOpened = false;
       this.viewAttributeDialogOpened = false;
+      this.customerlookup = false;
     }
   }
   public sortChange(sort: SortDescriptor[]): void {
@@ -2752,11 +2821,11 @@ export class LookupComponent implements OnInit {
     this.popup_title = this.language.ItemList;
     this.LookupDataLoaded = false;
     this.showLoader = true;
-    this.fill_input_id = 'ItemKey';
-    this.lookup_key = 'ItemKey';
+    this.fill_input_id = 'OPTM_ITEM_CODE';
+    this.lookup_key = 'OPTM_ITEM_CODE';
     this.table_head = [
-     {
-        field: 'OPTM_ITEMCODE',
+      {
+        field: 'OPTM_ITEM_CODE',
         title: "Item Code",
         type: 'text',
         width: '100',
@@ -2929,6 +2998,53 @@ export class LookupComponent implements OnInit {
         // $("#lookup_modal").modal('show');
       }
     }
+  }
+
+  sendEmailtoCustomer()
+  {
+    this.cnfService.sendEmail(this.CommonService.customerName,this.CommonService.custmerCode,this.CommonService.customerEmail,this.CommonService.filePath).subscribe(
+      data => {
+        if (data != null && data != undefined) {
+          if (data.length > 0 && data != undefined) {
+            if (data[0].ErrorMsg == "7001") {
+              CommonData.made_changes = false;
+              this.showLookupLoader = false;
+              this.CommonService.RemoveLoggedInUser().subscribe();
+              this.CommonService.signOut(this.router, 'Sessionout');
+              return;
+            }
+          }
+          if (data[0].Status == "True") {
+          
+            this.CommonService.show_notification(this.language.mailSentSuccessfully, 'success');
+
+           
+          }
+          else {
+            this.showLookupLoader = false;
+            this.CommonService.show_notification(this.language.no_item_selected, 'error');
+            return;
+          }
+
+        }
+        else {
+          this.showLookupLoader = false;
+          this.CommonService.show_notification(this.language.server_error, 'error');
+          return;
+        }
+      },
+
+      error => {
+        this.showLookupLoader = false;
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        else {
+          this.CommonService.show_notification(this.language.server_error, 'error');
+        }
+        return;
+      }
+    )
   }
 }
 

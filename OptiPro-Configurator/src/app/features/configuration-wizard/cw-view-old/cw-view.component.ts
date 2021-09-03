@@ -112,7 +112,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
   public validnextbtn: boolean = true;
   public showPrintOptions: boolean = false;
   public SecondCallAPI: boolean = true;
-  public previousquantity: any = parseFloat("1").toFixed(3);
+  public isDiscountEnable: boolean = true;
+  public previousquantity: any = parseFloat("1").toFixed(2);
   public feature_tax_total = [
     { "key": this.language.tax, "value": this.feature_item_tax },
     { "key": this.language.total, "value": this.feature_item_total },
@@ -256,8 +257,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
   public descriptionString: any = "";
   public color = ['#f2f2f2', '#32cd32', '#00B8FA'];
   public count = 0;
-  public featureItemList : any  = [];
-  public itemCodeList : any = [];
+  public featureItemList: any = [];
+  public itemCodeList: any = [];
 
 
   constructor(private ActivatedRouter: ActivatedRoute,
@@ -1088,10 +1089,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
 
       AllDataForModelBomOutput.getmodelsavedata = saveddata.ModelBOMData.filter(function (obj) {
-        obj['OPTM_DISCPERCENT'] = parseFloat(obj['OPTM_DISCPERCENT']).toFixed(3)
-        obj['OPTM_UNITPRICE'] = parseFloat(obj['OPTM_UNITPRICE']).toFixed(3)
-        obj['OPTM_TOTALPRICE'] = parseFloat(obj['OPTM_TOTALPRICE']).toFixed(3)
-        obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
+        obj['OPTM_DISCPERCENT'] = parseFloat(obj['OPTM_DISCPERCENT']).toFixed(2)
+        obj['OPTM_UNITPRICE'] = parseFloat(obj['OPTM_UNITPRICE']).toFixed(2)
+        obj['OPTM_TOTALPRICE'] = parseFloat(obj['OPTM_TOTALPRICE']).toFixed(2)
+        obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(2)
         return obj;
       });
       this.showLookupLoader = true;
@@ -1282,12 +1283,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       let string: any = this.model_description;
       if (this.featureDescriptionList.length > 0) {
         this.featureDescriptionList.forEach(element => {
-          string = string + " " + element.description;
+          string = string + "-" + element.description;
         });
       }
 
       this.descriptionString = string;
-     
+
 
 
       for (var i in data.ModelBOMDataForSecondfLevel) {
@@ -1829,12 +1830,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.onCalculateAttributeItem();
     this.showLookupLoader = true;
     this.SelectedModelFeature = this.SelectedModelFeature.filter(function (obj) {
-      obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
+      obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(2)
       return obj;
     });
 
     this.SelectedItems = this.SelectedItems.filter(function (obj) {
-      obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
+      obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(2)
       if (obj['HEADER_LINENO'] != null && obj['HEADER_LINENO'] != undefined) {
         obj['HEADER_LINENO'] = (obj['HEADER_LINENO']).toString();
       }
@@ -2042,6 +2043,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         this.isNextButtonVisible = true;
         this.getCustomerAllInfo("");
         this.GetDealerMappingBycust(this.step1_data.customer);
+        this.GetCustomerDiscountDetail();
       }
       else {
         this.isNextButtonVisible = false;
@@ -2217,8 +2219,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           }
 
           this.feature_itm_list_table[i].pricextn = this.feature_itm_list_table[i].quantity * this.feature_itm_list_table[i].Actualprice
-          this.feature_itm_list_table[i].quantity = parseFloat(this.feature_itm_list_table[i].quantity).toFixed(3)
-          this.feature_itm_list_table[i].pricextn = parseFloat(this.feature_itm_list_table[i].pricextn).toFixed(3)
+          this.feature_itm_list_table[i].quantity = parseFloat(this.feature_itm_list_table[i].quantity).toFixed(2)
+          this.feature_itm_list_table[i].pricextn = parseFloat(this.feature_itm_list_table[i].pricextn).toFixed(2)
         }
 
         this.feature_price_calculate();
@@ -2442,7 +2444,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         this.showLookupLoader = false;
         if (data != null || data != undefined) {
           if (data.length > 0) {
-
+            this.CommonService.custmerCode = this.step1_data.customer;
+            this.CommonService.customerName = this.step1_data.customer_name;
+            this.CommonService.filePath = data[0].PDFFilePath;
             this.serviceData = data[0]['Base64String'];
             this.lookupfor = 'output_invoice_print_new';
 
@@ -2512,47 +2516,47 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         if (inputid == "quantity") {
           if (isNaN(value) == true) {
             this.CommonService.show_notification(this.language.ValidNumber, 'error');
-            this.feature_itm_list_table[i].quantity = parseFloat("1").toFixed(3);
+            this.feature_itm_list_table[i].quantity = parseFloat("1").toFixed(2);
             return;
           }
           if (value < 0) {
             this.CommonService.show_notification(this.language.negativequantityvalid, 'error');
-            this.feature_itm_list_table[i].quantity = parseFloat("1").toFixed(3);
+            this.feature_itm_list_table[i].quantity = parseFloat("1").toFixed(2);
             return;
           }
           var rgexp = /^\d+$/;
           if (rgexp.test(value) == false) {
             this.CommonService.show_notification(this.language.decimalquantityvalid, 'error');
-            this.feature_itm_list_table[i].quantity = parseFloat("1").toFixed(3);
+            this.feature_itm_list_table[i].quantity = parseFloat("1").toFixed(2);
             return;
           }
 
-          this.feature_itm_list_table[i].quantity = parseFloat(value).toFixed(3);
+          this.feature_itm_list_table[i].quantity = parseFloat(value).toFixed(2);
           var priceextn: any = this.feature_itm_list_table[i].quantity * this.feature_itm_list_table[i].Actualprice
-          this.feature_itm_list_table[i].pricextn = parseFloat(priceextn).toFixed(3);
+          this.feature_itm_list_table[i].pricextn = parseFloat(priceextn).toFixed(2);
         }
         else if (inputid == "actual_price") {
           if (isNaN(value) == true) {
             this.CommonService.show_notification(this.language.ValidNumber, 'error');
             var price: any = this.feature_itm_list_table[i].pricextn / this.feature_itm_list_table[i].quantity
-            this.feature_itm_list_table[i].Actualprice = parseFloat(price).toFixed(3);
+            this.feature_itm_list_table[i].Actualprice = parseFloat(price).toFixed(2);
             return;
           }
           if (value < 0) {
             this.CommonService.show_notification(this.language.pricevalid, 'error');
             var price: any = this.feature_itm_list_table[i].pricextn / this.feature_itm_list_table[i].quantity
-            this.feature_itm_list_table[i].Actualprice = parseFloat(price).toFixed(3);
+            this.feature_itm_list_table[i].Actualprice = parseFloat(price).toFixed(2);
             return;
           }
-          this.feature_itm_list_table[i].Actualprice = parseFloat(value).toFixed(3);
+          this.feature_itm_list_table[i].Actualprice = parseFloat(value).toFixed(2);
           var priceextn: any = this.feature_itm_list_table[i].quantity * this.feature_itm_list_table[i].Actualprice
-          this.feature_itm_list_table[i].pricextn = parseFloat(priceextn).toFixed(3);
+          this.feature_itm_list_table[i].pricextn = parseFloat(priceextn).toFixed(2);
         }
         else {
           if (value < 0) {
             let pricextn0 = 0;
             this.CommonService.show_notification(this.language.pricevalidextn, 'error');
-            this.feature_itm_list_table[i].pricextn = pricextn0.toFixed(3);
+            this.feature_itm_list_table[i].pricextn = pricextn0.toFixed(2);
             return;
           }
           this.feature_itm_list_table[i].pricextn = value
@@ -2683,7 +2687,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.featureDescriptionList = [];
     this.featureAbbreviationList = [];
     this.itemCodeList = [];
-    this.featureItemList=[];
+    this.featureItemList = [];
     this.previousquantity = parseFloat("1");
     this.ruleIndex = 0;
     this.isSecondIteration = false;
@@ -2849,7 +2853,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
           let descriptionList = data.AbbreviationDataList;
           this.featureAbbreviationList = data.AbbreviationDataList;
-        
+
 
           defaultFeatureSelectList.forEach(element => {
             descriptionList.forEach(elementList => {
@@ -2868,7 +2872,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           let string: any = this.model_description;
           if (this.featureDescriptionList.length > 0) {
             this.featureDescriptionList.forEach(element => {
-              string = string + " " + element.description;
+              string = string + "-" + element.description;
             });
           }
 
@@ -3075,11 +3079,11 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
     this.showLookupLoader = true;
     this.SelectedModelFeature = this.SelectedModelFeature.filter(function (obj) {
-      obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
+      obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(2)
       return obj;
     });
     this.SelectedItems = this.SelectedItems.filter(function (obj) {
-      obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(3)
+      obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(2)
       if (obj['HEADER_LINENO'] != null && obj['HEADER_LINENO'] != undefined) {
         obj['HEADER_LINENO'] = (obj['HEADER_LINENO']).toString();
       }
@@ -3171,7 +3175,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         for (var index in itemDataList) {
           var ItemData = itemDataList[index];
           if (ItemData.Price == null || ItemData.Price == undefined || ItemData.Price == "") {
-            ItemData.Price = parseFloat("0").toFixed(3)
+            ItemData.Price = parseFloat("0").toFixed(2)
           }
           price = ItemData.Price;
           price_list = ItemData.ListName;
@@ -3191,12 +3195,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             discount: 0,
             ItemNumber: ItemData.DocEntry,
             Description: ItemData.OPTM_DISPLAYNAME,
-            progateqty: parseFloat(ItemData.OPTM_QUANTITY).toFixed(3),
-            quantity: parseFloat(ItemData.OPTM_QUANTITY).toFixed(3),
-            original_quantity: parseFloat(ItemData.OPTM_QUANTITY).toFixed(3),
+            progateqty: parseFloat(ItemData.OPTM_QUANTITY).toFixed(2),
+            quantity: parseFloat(ItemData.OPTM_QUANTITY).toFixed(2),
+            original_quantity: parseFloat(ItemData.OPTM_QUANTITY).toFixed(2),
             price: price_list,
-            Actualprice: parseFloat(price).toFixed(3),
-            pricextn: parseFloat(price).toFixed(3),
+            Actualprice: parseFloat(price).toFixed(2),
+            pricextn: parseFloat(price).toFixed(2),
             is_accessory: "N",
             isPriceDisabled: isPriceDisabled,
             pricehide: isPricehide,
@@ -3724,7 +3728,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                       OPTM_MODIFIEDDATETIME: String(feature_model_data.OPTM_MODIFIEDDATETIME).toString(),
                       OPTM_PRICESOURCE: feature_model_data.ListName,
                       OPTM_PROPOGATEQTY: feature_model_data.OPTM_PROPOGATEQTY,
-                      OPTM_QUANTITY: parseFloat(feature_model_data.OPTM_QUANTITY).toFixed(3),
+                      OPTM_QUANTITY: parseFloat(feature_model_data.OPTM_QUANTITY).toFixed(2),
                       OPTM_TYPE: feature_model_data.OPTM_TYPE,
                       OPTM_UNIQUEIDNT: parentarray[0].OPTM_UNIQUEIDNT,
                       OPTM_UOM: parentarray[0].OPTM_UOM,
@@ -3748,7 +3752,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
                     if (parentarray[0].OPTM_PROPOGATEQTY == "Y") {
                       propagateqtychecked = "Y"
-                      parentarray[0].OPTM_QUANTITY = parseFloat(parentarray[0].OPTM_QUANTITY).toFixed(3)
+                      parentarray[0].OPTM_QUANTITY = parseFloat(parentarray[0].OPTM_QUANTITY).toFixed(2)
                       //  propagateqty = parentarray[0].OPTM_QUANTITY
                     }
 
@@ -3836,7 +3840,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                           OPTM_DSPGROUP_ORDER: DataForSelectedFeatureModelItem[i].OPTM_DSPGROUP_ORDER,
                           OPTM_DSP_GROUP: DataForSelectedFeatureModelItem[i].OPTM_DSP_GROUP,
                           OPTM_DSP_ORDERINGROUP: DataForSelectedFeatureModelItem[i].OPTM_DSP_ORDERINGROUP,
-                          OPTM_QUANTITY: parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(3),
+                          OPTM_QUANTITY: parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(2),
                           OPTM_REMARKS: DataForSelectedFeatureModelItem[i].OPTM_REMARKS,
                           OPTM_TYPE: DataForSelectedFeatureModelItem[i].OPTM_TYPE,
                           OPTM_VALUE: DataForSelectedFeatureModelItem[i].OPTM_VALUE,
@@ -4013,7 +4017,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                                 OPTM_DSPGROUP_ORDER: DataForSelectedFeatureModelItem[i].OPTM_DSPGROUP_ORDER,
                                 OPTM_DSP_GROUP: DataForSelectedFeatureModelItem[i].OPTM_DSP_GROUP,
                                 OPTM_DSP_ORDERINGROUP: DataForSelectedFeatureModelItem[i].OPTM_DSP_ORDERINGROUP,
-                                OPTM_QUANTITY: parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(3),
+                                OPTM_QUANTITY: parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(2),
                                 OPTM_TYPE: DataForSelectedFeatureModelItem[i].OPTM_TYPE,
                                 OPTM_CLR_CODE: DataForSelectedFeatureModelItem[i].OPTM_CLR_CODE,
                                 OPTM_UNIQUEIDNT: uniqueIdentifier,
@@ -4034,7 +4038,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
                               if (DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY == "Y") {
                                 propagateqtychecked = "Y"
-                                DataForSelectedFeatureModelItem[i].OPTM_QUANTITY = parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(3)
+                                DataForSelectedFeatureModelItem[i].OPTM_QUANTITY = parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(2)
                                 propagateqty = DataForSelectedFeatureModelItem[i].OPTM_QUANTITY
                               }
 
@@ -4119,7 +4123,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                     OPTM_MODIFIEDDATETIME: String(feature_model_data.OPTM_MODIFIEDDATETIME).toString(),
                     OPTM_PRICESOURCE: feature_model_data.ListName,
                     OPTM_PROPOGATEQTY: parentarray[0].OPTM_PROPOGATEQTY,
-                    OPTM_QUANTITY: parseFloat(feature_model_data.OPTM_QUANTITY).toFixed(3),
+                    OPTM_QUANTITY: parseFloat(feature_model_data.OPTM_QUANTITY).toFixed(2),
                     OPTM_TYPE: feature_model_data.OPTM_TYPE,
                     OPTM_UNIQUEIDNT: parentarray[0].OPTM_UNIQUEIDNT,
                     OPTM_UOM: parentarray[0].OPTM_UOM,
@@ -4210,7 +4214,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                           OPTM_MODIFIEDBY: DataForSelectedFeatureModelItem[i].OPTM_MODIFIEDBY,
                           OPTM_MODIFIEDDATETIME: DataForSelectedFeatureModelItem[i].OPTM_MODIFIEDDATETIME,
                           OPTM_PRICESOURCE: DataForSelectedFeatureModelItem[i].ListName,
-                          OPTM_QUANTITY: parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(3),
+                          OPTM_QUANTITY: parseFloat(DataForSelectedFeatureModelItem[i].OPTM_QUANTITY).toFixed(2),
                           OPTM_REMARKS: DataForSelectedFeatureModelItem[i].OPTM_REMARKS,
                           OPTM_PROPOGATEQTY: DataForSelectedFeatureModelItem[i].OPTM_PROPOGATEQTY,
                           OPTM_TYPE: DataForSelectedFeatureModelItem[i].OPTM_TYPE,
@@ -4328,7 +4332,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                 if (parentarray[0].OPTM_PROPOGATEQTY == "Y") {
                   if (data.DataForSelectedFeatureModelItem[0].OPTM_PROPOGATEQTY == "Y") {
                     propagateqtychecked = "Y"
-                    //parentarray[0].OPTM_QUANTITY = parseFloat(parentarray[0].OPTM_QUANTITY).toFixed(3)
+                    //parentarray[0].OPTM_QUANTITY = parseFloat(parentarray[0].OPTM_QUANTITY).toFixed(2)
                     propagateqty = parentarray[0].OPTM_QUANTITY * data.DataForSelectedFeatureModelItem[0].OPTM_QUANTITY
 
                     propagateqty = propagateqty * this.getPropagateQuantity(parentarray[0].nodeid);
@@ -4659,17 +4663,16 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     let string: any = this.model_description;
     if (this.featureDescriptionList.length > 0) {
       this.featureDescriptionList.forEach(element => {
-        string = string + " " + element.description;
+        string = string + "-" + element.description;
       });
     }
     this.descriptionString = string;
 
   }
 
-  createItemCodeList ()
-  {
+  createItemCodeList() {
     let defaultItemSelectList = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-       return obj['checked'] == true && obj['OPTM_TYPE'] == "2";
+      return obj['checked'] == true && obj['OPTM_TYPE'] == "2";
     });
 
     let defaultAccesoryitemSelectList = this.selectedAccessoryBOM.filter(function (obj) {
@@ -4870,7 +4873,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         OPTM_PRICESOURCE: DataForSelectedFeatureModelItem.ListName,
         OPTM_PROPOGATEQTY: DataForSelectedFeatureModelItem.OPTM_PROPOGATEQTY,
         OPTM_CLR_CODE: DataForSelectedFeatureModelItem.OPTM_CLR_CODE,
-        OPTM_QUANTITY: parseFloat(DataForSelectedFeatureModelItem.OPTM_QUANTITY).toFixed(3),
+        OPTM_QUANTITY: parseFloat(DataForSelectedFeatureModelItem.OPTM_QUANTITY).toFixed(2),
         OPTM_TYPE: DataForSelectedFeatureModelItem.OPTM_TYPE,
         OPTM_UNIQUEIDNT: DataForSelectedFeatureModelItem.OPTM_UNIQUEIDNT,
         OPTM_UOM: DataForSelectedFeatureModelItem.OPTM_UOM,
@@ -4958,7 +4961,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             OPTM_MODIFIEDBY: dtModelDataWithDefaultChild[idtfeature].OPTM_MODIFIEDBY,
             OPTM_MODIFIEDDATETIME: String(dtModelDataWithDefaultChild[idtfeature].OPTM_MODIFIEDDATETIME).toString(),
             OPTM_PRICESOURCE: dtModelDataWithDefaultChild[idtfeature].ListName,
-            OPTM_QUANTITY: parseFloat(dtModelDataWithDefaultChild[idtfeature].OPTM_QUANTITY).toFixed(3),
+            OPTM_QUANTITY: parseFloat(dtModelDataWithDefaultChild[idtfeature].OPTM_QUANTITY).toFixed(2),
             OPTM_REMARKS: dtModelDataWithDefaultChild[idtfeature].OPTM_REMARKS,
             OPTM_PROPOGATEQTY: dtModelDataWithDefaultChild[idtfeature].OPTM_PROPOGATEQTY,
             OPTM_TYPE: dtModelDataWithDefaultChild[idtfeature].OPTM_TYPE,
@@ -5048,7 +5051,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
           if (checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_PROPOGATEQTY == "Y") {
             propagateqtychecked = "Y"
-            checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_QUANTITY = parseFloat(checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_QUANTITY).toFixed(3)
+            checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_QUANTITY = parseFloat(checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_QUANTITY).toFixed(2)
             propagateqty = checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_QUANTITY
           }
 
@@ -5143,7 +5146,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           OPTM_MODIFIEDDATETIME: String(dtFeatureDataWithDefault[idtfeature].OPTM_MODIFIEDDATETIME).toString(),
           OPTM_PROPOGATEQTY: dtFeatureDataWithDefault[idtfeature].OPTM_PROPOGATEQTY,
           OPTM_PRICESOURCE: dtFeatureDataWithDefault[idtfeature].ListName,
-          OPTM_QUANTITY: parseFloat(dtFeatureDataWithDefault[idtfeature].OPTM_QUANTITY).toFixed(3),
+          OPTM_QUANTITY: parseFloat(dtFeatureDataWithDefault[idtfeature].OPTM_QUANTITY).toFixed(2),
           OPTM_REMARKS: dtFeatureDataWithDefault[idtfeature].OPTM_REMARKS,
           OPTM_ISMULTISELECT: String(dtFeatureDataWithDefault[idtfeature].OPTM_ISMULTISELECT),
           OPTM_MAXSELECTABLE: psFeatureMax,
@@ -5262,7 +5265,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             OPTM_MODIFIEDDATETIME: String(checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_MODIFIEDDATETIME).toString(),
             OPTM_PRICESOURCE: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].ListName,
             OPTM_PROPOGATEQTY: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_PROPOGATEQTY,
-            OPTM_QUANTITY: parseFloat(checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_QUANTITY).toFixed(3),
+            OPTM_QUANTITY: parseFloat(checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_QUANTITY).toFixed(2),
             OPTM_TYPE: checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_TYPE,
             OPTM_UNIQUEIDNT: parentarray[0].OPTM_UNIQUEIDNT,
             OPTM_UOM: parentarray[0].OPTM_UOM,
@@ -5284,7 +5287,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
           if (checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_PROPOGATEQTY == "Y") {
             propagateqtychecked = "Y"
-            checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_QUANTITY = parseFloat(checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_QUANTITY).toFixed(3)
+            checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_QUANTITY = parseFloat(checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_QUANTITY).toFixed(2)
             propagateqty = checkDefaultFeatureIndtFeatureDataWithDefault[checkdefauldid].OPTM_QUANTITY
           }
 
@@ -5519,15 +5522,15 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
       var formatequantity: any;
       if (propagateqtychecked == "Y" && ItemData[0].OPTM_PROPOGATEQTY == "Y") {
-        propagateqty = parseFloat(propagateqty).toFixed(3)
+        propagateqty = parseFloat(propagateqty).toFixed(2)
         //ItemData[0].OPTM_QUANTITY = propagateqty
 
-        // ItemData[0].OPTM_QUANTITY = parseFloat(ItemData[0].OPTM_QUANTITY).toFixed(3)
+        // ItemData[0].OPTM_QUANTITY = parseFloat(ItemData[0].OPTM_QUANTITY).toFixed(2)
         formatequantity = propagateqty * this.step2_data.quantity
 
       }
       else {
-        ItemData[0].OPTM_QUANTITY = parseFloat(ItemData[0].OPTM_QUANTITY).toFixed(3)
+        ItemData[0].OPTM_QUANTITY = parseFloat(ItemData[0].OPTM_QUANTITY).toFixed(2)
         formatequantity = ItemData[0].OPTM_QUANTITY * propagateqty
       }
 
@@ -5607,12 +5610,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                 discount: 0,
                 ItemNumber: featureModelData.DocEntry,
                 Description: description,
-                progateqty: parseFloat(propagateqty).toFixed(3),
-                quantity: parseFloat(formatequantity).toFixed(3),
-                original_quantity: parseFloat(featureModelData.OPTM_QUANTITY).toFixed(3),
+                progateqty: parseFloat(propagateqty).toFixed(2),
+                quantity: parseFloat(formatequantity).toFixed(2),
+                original_quantity: parseFloat(featureModelData.OPTM_QUANTITY).toFixed(2),
                 price: featureModelData.ListName,
-                Actualprice: parseFloat(featureModelDataPrice).toFixed(3),
-                pricextn: parseFloat(priceextn).toFixed(3),
+                Actualprice: parseFloat(featureModelDataPrice).toFixed(2),
+                pricextn: parseFloat(priceextn).toFixed(2),
                 is_accessory: "N",
                 isPriceDisabled: isPriceDisabled,
                 pricehide: isPricehide,
@@ -5637,12 +5640,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                 discount: 0,
                 ItemNumber: ItemData[0].DocEntry,
                 Description: description,
-                progateqty: parseFloat(propagateqty).toFixed(3),
-                quantity: parseFloat(formatequantity).toFixed(3),
-                original_quantity: parseFloat(ItemData[0].OPTM_QUANTITY).toFixed(3),
+                progateqty: parseFloat(propagateqty).toFixed(2),
+                quantity: parseFloat(formatequantity).toFixed(2),
+                original_quantity: parseFloat(ItemData[0].OPTM_QUANTITY).toFixed(2),
                 price: ItemData[0].ListName,
-                Actualprice: parseFloat(ItemData[0].Price).toFixed(3),
-                pricextn: parseFloat(priceextn).toFixed(3),
+                Actualprice: parseFloat(ItemData[0].Price).toFixed(2),
+                pricextn: parseFloat(priceextn).toFixed(2),
                 is_accessory: "N",
                 isPriceDisabled: isPriceDisabled,
                 pricehide: isPricehide,
@@ -5669,12 +5672,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               discount: 0,
               ItemNumber: ItemData[0].DocEntry,
               Description: description,
-              progateqty: parseFloat(propagateqty).toFixed(3),
-              quantity: parseFloat(formatequantity).toFixed(3),
-              original_quantity: parseFloat(ItemData[0].OPTM_QUANTITY).toFixed(3),
+              progateqty: parseFloat(propagateqty).toFixed(2),
+              quantity: parseFloat(formatequantity).toFixed(2),
+              original_quantity: parseFloat(ItemData[0].OPTM_QUANTITY).toFixed(2),
               price: ItemData[0].ListName,
-              Actualprice: parseFloat(ItemData[0].Price).toFixed(3),
-              pricextn: parseFloat(priceextn).toFixed(3),
+              Actualprice: parseFloat(ItemData[0].Price).toFixed(2),
+              pricextn: parseFloat(priceextn).toFixed(2),
               is_accessory: "N",
               isPriceDisabled: isPriceDisabled,
               pricehide: isPricehide,
@@ -5852,10 +5855,36 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           }
 
           this.step1_data.customer_name = data[0].Name;
+
         }
         else {
           this.step1_data.customer_name = '';
         }
+
+      }
+    )
+  }
+
+  GetCustomerDiscountDetail() {
+    this.OutputService.GetCustomerDiscountDetail(this.common_output_data.companyName, this.step1_data.customer).subscribe(
+      data => {
+        if (data != null && data != undefined && data.length > 0) {
+
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.route, 'Sessionout');
+            return;
+          }
+          if (data[0].Hide == "False") {
+            this.isDiscountEnable = false;
+          }
+          else {
+            this.isDiscountEnable = true;
+          }
+
+        }
+
       }
     )
   }
@@ -6004,7 +6033,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           "OPTM_FGITEM": this.descriptionString == "" ? this.step3_data_final[iHdrCount].model_description : this.descriptionString,
           "OPTM_KEY": "",
           "OPTM_DELIVERYDATE": delivery_date_string,
-          "OPTM_QUANTITY": parseFloat(this.step3_data_final[iHdrCount].quantity).toFixed(3),
+          "OPTM_QUANTITY": parseFloat(this.step3_data_final[iHdrCount].quantity).toFixed(2),
           "OPTM_CREATEDBY": this.common_output_data.username,
           "OPTM_MODIFIEDBY": this.common_output_data.username,
           "OPTM_DESC": this.descriptionString,
@@ -6015,14 +6044,14 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           "OPTM_SHIPADD": this.step1_data.ship_to_address,
           "OPTM_POSTINGDATE": this.step1_data.posting_date,
           "OPTM_GRANDTOTAL": (parseFloat(this.step3_data_final[iHdrCount].discounted_price) +
-            parseFloat(this.step3_data_final[iHdrCount].accesory_final_price)).toFixed(3),
-          "OPTM_PRODTOTAL": parseFloat(this.step3_data_final[iHdrCount].price_ext).toFixed(3),
-          "OPTM_TOTALBEFOREDIS": parseFloat(this.step3_data_final[iHdrCount].price).toFixed(3),
-          "OPTM_PRODDISCOUNT": parseFloat(this.step3_data_final[iHdrCount].feature_discount_percent).toFixed(3),
-          "OPTM_ACCESSORYDIS": parseFloat(this.step3_data_final[iHdrCount].accessory_discount_percent).toFixed(3),
-          "OPTM_ACCESSORYTOTAL": parseFloat(this.step3_data_final[iHdrCount].accessory_total_before_dis).toFixed(3),
+            parseFloat(this.step3_data_final[iHdrCount].accesory_final_price)).toFixed(2),
+          "OPTM_PRODTOTAL": parseFloat(this.step3_data_final[iHdrCount].price_ext).toFixed(2),
+          "OPTM_TOTALBEFOREDIS": parseFloat(this.step3_data_final[iHdrCount].price).toFixed(2),
+          "OPTM_PRODDISCOUNT": parseFloat(this.step3_data_final[iHdrCount].feature_discount_percent).toFixed(2),
+          "OPTM_ACCESSORYDIS": parseFloat(this.step3_data_final[iHdrCount].accessory_discount_percent).toFixed(2),
+          "OPTM_ACCESSORYTOTAL": parseFloat(this.step3_data_final[iHdrCount].accessory_total_before_dis).toFixed(2),
           "OPTM_TOTALDISCOUNT": (parseFloat(this.step3_data_final[iHdrCount].discount_amount) +
-            parseFloat(this.step3_data_final[iHdrCount].accessory_discount_amount)).toFixed(3),
+            parseFloat(this.step3_data_final[iHdrCount].accessory_discount_amount)).toFixed(2),
           "model_index": iHdrCount,
           "OPTM_MODELTYPE": this.MainModelDetails[0].OPTM_MODELTYPE,
           "OPTM_MODELID": this.step3_data_final[iHdrCount].model_id
@@ -6081,7 +6110,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             OPTM_MANDATORY: step3_temp_row.ModelHeaderItemsArray[0].OPTM_MANDATORY,
             OPTM_UOM: step3_temp_row.ModelHeaderItemsArray[0].OPTM_UOM,
             OPTM_UNIQUEIDNT: step3_temp_row.ModelHeaderItemsArray[0].OPTM_UNIQUEIDNT,
-            Price: parseFloat(step3_temp_row.ModelHeaderItemsArray[0].Price).toFixed(3),
+            Price: parseFloat(step3_temp_row.ModelHeaderItemsArray[0].Price).toFixed(2),
             feature_code: step3_temp_row.ModelHeaderItemsArray[0].feature_code,
             child_code: step3_temp_row.ModelHeaderItemsArray[0].child_code,
             OPTM_LEVEL: step3_temp_row.ModelHeaderItemsArray[0].OPTM_LEVEL,
@@ -6096,7 +6125,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             OPTM_MANDATORY: 'N',
             OPTM_UOM: 'each',
             OPTM_UNIQUEIDNT: 'Y',
-            Price: parseFloat(step3_temp_row.price).toFixed(3),
+            Price: parseFloat(step3_temp_row.price).toFixed(2),
             feature_code: "",
             child_code: "",
             OPTM_LEVEL: 0,
@@ -6185,14 +6214,14 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             dicount_amount: step3_temp_row.feature[us_indexx].dicount_amount,
             discount: step3_temp_row.feature[us_indexx].discount,
             featureName: step3_temp_row.feature[us_indexx].featureName,
-            gross: parseFloat(step3_temp_row.feature[us_indexx].gross).toFixed(3),
+            gross: parseFloat(step3_temp_row.feature[us_indexx].gross).toFixed(2),
             isPriceDisabled: step3_temp_row.feature[us_indexx].isPriceDisabled,
             isQuantityDisabled: step3_temp_row.feature[us_indexx].isQuantityDisabled,
             is_accessory: step3_temp_row.feature[us_indexx].is_accessory,
             ispropogateqty: step3_temp_row.feature[us_indexx].ispropogateqty,
             price: step3_temp_row.feature[us_indexx].price,
             pricehide: step3_temp_row.feature[us_indexx].pricehide,
-            pricextn: parseFloat(step3_temp_row.feature[us_indexx].pricextn).toFixed(3),
+            pricextn: parseFloat(step3_temp_row.feature[us_indexx].pricextn).toFixed(2),
             quantity: step3_temp_row.feature[us_indexx].quantity,
             nodeid: step3_temp_row.feature[us_indexx].nodeid,
             unique_key: step3_temp_row.feature[us_indexx].unique_key,
@@ -6212,13 +6241,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           delete temp_modelheder_data[mhd_i]['random_unique_key'];
           temp_modelheder_data[mhd_i]['model_index'] = me_d_v_i;
           if (temp_modelheder_data[mhd_i].OPTM_QUANTITY != null && temp_modelheder_data[mhd_i].OPTM_QUANTITY != undefined && temp_modelheder_data[mhd_i].OPTM_QUANTITY != "") {
-            temp_modelheder_data[mhd_i].OPTM_QUANTITY = parseFloat(temp_modelheder_data[mhd_i].OPTM_QUANTITY).toFixed(3);
+            temp_modelheder_data[mhd_i].OPTM_QUANTITY = parseFloat(temp_modelheder_data[mhd_i].OPTM_QUANTITY).toFixed(2);
           }
 
           if (temp_modelheder_data[mhd_i].Price == null || temp_modelheder_data[mhd_i].Price == "" || isNaN(temp_modelheder_data[mhd_i].Price)) {
-            temp_modelheder_data[mhd_i].Price = parseFloat('0').toFixed(3);
+            temp_modelheder_data[mhd_i].Price = parseFloat('0').toFixed(2);
           } else {
-            temp_modelheder_data[mhd_i].Price = parseFloat(temp_modelheder_data[mhd_i].Price).toFixed(3);
+            temp_modelheder_data[mhd_i].Price = parseFloat(temp_modelheder_data[mhd_i].Price).toFixed(2);
           }
           final_dataset_to_save.ModelHeaderData.push(temp_modelheder_data[mhd_i]);
         }
@@ -6227,13 +6256,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         for (let mhia_i = 0; mhia_i < modelheader_item_array.length; mhia_i++) {
           modelheader_item_array[mhia_i]['model_index'] = me_d_v_i;
           if ((modelheader_item_array[mhia_i].OPTM_QUANTITY != null && modelheader_item_array[mhia_i].OPTM_QUANTITY != undefined && modelheader_item_array[mhia_i].OPTM_QUANTITY != "") || modelheader_item_array[mhia_i].OPTM_QUANTITY == 0) {
-            modelheader_item_array[mhia_i].OPTM_QUANTITY = parseFloat(modelheader_item_array[mhia_i].OPTM_QUANTITY).toFixed(3);
+            modelheader_item_array[mhia_i].OPTM_QUANTITY = parseFloat(modelheader_item_array[mhia_i].OPTM_QUANTITY).toFixed(2);
           }
 
           if (modelheader_item_array[mhia_i].Price == null || modelheader_item_array[mhia_i].Price == "" || isNaN(modelheader_item_array[mhia_i].Price)) {
-            modelheader_item_array[mhia_i].Price = parseFloat('0').toFixed(3);
+            modelheader_item_array[mhia_i].Price = parseFloat('0').toFixed(2);
           } else {
-            modelheader_item_array[mhia_i].Price = parseFloat(modelheader_item_array[mhia_i].Price).toFixed(3);
+            modelheader_item_array[mhia_i].Price = parseFloat(modelheader_item_array[mhia_i].Price).toFixed(2);
           }
           final_dataset_to_save.ModelHeaderData.push(modelheader_item_array[mhia_i]);
         }
@@ -6243,7 +6272,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           for (let sabom_i = 0; sabom_i < temp_selectedAccessoryBOM.length; sabom_i++) {
             temp_selectedAccessoryBOM[sabom_i]['model_index'] = me_d_v_i;
             if ((temp_selectedAccessoryBOM[sabom_i].OPTM_QUANTITY != null && temp_selectedAccessoryBOM[sabom_i].OPTM_QUANTITY != undefined && temp_selectedAccessoryBOM[sabom_i].OPTM_QUANTITY != "") || temp_selectedAccessoryBOM[sabom_i].OPTM_QUANTITY == 0) {
-              temp_selectedAccessoryBOM[sabom_i].OPTM_QUANTITY = parseFloat(temp_selectedAccessoryBOM[sabom_i].OPTM_QUANTITY).toFixed(3);
+              temp_selectedAccessoryBOM[sabom_i].OPTM_QUANTITY = parseFloat(temp_selectedAccessoryBOM[sabom_i].OPTM_QUANTITY).toFixed(2);
             }
             if (temp_selectedAccessoryBOM[sabom_i].Checked != "false") {
               final_dataset_to_save.SelectedAccessoryBOM.push(temp_selectedAccessoryBOM[sabom_i]);
@@ -6254,7 +6283,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         for (let ahdr_i = 0; ahdr_i < temp_Accessoryarray.length; ahdr_i++) {
           temp_Accessoryarray[ahdr_i]['model_index'] = me_d_v_i;
           if ((temp_Accessoryarray[ahdr_i].OPTM_QUANTITY != null && temp_Accessoryarray[ahdr_i].OPTM_QUANTITY != undefined && temp_Accessoryarray[ahdr_i].OPTM_QUANTITY != "") || temp_Accessoryarray[ahdr_i].OPTM_QUANTITY == 0) {
-            temp_Accessoryarray[ahdr_i].OPTM_QUANTITY = parseFloat(temp_Accessoryarray[ahdr_i].OPTM_QUANTITY).toFixed(3);
+            temp_Accessoryarray[ahdr_i].OPTM_QUANTITY = parseFloat(temp_Accessoryarray[ahdr_i].OPTM_QUANTITY).toFixed(2);
           }
           final_dataset_to_save.SelectedAccessory.push(temp_Accessoryarray[ahdr_i]);
         }
@@ -6263,13 +6292,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         for (let mbomd_i = 0; mbomd_i < temp_ModelBOMDataForSecondLevel.length; mbomd_i++) {
           temp_ModelBOMDataForSecondLevel[mbomd_i]['model_index'] = me_d_v_i;
           if ((temp_ModelBOMDataForSecondLevel[mbomd_i].OPTM_QUANTITY != null && temp_ModelBOMDataForSecondLevel[mbomd_i].OPTM_QUANTITY != undefined && temp_ModelBOMDataForSecondLevel[mbomd_i].OPTM_QUANTITY != "") || temp_ModelBOMDataForSecondLevel[mbomd_i].OPTM_QUANTITY == 0) {
-            temp_ModelBOMDataForSecondLevel[mbomd_i].OPTM_QUANTITY = parseFloat(temp_ModelBOMDataForSecondLevel[mbomd_i].OPTM_QUANTITY).toFixed(3);
+            temp_ModelBOMDataForSecondLevel[mbomd_i].OPTM_QUANTITY = parseFloat(temp_ModelBOMDataForSecondLevel[mbomd_i].OPTM_QUANTITY).toFixed(2);
           }
 
           if (temp_ModelBOMDataForSecondLevel[mbomd_i].Price == null || temp_ModelBOMDataForSecondLevel[mbomd_i].Price == "" || isNaN(temp_ModelBOMDataForSecondLevel[mbomd_i].Price)) {
-            temp_ModelBOMDataForSecondLevel[mbomd_i].Price = parseFloat('0').toFixed(3);
+            temp_ModelBOMDataForSecondLevel[mbomd_i].Price = parseFloat('0').toFixed(2);
           } else {
-            temp_ModelBOMDataForSecondLevel[mbomd_i].Price = parseFloat(temp_ModelBOMDataForSecondLevel[mbomd_i].Price).toFixed(3);
+            temp_ModelBOMDataForSecondLevel[mbomd_i].Price = parseFloat(temp_ModelBOMDataForSecondLevel[mbomd_i].Price).toFixed(2);
           }
           final_dataset_to_save.ModelBOMDataForSecondLevel.push(temp_ModelBOMDataForSecondLevel[mbomd_i]);
         }
@@ -6278,13 +6307,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         for (let fbdsl_i = 0; fbdsl_i < temp_FeatureBOMDataForSecondLevel.length; fbdsl_i++) {
           temp_FeatureBOMDataForSecondLevel[fbdsl_i]['model_index'] = me_d_v_i;
           if ((temp_FeatureBOMDataForSecondLevel[fbdsl_i].OPTM_QUANTITY != null && temp_FeatureBOMDataForSecondLevel[fbdsl_i].OPTM_QUANTITY != undefined && temp_FeatureBOMDataForSecondLevel[fbdsl_i].OPTM_QUANTITY != "") || temp_FeatureBOMDataForSecondLevel[fbdsl_i].OPTM_QUANTITY == 0) {
-            temp_FeatureBOMDataForSecondLevel[fbdsl_i].OPTM_QUANTITY = parseFloat(temp_FeatureBOMDataForSecondLevel[fbdsl_i].OPTM_QUANTITY).toFixed(3);
+            temp_FeatureBOMDataForSecondLevel[fbdsl_i].OPTM_QUANTITY = parseFloat(temp_FeatureBOMDataForSecondLevel[fbdsl_i].OPTM_QUANTITY).toFixed(2);
           }
 
           if (temp_FeatureBOMDataForSecondLevel[fbdsl_i].Price == null || temp_FeatureBOMDataForSecondLevel[fbdsl_i].Price == "" || isNaN(temp_FeatureBOMDataForSecondLevel[fbdsl_i].Price)) {
-            temp_FeatureBOMDataForSecondLevel[fbdsl_i].Price = parseFloat('0').toFixed(3);
+            temp_FeatureBOMDataForSecondLevel[fbdsl_i].Price = parseFloat('0').toFixed(2);
           } else {
-            temp_FeatureBOMDataForSecondLevel[fbdsl_i].Price = parseFloat(temp_FeatureBOMDataForSecondLevel[fbdsl_i].Price).toFixed(3);
+            temp_FeatureBOMDataForSecondLevel[fbdsl_i].Price = parseFloat(temp_FeatureBOMDataForSecondLevel[fbdsl_i].Price).toFixed(2);
           }
           if (temp_FeatureBOMDataForSecondLevel[fbdsl_i].checked != false) {
             final_dataset_to_save.FeatureBOMDataForSecondLevel.push(temp_FeatureBOMDataForSecondLevel[fbdsl_i]);
@@ -6816,17 +6845,17 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         if (accessory_discount != 0) {
           discount_amount = (this.feature_itm_list_table[fiti].pricextn * (accessory_discount / 100));
           tota_dis_on_acces += Number(discount_amount);
-          this.feature_itm_list_table[fiti].gross = (Number(this.feature_itm_list_table[fiti].pricextn) - Number(discount_amount)).toFixed(3);
+          this.feature_itm_list_table[fiti].gross = (Number(this.feature_itm_list_table[fiti].pricextn) - Number(discount_amount)).toFixed(2);
           this.feature_itm_list_table[fiti].discount = (accessory_discount);
         }
       } else {
         if (feature_discount != 0) {
           discount_amount = (this.feature_itm_list_table[fiti].pricextn * (feature_discount / 100));
-          this.feature_itm_list_table[fiti].gross = (Number(this.feature_itm_list_table[fiti].pricextn) - Number(discount_amount)).toFixed(3);
+          this.feature_itm_list_table[fiti].gross = (Number(this.feature_itm_list_table[fiti].pricextn) - Number(discount_amount)).toFixed(2);
           this.feature_itm_list_table[fiti].discount = (feature_discount);
         }
       }
-      this.feature_itm_list_table[fiti].dicount_amount = (discount_amount).toFixed(3);
+      this.feature_itm_list_table[fiti].dicount_amount = (discount_amount).toFixed(2);
     }
     // let modelheaderdatavalue = [];
     // let featurebomdataforsecondlevelvalue = [];
@@ -6863,18 +6892,18 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         "rowIndex": rowIndex,
         "sl_no": sl_no,
         "item": this.step2_data.model_code,
-        "quantity": parseFloat(this.step2_data.quantity).toFixed(3),
-        "price": parseFloat(per_item_price).toFixed(3),
-        "price_ext": parseFloat(price_ext).toFixed(3),
-        "discounted_price": (this.feature_item_total).toFixed(3),
-        "discount_amount": (fg_discount_amount).toFixed(3),
-        "accessory_discount_amount": parseFloat(tota_dis_on_acces).toFixed(3),
-        "accessory_total_before_dis": parseFloat(acc_total_before_dis).toFixed(3),
+        "quantity": parseFloat(this.step2_data.quantity).toFixed(2),
+        "price": parseFloat(per_item_price).toFixed(2),
+        "price_ext": parseFloat(price_ext).toFixed(2),
+        "discounted_price": (this.feature_item_total).toFixed(2),
+        "discount_amount": (fg_discount_amount).toFixed(2),
+        "accessory_discount_amount": parseFloat(tota_dis_on_acces).toFixed(2),
+        "accessory_total_before_dis": parseFloat(acc_total_before_dis).toFixed(2),
         "feature": this.feature_itm_list_table,
         "accesories": this.feature_accessory_list,
-        "feature_value_list_table":this.feature_value_list_table,
+        "feature_value_list_table": this.feature_value_list_table,
         "selectedAccessoryBOM": this.selectedAccessoryBOM,
-        "accessory_item_total": (this.accessory_item_total).toFixed(3),
+        "accessory_item_total": (this.accessory_item_total).toFixed(2),
         "model_id": this.step2_data.model_id,
         "desc": this.step2_data.model_name,
         "MainModelDetails": this.MainModelDetails,
@@ -6882,9 +6911,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         "RuleOutputData": this.RuleOutputData,
         "FeatureBOMDataForSecondLevel": this.FeatureBOMDataForSecondLevel,
         "ModelBOMDataForSecondLevel": this.ModelBOMDataForSecondLevel,
-        "feature_discount_percent": (feature_discount).toFixed(3),
-        "accessory_discount_percent": (accessory_discount).toFixed(3),
-        "accesory_final_price": (this.accessory_item_total).toFixed(3),
+        "feature_discount_percent": (feature_discount).toFixed(2),
+        "accessory_discount_percent": (accessory_discount).toFixed(2),
+        "accesory_final_price": (this.accessory_item_total).toFixed(2),
         "templateid": this.step2_data.templateid,
         "itemcodegenkey": this.step2_data.itemcodegenkey,
         "ModelHeaderItemsArray": this.ModelHeaderItemsArray,
@@ -6897,16 +6926,16 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         "ReturnToInventory": this.ReturnToInventory,
         "itemCodeList": this.itemCodeList,
         "featureItemList": this.featureItemList
-  });
+      });
     } else {
       this.step3_data_final[row_id]["item"] = this.step2_data.model_code;
-      this.step3_data_final[row_id]["quantity"] = parseFloat(this.step2_data.quantity).toFixed(3);
-      this.step3_data_final[row_id]["price"] = parseFloat(per_item_price).toFixed(3);
-      this.step3_data_final[row_id]["price_ext"] = parseFloat(price_ext).toFixed(3);
-      this.step3_data_final[row_id]["discounted_price"] = (this.feature_item_total).toFixed(3);
-      this.step3_data_final[row_id]["discount_amount"] = (fg_discount_amount).toFixed(3);
-      this.step3_data_final[row_id]["accessory_discount_amount"] = parseFloat(tota_dis_on_acces).toFixed(3);
-      this.step3_data_final[row_id]["accessory_total_before_dis"] = parseFloat(acc_total_before_dis).toFixed(3);
+      this.step3_data_final[row_id]["quantity"] = parseFloat(this.step2_data.quantity).toFixed(2);
+      this.step3_data_final[row_id]["price"] = parseFloat(per_item_price).toFixed(2);
+      this.step3_data_final[row_id]["price_ext"] = parseFloat(price_ext).toFixed(2);
+      this.step3_data_final[row_id]["discounted_price"] = (this.feature_item_total).toFixed(2);
+      this.step3_data_final[row_id]["discount_amount"] = (fg_discount_amount).toFixed(2);
+      this.step3_data_final[row_id]["accessory_discount_amount"] = parseFloat(tota_dis_on_acces).toFixed(2);
+      this.step3_data_final[row_id]["accessory_total_before_dis"] = parseFloat(acc_total_before_dis).toFixed(2);
       this.step3_data_final[row_id]["feature"] = this.feature_itm_list_table;
       this.step3_data_final[row_id]["accesories"] = this.feature_accessory_list;
       this.step3_data_final[row_id]["AbbreviationDataList"] = this.featureAbbreviationList;
@@ -6920,10 +6949,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       this.step3_data_final[row_id]["ModelHeaderData"] = this.ModelHeaderData;
       this.step3_data_final[row_id]["FeatureBOMDataForSecondLevel"] = this.FeatureBOMDataForSecondLevel;
       this.step3_data_final[row_id]["ModelBOMDataForSecondLevel"] = this.ModelBOMDataForSecondLevel;
-      this.step3_data_final[row_id]["feature_discount_percent"] = (feature_discount).toFixed(3);
-      this.step3_data_final[row_id]["accessory_discount_percent"] = (accessory_discount).toFixed(3);
-      this.step3_data_final[row_id]["accesory_final_price"] = (this.accessory_item_total).toFixed(3);
-      this.step3_data_final[row_id]["accessory_item_total"] = (this.accessory_item_total).toFixed(3);
+      this.step3_data_final[row_id]["feature_discount_percent"] = (feature_discount).toFixed(2);
+      this.step3_data_final[row_id]["accessory_discount_percent"] = (accessory_discount).toFixed(2);
+      this.step3_data_final[row_id]["accesory_final_price"] = (this.accessory_item_total).toFixed(2);
+      this.step3_data_final[row_id]["accessory_item_total"] = (this.accessory_item_total).toFixed(2);
       this.step3_data_final[row_id]["templateid"] = this.step2_data.templateid;
       this.step3_data_final[row_id]["itemcodegenkey"] = this.step2_data.itemcodegenkey;
       this.step3_data_final[row_id]["ModelHeaderItemsArray"] = this.ModelHeaderItemsArray;
@@ -7126,12 +7155,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             "OPTM_ITEMTYPE": 0,
             "OPTM_WHSE": this.warehouse,
             "OPTM_LEVEL": 0,
-            "OPTM_QUANTITY": parseFloat(step3_data_row.quantity).toFixed(3),
-            "OPTM_ORIGINAL_QUANTITY": parseFloat(step3_data_row.quantity).toFixed(3),
+            "OPTM_QUANTITY": parseFloat(step3_data_row.quantity).toFixed(2),
+            "OPTM_ORIGINAL_QUANTITY": parseFloat(step3_data_row.quantity).toFixed(2),
             "OPTM_PRICELIST": 0,
-            "OPTM_UNITPRICE": parseFloat("0").toFixed(3),
-            "OPTM_TOTALPRICE": parseFloat("0").toFixed(3),
-            "OPTM_DISCPERCENT": parseFloat("0").toFixed(3),
+            "OPTM_UNITPRICE": parseFloat("0").toFixed(2),
+            "OPTM_TOTALPRICE": parseFloat("0").toFixed(2),
+            "OPTM_DISCPERCENT": parseFloat("0").toFixed(2),
             "OPTM_CREATEDBY": this.common_output_data.username,
             "OPTM_MODIFIEDBY": this.common_output_data.username,
             "UNIQUEIDNT": "Y",
@@ -7266,7 +7295,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                     return obj['OPTM_MODELID'] == featureitemlistfilterdata[0].ModelId && obj['OPTM_TYPE'] == 2 && obj['OPTM_ITEMKEY'] == featureitemlistfilterdata[0].Item && obj['nodeid'] == featureitemlistfilterdata[0].nodeid
                   })
                   var formatedTotalPrice: any = featureitemlistfilterdata[0].quantity * featureitemlistfilterdata[0].Actualprice
-                  formatedTotalPrice = parseFloat(formatedTotalPrice).toFixed(3)
+                  formatedTotalPrice = parseFloat(formatedTotalPrice).toFixed(2)
 
                   let temp_model_id_default: any = 0;
                   let temp_model_data = step3_data_row.FeatureBOMDataForSecondLevel.filter(function (obj) {
@@ -7309,12 +7338,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                       "OPTM_ITEMTYPE": itemtype,
                       "OPTM_WHSE": this.warehouse,
                       "OPTM_LEVEL": featureitemlistfilterdata[0].OPTM_LEVEL,
-                      "OPTM_QUANTITY": parseFloat(featureitemlistfilterdata[0].quantity).toFixed(3),
-                      "OPTM_ORIGINAL_QUANTITY": parseFloat(featureitemlistfilterdata[0].original_quantity).toFixed(3),
+                      "OPTM_QUANTITY": parseFloat(featureitemlistfilterdata[0].quantity).toFixed(2),
+                      "OPTM_ORIGINAL_QUANTITY": parseFloat(featureitemlistfilterdata[0].original_quantity).toFixed(2),
                       "OPTM_PRICELIST": Number(featureitemlistfilterdata[0].price),
-                      "OPTM_UNITPRICE": parseFloat(featureitemlistfilterdata[0].Actualprice).toFixed(3),
+                      "OPTM_UNITPRICE": parseFloat(featureitemlistfilterdata[0].Actualprice).toFixed(2),
                       "OPTM_TOTALPRICE": formatedTotalPrice,
-                      "OPTM_DISCPERCENT": parseFloat(featureitemlistfilterdata[0].discount).toFixed(3),
+                      "OPTM_DISCPERCENT": parseFloat(featureitemlistfilterdata[0].discount).toFixed(2),
                       "OPTM_CREATEDBY": this.common_output_data.username,
                       "OPTM_MODIFIEDBY": this.common_output_data.username,
                       "UNIQUEIDNT": imodelfilteritems[i].OPTM_UNIQUEIDNT,
@@ -7342,7 +7371,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             }
 
             var formatedTotalPrice: any = step3_data_row.feature[ifeature].quantity * step3_data_row.feature[ifeature].Actualprice
-            formatedTotalPrice = parseFloat(formatedTotalPrice).toFixed(3)
+            formatedTotalPrice = parseFloat(formatedTotalPrice).toFixed(2)
 
             if (imodelData.length > 0) {
               temp_step2_final_dataset_save.push({
@@ -7358,12 +7387,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                 "OPTM_ITEMTYPE": 1,
                 "OPTM_WHSE": this.warehouse,
                 "OPTM_LEVEL": step3_data_row.feature[ifeature].OPTM_LEVEL,
-                "OPTM_QUANTITY": parseFloat(step3_data_row.feature[ifeature].quantity).toFixed(3),
-                "OPTM_ORIGINAL_QUANTITY": parseFloat(step3_data_row.feature[ifeature].original_quantity).toFixed(3),
+                "OPTM_QUANTITY": parseFloat(step3_data_row.feature[ifeature].quantity).toFixed(2),
+                "OPTM_ORIGINAL_QUANTITY": parseFloat(step3_data_row.feature[ifeature].original_quantity).toFixed(2),
                 "OPTM_PRICELIST": Number(step3_data_row.feature[ifeature].price),
-                "OPTM_UNITPRICE": parseFloat(step3_data_row.feature[ifeature].Actualprice).toFixed(3),
+                "OPTM_UNITPRICE": parseFloat(step3_data_row.feature[ifeature].Actualprice).toFixed(2),
                 "OPTM_TOTALPRICE": formatedTotalPrice,
-                "OPTM_DISCPERCENT": parseFloat(step3_data_row.feature[ifeature].discount).toFixed(3),
+                "OPTM_DISCPERCENT": parseFloat(step3_data_row.feature[ifeature].discount).toFixed(2),
                 "OPTM_CREATEDBY": this.common_output_data.username,
                 "OPTM_MODIFIEDBY": this.common_output_data.username,
                 "UNIQUEIDNT": imodelData[0].OPTM_UNIQUEIDNT,
@@ -7468,7 +7497,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                 }
 
                 var formatedTotalPrice: any = step3_data_row.feature[ifeature].quantity * step3_data_row.feature[ifeature].Actualprice
-                formatedTotalPrice = parseFloat(formatedTotalPrice).toFixed(3)
+                formatedTotalPrice = parseFloat(formatedTotalPrice).toFixed(2)
                 if (ifeatureHeaderData.length > 0) {
                   var uniqueIdentifier = ifeatureHeaderData[0].OPTM_UNIQUEIDNT;
                 }
@@ -7502,12 +7531,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                     "OPTM_ITEMTYPE": itemtype,
                     "OPTM_WHSE": this.warehouse,
                     "OPTM_LEVEL": step3_data_row.feature[ifeature].OPTM_LEVEL,
-                    "OPTM_QUANTITY": parseFloat(step3_data_row.feature[ifeature].quantity).toFixed(3),
-                    "OPTM_ORIGINAL_QUANTITY": parseFloat(step3_data_row.feature[ifeature].original_quantity).toFixed(3),
+                    "OPTM_QUANTITY": parseFloat(step3_data_row.feature[ifeature].quantity).toFixed(2),
+                    "OPTM_ORIGINAL_QUANTITY": parseFloat(step3_data_row.feature[ifeature].original_quantity).toFixed(2),
                     "OPTM_PRICELIST": Number(step3_data_row.feature[ifeature].price),
-                    "OPTM_UNITPRICE": parseFloat(step3_data_row.feature[ifeature].Actualprice).toFixed(3),
+                    "OPTM_UNITPRICE": parseFloat(step3_data_row.feature[ifeature].Actualprice).toFixed(2),
                     "OPTM_TOTALPRICE": formatedTotalPrice,
-                    "OPTM_DISCPERCENT": parseFloat(step3_data_row.feature[ifeature].discount).toFixed(3),
+                    "OPTM_DISCPERCENT": parseFloat(step3_data_row.feature[ifeature].discount).toFixed(2),
                     "OPTM_CREATEDBY": this.common_output_data.username,
                     "OPTM_MODIFIEDBY": this.common_output_data.username,
                     "UNIQUEIDNT": uniqueIdentifier,
@@ -7543,7 +7572,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                   itemtype = 2;
                 }
                 var formatedTotalPrice: any = step3_data_row.feature[ifeature].quantity * step3_data_row.feature[ifeature].Actualprice
-                formatedTotalPrice = parseFloat(formatedTotalPrice).toFixed(3)
+                formatedTotalPrice = parseFloat(formatedTotalPrice).toFixed(2)
 
                 // if (ifeatureData.length > 0) {
                 temp_step2_final_dataset_save.push({
@@ -7558,12 +7587,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                   "OPTM_ITEMTYPE": itemtype,
                   "OPTM_WHSE": this.warehouse,
                   "OPTM_LEVEL": step3_data_row.feature[ifeature].OPTM_LEVEL,
-                  "OPTM_QUANTITY": parseFloat(step3_data_row.feature[ifeature].quantity).toFixed(3),
-                  "OPTM_ORIGINAL_QUANTITY": parseFloat(step3_data_row.feature[ifeature].original_quantity).toFixed(3),
+                  "OPTM_QUANTITY": parseFloat(step3_data_row.feature[ifeature].quantity).toFixed(2),
+                  "OPTM_ORIGINAL_QUANTITY": parseFloat(step3_data_row.feature[ifeature].original_quantity).toFixed(2),
                   "OPTM_PRICELIST": Number(step3_data_row.feature[ifeature].price),
-                  "OPTM_UNITPRICE": parseFloat(step3_data_row.feature[ifeature].Actualprice).toFixed(3),
+                  "OPTM_UNITPRICE": parseFloat(step3_data_row.feature[ifeature].Actualprice).toFixed(2),
                   "OPTM_TOTALPRICE": formatedTotalPrice,
-                  "OPTM_DISCPERCENT": parseFloat(step3_data_row.feature[ifeature].discount).toFixed(3),
+                  "OPTM_DISCPERCENT": parseFloat(step3_data_row.feature[ifeature].discount).toFixed(2),
                   "OPTM_CREATEDBY": this.common_output_data.username,
                   "OPTM_MODIFIEDBY": this.common_output_data.username,
                   "UNIQUEIDNT": ifeatureHeaderData[0].OPTM_UNIQUEIDNT,
@@ -7710,12 +7739,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               "OPTM_DSP_ORDERINGROUP": iValueData[itempsavefinal].OPTM_DSP_ORDERINGROUP,
               "OPTM_OPTIONAL": iValueData[itempsavefinal].OPTM_OPTIONAL,
               "OPTM_RET_TO_INV": iValueData[itempsavefinal].OPTM_RET_TO_INV,
-              "OPTM_QUANTITY": parseFloat(iValueData[itempsavefinal].OPTM_QUANTITY).toFixed(3),
-              "OPTM_ORIGINAL_QUANTITY": parseFloat(iValueData[itempsavefinal].OPTM_QUANTITY).toFixed(3),
+              "OPTM_QUANTITY": parseFloat(iValueData[itempsavefinal].OPTM_QUANTITY).toFixed(2),
+              "OPTM_ORIGINAL_QUANTITY": parseFloat(iValueData[itempsavefinal].OPTM_QUANTITY).toFixed(2),
               "OPTM_PRICELIST": Number(0),
-              "OPTM_UNITPRICE": parseFloat("0").toFixed(3),
+              "OPTM_UNITPRICE": parseFloat("0").toFixed(2),
               "OPTM_TOTALPRICE": 0,
-              "OPTM_DISCPERCENT": parseFloat("0").toFixed(3),
+              "OPTM_DISCPERCENT": parseFloat("0").toFixed(2),
               "OPTM_CREATEDBY": this.common_output_data.username,
               "OPTM_MODIFIEDBY": this.common_output_data.username,
               "UNIQUEIDNT": "N",
@@ -7739,15 +7768,20 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         //  this.step2_final_dataset_to_save.push(temp_step2_final_dataset_save);
         for (let itempsavefinal = 0; itempsavefinal < temp_step2_final_dataset_save.length; itempsavefinal++) {
           if (temp_step2_final_dataset_save[itempsavefinal].OPTM_RET_TO_INV == "Y") {
-            temp_step2_final_dataset_save[itempsavefinal].OPTM_QUANTITY = "-" + temp_step2_final_dataset_save[itempsavefinal].OPTM_QUANTITY;
-            temp_step2_final_dataset_save[itempsavefinal].OPTM_ORIGINAL_QUANTITY = "-" + temp_step2_final_dataset_save[itempsavefinal].OPTM_ORIGINAL_QUANTITY;
+            // temp_step2_final_dataset_save[itempsavefinal].OPTM_QUANTITY = "-" + temp_step2_final_dataset_save[itempsavefinal].OPTM_QUANTITY;
+            // temp_step2_final_dataset_save[itempsavefinal].OPTM_ORIGINAL_QUANTITY = "-" + temp_step2_final_dataset_save[itempsavefinal].OPTM_ORIGINAL_QUANTITY;
+            // temp_step2_final_dataset_save[itempsavefinal].OPTM_PRICELIST = "-" + temp_step2_final_dataset_save[itempsavefinal].OPTM_PRICELIST;
+
 
           }
+          debugger;
           this.step2_final_dataset_to_save.push({
+
             "OPTM_OUTPUTID": temp_step2_final_dataset_save[itempsavefinal].OPTM_OUTPUTID,
             "OPTM_OUTPUTDTLID": temp_step2_final_dataset_save[itempsavefinal].OPTM_OUTPUTDTLID,
             "OPTM_ITEMNUMBER": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMNUMBER,
-            "OPTM_ITEMCODE": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMCODE,
+            "OPTM_ITEMCODE": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMTYPE == "0" ? this.descriptionString : temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMCODE,
+            //"OPTM_ITEMCODE":this.descriptionString,
             "OPTM_KEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_KEY,
             "OPTM_PARENTKEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_PARENTKEY,
             "OPTM_TEMPLATEID": temp_step2_final_dataset_save[itempsavefinal].OPTM_TEMPLATEID,
@@ -7758,12 +7792,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             OPTM_DSP_GROUP: temp_step2_final_dataset_save[itempsavefinal].OPTM_DSP_GROUP,
             OPTM_DSPGROUP_ORDER: temp_step2_final_dataset_save[itempsavefinal].OPTM_DSPGROUP_ORDER,
             OPTM_DSP_ORDERINGROUP: temp_step2_final_dataset_save[itempsavefinal].OPTM_DSP_ORDERINGROUP,
-            "OPTM_QUANTITY": parseFloat(temp_step2_final_dataset_save[itempsavefinal].OPTM_QUANTITY).toFixed(3),
-            "OPTM_ORIGINAL_QUANTITY": parseFloat(temp_step2_final_dataset_save[itempsavefinal].OPTM_ORIGINAL_QUANTITY).toFixed(3),
+            "OPTM_QUANTITY": parseFloat(temp_step2_final_dataset_save[itempsavefinal].OPTM_QUANTITY).toFixed(2),
+            "OPTM_ORIGINAL_QUANTITY": parseFloat(temp_step2_final_dataset_save[itempsavefinal].OPTM_ORIGINAL_QUANTITY).toFixed(2),
             "OPTM_PRICELIST": temp_step2_final_dataset_save[itempsavefinal].OPTM_PRICELIST,
-            "OPTM_UNITPRICE": parseFloat(temp_step2_final_dataset_save[itempsavefinal].OPTM_UNITPRICE).toFixed(3),
-            "OPTM_TOTALPRICE": parseFloat(temp_step2_final_dataset_save[itempsavefinal].OPTM_TOTALPRICE).toFixed(3),
-            "OPTM_DISCPERCENT": parseFloat(temp_step2_final_dataset_save[itempsavefinal].OPTM_DISCPERCENT).toFixed(3),
+            "OPTM_UNITPRICE": parseFloat(temp_step2_final_dataset_save[itempsavefinal].OPTM_UNITPRICE).toFixed(2),
+            "OPTM_TOTALPRICE": parseFloat(temp_step2_final_dataset_save[itempsavefinal].OPTM_TOTALPRICE).toFixed(2),
+            "OPTM_DISCPERCENT": parseFloat(temp_step2_final_dataset_save[itempsavefinal].OPTM_DISCPERCENT).toFixed(2),
             "OPTM_CREATEDBY": this.common_output_data.usernameOPTM_CREATEDBY,
             "OPTM_MODIFIEDBY": this.common_output_data.usernameOPTM_MODIFIEDBY,
             "UNIQUEIDNT": temp_step2_final_dataset_save[itempsavefinal].UNIQUEIDNT,
@@ -8170,7 +8204,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           OPTM_LINENO: Accarray[iaccss].OPTM_LINENO,
           OPTM_PRICESOURCE: Accarray[iaccss].OPTM_PRICESOURCE,
           OPTM_PROPOGATEQTY: Accarray[iaccss].OPTM_PROPOGATEQTY,
-          OPTM_QUANTITY: parseFloat(Accarray[iaccss].OPTM_QUANTITY).toFixed(3),
+          OPTM_QUANTITY: parseFloat(Accarray[iaccss].OPTM_QUANTITY).toFixed(2),
           OPTM_TYPE: Accarray[iaccss].OPTM_TYPE,
           OPTM_VALUE: Accarray[iaccss].OPTM_VALUE,
           unique_key: Accarray[iaccss].unique_key,
@@ -8208,7 +8242,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             OPTM_PARENTMODELID: AccarrayData[iaccss].parentmodelid,
             OPTM_PRICESOURCE: AccarrayData[iaccss].OPTM_PRICESOURCE,
             OPTM_PROPOGATEQTY: AccarrayData[iaccss].OPTM_PROPOGATEQTY,
-            OPTM_QUANTITY: parseFloat(AccarrayData[iaccss].OPTM_QUANTITY).toFixed(3),
+            OPTM_QUANTITY: parseFloat(AccarrayData[iaccss].OPTM_QUANTITY).toFixed(2),
             OPTM_TYPE: AccarrayData[iaccss].OPTM_TYPE,
             OPTM_VALUE: AccarrayData[iaccss].OPTM_VALUE,
             OPTM_DSPGROUP_ORDER: AccarrayData[iaccss].OPTM_DSPGROUP_ORDER,
@@ -8236,7 +8270,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           OPTM_DSPGROUP_ORDER: AccarrayData[iaccss].OPTM_DSPGROUP_ORDER,
           OPTM_DSP_GROUP: AccarrayData[iaccss].OPTM_DSP_GROUP,
           OPTM_DSP_ORDERINGROUP: AccarrayData[iaccss].OPTM_DSP_ORDERINGROUP,
-          OPTM_QUANTITY: parseFloat(AccarrayData[iaccss].OPTM_QUANTITY).toFixed(3),
+          OPTM_QUANTITY: parseFloat(AccarrayData[iaccss].OPTM_QUANTITY).toFixed(2),
           OPTM_TYPE: AccarrayData[iaccss].OPTM_TYPE,
           OPTM_VALUE: AccarrayData[iaccss].OPTM_VALUE,
           unique_key: AccarrayData[iaccss].unique_key,
@@ -8518,7 +8552,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             formatequantity = qty_value
           }
           if (ItemData[i].Price == null || ItemData[i].Price == undefined || ItemData[i].Price == "") {
-            ItemData[i].Price = parseFloat("0").toFixed(3)
+            ItemData[i].Price = parseFloat("0").toFixed(2)
           }
           price = ItemData[i].Price;
           price_list = ItemData[i].ListName;
@@ -8556,7 +8590,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           }
           if (rowData !== undefined) {
             if (rowData.OPTM_UNITPRICE == null && rowData.OPTM_UNITPRICE == undefined && rowData.OPTM_UNITPRICE == "") {
-              price = parseFloat("0").toFixed(3);
+              price = parseFloat("0").toFixed(2);
             } else {
               price = rowData.OPTM_UNITPRICE;
             }
@@ -8564,7 +8598,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             unique_key = (rowData.unique_key != undefined) ? rowData.unique_key : "0";
             nodeid = (rowData.nodeid != undefined) ? rowData.nodeid : "0";
           } else {
-            price = parseFloat("0").toFixed(3);
+            price = parseFloat("0").toFixed(2);
             price_list = 0;
             unique_key = ItemData[i].unique_key;
             nodeid = ItemData[i].nodeid;
@@ -8591,12 +8625,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             discount: 0,
             ItemNumber: ItemData[i].DocEntry,
             Description: ItemData[i].OPTM_DISPLAYNAME,
-            progateqty: parseFloat(qty_value).toFixed(3),
-            quantity: parseFloat(formatequantity).toFixed(3),
-            original_quantity: parseFloat(qty_value).toFixed(3),
+            progateqty: parseFloat(qty_value).toFixed(2),
+            quantity: parseFloat(formatequantity).toFixed(2),
+            original_quantity: parseFloat(qty_value).toFixed(2),
             price: price_list,
-            Actualprice: parseFloat(price).toFixed(3),
-            pricextn: parseFloat(priceextn).toFixed(3),
+            Actualprice: parseFloat(price).toFixed(2),
+            pricextn: parseFloat(priceextn).toFixed(2),
             is_accessory: "Y",
             isPriceDisabled: isPriceDisabled,
             pricehide: isPricehide,
@@ -8635,7 +8669,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         DefaultData[idefault].Price = 0;
       }
 
-      DefaultData[idefault].OPTM_QUANTITY = parseFloat(DefaultData[idefault].OPTM_QUANTITY).toFixed(3)
+      DefaultData[idefault].OPTM_QUANTITY = parseFloat(DefaultData[idefault].OPTM_QUANTITY).toFixed(2)
       var formatequantity: any = DefaultData[idefault].OPTM_QUANTITY * this.step2_data.quantity
 
       // var formatequantity: any = 1;
@@ -8664,12 +8698,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           discount: 0,
           ItemNumber: DefaultData[idefault].DocEntry,
           Description: DefaultData[idefault].OPTM_DISPLAYNAME,
-          progateqty: parseFloat(DefaultData[idefault].OPTM_QUANTITY).toFixed(3),
-          quantity: parseFloat(formatequantity).toFixed(3),
-          original_quantity: parseFloat(DefaultData[idefault].OPTM_QUANTITY).toFixed(3),
+          progateqty: parseFloat(DefaultData[idefault].OPTM_QUANTITY).toFixed(2),
+          quantity: parseFloat(formatequantity).toFixed(2),
+          original_quantity: parseFloat(DefaultData[idefault].OPTM_QUANTITY).toFixed(2),
           price: DefaultData[idefault].ListName,
-          Actualprice: parseFloat(DefaultData[idefault].Price).toFixed(3),
-          pricextn: parseFloat(priceextn).toFixed(3),
+          Actualprice: parseFloat(DefaultData[idefault].Price).toFixed(2),
+          pricextn: parseFloat(priceextn).toFixed(2),
           is_accessory: "N",
           isPriceDisabled: isPriceDisabled,
           pricehide: isPricehide,
@@ -8740,12 +8774,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           discount: 0,
           ItemNumber: "",
           Description: ModelData[imodelarray].OPTM_DISPLAYNAME,
-          progateqty: parseFloat(formatequantity).toFixed(3),
-          quantity: parseFloat(formatequantity).toFixed(3),
-          original_quantity: parseFloat(formatequantity).toFixed(3),
+          progateqty: parseFloat(formatequantity).toFixed(2),
+          quantity: parseFloat(formatequantity).toFixed(2),
+          original_quantity: parseFloat(formatequantity).toFixed(2),
           price: ModelData[imodelarray].ListName,
-          Actualprice: pricextn0.toFixed(3),
-          pricextn: pricextn0.toFixed(3),
+          Actualprice: pricextn0.toFixed(2),
+          pricextn: pricextn0.toFixed(2),
           is_accessory: "N",
           isPriceDisabled: isPriceDisabled,
           pricehide: isPricehide,
@@ -8776,7 +8810,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           return obj['FeatureId'] == ModelItemsArray[imodelItemsarray].OPTM_MODELID && obj['Item'] == ModelItemsArray[imodelItemsarray].OPTM_ITEMKEY && obj['nodeid'] == ModelItemsArray[imodelItemsarray].nodeid;
         });
 
-        ModelItemsArray[imodelItemsarray].OPTM_QUANTITY = parseFloat(ModelItemsArray[imodelItemsarray].OPTM_QUANTITY).toFixed(3)
+        ModelItemsArray[imodelItemsarray].OPTM_QUANTITY = parseFloat(ModelItemsArray[imodelItemsarray].OPTM_QUANTITY).toFixed(2)
 
         var formatequantity: any = 1;
         let propagateQtyForitem = 1;
@@ -8805,12 +8839,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             discount: 0,
             ItemNumber: ModelItemsArray[imodelItemsarray].DocEntry,
             Description: ModelItemsArray[imodelItemsarray].OPTM_DISPLAYNAME,
-            progateqty: parseFloat(formatequantity).toFixed(3),
-            quantity: parseFloat(formatequantity).toFixed(3),
-            original_quantity: parseFloat(formatequantity).toFixed(3),
+            progateqty: parseFloat(formatequantity).toFixed(2),
+            quantity: parseFloat(formatequantity).toFixed(2),
+            original_quantity: parseFloat(formatequantity).toFixed(2),
             price: ModelItemsArray[imodelItemsarray].ListName,
-            Actualprice: parseFloat(ModelItemsArray[imodelItemsarray].Price).toFixed(3),
-            pricextn: parseFloat(priceextn).toFixed(3),
+            Actualprice: parseFloat(ModelItemsArray[imodelItemsarray].Price).toFixed(2),
+            pricextn: parseFloat(priceextn).toFixed(2),
             is_accessory: "N",
             isPriceDisabled: isPriceDisabled,
             pricehide: isPricehide,
@@ -8835,7 +8869,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       for (var ifeatureitem in this.feature_itm_list_table) {
         if (this.feature_itm_list_table[ifeatureitem].FeatureId == ModelData[imodelarray].OPTM_CHILDMODELID) {
           if (this.feature_itm_list_table[ifeatureitem].OPTM_TYPE != "3") {
-            this.feature_itm_list_table[ifeatureitem].Actualprice = parseFloat(ItemPrice).toFixed(3)
+            this.feature_itm_list_table[ifeatureitem].Actualprice = parseFloat(ItemPrice).toFixed(2)
           }
         }
       }
@@ -8872,14 +8906,14 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       }
 
       if (get_saved_data.length == 0) {
-        ModelData[imodelarray].OPTM_QUANTITY = parseFloat(ModelData[imodelarray].OPTM_QUANTITY).toFixed(3)
+        ModelData[imodelarray].OPTM_QUANTITY = parseFloat(ModelData[imodelarray].OPTM_QUANTITY).toFixed(2)
         formatequantity = ModelData[imodelarray].OPTM_QUANTITY * this.step2_data.quantity
         originalQuantity = ModelData[imodelarray].OPTM_QUANTITY
         priceextn = formatequantity * ModelData[imodelarray].Price
         actualPrice = ModelData[imodelarray].Price;
         nodeid = (ModelData[imodelarray].unique_key !== undefined) ? ModelData[imodelarray].nodeid : "";
       } else {
-        get_saved_data[0].OPTM_QUANTITY = parseFloat(get_saved_data[0].OPTM_QUANTITY).toFixed(3)
+        get_saved_data[0].OPTM_QUANTITY = parseFloat(get_saved_data[0].OPTM_QUANTITY).toFixed(2)
         formatequantity = get_saved_data[0].OPTM_QUANTITY;
         originalQuantity = get_saved_data[0].OPTM_ORIGINAL_QUANTITY
         priceextn = formatequantity * get_saved_data[0].OPTM_UNITPRICE;
@@ -8904,12 +8938,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           discount: 0,
           ItemNumber: "",
           Description: ModelData[imodelarray].OPTM_DISPLAYNAME,
-          progateqty: parseFloat(formatequantity).toFixed(3),
-          quantity: parseFloat(formatequantity).toFixed(3),
-          original_quantity: parseFloat(originalQuantity).toFixed(3),
+          progateqty: parseFloat(formatequantity).toFixed(2),
+          quantity: parseFloat(formatequantity).toFixed(2),
+          original_quantity: parseFloat(originalQuantity).toFixed(2),
           price: ModelData[imodelarray].ListName,
-          Actualprice: actualPrice.toFixed(3),
-          pricextn: priceextn.toFixed(3),
+          Actualprice: actualPrice.toFixed(2),
+          pricextn: priceextn.toFixed(2),
           is_accessory: "N",
           isPriceDisabled: isPriceDisabled,
           pricehide: isPricehide,
@@ -8954,7 +8988,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         }
 
         if (get_saved_data.length == 0) {
-          ModelItemsArray[imodelItemsarray].OPTM_QUANTITY = parseFloat(ModelItemsArray[imodelItemsarray].OPTM_QUANTITY).toFixed(3)
+          ModelItemsArray[imodelItemsarray].OPTM_QUANTITY = parseFloat(ModelItemsArray[imodelItemsarray].OPTM_QUANTITY).toFixed(2)
           formatequantity = ModelItemsArray[imodelItemsarray].OPTM_QUANTITY * this.step2_data.quantity
           originalQuantity = ModelItemsArray[imodelItemsarray].OPTM_QUANTITY
           priceextn = formatequantity * ModelItemsArray[imodelItemsarray].Price
@@ -8962,7 +8996,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           unique_key = (ModelItemsArray[imodelItemsarray].unique_key !== undefined) ? ModelItemsArray[imodelItemsarray].unique_key : "";
           nodeid = (ModelItemsArray[imodelItemsarray].nodeid !== undefined) ? ModelItemsArray[imodelItemsarray].nodeid : "";
         } else {
-          get_saved_data[0].OPTM_QUANTITY = parseFloat(get_saved_data[0].OPTM_QUANTITY).toFixed(3)
+          get_saved_data[0].OPTM_QUANTITY = parseFloat(get_saved_data[0].OPTM_QUANTITY).toFixed(2)
           formatequantity = get_saved_data[0].OPTM_QUANTITY;
           originalQuantity = get_saved_data[0].OPTM_ORIGINAL_QUANTITY
           priceextn = formatequantity * get_saved_data[0].OPTM_UNITPRICE;
@@ -8971,7 +9005,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           nodeid = get_saved_data[0].NODEID;
         }
 
-        ModelItemsArray[imodelItemsarray].OPTM_QUANTITY = parseFloat(ModelItemsArray[imodelItemsarray].OPTM_QUANTITY).toFixed(3)
+        ModelItemsArray[imodelItemsarray].OPTM_QUANTITY = parseFloat(ModelItemsArray[imodelItemsarray].OPTM_QUANTITY).toFixed(2)
         let feature_id = 0;
         if (ModelItemsArray[imodelItemsarray].OPTM_FEATUREID != null) {
           feature_id = ModelItemsArray[imodelItemsarray].OPTM_FEATUREID;
@@ -8985,12 +9019,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             discount: 0,
             ItemNumber: ModelItemsArray[imodelItemsarray].DocEntry,
             Description: ModelItemsArray[imodelItemsarray].OPTM_DISPLAYNAME,
-            progateqty: parseFloat(formatequantity).toFixed(3),
-            quantity: parseFloat(formatequantity).toFixed(3),
-            original_quantity: parseFloat(originalQuantity).toFixed(3),
+            progateqty: parseFloat(formatequantity).toFixed(2),
+            quantity: parseFloat(formatequantity).toFixed(2),
+            original_quantity: parseFloat(originalQuantity).toFixed(2),
             price: ModelItemsArray[imodelItemsarray].ListName,
-            Actualprice: parseFloat(actualPrice).toFixed(3),
-            pricextn: parseFloat(priceextn).toFixed(3),
+            Actualprice: parseFloat(actualPrice).toFixed(2),
+            pricextn: parseFloat(priceextn).toFixed(2),
             is_accessory: "N",
             isPriceDisabled: isPriceDisabled,
             pricehide: isPricehide,
@@ -9013,7 +9047,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
       /* for (var ifeatureitem in this.feature_itm_list_table) {
         if (this.feature_itm_list_table[ifeatureitem].FeatureId == ModelData[imodelarray].OPTM_CHILDMODELID) {
-          this.feature_itm_list_table[ifeatureitem].Actualprice = parseFloat(ItemPrice).toFixed(3)
+          this.feature_itm_list_table[ifeatureitem].Actualprice = parseFloat(ItemPrice).toFixed(2)
         }
       } */
 
@@ -9038,7 +9072,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         ModelItemsData[imodelarray].Price = 0;
       }
 
-      ModelItemsData[imodelarray].OPTM_QUANTITY = parseFloat(ModelItemsData[imodelarray].OPTM_QUANTITY).toFixed(3)
+      ModelItemsData[imodelarray].OPTM_QUANTITY = parseFloat(ModelItemsData[imodelarray].OPTM_QUANTITY).toFixed(2)
       var formatequantity: any = ModelItemsData[imodelarray].OPTM_QUANTITY * this.step2_data.quantity
       var priceextn: any = formatequantity * ModelItemsData[imodelarray].Price
       if (isExist.length == 0) {
@@ -9049,12 +9083,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           discount: 0,
           ItemNumber: ModelItemsData[imodelarray].DocEntry,
           Description: ModelItemsData[imodelarray].OPTM_DISPLAYNAME,
-          progateqty: parseFloat(formatequantity).toFixed(3),
-          quantity: parseFloat(formatequantity).toFixed(3),
-          original_quantity: parseFloat(ModelItemsData[imodelarray].OPTM_QUANTITY).toFixed(3),
+          progateqty: parseFloat(formatequantity).toFixed(2),
+          quantity: parseFloat(formatequantity).toFixed(2),
+          original_quantity: parseFloat(ModelItemsData[imodelarray].OPTM_QUANTITY).toFixed(2),
           price: ModelItemsData[imodelarray].ListName,
-          Actualprice: parseFloat(ModelItemsData[imodelarray].Price).toFixed(3),
-          pricextn: parseFloat(priceextn).toFixed(3),
+          Actualprice: parseFloat(ModelItemsData[imodelarray].Price).toFixed(2),
+          pricextn: parseFloat(priceextn).toFixed(2),
           is_accessory: "N",
           isPriceDisabled: isPriceDisabled,
           pricehide: isPricehide,
@@ -9115,7 +9149,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       let feature_name: any = "";
       // console.log("saved_data_for_output_dtl ", saved_data_for_output_dtl);
       if (get_saved_data.length == 0) {
-        DefaultData[idefault].OPTM_QUANTITY = parseFloat(DefaultData[idefault].OPTM_QUANTITY).toFixed(3)
+        DefaultData[idefault].OPTM_QUANTITY = parseFloat(DefaultData[idefault].OPTM_QUANTITY).toFixed(2)
         formatequantity = DefaultData[idefault].OPTM_QUANTITY * this.step2_data.quantity
         originalQuantity = DefaultData[idefault].OPTM_QUANTITY
         priceextn = formatequantity * DefaultData[idefault].Price
@@ -9123,7 +9157,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         unqiue_key = (DefaultData[idefault].unqiue_key !== undefined) ? DefaultData[idefault].unqiue_key : "";
         nodeid = (DefaultData[idefault].nodeid !== undefined) ? DefaultData[idefault].nodeid : "";
       } else {
-        get_saved_data[0].OPTM_QUANTITY = parseFloat(get_saved_data[0].OPTM_QUANTITY).toFixed(3)
+        get_saved_data[0].OPTM_QUANTITY = parseFloat(get_saved_data[0].OPTM_QUANTITY).toFixed(2)
         // formatequantity= get_saved_data[0].OPTM_QUANTITY * this.step2_data.quantity
         formatequantity = get_saved_data[0].OPTM_QUANTITY;
         originalQuantity = get_saved_data[0].OPTM_ORIGINAL_QUANTITY;
@@ -9149,12 +9183,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           discount: 0,
           ItemNumber: DefaultData[idefault].DocEntry,
           Description: DefaultData[idefault].OPTM_DISPLAYNAME,
-          progateqty: parseFloat(formatequantity).toFixed(3),
-          quantity: parseFloat(formatequantity).toFixed(3),
-          original_quantity: parseFloat(originalQuantity).toFixed(3),
+          progateqty: parseFloat(formatequantity).toFixed(2),
+          quantity: parseFloat(formatequantity).toFixed(2),
+          original_quantity: parseFloat(originalQuantity).toFixed(2),
           price: DefaultData[idefault].ListName,
-          Actualprice: parseFloat(actualPrice).toFixed(3),
-          pricextn: parseFloat(priceextn).toFixed(3),
+          Actualprice: parseFloat(actualPrice).toFixed(2),
+          pricextn: parseFloat(priceextn).toFixed(2),
           is_accessory: "N",
           isPriceDisabled: isPriceDisabled,
           pricehide: isPricehide,
@@ -9890,12 +9924,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                     }
                   }
                   else {
-                    this.feature_itm_list_table[iFeatureItemaddedTable].quantity = parseFloat(RuleOutputData[iItemRule].OPTM_QUANTITY).toFixed(3)
+                    this.feature_itm_list_table[iFeatureItemaddedTable].quantity = parseFloat(RuleOutputData[iItemRule].OPTM_QUANTITY).toFixed(2)
                   }
 
                 }
                 else {
-                  this.feature_itm_list_table[iFeatureItemaddedTable].quantity = parseFloat(RuleOutputData[iItemRule].OPTM_QUANTITY).toFixed(3)
+                  this.feature_itm_list_table[iFeatureItemaddedTable].quantity = parseFloat(RuleOutputData[iItemRule].OPTM_QUANTITY).toFixed(2)
                 }
               }
               else {
@@ -9915,8 +9949,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
 
 
-              //this.feature_itm_list_table[iFeatureItemaddedTable].quantity = parseFloat(this.feature_itm_list_table[iFeatureItemaddedTable].quantity).toFixed(3)
-              //this.feature_itm_list_table[iFeatureItemaddedTable].original_quantity = parseFloat(RuleOutputData[iItemRule].OPTM_QUANTITY).toFixed(3)
+              //this.feature_itm_list_table[iFeatureItemaddedTable].quantity = parseFloat(this.feature_itm_list_table[iFeatureItemaddedTable].quantity).toFixed(2)
+              //this.feature_itm_list_table[iFeatureItemaddedTable].original_quantity = parseFloat(RuleOutputData[iItemRule].OPTM_QUANTITY).toFixed(2)
 
               if (RuleOutputData[iItemRule].OPTM_ISPRICEEDIT == "y") {
                 this.feature_itm_list_table[iFeatureItemaddedTable].isPriceDisabled = false
@@ -10158,12 +10192,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             discount: 0,
             ItemNumber: filtemodeldataheader[0].DocEntry,
             Description: filtemodeldataheader[0].OPTM_DISPLAYNAME,
-            progateqty: parseFloat(getmodelsavedata[imodelsavedata].OPTM_QUANTITY).toFixed(3),
-            quantity: parseFloat(getmodelsavedata[imodelsavedata].OPTM_QUANTITY).toFixed(3),
-            original_quantity: parseFloat(filtemodeldataheader[0].OPTM_QUANTITY).toFixed(3),
+            progateqty: parseFloat(getmodelsavedata[imodelsavedata].OPTM_QUANTITY).toFixed(2),
+            quantity: parseFloat(getmodelsavedata[imodelsavedata].OPTM_QUANTITY).toFixed(2),
+            original_quantity: parseFloat(filtemodeldataheader[0].OPTM_QUANTITY).toFixed(2),
             price: getmodelsavedata[imodelsavedata].OPTM_PRICELIST,
-            Actualprice: parseFloat(getmodelsavedata[imodelsavedata].OPTM_TOTALPRICE).toFixed(3),
-            pricextn: parseFloat(priceextn).toFixed(3),
+            Actualprice: parseFloat(getmodelsavedata[imodelsavedata].OPTM_TOTALPRICE).toFixed(2),
+            pricextn: parseFloat(priceextn).toFixed(2),
             is_accessory: "N",
             isPriceDisabled: isPriceDisabled,
             pricehide: isPricehide,
@@ -10203,12 +10237,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               discount: 0,
               ItemNumber: ModelItemsArray[0].DocEntry,
               Description: ModelItemsArray[0].OPTM_DISPLAYNAME,
-              progateqty: parseFloat(getmodelsavedata[imodelsavedata].OPTM_QUANTITY).toFixed(3),
-              quantity: parseFloat(getmodelsavedata[imodelsavedata].OPTM_QUANTITY).toFixed(3),
-              original_quantity: parseFloat(mbom_quantity).toFixed(3),
+              progateqty: parseFloat(getmodelsavedata[imodelsavedata].OPTM_QUANTITY).toFixed(2),
+              quantity: parseFloat(getmodelsavedata[imodelsavedata].OPTM_QUANTITY).toFixed(2),
+              original_quantity: parseFloat(mbom_quantity).toFixed(2),
               price: getmodelsavedata[imodelsavedata].OPTM_PRICELIST,
-              Actualprice: parseFloat(getmodelsavedata[imodelsavedata].OPTM_TOTALPRICE).toFixed(3),
-              pricextn: parseFloat(priceextn).toFixed(3),
+              Actualprice: parseFloat(getmodelsavedata[imodelsavedata].OPTM_TOTALPRICE).toFixed(2),
+              pricextn: parseFloat(priceextn).toFixed(2),
               is_accessory: "N",
               isPriceDisabled: isPriceDisabled,
               pricehide: isPricehide,
@@ -10264,12 +10298,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               discount: 0,
               ItemNumber: ItemsArray[0].DocEntry,
               Description: ItemsArray[0].OPTM_DISPLAYNAME,
-              progateqty: parseFloat(getmodelsavedata[imodelsavedata].OPTM_QUANTITY).toFixed(3),
-              quantity: parseFloat(getmodelsavedata[imodelsavedata].OPTM_QUANTITY).toFixed(3),
-              original_quantity: parseFloat(mbomQuantity).toFixed(3),
+              progateqty: parseFloat(getmodelsavedata[imodelsavedata].OPTM_QUANTITY).toFixed(2),
+              quantity: parseFloat(getmodelsavedata[imodelsavedata].OPTM_QUANTITY).toFixed(2),
+              original_quantity: parseFloat(mbomQuantity).toFixed(2),
               price: getmodelsavedata[imodelsavedata].OPTM_PRICELIST,
-              Actualprice: parseFloat(getmodelsavedata[imodelsavedata].OPTM_UNITPRICE).toFixed(3),
-              pricextn: parseFloat(priceextn).toFixed(3),
+              Actualprice: parseFloat(getmodelsavedata[imodelsavedata].OPTM_UNITPRICE).toFixed(2),
+              pricextn: parseFloat(priceextn).toFixed(2),
               is_accessory: "N",
               isPriceDisabled: isPriceDisabled,
               pricehide: isPricehide,
@@ -10329,11 +10363,11 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
              Item: tempSelectedAccessoryArray[0].OPTM_ITEMKEY,
              ItemNumber: getmodelsavedata[imodelsavedata].OPTM_ITEMNUMBER,
              Description: tempSelectedAccessoryArray[0].OPTM_DISPLAYNAME,
-             quantity: parseFloat(getmodelsavedata[imodelsavedata].OPTM_QUANTITY).toFixed(3),
-             original_quantity: parseFloat(head_acc_data[0].OPTM_QUANTITY).toFixed(3),
+             quantity: parseFloat(getmodelsavedata[imodelsavedata].OPTM_QUANTITY).toFixed(2),
+             original_quantity: parseFloat(head_acc_data[0].OPTM_QUANTITY).toFixed(2),
              price: getmodelsavedata[imodelsavedata].OPTM_PRICELIST,
-             Actualprice: parseFloat(getmodelsavedata[imodelsavedata].OPTM_UNITPRICE).toFixed(3),
-             pricextn: parseFloat(priceextn).toFixed(3),
+             Actualprice: parseFloat(getmodelsavedata[imodelsavedata].OPTM_UNITPRICE).toFixed(2),
+             pricextn: parseFloat(priceextn).toFixed(2),
              is_accessory: "Y",
              isPriceDisabled: isPriceDisabled,
              pricehide: isPricehide,
@@ -11358,6 +11392,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               this.contact_persons = data.ContactPerson;
               this.person = data.ContactPerson[0].Name;
               this.step1_data.person_name = this.person;
+              this.CommonService.customerEmail = data.ContactPerson[0].Email;
+
             }
             else {
               this.contact_persons = [];
@@ -12185,11 +12221,11 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       discount: 0,
       ItemNumber: "",
       Description: this.accdesc,
-      quantity: parseFloat(this.accquan).toFixed(3),
-      original_quantity: parseFloat(this.accquan).toFixed(3),
+      quantity: parseFloat(this.accquan).toFixed(2),
+      original_quantity: parseFloat(this.accquan).toFixed(2),
       price: this.accprice,
-      Actualprice: parseFloat(this.accprice).toFixed(3),
-      pricextn: parseFloat(priceextn).toFixed(3),
+      Actualprice: parseFloat(this.accprice).toFixed(2),
+      pricextn: parseFloat(priceextn).toFixed(2),
       is_accessory: "Y",
       isPriceDisabled: true,
       pricehide: true,
@@ -12278,7 +12314,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       for (let i = 0; i < uniqueNodeId.length; i++) {
         for (let j = 0; j < ret_to_array.length; j++) {
           if (uniqueNodeId[i] == ret_to_array[j].nodeid) {
-            var priceextn: any = ret_to_array[j].OPTM_QUANTITY * ret_to_array[j].Price
+            var quantity: any = (ret_to_array[j].OPTM_QUANTITY) / -1
+            var priceextn: any = (ret_to_array[j].OPTM_QUANTITY * ret_to_array[j].Price) / -1;
 
             this.feature_itm_list_table.push({
               FeatureId: ret_to_array[j].OPTM_FEATUREID,
@@ -12287,12 +12324,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
               discount: 0,
               ItemNumber: ret_to_array[j].DocEntry,
               Description: ret_to_array[j].OPTM_DISPLAYNAME,
-              progateqty: parseFloat(ret_to_array[j].OPTM_QUANTITY).toFixed(3),
-              quantity: parseFloat(ret_to_array[j].OPTM_QUANTITY).toFixed(3),
-              original_quantity: parseFloat(ret_to_array[j].OPTM_QUANTITY).toFixed(3),
-              price: ret_to_array[j].Price,
-              Actualprice: parseFloat(ret_to_array[j].Price).toFixed(3),
-              pricextn: parseFloat(priceextn).toFixed(3),
+              progateqty: parseFloat(quantity).toFixed(2),
+              quantity: parseFloat(quantity).toFixed(2),
+              original_quantity: parseFloat(quantity).toFixed(2),
+              price: (ret_to_array[j].Price),
+              Actualprice: parseFloat((ret_to_array[j].Price)).toFixed(2),
+              pricextn: parseFloat(priceextn).toFixed(2),
               is_accessory: "N",
               isPriceDisabled: true,
               pricehide: true,
