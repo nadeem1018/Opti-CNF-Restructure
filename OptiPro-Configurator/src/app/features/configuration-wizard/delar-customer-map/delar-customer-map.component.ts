@@ -17,7 +17,7 @@ export class DelarCustomerMapComponent implements OnInit {
   @ViewChild('delarCustomerForm', { static: true }) delarCustomerForm = NgForm
   delarList: DelarVaribleList = new DelarVaribleList();
   @Input() dealerdata: any
-  @Input() customerCode : any
+  @Input() customerCode: any
   @Output() dealerDetails = new EventEmitter();
   language = JSON.parse(sessionStorage.getItem('current_lang'));
   public commonData = new CommonData();
@@ -32,6 +32,8 @@ export class DelarCustomerMapComponent implements OnInit {
   lookupfor = "";
   showLookupLoader = false;
   iscustomercodedisable = true;
+  public countryList: any = [];
+  public stateList: any = [];
 
 
 
@@ -39,6 +41,7 @@ export class DelarCustomerMapComponent implements OnInit {
   constructor(private router: Router, private cwComponet: CwViewOldComponent, private service: OutputService, private httpclient: HttpClient, private CommonService: CommonService) { }
 
   ngOnInit() {
+    this.getCountryList();
     if (this.dealerdata.length > 0) {
       this.isEdit = true;
       this.delarList.delarCode = sessionStorage.getItem("loggedInUser");
@@ -57,6 +60,7 @@ export class DelarCustomerMapComponent implements OnInit {
       this.delarList.contactNumber = this.dealerdata[0].OPTM_CONTACT_NUMBER;
       this.delarList.state = this.dealerdata[0].OPTM_STATE;
       this.delarList.streetNo = this.dealerdata[0].OPTM_STREETNO;
+      this.fillStateDropdown();
     }
     else {
       this.isNewDisable = true;
@@ -89,7 +93,7 @@ export class DelarCustomerMapComponent implements OnInit {
       OPTM_CONTACT_NUMBER: this.delarList.contactNumber,
       OPTM_STATE: this.delarList.state,
       OPTM_STREETNO: this.delarList.streetNo,
-      OPTM_DEALERCODE :this.customerCode
+      OPTM_DEALERCODE: this.customerCode
     });
 
 
@@ -129,6 +133,43 @@ export class DelarCustomerMapComponent implements OnInit {
         return;
       }
     )
+  }
+
+  getCountryList() {
+    this.showLookupLoader = true;
+    CommonData.made_changes = true;
+
+    this.service.getCountryList().subscribe(
+      data => {
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.showLookupLoader = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.router, 'Sessionout');
+            return;
+          }
+        }
+        if (data.length > 0) {
+          this.showLookupLoader = false;
+          this.countryList = data;
+
+        }
+        else {
+
+          this.showLookupLoader = false;
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
+
   }
 
 
@@ -208,6 +249,42 @@ export class DelarCustomerMapComponent implements OnInit {
     )
   }
 
+  fillStateDropdown() {
+    this.showLookupLoader = true;
+    CommonData.made_changes = true;
+    let code = this.delarList.country
+    this.service.getStateList(code).subscribe(
+      data => {
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.showLookupLoader = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.router, 'Sessionout');
+            return;
+          }
+        }
+        if (data.length > 0) {
+          this.showLookupLoader = false;
+          this.stateList = data;
+
+        }
+        else {
+
+          this.showLookupLoader = false;
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
+  }
+
   getLookupValue($event) {
     if ($event.length == 0) {
       this.lookupfor = "";
@@ -252,12 +329,12 @@ export class DelarVaribleList {
   public city: any;
   public zipCode: any;
   public email: any;
-  public country: any;
+  public country: any = "";
   public name: any;
   public contactPerson: any;
   public customerCode: any;
   public optmID: any;
   public contactNumber: any;
-  public state: any;
+  public state: any = "";
   public streetNo: any;
 }

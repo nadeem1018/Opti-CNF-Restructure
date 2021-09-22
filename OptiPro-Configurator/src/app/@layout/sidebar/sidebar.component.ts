@@ -66,7 +66,7 @@ export class SidebarComponent implements OnInit, DoCheck {
       ];
     }
     else {
-      // temp_menu_data = [{ "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }, { "itemCode": "205", "itemName": this.language.Custom_CW, "itemNav": "/custom-configure-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }];
+      //temp_menu_data = [{ "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }, { "itemCode": "205", "itemName": this.language.Custom_CW, "itemNav": "/custom-configure-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }];
       temp_menu_data = [{ "itemCode": "205", "itemName": this.language.config_wizard, "itemNav": "/configuration-wizard", "itemIcon": "#configure", "itemIconSize": "0 0 512 512", "permission": true }];
       this.CommonService.needAssesmentMenu = false;
       this.needassesmentMenu = false;
@@ -133,6 +133,7 @@ export class SidebarComponent implements OnInit, DoCheck {
         this.CommonService.delarMappingMenu = data[0].OPTM_ISDEALER_CUST_MAP == "Y" ? true : false;
         this.CommonService.globalSearch = data[0].OPTM_GLBSRCHENABLE == "Y" ? true : false;
         this.CommonService.userCustomerWise = data[0].OPTM_ISAPPLICABLE_CUST == "Y" ? true : false;
+        this.CommonService.quantityEnable = data[0].OPTM_EDITABLE_QTY == "Y" ? true : false;
         this.setNeedsMenu();
         if (this.CommonService.attributeMenu == false && this.dealarMenu == false) {
           this.CheckMenuCondition(this.language.DelarCustomerMapping, this.language.attribute);

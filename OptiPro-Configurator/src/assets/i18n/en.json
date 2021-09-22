@@ -738,6 +738,7 @@
     "production_type": "Production",
     "TypeSelect": "Kindly Select Model Type",
     "Global_Search": "Enable Search on Wizard",
+    "Quantity_Enable":"Enable Quantity on Wizard",
     "Reset": "Reset",
     "Preview": "Preview",
     "Create_Order": "Create Order",

@@ -37,12 +37,15 @@ export class CustomerAddressComponent implements OnInit {
   public streetNo = "";
   public delarCode = "";
   public optmID = 0;
+  public countryList: any = [];
+  public stateList: any = [];
 
 
   constructor(private router: Router, private cwComponet: CwViewOldComponent, private service: OutputService, private httpclient: HttpClient, private CommonService: CommonService) { }
 
 
   ngOnInit() {
+    this.getCountryList();
     if (this.addressDetais.length > 0) {
       this.addressID1 = this.addressDetais[0].OPTM_ADDRESS1;
       this.addressID2 = this.addressDetais[0].OPTM_ADDRESS2;
@@ -133,6 +136,79 @@ export class CustomerAddressComponent implements OnInit {
     //   }
     // )
   }
+  getCountryList() {
+    this.showLookupLoader = true;
+    CommonData.made_changes = true;
+
+    this.service.getCountryList().subscribe(
+      data => {
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.showLookupLoader = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.router, 'Sessionout');
+            return;
+          }
+        }
+        if (data.length > 0) {
+          this.showLookupLoader = false;
+          this.countryList = data;
+          this.fillStateDropdown();
+
+        }
+        else {
+
+          this.showLookupLoader = false;
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
+
+  }
+
+  fillStateDropdown() {
+    this.showLookupLoader = true;
+    CommonData.made_changes = true;
+    let code = this.country
+    this.service.getStateList(code).subscribe(
+      data => {
+        if (data != undefined && data.length > 0) {
+          if (data[0].ErrorMsg == "7001") {
+            CommonData.made_changes = false;
+            this.showLookupLoader = false;
+            this.CommonService.RemoveLoggedInUser().subscribe();
+            this.CommonService.signOut(this.router, 'Sessionout');
+            return;
+          }
+        }
+        if (data.length > 0) {
+          this.showLookupLoader = false;
+          this.stateList = data;
+        }
+        else {
+
+          this.showLookupLoader = false;
+          this.CommonService.show_notification(this.language.NoDataAvailable, 'error');
+          return;
+        }
+      },
+      error => {
+        if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {
+          this.CommonService.isUnauthorized();
+        }
+        return;
+      }
+    )
+  }
+
 
   onCancle() {
     this.cwComponet.customerShippingAddress = false;

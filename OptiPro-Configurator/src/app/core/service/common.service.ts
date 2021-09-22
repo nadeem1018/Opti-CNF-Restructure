@@ -19,15 +19,16 @@ export class CommonService {
   public attributeMenu: any = false;
   public delarMappingMenu: any = false;
   public globalSearch: any = false;
+  public quantityEnable: any = false;
   public userCustomerWise: any = false;
   public usertype = "";
-  public custmerCode : any ="";
-  public customerName : any = "";
+  public custmerCode: any = "";
+  public customerName: any = "";
   public customerEmail: any = "";
-  public filePath : any ="";
+  public filePath: any = "";
   public navMenuList: Array<Object> = [];
   public needMenuList: any = [];
-  public isSetNeedcall : any = false;
+  public isSetNeedcall: any = false;
   public customerDelarAddress = [];
   config_parameter;
 
@@ -35,7 +36,7 @@ export class CommonService {
   private commonData = new Subject<any>();
   commonData$ = this.commonData.asObservable();
 
-  constructor(private httpclient: HttpClient, private router: Router, private notificationService: NotificationService, ) { }
+  constructor(private httpclient: HttpClient, private router: Router, private notificationService: NotificationService,) { }
 
   // Methods
   public ShareData(data: any) {

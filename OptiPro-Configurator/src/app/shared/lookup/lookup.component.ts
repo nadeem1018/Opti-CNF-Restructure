@@ -3019,7 +3019,7 @@ export class LookupComponent implements OnInit, DoCheck {
               return;
             }
           }
-          if (data[0].Status == "True") {
+          if (data == "True") {
           
             this.CommonService.show_notification(this.language.mailSentSuccessfully, 'success');
             this.CommonService.customerEmail = "";

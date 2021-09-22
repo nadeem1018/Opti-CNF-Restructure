@@ -505,6 +505,35 @@ export class OutputService {
     return this.httpclient.post(this.config_params.service_url + "/ModelBOM/GetDataForCreatingOrderForLALIGHT", jObject, this.common_params.httpOptions);
   }
 
+  getCountryList(): Observable<any> {
+    let jObject = {
+      Customer: JSON.stringify([{
+        CompanyDBID: sessionStorage.selectedComp,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
+
+
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetCountryList", jObject, this.common_params.httpOptions);
+  }
+
+  getStateList(code: any): Observable<any> {
+    let jObject = {
+      Customer: JSON.stringify([{
+        CompanyDBID: sessionStorage.selectedComp,
+        Country:code,
+        GUID: sessionStorage.getItem("GUID"), UsernameForLic: sessionStorage.getItem("loggedInUser"),
+
+
+      }])
+    };
+    //Return the response form the API  
+    return this.httpclient.post(this.config_params.service_url + "/Wizard/GetStateListByCountry", jObject, this.common_params.httpOptions);
+  }
+
+
+
   AddUpdateCustomCw(model): Observable<any> {
 
     let jObject = {

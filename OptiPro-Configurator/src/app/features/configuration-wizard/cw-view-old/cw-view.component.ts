@@ -272,6 +272,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
   public isAttribute = this.CommonService.attributeMenu;
   public isGlobalSearch = this.CommonService.globalSearch;
+  public isQuantityEnable = this.CommonService.quantityEnable;
   public isNeedAssesment = this.CommonService.needAssesmentMenu;
   public isDealar = false;
   public isCustomer = false;
@@ -396,6 +397,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.isAttribute = this.CommonService.attributeMenu;
     this.isNeedAssesment = this.CommonService.needAssesmentMenu;
     this.isGlobalSearch = this.CommonService.globalSearch;
+    this.isQuantityEnable = this.CommonService.quantityEnable;
     if (this.text_input_elem != undefined) {
       this.text_input_elem.nativeElement.focus();
     }
@@ -2079,7 +2081,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       this.step1_data.ship_to_address = "";
       this.addressDetais = [];
       this.lookupfor = "";
-
+      this.isChecked = true;
       if (this.isChecked) {
         this.GetCustomerdelarAddress();
       }
@@ -7774,13 +7776,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
 
           }
-          debugger;
+
           this.step2_final_dataset_to_save.push({
 
             "OPTM_OUTPUTID": temp_step2_final_dataset_save[itempsavefinal].OPTM_OUTPUTID,
             "OPTM_OUTPUTDTLID": temp_step2_final_dataset_save[itempsavefinal].OPTM_OUTPUTDTLID,
             "OPTM_ITEMNUMBER": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMNUMBER,
-            "OPTM_ITEMCODE": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMTYPE == "0" ? this.descriptionString : temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMCODE,
+            "OPTM_ITEMCODE": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMTYPE == "0" ? step3_data_row.descriptionString : temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMCODE,
             //"OPTM_ITEMCODE":this.descriptionString,
             "OPTM_KEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_KEY,
             "OPTM_PARENTKEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_PARENTKEY,
@@ -11887,7 +11889,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
   }
 
   getCustomerList() {
-
+    if (this.step1_data.document_name == this.language.draft) {
+      return false;
+    }
     this.showLookupLoader = true;
     CommonData.made_changes = true;
     this.serviceData = []

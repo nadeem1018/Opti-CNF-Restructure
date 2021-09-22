@@ -1607,7 +1607,7 @@
                                                                         id="quantity" value="{{featurerow.quantity}}"
                                                                         title="{{featurerow.quantity}}"
                                                                         (change)="on_feature_input_change('quantity',quantity.value,featurerow.FeatureId,featurerow.Item)"
-                                                                        #quantity [disabled]="true" />
+                                                                        #quantity [disabled]="isQuantityEnable" />
                                                                 </ng-template>
                                                             </kendo-grid-column>
                                                             <kendo-grid-column field="step_2_right_grid_price" title=""
@@ -1845,7 +1845,7 @@
                                                                                     value="{{featurerow.quantity}}"
                                                                                     title="{{featurerow.quantity}}"
                                                                                     (change)="on_feature_input_change('quantity',quantity.value,featurerow.FeatureId,featurerow.Item)"
-                                                                                    #quantity [disabled]="true" />
+                                                                                    #quantity [disabled]="isQuantityEnable" />
                                                                             </ng-template>
                                                                         </kendo-grid-column>
 
@@ -2019,7 +2019,7 @@
                                                                         id="quantity" value="{{featurerow.quantity}}"
                                                                         title="{{featurerow.quantity}}"
                                                                         (change)="on_feature_input_change('quantity',quantity.value,featurerow.FeatureId,featurerow.Item)"
-                                                                        #quantity [disabled]="true" />
+                                                                        #quantity [disabled]="isQuantityEnable" />
                                                                 </div>
                                                             </li>
                                                             <li>

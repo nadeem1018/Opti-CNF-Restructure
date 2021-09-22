@@ -20,6 +20,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
   public applyDealarMapping: any = false;
   public applyAttributeMaster: any = false;
   public applyGloabalSearch: any = false;
+  public applyQuantityEnable: any = false;
   public showLoader: boolean = true;
   public customerWiseAssesment: any = false;
   public defaultAssesmentTemplate: any = "";
@@ -64,6 +65,8 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
         this.customerWiseAssesment = data[0].OPTM_ISAPPLICABLE_CUST == "Y" ? true : false;
         this.applyDealarMapping = data[0].OPTM_ISDEALER_CUST_MAP == "Y" ? true : false;
         this.applyGloabalSearch = data[0].OPTM_GLBSRCHENABLE == "Y" ? true : false;
+        this.applyQuantityEnable = data[0].OPTM_EDITABLE_QTY == "Y" ? true : false;
+
         this.OPTM_ID = data[0].OPTM_ID;
         this.OPTM_DEFAULT_TEMPLATE = data[0].OPTM_DEFAULT_TEMPLATE;
         this.islink = this.OPTM_DEFAULT_TEMPLATE == "" ? false : true;
@@ -216,6 +219,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
     let OPTM_ISAPPLICABLE_CUST = this.customerWiseAssesment == true ? "Y" : "N";
     let OPTM_ISDEALER_CUST_MAP = this.applyDealarMapping == true ? "Y" : "N";
     let OPTM_GLBSRCHENABLE = this.applyGloabalSearch == true ? "Y" : "N";
+    let OPTM_EDITABLE_QTY = this.applyQuantityEnable == true ? "Y" : "N";
     if (this.applyNeedAssesment == false) {
       OPTM_ISAPPLICABLE_CUST = "N";
       this.OPTM_DEFAULT_TEMPLATE = "";
@@ -229,6 +233,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
       OPTM_ISATTR_MASTER: OPTM_ISATTR_MASTER,
       OPTM_ISDEALER_CUST_MAP: OPTM_ISDEALER_CUST_MAP,
       OPTM_GLBSRCHENABLE: OPTM_GLBSRCHENABLE,
+      OPTM_EDITABLE_QTY:OPTM_EDITABLE_QTY,
       DefaultYesNO: defaultValue
     });
     this.showLookupLoader = true;
@@ -247,6 +252,7 @@ export class ConfigurationNeedAssesmentComponent implements OnInit {
         this.CommonService.attributeMenu = this.applyAttributeMaster;
         this.CommonService.delarMappingMenu = this.applyDealarMapping;
         this.CommonService.globalSearch = this.applyGloabalSearch;
+        this.CommonService.quantityEnable = this.applyQuantityEnable;
         this.CommonService.userCustomerWise = this.customerWiseAssesment;
         this.CommonService.isSetNeedcall = true;
         this.CommonService.show_notification(this.language.DataSaved, 'success');
