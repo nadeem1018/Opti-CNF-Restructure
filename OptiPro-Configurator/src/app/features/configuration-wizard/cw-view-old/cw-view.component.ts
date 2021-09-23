@@ -272,7 +272,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
   public isAttribute = this.CommonService.attributeMenu;
   public isGlobalSearch = this.CommonService.globalSearch;
-  public isQuantityEnable = this.CommonService.quantityEnable;
+ // public isQuantityEnable = this.CommonService.quantityEnable;
   public isNeedAssesment = this.CommonService.needAssesmentMenu;
   public isDealar = false;
   public isCustomer = false;
@@ -397,7 +397,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.isAttribute = this.CommonService.attributeMenu;
     this.isNeedAssesment = this.CommonService.needAssesmentMenu;
     this.isGlobalSearch = this.CommonService.globalSearch;
-    this.isQuantityEnable = this.CommonService.quantityEnable;
+   // this.isQuantityEnable = this.CommonService.quantityEnable;
     if (this.text_input_elem != undefined) {
       this.text_input_elem.nativeElement.focus();
     }
