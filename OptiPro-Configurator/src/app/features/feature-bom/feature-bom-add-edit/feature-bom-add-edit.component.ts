@@ -1528,6 +1528,7 @@ export class FeatureBomAddEditComponent implements OnInit, DoCheck {
               this.feature_bom_table[i].is_accessory_disabled = false;
               this.feature_bom_table[i].default = false;
               this.feature_bom_table[i].display_name = data[0].Description;
+              this.feature_bom_table[i].bom_description = data[0].Description;
               this.feature_bom_table[i].price_source = data[0].ListName;
               this.feature_bom_table[i].price_source_id = data[0].PriceListID;
               this.live_tree_view_data.push({ "display_name": data[0].Description, "tree_index": this.currentrowindex, "branchType": 'item', "icon": 'item' });

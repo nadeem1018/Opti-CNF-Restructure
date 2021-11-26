@@ -272,7 +272,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
   public isAttribute = this.CommonService.attributeMenu;
   public isGlobalSearch = this.CommonService.globalSearch;
- // public isQuantityEnable = this.CommonService.quantityEnable;
+  // public isQuantityEnable = this.CommonService.quantityEnable;
   public isNeedAssesment = this.CommonService.needAssesmentMenu;
   public isDealar = false;
   public isCustomer = false;
@@ -397,7 +397,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.isAttribute = this.CommonService.attributeMenu;
     this.isNeedAssesment = this.CommonService.needAssesmentMenu;
     this.isGlobalSearch = this.CommonService.globalSearch;
-   // this.isQuantityEnable = this.CommonService.quantityEnable;
+    // this.isQuantityEnable = this.CommonService.quantityEnable;
     if (this.text_input_elem != undefined) {
       this.text_input_elem.nativeElement.focus();
     }
@@ -1850,12 +1850,14 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           return obj['ACCESSORY'] != "Y" && obj['OPTM_TYPE'] != "2"
         })
         if (data != undefined) {
-          if (data.SelectedFeatureAttributes[0].ErrorMsg == "7001") {
-            CommonData.made_changes = false;
-            this.showLookupLoader = false;
-            this.CommonService.RemoveLoggedInUser().subscribe();
-            this.CommonService.signOut(this.route, 'Sessionout');
-            return;
+          if (data.SelectedFeatureAttributes.length > 0) {
+            if (data.SelectedFeatureAttributes[0].ErrorMsg == "7001") {
+              CommonData.made_changes = false;
+              this.showLookupLoader = false;
+              this.CommonService.RemoveLoggedInUser().subscribe();
+              this.CommonService.signOut(this.route, 'Sessionout');
+              return;
+            }
           }
           this.showLookupLoader = false;
           this.FeatureBOMDetailAttribute = [];
@@ -2410,6 +2412,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             model_feature_array[mhia_i]['super_model_key'] = super_model_key;
             model_feature_array[mhia_i]['ItemNumber'] = (model_feature_array[mhia_i]['ItemNumber'] != undefined && model_feature_array[mhia_i]['ItemNumber'] != null) ? (model_feature_array[mhia_i]['ItemNumber']).toString() : "";
             model_feature_array[mhia_i]['ModelId'] = (model_feature_array[mhia_i]['ModelId'] != undefined && model_feature_array[mhia_i]['ModelId'] != null) ? (model_feature_array[mhia_i]['ModelId']).toString() : "";
+            model_feature_array[mhia_i]['HEADER_LINENO'] = model_feature_array[mhia_i]['HEADER_LINENO'] == "" ? null : model_feature_array[mhia_i]['HEADER_LINENO'];
 
             invoice_output_data.feature.push(model_feature_array[mhia_i]);
           }
@@ -2421,7 +2424,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           "accessory_discount_percent": me_d_v_row.accessory_discount_percent,
           "accessory_item_total": me_d_v_row.accessory_item_total,
           "accessory_total_before_dis": me_d_v_row.accessory_total_before_dis,
-          "desc": this.descriptionString,
+          "desc": me_d_v_row.descriptionString,
           "discount_amount": me_d_v_row.discount_amount,
           "discounted_price": me_d_v_row.discounted_price,
           "feature_discount_percent": me_d_v_row.feature_discount_percent,
@@ -7191,7 +7194,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           return step3_data_row.ModelHeaderData;
         });
 
-
+        var imd = 0;
         for (var ifeature in step3_data_row.feature) {
           var imodelfilteritems = [];
           var imodelData = [];
@@ -7380,12 +7383,12 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                 "OPTM_OUTPUTID": "",
                 "OPTM_OUTPUTDTLID": "",
                 "OPTM_ITEMNUMBER": "",
-                "OPTM_ITEMCODE": imodelData[0].child_code.trim(),
+                "OPTM_ITEMCODE": imodelData[imd].child_code.trim(),
                 //"OPTM_KEY": itemkeyforparentmodel,
                 "OPTM_KEY": "",
                 "OPTM_PARENTKEY": "",
-                "OPTM_TEMPLATEID": imodelData[0].MODELTEMPLATEITEM,
-                "OPTM_ITMCODEGENKEY": imodelData[0].ITEMCODEGENREF,
+                "OPTM_TEMPLATEID": imodelData[imd].MODELTEMPLATEITEM,
+                "OPTM_ITMCODEGENKEY": imodelData[imd].ITEMCODEGENREF,
                 "OPTM_ITEMTYPE": 1,
                 "OPTM_WHSE": this.warehouse,
                 "OPTM_LEVEL": step3_data_row.feature[ifeature].OPTM_LEVEL,
@@ -7397,23 +7400,24 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                 "OPTM_DISCPERCENT": parseFloat(step3_data_row.feature[ifeature].discount).toFixed(2),
                 "OPTM_CREATEDBY": this.common_output_data.username,
                 "OPTM_MODIFIEDBY": this.common_output_data.username,
-                "UNIQUEIDNT": imodelData[0].OPTM_UNIQUEIDNT,
-                "PARENTID": imodelData[0].OPTM_MODELID,
-                "OPTM_OPTIONAL": imodelData[0].OPTM_OPTIONAL,
-                "OPTM_RET_TO_INV": imodelData[0].OPTM_RET_TO_INV,
+                "UNIQUEIDNT": imodelData[imd].OPTM_UNIQUEIDNT,
+                "PARENTID": imodelData[imd].OPTM_MODELID,
+                "OPTM_OPTIONAL": imodelData[imd].OPTM_OPTIONAL,
+                "OPTM_RET_TO_INV": imodelData[imd].OPTM_RET_TO_INV,
                 "OPTM_FGCREATEDATE": "",
                 "OPTM_REFITEMCODE": "",
                 "OPTM_DSP_GROUP": "",
                 "OPTM_DSPGROUP_ORDER": 0,
                 "OPTM_DSP_ORDERINGROUP": 0,
-                "OPTM_PARENTID": imodelData[0].OPTM_MODELID,
+                "OPTM_PARENTID": imodelData[imd].OPTM_MODELID,
                 "OPTM_PARENTTYPE": 2,
-                "UNIQUE_KEY": imodelData[0].unique_key,
+                "UNIQUE_KEY": imodelData[imd].unique_key,
                 "NODEID": step3_data_row.feature[ifeature].nodeid,
                 "temp_model_id": parseInt(master_model_id),
                 "OPTM_FILL_POINT": "3",
                 "MODEL_UNIQUE_KEY": this.getModelUniqueKey(step3_data_row.feature[ifeature].nodeid, step3_data_row.ModelHeaderData, step3_data_row.MainModelDetails)
               })
+              imd = imd + 1;
             }
 
           }
@@ -7673,9 +7677,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
                           sub_model_tems = step3_data_row.feature.filter(function (obj) {
                             return obj['ModelId'] == sub_item[0]['OPTM_CHILDMODELID'];
                           });
-                          if (sub_model_tems.length > 0) {
-                            push_item = model_item_curr_row['OPTM_ITEMCODE'];
-                          }
+                          // if (sub_model_tems.length > 0) {
+                          push_item = model_item_curr_row['OPTM_ITEMCODE'];
+                          //}
                         }
                       }
                     }
@@ -11935,6 +11939,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.delarCustomer = $event[0].delarCode;
     this.delarCustomerName = $event[0].delarName;
     this.shippingaddress = false;
+    this.GetCustomerdelarAddress();
   }
 
   getAddressDetails($event) {

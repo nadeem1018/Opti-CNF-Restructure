@@ -1201,7 +1201,8 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
               if (this.modelbom_data[i].rowindex === this.currentrowindex) {
                 this.modelbom_data[i].type_value = data[0].ItemKey;
                 this.modelbom_data[i].type_value_code = data[0].ItemKey;
-                this.modelbom_data[i].display_name = data[0].Description
+                this.modelbom_data[i].display_name = data[0].Description;
+                this.modelbom_data[i].bom_description = data[0].Description;
                 this.modelbom_data[i].uom = data[0].InvUOM
                 this.modelbom_data[i].price_source = data[0].ListName;
                 this.modelbom_data[i].price_source_id = data[0].PriceListID;
