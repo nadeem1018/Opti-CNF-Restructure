@@ -82,10 +82,10 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
     this.filter = filter;
     let gridData = filterBy(this.need_customer_table, filter);
     this.gridView =
-      {
-        data: gridData.slice(this.skip, this.skip + this.selectedValue),
-        total: gridData.length
-      }
+    {
+      data: gridData.slice(this.skip, this.skip + this.selectedValue),
+      total: gridData.length
+    }
   }
 
 
@@ -176,6 +176,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
     this.lookupfor = 'configure_need_assesment';
     this.service.getNeedAssesmentTemplateList().subscribe(
       data => {
+        this.showLookupLoader = false;
         if (data != undefined && data.length > 0) {
           if (data[0].ErrorMsg == "7001") {
             CommonData.made_changes = false;
@@ -276,8 +277,7 @@ export class NeedsAssesmentCustomerMappingComponent implements OnInit {
 
   onSaveClick(defaultValue) {
 
-    if(this.cusomerChangeTemplateMapping.length == 0)
-    {
+    if (this.cusomerChangeTemplateMapping.length == 0) {
       this.CommonService.show_notification(this.language.DataSaved, 'success');
       return false;
     }

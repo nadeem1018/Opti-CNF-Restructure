@@ -47,10 +47,10 @@ export class CommonService {
 
     this.notificationService.show({
       content: message,
-      animation: { type: 'fade', duration: 400 },
+      animation: { type: 'fade', duration: 4000 },
       position: { horizontal: 'right', vertical: 'top' },
       type: { style: style_type, icon: true },
-      hideAfter: 3000
+       hideAfter: 3000
     });
   }
 

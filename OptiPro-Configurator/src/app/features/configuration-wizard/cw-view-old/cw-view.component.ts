@@ -259,6 +259,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
   public count = 0;
   public featureItemList: any = [];
   public itemCodeList: any = [];
+  public modelNext: any = false;
 
 
   constructor(private ActivatedRouter: ActivatedRoute,
@@ -2574,6 +2575,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     }
   }
   step3_next_click_validation() {
+    var needassessmentoption = this.option.filter(function (obj) {
+      return obj['checked'] == true;
+    })
+    if (needassessmentoption.length == 0 && this.skip_assessment == false) {
+      this.CommonService.show_notification(this.language.skipassesment, 'warning');
+      return false;
+    }
     this.navigation_in_steps(2, 3);
     this.resetMobileFields();
     this.ismodelConfig = true;
@@ -5837,6 +5845,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           this.getCustomerAllInfo(callback);
           this.GetDealerMappingBycust(this.step1_data.customer);
           this.GetCustomername();
+          this.GetCustomerDiscountDetail();
         }
       }, error => {
         this.showLookupLoader = false;
@@ -6786,8 +6795,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     })
   }
 
-  update_added_model() {
+  update_added_model(isClick: any) {
     this.lookupfor = "";
+    this.modelNext = isClick;
     var obj = this;
     // $(".multiple_model_click_btn").attr("disabled", "true");
     this.multiple_model_disabled_status = true;
@@ -6966,7 +6976,10 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       this.step3_data_final[row_id]["descriptionString"] = this.descriptionString;
       this.step3_data_final[row_id]["ReturnToInventory"] = this.ReturnToInventory
       this.step3_data_final[row_id]["feature_value_list_table"] = this.feature_value_list_table
-      this.CommonService.show_notification(this.language.multiple_model_update, 'success');
+      if (!this.modelNext) {
+        this.CommonService.show_notification(this.language.multiple_model_update, 'success');
+      }
+      this.modelNext = false;
     }
 
     this.console.log("this.step3_data_final");
@@ -7114,6 +7127,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     }
 
     if (navigte == true && this.step3_data_final.length > 0) {
+      this.modelNext = true;
+      this.update_added_model(this.modelNext);
       this.navigation_in_steps(3, 4);
       this.resetMobileFields();
       this.isVerifyAccept = true;
@@ -7788,7 +7803,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             "OPTM_ITEMNUMBER": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMNUMBER,
             "OPTM_ITEMCODE": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMTYPE == "0" ? step3_data_row.descriptionString : temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMCODE,
             //"OPTM_ITEMCODE":this.descriptionString,
-            "OPTM_KEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_KEY,
+            "OPTM_KEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_KEY == "" ? temp_step2_final_dataset_save[itempsavefinal].OPTM_PARENTKEY : temp_step2_final_dataset_save[itempsavefinal].OPTM_KEY,
             "OPTM_PARENTKEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_PARENTKEY,
             "OPTM_TEMPLATEID": temp_step2_final_dataset_save[itempsavefinal].OPTM_TEMPLATEID,
             "OPTM_ITMCODEGENKEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITMCODEGENKEY,

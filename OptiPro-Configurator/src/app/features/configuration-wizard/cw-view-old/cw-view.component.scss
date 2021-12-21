@@ -319,6 +319,18 @@ hr {
     background: linear-gradient( 120deg, #00e4d0, #00b3ff) !important;
 }
 
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
 
 @media(max-width:767px){
     .main-portion, .second_step_block, .one_step_block{

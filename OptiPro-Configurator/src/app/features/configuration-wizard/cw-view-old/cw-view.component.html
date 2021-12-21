@@ -297,7 +297,7 @@
                                                                 [(ngModel)]="isChecked" />
                                                         </div>
                                                         <div class="col-sm-5 float-right delear-btn text-right">
-                                                            <button type="button" class="btn btn-primary"
+                                                            <button type="button" class="btn btn-sm btn-primary"
                                                                 (click)="openDelarMappingView()">{{language.Dealer_Customer}}</button>
                                                         </div>
                                                     </div>
@@ -342,7 +342,7 @@
                                                 </div>
                                                 <button type="button" class="btn btn-primary" (click)="openDelarMappingView()">{{language.Dealer_Customer}}</button>
                                             </div> -->
-                                            <div class="col-md-4 float-left mb-doc-padding">
+                                            <div class="col-md-6 float-left mb-doc-padding">
                                                 <div class="form-group row clearfix">
                                                     <label class="col-sm-5 col-form-label"
                                                         for="posting_date">{{language.posting_date}}</label>
@@ -354,7 +354,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row clearfix">
-                                                    <label class="col-sm-5 col-form-label required"
+                                                    <label class="col-sm-5
+                                                     col-form-label required"
                                                         for="delivery_until"><span>{{document_date}}</span></label>
                                                     <div class="col-sm-7 ">
                                                         <!-- <div class=" input-group">
@@ -761,8 +762,7 @@
                                         <option value="2">{{language.detail}}</option>
                                     </select>
                                     <div class="input-group-append">
-                                        <button class="btn btn-sm btn-success btn-icon"
-                                            (click)="output_new_invoice(printOperationType.value)" title="Print">
+                                        <button class="btn btn-sm btn-success btn-icon" title="Print">
                                             <svg viewBox="0 0 512 512" class="">
                                                 <use xlink:href="#printer"></use>
                                             </svg>
@@ -1607,7 +1607,8 @@
                                                                         id="quantity" value="{{featurerow.quantity}}"
                                                                         title="{{featurerow.quantity}}"
                                                                         (change)="on_feature_input_change('quantity',quantity.value,featurerow.FeatureId,featurerow.Item)"
-                                                                        #quantity [disabled]="featurerow.isQuantityDisabled" />
+                                                                        #quantity
+                                                                        [disabled]="featurerow.isQuantityDisabled" />
                                                                 </ng-template>
                                                             </kendo-grid-column>
                                                             <kendo-grid-column field="step_2_right_grid_price" title=""
@@ -1702,7 +1703,7 @@
                                                                         <td width="70%">{{language.product_discount}}
                                                                         </td>
                                                                         <td width="30%">
-                                                                            <input type="text"
+                                                                            <input type="number"
                                                                                 class="form-control  form-control-sm text-right"
                                                                                 id="product_discount"
                                                                                 name="product_discount"
@@ -1716,7 +1717,7 @@
                                                                             {{this.language.accessories_discount}}
                                                                         </td>
                                                                         <td class="text-right" width="30%">
-                                                                            <input type="text"
+                                                                            <input type="number"
                                                                                 class="form-control form-control-sm text-right"
                                                                                 id="accessory_item_discount"
                                                                                 name="accessory_item_discount"
@@ -1845,7 +1846,8 @@
                                                                                     value="{{featurerow.quantity}}"
                                                                                     title="{{featurerow.quantity}}"
                                                                                     (change)="on_feature_input_change('quantity',quantity.value,featurerow.FeatureId,featurerow.Item)"
-                                                                                    #quantity [disabled]="featurerow.isQuantityDisabled" />
+                                                                                    #quantity
+                                                                                    [disabled]="featurerow.isQuantityDisabled" />
                                                                             </ng-template>
                                                                         </kendo-grid-column>
 
@@ -1914,7 +1916,7 @@
                                                                     Product Discount %
                                                                 </div>
                                                                 <div class="float-right grand-box-right">
-                                                                    <input type="text"
+                                                                    <input type="number"
                                                                         class="form-control  form-control-sm text-right"
                                                                         id="product_discount" name="product_discount"
                                                                         #product_discount
@@ -1927,7 +1929,7 @@
                                                                     Accessories Discount %
                                                                 </div>
                                                                 <div class="float-right grand-box-right">
-                                                                    <input type="text"
+                                                                    <input type="number"
                                                                         class="form-control form-control-sm text-right"
                                                                         id="accessory_item_discount"
                                                                         name="accessory_item_discount"
@@ -2019,7 +2021,8 @@
                                                                         id="quantity" value="{{featurerow.quantity}}"
                                                                         title="{{featurerow.quantity}}"
                                                                         (change)="on_feature_input_change('quantity',quantity.value,featurerow.FeatureId,featurerow.Item)"
-                                                                        #quantity [disabled]="featurerow.isQuantityDisabled" />
+                                                                        #quantity
+                                                                        [disabled]="featurerow.isQuantityDisabled" />
                                                                 </div>
                                                             </li>
                                                             <li>
@@ -2142,7 +2145,7 @@
                                         </button>
                                         <button type="button" [disabled]="multiple_model_disabled_status"
                                             class="btn with-icon btn-sm btn-info foot-left mr-2 add-update-btn update-btn"
-                                            (click)="update_added_model()"
+                                            (click)="update_added_model(modelNext)"
                                             *ngIf="step2_data.model_code != '' && step2_data.model_code != undefined &&  step2_selected_model_id != '' ">
                                             <svg viewBox="0 0 8500 8500" class="icon">
                                                 <use xlink:href="#add"></use>
@@ -2652,26 +2655,26 @@
                                                                         {{this.step4_final_acc_total
                                                                         | toFixed:'2'}}</td>
                                                                 </tr>
-                                                                
-                                                                    <tr *ngIf="isDiscountEnable">
-                                                                        <td width="70%">
-                                                                            {{this.language.prod_disc_amount}}
-                                                                            ({{defaultCurrency}})</td>
-                                                                        <td class="text-right" width="30%">
-                                                                            {{this.prod_discount_log
-                                                                            | toFixed:'2'}}</td>
-                                                                    </tr>
-                                                                
-                                                                
-                                                                    <tr *ngIf="isDiscountEnable">
-                                                                        <td width="70%">
-                                                                            {{this.language.acc_disc_amount}}
-                                                                            ({{defaultCurrency}})</td>
-                                                                        <td class="text-right" width="30%">
-                                                                            {{this.access_dis_amount_log
-                                                                            | toFixed:'2'}}</td>
-                                                                    </tr>
-                                                                
+
+                                                                <tr *ngIf="isDiscountEnable">
+                                                                    <td width="70%">
+                                                                        {{this.language.prod_disc_amount}}
+                                                                        ({{defaultCurrency}})</td>
+                                                                    <td class="text-right" width="30%">
+                                                                        {{this.prod_discount_log
+                                                                        | toFixed:'2'}}</td>
+                                                                </tr>
+
+
+                                                                <tr *ngIf="isDiscountEnable">
+                                                                    <td width="70%">
+                                                                        {{this.language.acc_disc_amount}}
+                                                                        ({{defaultCurrency}})</td>
+                                                                    <td class="text-right" width="30%">
+                                                                        {{this.access_dis_amount_log
+                                                                        | toFixed:'2'}}</td>
+                                                                </tr>
+
 
                                                                 <tr>
                                                                     <td width="70%">

@@ -8,6 +8,12 @@
     position: relative;
 }
 
+::ng-deep{
+    .k-maskedtextbox.form-control-sm .k-textbox{
+        height: 20px;
+    }
+}
+
 .layout-mode{
     padding: 15px;
     @media screen and (max-width:767px){

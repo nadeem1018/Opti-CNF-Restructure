@@ -3,13 +3,13 @@ import { CommonData, ColumnSetting } from 'src/app/core/data/CommonData';
 import { RoutingService } from 'src/app/core/service/routing.service';
 import { CommonService } from 'src/app/core/service/common.service';
 import { Router } from '@angular/router';
-import { GridDataResult,PageChangeEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { SortDescriptor, orderBy, process } from '@progress/kendo-data-query';
 import { ModelbomService } from 'src/app/core/service/modelbom.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { FeaturebomService } from 'src/app/core/service/featurebom.service';
 import { FeaturemodelService } from 'src/app/core/service/featuremodel.service';
-import {OutputService} from 'src/app/core/service/output.service';
+import { OutputService } from 'src/app/core/service/output.service';
 import { NeedsAssessmentTemplateService } from 'src/app/core/service/needs-assessment-template.service';
 
 @Component({
@@ -39,7 +39,7 @@ export class LookupComponent implements OnInit, DoCheck {
   public popup_resource: boolean = false;
   public skip: number = 0;
   public popup_lookupfor = "";
-  public selectedValue : any = 50;
+  public selectedValue: any = 50;
   public showLookupLoader: boolean = false;
   public showLoader: boolean = false;
   public LookupDataLoaded: boolean = false;
@@ -120,7 +120,7 @@ export class LookupComponent implements OnInit, DoCheck {
     private mbom: ModelbomService,
     private assessmentService: NeedsAssessmentTemplateService,
     private fms: FeaturemodelService,
-    private cnfService : OutputService
+    private cnfService: OutputService
   ) {
   }
 
@@ -499,7 +499,7 @@ export class LookupComponent implements OnInit, DoCheck {
     }
   }
 
-  
+
   public loadItems(): void {
     this.gridView = {
       data: this.serviceData.slice(this.skip, this.skip + this.selectedValue),
@@ -514,7 +514,7 @@ export class LookupComponent implements OnInit, DoCheck {
     this.skip = event.skip;
     this.selectedValue = event.take;
     this.loadItems();
-    
+
   }
 
   public onFilter(inputValue: string): void {
@@ -596,8 +596,8 @@ export class LookupComponent implements OnInit, DoCheck {
         this.isColumnFilter = true;
         // this.dialogOpened = true;
         this.customerlookup = true;
-       // this.loadServerData(this.serviceData);
-       this.loadItems();
+        // this.loadServerData(this.serviceData);
+        this.loadItems();
       }
     }
   }
@@ -2179,8 +2179,17 @@ export class LookupComponent implements OnInit, DoCheck {
   on_input_change_attribute_master(value, rowindex, grid_element, attributeCode) {
     var currentrow = 0;
     for (let i = 0; i < this.attributeMasterServiceData.length; ++i) {
+      let code = this.attributeMasterServiceData[i].OPTM_ATTR_CODE
       if (this.attributeMasterServiceData[i].rowindex === rowindex) {
+
         currentrow = i;
+        break;
+      }
+    }
+    for (let i = 0; i < this.attributeMasterServiceData.length; ++i) {
+      if (this.attributeMasterServiceData[i].OPTM_ATTR_CODE == value) {
+        this.attributeMasterServiceData[currentrow].OPTM_ATTR_CODE = "";
+        return false;
         break;
       }
     }
@@ -3000,14 +3009,12 @@ export class LookupComponent implements OnInit, DoCheck {
     }
   }
 
-  sendEmailtoCustomer()
-  {
-    if(this.CommonService.customerEmail == "")
-    {
+  sendEmailtoCustomer() {
+    if (this.CommonService.customerEmail == "") {
       this.CommonService.show_notification(this.language.notSelectedEmail, 'warning');
       return false;
     }
-    this.cnfService.sendEmail(this.CommonService.customerName,this.CommonService.custmerCode,this.CommonService.customerEmail,this.CommonService.filePath).subscribe(
+    this.cnfService.sendEmail(this.CommonService.customerName, this.CommonService.custmerCode, this.CommonService.customerEmail, this.CommonService.filePath).subscribe(
       data => {
         if (data != null && data != undefined) {
           if (data.length > 0 && data != undefined) {
@@ -3020,12 +3027,12 @@ export class LookupComponent implements OnInit, DoCheck {
             }
           }
           if (data == "True") {
-          
+
             this.CommonService.show_notification(this.language.mailSentSuccessfully, 'success');
             this.CommonService.customerEmail = "";
             this.CommonService.filePath = "";
 
-           
+
           }
           else {
             this.showLookupLoader = false;

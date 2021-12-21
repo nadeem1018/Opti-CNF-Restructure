@@ -493,8 +493,11 @@ select:not([multiple]) {
     }
   }
 }
+.k-notification-group{
+  position: absolute;
+}
 .k-notification-group .k-notification{
-  z-index: 100;
+  z-index: 999999999999;
   position: relative;
   overflow: hidden;
   margin: 15px;
