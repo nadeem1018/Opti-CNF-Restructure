@@ -208,12 +208,27 @@ export class AttributeAddEditComponent implements OnInit {
       this.CommonService.show_notification(this.language.ValidString, 'error');
     }
   }
+
+  // function for not allowed Space 
+  Validate_spaceNOAllow(value: any) {
+    var regexp = /^\S*$/;
+    if (regexp.test(value)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   onSave() {
     var obj = this;
 
     if (this.attributeCode == "" || this.attributeCode == null) {
 
       this.CommonService.show_notification(this.language.attribute_code_blank, 'error');
+      return false;
+    }
+    if (!this.Validate_spaceNOAllow(this.attributeCode)) {
+      this.CommonService.show_notification(this.language.spaceAttributeCode, 'error');
       return false;
     }
     if (this.attributeName == "" || this.attributeName == null) {
@@ -243,8 +258,7 @@ export class AttributeAddEditComponent implements OnInit {
       this.delete_row();
       this.show_dialog = false;
     }
-    else
-    {
+    else {
       this.show_dialog = false;
     }
   }

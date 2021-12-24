@@ -325,8 +325,8 @@ export class AttributeViewComponent implements OnInit {
   on_checkbox_checked(checkedvalue, row_data) {
     var isExist = 0;
     if (this.CheckedData.length > 0) {
-      for (let i = this.CheckedData.length - 1; i >= 0; --i) {
-        if (this.CheckedData[i].ModelId == row_data.OPTM_MODELID) {
+      for (let i = 0; i < this.CheckedData.length; i++) {
+        if (this.CheckedData[i].OPTM_ATTR_CODE == row_data.OPTM_ATTR_CODE) {
           isExist = 1;
           if (checkedvalue == true) {
             this.CheckedData.push({

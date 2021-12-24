@@ -260,15 +260,15 @@
                     [minResizableWidth]="118">
                     <ng-template kendoGridCellTemplate let-dataItem>
                       <input type="text" [disabled]="dataItem.isMinSelectedDisable" class="form-control text-right form-control-sm min_selectable_row"
-                        id="min_selected" value={{dataItem.min_selected}} (change)="on_min_selected_change(min_selected.value,dataItem.rowindex,min_selected)"
+                        id="min_selected" value={{dataItem.min_selected}} (keyup)="on_min_selected_change(min_selected.value,dataItem.rowindex,min_selected)"
                         #min_selected title="{{dataItem.min_selected}}" />
                     </ng-template>
                   </kendo-grid-column>
                   <kendo-grid-column field="min_selectable" title="{{language.max_selectable}}" filter="text" [width]="118"
                     [minResizableWidth]="118">
                     <ng-template kendoGridCellTemplate let-dataItem>
-                      <input type="text" [disabled]="dataItem.isMaxSelectedDisable" class="form-control text-right form-control-sm pull-right max_selectable_row"
-                        id="max_selected" value={{dataItem.max_selected}} (change)="on_max_selected_change(max_selected.value,dataItem.rowindex,max_selected)"
+                      <input type="number" [disabled]="dataItem.isMaxSelectedDisable" class="form-control text-right form-control-sm pull-right max_selectable_row"
+                        id="max_selected" value={{dataItem.max_selected}} (keyup)="on_max_selected_change(max_selected.value,dataItem.rowindex,max_selected)"
                         #max_selected title="{{dataItem.max_selected}}" />
                     </ng-template>
                   </kendo-grid-column>

@@ -2578,7 +2578,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     var needassessmentoption = this.option.filter(function (obj) {
       return obj['checked'] == true;
     })
-    if (needassessmentoption.length == 0 && this.skip_assessment == false) {
+    if (needassessmentoption.length == 0 && this.SkipAssementModel == false) {
       this.CommonService.show_notification(this.language.skipassesment, 'warning');
       return false;
     }
@@ -5822,7 +5822,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         if (data === "False") {
           this.showLookupLoader = false;
           this.CommonService.show_notification(this.language.invalidcustomer, 'error');
-          this.isNextButtonVisible = false;
+          //this.isNextButtonVisible = false;
           this.step1_data.customer = "";
           this.step1_data.customer_name = '';
           this.contact_persons = [];

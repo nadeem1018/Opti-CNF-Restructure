@@ -1527,7 +1527,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
           min_selectable_row.value = '0';
           return;
         } else if (value == '' || value == null || value == undefined) {
-          this.modelbom_data[i].min_selected = this.modelbom_data[i].feature_min_selected;
+          this.modelbom_data[i].min_selected = (this.modelbom_data[i].feature_min_selected != "" && this.modelbom_data[i].feature_min_selected != undefined && this.modelbom_data[i].feature_min_selected != null) ? this.modelbom_data[i].feature_min_selected : "1";
 
           this.CommonService.show_notification(this.language.blank_not_allowed_min_selectable, 'error');
           min_selectable_row.value = '0';
@@ -1560,6 +1560,9 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
   }
 
   on_max_selected_change(value, rowindex, actualvalue) {
+    // if (value == undefined || value == "" || value == null) {
+    //   return false;
+    // }
     this.currentrowindex = rowindex
     CommonData.made_changes = true;
     for (let i = 0; i < this.modelbom_data.length; ++i) {
@@ -1573,7 +1576,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
           max_selectable_row.value = this.modelbom_data[i].feature_max_selected;
           return;
         } else if (value == 0 || value == '' || value == null || value == undefined) {
-          this.modelbom_data[i].min_selected = (this.modelbom_data[i].feature_min_selected != "") ? this.modelbom_data[i].feature_min_selected : "1";
+          this.modelbom_data[i].min_selected = (this.modelbom_data[i].feature_min_selected != "" && this.modelbom_data[i].feature_min_selected != undefined && this.modelbom_data[i].feature_min_selected != null) ? this.modelbom_data[i].feature_min_selected : "1";
 
           this.CommonService.show_notification(this.language.blank_or_zero_not_allowed_max_selectable, 'error');
           max_selectable_row.value = this.modelbom_data[i].feature_max_selected;

@@ -754,7 +754,7 @@
 
                             <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2"
                                 *ngIf="isNextButtonVisible">
-                                <div class="input-group d-inline-flex w-auto mr-2" *ngIf="showPrintOptions">
+                                <!-- <div class="input-group d-inline-flex w-auto mr-2" *ngIf="showPrintOptions">
                                     <select class="form-control form-control-sm d-inline-flex"
                                         name="print-operation-type" id="print-operation-type" #printOperationType>
                                         <option value="">{{language.print_option}}</option>
@@ -768,7 +768,7 @@
                                             </svg>
                                         </button>
                                     </div>
-                                </div>
+                                </div> -->
                                 <span class="output_final_screen_save_button">
                                     <button (click)="onSavePress()" *ngIf="isNextButtonVisible" type="button"
                                         class="btn btn-sm btn-success with-icon mr-2">
@@ -890,7 +890,7 @@
 
                             <div class="sticky-bottom-toolbar d-flex align-items-center justify-content-end border-top pt-2"
                                 *ngIf="isNextButtonVisible">
-                                <div class="input-group d-inline-flex w-auto mr-2" *ngIf="showPrintOptions">
+                                <!-- <div class="input-group d-inline-flex w-auto mr-2" *ngIf="showPrintOptions">
                                     <select class="form-control form-control-sm d-inline-flex"
                                         name="print-operation-type" id="print-operation-type" #printOperationType>
                                         <option value="">{{language.print_option}}</option>
@@ -905,7 +905,7 @@
                                             </svg>
                                         </button>
                                     </div>
-                                </div>
+                                </div> -->
                                 <span class="output_final_screen_save_button">
                                     <button (click)="onSavePress()" *ngIf="isNextButtonVisible" type="button"
                                         class="btn btn-sm btn-success with-icon mr-2">
@@ -2177,7 +2177,7 @@
 
                                     </div>
                                     <div class="col-md-6 text-right d-flex align-items-center justify-content-end">
-                                        <div class="input-group foot-right foot-check-right" *ngIf="isAttribute">
+                                        <!-- <div class="input-group foot-right foot-check-right" *ngIf="isAttribute">
                                             <label class="custom-checkbox mb-0 without-label">
                                                 <input type="checkbox" id="attribute" value={{report_attribute}}
                                                     (change)="set_report_attribute(attributecheckbox)"
@@ -2185,8 +2185,8 @@
                                                 <span class="checkbox"></span>
                                                 <span>{{language.print_attribute}}</span>
                                             </label>
-                                        </div>
-                                        <div class="input-group foot-right" *ngIf="showPrintOptions">
+                                        </div> -->
+                                        <!-- <div class="input-group foot-right" *ngIf="showPrintOptions">
                                             <select class="form-control form-control-sm d-inline-flex"
                                                 name="print-operation-type" id="print-operation-type"
                                                 #printOperationType>
@@ -2203,7 +2203,7 @@
                                                     </svg>
                                                 </button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <!-- <div class="input-group foot-right mb-print" *ngIf="showPrintOptions">
                                             <button class="btn btn-sm btn-success btn-icon"
                                                 (click)="output_new_invoice(printOperationType.value)" title="Print">

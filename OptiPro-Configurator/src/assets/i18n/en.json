@@ -753,6 +753,8 @@
     "mailSentSuccessfully":"Email Sent Successfully",
     "notSelectedEmail":"Email Id is not exists for selected Customer",
     "skipassesment":"Kindly Skip Assessment or Select Option",
-    "noDataVerification":"No Data avaialabel for Verification",
+    "noDataVerification":"No Data Available for Verification",
+    "spaceAttributeCode":"Space is not alllowed in Attribute Code",
+    "spaceAssessmentCode":"Space is not allowed in Assessment ID",
     "invalidFeatureModel":"Kindly Select Model/Feature Value at row Index :"
 }
