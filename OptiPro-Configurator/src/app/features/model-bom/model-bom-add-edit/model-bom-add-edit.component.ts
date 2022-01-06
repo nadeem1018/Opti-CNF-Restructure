@@ -2234,7 +2234,7 @@ export class ModelBomAddEditComponent implements OnInit, DoCheck {
         else {
           this.lookupfor = "";
           this.modelbom_data.modal_id = data;
-          this.getModelDetails(this.modelbom_data.modal_id, "Header", rowIndex);
+          this.getModelDetails(data[0].OPTM_FEATUREID, "Header", rowIndex);
         }
       }, error => {
         if (error.error.ExceptionMessage.trim() == this.commonData.unauthorizedMessage) {

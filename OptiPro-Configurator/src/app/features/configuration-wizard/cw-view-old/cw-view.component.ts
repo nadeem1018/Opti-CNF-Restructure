@@ -1283,7 +1283,14 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         return a.DESCORDER - b.DESCORDER;
       });
       this.model_description = data.MainModelDetails[0].OPTM_FEATUREDESC;
-      let string: any = this.model_description;
+      var string: any = "";
+      if (data.AbbreviationDataList.length > 0) {
+        string = this.model_description;
+      }
+      else {
+        string = this.step2_data.model_code;
+      }
+
       if (this.featureDescriptionList.length > 0) {
         this.featureDescriptionList.forEach(element => {
           string = string + "-" + element.description;
@@ -2284,6 +2291,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
   }
 
   output_new_invoice(operation_type) {
+    if (this.step3_data_final.length == 0) {
+      return false;
+    }
     if (operation_type == "") {
       this.CommonService.show_notification(this.language.operation_type_required, 'error');
       return;
@@ -2471,6 +2481,9 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
   }
 
   output_invvoice_print_lookup(operation_type) {
+    if (this.step3_data_final.length == 0) {
+      return false;
+    }
     if (operation_type == "") {
       this.CommonService.show_notification(this.language.operation_type_required, 'error');
       return;
@@ -2882,7 +2895,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             return a.DESCORDER - b.DESCORDER;
           });
 
-          let string: any = this.model_description;
+          var string: any = "";
+          if (data.AbbreviationDataList.length > 0) {
+            string = this.model_description;
+          }
+          else {
+            string = this.step2_data.model_code;
+          }
           if (this.featureDescriptionList.length > 0) {
             this.featureDescriptionList.forEach(element => {
               string = string + "-" + element.description;
@@ -3393,7 +3412,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
 
       if (feature_model_data.OPTM_FEATUREID != '0' && feature_model_data.OPTM_FEATUREID != "" && parentarray[0].OPTM_TYPE == 1) {
         isExistForItemMax = this.feature_itm_list_table.filter(function (obj) {
-          return obj.nodeid == feature_model_data.nodeid;
+          return obj.nodeid == feature_model_data.nodeid && obj.OPTM_RET_TO_INV != "Y";
         })
       }
 
@@ -3402,7 +3421,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       })
 
       isExistForOnlyFeature = this.FeatureBOMDataForSecondLevel.filter(function (obj) {
-        return obj['OPTM_FEATUREID'] == feature_model_data.OPTM_FEATUREID && obj['OPTM_TYPE'] == 1 && obj['checked'] == true && obj.nodeid == feature_model_data.nodeid;
+        // return obj['OPTM_FEATUREID'] == feature_model_data.OPTM_FEATUREID && obj['OPTM_TYPE'] == 1 && obj['checked'] == true && obj.nodeid == feature_model_data.nodeid;
+        return obj['OPTM_TYPE'] == 1 && obj['checked'] == true && obj.nodeid == feature_model_data.nodeid;
       })
 
       isExistForModel = this.ModelBOMDataForSecondLevel.filter(function (obj) {
@@ -4673,7 +4693,13 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       return a.DESCORDER - b.DESCORDER;
     });
 
-    let string: any = this.model_description;
+    var string: any = "";
+    if (this.featureDescriptionList.length > 0) {
+      string = this.model_description;
+    }
+    else {
+      string = this.step2_data.model_code;
+    }
     if (this.featureDescriptionList.length > 0) {
       this.featureDescriptionList.forEach(element => {
         string = string + "-" + element.description;
@@ -7393,7 +7419,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             var formatedTotalPrice: any = step3_data_row.feature[ifeature].quantity * step3_data_row.feature[ifeature].Actualprice
             formatedTotalPrice = parseFloat(formatedTotalPrice).toFixed(2)
 
-            if (imodelData.length > 0) {
+            if (imodelData.length > 0 && imd < imodelData.length) {
               temp_step2_final_dataset_save.push({
                 "OPTM_OUTPUTID": "",
                 "OPTM_OUTPUTDTLID": "",
@@ -9164,7 +9190,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
       let formatequantity: any = '';
       let priceextn: any = '';
       let actualPrice: any = '';
-      let unqiue_key: any;
+      let unique_key: any;
       let nodeid: any;
       let originalQuantity: any = "";
       let feature_name: any = "";
@@ -9175,7 +9201,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         originalQuantity = DefaultData[idefault].OPTM_QUANTITY
         priceextn = formatequantity * DefaultData[idefault].Price
         actualPrice = DefaultData[idefault].Price;
-        unqiue_key = (DefaultData[idefault].unqiue_key !== undefined) ? DefaultData[idefault].unqiue_key : "";
+        unique_key = (DefaultData[idefault].unique_key !== undefined) ? DefaultData[idefault].unique_key : "";
         nodeid = (DefaultData[idefault].nodeid !== undefined) ? DefaultData[idefault].nodeid : "";
       } else {
         get_saved_data[0].OPTM_QUANTITY = parseFloat(get_saved_data[0].OPTM_QUANTITY).toFixed(2)
@@ -9184,8 +9210,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
         originalQuantity = get_saved_data[0].OPTM_ORIGINAL_QUANTITY;
         priceextn = formatequantity * get_saved_data[0].OPTM_UNITPRICE;
         actualPrice = get_saved_data[0].OPTM_UNITPRICE;
-        unqiue_key = get_saved_data[0].UNIQUE_KEY;
-        nodeid = get_saved_data[0].NODEID;
+        unique_key = get_saved_data[0].unique_key;
+        nodeid = get_saved_data[0].nodeid;
       }
 
       if (DefaultData[idefault].parent_code == undefined ||
@@ -9221,7 +9247,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
           HEADER_LINENO: DefaultData[idefault].HEADER_LINENO,
           OPTM_OPTIONAL: DefaultData[idefault].OPTM_OPTIONAL,
           OPTM_RET_TO_INV: DefaultData[idefault].OPTM_RET_TO_INV,
-          unique_key: unqiue_key,
+          unique_key: unique_key,
           nodeid: nodeid,
           sort_key: DefaultData[idefault].sort_key
         });

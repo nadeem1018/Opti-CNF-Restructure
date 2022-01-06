@@ -166,7 +166,7 @@
                           id="type_value" (change)="on_typevalue_change(type_value.value,dataItem.rowindex, type_value_code.value, type_value_code)"
                           value={{dataItem.type_value}} #type_value title={{dataItem.type_value}} />
                         <input [disabled]="dataItem.isTypeDisabled" type="text" class="form-control  form-control-sm row_type_value_code"
-                          id="type_value_code" (change)="on_typevalue_change(type_value.value,dataItem.rowindex, type_value_code.value, type_value_code)"
+                          id="type_value_code" (change)="on_typevalue_change(type_value_code.value,dataItem.rowindex, type_value_code.value, type_value_code)"
                           value={{dataItem.type_value_code}} #type_value_code title={{dataItem.type_value_code}} />
                         <div class="input-group-append" [hidden]=dataItem.hide>
                           <span class="btn btn-sm btn-primary cursor-pointer btn-icon" (click)="on_type_click(dataItem.type, dataItem.rowindex)">
