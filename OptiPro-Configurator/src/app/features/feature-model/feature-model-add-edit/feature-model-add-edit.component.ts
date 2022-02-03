@@ -326,7 +326,11 @@ export class FeatureModelAddEditComponent implements OnInit, DoCheck {
 
   }
   addAttribute() {
-
+    if (this.featureBom.Code == undefined || this.featureBom.Code == '') {
+      this.commanService.show_notification(this.language.selectCode, 'error');
+      this.showLookupLoader = false;
+      return false;
+    }
     if (this.codekey == "" || this.codekey == null) {
       this.serviceData = []
       this.lookupfor = 'add_attribute_master_lookup';

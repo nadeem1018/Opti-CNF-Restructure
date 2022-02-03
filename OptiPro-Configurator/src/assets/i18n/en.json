@@ -69,6 +69,7 @@
     "Addrow": "Enter any row",
     "RowNumberType": "Atleast one row should be number type",
     "CodeBlank": "Code cannot be blank",
+    "selectCode":"Kindly Select Model/Feature Code",
     "ItemCodeGeneration": "Item Code Generation",
     "Model_Code": "Model/Feature Code",
     "Feature_Code": "Feature Code",
