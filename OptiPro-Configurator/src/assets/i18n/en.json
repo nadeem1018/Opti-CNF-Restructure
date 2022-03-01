@@ -757,5 +757,6 @@
     "noDataVerification":"No Data Available for Verification",
     "spaceAttributeCode":"Space is not alllowed in Attribute Code",
     "spaceAssessmentCode":"Space is not allowed in Assessment ID",
+    "oneAtrRecodrd":"One Attribute Record is Compulsory", 
     "invalidFeatureModel":"Kindly Select Model/Feature Value at row Index :"
 }

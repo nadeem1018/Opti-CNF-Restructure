@@ -444,7 +444,7 @@
                                     <span class="text-inverse">{{language.enable_filter}}</span>
                                 </label>
                             </ng-template> -->
-                    <kendo-grid-column field="seqrowno" title="{{language.hash}}" filter="text" [width]="50"
+                    <kendo-grid-column field="rowindex" title="{{language.hash}}" filter="text" [width]="50"
                         [minResizableWidth]="50">
                         <ng-template kendoGridCellTemplate let-dataItem>
                             <input [disabled]="true" type="text" class="form-control  form-control-sm field-nobg-noborder"
@@ -505,17 +505,20 @@
                                 #valueId title={{dataItem.valueId}} />
                         </ng-template>
                     </kendo-grid-column>
-                    <!-- <kendo-grid-column field="delete" title="delete" template="" [width]="60" [minResizableWidth]="60">
-                                <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                    <kendo-grid-column field="delete" title="Action" template="" [width]="100" [minResizableWidth]="60">
+                                <!-- <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
                                     <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg>
-                                </ng-template>
+                                </ng-template> -->
                                 <ng-template kendoGridCellTemplate let-dataItem>
-                                    <button type="button" class="btn btn-danger btn-sm btn-icon" title="{{this.language.delete}}"
-                                        (click)="onDeleteAttributeRow(dataItem.rowindex)">
+                                    <button type="button" class="btn btn-danger btn-sm btn-icon mr-2" title="{{this.language.delete}}"
+                                        (click)="onDeleteAttributeDataRow(dataItem.rowindex)">
                                         <svg viewBox="0 0 753.23 753.23" class="icon"><use xlink:href="#bin"></use></svg>
                                     </button>
+                                    <button type="button" class="btn btn-sm btn-icon btn-success" (click)="duplicate_record(dataItem)" title="{{this.language.duplicate_record}}">
+                                        <svg viewBox="-22 0 435 435.6" class="icon"><use xlink:href="#copyAlt"></use></svg>
+                                    </button>
                                 </ng-template>
-                            </kendo-grid-column> -->
+                            </kendo-grid-column>
                 </kendo-grid>
 
 

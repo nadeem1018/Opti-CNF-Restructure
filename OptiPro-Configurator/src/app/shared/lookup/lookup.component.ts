@@ -1902,6 +1902,26 @@ export class LookupComponent implements OnInit, DoCheck {
 
     });
   }
+  // copy attribute data
+  duplicate_record(data: any) {
+    let list = data;
+    this.attribute_counter = this.attribute_counter + 1;
+    this.attributeServiceData.push({
+      rowindex: this.attribute_counter,
+      OPTM_FEATUREDTLROWID: list.OPTM_FEATUREDTLROWID,
+      OPTM_FEATUREID: list.OPTM_FEATUREID,
+      OPTM_ATTR_CODE: list.OPTM_ATTR_CODE,
+      OPTM_ATTR_NAME: list.OPTM_ATTR_NAME,
+      OPTM_OPTION: list.OPTM_OPTION,
+      OPTM_OPTION_VALUE: list.OPTM_OPTION_VALUE,
+      OPTM_INPUT: list.OPTM_INPUT,
+      OPTM_ATTR_VALUE: list.OPTM_ATTR_VALUE,
+      OPTM_VALUE: list.OPTM_VALUE,
+      OPTM_SEQ: 0,
+      attribute_desc_disable: true,
+      attribute_option_disable: true
+    });
+  }
 
   insert_new_attribute() {
     if (this.attributeServiceData == undefined || this.attributeServiceData == null || this.attributeServiceData == "") {
@@ -2016,6 +2036,25 @@ export class LookupComponent implements OnInit, DoCheck {
         }
         else {
           this.attributeMasterServiceData[i].rowindex = i + 1;
+        }
+      }
+    }
+  }
+
+  onDeleteAttributeDataRow(rowindex) {
+    if (this.attributeServiceData.length == 1) {
+      this.CommonService.show_notification(this.language.cannot_submit_empty_resource, 'error');
+      return;
+    }
+    if (this.attributeServiceData.length > 0) {
+      for (let i = 0; i < this.attributeServiceData.length; ++i) {
+        if (this.attributeServiceData[i].rowindex === rowindex) {
+          this.attributeServiceData.splice(i, 1);
+          i = i - 1;
+          this.attribute_counter = this.attribute_counter - 1;
+        }
+        else {
+          this.attributeServiceData[i].rowindex = i + 1;
         }
       }
     }

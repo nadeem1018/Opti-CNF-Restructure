@@ -1840,7 +1840,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.onCalculateAttributeItem();
     this.showLookupLoader = true;
     this.SelectedModelFeature = this.SelectedModelFeature.filter(function (obj) {
-      obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(2)
+      obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(2);
+      obj['OPTM_SELUATTRIBUTE'] = "Y"
       return obj;
     });
 
@@ -3112,6 +3113,7 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
     this.showLookupLoader = true;
     this.SelectedModelFeature = this.SelectedModelFeature.filter(function (obj) {
       obj['OPTM_QUANTITY'] = parseFloat(obj['OPTM_QUANTITY']).toFixed(2)
+      obj['OPTM_SELUATTRIBUTE'] = "Y"
       return obj;
     });
     this.SelectedItems = this.SelectedItems.filter(function (obj) {
@@ -7829,8 +7831,8 @@ export class CwViewOldComponent implements OnInit, DoCheck, AfterViewInit, After
             "OPTM_ITEMNUMBER": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMNUMBER,
             "OPTM_ITEMCODE": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMTYPE == "0" ? step3_data_row.descriptionString : temp_step2_final_dataset_save[itempsavefinal].OPTM_ITEMCODE,
             //"OPTM_ITEMCODE":this.descriptionString,
-           // "OPTM_KEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_KEY == "" ? temp_step2_final_dataset_save[itempsavefinal].OPTM_PARENTKEY : temp_step2_final_dataset_save[itempsavefinal].OPTM_KEY,
-            "OPTM_KEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_KEY ,
+            // "OPTM_KEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_KEY == "" ? temp_step2_final_dataset_save[itempsavefinal].OPTM_PARENTKEY : temp_step2_final_dataset_save[itempsavefinal].OPTM_KEY,
+            "OPTM_KEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_KEY,
             "OPTM_PARENTKEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_PARENTKEY,
             "OPTM_TEMPLATEID": temp_step2_final_dataset_save[itempsavefinal].OPTM_TEMPLATEID,
             "OPTM_ITMCODEGENKEY": temp_step2_final_dataset_save[itempsavefinal].OPTM_ITMCODEGENKEY,

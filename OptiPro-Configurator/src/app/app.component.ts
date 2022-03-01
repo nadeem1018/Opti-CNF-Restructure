@@ -10,6 +10,7 @@ export class AppComponent implements OnInit {
   showHeader = false;
   showSidebar = false;
   showFooter = false;
+  
   compactLayout = false;
 
   public svgFile:string = 'assets/images/svg/svg-sprite.svg';
